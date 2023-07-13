@@ -102,7 +102,7 @@
     "rollup-plugin-string": "^3.0.0",
     "rollup-plugin-svelte-svg": "^1.0.0-beta.6",
     "rollup-plugin-visualizer": "^5.5.2",
-    "semver": "^6.2.0",
+    "semver": "^6.3.1",
     "svelte": "^3.44.2",
     "svelte-autosize": "^1.0.1",
     "svelte-hammer": "^0.1.7",
