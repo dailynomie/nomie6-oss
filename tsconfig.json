@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "types": ["jest", "svelte", "vite/client"],
     "esModuleInterop": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "allowUnreachableCode": false,
