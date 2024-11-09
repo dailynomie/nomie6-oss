@@ -11,7 +11,7 @@
   import { onMount } from 'svelte'
 
   import List from '../../components/list/list.svelte'
-  import { Prefs, setDocumentTheme, ThemeTypes } from '../preferences/Preferences'
+  import { Prefs, setDocumentTheme, type ThemeTypes } from '../preferences/Preferences'
 
   import Avatar from '../../components/avatar/avatar.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'

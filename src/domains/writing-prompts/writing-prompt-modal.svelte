@@ -8,7 +8,7 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
-  import { closeWritingPromptModal, openWritingPrompt, StaticWritingPrompts, WritingPrompt, WritingPromptStore, WritingPromptType } from './useWritingPrompts'
+  import { closeWritingPromptModal, openWritingPrompt, StaticWritingPrompts, WritingPrompt, WritingPromptStore, type WritingPromptType } from './useWritingPrompts'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import List from '../../components/list/list.svelte'

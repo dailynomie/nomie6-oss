@@ -8,13 +8,13 @@
   import List from '../../components/list/list.svelte'
   import Layout from '../layout/layout.svelte'
 
-  import { GoalClass, GoalDurationType } from './goal-class'
+  import { GoalClass, type GoalDurationType } from './goal-class'
 
   import {
     getGoalUsage,
     GoalScoreStore,
     GoalStore,
-    GoalUsageResponseType,
+    type GoalUsageResponseType,
     openGoalDetail,
     openGoalEditor,
   } from './GoalStore'

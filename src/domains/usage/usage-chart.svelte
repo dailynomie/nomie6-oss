@@ -23,7 +23,7 @@
   import { saveChartOptions, getChartOption } from './ChartOptionsStore'
 
   import type { TrackableUsage } from './trackable-usage.class'
-  import { openDateOptionPopMenu, openPopMenu, PopMenuButton } from '../../components/pop-menu/usePopmenu'
+  import { openDateOptionPopMenu, openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
   import CloseOutline from '../../n-icons/CloseOutline.svelte'
   import { getContextOn } from '../context/context-utils'
   import { Prefs } from '../preferences/Preferences'

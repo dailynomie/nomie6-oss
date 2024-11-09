@@ -2,7 +2,7 @@
   import type { Trackable } from '../../domains/trackable/Trackable.class'
   import { TrackableStore } from '../../domains/trackable/TrackableStore'
   import { strToTrackable } from '../../domains/trackable/trackable-utils'
-  import { Token, tokenizeLite } from '../../modules/tokenizer/lite'
+  import { type Token, tokenizeLite } from '../../modules/tokenizer/lite'
 
   import TrackableAvatar from '../avatar/trackable-avatar.svelte'
 

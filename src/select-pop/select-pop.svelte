@@ -2,7 +2,7 @@
 import { createEventDispatcher } from 'svelte';
 
   import IonIcon from '../components/icon/ion-icon.svelte'
-  import { openPopMenu, PopMenuButton } from '../components/pop-menu/usePopmenu'
+  import { openPopMenu, type PopMenuButton } from '../components/pop-menu/usePopmenu'
 import CheckmarkOutline from '../n-icons/CheckmarkOutline.svelte';
 
   import ChevronDownOutline from '../n-icons/ChevronDownOutline.svelte'

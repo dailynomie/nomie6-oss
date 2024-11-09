@@ -14,7 +14,7 @@
   import { Lang } from '../../store/lang'
 
   import { showTrackablePopmenu } from '../board/boardActions'
-  import { getFocusScoresFromLogs, IFocusResults } from '../focus/focus-utils'
+  import { getFocusScoresFromLogs, type IFocusResults } from '../focus/focus-utils'
   import { getTrackersAndValuesFromLogs } from '../ledger/ledger-tools'
   import Map from '../map/map.svelte'
   import type NLog from '../nomie-log/nomie-log'

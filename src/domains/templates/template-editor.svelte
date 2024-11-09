@@ -7,7 +7,7 @@
   import Button from '../../components/button/button.svelte'
 
   import Empty from '../../components/empty/empty.svelte'
-  import { openPopMenu, PopMenuButton } from '../../components/pop-menu/usePopmenu'
+  import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
   
   import type { DashboardClass } from '../dashboard2/dashboard-class'
   import DashboardListItem from '../dashboard2/dashboard-list-item.svelte'
@@ -21,7 +21,7 @@
   import { TrackableStore } from '../trackable/TrackableStore'
   import type { UniboardType } from '../board/UniboardStore'
   import { tokenToTrackable } from '../../modules/tokenizer/tokenToTrackable'
-  import { strToToken, Token } from '../../modules/tokenizer/lite'
+  import { strToToken, type Token } from '../../modules/tokenizer/lite'
 
   import ListItem from '../../components/list-item/list-item.svelte'
   import { onMount } from 'svelte/internal'

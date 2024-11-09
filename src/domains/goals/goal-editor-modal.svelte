@@ -26,7 +26,7 @@
   import type { Trackable } from '../trackable/Trackable.class'
   import { TrackableStore } from '../trackable/TrackableStore'
   import { getTrackableInputValue } from '../tracker/input/TrackerInputStore'
-  import { GoalClass, GoalComparisonType } from './goal-class'
+  import { GoalClass, type GoalComparisonType } from './goal-class'
   import { GoalComparisonItems } from './goal-utils'
   import { GoalStore } from './GoalStore'
   import is from '../../utils/is/is'

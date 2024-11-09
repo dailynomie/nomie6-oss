@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getFocusScoresFromLogs, IFocusResults } from '../../domains/focus/focus-utils'
+  import { getFocusScoresFromLogs, type IFocusResults } from '../../domains/focus/focus-utils'
   import type NLog from '../../domains/nomie-log/nomie-log'
   import { TrackableStore } from '../../domains/trackable/TrackableStore'
 

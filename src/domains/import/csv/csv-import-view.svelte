@@ -12,7 +12,7 @@
   import ImportLoader from '../../../modules/import/import-loader'
   import { navigate } from 'svelte-navigator'
   import { truncateText } from '../../../utils/text/text'
-  import CSVRImport, { CsvTemplateStore, IImportConfig } from './csv-import-helper'
+  import CSVRImport, { CsvTemplateStore, type IImportConfig } from './csv-import-helper'
   import { onMount } from 'svelte'
 
   import Button from '../../../components/button/button.svelte'
