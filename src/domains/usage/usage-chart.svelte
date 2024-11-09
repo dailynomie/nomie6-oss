@@ -576,7 +576,7 @@ else {contextannotation.annotations ={}}
     let valuestemp =[]
     if (ignoreZero){
     for (var j = 0; j < values.length; j++) {
-        if (values[j] == 1) {
+        if (values[j] == 0) {
             valuestemp[j] = NaN;
         }
         else {valuestemp[j] = values[j];}
