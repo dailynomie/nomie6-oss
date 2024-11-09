@@ -1,6 +1,8 @@
 {
   "name": "nomie",
-  "version": "6.7.1-dn",
+
+  "version": "6.7.2-dn",
+
   "homepage": "https://github.com/dailynomie/nomie-oss",
   "bugs": {
     "url": "https://github.com/dailynomie/nomie-oss/issues",
@@ -60,7 +62,7 @@
     "@sveltejs/gestures": "0.0.1",
     "@sveltejs/vite-plugin-svelte": "^2.4.3",
     "@tailwindcss/typography": "^0.4.1",
-    "@tsconfig/svelte": "^1.0.2",
+    "@tsconfig/svelte": "^5.0.4",
     "@types/jest": "^29.5.3",
     "@types/lodash": "^4.14.196",
     "@types/papaparse": "^5.3.7",

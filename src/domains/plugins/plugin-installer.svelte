@@ -21,7 +21,7 @@
 
   import { randomEmoji } from '../tracker/editor/TrackerEditorStore'
   import { trackEvent } from '../usage/stat-ping'
-  import { PluginClass, PluginType } from './plugin-helpers'
+  import { PluginClass, type PluginType } from './plugin-helpers'
   import { broadcastPluginMessage, PluginStore } from './PluginStore'
 
   export let url: string

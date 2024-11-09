@@ -22,7 +22,7 @@
   import { upsertWidget } from '../../DashStore'
   import { WidgetClass } from '../widget-class'
   import { timeFrames } from '../widget-timeframe'
-  import { getWidgetTypes, IWidgetType } from '../widget-types'
+  import { getWidgetTypes, type IWidgetType } from '../widget-types'
   import { canSaveWidget } from '../widget-utils'
   // import { activeTypes } from '../widget-types'
 

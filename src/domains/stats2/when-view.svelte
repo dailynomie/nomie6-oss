@@ -7,7 +7,7 @@
 
   import type NLog from '../nomie-log/nomie-log'
   import { Prefs } from '../preferences/Preferences'
-  import DayOfWeek, { IDow } from './day-of-week'
+  import DayOfWeek, { type IDow } from './day-of-week'
   import type { Trackable } from '../trackable/Trackable.class'
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 

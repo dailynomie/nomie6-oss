@@ -24,7 +24,7 @@
 
   import type { CalendarViewProps } from './CalendarViewStore'
   import TrackableUsageCalendar from './trackableUsageCalendar.svelte'
-  import { TrackableLastUsedType, UsageStore } from '../usage/UsageStore'
+  import { type TrackableLastUsedType, UsageStore } from '../usage/UsageStore'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
 

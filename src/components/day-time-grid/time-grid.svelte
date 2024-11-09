@@ -6,7 +6,7 @@
   import type { TrackableUsage } from '../../domains/usage/trackable-usage.class'
   import { Device } from '../../store/device-store'
   import math from '../../utils/math/math'
-  import { logsToTimeGrid, TimeGridArray } from './time-grid-utils'
+  import { logsToTimeGrid, type TimeGridArray } from './time-grid-utils'
   export let usage: TrackableUsage
   export let trackable: Trackable
   // export let size: number = 4

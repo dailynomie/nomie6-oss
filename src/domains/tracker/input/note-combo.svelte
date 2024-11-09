@@ -12,7 +12,7 @@
   import type TrackerClass from '../../../modules/tracker/TrackerClass'
   // import InputSlider from '../../../components/input-slider/input-slider.svelte'
   import InputSlider2 from '../../../components/input-slider/input-slider2.svelte'
-  import { Token, tokenizeLite } from '../../../modules/tokenizer/lite'
+  import { type Token, tokenizeLite } from '../../../modules/tokenizer/lite'
   import { tokenToTrackable } from '../../../modules/tokenizer/tokenToTrackable'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import Button from '../../../components/button/button.svelte'

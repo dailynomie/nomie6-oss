@@ -1,6 +1,6 @@
 <script lang="ts">
   // import type { WidgetClass } from '../widget-class'
-  import { getFocusScoresFromLogs, IFocusResults } from '../../../focus/focus-utils'
+  import { getFocusScoresFromLogs, type IFocusResults } from '../../../focus/focus-utils'
   import { TrackableStore } from '../../../trackable/TrackableStore'
   import FocusGraph from '../../../../components/charts/focus-graph.svelte'
   import type NLog from '../../../nomie-log/nomie-log'

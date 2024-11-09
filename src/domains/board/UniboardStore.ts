@@ -14,7 +14,7 @@ import nid from '../../modules/nid/nid'
 import { objectHash } from '../../modules/object-hash/object-hash'
 import { toTrackableArray } from '../trackable/trackable-utils'
 
-import { getRawPrefs, PreferencesStateType } from '../preferences/Preferences'
+import { getRawPrefs, type PreferencesStateType } from '../preferences/Preferences'
 
 import AllBoardIcon from '../../n-icons/board-tab-icons/AllBoardIcon.svelte'
 import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelte'

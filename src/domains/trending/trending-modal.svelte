@@ -24,9 +24,9 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
   import TrendingItem from './trending-item.svelte'
 
   import {
-    ATTFocalUnit,
+    type ATTFocalUnit,
     getAroundThisTimeDateRanges,
-    UsageComparedType,
+    type UsageComparedType,
     usageMapToSortedArray,
   } from './TrendingModalStore'
   import { AroundThisTimeStore } from './TrendingModalStore'

@@ -30,7 +30,7 @@ import { wait } from '../../utils/tick/tick';
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
   import { UsageStore } from '../usage/UsageStore'
-import { streakSummary, StreakSummaryResults } from './streak-helper';
+import { streakSummary, type StreakSummaryResults } from './streak-helper';
 
   
 

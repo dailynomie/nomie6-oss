@@ -23,7 +23,7 @@
   import {
     LocationStore,
     lookupLocationToLocation,
-    LookupLocationType,
+    type LookupLocationType,
     searchForLocations,
   } from '../locations/LocationStore'
   import SearchBar from '../../components/search-bar/search-bar.svelte'

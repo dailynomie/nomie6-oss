@@ -11,7 +11,7 @@
     import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
     import Input from '../../components/input/input.svelte'
     import Divider from '../../components/divider/divider.svelte'
-    import { openPopMenu, PopMenuButton } from '../../components/pop-menu/usePopmenu'
+    import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
     import Storage from '../../domains/storage/storage'
     import { encryptObject } from '../../utils/encrypt/encrypt';
     import { QRCodeImage } from "svelte-qrcode-image";
