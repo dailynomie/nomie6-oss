@@ -4,7 +4,7 @@
   import { MenuOutline, SearchIcon } from '../../components/icon/nicons'
   import { selectTrackables } from './trackable-selector/TrackableSelectorStore'
   import { showToast } from '../../components/toast/ToastStore'
-  import { strToToken, Token, tokenizeLite } from '../../modules/tokenizer/lite'
+  import { strToToken, type Token, tokenizeLite } from '../../modules/tokenizer/lite'
   import { tokenToTrackable } from '../../modules/tokenizer/tokenToTrackable'
   import { Trackable } from './Trackable.class'
   import { wait } from '../../utils/tick/tick'

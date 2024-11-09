@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     import { Prefs } from '../../../preferences/Preferences'
-    import { openDateOptionPopMenu, openPopMenu, PopMenuButton } from '../../../../components/pop-menu/usePopmenu'
+    import { openDateOptionPopMenu, openPopMenu, type PopMenuButton } from '../../../../components/pop-menu/usePopmenu'
     
     const dispatch = createEventDispatcher();
 

@@ -1,4 +1,4 @@
-import { Token, tokenizeLite } from './lite'
+import { type Token, tokenizeLite } from './lite'
 
 export type DeepResults = {
   trackers: Array<any>

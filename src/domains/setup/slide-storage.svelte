@@ -6,7 +6,7 @@
 
   import { Prefs } from '../preferences/Preferences'
 
-  import { StorageEngines, StorageTypes } from '../storage/storage'
+  import { StorageEngines, type StorageTypes } from '../storage/storage'
 
   const engines = StorageEngines
   let selected: StorageTypes = 'local'

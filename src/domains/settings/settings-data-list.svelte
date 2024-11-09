@@ -20,7 +20,7 @@
 
   import { updateAllLastUsed } from '../usage/UsageStore'
   import PouchdbSettings from '../storage/engines/pouchdb/pouchdb.svelte'
-  import { getStorageEngineDetails, StorageEngineType } from '../storage/storage'
+  import { getStorageEngineDetails, type StorageEngineType } from '../storage/storage'
 
   import { showImportModal } from '../import-export/ImporterStore'
   import { showToast } from '../../components/toast/ToastStore'

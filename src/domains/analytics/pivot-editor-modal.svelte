@@ -20,7 +20,7 @@
   import { wait } from '../../utils/tick/tick'
   import { PivotClass  } from './pivot-class'
   import { PivotStore } from './PivotStore'
-  import { openPopMenu, PopMenuButton } from '../../components/pop-menu/usePopmenu'
+  import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
 
   export let id: string
   export let pivot: PivotClass

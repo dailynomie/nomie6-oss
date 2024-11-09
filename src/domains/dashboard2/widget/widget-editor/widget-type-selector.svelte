@@ -4,7 +4,7 @@
   import HScroller from '../../../../components/h-scroller/h-scroller.svelte'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
 
-  import { getWidgetTypes, IWidgetType, widgetTypes } from '../widget-types'
+  import { getWidgetTypes, type IWidgetType, widgetTypes } from '../widget-types'
   import { PluginStore } from '../../../plugins/PluginStore'
 
   import Avatar from '../../../../components/avatar/avatar.svelte'

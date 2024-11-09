@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition'
   // import { flip } from 'svelte/animate'
-  import { removeToast, ToastType } from './ToastStore'
+  import { removeToast, type ToastType } from './ToastStore'
   import { onDestroy, onMount } from 'svelte'
   import math from '../../utils/math/math'
   import ProgressBar from '../progress-bar/progress-bar.svelte'

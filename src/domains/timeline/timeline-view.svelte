@@ -1,6 +1,6 @@
 <script lang="ts">
   import type NLog from '../nomie-log/nomie-log'
-  import { logsToTimeline, TimelineFilterProps, TimelineItemType } from './timeline-utils'
+  import { logsToTimeline, type TimelineFilterProps, type TimelineItemType } from './timeline-utils'
 
   import { TrackableStore } from '../trackable/TrackableStore'
   import TrackablePill from '../trackable/trackable-pill.svelte'

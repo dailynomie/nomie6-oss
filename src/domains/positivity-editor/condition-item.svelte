@@ -4,7 +4,7 @@
   import { createEventDispatcher } from 'svelte'
 
   import appConfig from '../../config/appConfig'
-  import { ConditionIfs, ICondition, IConditionIfUnit, IConditionIsUnit } from '../../modules/scoring/score-tracker'
+  import { ConditionIfs, type ICondition, type IConditionIfUnit, type IConditionIsUnit } from '../../modules/scoring/score-tracker'
   import { ConditionIs } from '../../modules/scoring/score-tracker'
   import Ordinal from '../../utils/ordinal/ordinal'
   import { parseNumber } from '../../utils/parseNumber/parseNumber'

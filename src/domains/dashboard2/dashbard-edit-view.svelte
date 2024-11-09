@@ -9,7 +9,7 @@
   import { Interact } from '../../store/interact'
   import { Lang } from '../../store/lang'
   import { TrackableStore } from '../trackable/TrackableStore'
-  import { getWidgetTypes , IWidgetType } from './widget/widget-types'
+  import { getWidgetTypes , type IWidgetType } from './widget/widget-types'
   import Button from '../../components/button/button.svelte'
   import Container from '../../components/container/container.svelte'
   import Input from '../../components/input/input.svelte'

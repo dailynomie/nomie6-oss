@@ -39,7 +39,7 @@
 
   import { onTrackerTap } from '../tracker/input/TrackerInputStore'
 
-  import { getUnisearchResults, UnisearchResultsType, UnisearchStore } from './UnisearchStore'
+  import { getUnisearchResults, type UnisearchResultsType, UnisearchStore } from './UnisearchStore'
 import { openTimelineModal } from '../timeline/timeline-helpers';
 
   export let searchTerm: string
