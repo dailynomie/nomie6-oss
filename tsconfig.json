@@ -11,6 +11,7 @@
     "types": ["jest", "svelte", "vite/client"],
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
+    "ignoreDeprecations": "5.0",
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "allowUnreachableCode": false,
