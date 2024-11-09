@@ -1,6 +1,9 @@
 {
   "features": [
     {
+      "version": "6.7.2-dn",
+      "title": "Ignore zero in dashboard chart"
+    },{
       "version": "6.7.0-dn",
       "title": "AfterNomie integration introduced"
     },{
