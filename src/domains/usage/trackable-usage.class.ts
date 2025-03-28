@@ -128,6 +128,7 @@ export class TrackableUsage {
     // Set values
     const datesValues = Object.keys(map).map((key) => {
       let actualValueCount = map[key].values.filter((s) => !isNaN(s)).length
+      console.log('ACTUALVALUECOUNT :',this.trackable.tallyValues(map[key].values))
       return {
         dates: map[key].date,
         values: actualValueCount > 0 ? this.trackable.tallyValues(map[key].values) : NaN,
@@ -140,6 +141,8 @@ export class TrackableUsage {
       return note.score
     })
 
+    console.log('VALUES: ',values)
+    console.log('DATES: ',dates)
     
     return new TrackableUsage({
       trackable: this.trackable,
@@ -315,6 +318,7 @@ export class TrackableUsage {
     const calendarDates = calendarMap(start.toDate(), end.toDate(), groupedBy)
     const dates: Array<Dayjs> = calendarDates.map((cd) => dayjs(cd.date))
     const values: Array<number> = calendarDates.map(() => NaN)
+    //const values= this.values
     const dateFormat: string = (CalendarGroupByOptions[groupedBy] || {}).keyFormat
 
     if (!dateFormat) {
