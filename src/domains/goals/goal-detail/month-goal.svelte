@@ -172,7 +172,7 @@
           <button
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
-              class="goal-ball transition-all  {month.success == true ? 'bg-green-500' : ''} {month.failure == true
+              class="goal-ball-month transition-all  {month.success == true ? 'bg-green-500' : ''} {month.failure == true
                 ? 'bg-red-500'
                 : ''}"
             >
@@ -184,7 +184,7 @@
             <button
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
-              class="goal-ball transition-all  {month.success == true ? 'bg-green-500' : ''} {month.failure == true
+              class="goal-ball-month transition-all  {month.success == true ? 'bg-green-500' : ''} {month.failure == true
                 ? 'bg-red-500'
                 : ''}"
             >
@@ -202,7 +202,7 @@
           <button
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
-              class="goal-ball transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-green-500' : ''} {!Number.isNaN(month.og) && month.failure == true
+              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-green-500' : ''} {!Number.isNaN(month.og) && month.failure == true
               ? 'bg-red-500'
               : ''} {Number.isNaN(month.og) ? 'bg-gray-500' : ''}"
           >
@@ -214,7 +214,7 @@
             <button
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
-              class="goal-ball transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-green-500' : ''} {!Number.isNaN(month.og) && month.failure == true
+              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-green-500' : ''} {!Number.isNaN(month.og) && month.failure == true
                 ? 'bg-red-500'
                 : ''} {Number.isNaN(month.og) ? 'bg-gray-500' : ''}"
             >
@@ -273,10 +273,10 @@
     @apply max-w-md;  
 
   }
-  .goal-ball {
+  .goal-ball-month {
     @apply rounded-full;
     @apply m-px lg:m-1;
-    @apply text-sm font-bold;
+    @apply text-xs font-bold;
     @apply flex items-center justify-center text-center;
     @apply h-9 w-9;
     @apply flex-grow-0 flex-shrink-0;
@@ -286,6 +286,7 @@
     font-size: .500rem;
     flex-shrink: 1;
     flex-grow: 1;
+
   }
   .day-score-button {
     @apply relative;
