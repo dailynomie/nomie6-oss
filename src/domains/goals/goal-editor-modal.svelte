@@ -11,6 +11,7 @@
   import Input from '../../components/input/input.svelte'
   import ListItem from '../../components/list-item/list-item.svelte'
   import List from '../../components/list/list.svelte'
+  import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
 
   import { showToast } from '../../components/toast/ToastStore'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
@@ -38,6 +39,8 @@
   let comparison: GoalComparisonType
   let trackable: Trackable
   let workingGoal: GoalClass
+  let average = false;
+  let goalUseDailyAverage: boolean
 
   let mounted = false
   $: if (goal && mounted && !workingGoal) {
@@ -45,6 +48,7 @@
     comparison = workingGoal.comparison
     trackable = $TrackableStore.trackables[workingGoal.tag]
     goalTargetValue = workingGoal.target
+    goalUseDailyAverage = workingGoal.usedailyaverage
   }
 
   onMount(() => {
@@ -66,6 +70,7 @@
       tag: trackable.tag,
       duration: workingGoal.duration,
       target: goalTargetValue,
+      usedailyaverage: goalUseDailyAverage,
     })
     Interact.blocker(`Saving ${trackable.label} goal...`)
     await GoalStore.upsert(newGoal)
@@ -97,7 +102,7 @@
       {Lang.t('general.close', 'Close')}
     </Button>
 
-    <h1 class="ntitle capitalize">{trackable?.label || ''} Goal</h1>
+    <h1 class="ntitle capitalize">{goal.durationLabel} {trackable?.label || ''} Goal</h1>
 
     <Button slot="right" primary clear disabled={!goalTargetValue || !trackable || !comparison} on:click={save}>
       {Lang.t('general.save', 'Save')}
@@ -165,8 +170,36 @@
           <IonIcon icon={AddCircleOutline} />
         </Button>
       </div>
-    </Input>
+      </Input>
+      {#if goal.duration == undefined}
+      <Divider left={16} />
+      <ListItem>
+        <div class="py-2">Use Daily Average</div>
+        <div slot="right">
+      <ToggleSwitch
+      title="Daily Average"
+      bind:value={goalUseDailyAverage}
+      on:change={(event) => {
+        if (event.detail == false) {
+          goalUseDailyAverage = false
+        } else if (event.detail === true) {
+          goalUseDailyAverage = true
+        }
+      }}
+    />
+    </div>
+    </ListItem>
+    {/if}
   </List>
 
-  <Button clear className="text-red-500 mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>Delete Goal</Button>
+  <Button clear className="text-red-500 mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>
+    {#if goal.duration=== 'day'}
+          <div class="text-center text-primary">Delete Daily Goal</div>
+          {:else if goal.duration === 'week'}
+          <div class="text-center text-primary">Delete Weekly Goal</div>
+          {:else if goal.duration === 'month'}
+          <div class="text-center text-primary">Delete Monthly Goal</div>
+          {:else if goal.duration === 'year'}
+          <div class="text-center text-primary">Delete Yearly Goal</div>
+          {/if}</Button>
 </BackdropModal>
