@@ -8,7 +8,7 @@ import type { ICondition } from '../scoring/score-tracker'
 import type { Token } from '../tokenizer/lite'
 import type { IFocusUnit } from '../../domains/focus/focus-utils'
 
-export type ITrackerType = 'tick' | 'value' | 'range' | 'picker' | 'note' | 'timer'
+export type ITrackerType = 'tick' | 'habit' | 'value' | 'range' | 'picker' | 'note' | 'timer'
 export type ITrackerMath = 'sum' | 'mean'
 
 export function toTag(str: string) {
@@ -52,6 +52,7 @@ export type ITracker = {
   timeTracked?: number
   picks?: Array<string> // Picks for a Picker type of tracker
   focus?: Array<IFocusUnit>
+  habitChoice?: Array<string> // i.e, yes/no or done/failed etc
 }
 
 export default class TrackerClass {
@@ -81,6 +82,7 @@ export default class TrackerClass {
   public started?: number // If its started (and a timer based tracker)
   public timeTracked?: number // amount of time previously tracker if paused (and a timer based tracker)
   public picks?: Array<string> // Picks for a Picker type of tracker
+  public habitChoice?: Array<string> // i.e, yes/no or done/failed etc
   public _dirty?: boolean
   public focus?: Array<IFocusUnit>
 
@@ -148,6 +150,7 @@ export default class TrackerClass {
     }
 
     this.picks = starter.picks || undefined
+    this.habitChoice = starter.habitChoice || ["Done","Failed"]
 
     if (starter.label) {
       this.label = starter.label

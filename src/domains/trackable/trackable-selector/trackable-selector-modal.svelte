@@ -19,6 +19,7 @@
   import { toTrackableArray } from '../trackable-utils'
   import type { TrackableTypes } from '../Trackable.class'
   import { Trackable } from '../Trackable.class'
+  import type {ITrackerType} from '../../../modules/tracker/TrackerClass'
 
   import { TrackableStore } from '../TrackableStore'
   import type { TrackableSelectorProps } from './TrackableSelectorStore'
@@ -33,6 +34,7 @@
   let known: Array<Trackable>
   let unknownTrackables: Array<Trackable> = []
   let type: TrackableTypes
+  let subtype: ITrackerType
 
   let headerGroups: any = {}
 
@@ -55,9 +57,16 @@
   $: if (payload) {
     headerGroups = {}
     type = payload.type
-    known = toTrackableArray($TrackableStore.trackables).sort((a, b) => {
+    subtype = payload.subtype
+    let tempknown = toTrackableArray($TrackableStore.trackables).sort((a, b) => {
       return a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
     })
+    if (subtype) {
+    known = tempknown.filter(function (el) {
+      if (el.tracker) {
+  return el.tracker.type === subtype }
+  });}
+  else {known = tempknown}
   }
 
   /**

@@ -91,7 +91,18 @@
       {/if}
       <div class="value-sub">
         {#if value && !hideValue}
+          {#if id.includes('habit')}
+            {#if value < -0.5}
+            <span class="value">👎</span>
+            {:else if value <0.3}
+            <span class="value">🤙</span>
+            {:else}
+            <span class="value">👍</span>
+            {/if}
+          
+          {:else}
           <span class="value">{value}</span>
+          {/if}
         {/if}
         {#if subtitle}
           <span class="subtitle">{subtitle}</span>

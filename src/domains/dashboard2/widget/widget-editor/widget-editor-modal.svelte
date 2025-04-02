@@ -35,6 +35,7 @@
   import CloseOutline from '../../../../n-icons/CloseOutline.svelte'
   import { PluginStore } from "../../../plugins/PluginStore";
   import Storage from '../../../../domains/storage/storage'
+  import type { ITrackerType } from '../../../../modules/tracker/TrackerClass'
 
   let visible: boolean = false
   let editingWidget: WidgetClass | undefined
@@ -105,7 +106,10 @@
   }
 
   const localSelectTrackables = async (multiple: boolean) => {
-    const selected = await selectTrackable()
+    let selected
+    if (editingWidget.type == 'habit') {
+    selected = await selectTrackable('tracker','habit')}
+    else {selected = await selectTrackable()}
     let token = trackableToToken(selected)
     editingWidget.token = token
   }
@@ -162,12 +166,12 @@
     <!-- Select the Trackable if its required the by the active ttype  -->
     <List solo>
       {#if (activeType?.requires?.indexOf('token') > -1) || activeType?.optional?.indexOf('token') > -1}
+        
         <ListItem
           on:click={() => {
             localSelectTrackables(activeType?.requires?.indexOf('tokens') > -1)
           }}
-          className="h-16"
-        >
+          className="h-16" >
           Trackable
           {#if !editingWidget.token}
             <span class="opacity-50 text-black dark:text-white">

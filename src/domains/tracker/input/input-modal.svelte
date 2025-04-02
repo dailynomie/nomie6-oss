@@ -19,6 +19,7 @@
   import SliderInput from './slider.svelte'
   import PickerInput from './picker.svelte'
   import NTimer from './timer.svelte'
+  import HabitInput from './habit.svelte'
 
   import NCalculator from '../../../components/calculator/calculator.svelte'
 
@@ -247,6 +248,15 @@
                 }}
               />
             </div>
+          {:else if tracker.type === 'habit'}
+          <HabitInput
+          {tracker}
+          value={data.value}
+          on:change={(value) => {
+            data.value = value.detail
+          }}
+          
+        />
           {:else}
             <div id="keypad-holder">
               <NCalculator
