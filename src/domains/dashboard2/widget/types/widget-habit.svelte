@@ -32,6 +32,8 @@
   param2 =(totalvalues-truevalues).toString() + " (" + (round((totalvalues-truevalues)/totalvalues,2)*100).toString() +"%)"
   percentage1 = (round(truevalues/totalvalues,2)*100).toString()
   percentage2 = (round((totalvalues-truevalues)/totalvalues,2)*100).toString()
+  if (truevalues == 0) {param1 = ""}
+  if (totalvalues-truevalues ==0) {param2 = ""}
   }
   
 

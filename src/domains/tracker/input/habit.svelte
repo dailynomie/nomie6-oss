@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
   import type TrackerClass from '../../../modules/tracker/TrackerClass'
   import Toolbar from '../../../components/toolbar/toolbar.svelte';
   import ButtonGroup from '../../../components/button-group/button-group.svelte';
@@ -13,7 +13,6 @@
   $: tempValue = value
 
   $: if (tempValue) {
-      console.log("tempValue: ",tempValue)
       dispatch('change', tempValue)
     }
 
