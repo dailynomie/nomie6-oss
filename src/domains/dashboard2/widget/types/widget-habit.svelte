@@ -28,8 +28,8 @@
   let truevalues = countOccurrences(usage.values,1)
   habitlabel1 = usage.trackable.tracker?.habitChoice[0] || "Achieved"
   habitlabel2 = usage.trackable.tracker?.habitChoice[1] || "Missed"
-  param1 = truevalues.toString() + " (" + (round(truevalues/totalvalues,2)*100).toString() +"%)"
-  param2 =(totalvalues-truevalues).toString() + " (" + (round((totalvalues-truevalues)/totalvalues,2)*100).toString() +"%)"
+  param1 = truevalues.toString() + " (" + round((round(truevalues/totalvalues,2)*100)).toString() +"%)"
+  param2 =(totalvalues-truevalues).toString() + " (" + round((round((totalvalues-truevalues)/totalvalues,2)*100)).toString() +"%)"
   percentage1 = (round(truevalues/totalvalues,2)*100).toString()
   percentage2 = (round((totalvalues-truevalues)/totalvalues,2)*100).toString()
   if (truevalues == 0) {param1 = ""}
