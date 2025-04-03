@@ -104,6 +104,13 @@ export const widgetTypes: Array<IWidgetType> = [
     image: '/images/widget-types/latest-note.svg',
     icon: CheckmarkCircleOutlineSvelte,
   },
+  {label: 'Habits',
+    id: 'habit',
+    requires: ['timeframe', 'token'],
+    optional: [],
+    image: '/images/widget-types/display-value.svg',
+    icon: PieChartOutline,
+  },
   {
     label: 'Mind, Body, Spirit',
     id: 'focus',

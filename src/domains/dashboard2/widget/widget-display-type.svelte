@@ -9,6 +9,9 @@
   import WidgetPositivityPie from './types/widget-positivity-pie.svelte'
   import WidgetMap from './types/widget-map.svelte'
   import WidgetStreak from './types/widget-streak.svelte'
+  import WidgetHabit from './types/widget-habit.svelte'
+  import WidgetTodos from './types/widget-todos.svelte';
+  import WidgetPlugin from './types/widget-plugin.svelte';
 
   import type { WidgetClass } from './widget-class'
   import type { Trackable } from '../../trackable/Trackable.class'
@@ -16,8 +19,7 @@
   import { onMount } from 'svelte'
   import { TrackableStore } from '../../trackable/TrackableStore'
   import type NLog from '../../nomie-log/nomie-log'
-import WidgetTodos from './types/widget-todos.svelte';
-import WidgetPlugin from './types/widget-plugin.svelte';
+
 
   export let trackable: Trackable | undefined = undefined
   export let widget: WidgetClass
@@ -55,6 +57,8 @@ import WidgetPlugin from './types/widget-plugin.svelte';
   <WidgetTodos bind:widget {logs} />
   {:else if widget.type == 'plugin'}
   <WidgetPlugin bind:widget />
+  {:else if widget.type == 'habit'}
+  <WidgetHabit bind:widget bind:trackable bind:usage />
   {:else}
   <div class="value -mt-2 text-xs text-gray-300 flex w-full justify-center items-center h-full dark:text-gray-500">
     Not enough data
