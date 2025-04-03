@@ -6,23 +6,33 @@
 
   export let widget: WidgetClass
   // export let trackable: Trackable
-  export let usage: TrackableUsage = {values:[],trackable:"dummy"}
+  export let usage: TrackableUsage
+
+  let datacheck = false
+  let habitlabel1 = ""
+  let habitlabel2 = ""
+  let param1 = ""
+  let param2 =""
+  let percentage1 = ""
+  let percentage2 = ""
+
+  if (usage) {
+    datacheck = true;
+  }
 
   const countOccurrences = (arr, val) =>
   arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
-  
+  if (usage) {
   let totalvalues = usage.values.length;
   let truevalues = countOccurrences(usage.values,1)
-  let habitlabel1 = usage.trackable.tracker?.habitChoice[0] || "Achieved"
-  let habitlabel2 = usage.trackable.tracker?.habitChoice[1] || "Missed"
-  let param1 = truevalues.toString() + " (" + (round(truevalues/totalvalues,2)*100).toString() +"%)"
-  let param2 =(totalvalues-truevalues).toString() + " (" + (round((totalvalues-truevalues)/totalvalues,2)*100).toString() +"%)"
-  let percentage1 = (round(truevalues/totalvalues,2)*100).toString()
-  let percentage2 = (round((totalvalues-truevalues)/totalvalues,2)*100).toString()
-  console.log("Total: ",totalvalues)
-  console.log("True: ",truevalues)
-  console.log("usage: ",usage)
+  habitlabel1 = usage.trackable.tracker?.habitChoice[0] || "Achieved"
+  habitlabel2 = usage.trackable.tracker?.habitChoice[1] || "Missed"
+  param1 = truevalues.toString() + " (" + (round(truevalues/totalvalues,2)*100).toString() +"%)"
+  param2 =(totalvalues-truevalues).toString() + " (" + (round((totalvalues-truevalues)/totalvalues,2)*100).toString() +"%)"
+  percentage1 = (round(truevalues/totalvalues,2)*100).toString()
+  percentage2 = (round((totalvalues-truevalues)/totalvalues,2)*100).toString()
+  }
   
 
 
@@ -31,7 +41,7 @@
 <div class="value px-4 flex flex-col items-center h-full justify-center {widget.includeAvg ? 'value-sm' : ''}">
   <div class="current dark:text-white h-full w-full flex items-center justify-center flex-col">
    
-    {#if usage.trackable != 'dummy'}
+    {#if datacheck}
       <!-- start pie chart -->    
 <div class="piechart" style=" --param-1: '{param1}'; --param-2: '{param2}'; --perc-1: {percentage1}%; --perc-2: {percentage2}%">
 	<span class="name">{usage.trackable.tracker?.emoji}</span>
