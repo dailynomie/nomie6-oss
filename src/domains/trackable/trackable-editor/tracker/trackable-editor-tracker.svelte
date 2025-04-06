@@ -33,7 +33,6 @@
   import Text from '../../../../components/text/text.svelte'
 
   import Button from '../../../../components/button/button.svelte'
-
   import trackerTypes from '../../../../modules/tracker-types/tracker-types'
 
   import { TrackableStore } from '../../../trackable/TrackableStore'
@@ -154,6 +153,7 @@
   async function setType(type: ITrackerType) {
     await wait(200)
     tracker.type = type
+    if (tracker.type == 'habit') {tracker.math = 'mean'}
   }
 
   const methods = {
@@ -223,6 +223,29 @@
       />
     </List>
   {/if}
+
+  {#if tracker.type == 'habit'}
+  <List solo>
+    <NInput
+      placeholder="Label for Achieved Habit"
+      type="text"
+      className="tracker-math mb-3"
+      bind:value={tracker.habitChoice[0]}
+    >
+    </NInput>
+    <Divider center />
+    <NInput
+      type="text"
+      className="tracker-math mb-3"
+      name="False"
+      placeholder="Label for Missed Habit"
+      bind:value={tracker.habitChoice[1]}
+    >
+     
+    </NInput>
+  </List>
+  
+    {/if}
 
   {#if tracker.type == 'range'}
     <List solo>
@@ -317,7 +340,7 @@
     </List>
   {/if}
 
-  {#if tracker.type !== 'timer' && tracker.type !== 'note' && tracker.type !== 'picker'}
+  {#if tracker.type !== 'timer' && tracker.type !== 'note' && tracker.type !== 'picker' && tracker.type !== 'habit'}
     <List solo>
       <NInput
         listItem
@@ -429,7 +452,7 @@
           </ListItem>
         {/if} -->
 
-    {#if advanced && ['note', 'picker'].indexOf(tracker.type) === -1}
+    {#if advanced && ['note', 'picker'].indexOf(tracker.type) === -1 && tracker.type != 'habit'}
       <NInput
         listItem
         className="tracker-default mb-3 error"
@@ -457,6 +480,20 @@
           </Button>
         </div>
       </NInput>
+    {/if}
+    {#if advanced && tracker.type === 'habit'}
+    <NInput
+    listItem
+    type="select"
+    className="tracker-math mb-3"
+    name="default habit"
+    placeholder="Choose Default Habit Result"
+    bind:value={tracker.default}
+  >
+    {#each [{ value: 1, label: tracker.habitChoice[0]}, { value: -1, label: tracker.habitChoice[1]}] as habit_key}
+      <option value={habit_key.value}>{habit_key.label}</option>
+    {/each}
+  </NInput>
     {/if}
   </List>
 

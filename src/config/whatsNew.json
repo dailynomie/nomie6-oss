@@ -1,6 +1,17 @@
 {
   "features": [
     {
+      "version": "6.7.3-dn",
+      "title": "Introducing a habit widget"
+    },
+    {
+      "version": "6.7.3-dn",
+      "title": "Introducing a habit tracker"
+    },
+    {
+      "version": "6.7.3-dn",
+      "title": "Added weekly and monthly goals"
+    },{
       "version": "6.7.2-dn",
       "title": "Ignore zero in dashboard chart"
     },{
