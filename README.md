@@ -17,7 +17,7 @@ Latest build: [`bin/nomie6-oss.latest.zip`](https://github.com/dailynomie/nomie6
 You'll need Node >= 16 and NPM. I have not tested running this on Windows.
 
 ```bash
-git clone git@github.com:happydata/nomie6-oss.git
+git clone git@github.com:dailynomie/nomie6-oss.git
 cd nomie6-oss
 npm install
 npm run dev
