@@ -48,16 +48,13 @@
   import { bootCoreComponents, bootNomie } from './BootStore'
 
   import { TrackableStore } from './domains/trackable/TrackableStore'
-  import { TrackerStore } from './domains/tracker/TrackerStore'
-  import { PeopleStore } from './domains/people/PeopleStore'
   import { GoalStore, loadGoalsForToday } from './domains/goals/GoalStore'
-  import { PivotStore } from './domains/analytics/PivotStore'
   import { LedgerStore } from './domains/ledger/LedgerStore'
   import { loadToday } from './domains/usage/today/TodayStore'
 
   import { trackLaunch } from './domains/preferences/LaunchCount'
-  //import { LaunchCount } from './domains/preferences/LaunchCount';
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
+  import PointerLoader from './domains/pointers/pointer-loader.svelte'
   import { PluginStore } from './domains/plugins/PluginStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
@@ -77,7 +74,10 @@
    * Fire off the MinuteChecker30 every 30 minutes
    * This will check if the day changed
    */
-  let todayCheckPeriod = 1000 * 60 * 2
+  let todayCheckPeriod = 1000 * 60 * 2 
+  
+  
+
   let todayCheckFormat = 'YYYY-MM-DD'
   // let todayKey = dayjs().format(todayCheckFormat)
   let todayKey = dayjs().format(todayCheckFormat)
@@ -94,6 +94,7 @@
    */
   const checkIfNewDay = () => {
     let checkKey = dayjs().format(todayCheckFormat)
+    
     // Compare now key to today key
     if (todayKey !== checkKey) {
       showToast({ message: `It's ${dayjs().format('dddd')}!` })
@@ -106,17 +107,19 @@
           knownTrackables: $TrackableStore.trackables,
           date: dayjs(),
         })
+        checkReminders()
       }, 500)
     }
   }
 
-  // Check every X minutes
+  // Check every X minutes daychange
   setInterval(async () => {
     checkIfNewDay()
     // Check if the theme has Changed
     setDocParams()
   }, todayCheckPeriod)
 
+  
   const hideSplashScreen = () => {
     document.querySelectorAll('.delete-on-app').forEach((d) => {
       d.classList.add('deleted')
@@ -259,6 +262,8 @@
 <DropdownMenu />
 
 <PluginLoader />
+
+<PointerLoader />
 
 <div id="photo-holder" class="hidden" style="display:none">
   <img id="photo-holder-image " alt="avatar-holder" />

@@ -152,7 +152,7 @@
                 title="Add value"><IonIcon icon={AddCircleOutline} /></Button
               >
             </div>
-          {:else if trackable.tracker?.type === 'tick' || trackable.type === 'context'}
+          {:else if trackable.tracker?.type === 'tick' || trackable.type === 'context' || trackable.type === 'pointer'}
             <ToggleSwitch
               title={`input`}
               on:change={(evt) => {
@@ -160,10 +160,11 @@
                 fireChange()
               }}
             />
+            
           {:else if trackable.tracker?.type === 'timer'}
             <ManualTime size="sm" bind:value={trackable.value} />
             <!-- {:else if trackable.tracker?.type === 'note'} -->
-          {:else if trackable.person || trackable.context}
+          {:else if trackable.person || trackable.context || trackable.pointer}
             <ToggleSwitch
               title="value"
               on:change={(evt) => {

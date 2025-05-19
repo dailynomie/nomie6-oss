@@ -46,7 +46,7 @@ export default defineConfig({
 
     VitePWA({
       manifest: manifest,
-      maximumFileSizeToCacheInBytes: 1000 * 1000 * 4
+      maximumFileSizeToCacheInBytes: 10 * 1024 ** 2, // 10 MB
     }),
   ],
   define:  {

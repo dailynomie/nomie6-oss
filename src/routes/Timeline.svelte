@@ -84,6 +84,7 @@
     maps: false,
     trackables: false,
     context: false,
+    pointers: false,
   }
 
   // A function that takes a filter object and returns a new filter object with the search and startingDate properties set to undefined.

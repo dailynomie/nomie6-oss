@@ -8,9 +8,17 @@
   export let trackable: Trackable
   export let value: number
 
+  let color = trackable.color;
+
   const emit = createEventDispatcher()
 </script>
 
+{#if trackable.type == "pointer"}
+<button class="tiny-trackable" style="background-color: {color};border-radius: 90px" on:click={() => emit('click')}>
+  <TrackableAvatar className="items-center self-center" {trackable} size={18} />
+  
+</button>
+{:else}
 <button class="tiny-trackable" on:click={() => emit('click')}>
   <TrackableAvatar className="items-center self-center" {trackable} size={23} />
   <span class="label line-clamp-1">{trackable.label}</span>
@@ -18,7 +26,7 @@
     <span class="value">{trackable.formatValue(value)}</span>
   {/if}
 </button>
-
+{/if}
 <style lang="postcss" global>
   .tiny-trackable {
     @apply flex items-center;

@@ -248,8 +248,8 @@ class StatsProcessor implements IStats {
       if (acceptableDates.indexOf(unitKey) > -1) {
         valueMap[unitKey] = valueMap[unitKey] || []
 
-        // If it's a person or context, just count 1
-        if (this.trackable.type == 'person' || this.trackable.type == 'context') {
+        // If it's a person, pointer or context, just count 1
+        if (this.trackable.type == 'person' || this.trackable.type == 'context' || this.trackable.type == 'pointer') {
           valueMap[unitKey].push(1)
         } else {
           // It's a tracker
@@ -310,6 +310,7 @@ class StatsProcessor implements IStats {
     let rows = overrideRows || this.rows
     let people = {}
     let context = {}
+    let pointers = {}
     let tags = {}
 
     this.rows.forEach((row: NLog) => {
@@ -328,6 +329,10 @@ class StatsProcessor implements IStats {
         context[contextElement.id] = context[contextElement.id] || 0
         context[contextElement.id]++
       })
+      row.pointers.forEach((pointerElement) => {
+        pointers[pointerElement.id] = pointers[pointerElement.id] || 0
+        pointers[pointerElement.id]++
+      })
     })
 
     const returnMap = (base, type, prefix) => {
@@ -344,8 +349,9 @@ class StatsProcessor implements IStats {
     let peopleArr = returnMap(people, 'person', '@')
     let tagArr = returnMap(tags, 'tracker', '#')
     let contextArr = returnMap(context, 'context', '+')
+    let pointersArr = returnMap(pointers, 'pointer', '^')
 
-    let relatedArr = [...peopleArr, ...tagArr, ...contextArr].sort((a, b) => {
+    let relatedArr = [...peopleArr, ...tagArr, ...contextArr, ...pointersArr].sort((a, b) => {
       return a.count < b.count ? 1 : -1
     })
 

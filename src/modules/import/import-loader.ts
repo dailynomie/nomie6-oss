@@ -2,6 +2,8 @@ import { getDashboards, saveDashboards } from '../../domains/dashboard2/DashStor
 
 import { ContextClass } from '../../domains/context/context-class'
 import { ContextStore } from '../../domains/context/context-store'
+import { PointerClass } from '../../domains/pointers/pointer-class'
+import { PointerStore } from '../../domains/pointers/pointer-store'
 import type { IBackupItems } from '../export/export'
 import type { INormalizedImport } from './import'
 import Importer from './import'
@@ -17,7 +19,7 @@ import { getBoardsFromStorage } from '../../domains/board/UniboardStore'
 import math from '../../utils/math/math'
 import { saveBoardsToStorageAndUpdate } from '../../domains/board/UniboardStore'
 
-type IImportTypes = 'dashboards' | 'locations' | 'people' | 'trackers' | 'logs' | 'context'
+type IImportTypes = 'dashboards' | 'locations' | 'people' | 'trackers' | 'logs' | 'context' | 'pointers'
 export interface IImportStatus {
   importing: IImportTypes
   progress?: number
@@ -66,6 +68,8 @@ export default class ImportLoader {
       await this.importPeople()
       func({ importing: 'context' })
       await this.importContext()
+      func({ importing: 'pointers' })
+      await this.importPointers()
       func({ importing: 'locations' })
       await this.importLocations()
       func({ importing: 'logs' })
@@ -152,6 +156,19 @@ export default class ImportLoader {
 
     try {
       await ContextStore.upsertMany(contexts)
+    } catch (e) {
+      console.error(e)
+    }
+    return this
+  }
+
+  public async importPointers() {
+    
+    let importPTR = this.normalized.pointers || []
+    const pointers = importPTR.map((c) => new PointerClass(c))
+
+    try {
+      await PointerStore.upsertMany(pointers)
     } catch (e) {
       console.error(e)
     }

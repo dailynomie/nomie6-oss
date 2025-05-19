@@ -12,6 +12,7 @@
   import { TrackerStore } from '../tracker/TrackerStore'
   import { PeopleStore } from '../people/PeopleStore'
   import { ContextStore } from '../context/context-store'
+  import { PointerStore } from '../pointers/pointer-store'
   import { LocationStore } from '../locations/LocationStore'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
@@ -20,6 +21,8 @@
     trackers: 0,
     people: 0,
     context: 0,
+    pointers: 0,
+    reminders: 0,
     locations: 0,
     total: 0,
   }
@@ -27,9 +30,12 @@
   onMount(() => {
     counts.trackers = Object.keys($TrackerStore).length
     counts.context = Object.keys($ContextStore).length
+    counts.pointers = Object.keys($PointerStore).length
     counts.people = Object.keys($PeopleStore).length
     counts.total = Object.keys($TrackableStore).length
     counts.locations = $LocationStore.length
+    counts.reminders = Object.keys($PointerStore.filter((pointer) => {
+      return pointer.reminder == true;})).length
   })
 </script>
 
@@ -97,6 +103,12 @@
   </ListItem>
   <ListItem bottomLine={16} title="Context">
     <div slot="right">{counts.context}</div>
+  </ListItem>
+  <ListItem bottomLine={16} title="Pointers">
+    <div slot="right">{counts.pointers}</div>
+  </ListItem>
+  <ListItem bottomLine={16} title="Reminders">
+    <div slot="right">{counts.reminders}</div>
   </ListItem>
   <ListItem bottomLine={16} title="Locations">
     <div slot="right">{counts.locations}</div>

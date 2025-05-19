@@ -70,6 +70,7 @@ export function N5ImportNormalizer(importer: any): INormalizedImport {
     logs: getLogs(importer),
     people: getPeople(importer),
     context: importer.context || [],
+    pointers: importer.pointers || [],
     locations: (importer.locations || []).map((loc) => {
       return new Location(loc)
     }),

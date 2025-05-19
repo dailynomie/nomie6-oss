@@ -173,6 +173,7 @@ export default {
       "notes": "Notizen",
       "locations": "Orte",
       "context": "Kontext",
+      "pointers": "Pointers",
       "no-favorites-found": "Keine Favoriten gefunden",
       "edit-log": "Eintrag bearbeiten",
       "positivity": "Positivität",
@@ -311,7 +312,8 @@ export default {
     "on-this-day": {
       "no-notes": "Keine Notizen an diesem Tag",
       "no-people": "Keine Personen an diesem Tag",
-      "no-context": "Kein Kontext an diesem Tag"
+      "no-context": "Kein Kontext an diesem Tag",
+      "no-pointers": "Kein Pointers an diesem Tag"
     },
     "location": {
       "saved-locations": "Gespeicherte Orte",

@@ -80,6 +80,7 @@ import StopSolidIcon from '../../n-icons/StopSolid.svelte'
 import SunnyOutlineIcon from '../../n-icons/SunnyOutline.svelte'
 import SwapOutlineIcon from '../../n-icons/SwapOutline.svelte'
 import TabsOutlineIcon from '../../n-icons/TabsOutline.svelte'
+import TagOutlineIcon from '../../n-icons/TagOutline.svelte'
 import TextOutlineIcon from '../../n-icons/TextOutline.svelte'
 import ThermometerOutlineIcon from '../../n-icons/ThermometerIcon.svelte'
 import TrashOutlineIcon from '../../n-icons/TrashOutline.svelte'
@@ -109,6 +110,8 @@ export const ReplyOutline = ReplyOutlineIcon
 export const MoreCircleOutline = MoreCircleOutlineIcon
 
 export const TextOutline = TextOutlineIcon
+
+export const TagOutline = TagOutlineIcon
 
 export const AccessibilityOutline = AccessibilityOutlineIcon
 
