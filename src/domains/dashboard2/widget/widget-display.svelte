@@ -31,11 +31,16 @@
   export let logs: Array<NLog>
   export let hideTools: boolean = false
 
+
   function widgetActions() {
     showTrackablePopmenu(trackable, {
       title: trackable.label,
     })
   }
+
+  function titleCase(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
   const showSizeMenu = (htmlTarget) => {
     const buttons = [
@@ -121,8 +126,10 @@
 {#if widget && widget.type !== 'text'}
   <div class="dashboard-widget {getClass(widget)}" {id}>
     <div class="flex widget-header px-2 py-1">
-      {#if trackable}
+      {#if trackable && widget.type != 'pointer'}
         <TrackablePill hideValue size={30} transparent {trackable} on:click={widgetActions} />
+        {:else if widget.type == 'pointer'}
+        <p style="font-size: 90%"><b>🏷 {titleCase(widget.pointer.id)}</b></p><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions}/>
       {:else if widget.type == 'plugin'}
         {label}
       {:else}

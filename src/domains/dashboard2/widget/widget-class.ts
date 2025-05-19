@@ -50,6 +50,7 @@ export type WidgetPayloadType = {
   token?: Token
   tokens?: Array<Token>
   data?: any
+  pointer?: any
 }
 
 export class WidgetClass {
@@ -74,6 +75,7 @@ export class WidgetClass {
   public type?: string = 'value'
   public loading?: boolean = false
   public data?: any;
+  public pointer?: any;
 
   constructor(payload?: WidgetPayloadType) {
     payload = payload || {}
@@ -87,6 +89,7 @@ export class WidgetClass {
       payload.compareValue = parseNumber(payload.compareValue)
     }
     this.data = payload.data || {};
+    this.pointer = payload.pointer || "";
     this.compareValue = payload.compareValue
     this.compareOverColor = payload.compareOverColor
     this.compareUnderColor = payload.compareUnderColor

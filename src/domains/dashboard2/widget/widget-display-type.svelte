@@ -10,6 +10,7 @@
   import WidgetMap from './types/widget-map.svelte'
   import WidgetStreak from './types/widget-streak.svelte'
   import WidgetHabit from './types/widget-habit.svelte'
+  import WidgetPointer from './types/widget-pointer.svelte'
   import WidgetTodos from './types/widget-todos.svelte';
   import WidgetPlugin from './types/widget-plugin.svelte';
 
@@ -59,6 +60,8 @@
   <WidgetPlugin bind:widget />
   {:else if widget.type == 'habit'}
   <WidgetHabit bind:widget bind:trackable bind:usage />
+  {:else if widget.type == 'pointer'}
+  <WidgetPointer bind:widget bind:trackable bind:usage bind:logs />
   {:else}
   <div class="value -mt-2 text-xs text-gray-300 flex w-full justify-center items-center h-full dark:text-gray-500">
     Not enough data

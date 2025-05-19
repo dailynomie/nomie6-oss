@@ -33,6 +33,7 @@
   import { Trackable } from '../Trackable.class'
   import { InitTrackableStore, saveTrackable, TrackableStore } from '../TrackableStore'
   import TrackableEditorContext from './context/trackable-editor-context.svelte'
+  import TrackableEditorPointer from './pointer/trackable-editor-pointer.svelte'
   import TrackableEditorPerson from './person/trackable-editor-person.svelte'
 
   import { openTrackableVisuals } from './TrackableVisualStore'
@@ -267,6 +268,9 @@
   <section class="px-2 h-50vh ">
     {#if workingTrackable.type == 'context'}
       <TrackableEditorContext bind:trackable={workingTrackable} />
+    {/if}
+    {#if workingTrackable.type == 'pointer'}
+      <TrackableEditorPointer bind:trackable={workingTrackable} />
     {/if}
     {#if workingTrackable.type == 'person'}
       <TrackableEditorPerson bind:trackable={workingTrackable} />

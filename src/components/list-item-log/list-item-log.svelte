@@ -96,6 +96,8 @@
       inputResults = trackable.tag
     } else if (trackable.type == 'context') {
       inputResults = trackable.tag
+    } else if (trackable.type == 'pointer') {
+      inputResults = trackable.tag
     }
     if (inputResults) {
       let newNote = `${displayLog.note} ${inputResults}`
@@ -166,6 +168,7 @@
     {#if !hideTrackables}
       <div class="trackables -px-1 w-full flex flex-wrap">
         {#each logElements as logElement, index (`${logElement.trackable.tag}-${index}`)}
+        {#if logElement.trackable.type != "pointer"}
           <TinyTrackable
             trackable={logElement.trackable}
             value={logElement.value}
@@ -174,7 +177,20 @@
               showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
             }}
           />
+          {/if}
         {/each}
+        {#each logElements as logElement, index (`${logElement.trackable.tag}-${index}`)}
+        {#if logElement.trackable.type == "pointer"}
+        <TinyTrackable
+          trackable={logElement.trackable}
+          value={logElement.value}
+          date={log.end}
+          on:click={() => {
+            showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
+          }}
+        />
+        {/if}
+      {/each}
         <button on:click={() => addItem()} class="tiny-trackable bg-transparent">
           <span class="value w-5">+</span>
         </button>

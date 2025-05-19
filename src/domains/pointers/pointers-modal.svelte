@@ -12,27 +12,61 @@
   import PlusIcon from '../../n-icons/PlusIcon.svelte'
   import { Lang } from '../../store/lang'
   //import PluginInstaller from './plugin-installer.svelte'
-  import { closePointersModal } from './PointerStore'
+  import { closePointersModal } from './pointer-store'
   //import { getPointers  } from './PointerStore'
   import { AllTrackablesAsArray } from '../trackable/TrackableStore'
+  import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
+  import { Trackable } from '../trackable/Trackable.class'
+
+  let pointers: string | any[] = []
+
+  $: if($AllTrackablesAsArray) {
+    const trackables = $AllTrackablesAsArray
+    pointers =  trackables.filter((trackable) => {
+    return trackable.type == 'pointer';});
+    
+    pointers.sort((a, b) => {
+      // Sort on reminder enabled
+  if (a.ptr.reminder < b.ptr.reminder) return 1;
+  if (a.ptr.reminder > b.ptr.reminder) return -1;
+  // Only sort on date if not identical
+  if (new Date(a.ptr.reminderdate) < new Date(b.ptr.reminderdate)) return -1;
+  if (new Date(a.ptr.reminderdate) > new Date(b.ptr.reminderdate)) return 1;
+  
+  // Both idential, return 0
+  return 0;
+});
+
+
+
+    //pointers.sort((a,b) => new Date(a.ptr.reminderdate) - new Date(b.ptr.reminderdate));
+  }
 
   onMount(async () => {
     const trackables = $AllTrackablesAsArray
     pointers =  trackables.filter((trackable) => {
-    return trackable.type == 'context' && trackable.ctx?.duration !== 0;
-    
+    return trackable.type == 'pointer';
+   });
+   pointers.sort((a, b) => {
+    // Sort on reminder enabled
+  if (a.ptr.reminder < b.ptr.reminder) return 1;
+  if (a.ptr.reminder > b.ptr.reminder) return -1;
+  // Only sort on date if not identical
+  if (new Date(a.ptr.reminderdate) < new Date(b.ptr.reminderdate)) return -1;
+  if (new Date(a.ptr.reminderdate) > new Date(b.ptr.reminderdate)) return 1;
+  
+  // Both idential, return 0
+  return 0;
 });
-   console.log(pointers)
+
   })
 
-  let pointers: string | any[] = []
+  
 
   //let editMode: boolean = false
   let hasLocked: boolean = false
 
-  const installPlugin = (url?: string) => {
-    //temp
-  }
+  
 </script>
 
 <BackdropModal>
@@ -42,7 +76,11 @@
       <h1 class="ntitle text-sm md:text-base">{Lang.t('general.pointers', 'Pointers')}</h1>
       <div slot="right">
         {#if !hasLocked}
-          <Button on:click={() => installPlugin()} icon clear primary>
+          <Button on:click={() => openTrackableEditor(
+            new Trackable({
+              type: 'pointer',
+            })
+          )} icon clear primary>
             <IonIcon icon={PlusIcon} />
           </Button>
         {/if}
@@ -72,13 +110,27 @@
           <ListItem
             clickable
             on:click={() => {
-              console.log("action")
+              openTrackableEditor(
+                new Trackable({
+                type: 'pointer',
+               })
+              )
             }}
             titleClass="text-center text-primary"
             title="Add a Pointer"
           />
         </List>
-     
-
+        <div class="relative top-1">
+          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-red-500 text-red-500">X.</span>
+          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-red-500">Pointer Reminder Overdue</span>
+        </div>
+        <div class="relative top-1">
+          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-green-500 text-green-500">X.</span>
+          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-green-500">Pointer Reminder Planned</span>
+        </div>
+        <div class="relative top-1">
+          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-blue-500 text-blue-500">X.</span>
+          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-blue-500">Pointer Reminder Disabled</span>
+        </div>
   </section>
 </BackdropModal>

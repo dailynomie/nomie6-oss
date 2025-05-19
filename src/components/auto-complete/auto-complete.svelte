@@ -31,7 +31,7 @@
 
   /**
    * Auto Complete Search
-   * Searches trackers, people and context
+   * Searches trackers, people, context and pointers
    * THIS IS A MESS
    *
    **/
@@ -39,11 +39,10 @@
   const autoCompleteSearch = (searchTag: string, type: string = 'tracker'): Array<Trackable> => {
     // Search for Trackers
     state.tag = searchTag
-
     try {
       return toTrackableArray($TrackableStore.trackables).filter((t) => {
         const term = removePrefix(searchTag)
-        return t.tag.search(encodeRegex(term)) > -1
+        return t.id?.search(encodeRegex(term)) > -1
       })
     } catch (e) {
       console.error(e)
@@ -66,6 +65,8 @@
     } else if (trackable.type == 'person') {
       note = trackable.tag
     } else if (trackable.type == 'context') {
+      note = trackable.tagWithValue()
+    } else if (trackable.type == 'pointer') {
       note = trackable.tagWithValue()
     }
 
@@ -106,6 +107,10 @@
         } else if (tag.charAt(0) === '+' && tag.length > 1) {
           state.partialTag = tag
           state.results = autoCompleteSearch(tag, 'context')
+           // If it's pointer
+        } else if (tag.charAt(0) === '^' && tag.length > 1) {
+          state.partialTag = tag
+          state.results = autoCompleteSearch(tag, 'pointer')
         } else {
           state.partialTag = null
           state.results = null

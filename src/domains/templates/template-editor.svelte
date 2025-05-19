@@ -210,6 +210,17 @@
         })
       },
     },
+    {
+      id: 'new',
+      title: 'Create a Pointer',
+      async click() {
+        openTrackableEditor(new Trackable({ type: 'pointer' }), (trackable) => {
+          
+          template.trackables.push(trackable)
+          template.trackables = template.trackables
+        })
+      },
+    },
   ]
 
   const addRequiredTrackablesFromDashboard = (dashboard: DashboardClass) => {

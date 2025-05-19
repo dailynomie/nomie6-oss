@@ -36,7 +36,7 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
   let loading: boolean = true
   let activeDate: Date = new Date()
   let activeFocal: ATTFocalUnit = 'day'
-  let onlyShow: 'all' | 'tracker' | 'people' | 'context' = 'all'
+  let onlyShow: 'all' | 'tracker' | 'people' | 'context' | 'pointer' = 'all'
 
   let usageArray: Array<UsageComparedType> = []
   let trendingUp: Array<UsageComparedType> = []
@@ -199,6 +199,7 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
           { label: 'Trackers', value: 'tracker' },
           { label: 'People', value: 'person' },
           { label: 'Context', value: 'context' },
+          { label: 'Pointer', value: 'pointer' },
         ]}
       />
     </div>

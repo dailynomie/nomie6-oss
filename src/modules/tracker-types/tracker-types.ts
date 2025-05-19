@@ -52,7 +52,7 @@ const types: TrackerTypesConfig = {
     label: Lang.t('tracker.type.picker', 'Pick List'),
     description: Lang.t(
       'tracker.type.picker_description',
-      'Create a pick list of anything. Including #trackers, @people and +context'
+      'Create a pick list of anything. Including #trackers, @people, ^pointers and +context'
     ),
   },
   timer: {

@@ -5,7 +5,7 @@
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
 
-  import { getContext, getNotes, getPeople, OTDViews, processTrackers } from './on-this-day-helpers'
+  import { getContext, getPointers, getNotes, getPeople, OTDViews, processTrackers } from './on-this-day-helpers'
 
   import type { OTDViewOption } from './on-this-day-helpers'
   import OnThisDayViews from './on-this-day-views.svelte'
@@ -35,6 +35,7 @@
     records: [],
     people: [],
     context: [],
+    pointers: [],
     locations: [],
   }
 
@@ -54,6 +55,7 @@
     let trackersUsed = LedgerStore.extractTrackerTagAndValues(day)
     state.people = getPeople(day, $PeopleStore)
     state.context = getContext(day)
+    state.pointers = getPointers(day)
     state.notes = getNotes(day)
     state.trackers = processTrackers(trackersUsed)
 

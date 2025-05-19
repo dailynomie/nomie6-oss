@@ -99,11 +99,12 @@
   const onSearchTerm = (term: string): void => {
     if (term && term.length > 0) {
       searchTerm = term.toLowerCase()
-      cleanSearchTerm = searchTerm.replace(/(\@|\+|\#)/g, '')
+      cleanSearchTerm = searchTerm.replace(/(\@|\+|\#|\^)/g, '')
       unknownTrackables = [
         getUnknownTrackable('tracker'),
         getUnknownTrackable('person'),
         getUnknownTrackable('context'),
+        getUnknownTrackable('pointer'),
       ]
     } else {
       searchTerm = undefined
@@ -146,6 +147,11 @@
       return new Trackable({
         type: 'context',
         context: cleanSearchTerm,
+      })
+    } else if (type === 'pointer') {
+      return new Trackable({
+        type: 'pointer',
+        pointer: cleanSearchTerm,
       })
     } else {
       return new Trackable({
@@ -194,6 +200,7 @@
           <option value="tracker">{Lang.t('general.trackers', 'Trackers')}</option>
           <option value="person">{Lang.t('general.people')}</option>
           <option value="context">{Lang.t('general.context')}</option>
+          <option value="pointer">{Lang.t('general.pointer', 'Pointers')}</option>
         </select>
       </SearchBar>
     </Toolbar>
@@ -241,6 +248,8 @@
             <h2 class="ntitle filler">As tracker: #{cleanSearchTerm}</h2>
           {:else if trackable.type === 'context'}
             <h2 class="ntitle filler">As context: +{cleanSearchTerm}</h2>
+            {:else if trackable.type === 'pointer'}
+            <h2 class="ntitle filler">As pointer: ^{cleanSearchTerm}</h2>
           {:else if trackable.type === 'person'}
             <h2 class="ntitle filler">As person: @{cleanSearchTerm}</h2>
           {/if}
