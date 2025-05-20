@@ -61,6 +61,11 @@
     if (editingWidget.type == "plugin"){
       pluginGetWidgets(editingWidget.data.pluginId);
     }
+    if (editingWidget.type == "pointer"){
+      if (!editingWidget.data) {
+        editingWidget["data"]= {"pointersamples": 5}
+      };
+    }
   }
 
   let lastWidgetHash: string | undefined = undefined
@@ -264,6 +269,7 @@
           </ListItem>
         {/if}
       {/if}
+      {#if editingWidget.type == "pointer"}
       <Divider left={18} />
       <ListItem>
         Samples: {editingWidget.data.pointersamples}
@@ -284,6 +290,7 @@
           slot="right"
         />
       </ListItem>
+      {/if}
     </List>
 
     <!-- Just Note -->
