@@ -393,7 +393,15 @@
             on:click={() => {}}
           >
             <TrackableAvatar {trackable} size={20} />
-            <span class="label">{trackable.label}</span>
+            {#if trackable.type == 'tracker'}
+            <span class="label">{trackable.tracker.label}</span>
+            {:else if trackable.type == 'person'}
+            <span class="label">{trackable.person.displayName}</span>
+            {:else if trackable.type == 'context'}
+            <span class="label">{trackable.ctx.label}</span>
+            {:else if trackable.type == 'pointer'}
+            <span class="label">{trackable.ptr.label}</span>
+            {/if}
           </button>
         {/each}
       </div>

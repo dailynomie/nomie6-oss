@@ -77,7 +77,7 @@
   }
 </script>
 
-{#if view !== 'context' }
+{#if view !== 'context' || 'pointers' }
   <Container className="px-2 z-10">
     <div class="px-2 flex space-y-2 lg:space-y-0 lg:space-x-2 lg:flex-row flex-col items-center">
       <PositivityGrid {logs} />
@@ -167,7 +167,7 @@
   {:else}
     <Container>
       <div class="mt-3 n-grid">
-        {#each context as context}
+        {#each context as contex}
           <Button
             shape="round"
             size="lg"
@@ -176,20 +176,20 @@
             on:click={() => {
               showTrackablePopmenu(
                 new Trackable({
-                  id: context,
+                  id: contex,
                   type: 'context',
-                  context: context,
+                  context: contex,
                 })
               )
             }}
           >
-            {context}
+            {contex}
           </Button>
         {/each}
       </div>
     </Container>
   {/if}
-  {:else if view === 'pointers'}
+{:else if view === 'pointers'}
   {#if !pointers.length}
     <Empty title={Lang.t('on-this-day.no-pointers', 'No Pointers on this Day')} emoji="🤷‍♂️" />
   {:else}

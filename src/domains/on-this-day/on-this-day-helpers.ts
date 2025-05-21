@@ -1,4 +1,4 @@
-import { BookOutline, ChatboxOutline, MapOutline, PeopleOutline } from '../../components/icon/nicons'
+import { BookOutline, ChatboxOutline, MapOutline, PeopleOutline, TagOutline } from '../../components/icon/nicons'
 import BookmarksOutline from "../../n-icons/BookmarksOutline.svelte";
 import { Lang } from '../../store/lang'
 import type NLog from '../nomie-log/nomie-log'
@@ -36,7 +36,7 @@ export let OTDViews: Array<OTDView> = [
   },
   {
     view: 'pointers',
-    icon: BookmarksOutline,
+    icon: TagOutline,
     label: `${Lang.t('general.pointers', 'Pointers')}`,
     reduce: (items: Array<NLog>) => {
       return items.length
@@ -112,6 +112,7 @@ export function getContext(day): Array<string> {
   })
   return contexts
 }
+
 export function getPointers(day): Array<string> {
   let pointers = []
   day.forEach((log: NLog) => {
@@ -126,6 +127,8 @@ export function getPointers(day): Array<string> {
   })
   return pointers
 }
+
+
 
 export function getPeople(day, peopleStorePeople: any = {}): Array<Person> {
   let people = []
