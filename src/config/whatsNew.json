@@ -273,6 +273,9 @@
   "fixes": [
     {
       "version": "6.7.4-dn",
+      "title": "Fixed template builder"
+    },{
+      "version": "6.7.4-dn",
       "title": "Fixed auto search function"
     },
     {
