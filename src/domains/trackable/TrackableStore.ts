@@ -3,7 +3,9 @@ import { addTrackablesToBoard, getActiveBoardHeavy } from '../board/UniboardStor
 import { derived, writable } from 'svelte/store'
 
 import type { ContextClass } from '../context/context-class'
+import type { PointerClass } from '../pointers/pointer-class'
 import { ContextStore } from '../context/context-store'
+import { PointerStore } from '../pointers/pointer-store'
 import { Interact } from '../../store/interact'
 import { Lang } from '../../store/lang'
 import { PeopleStore } from '../people/PeopleStore'
@@ -65,15 +67,21 @@ export const AllContextTrackables = derived(TrackableStore, ($TrackableStore) =>
   return all.filter(t => t.type == 'context');
 })
 
+export const AllPointersTrackables = derived(TrackableStore, ($TrackableStore) => {
+  const all = Object.keys($TrackableStore.trackables).map((tag) => $TrackableStore.trackables[tag]);
+  return all.filter(t => t.type == 'pointer');
+})
+
 export const MasterTrackables: ITrackables = {}
 
 export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
-  // Get Poeple Trackers and Context
-  const finished: Array<any> = await Promise.all([PeopleStore.init(), TrackerStore.init(), ContextStore.init()])
+  // Get Poeple Trackers Pointers and Context
+  const finished: Array<any> = await Promise.all([PeopleStore.init(), TrackerStore.init(), ContextStore.init(), PointerStore.init()])
 
   const people: IPeople = finished[0] || {}
   const trackers: ITrackers = finished[1] || {}
   const ctxs: Array<ContextClass> = finished[2] || []
+  const ptrs: Array<PointerClass> = finished[3] || []
 
   // Convert into Arrays of the Real Things
   Object.keys(people || {}).map((username) => {
@@ -94,7 +102,15 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   if (ctxs.length) {
     ctxs.forEach((ctx: ContextClass) => {
       const trackable = ctx.toTrackable()
+      
+      MasterTrackables[trackable.tag] = trackable
+    })
+  }
 
+  if (ptrs.length) {
+    ptrs.forEach((ptr: PointerClass) => {
+      const trackable = ptr.toTrackable()
+      
       MasterTrackables[trackable.tag] = trackable
     })
   }
@@ -159,8 +175,10 @@ export const saveTrackable = async ({
       complete = await PeopleStore.upsert(trackable.person)
     } else if (trackable.type === 'context') {
       complete = await ContextStore.upsert(trackable.ctx)
+    } else if (trackable.type === 'pointer') {
+      complete = await PointerStore.upsert(trackable.ptr)
     }
-    if (saveToActiveBoard) {
+    if (saveToActiveBoard && trackable.type != "pointer") {
       const activeBoard = getActiveBoardHeavy()
       if (activeBoard && !activeBoard.elements.find((tag) => tag == trackable.tag)) {
         if (prompt === true && activeBoard?.id?.substring(0, 1) !== '_') {
@@ -195,6 +213,8 @@ export const deleteTrackableFromNomie = async (trackable: Trackable, prompt: boo
       await PeopleStore.remove(trackable.person)
     } else if (trackable.type == 'context' && trackable.ctx) {
       await ContextStore.remove(trackable.ctx);
+    } else if (trackable.type == 'pointer' && trackable.ptr) {
+      await PointerStore.remove(trackable.ptr);
     }
     showToast({ message: Lang.t('general.removed', 'Removed') })
   }

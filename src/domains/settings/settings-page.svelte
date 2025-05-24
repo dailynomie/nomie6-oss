@@ -56,6 +56,7 @@
   import { openAnalytics } from '../templates/templates-svelte-helpers'
   import { openAfterNomie } from '../templates/templates-svelte-helpers'
   import { openPluginsModal } from '../plugins/PluginStore'
+  import { openPointersModal } from '../pointers/pointer-store'
   import PluginsMoreMenu from '../plugins/plugins-more-menu.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'   
   import ChevronUpOutline from '../../n-icons/ChevronUpOutline.svelte';
@@ -192,7 +193,6 @@
             </List>
 
             <!-- Sign-in and Register Block  -->
-
             <List solo className="mt-4">
               <ListItem detail bottomLine={16} on:click={() => openPluginsModal()} title="Manage Plugins">
                 <span slot="left">🔌</span>
@@ -219,6 +219,12 @@
                 <span slot="left">📍</span>
               </ListItem>
             </List>
+            
+            <List solo className="mt-4">
+              <ListItem detail bottomLine={16} on:click={() => openPointersModal()} title="Pointers">
+                <span slot="left">🏷</span>
+              </ListItem>
+              </List>
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={16} on:click={() => openTemplateManager()} title="Templates">

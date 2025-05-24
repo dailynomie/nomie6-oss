@@ -22,6 +22,7 @@ export type INormalizedImport = {
   trackers?: ITrackers
   boards?: Array<any>
   context?: Array<string>
+  pointers?: Array<string>
   people?: IPeople
   locations?: Array<Location>
   dashboards?: Array<DashboardClass>

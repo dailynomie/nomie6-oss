@@ -290,7 +290,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
         <Divider left={1} />
       {/if}
 
-      {#if results.trackables.length > 0 || searchTerm?.substring(0, 1) === '#' || searchTerm?.substring(0, 1) === '@' || searchTerm?.substring(0, 1) === '+'}
+      {#if results.trackables.length > 0 || searchTerm?.substring(0, 1) === '#' || searchTerm?.substring(0, 1) === '@' || searchTerm?.substring(0, 1) === '+' || searchTerm?.substring(0, 1) === '^'}
         <header
           on:click={() => {
             showTrackables = !showTrackables

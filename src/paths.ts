@@ -56,6 +56,9 @@ const NPaths = {
     context() {
       return `context.json`
     },
+    pointers() {
+      return `pointers.json`
+    },
     csvTemplates() {
       return `csv-templates.json`
     },

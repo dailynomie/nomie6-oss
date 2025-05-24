@@ -44,6 +44,7 @@
     people: { running: false, done: false },
     dashboards: { running: false, done: false },
     context: { running: false, done: false },
+    pointers: { running: false, done: false },
     all: { running: false, done: false },
   }
 
@@ -187,6 +188,15 @@
         'context',
         async () => {
           return await importLoader.importContext()
+        },
+        confirmation
+      )
+    },
+    async importPointers(confirmation: boolean = false) {
+      return await methods.run(
+        'pointer',
+        async () => {
+          return await importLoader.importPointers()
         },
         confirmation
       )
@@ -475,6 +485,23 @@
           <div slot="right" class="text-gray-500 pr-4">No Data</div>
         </ListItem>
       {/if}
+     <!-- Pointers --> 
+      {#if (importLoader.normalized.pointers || []).length > 0}
+      <ImporterItem
+        emoji="💭"
+        title={Lang.t('general.pointers', 'Pointers')}
+        count={(importLoader.normalized.pointers || []).length.toLocaleString()}
+        bind:status={importing.pointers}
+        on:import={() => {
+          methods.importPointers(true)
+        }}
+      />
+    {:else}
+      <ListItem bottomLine={48} title={Lang.t('general.pointers', 'Pointers')}>
+        <div slot="left">💭</div>
+        <div slot="right" class="text-gray-500 pr-4">No Data</div>
+      </ListItem>
+    {/if}
 
       <!-- Dashboards -->
       {#if (importLoader.normalized.dashboards || []).length > 0}

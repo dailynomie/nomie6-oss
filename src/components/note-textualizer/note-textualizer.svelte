@@ -55,7 +55,7 @@
     note_to_array(str) {
       let parsed = extractor.parse(str, { includeGeneric: true }) || [];
       let matches = parsed.filter((trackableElement) => {
-        return ['person', 'context', 'generic'].indexOf(trackableElement.type) > -1
+        return ['person', 'context', 'pointer', 'generic'].indexOf(trackableElement.type) > -1
       })
       actual = matches.length
       return parsed
@@ -95,6 +95,16 @@
           {` ${word.raw} `}
         </button>
       {:else if word.type == 'context'}
+        <button
+          type="button"
+          class="context token {tokenClass || 'default-token-class'}"
+          on:click={() => {
+            methods.textElementClick(word)
+          }}
+        >
+          {` ${word.raw} `}
+        </button>
+        {:else if word.type == 'pointer'}
         <button
           type="button"
           class="context token {tokenClass || 'default-token-class'}"
@@ -155,7 +165,8 @@
   }
   .n-note-textualized .tracker,
   .n-note-textualized .person,
-  .n-note-textualized .context {
+  .n-note-textualized .context,
+  .n-note-textualized .pointer {
     padding-right: 3px;
     flex-shrink: 0;
   }

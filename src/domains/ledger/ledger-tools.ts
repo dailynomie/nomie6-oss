@@ -84,6 +84,17 @@ export function getTrackablesAndValuesFromLogs(logs: Array<NLog>): ITrackableSum
       }
     })
 
+    log.pointers.forEach((trackableElement: Token) => {
+      let tag = `^${trackableElement.id}`
+      trackables[tag] = trackables[tag] || {
+        values: [1],
+        tag: `^${tag}`,
+        hours: [],
+        logs: [],
+        dates: [],
+      }
+    })
+
     // Loop over the Trackers Found
     log.trackers.forEach((trackableElement: Token) => {
       let tag = `#${trackableElement.id}`

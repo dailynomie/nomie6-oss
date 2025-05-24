@@ -92,7 +92,7 @@ export default {
       'save-on-tap-description': 'Save note immediately after tapping the button.',
       min: 'Min Value',
       max: 'Max Value',
-      'note-placeholder': 'Any content including #tracker @people +context',
+      'note-placeholder': 'Any content including #tracker @people +context ^pointer',
       'note-description':
         'Combine multiple trackers together using their #hashtags. For example, #mood #sleep_quality. Nomie will then ask for values one by one.',
       step: 'Range Step',
@@ -101,7 +101,7 @@ export default {
       value: 'Default Value',
       'default-value': 'Default Value',
       include: 'Also Include',
-      'include-placeholder': 'Insert additional #trackers, @people, and +context when using this tracker',
+      'include-placeholder': 'Insert additional #trackers, @people, ^pointers and +context when using this tracker',
       'hide-on-all-board': 'Hide on All Board',
       'duplicate-tracker': 'Duplicate Tracker',
       'remove-tracker': 'Delete Tracker',
@@ -174,6 +174,7 @@ export default {
       notes: 'Notes',
       locations: 'Locations',
       context: 'Context',
+      pointers: 'Pointers',
       'no-favorites-found': 'No Favorites Found',
       'edit-log': 'Edit Record',
       positivity: 'Positivity',
@@ -316,6 +317,7 @@ export default {
       'no-notes': 'No Notes on this Day',
       'no-people': 'No People on this Day',
       'no-context': 'No Context on this Day',
+      'no-pointers': 'No Pointers on this Day',
     },
     location: {
       'saved-locations': 'Saved Locations',

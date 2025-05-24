@@ -3,6 +3,8 @@ import type { IPeople, ITrackers } from '../import/import'
 import { AppVersion } from '../app-version/app-version'
 import type { ContextClass } from '../../domains/context/context-class'
 import { ContextStore } from '../../domains/context/context-store'
+import type { PointerClass } from '../../domains/pointers/pointer-class'
+import { PointerStore } from '../../domains/pointers/pointer-store'
 import type { DashboardClass } from '../../domains/dashboard2/dashboard-class'
 import type { GoalClass } from '../../domains/goals/goal-class'
 import { GoalStore } from '../../domains/goals/GoalStore'
@@ -43,6 +45,7 @@ export interface IBackupItems {
   locations: Array<Location>
   dashboards: Array<DashboardClass>
   context: Array<ContextClass>
+  pointers: Array<PointerClass>
 }
 
 export default class Export {
@@ -70,6 +73,7 @@ export default class Export {
       locations: options.locations || [],
       dashboards: options.dashboards || [],
       context: options.context || [],
+      pointers: options.pointers || [],
     }
   }
 
@@ -95,6 +99,10 @@ export default class Export {
       this.fireChange('Context...')
       let context = await ContextStore.rawState()
       this.backup.context = context
+
+      this.fireChange('Pointers...')
+      let pointers = await PointerStore.rawState()
+      this.backup.pointers = pointers
 
       this.fireChange('Locations...')
       let locations = await LocationStore.rawState()

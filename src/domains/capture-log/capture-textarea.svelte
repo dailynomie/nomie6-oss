@@ -1,6 +1,7 @@
 <script lang="ts">
   import Textarea from '../../components/textarea/textarea.svelte'
   import {
+    AllPointersTrackables,
     AllContextTrackables,
     AllPeopleTrackables,
     AllTrackerTrackables,
@@ -78,6 +79,15 @@
           return {
             key: trackable.tag,
             value: trackable.tag?.replace('+', ''),
+          }
+        }),
+      },
+      {
+        trigger: '^',
+        values: $AllPointersTrackables.map((trackable) => {
+          return {
+            key: trackable.tag,
+            value: trackable.tag?.replace('^', ''),
           }
         }),
       },

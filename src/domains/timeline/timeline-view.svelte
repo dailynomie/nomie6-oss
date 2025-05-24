@@ -105,7 +105,7 @@
                   value={usageMapItem.usage.trackable.formatValue(
                     usageMapItem.usage.trackable.tallyValues(usageMapItem.usage.values)
                   )}
-                  hideValue={usageMapItem.usage.trackable.type === 'person'}
+                  hideValue={usageMapItem.usage.trackable.type === 'person' || usageMapItem.usage.trackable.type === 'pointer'}
                   trackable={usageMapItem.usage.trackable}
                   size={$Device.width < 350 ? 34 : 42}
                   className="stiff z-10 hover:scale-105 focus:scale-95 transition-all transform duration-200 mb-1 mr-1  lg:mr-2 shadow-md lg:col-span-3 md:col-span-6 col-span-6 timeline-pill w-full"

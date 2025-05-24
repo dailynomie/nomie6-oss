@@ -34,7 +34,7 @@
     <div class="title-value">
       {#if !hideValue && (value || trackable.value)}
         <h3 class="font-semibold line-clamp-1" style="font-size:80%; margin-bottom:{size * 0.08}px">
-          {trackable.label}
+          {trackable.label} 
         </h3>
         <div class="font-bold line-clamp-1" style="font-size:110%;">{value || trackable.value}</div>
       {:else}

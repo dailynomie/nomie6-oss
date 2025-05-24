@@ -4,6 +4,7 @@ import TrackerClass from "../../modules/tracker/TrackerClass"
 import type AwardConfig from "../awards/helpers/award.class"
 import type { UniboardType } from "../board/UniboardStore"
 import type { ContextType } from "../context/context-class"
+import type { PointerType } from "../pointers/pointer-class"
 import type { DashboardClass } from "../dashboard2/dashboard-class"
 import type { GoalType } from "../goals/goal-class"
 import type { PivotType } from "../analytics/pivot-class"
@@ -20,7 +21,8 @@ export type StorageBackupType = {
     "pivots.json"?: Array<PivotType>,
     "trackers.json"?: ITrackers,
     "people.json"?: IPeople,
-    "context.json"?: Array<ContextType>
+    "context.json"?: Array<ContextType>,
+    "pointers.json"?: Array<PointerType>
   }
 }
 
@@ -37,6 +39,7 @@ export const TemplateToImport = (template:Template, useMetric:boolean = false):S
       "trackers.json": trackers,
       "people.json": people,
       "context.json": template.trackables.filter(t=>t.type == 'context').map(t=>t),
+      "pointers.json": template.trackables.filter(t=>t.type == 'pointer').map(t=>t),
       "goals.json": template.goals,
       "pivots.json": template.pivots,
       "dashboards.json": template.dashboards,

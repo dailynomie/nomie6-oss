@@ -1,6 +1,18 @@
 {
   "features": [
     {
+      "version": "6.7.4-dn",
+      "title": "Introducing pointers"
+    },
+    {
+      "version": "6.7.4-dn",
+      "title": "Introducing Reminders"
+    },
+    {
+      "version": "6.7.4-dn",
+      "title": "Introducing Pointer Widget"
+    },
+    {
       "version": "6.7.3-dn",
       "title": "Introducing a habit widget"
     },
@@ -259,6 +271,13 @@
     }
   ],
   "fixes": [
+    {
+      "version": "6.7.4-dn",
+      "title": "Fixed template builder"
+    },{
+      "version": "6.7.4-dn",
+      "title": "Fixed auto search function"
+    },
     {
       "version": "6.7.1-dn",
       "title": "Fixed dashboard value widget coloring"

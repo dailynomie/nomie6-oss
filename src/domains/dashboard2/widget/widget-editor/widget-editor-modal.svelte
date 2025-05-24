@@ -25,7 +25,6 @@
   import { getWidgetTypes, type IWidgetType } from '../widget-types'
   import { canSaveWidget } from '../widget-utils'
   // import { activeTypes } from '../widget-types'
-
   import type { WidgetEditorProps } from './useWidgetEditorModal'
   import WidgetTypeSelector from './widget-type-selector.svelte'
   import { selectTrackable } from '../../../trackable/trackable-selector/TrackableSelectorStore'
@@ -61,6 +60,11 @@
     activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
     if (editingWidget.type == "plugin"){
       pluginGetWidgets(editingWidget.data.pluginId);
+    }
+    if (editingWidget.type == "pointer"){
+      if (!editingWidget.data) {
+        editingWidget["data"]= {"pointersamples": 5}
+      };
     }
   }
 
@@ -112,6 +116,13 @@
     else {selected = await selectTrackable()}
     let token = trackableToToken(selected)
     editingWidget.token = token
+  }
+
+  const localSelectPointer = async (multiple: boolean) => {
+    let selected
+    selected = await selectTrackable('pointer')
+    let pointer = trackableToToken(selected)
+    editingWidget.pointer = pointer
   }
 
   const saveWidget = async () => {
@@ -197,6 +208,39 @@
         </ListItem>
       {/if}
 
+      <!-- Select Pointer if required-->
+      {#if activeType && [...activeType.requires, ...activeType.optional].indexOf('pointer') > -1}
+      <Divider left={18} />
+      <ListItem
+          on:click={() => {
+            localSelectPointer(false)
+          }}
+          className="h-16" >
+          Pointer
+          {#if !editingWidget.pointer}
+            <span class="opacity-50 text-black dark:text-white">
+              {#if (activeType?.requires?.indexOf('token') > -1)}
+                (required)
+              {:else}
+                (optional)
+              {/if}
+            </span>
+          {/if}
+          <div slot="right" class="flex items-center space-x-2">
+            {#if !editingWidget.pointer}
+              <div class="text-primary-500">{Lang.t('general.select', 'Select')}</div>
+            {:else if editingWidget.pointer}
+              <TrackablePill size={28} hideValue trackable={tokenToTrackable(editingWidget.pointer, $TrackableStore.trackables)} />
+              {#if (activeType?.requires?.indexOf('token') === -1)}
+                <button class="flex items-center justify-center" on:click={()=>{editingWidget.pointer = undefined}}>
+                  <IonIcon icon={CloseOutline} />
+                </button>
+              {/if}
+            {/if}
+          </div>
+        </ListItem>
+      {/if}
+
       <!-- Select the timeframe if required -->
       {#if activeType && [...activeType.requires, ...activeType.optional].indexOf('timeframe') > -1}
         <Divider left={18} />
@@ -225,6 +269,14 @@
           </ListItem>
         {/if}
       {/if}
+      {#if editingWidget.type == "pointer"}
+      <Divider left={18} />
+      <ListItem>
+        Samples: {editingWidget.data.pointersamples}
+        <div slot="right">
+          <input id="large-range" type="range" min="1" max="8" bind:value={editingWidget.data.pointersamples} step="1" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700">
+        </div>
+      </ListItem>
       <Divider left={18} />
       <ListItem>
         Size
@@ -238,6 +290,7 @@
           slot="right"
         />
       </ListItem>
+      {/if}
     </List>
 
     <!-- Just Note -->
@@ -248,6 +301,7 @@
       </List>
     {/if}
 
+    
     <!-- Plugins -->
     {#if activeType?.id == 'plugin'}
     {#if pluginWidgets.length > 0}

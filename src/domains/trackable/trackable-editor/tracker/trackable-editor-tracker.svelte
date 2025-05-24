@@ -522,7 +522,7 @@
             label={Lang.t('tracker.include', 'Also Include')}
             placeholder={Lang.t(
               'tracker.include-placeholder',
-              'Insert additional #trackers, @people, and +context when using this tracker'
+              'Insert additional #trackers, @people, ^pointers and +context when using this tracker'
             )}
             bind:value={tracker.include}
           />

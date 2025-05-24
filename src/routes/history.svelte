@@ -171,6 +171,9 @@
     contextTapped(context, log) {
       openStats2(new Trackable({ type: 'context', context }))
     },
+    pointerTapped(pointer, log) {
+      openStats2(new Trackable({ type: 'pointer', pointer }))
+    },
     showLogOptions(log) {
       Interact.logOptions(log)
     },

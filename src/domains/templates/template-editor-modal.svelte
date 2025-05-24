@@ -21,6 +21,12 @@
     await TemplateStore.upsert(template)
     showToast({ message: 'Template saved' })
   }
+
+  const remove = async () => {
+   
+   await TemplateStore.remove(template)
+   showToast({ message: 'Template removed' })
+ }
 </script>
 
 <BackdropModal className="h-full" mainClass="bg-gray-100 dark:bg-gray-800">

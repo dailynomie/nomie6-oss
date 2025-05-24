@@ -128,6 +128,9 @@
     } else if (trackable.type == 'context') {
       response.note = trackable.getNoteValue()
       response.value = trackable.ctx.duration
+    } else if (trackable.type == 'pointer') {
+      response.note = trackable.getNoteValue()
+      response.value = trackable.ptr.duration
     } else {
       response.note = trackable.getNoteValue()
     }

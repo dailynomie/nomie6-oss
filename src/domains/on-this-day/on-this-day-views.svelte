@@ -24,7 +24,7 @@
   import { Trackable } from '../trackable/Trackable.class'
   import { TrackableStore } from '../trackable/TrackableStore'
   import type { OTDViewOption, TrackerProcessedConfig } from './on-this-day-helpers'
-  import { getContext, getNotes, getPeople, processTrackers } from './on-this-day-helpers'
+  import { getContext, getPointers, getNotes, getPeople, processTrackers } from './on-this-day-helpers'
   import ContextChart from '../context/context-chart.svelte'
   import ListItem from '../../components/list-item/list-item.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
@@ -40,6 +40,7 @@
   let notes: Array<NLog> = []
   let people: Array<Person> = []
   let context: Array<string> = []
+  let pointers: Array<string> = []  
 
   const dispatch = createEventDispatcher()
 
@@ -67,6 +68,7 @@
     notes = getNotes(logs)
     people = getPeople(logs, $PeopleStore)
     context = getContext(logs)
+    pointers = getPointers(logs)
     trackers = processTrackers(trackersUsed, $TrackerStore)
     focusScores = getFocusScoresFromLogs(logs, $TrackableStore.trackables)
 
@@ -75,7 +77,7 @@
   }
 </script>
 
-{#if view !== 'context'}
+{#if view !== 'context' || 'pointers' }
   <Container className="px-2 z-10">
     <div class="px-2 flex space-y-2 lg:space-y-0 lg:space-x-2 lg:flex-row flex-col items-center">
       <PositivityGrid {logs} />
@@ -165,7 +167,7 @@
   {:else}
     <Container>
       <div class="mt-3 n-grid">
-        {#each context as context}
+        {#each context as contex}
           <Button
             shape="round"
             size="lg"
@@ -174,14 +176,42 @@
             on:click={() => {
               showTrackablePopmenu(
                 new Trackable({
-                  id: context,
+                  id: contex,
                   type: 'context',
-                  context: context,
+                  context: contex,
                 })
               )
             }}
           >
-            {context}
+            {contex}
+          </Button>
+        {/each}
+      </div>
+    </Container>
+  {/if}
+{:else if view === 'pointers'}
+  {#if !pointers.length}
+    <Empty title={Lang.t('on-this-day.no-pointers', 'No Pointers on this Day')} emoji="🤷‍♂️" />
+  {:else}
+    <Container>
+      <div class="mt-3 n-grid">
+        {#each pointers as pointer}
+          <Button
+            shape="round"
+            size="lg"
+            color="light"
+            className="m-2"
+            on:click={() => {
+              showTrackablePopmenu(
+                new Trackable({
+                  id: pointer,
+                  type: 'pointer',
+                  pointer: pointer,
+                })
+              )
+            }}
+          >
+            {pointer}
           </Button>
         {/each}
       </div>
