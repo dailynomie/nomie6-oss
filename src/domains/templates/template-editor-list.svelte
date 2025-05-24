@@ -24,6 +24,10 @@ import { onMount } from 'svelte';
    showToast({ message: 'Template removed' })
  }
 
+ $: if ($TemplateStore) {
+  TemplateStore.init();
+ }
+
   onMount(()=>{
     TemplateStore.init();
     
