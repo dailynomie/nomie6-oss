@@ -343,7 +343,10 @@ export class Trackable {
    */
   public getNoteValue(val?: number, expand: boolean = true): string {
     const tag = this.tag
-    const value = val || this.value || this.defaultValue || NaN
+    var value = val || this.value || this.defaultValue || NaN
+    if(this.value == 0) {
+      value = 0
+    }
     if(this.type == 'tracker') {
       let parts = [];
       if(!isNaN(value) && is.truthy(value)) {
