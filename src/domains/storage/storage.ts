@@ -13,6 +13,7 @@ import { switchToLocal } from '../settings/settings-functions'
 // import DumbStorage from './engines/storage.dumb'
 
 import { LocalForageEngine } from './engines/localforage/engine.localforage'
+import { NomieServierStorage } from './engines/nomie-server/engine.nomie-server'
 import { PouchDBEngine } from './engines/pouchdb/engine.pouchdb'
 import { SideStore } from './side-storage'
 // import { S3Engine } from "./engines/engine.s3";
@@ -54,6 +55,16 @@ export const StorageEngines: Array<StorageEngineType> = [
     price: 'FREE',
     multipleDevices: false,
     engine: PouchDBEngine,
+    advanced: true
+  },
+  {
+    id: 'nomie-server',
+    name: 'Nomie Server',
+    shortName: 'Nomie Server',
+    description: 'Sync to your own Nomie Server',
+    price: 'FREE',
+    multipleDevices: true,
+    engine: NomieServierStorage,
     advanced: true
   }
 ]
