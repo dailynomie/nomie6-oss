@@ -82,6 +82,8 @@
         🗄
       {:else if $Prefs.storageType === 'firebase'}
         ☁️
+      {:else if $Prefs.storageType === 'nomie-server'}
+        ☁️
       {:else if $Prefs.storageType == 'pouchdb'}
         🛋
       {/if}
