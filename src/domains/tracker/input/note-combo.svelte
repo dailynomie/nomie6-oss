@@ -63,7 +63,7 @@
         //@ts-ignore
         if (f.value === true) {
           return true
-        } else if (f.value > 0 || f.value < 0) {
+        } else if (f.value >= 0 || f.value < 0) {
           return true
         }
         return false
@@ -110,7 +110,7 @@
                 {trackable}
                 step={trackable.tracker.step || 1}
                 value={isTruthy(trackable.tracker.default) ? trackable.tracker.default : trackable.value}
-                min={parseFloat(`${trackable.tracker.min}`)}
+                min={parseFloat(`${trackable.tracker.min}`) || 0}
                 max={parseFloat(`${trackable.tracker.max}`) || 100}
                 on:input={(evt) => {
                   trackable.value = evt.detail
