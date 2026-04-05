@@ -272,6 +272,9 @@
   ],
   "fixes": [
     {
+      "version": "6.7.4.1-dn",
+      "title": "Fixed combo tracker range-0-value bug"
+    },{
       "version": "6.7.4-dn",
       "title": "Fixed template builder"
     },{
