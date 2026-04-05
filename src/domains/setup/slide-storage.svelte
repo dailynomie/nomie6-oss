@@ -20,7 +20,7 @@
         return {
           title: engine.name,
           id: engine.id,
-          disabled: ['firebase', 's3'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures,
+          disabled: ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures,
           description: `${engine.description}  ${engine.price}`,
           checked: `${selected}` == `${engine.id}`,
           click() {

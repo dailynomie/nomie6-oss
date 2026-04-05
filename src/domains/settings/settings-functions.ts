@@ -59,13 +59,15 @@ export const useStorageSelectMenu = async (props: selectNewStorageProps) => {
 
   // perfs.betaFeatures
 
+
   let buttons = StorageEngines.map((storageEngine) => {
     let disabled: boolean = false;
 
 
     return {
       title: storageEngine.name,
-      disabled: disabled,
+      disabled: ['firebase', 's3', 'nomie-server'].indexOf(storageEngine.id) > -1,
+      //disabled: disabled,
       description: `${storageEngine.price} ${storageEngine.description}`,
       click() {
         if (prefs.storageType !== storageEngine.id) {
