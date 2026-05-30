@@ -138,7 +138,7 @@
     "plotly.js": "^2.25.0",
     "plotly.js-dist-min": "^2.25.0",
     "pocketbase": "^0.16.0",
-    "postcss": "^8.4.5",
+    "postcss": "^8.5.15",
     "rangeslider-pure": "^0.4.11",
     "sortablejs": "^1.15.0",
     "svelte-markdown": "^0.3.0",
