@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { LaunchCount } from './../preferences/LaunchCount.ts';
-  import { navigate } from 'svelte-navigator'
+  import { navigate } from '../../vendor/svelte-navigator'
 
   import { Device } from '../../store/device-store'
   import { LedgerStore } from '../ledger/LedgerStore'

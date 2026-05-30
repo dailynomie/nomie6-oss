@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Link } from 'svelte-navigator'
+  import { Link } from '../vendor/svelte-navigator'
   export let to = ''
 
   function getProps({ location, href, isPartiallyCurrent, isCurrent }) {

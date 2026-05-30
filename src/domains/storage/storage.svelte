@@ -1,6 +1,6 @@
 <script lang="ts">
   // Svelte
-  import { navigate } from 'svelte-navigator'
+  import { navigate } from '../../vendor/svelte-navigator'
 
   // Modules
   import Storage from './storage'

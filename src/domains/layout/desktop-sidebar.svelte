@@ -22,7 +22,7 @@
   import RibbonSolid from '../../n-icons/RibbonSolid.svelte'
   import CalendarSolid from '../../n-icons/CalendarSolid.svelte'
 
-  import { navigate } from 'svelte-navigator'
+  import { navigate } from '../../vendor/svelte-navigator'
   import { Device } from '../../store/device-store'
   import SearchIcon from '../../n-icons/SearchIcon.svelte'
   import Dot from '../../components/dot/dot.svelte'

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Router, Route } from 'svelte-navigator'
+  import { Router, Route } from '../vendor/svelte-navigator'
   import FileBrowser from './file-browser.svelte'
   // import DynamicPage from '../DynamicPage.svelte'
   // import Messages from './Messages.svelte'

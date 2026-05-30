@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Link } from 'svelte-navigator'
+  import { Link } from '../../vendor/svelte-navigator'
   import Button from '../button/button.svelte'
 
   export let label: string

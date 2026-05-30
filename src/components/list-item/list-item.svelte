@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { navigate } from 'svelte-navigator'
+  import { navigate } from '../../vendor/svelte-navigator'
   import { createEventDispatcher } from 'svelte'
   import tick from '../../utils/tick/tick'
 

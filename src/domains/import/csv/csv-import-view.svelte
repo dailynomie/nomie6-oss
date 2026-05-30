@@ -10,7 +10,7 @@
   import FileUploader from './../../../components/file-uploader/file-uploader.svelte'
 
   import ImportLoader from '../../../modules/import/import-loader'
-  import { navigate } from 'svelte-navigator'
+  import { navigate } from '../../../vendor/svelte-navigator'
   import { truncateText } from '../../../utils/text/text'
   import CSVRImport, { CsvTemplateStore, type IImportConfig } from './csv-import-helper'
   import { onMount } from 'svelte'

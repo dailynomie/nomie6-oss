@@ -8,7 +8,7 @@
 
   import List from '../../components/list/list.svelte'
 
-  import { navigate } from 'svelte-navigator'
+  import { navigate } from '../../vendor/svelte-navigator'
 
   import { Prefs, saveStorageType } from '../preferences/Preferences'
   import { wait } from '../../utils/tick/tick'

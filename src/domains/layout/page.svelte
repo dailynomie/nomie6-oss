@@ -1,6 +1,6 @@
 <script lang="ts">
   // svlete
-  import { navigate } from 'svelte-navigator'
+  import { navigate } from '../../vendor/svelte-navigator'
   // components
   import NToolbar from '../../components/toolbar/toolbar.svelte'
   import NLayout from './layout.svelte'

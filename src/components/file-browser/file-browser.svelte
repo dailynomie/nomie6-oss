@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { navigate } from 'svelte-navigator'
+  import { navigate } from '../../vendor/svelte-navigator'
 
   import NSpinner from '../spinner/spinner.svelte'
   import NItem from '../list-item/list-item.svelte'
