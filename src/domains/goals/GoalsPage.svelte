@@ -78,15 +78,20 @@
     
   }, 1000)
 
-  let lastGoalStore = ''
-  $: if ($GoalScoreStore.join(',') !== lastGoalStore && mounted) {
-    lastGoalStore = $GoalScoreStore.join(',')
-    initialzeGoalPage()
-  }
+  let lastGoalStore = $state('')
 
-  $: if ($GoalStore) {
-    initialzeGoalPage()
-  }
+  $effect(() => {
+    if ($GoalScoreStore.join(',') !== lastGoalStore && mounted) {
+      lastGoalStore = $GoalScoreStore.join(',')
+      initialzeGoalPage()
+    }
+  })
+
+  $effect(() => {
+    if ($GoalStore) {
+      initialzeGoalPage()
+    }
+  })
 
   const createGoal = () => {
     const goal = new GoalClass({ duration: view })
