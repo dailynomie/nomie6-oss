@@ -39,21 +39,24 @@
     goal: GoalClass
   }>()
 
-  let goalTargetValue: number
-  let comparison: GoalComparisonType
-  let trackable: Trackable
-  let workingGoal: GoalClass
-  let average = false;
-  let goalUseDailyAverage: boolean
+  let goalTargetValue: number | undefined = $state(undefined)
+  let comparison: GoalComparisonType | undefined = $state(undefined)
+  let trackable: Trackable | undefined = $state(undefined)
+  let workingGoal: GoalClass | undefined = $state(undefined)
+  let average = $state(false)
+  let goalUseDailyAverage: boolean | undefined = $state(undefined)
 
-  let mounted = false
-  $: if (goal && mounted && !workingGoal) {
-    workingGoal = new GoalClass(goal)
-    comparison = workingGoal.comparison
-    trackable = $TrackableStore.trackables[workingGoal.tag]
-    goalTargetValue = workingGoal.target
-    goalUseDailyAverage = workingGoal.usedailyaverage
-  }
+  let mounted = $state(false)
+
+  $effect(() => {
+    if (goal && mounted && !workingGoal) {
+      workingGoal = new GoalClass(goal)
+      comparison = workingGoal.comparison
+      trackable = $TrackableStore.trackables[workingGoal.tag]
+      goalTargetValue = workingGoal.target
+      goalUseDailyAverage = workingGoal.usedailyaverage
+    }
+  })
 
   onMount(() => {
     mounted = true
