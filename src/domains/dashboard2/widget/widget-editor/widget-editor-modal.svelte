@@ -150,8 +150,8 @@
 </script>
 
 <BackdropModal mainClass="bg-gray-100 dark:bg-gray-800" className="bg-white dark:bg-black h-full">
-  <header slot="header" class="bg-white dark:bg-black">
-    <ToolbarGrid slot="header">
+  <div slot="header" class="bg-white dark:bg-black w-full">
+    <ToolbarGrid>
       <Button slot="left" clear primary on:click={close}>{Lang.t('general.cancel', 'Cancel')}</Button>
       <h1 class="ntitle">Widget Settings</h1>
       <div slot="right">
@@ -169,7 +169,7 @@
 
     <!-- Widget Type Selector -->
     <WidgetTypeSelector bind:widget={editingWidget} />
-  </header>
+  </div>
 
   <div class="h-4" />
 

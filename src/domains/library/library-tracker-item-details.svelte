@@ -48,7 +48,7 @@
   {#each libraryTracker.trackers as tracker}
     <ListItem bottomLine={78}>
       <div slot="left" class="bg-primary-400 bg-opacity-20 flex items-center justify-center p-1 rounded-lg">
-        <Avatar slot="left" size={36} emoji={tracker.emoji} className="" />
+        <Avatar size={36} emoji={tracker.emoji} className="" />
       </div>
       <h1 class="ntitle">{tracker.label}</h1>
       <p class="text-sm text-gray-500 leading-tight">

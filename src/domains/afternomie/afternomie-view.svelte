@@ -309,7 +309,7 @@ function startNew(){
     //@ts-ignore
     var remote
     try {
-    var remote = pouchEngine.getRemote()
+    remote = pouchEngine.getRemote()
     nomiedata = {url:remote.url.toString(),db:remote.database,user:remote.username,pw:remote.password}
     }
     catch{

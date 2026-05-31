@@ -6,6 +6,7 @@
 
   import Uniboard from '../domains/board/Uniboard.svelte'
   import Layout from '../domains/layout/layout.svelte'
+  import TrackHeader from './track-header.svelte'
 
   import {
     ActiveBoard,
@@ -170,88 +171,35 @@
 </script>
 
 <Layout pageTitle={`${$ActiveBoard?.label || ''} Track`}>
-  <header slot="header" class="">
-    {#if $TodayStore.showController}
-      <TodayDateController />
-    {/if}
-
-    {#if $UniboardStore.editMode}
-      <div
-        transition:slide|global={{ delay: 250, duration: 300, easing: quintOut }}
-        class="flex bg-white dark:bg-black items-center justify-center space-x-4 px-4 py-2"
-      >
-        <Button size="sm" shape="round" className="bg-red-500 text-white w-32" on:click={() => toggleBoardEditMode()}>
-          <span class="text-base">Close</span>
-        </Button>
-        {#if edittedUniboard}
-          <Button
-            size="sm"
-            shape="round"
-            className="ml-2 bg-primary-500 text-white w-32"
-            on:click={() => saveBoardEdits()}
-          >
-            <span class="text-base">Save</span>
-          </Button>
-        {/if}
-      </div>
-    {/if}
-
-    <Toolbar slot="header" className="stiff h-14 max-h-14 min-h-14">
-      <div class="flex items-center space-x-1">
-        {#if !$UniboardStore.editMode}
-          <MenuInline
-            id="add-menu-button"
-            x="left"
-            y="top"
-            menuButtons={boardAddMenu}
-            buttonClass="add-menu-button menu-icon-button"
-          >
-            <IonIcon className="text-primary-500" icon={CaretDownCircle} size={32} />
-          </MenuInline>
-
-          {#if $RunningTimers.length}
-            <Button icon on:click={(evt) => showRunningTimersModal()}>
-              <IonIcon className="text-red-500 flex justify-center animate-pulse " size={30} icon={AlarmOutline} />
-            </Button>
-          {/if}
-        {/if}
-      </div>
-
-      {#if $CombinedBoards && $CombinedBoards.length > 1}
-        <BoardTabs
-          editMode={$UniboardStore.editMode}
-          className="w-full filler"
-          on:tabTap={async (evt) => {
-            const newActiveBoard = evt.detail
-            setActiveBoard(newActiveBoard)
-            Device.scrollToTop()
-          }}
-        />
-      {:else}
-        <div class="filler lg:hidden" />
-        <Logo color={appConfig.primary_color} className="-mt-2 ml-2 mr-10" size={20} />
-        <div class="filler" />
-      {/if}
-
-      <!-- /**
-
-        THIS IS THE Desktop Search Bar 🔥
-        
-        */ -->
-      {#if !$UniboardStore.editMode && Object.keys($TrackableStore.trackables).length > 5 && $Device.width > 699}
-        <SearchBar
-          style="max-width:220px;"
-          compact
-          on:clear={() => {
-            searchFor = undefined
-          }}
-          on:change={(evt) => {
-            searchFor = evt.detail
-          }}
-        />
-      {/if}
-    </Toolbar>
-  </header>
+  <TrackHeader
+    slot="header"
+    showController={$TodayStore.showController}
+    editMode={$UniboardStore.editMode}
+    editingLabel={$ActiveBoard?.label}
+    editedUniboard={edittedUniboard}
+    onToggleEditMode={() => toggleBoardEditMode()}
+    onSaveEdits={() => saveBoardEdits()}
+    boardAddMenu={boardAddMenu}
+    onBoardTabTap={async (evt) => {
+      const newActiveBoard = evt.detail
+      setActiveBoard(newActiveBoard)
+      Device.scrollToTop()
+    }}
+    combinedBoards={$CombinedBoards}
+    searchFor={searchFor}
+    onSearchChange={(evt) => {
+      searchFor = evt.detail
+    }}
+    onSearchClear={() => {
+      searchFor = undefined
+    }}
+    trackableCount={Object.keys($TrackableStore.trackables).length}
+    deviceWidth={$Device.width}
+    runningTimers={$RunningTimers}
+    onShowRunningTimers={() => showRunningTimersModal()}
+    carouselIcon={CaretDownCircle}
+    alarmIcon={AlarmOutline}
+  />
   <!-- Include the Universial Board -->
 
   {#if !$UniboardStore.editMode && Object.keys($TrackableStore.trackables).length > 5 && $Device.width < 699}

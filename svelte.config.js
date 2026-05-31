@@ -5,4 +5,9 @@ module.exports = {
       postcss: true
     }),
   ],
+  compilerOptions: {
+    compatibility: {
+      componentApi: 4
+    }
+  }
 };

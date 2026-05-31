@@ -43,15 +43,15 @@
     if (samples.length > amountofsamples) {
       let samplestemp = samples
       samples = []
-      for (var i = samplestemp.length - amountofsamples; i < samplestemp.length; i++) {
-        samples.push({ Date: samplestemp[i].Date, Value: samplestemp[i].Value, Height: samplestemp[i].Height })
+      for (var j = samplestemp.length - amountofsamples; j < samplestemp.length; j++) {
+        samples.push({ Date: samplestemp[j].Date, Value: samplestemp[j].Value, Height: samplestemp[j].Height })
       }
     }
     // first determin highest value
     let maxvalue = Math.max(...samples.map((o) => o.Value))
     // now make sure the height is adjusted to value (between 100% and 0%)
-    for (var i = 0; i < samples.length; i++) {
-      samples[i].Height = Math.round((samples[i].Value / maxvalue) * 100).toString() + '%'
+    for (var k = 0; k < samples.length; k++) {
+      samples[k].Height = Math.round((samples[k].Value / maxvalue) * 100).toString() + '%'
     }
     // and adjust barwidth accordingly
     barwidth = (Math.round(100 / samples.length) - 2).toString() + '%'
