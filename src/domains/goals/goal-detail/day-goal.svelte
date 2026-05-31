@@ -101,12 +101,14 @@
   }
 
   const dateFormats = getDateFormats()
-  let lastDate: any
-  $: if (startDate && startDate !== lastDate) {
-    
-    lastDate = startDate
-    getPast()
-  }
+  let lastDate: any = $state(undefined)
+
+  $effect(() => {
+    if (startDate && startDate !== lastDate) {
+      lastDate = startDate
+      getPast()
+    }
+  })
 
   const getPad = (num: number): number => {
     // let fixed: number = num
