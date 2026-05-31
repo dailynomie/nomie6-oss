@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import nid from '../../../modules/nid/nid'
@@ -24,12 +26,14 @@
 
   const dispatch = createEventDispatcher()
   const id = nid()
-  export let widget: WidgetClass
-  export let trackable: Trackable
-  export let loaded: boolean
-  export let usage: TrackableUsage
-  export let logs: Array<NLog>
-  export let hideTools: boolean = false
+  const { widget, trackable, loaded, usage, logs, hideTools = false } = $props<{
+    widget: WidgetClass
+    trackable: Trackable
+    loaded: boolean
+    usage: TrackableUsage
+    logs: Array<NLog>
+    hideTools?: boolean
+  }>()
 
 
   function widgetActions() {
@@ -109,16 +113,18 @@
     return classes.join(' ')
   }
 
-  let label:string = 'loading';
+  let label: string = $state('loading')
 
-  $: if(widget.type == 'plugin') {
-      let plugin = $PluginStore.find(p=>p.id == widget.data.pluginId);
-      if(plugin) {
-        label = `${plugin.emoji} ${plugin.name}`;
+  $effect(() => {
+    if (widget.type == 'plugin') {
+      const plugin = $PluginStore.find(p => p.id == widget.data.pluginId)
+      if (plugin) {
+        label = `${plugin.emoji} ${plugin.name}`
       } else {
         label = "Unknown Plugin"
       }
     }
+  })
   
 
 </script>
