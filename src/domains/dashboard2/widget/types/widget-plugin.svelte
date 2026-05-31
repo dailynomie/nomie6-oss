@@ -1,19 +1,25 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
 
   import type { WidgetClass } from '../widget-class'
   import { PluginStore } from '../../../plugins/PluginStore'
   import type { PluginClass } from '../../../plugins/plugin-helpers'
   import PluginFrame from '../../../plugins/plugin-frame.svelte'
-  export let widget: WidgetClass
+
+  const { widget } = $props<{ widget: WidgetClass }>()
   // export let trackable: Trackable
-  let plugin: PluginClass
-  let widgetindexparam: string =  "";
-  $: if (widget && widget.data?.pluginId) {
-      if (widget.data.widgetindex){
-        widgetindexparam = '&widgetindex='+widget.data.widgetindex;
+  let plugin: PluginClass | undefined = $state(undefined)
+  let widgetindexparam: string = $state("")
+
+  $effect(() => {
+    if (widget && widget.data?.pluginId) {
+      if (widget.data.widgetindex) {
+        widgetindexparam = '&widgetindex=' + widget.data.widgetindex
       }
       plugin = $PluginStore.find((p) => p.id == widget.data.pluginId && p.active == true)
-  }
+    }
+  })
 </script>
 
 {#if plugin}
