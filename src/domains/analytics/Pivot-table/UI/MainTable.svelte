@@ -42,8 +42,7 @@
             </tr>
             <tr>
                 <td class="pvtAxisContainer pvtVertList pvtRows"><slot name="rowAttrsCell" /></td>
-                <div class="scrolling-wrapper">
-                <td class="pvtOutput"><slot name="outputCell" /></td></div>
+                <td class="pvtOutput"><div class="scrolling-wrapper"><slot name="outputCell" /></div></td>
             </tr>
         </tbody>
     </table>

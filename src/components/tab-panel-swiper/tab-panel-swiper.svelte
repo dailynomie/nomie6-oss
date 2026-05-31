@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { createEventDispatcher } from 'svelte/internal'
+  import { createEventDispatcher } from 'svelte'
   import nid from '../../modules/nid/nid'
   import { wait } from '../../utils/tick/tick'
 

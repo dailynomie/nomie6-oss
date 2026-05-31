@@ -1,8 +1,9 @@
 <script>
     import Draggable from "./Draggable.svelte";
     import FilterBox from "./FilterBox.svelte";
-    import { is_empty } from "svelte/internal";
     import { Prefs } from '../../../preferences/Preferences'
+
+    const is_empty = (obj) => !obj || Object.keys(obj).length === 0
 
     export let valueFilter;
     export let name;

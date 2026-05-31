@@ -33,9 +33,8 @@
   export let autofocus: boolean | undefined = undefined
   export let disabled: boolean | undefined = false;
 
-  const has_left = (arguments[1].$$slots || {}).hasOwnProperty('left')
-  const has_right = (arguments[1].$$slots || {}).hasOwnProperty('right')
-  // const has_icon = (arguments[1].$$slots || {}).hasOwnProperty('icon')
+  let has_left: boolean
+  let has_right: boolean
 
   const dispatch = createEventDispatcher()
 
@@ -108,7 +107,7 @@
     {bg ? `bg-${bg}` : ''}"
     :alt="title"
   >
-    {#if has_left}
+    {#if $$slots.left}
       <div class="left relative">
         <slot name="left" />
       </div>
@@ -123,7 +122,7 @@
       <slot />
     </div>
 
-    {#if has_right || detail}
+    {#if $$slots.right || detail}
       <div class="right d-flex align-items-center">
         <slot name="right" />
         {#if detail}
@@ -166,7 +165,7 @@
     "
     :alt="title"
   >
-    {#if has_left}
+    {#if $$slots.left}
       <div class="left">
         <slot name="left" />
       </div>
@@ -181,7 +180,7 @@
       <slot />
     </div>
 
-    {#if has_right}
+    {#if $$slots.right}
       <div class="right">
         <slot name="right" />
       </div>

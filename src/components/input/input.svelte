@@ -31,8 +31,6 @@ import is from '../../utils/is/is';
   export let autocapitalize = undefined
   export let autofocus = undefined
 
-  const SLOTS = $$props.$$slots
-
   let focused = false
   let hasInput = false
 
@@ -290,7 +288,7 @@ import is from '../../utils/is/is';
     <slot name="right" />
   </div>
   <slot name="bottom" />
-  {#if help || SLOTS?.help}
+  {#if help || $$slots.help}
     <div class="helper">{help || ''} <slot name="help" /></div>
   {/if}
 </div>

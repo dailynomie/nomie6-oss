@@ -29,10 +29,10 @@ import appConfig from '../../config/appConfig';
   let footerBuffer: HTMLElement
   let footerEle: HTMLElement
 
-  $: hasHeader = (arguments[1].$$slots || {}).hasOwnProperty('header')
-  $: hasFooter = (arguments[1].$$slots || {}).hasOwnProperty('footer')
-  $: hasContent = (arguments[1].$$slots || {}).hasOwnProperty('content')
-  $: hasBottom = (arguments[1].$$slots || {}).hasOwnProperty('bottom')
+  $: hasHeader = !!$$slots.header
+  $: hasFooter = !!$$slots.footer
+  $: hasContent = !!$$slots.content
+  $: hasBottom = !!$$slots.bottom
 
   $: {
     const footerPos = getElementPosition(footerEle)

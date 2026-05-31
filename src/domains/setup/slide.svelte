@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, SvelteComponentDev } from 'svelte/internal'
+  import { createEventDispatcher, SvelteComponentDev } from 'svelte'
   import Button from '../../components/button/button.svelte'
   import Stepper from '../../components/stepper/stepper.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'

@@ -18,7 +18,7 @@
   import TimelineView from '../../domains/timeline/timeline-view.svelte'
   import { getDateFormats } from '../../domains/preferences/Preferences'
 
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte/internal'
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
 
   import { wait } from '../../utils/tick/tick'
 

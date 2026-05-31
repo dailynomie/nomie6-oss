@@ -22,11 +22,9 @@
   export let ariaLabel: string = 'modal'
   export let level: number = undefined
 
-  // declare var arguments: Array<any>;
-
-  const has_header = (arguments[1].$$slots || {}).hasOwnProperty('header')
-  const has_raw_header = (arguments[1].$$slots || {}).hasOwnProperty('raw-header')
-  const has_footer = (arguments[1].$$slots || {}).hasOwnProperty('footer')
+  const has_header = !!$$slots.header
+  const has_raw_header = !!$$slots['raw-header']
+  const has_footer = !!$$slots.footer
 
   let domVisible = false
   let showModal = false

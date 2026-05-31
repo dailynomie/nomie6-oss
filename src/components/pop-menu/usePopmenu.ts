@@ -3,7 +3,7 @@ import type { Trackable } from '../../domains/trackable/Trackable.class'
 import { getDatePopButtons } from '../../modules/pop-buttons/pop-buttons'
 import { openModal } from '../backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
-import type { SvelteComponentDev } from 'svelte/internal'
+import type { SvelteComponentDev } from 'svelte'
 
 export type PopMenuButton = {
   id?: string

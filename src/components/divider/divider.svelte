@@ -9,13 +9,7 @@
   export let hideLine: boolean = false
   export let left: number | undefined = undefined
 
-  let hasContent: boolean = false
-
-  onMount(() => {
-    if (arguments[1].$$slots) {
-      hasContent = true
-    }
-  })
+  let hasContent: boolean = Object.keys($$slots).length > 0
 </script>
 
 <div

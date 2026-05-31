@@ -13,7 +13,7 @@
   import { getDateFormats } from '../domains/preferences/Preferences'
   import LetterTicker from '../components/letter-ticker/letter-ticker.svelte'
   import { TrackableStore } from '../domains/trackable/TrackableStore'
-  import { onMount } from 'svelte/internal'
+  import { onMount } from 'svelte'
 
   import Button from '../components/button/button.svelte'
   import IonIcon from '../components/icon/ion-icon.svelte'

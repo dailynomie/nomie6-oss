@@ -24,7 +24,7 @@
   import { strToToken, type Token } from '../../modules/tokenizer/lite'
 
   import ListItem from '../../components/list-item/list-item.svelte'
-  import { onMount } from 'svelte/internal'
+  import { onMount } from 'svelte'
   import array_utils from '../../utils/array/array_utils'
   import { DashStore, initializeDashStore } from '../dashboard2/DashStore'
   import type { ITrackables } from '../ledger/ledger-tools'
