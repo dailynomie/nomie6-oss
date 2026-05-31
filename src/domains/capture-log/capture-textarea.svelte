@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Textarea from '../../components/textarea/textarea.svelte'
   import {
@@ -16,8 +18,7 @@
   import { wait } from '../../utils/tick/tick'
 
   let textarea: any
-  export let value: string
-  export let id: string
+  let { value = $bindable(), id, class: classAttr = '', placeholder = '' } = $props<{ value?: string; id: string; class?: string; placeholder?: string }>()
   const emit = createEventDispatcher()
 </script>
 
@@ -93,8 +94,8 @@
       },
     ],
   }}
-  class={$$restProps.class || ''}
-  placeholder={$$restProps.placeholder || ''}
+  class={classAttr}
+  placeholder={placeholder}
   bind:value
   bind:this={textarea}
   on:input={(e) => emit('input', e.detail)}
@@ -102,5 +103,4 @@
   on:focus={(e) => emit('focus', e.detail)}
   on:blur={(e) => emit('blur', e.detail)}
   on:paste={(e) => emit('paste', e.detail)}
-  {...$$restProps}
 />
