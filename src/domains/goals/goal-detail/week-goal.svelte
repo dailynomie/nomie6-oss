@@ -22,26 +22,28 @@
 
   const { goal } = $props<{ goal: GoalClass }>()
 
-  let usage: TrackableUsage
+  let usage: TrackableUsage | undefined = $state(undefined)
 
-  let scores: Array<GoalScoreType> = []
-  let loading: boolean = true
-  let showLoading: boolean = true
+  let scores: Array<GoalScoreType> = $state([])
+  let loading: boolean = $state(true)
+  let showLoading: boolean = $state(true)
 
-  let weeks: Array<Array<GoalScoreType>> = []
-  let months: Array<Array<GoalScoreType>> = []  
+  let weeks: Array<Array<GoalScoreType>> = $state([])
+  let months: Array<Array<GoalScoreType>> = $state([])
 
-  let totalDays: number
-  let totalWeeks: number
-  let totalSuccess: number
+  let totalDays: number | undefined = $state(undefined)
+  let totalWeeks: number | undefined = $state(undefined)
+  let totalSuccess: number | undefined = $state(undefined)
 
-  let startDate: Date = new Date()
+  let startDate: Date = $state(new Date())
 
-  let trackable: Trackable
+  let trackable: Trackable | undefined = $state(undefined)
 
-  $: if (goal && goal.tag) {
-    trackable = $TrackableStore.trackables[goal.tag]
-  }
+  $effect(() => {
+    if (goal && goal.tag) {
+      trackable = $TrackableStore.trackables[goal.tag]
+    }
+  })
 
   const generateMonthsFromScores = () => {
     
