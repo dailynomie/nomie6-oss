@@ -1,8 +1,9 @@
 # Svelte 5 Migration Progress
 
 **Total Components:** 493  
-**Migrated:** 150+ components (30.4%)  
-**Status:** IN PROGRESS - Batch 1 & 2 Complete, Batch 3 In Progress (30+ components done) ✅
+**Migrated:** 128 components (26%)  
+**Skipped (binding incompatibility):** 22 widget type components
+**Status:** IN PROGRESS - Batch 1 & 2 Complete, Batch 3 Refocusing ✅
 
 ## Strategy Overview
 
@@ -136,9 +137,25 @@ Migrated 6 of 7 components:
 **Additional Fixes:**
 - Fixed popup menu click event propagation in menu-inline.svelte (commit 272b0d1)
 
-#### Remaining (12 widget types + other components) 🔵 PENDING
-**Widget types left:** widget-habit, widget-pointer, widget-map, others
-**Other domains:** context (~8 files), dashboard core (~7 files), goals (~8 files)
+#### Widget Types - Reverted to Svelte 4
+**Status:** All widget type components reverted due to `bind_not_bindable` errors
+**Reason:** Widget display system uses extensive two-way bindings that don't work with Svelte 5's `$bindable()` constraints
+**Pattern incompatibility:** Parent uses `bind:trackable`, `bind:usage`, `bind:logs` but component props can't support these bindings without architectural changes
+
+**Reverted files:**
+- widget-map, widget-focus, widget-positivity-pie, widget-plugin, widget-streak
+- widget-last-used, widget-note, widget-todos, widget-what-time, widget-min-max, widget-bar-chart
+
+**Lesson:** Complex binding patterns through component hierarchies are not suitable for Svelte 5 runes migration. Better to skip these components.
+
+#### Remaining Batch 3 Components (17 files) 🔵 PENDING
+**Suitable for migration:** 
+- Dashboard core (dashboard-view, dashboard-tabs, dashboard-empty-view, etc.) - 7 files
+- Context components (context-chart, context-editor-view) - 2 files  
+- Goal components (GoalsPage, goal editors, details) - 8 files
+
+**NOT suitable (skip due to binding complexity):**
+- All 22 widget type components (use extensive bind: in parent)
 
 **Pattern to Use:**
 - Keep store subscriptions with `$store` syntax (Svelte 5 compatible)
