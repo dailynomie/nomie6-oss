@@ -1,7 +1,8 @@
 # Svelte 5 Migration Progress
 
 **Total Components:** 493  
-**Status:** IN PROGRESS - Phase 1 (Icons) Complete ✅
+**Migrated:** 128 components (25.9%)  
+**Status:** IN PROGRESS - Batch 1 & 2 Complete, Batch 3 In Progress ✅
 
 ## Strategy Overview
 
@@ -67,30 +68,60 @@ All 113 icon components in `src/n-icons/` converted:
 
 ---
 
-### Batch 2: Simple UI Components (7 files) 🔵 PENDING
-**Files:** button, container, list-item, divider, badge, avatar, input
+### Batch 2: Simple UI Components (7 files) ✅ COMPLETE
+**Status:** Migrated and tested 2026-05-31  
+**Commits:** 2f62ffe (6 files)  
+**Pattern:** `<svelte:options runes={true} />` + `$props()` + `$derived()`
 
-**Pattern to Use:**
-- Add `<svelte:options runes={true} />`
-- Convert `export let` to `$props()`
-- Replace `$:` computed statements with `$derived()` where possible
-- For side effects, use `$effect()` with `untrack()` if needed
-- Replace two-way bindings with explicit event handlers
+Migrated 6 of 7 components:
+- [x] container.svelte - Simple props conversion
+- [x] divider.svelte - Props + `$derived` for slot checking
+- [x] badge.svelte - Props conversion with event dispatcher
+- [x] avatar.svelte - Props + `$derived.by()` for style arrays
+- [x] input.svelte - Props + `$bindable()` for value binding
+- [x] list-item.svelte - Props conversion + event handler fixes
+- [ ] button.svelte - **REVERTED** due to event binding issues in runes mode
 
-**Challenges:**
-- list-item: 47 imports, heavily used
-- input: Complex bindings with `bind:value` patterns
-- avatar: Reactive array transformations
+**Lessons Learned:**
+- Event binding to onclick attributes doesn't work in runes mode (button.svelte)
+- Two-way bindings with `bind:` work correctly with `$bindable()`
+- `$derived.by()` useful for complex computed values
 
 ---
 
-### Batch 3: Store-Using Components (30-40 files) 🔵 PENDING
-**Examples:** modal, backdrop2, pop-menu, toggle-switch, menu-inline, spinner
+### Batch 3: Store-Using Components (35 files) 🟡 IN PROGRESS
+**Status:** 9 of 35 completed (25.7%)
+
+#### First Batch (6 files) ✅ 
+**Commit:** 211a533
+- [x] pivot-editor-modal.svelte - Props + `$state` + `$effect`
+- [x] awards-view.svelte - Runes opt-in only (stores work as-is)
+- [x] new-awards-modal.svelte - Props + `$derived`
+- [x] award-badge.svelte - Props with defaults
+- [x] awards-preview-list.svelte - `$derived` for filtering/sorting
+- [x] board-sort.svelte - Props with store usage
+
+#### Second Batch (3 files) ✅
+**Commit:** 79cd07d
+- [x] capture-date-picker.svelte - Props + `$bindable(time)` + `$state` for mutable index
+- [x] capture-textarea.svelte - Props + `$bindable(value)` for two-way binding
+- [x] capture-addon-menu-controller.svelte - Props conversion
+
+**Reverted to Svelte 4 (Complex patterns):**
+- capture-log.svelte - Multiple interacting `$effect()` blocks causing infinite loops
+- calendar3.svelte - Multiple `$bindable()` props with complex reactive statements
+- trackableUsageCalendar.svelte - Complex data loading with async patterns
+- calendar-view-modal.svelte - Depends on reverted calendar components
+
+#### Remaining (26 files) 🔵 PENDING
+**Domains:** context (~8 files), dashboard2 (~10 files), goals (~8 files)
 
 **Pattern to Use:**
 - Keep store subscriptions with `$store` syntax (Svelte 5 compatible)
-- Replace reactive statements `$:` with `$effect()` for side effects
-- Ensure proper cleanup in `onDestroy`
+- Replace reactive statements `$:` with `$effect()` for side effects only
+- Prefer `$derived()` for read-only computations
+- Use `untrack()` to break infinite loops in `$effect()` blocks
+- Follow AVOID_INFINITE_INSTRUCTIONS.md guidelines
 
 ---
 
@@ -105,14 +136,14 @@ All 113 icon components in `src/n-icons/` converted:
 
 ## Summary Table
 
-| Batch | Files | Pattern | Status | Completed |
-|-------|-------|---------|--------|-----------|
-| 1: Icons | 113 | `<svelte:options runes={true} />` + `$props()` | ✅ COMPLETE | 2026-05-31 |
-| 2: Simple UI | 7 | `$props()` + `$derived()` + `$effect()` | 🔵 Pending | - |
-| 3: Store-Using | 35 | Store subscriptions + `$effect()` | 🔵 Pending | - |
-| 4: Complex | 70 | `$derived()` + `$effect()` + `untrack()` | 🔵 Pending | - |
-| 5: Route/Edge | 60 | As needed per component | 🔵 Pending | - |
-| **TOTAL** | **493** | - | **22.9%** | - |
+| Batch | Files | Migrated | Pattern | Status | Completed |
+|-------|-------|----------|---------|--------|-----------|
+| 1: Icons | 113 | 113 | `<svelte:options runes={true} />` + `$props()` | ✅ COMPLETE | 2026-05-31 |
+| 2: Simple UI | 7 | 6 | `$props()` + `$derived()` + `$bindable()` | ✅ COMPLETE | 2026-05-31 |
+| 3: Store-Using | 35 | 9 | Store subscriptions + `$effect()` + `$derived()` | 🟡 IN PROGRESS | - |
+| 4: Complex | 70 | 0 | `$derived()` + `$effect()` + `untrack()` | 🔵 Pending | - |
+| 5: Route/Edge | 60 | 0 | As needed per component | 🔵 Pending | - |
+| **TOTAL** | **493** | **128** | - | **25.9%** | - |
 
 ---
 
@@ -127,7 +158,24 @@ All 113 icon components in `src/n-icons/` converted:
 - [x] Timeline loads correctly
 - [x] Trackable selector works
 
-### Next Batches
+### Batch 2 (Simple UI) ✅
+- [x] Build succeeds
+- [x] Dev server runs
+- [x] Components render correctly
+- [x] Input/avatar/list-item work
+- [x] No console errors
+- [x] No regressions in other areas
+- [x] Two-way bindings work with `$bindable()`
+
+### Batch 3 (Current) 🟡
+- [x] First 6 files tested and working
+- [x] Second batch (capture components) tested - capture features working
+- [x] Build succeeds
+- [x] No new errors introduced
+- [ ] Complete remaining 26 files
+- [ ] Full feature testing for all migrated components
+
+### Future Batches
 - [ ] Build succeeds
 - [ ] Dev server runs
 - [ ] Components render correctly
@@ -140,18 +188,41 @@ All 113 icon components in `src/n-icons/` converted:
 ## Key Learnings
 
 1. **Svelte 5 requires proper runes patterns** - Fine-grained reactivity is stricter than Svelte 4
-2. **Side effects in reactive functions break** - Functions like `headerKeyExists()` that modify state while computing cause loops
+2. **Side effects in reactive functions break** - Functions that modify state while computing cause infinite loops
 3. **Per-file opt-in is safer** - `<svelte:options runes={true} />` allows gradual migration without global changes
 4. **`$derived` preferred over `$effect`** - When possible, use read-only derived values instead of effects
 5. **Virtual list needs layout deferral** - requestAnimationFrame needed for proper height calculation on initial load
+6. **Event binding doesn't work in runes mode** - onclick attributes fail with function props (button.svelte issue)
+7. **`$bindable()` required for two-way bindings** - Any prop used with `bind:` must use `$bindable()` without fallback
+8. **Complex effects need careful structuring** - Multiple interacting effects with store modifications cause loops even with `untrack()`
+9. **Some components too complex to migrate** - capture-log.svelte and calendar components have patterns that don't translate well to runes
+
+## Migration Challenges & Solutions
+
+### Event Binding Issue (button.svelte)
+- **Problem:** onclick event handler binding doesn't work in runes mode
+- **Status:** REVERTED - No working solution found
+- **Lesson:** Some components may need to stay in Svelte 4 mode
+
+### Infinite Loops (capture-log.svelte, calendar components)
+- **Problem:** Multiple `$effect()` blocks with store modifications causing re-triggers
+- **Solution Attempted:** `untrack()` to break dependency tracking
+- **Status:** REVERTED - Complex reactive patterns don't translate well
+- **Lesson:** Components with intricate reactive dependencies are better left in Svelte 4
+
+### Bindable Props with Fallback Values
+- **Problem:** Can't use `bind:date={undefined}` when date has fallback value
+- **Solution:** Remove fallback from `$bindable()` declaration
+- **Status:** RESOLVED
+- **Lesson:** `$bindable()` has strict requirements different from regular `$props()`
 
 ---
 
 ## Next Steps
 
-1. Test Batch 2 (Simple UI components)
-2. Identify any reactive pattern issues during testing
-3. Apply `untrack()` pattern from AVOID_INFINITE_INSTRUCTIONS.md where needed
-4. Continue with Batch 3 (Store-using components)
-5. Eventually migrate all 493 components to runes mode
+1. Continue Batch 3: Migrate remaining 26 files from context, dashboard2, goals domains
+2. Apply AVOID_INFINITE_INSTRUCTIONS.md patterns proactively
+3. Test each batch thoroughly before moving to next
+4. Document any components that need to stay in Svelte 4 mode
+5. Aim to complete Batch 3 before starting Batch 4
 
