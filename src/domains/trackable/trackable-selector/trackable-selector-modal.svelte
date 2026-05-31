@@ -36,26 +36,13 @@
   let type: TrackableTypes
   let subtype: ITrackerType
 
-  let headerGroups: any = {}
-
   const getHeaderKey = (label) => {
     return label.substring(0, 1).toUpperCase()
   }
-  const headerKeyExists = (label) => {
-    const key = getHeaderKey(label)
-    const exists = headerGroups.hasOwnProperty(key)
-    headerGroups[key] = true
-    return exists
-  }
 
-  $: if (searchTerm) {
-    headerGroups = {}
-  } else {
-    headerGroups = {}
-  }
+  let groupedTrackables: Array<[string, Array<Trackable>]> = []
 
   $: if (payload) {
-    headerGroups = {}
     type = payload.type
     subtype = payload.subtype
     let tempknown = toTrackableArray($TrackableStore.trackables).sort((a, b) => {
@@ -122,6 +109,18 @@
     }
     return t
   })
+
+  $: if (filtered) {
+    const groups = new Map<string, Array<Trackable>>()
+    filtered.forEach((t) => {
+      const key = getHeaderKey(t.label)
+      if (!groups.has(key)) {
+        groups.set(key, [])
+      }
+      groups.get(key).push(t)
+    })
+    groupedTrackables = Array.from(groups.entries())
+  }
 
   /**
    * On User Select
@@ -207,34 +206,22 @@
   </header>
 
   <section class="trackable-list relative">
-    {#each filtered.filter((t) => t.tag) as trackable, index (trackable.tag)}
-      {#if !headerKeyExists(trackable.label)}
-        <header class="sticky top-0 z-50  text-gray-900 dark:text-gray-100 font-bold px-4 py-2 glass">
-          {getHeaderKey(trackable.label)}
-        </header>
-      {/if}
-      <ListItem bottomLine={70} clickable on:click={() => toggleTrackable(trackable)}>
-        <TrackableAvatar slot="left" size={42} {trackable} />
-        <div>
-          <h1 class="line-clamp-1">{trackable.label}</h1>
-          <div class="flex items-center space-x-2">
-            <div class="text-sm text-gray-500 line-clamp-1">{trackable.tag}</div>
+    {#each groupedTrackables as [headerKey, trackables] (headerKey)}
+      <header class="sticky top-0 z-50 text-gray-900 dark:text-gray-100 font-bold px-4 py-2 glass">
+        {headerKey}
+      </header>
+      {#each trackables.filter((t) => t.tag) as trackable (trackable.tag)}
+        <ListItem bottomLine={70} clickable on:click={() => toggleTrackable(trackable)}>
+          <TrackableAvatar slot="left" size={42} {trackable} />
+          <div>
+            <h1 class="line-clamp-1">{trackable.label}</h1>
+            <div class="flex items-center space-x-2">
+              <div class="text-sm text-gray-500 line-clamp-1">{trackable.tag}</div>
+            </div>
           </div>
-        </div>
-        <RadioButton slot="right" className="pointer-events-none" checked={selected.indexOf(trackable) > -1} />
-      </ListItem>
-      <!-- <button
-        class="{selected.indexOf(trackable) > -1
-          ? 'bg-primary-500 bg-opacity-20'
-          : ''} relative flex w-full text-left items-center py-2 px-4 space-x-4 justify-between z-20"
-        on:click={() => toggleTrackable(trackable)}
-      >
-        <TrackableAvatar size={42} {trackable} />
-        <h2 class="text-black dark:text-white text-sm md:text-base leading-tight filler">{trackable.label}</h2>
-        <div class="text-sm text-gray-500">{trackable.tag}</div>
-        <RadioButton className="pointer-events-none" checked={selected.indexOf(trackable) > -1} />
-      </button>
-      <Divider left={70} /> -->
+          <RadioButton slot="right" className="pointer-events-none" checked={selected.indexOf(trackable) > -1} />
+        </ListItem>
+      {/each}
     {/each}
     {#if filtered.length === 0}
       <div class="px-4 text-center text-gray-500 py-4">No Known Trackers</div>
