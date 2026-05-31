@@ -45,13 +45,13 @@
   import dayjs from 'dayjs'
   import { LedgerStore } from '../ledger/LedgerStore'
 
-  let view: GoalDurationType = 'day'
-  let goals: Array<GoalClass> = []
-  let goalUsages: Array<GoalUsageResponseType> = []
-  let loading: boolean = true
-  let mounted = false
-  let activeDate = dayjs()
-  let allowOpen: boolean = true
+  let view: GoalDurationType = $state('day')
+  let goals: Array<GoalClass> = $state([])
+  let goalUsages: Array<GoalUsageResponseType> = $state([])
+  let loading: boolean = $state(true)
+  let mounted = $state(false)
+  let activeDate = $state(dayjs())
+  let allowOpen: boolean = $state(true)
 
   const blockOpen = () => {
     allowOpen = false
@@ -111,9 +111,9 @@
     }
   }
 
-  let editMode: boolean = false
+  let editMode: boolean = $state(false)
 
-  let newPostListener
+  let newPostListener: any = $state(undefined)
 
   onMount(() => {
     mounted = true
