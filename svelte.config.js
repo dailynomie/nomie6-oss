@@ -8,6 +8,7 @@ module.exports = {
   compilerOptions: {
     compatibility: {
       componentApi: 4
-    }
+    },
+    runes: false
   }
 };

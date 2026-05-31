@@ -197,7 +197,9 @@
     bind:startingDate
     on:topItem={(evt) => {
       topItem = evt.detail
-      displayDate = topItem.time
+      if (topItem?.logs?.[0]) {
+        displayDate = dayjs(topItem.logs[0].end)
+      }
     }}
     bind:filters
   />
