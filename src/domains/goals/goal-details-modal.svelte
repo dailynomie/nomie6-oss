@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
 
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
@@ -14,14 +16,18 @@
   import GoalDetail from './goal-detail/goal-detail.svelte'
   import { openGoalEditor } from './GoalStore'
 
-  export let id: string
-  export let goal: GoalClass
+  const { id, goal } = $props<{
+    id: string
+    goal: GoalClass
+  }>()
 
-  let trackable: Trackable
+  let trackable: Trackable | undefined = $state(undefined)
 
-  $: if (goal) {
-    trackable = $TrackableStore.trackables[goal.tag]
-  }
+  $effect(() => {
+    if (goal) {
+      trackable = $TrackableStore.trackables[goal.tag]
+    }
+  })
 
   const close = () => {
     closeModal(id)

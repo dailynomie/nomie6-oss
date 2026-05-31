@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
 
 
@@ -19,22 +21,26 @@
   import { PluginStore } from '../plugins/PluginStore'
   import { deleteWidget } from './DashStore'
 
-  export let dashboard: DashboardClass
+  const { dashboard } = $props<{ dashboard: DashboardClass }>()
 
   const dispatch = createEventDispatcher()
 
-  let workingDashboard: DashboardClass
-  let allWidgetTypes: Array<IWidgetType> = []
-  let mounted = false
+  let workingDashboard: DashboardClass | undefined = $state(undefined)
+  let allWidgetTypes: Array<IWidgetType> = $state([])
+  let mounted = $state(false)
 
-  $: if (mounted && !allWidgetTypes.length) {
-    allWidgetTypes = getWidgetTypes($PluginStore)
-  }
+  $effect(() => {
+    if (mounted && !allWidgetTypes.length) {
+      allWidgetTypes = getWidgetTypes($PluginStore)
+    }
+  })
 
-  $: if (dashboard && !workingDashboard) {
-    workingDashboard = new DashboardClass(dashboard)
-    workingDashboard.widgets = dedupArray(workingDashboard.widgets, 'id')
-  }
+  $effect(() => {
+    if (dashboard && !workingDashboard) {
+      workingDashboard = new DashboardClass(dashboard)
+      workingDashboard.widgets = dedupArray(workingDashboard.widgets, 'id')
+    }
+  })
 
   const removeWidget = async (widget) => {
     const confirmed = await Interact.confirm('Remove Widget?', 'You can always add it back later.')

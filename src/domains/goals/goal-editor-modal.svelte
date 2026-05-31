@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { onMount } from 'svelte'
 
@@ -32,8 +34,10 @@
   import { GoalStore } from './GoalStore'
   import is from '../../utils/is/is'
 
-  export let id: string
-  export let goal: GoalClass
+  const { id, goal } = $props<{
+    id: string
+    goal: GoalClass
+  }>()
 
   let goalTargetValue: number
   let comparison: GoalComparisonType
