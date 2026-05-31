@@ -27,7 +27,9 @@
   }
 
   onMount(() => {
-    calculateHeight()
+    requestAnimationFrame(() => {
+      calculateHeight()
+    })
   })
 </script>
 
