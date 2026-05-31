@@ -1,5 +1,3 @@
-<svelte:options runes={true} />
-
 <script lang="ts">
   import { onMount } from 'svelte'
   // import type { TrackableUsage } from '../../../usage/trackable-usage.class'
@@ -8,11 +6,11 @@
 
   // let _elCalendar
 
-  const { widget } = $props<{ widget: WidgetClass }>()
+  export let widget: WidgetClass
   // export let trackable: Trackable
   // export let usage: TrackableUsage
 
-  let streakCount: number = $state(0)
+  let streakCount: number = 0
 
   // function countDays(): number {
   //   let count = 0

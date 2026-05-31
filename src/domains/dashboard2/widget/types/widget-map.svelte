@@ -1,5 +1,3 @@
-<svelte:options runes={true} />
-
 <script lang="ts">
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   // import type { Trackable } from '../../../trackable/Trackable.class'
@@ -7,7 +5,9 @@
   import Map from '../../../map/map.svelte'
   import type { WidgetClass } from '../widget-class'
 
-  const { widget, usage } = $props<{ widget: WidgetClass; usage: TrackableUsage }>()
+  export let widget: WidgetClass
+  // export let trackable: Trackable
+  export let usage: TrackableUsage
 </script>
 
 {#if widget}
