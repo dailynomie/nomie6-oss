@@ -1,5 +1,3 @@
-<svelte:options runes={true} />
-
 <script lang="ts">
   import TrackerLogsToTime from '../../../../utils/tracker-logs-to-time/tracker-logs-to-time'
 
@@ -9,11 +7,11 @@
 
   import type { WidgetClass } from '../widget-class'
 
-  const { widget } = $props<{ widget: WidgetClass }>()
+  export let widget: WidgetClass
   // // export let trackable: Trackable
   // export let usage: TrackableUsage
 
-  let times: any[] = $state([])
+  let times = []
 
   async function init() {
     times = TrackerLogsToTime(widget.token.id, widget.logs)

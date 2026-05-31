@@ -1,5 +1,3 @@
-<svelte:options runes={true} />
-
 <script lang="ts">
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   // import type { Trackable } from '../../../trackable/Trackable.class'
@@ -8,41 +6,34 @@
 
   import nid from '../../../../modules/nid/nid'
   import { Prefs } from '../../../preferences/Preferences'
-
-  const { widget, usage } = $props<{
-    widget: WidgetClass
-    usage: TrackableUsage
-  }>()
+  export let widget: WidgetClass
   // export let trackable: Trackable | undefined = undefined
+  export let usage: TrackableUsage
 
-  let type: 'bar' | 'line' = $state('bar')
+  let type: 'bar' | 'line' = 'bar'
 
-  let reverseUsage: TrackableUsage | undefined = $state(undefined)
+  let reverseUsage: TrackableUsage
 
-  $effect(() => {
-    if (usage) {
-      if (['last-365', 'this-year'].indexOf(widget.timeframe.details.id) > -1) {
-        reverseUsage = usage
-          .reverse()
-          .groupBy('week', 'YYYY-MM-D')
-          .backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
-      } else {
-        reverseUsage = usage
-          .reverse()
-          .byDay.backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
-      }
+  $: if (usage) {
+    if (['last-365', 'this-year'].indexOf(widget.timeframe.details.id) > -1) {
+      reverseUsage = usage
+        .reverse()
+        .groupBy('week', 'YYYY-MM-D')
+        .backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
+    } else {
+      reverseUsage = usage
+        .reverse()
+        .byDay.backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
     }
-  })
+  }
 
-  $effect(() => {
-    if (usage) {
-      if (widget.type == 'barchart') {
-        type = 'bar'
-      } else {
-        type = 'line'
-      }
+  $: if (usage) {
+    if (widget.type == 'barchart') {
+      type = 'bar'
+    } else {
+      type = 'line'
     }
-  })
+  }
 </script>
 
 {#if widget}
