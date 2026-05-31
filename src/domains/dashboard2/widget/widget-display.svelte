@@ -26,7 +26,7 @@
 
   const dispatch = createEventDispatcher()
   const id = nid()
-  const { widget, trackable, loaded, usage, logs, hideTools = false } = $props<{
+  const { widget, trackable, loaded = $bindable(), usage, logs, hideTools = false } = $props<{
     widget: WidgetClass
     trackable: Trackable
     loaded: boolean
