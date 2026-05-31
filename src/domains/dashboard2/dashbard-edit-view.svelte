@@ -56,6 +56,7 @@
   })
 </script>
 
+{#if workingDashboard}
 <section class="max-w-full w-96 lg:w-full lg:max-w-screen-xl mx-auto">
   <Container size="md" className="px-4 lg:px-0">
     <div class="bg-white rounded-md dark:bg-black mt-4 ">
@@ -124,6 +125,7 @@
     </SortableList2>
   {/key}
 </section>
+{/if}
 
 <style lang="postcss" global>
   .mock-widget {
