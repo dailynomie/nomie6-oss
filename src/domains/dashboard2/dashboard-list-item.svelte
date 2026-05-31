@@ -1,10 +1,12 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { WidgetClass } from './widget/widget-class'
   import ListItem from '../../components/list-item/list-item.svelte'
   import type { DashboardClass } from './dashboard-class'
   import { openWidgetEditor } from './widget/widget-editor/useWidgetEditorModal'
 
-  export let dashboard: DashboardClass
+  const { dashboard } = $props<{ dashboard: DashboardClass }>()
 
   const createWidget = () => {
     openWidgetEditor({

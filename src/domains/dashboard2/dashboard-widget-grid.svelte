@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
 
   import { dedupArray } from '../../utils/array/array_utils'
@@ -8,7 +10,7 @@
   import { TrackableStore } from '../trackable/TrackableStore'
   import { TrackableUsage } from '../usage/trackable-usage.class'
   import { wait } from '../../utils/tick/tick'
-  
+
   import dayjs from 'dayjs'
   import logsToTrackableUsage, { logFilter } from '../usage/usage-utils'
   import type { DashboardClass } from './dashboard-class'
@@ -17,8 +19,10 @@
   import type NLog from '../nomie-log/nomie-log'
   import WidgetDisplay from './widget/widget-display.svelte'
 
-  export let dashboard: DashboardClass
-  export let showDate: boolean = false
+  const { dashboard, showDate = false } = $props<{
+    dashboard: DashboardClass
+    showDate?: boolean
+  }>()
 
   let loaded = false
 

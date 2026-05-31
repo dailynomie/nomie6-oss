@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import dayjs from 'dayjs'
 
@@ -6,7 +8,7 @@
   import ProgressBar from '../../../components/progress-bar/progress-bar.svelte'
   import Spinner from '../../../components/spinner/spinner.svelte'
   import { getDatePopButtons } from '../../../modules/pop-buttons/pop-buttons'
-  
+
   import { Interact } from '../../../store/interact'
   import math from '../../../utils/math/math'
   import { wait } from '../../../utils/tick/tick'
@@ -18,7 +20,7 @@
   import type { GoalClass, GoalScoreType } from '../goal-class'
   import { getGoalComparisonSymbol } from '../goal-utils'
 
-  export let goal: GoalClass
+  const { goal } = $props<{ goal: GoalClass }>()
 
   let usage: TrackableUsage
 
