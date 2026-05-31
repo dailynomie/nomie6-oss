@@ -20,10 +20,10 @@
   }
 </script>
 
-<div class="onoffswitch {className}">
+<div class="onoffswitch {value ? 'on' : 'off'} {className}">
   <button
     type="button"
-    class="onoffswitch-btn {value ? 'on' : 'off'}"
+    class="onoffswitch-btn"
     aria-label={title || 'Toggle'}
     on:click={methods.onChange}
   >
