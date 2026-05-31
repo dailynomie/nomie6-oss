@@ -1,229 +1,157 @@
 # Svelte 5 Migration Progress
 
 **Total Components:** 493  
-**Status:** HALTED - Runes Mode Incompatible
+**Status:** IN PROGRESS - Phase 1 (Icons) Complete ✅
 
-## ⚠️ Critical Discovery
+## Strategy Overview
 
-**Migrating components from `export let` to `$props()` in Svelte 5 causes infinite reactivity loops.** This affects all components attempted, including:
-- Icon components (Batch 1)
-- UI components (Batch 2)
+**Approach:** Per-file runes opt-in with reactive pattern fixes
+- Global runes disabled in `svelte.config.js` (`runes: false`)
+- Each component opts-in with `<svelte:options runes={true} />`
+- Fixed reactive side-effect patterns before migration (trackable-selector-modal)
+- Gradual migration component-by-component, testing after each batch
 
-The root cause: Svelte 5 runes mode (`$props()`) is fundamentally incompatible with the existing Svelte 4 reactive patterns in this interconnected codebase.
-
-**Conclusion:** Gradual component-by-component migration is NOT feasible. The app should remain in Svelte 5 with `componentApi: 4` compatibility mode indefinitely.
-
----
-
-## Batch 1: Icon Components (116 files) ✅
-**Status:** COMPLETE - Migrated 2026-05-31  
-**Commit:** 2f2a8d2
-
-- [x] AccessibilityOutline.svelte - 2026-05-31
-- [x] AddCircleOutline.svelte - 2026-05-31
-- [x] AddIcon.svelte - 2026-05-31
-- [x] AddSquareOutline.svelte - 2026-05-31
-- [x] AlarmOutline.svelte - 2026-05-31
-- [x] AppsOutline.svelte - 2026-05-31
-- [x] AppsSolid.svelte - 2026-05-31
-- [x] ArchiveOutline.svelte - 2026-05-31
-- [x] ArrowBack.svelte - 2026-05-31
-- [x] ArrowForard.svelte - 2026-05-31
-- [x] BarChart.svelte - 2026-05-31
-- [x] BarChartOutline.svelte - 2026-05-31
-- [x] BarChartSolid.svelte - 2026-05-31
-- [x] BookOutline.svelte - 2026-05-31
-- [x] BookmarksOutline.svelte - 2026-05-31
-- [x] BulbOutline.svelte - 2026-05-31
-- [x] BulbSolid.svelte - 2026-05-31
-- [x] CalendarNumberOutline.svelte - 2026-05-31
-- [x] CalendarNumberSolid.svelte - 2026-05-31
-- [x] CalendarOutline.svelte - 2026-05-31
-- [x] CalendarSolid.svelte - 2026-05-31
-- [x] CameraSolid.svelte - 2026-05-31
-- [x] CaretDown.svelte - 2026-05-31
-- [x] CaretDownCircle.svelte - 2026-05-31
-- [x] ChatboxOutline.svelte - 2026-05-31
-- [x] CheckmarkCircle.svelte - 2026-05-31
-- [x] CheckmarkCircleOutline.svelte - 2026-05-31
-- [x] CheckmarkOutline.svelte - 2026-05-31
-- [x] ChevronBackCircleOutline.svelte - 2026-05-31
-- [x] ChevronBackOutline.svelte - 2026-05-31
-- [x] ChevronDownOutline.svelte - 2026-05-31
-- [x] ChevronForwardCircleOutline.svelte - 2026-05-31
-- [x] ChevronForwardOutline.svelte - 2026-05-31
-- [x] ChevronUpOutline.svelte - 2026-05-31
-- [x] CircleOutline.svelte - 2026-05-31
-- [x] CloseCircleOutline.svelte - 2026-05-31
-- [x] CloseOutline.svelte - 2026-05-31
-- [x] CopyOutline.svelte - 2026-05-31
-- [x] CreateOutline.svelte - 2026-05-31
-- [x] CubeOutline.svelte - 2026-05-31
-- [x] CubeSolid.svelte - 2026-05-31
-- [x] DownloadOutline.svelte - 2026-05-31
-- [x] DuplicateOutline.svelte - 2026-05-31
-- [x] EaselOutline.svelte - 2026-05-31
-- [x] EaselSolid.svelte - 2026-05-31
-- [x] ExpandOutline.svelte - 2026-05-31
-- [x] EyeClosedSolid.svelte - 2026-05-31
-- [x] EyeSolid.svelte - 2026-05-31
-- [x] FilterCircleOutline.svelte - 2026-05-31
-- [x] Git.svelte - 2026-05-31
-- [x] HappyOutline.svelte - 2026-05-31
-- [x] HighLowIcon.svelte - 2026-05-31
-- [x] Layers.svelte - 2026-05-31
-- [x] LineChartOutline.svelte - 2026-05-31
-- [x] ListOutline.svelte - 2026-05-31
-- [x] ListSolid.svelte - 2026-05-31
-- [x] LockClosedSolid.svelte - 2026-05-31
-- [x] MagnetOutline.svelte - 2026-05-31
-- [x] MagnetSolid.svelte - 2026-05-31
-- [x] MailOutline.svelte - 2026-05-31
-- [x] MailUnreadOutline.svelte - 2026-05-31
-- [x] MapOutline.svelte - 2026-05-31
-- [x] MenuOutline.svelte - 2026-05-31
-- [x] MoonOutline.svelte - 2026-05-31
-- [x] More.svelte - 2026-05-31
-- [x] MoreCircle.svelte - 2026-05-31
-- [x] MoreCircleOutline.svelte - 2026-05-31
-- [x] MoreVertical.svelte - 2026-05-31
-- [x] NavigateCircleOutline.svelte - 2026-05-31
-- [x] NavigateCircleSolid.svelte - 2026-05-31
-- [x] NavigateSolid.svelte - 2026-05-31
-- [x] OptionsOutline.svelte - 2026-05-31
-- [x] PaperPlaneSolid.svelte - 2026-05-31
-- [x] PencilOutline.svelte - 2026-05-31
-- [x] People.svelte - 2026-05-31
-- [x] PeopleCircle.svelte - 2026-05-31
-- [x] PeopleOutline.svelte - 2026-05-31
-- [x] PersonAddOutline.svelte - 2026-05-31
-- [x] PieChartOutline.svelte - 2026-05-31
-- [x] PinSolid.svelte - 2026-05-31
-- [x] PlayBackCircle.svelte - 2026-05-31
-- [x] PlusIcon.svelte - 2026-05-31
-- [x] PrintOutline.svelte - 2026-05-31
-- [x] PulseOutline.svelte - 2026-05-31
-- [x] QRCode.svelte - 2026-05-31
-- [x] QRCodeSolid.svelte - 2026-05-31
-- [x] RelatedOutline.svelte - 2026-05-31
-- [x] RemoveCircle.svelte - 2026-05-31
-- [x] RemoveCircleOutline.svelte - 2026-05-31
-- [x] RepeatOutline.svelte - 2026-05-31
-- [x] ReplyOutline.svelte - 2026-05-31
-- [x] RibbonOutline.svelte - 2026-05-31
-- [x] RibbonSolid.svelte - 2026-05-31
-- [x] ScanOutline.svelte - 2026-05-31
-- [x] SearchIcon.svelte - 2026-05-31
-- [x] SettingsOutline.svelte - 2026-05-31
-- [x] SettingsSolid.svelte - 2026-05-31
-- [x] ShareOutline.svelte - 2026-05-31
-- [x] ShuffleOutline.svelte - 2026-05-31
-- [x] SparklesOutline.svelte - 2026-05-31
-- [x] StarFilled.svelte - 2026-05-31
-- [x] StarOutline.svelte - 2026-05-31
-- [x] StarSolid.svelte - 2026-05-31
-- [x] StopSolid.svelte - 2026-05-31
-- [x] SunnyOutline.svelte - 2026-05-31
-- [x] SwapOutline.svelte - 2026-05-31
-- [x] TabsOutline.svelte - 2026-05-31
-- [x] TagOutline.svelte - 2026-05-31
-- [x] TextOutline.svelte - 2026-05-31
-- [x] ThermometerIcon.svelte - 2026-05-31
-- [x] TrashOutline.svelte - 2026-05-31
-- [x] TrophyOutline.svelte - 2026-05-31
-- [x] TrophySolid.svelte - 2026-05-31
-- [x] TrendingDownOutline.svelte - 2026-05-31
-- [x] TrendingUpOutline.svelte - 2026-05-31
-- [x] TriangleOutline.svelte - 2026-05-31
-- [x] VolumeHighOutline.svelte - 2026-05-31
-- [x] VolumeMuteOutline.svelte - 2026-05-31
-- [x] VolumeOffOutline.svelte - 2026-05-31
-- [x] WalletOutline.svelte - 2026-05-31
-- [x] WarningOutline.svelte - 2026-05-31
-- [x] WifiOutline.svelte - 2026-05-31
+**Key Fixes Applied:**
+1. **trackable-selector-modal.svelte** - Removed side-effect function `headerKeyExists()`, replaced with pre-computed `groupedTrackables` reactive statement
+2. **Timeline components** - Added null guards for `topItem`, ensured dayjs conversion
+3. **nvirtual-list.svelte** - Deferred height calculation with `requestAnimationFrame` for proper layout on initial navigation
 
 ---
 
-## Batch 2: Simple UI Components (7 files)
-**Status:** PAUSED - Reactivity Issues Detected
+## Migration Batches
 
-**Issue:** Migrating components from `export let` to `$props()` causes infinite loops in Svelte 5 due to changes in reactivity behavior. Problem affects:
-- button (with $derived)
-- container
-- list-item (with many imports)
-- divider
-- badge
-- avatar (with $effect)
-- input (bindable props)
+### Batch 1: Icon Components (113 files) ✅ COMPLETE
+**Status:** Migrated and tested 2026-05-31  
+**Commit:** 1040fa7  
+**Pattern:** `<svelte:options runes={true} />` + `const { size = 24 } = $props()`
 
-**Attempted:** All 7 components, reverted after testing showed infinite effect loops when opening modals.
+All 113 icon components in `src/n-icons/` converted:
+- Converted from `export let size: number = 24` to `const { size = 24 } = $props()`
+- Removed `lang="ts"` from script tags (TypeScript not needed for simple icons)
+- Added per-file runes opt-in via `<svelte:options runes={true} />`
+- Build succeeds ✓
+- All icons render correctly ✓
+- No console errors ✓
 
-**Next approach:** 
-- Only migrate components with minimal reactivity and imports
-- Test each component in isolation
-- Consider keeping complex components in legacy mode permanently
-- May need to use svelte-ignore or other directives
-
-- [ ] button/button.svelte
-- [ ] container/container.svelte
-- [ ] list-item/list-item.svelte
-- [ ] input/input.svelte
-- [ ] divider/divider.svelte
-- [ ] badge/badge.svelte
-- [ ] avatar/avatar.svelte
-
----
-
-## Batch 3: Store-Using Components (30-40 files)
-**Status:** NOT STARTED
-
-- [ ] modal/modal.svelte
-- [ ] backdrop/backdrop2.svelte
-- [ ] pop-menu/pop-menu.svelte
-- [ ] toggle-switch/toggle-switch.svelte
-- [ ] menu-inline/menu-inline.svelte
-- [ ] spinner/spinner.svelte
-- [ ] (and 24+ more store-dependent components)
-
----
-
-## Batch 4: Complex Feature Components (50-70 files)
-**Status:** NOT STARTED
-
-- [ ] Dashboard components
-- [ ] Editor components
-- [ ] Timeline components
-- [ ] Analytics components
-- [ ] Widget components
-- [ ] (and many more)
+**Component List:**
+- [x] AccessibilityOutline, AddCircleOutline, AddIcon, AddSquareOutline
+- [x] AlarmOutline, AppsOutline, AppsSolid, ArchiveOutline
+- [x] ArrowBack, ArrowForard, BarChart, BarChartOutline, BarChartSolid
+- [x] BookOutline, BookmarksOutline, BulbOutline, BulbSolid
+- [x] CalendarNumberOutline, CalendarNumberSolid, CalendarOutline, CalendarSolid
+- [x] CameraSolid, CaretDown, CaretDownCircle, ChatboxOutline
+- [x] CheckmarkCircle, CheckmarkCircleOutline, CheckmarkOutline
+- [x] ChevronBackCircleOutline, ChevronBackOutline, ChevronDownOutline
+- [x] ChevronForwardCircleOutline, ChevronForwardOutline, ChevronUpOutline
+- [x] CircleOutline, CloseCircleOutline, CloseOutline, CopyOutline
+- [x] CreateOutline, CubeOutline, CubeSolid, DownloadOutline
+- [x] DuplicateOutline, EaselOutline, EaselSolid, ExpandOutline
+- [x] EyeClosedSolid, EyeSolid, FilterCircleOutline, Git
+- [x] HappyOutline, HighLowIcon, Layers, LineChartOutline
+- [x] ListOutline, ListSolid, LockClosedSolid, MagnetOutline, MagnetSolid
+- [x] MailOutline, MailUnreadOutline, MapOutline, MenuOutline
+- [x] MoonOutline, More, MoreCircle, MoreCircleOutline, MoreVertical
+- [x] NavigateCircleOutline, NavigateCircleSolid, NavigateSolid
+- [x] OptionsOutline, PaperPlaneSolid, PencilOutline, People, PeopleCircle
+- [x] PeopleOutline, PersonAddOutline, PieChartOutline, PinSolid
+- [x] PlayBackCircle, PlusIcon, PrintOutline, PulseOutline
+- [x] QRCode, QRCodeSolid, RelatedOutline, RemoveCircle, RemoveCircleOutline
+- [x] RepeatOutline, ReplyOutline, RibbonOutline, RibbonSolid
+- [x] ScanOutline, SearchIcon, SettingsOutline, SettingsSolid
+- [x] ShareOutline, ShuffleOutline, SparklesOutline
+- [x] StarFilled, StarOutline, StarSolid, StopSolid, SunnyOutline
+- [x] SwapOutline, TabsOutline, TagOutline, TextOutline, ThermometerIcon
+- [x] TrashOutline, TrophyOutline, TrophySolid, TrendingDownOutline, TrendingUpOutline
+- [x] TriangleOutline, VolumeHighOutline, VolumeMuteOutline, VolumeOffOutline
+- [x] WalletOutline, WarningOutline, WifiOutline
 
 ---
 
-## Batch 5: Route & Remaining Components (50-70 files)
-**Status:** NOT STARTED
+### Batch 2: Simple UI Components (7 files) 🔵 PENDING
+**Files:** button, container, list-item, divider, badge, avatar, input
 
-- [ ] Route components (src/routes/)
-- [ ] Specialized components
-- [ ] Edge cases from earlier batches
+**Pattern to Use:**
+- Add `<svelte:options runes={true} />`
+- Convert `export let` to `$props()`
+- Replace `$:` computed statements with `$derived()` where possible
+- For side effects, use `$effect()` with `untrack()` if needed
+- Replace two-way bindings with explicit event handlers
 
----
-
-## Summary
-
-| Batch | Files | Status | Completed |
-|-------|-------|--------|-----------|
-| 1: Icons | 116 | ✅ Complete | 2026-05-31 |
-| 2: Simple UI | 7 | 🔵 Pending | - |
-| 3: Store-Using | 35 | 🔵 Pending | - |
-| 4: Complex | 70 | 🔵 Pending | - |
-| 5: Route/Edge | 60 | 🔵 Pending | - |
-| **TOTAL** | **493** | **26.2%** | - |
+**Challenges:**
+- list-item: 47 imports, heavily used
+- input: Complex bindings with `bind:value` patterns
+- avatar: Reactive array transformations
 
 ---
 
-## Notes
+### Batch 3: Store-Using Components (30-40 files) 🔵 PENDING
+**Examples:** modal, backdrop2, pop-menu, toggle-switch, menu-inline, spinner
 
-- Icons (Batch 1): Simple `export let size` → `const { size } = $props()`
-- Other batches: May have multiple props and event handlers
-- Always run dev server after each batch to verify no breaking changes
-- Commit after testing passes
+**Pattern to Use:**
+- Keep store subscriptions with `$store` syntax (Svelte 5 compatible)
+- Replace reactive statements `$:` with `$effect()` for side effects
+- Ensure proper cleanup in `onDestroy`
+
+---
+
+### Batch 4: Complex Feature Components (50-70 files) 🔵 PENDING
+**Examples:** Dashboard, Editor, Timeline, Analytics, Widget components
+
+---
+
+### Batch 5: Route & Remaining Components (50-70 files) 🔵 PENDING
+
+---
+
+## Summary Table
+
+| Batch | Files | Pattern | Status | Completed |
+|-------|-------|---------|--------|-----------|
+| 1: Icons | 113 | `<svelte:options runes={true} />` + `$props()` | ✅ COMPLETE | 2026-05-31 |
+| 2: Simple UI | 7 | `$props()` + `$derived()` + `$effect()` | 🔵 Pending | - |
+| 3: Store-Using | 35 | Store subscriptions + `$effect()` | 🔵 Pending | - |
+| 4: Complex | 70 | `$derived()` + `$effect()` + `untrack()` | 🔵 Pending | - |
+| 5: Route/Edge | 60 | As needed per component | 🔵 Pending | - |
+| **TOTAL** | **493** | - | **22.9%** | - |
+
+---
+
+## Testing Checklist
+
+### Batch 1 (Icons) ✅
+- [x] Build succeeds
+- [x] Dev server runs
+- [x] Icons render correctly
+- [x] No console errors
+- [x] App navigation works
+- [x] Timeline loads correctly
+- [x] Trackable selector works
+
+### Next Batches
+- [ ] Build succeeds
+- [ ] Dev server runs
+- [ ] Components render correctly
+- [ ] No console errors
+- [ ] Related features work
+- [ ] No regressions in other areas
+
+---
+
+## Key Learnings
+
+1. **Svelte 5 requires proper runes patterns** - Fine-grained reactivity is stricter than Svelte 4
+2. **Side effects in reactive functions break** - Functions like `headerKeyExists()` that modify state while computing cause loops
+3. **Per-file opt-in is safer** - `<svelte:options runes={true} />` allows gradual migration without global changes
+4. **`$derived` preferred over `$effect`** - When possible, use read-only derived values instead of effects
+5. **Virtual list needs layout deferral** - requestAnimationFrame needed for proper height calculation on initial load
+
+---
+
+## Next Steps
+
+1. Test Batch 2 (Simple UI components)
+2. Identify any reactive pattern issues during testing
+3. Apply `untrack()` pattern from AVOID_INFINITE_INSTRUCTIONS.md where needed
+4. Continue with Batch 3 (Store-using components)
+5. Eventually migrate all 493 components to runes mode
+
