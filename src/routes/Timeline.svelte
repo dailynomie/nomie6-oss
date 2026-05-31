@@ -150,7 +150,7 @@
 
 <Layout pageTitle="Timeline" className="timeline-layout bg-gray-200 dark:bg-gray-800">
   <Toolbar slot="header" className="py-2 h-14">
-    <MenuInline id="timeline-filter" menuButtons={filterMenu} buttonClass="menu-icon-button">
+    <MenuInline id="timeline-filter" y="bottom" menuButtons={filterMenu} buttonClass="menu-icon-button">
       <IonIcon className="text-primary-500" icon={CaretDownCircle} size={32} />
     </MenuInline>
     <div class="ntitle w-full mt-2 px-4  justify-center items-center  grid grid-cols-1">

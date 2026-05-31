@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { navigate } from '../../vendor/svelte-navigator'
   import { createEventDispatcher } from 'svelte'
@@ -7,41 +9,15 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { ChevronForwardOutline } from '../icon/nicons'
 
-  export let title = undefined
-  export let description = undefined
-  // export let borderBottom = false;
-
-  export let href = undefined
-  export let to = undefined
-  export let id = null
-  export let bg = undefined
-  export let className = ''
-  export let itemDivider = undefined
-  export let compact = false
-  export let truncate = false
-  export let style = ''
-  export let clickable = false
-  export let ariaLabel = ''
-  export let solo = false
-  export let bottomLine: number = undefined
-  export let topLine = false
-  export let delay: number = undefined
-  export let detail = false
-  export let transparent = false
-  export let mainClass = ''
-  export let titleClass = ''
-  export let autofocus: boolean | undefined = undefined
-  export let disabled: boolean | undefined = false;
+  const { title = undefined, description = undefined, href = undefined, to = undefined, id = null, bg = undefined, className = '', itemDivider = undefined, compact = false, truncate = false, style = '', clickable = false, ariaLabel = '', solo = false, bottomLine = undefined, topLine = false, delay = undefined, detail = false, transparent = false, mainClass = '', titleClass = '', autofocus = undefined, disabled = false } = $props<{ title?: any; description?: any; href?: any; to?: any; id?: any; bg?: any; className?: string; itemDivider?: any; compact?: boolean; truncate?: boolean; style?: string; clickable?: boolean; ariaLabel?: string; solo?: boolean; bottomLine?: number; topLine?: boolean; delay?: number; detail?: boolean; transparent?: boolean; mainClass?: string; titleClass?: string; autofocus?: boolean; disabled?: boolean }>()
 
   let has_left: boolean
   let has_right: boolean
 
   const dispatch = createEventDispatcher()
 
-
-  const methods = {
-    async tap(event) {
-     if(!disabled) {
+  async function tap(event: any) {
+    if(!disabled) {
       let timeout = 0
       if (delay !== undefined) {
         timeout = delay
@@ -56,26 +32,29 @@
       }
       dispatch('click', event)
       dispatch('tap', event)
-     }
-    },
-    doubletap(evt) {
-      if(!disabled) dispatch('dbltap', evt)
-    },
-    longtap(evt) {
-      if(!disabled) dispatch('longtap', evt)
-    },
-    getHref() {
-      return this.href || this.to || null
-    },
-    getStyle() {
-      if (this.getHref) {
-        return {
-          cursor: 'pointer',
-        }
-      } else {
-        return {}
+    }
+  }
+
+  function doubletap(evt: any) {
+    if(!disabled) dispatch('dbltap', evt)
+  }
+
+  function longtap(evt: any) {
+    if(!disabled) dispatch('longtap', evt)
+  }
+
+  function getHref() {
+    return href || to || null
+  }
+
+  function getStyle() {
+    if (getHref()) {
+      return {
+        cursor: 'pointer',
       }
-    },
+    } else {
+      return {}
+    }
   }
 </script>
 
@@ -87,9 +66,9 @@
     {id}
     aria-label={ariaLabel}
     {disabled}
-    on:tap={methods.tap}
-    on:dbltap={methods.doubletap}
-    on:longtap={methods.longtap}
+    on:tap={tap}
+    on:dbltap={doubletap}
+    on:longtap={longtap}
     on:contextmenu={(evt) => {
       dispatch('contextmenu', evt)
       return false
@@ -145,9 +124,9 @@
     aria-label={ariaLabel}
     role="menuitem"
     {autofocus}
-    on:tap={methods.tap}
-    on:dbltap={methods.doubletap}
-    on:longtap={methods.longtap}
+    on:tap={tap}
+    on:dbltap={doubletap}
+    on:longtap={longtap}
     on:contextmenu={(evt) => {
       dispatch('contextmenu', evt)
       return false

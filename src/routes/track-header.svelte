@@ -64,7 +64,7 @@
       <MenuInline
         id="add-menu-button"
         x="left"
-        y="top"
+        y="bottom"
         menuButtons={boardAddMenu}
         buttonClass="add-menu-button menu-icon-button"
       >

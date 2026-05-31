@@ -140,10 +140,12 @@ import Divider from '../divider/divider.svelte'
   }
 
   .menu-inline .n-menu.y-top {
-    /* @apply top-8; */
+    top: auto;
+    bottom: calc(100% + 8px);
   }
   .menu-inline .n-menu.y-bottom {
-    @apply bottom-0;
+    bottom: auto;
+    top: calc(100% + 8px);
   }
   .menu-inline .menu-icon-button {
     @apply rounded-full flex items-center justify-center;

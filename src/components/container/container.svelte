@@ -1,6 +1,7 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
-  export let size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md'
-  export let className: string = ''
+  const { size = 'md', className = '' } = $props<{ size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; className?: string }>()
 </script>
 
 <div class={`nui-container nui-container-${size} ${className}`}> 

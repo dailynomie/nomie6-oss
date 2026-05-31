@@ -174,7 +174,7 @@
 
 <Layout className="h-full">
   <Toolbar slot="header" className="pr-8">
-    <MenuInline id="dashboard-menu" menuButtons={mainMenu} buttonClass="menu-button-icon">
+    <MenuInline id="dashboard-menu" y="bottom" menuButtons={mainMenu} buttonClass="menu-button-icon">
       <IonIcon className="text-primary-500" icon={CaretDownCircle} size={32} />
     </MenuInline>
 
