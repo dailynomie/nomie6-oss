@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { Prefs } from './../preferences/Preferences'
   import Button from '../../components/button/button.svelte'
@@ -50,14 +52,19 @@
   import PrintOutline from '../../n-icons/PrintOutline.svelte'
   import UpgradeMessage from '../../components/upgrade-message/upgrade-message.svelte'
 
-  $: if (Object.keys($TrackableStore.trackables)) {
-    initializeDashStore()
-  }
+  $effect(() => {
+    if (Object.keys($TrackableStore.trackables)) {
+      initializeDashStore()
+    }
+  })
 
-  let mainMenu: Array<PopMenuButton> = []
-  $: if ($DashStore) {
-    mainMenu = getMainActionMenu()
-  }
+  let mainMenu: Array<PopMenuButton> = $state([])
+
+  $effect(() => {
+    if ($DashStore) {
+      mainMenu = getMainActionMenu()
+    }
+  })
 
   const getMainActionMenu = (): Array<PopMenuButton> => {
     return [
@@ -102,7 +109,7 @@
   }
 
   // let previewImage: string | undefined = undefined
-  let showDate: boolean = false
+  let showDate: boolean = $state(false)
   // let screenshotImage:File | undefined;
 
   const getSharedImageFile = async (): Promise<File | undefined> => {
