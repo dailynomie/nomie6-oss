@@ -9,23 +9,17 @@
   import MonthGoal from './month-goal.svelte'
   import WeekGoal from './week-goal.svelte'
 
-  const { goal } = $props<{ goal: GoalClass }>()
-
-  let boundGoal = $state(goal)
-
-  $effect(() => {
-    boundGoal = goal
-  })
+  let { goal = $bindable() } = $props<{ goal: GoalClass }>()
 </script>
 
 <div class="goal-detail flex flex-col h-full filler ">
-  {#if boundGoal}
-    {#if boundGoal.duration === 'day'}
-      <DayGoal bind:goal={boundGoal} />
-    {:else if boundGoal.duration === 'week'}
-      <WeekGoal bind:goal={boundGoal} />
-    {:else if boundGoal.duration === 'month'}
-      <MonthGoal bind:goal={boundGoal} />
+  {#if goal}
+    {#if goal.duration === 'day'}
+      <DayGoal bind:goal />
+    {:else if goal.duration === 'week'}
+      <WeekGoal bind:goal />
+    {:else if goal.duration === 'month'}
+      <MonthGoal bind:goal />
     {/if}
   {:else}
     <Empty>

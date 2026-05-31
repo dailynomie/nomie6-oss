@@ -20,7 +20,7 @@
   import type { GoalClass, GoalScoreType } from '../goal-class'
   import { getGoalComparisonSymbol } from '../goal-utils'
 
-  const { goal } = $props<{ goal: GoalClass }>()
+  let { goal = $bindable() } = $props<{ goal: GoalClass }>()
 
   let usage: TrackableUsage | undefined = $state(undefined)
 
