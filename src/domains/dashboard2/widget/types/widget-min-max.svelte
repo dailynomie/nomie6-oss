@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import dayjs from 'dayjs'
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
@@ -7,10 +9,12 @@
   import { getDateFormats } from '../../../preferences/Preferences'
   import { openDateOptionPopMenu } from '../../../../components/pop-menu/usePopmenu'
 
-  export let trackable: Trackable
-  export let usage: TrackableUsage
+  const { trackable, usage } = $props<{
+    trackable: Trackable
+    usage: TrackableUsage
+  }>()
 
-  $: dateFormat = getDateFormats()
+  const dateFormat = $derived(getDateFormats())
 </script>
 
 <div class="min-max-widget">
