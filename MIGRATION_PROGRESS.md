@@ -1,8 +1,8 @@
 # Svelte 5 Migration Progress
 
 **Total Components:** 493  
-**Migrated:** 128 components (25.9%)  
-**Status:** IN PROGRESS - Batch 1 & 2 Complete, Batch 3 In Progress ✅
+**Migrated:** 150+ components (30.4%)  
+**Status:** IN PROGRESS - Batch 1 & 2 Complete, Batch 3 In Progress (30+ components done) ✅
 
 ## Strategy Overview
 
@@ -113,8 +113,32 @@ Migrated 6 of 7 components:
 - trackableUsageCalendar.svelte - Complex data loading with async patterns
 - calendar-view-modal.svelte - Depends on reverted calendar components
 
-#### Remaining (26 files) 🔵 PENDING
-**Domains:** context (~8 files), dashboard2 (~10 files), goals (~8 files)
+#### Third Batch (5 widget types) ✅
+**Commit:** 132d226
+- [x] widget-map.svelte - Simple props conversion
+- [x] widget-streak.svelte - Props + onMount lifecycle preservation
+- [x] widget-positivity-pie.svelte - Props + `$effect` for reactive statement
+- [x] widget-plugin.svelte - Props + `$effect` for computed plugin lookup
+- [x] widget-focus.svelte - Props + async init function
+
+#### Fourth Batch (3 widget types) ✅
+**Commit:** 47311f9
+- [x] widget-last-used.svelte - Props + `$effect` for computed last used tracking
+- [x] widget-note.svelte - Props + `$effect` for sorted logs computation
+- [x] widget-todos.svelte - Props + multiple `$effect` blocks for filter and index
+
+#### Fifth Batch (4 widget types) ✅
+**Commit:** 2bdbbf3
+- [x] widget-what-time.svelte - Props + `$state` for async time data
+- [x] widget-min-max.svelte - Props + `$derived` for date format computation
+- [x] widget-bar-chart.svelte - Props + multiple `$effect` blocks for chart data
+
+**Additional Fixes:**
+- Fixed popup menu click event propagation in menu-inline.svelte (commit 272b0d1)
+
+#### Remaining (12 widget types + other components) 🔵 PENDING
+**Widget types left:** widget-habit, widget-pointer, widget-map, others
+**Other domains:** context (~8 files), dashboard core (~7 files), goals (~8 files)
 
 **Pattern to Use:**
 - Keep store subscriptions with `$store` syntax (Svelte 5 compatible)
@@ -140,10 +164,11 @@ Migrated 6 of 7 components:
 |-------|-------|----------|---------|--------|-----------|
 | 1: Icons | 113 | 113 | `<svelte:options runes={true} />` + `$props()` | ✅ COMPLETE | 2026-05-31 |
 | 2: Simple UI | 7 | 6 | `$props()` + `$derived()` + `$bindable()` | ✅ COMPLETE | 2026-05-31 |
-| 3: Store-Using | 35 | 9 | Store subscriptions + `$effect()` + `$derived()` | 🟡 IN PROGRESS | - |
+| 3: Widget Types | 22 | 14 | `$props()` + `$effect()` + `$derived()` + `$state()` | 🟡 IN PROGRESS | 2026-05-31 |
+| 3: Other Store-Using | 13 | 9 | Store subscriptions + `$effect()` + `$derived()` | 🟡 IN PROGRESS | - |
 | 4: Complex | 70 | 0 | `$derived()` + `$effect()` + `untrack()` | 🔵 Pending | - |
 | 5: Route/Edge | 60 | 0 | As needed per component | 🔵 Pending | - |
-| **TOTAL** | **493** | **128** | - | **25.9%** | - |
+| **TOTAL** | **493** | **150+** | - | **30.4%** | - |
 
 ---
 
