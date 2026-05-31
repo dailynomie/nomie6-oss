@@ -21,7 +21,12 @@
     goal: GoalClass
   }>()
 
+  let boundGoal = $state(goal)
   let trackable: Trackable | undefined = $state(undefined)
+
+  $effect(() => {
+    boundGoal = goal
+  })
 
   $effect(() => {
     if (goal) {
@@ -43,10 +48,10 @@
       <TrackablePill hideValue transparent {trackable} />
     </div>
     <Button slot="right" primary clear on:click={() => {
-      openGoalEditor(goal)
+      openGoalEditor(boundGoal)
     }}>
       {Lang.t('general.Edit', 'Edit')}
     </Button>
   </ToolbarGrid>
-  <GoalDetail bind:goal />
+  <GoalDetail bind:goal={boundGoal} />
 </BackdropModal>
