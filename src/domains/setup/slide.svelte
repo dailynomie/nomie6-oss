@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, SvelteComponentDev } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
   import Button from '../../components/button/button.svelte'
   import Stepper from '../../components/stepper/stepper.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
@@ -9,7 +9,7 @@
   export let nextTitle: string = 'Next'
   export let nextDisabled: boolean = false
   export let hideBack: boolean = false
-  export let component: SvelteComponentDev
+  export let component: any
 
   const emit = createEventDispatcher()
 </script>

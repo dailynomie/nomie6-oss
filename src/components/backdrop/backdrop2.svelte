@@ -1,7 +1,5 @@
 <script lang="ts">
   import { quadInOut } from 'svelte/easing'
-import type { SvelteComponentDev } from 'svelte/internal';
-
   import { fade, fly } from 'svelte/transition'
 
   import { BackdropStore2 } from './BackdropStore2'
@@ -12,18 +10,19 @@ import type { SvelteComponentDev } from 'svelte/internal';
   let last = $BackdropStore2[$BackdropStore2.length - 1]
   $: last = $BackdropStore2[$BackdropStore2.length - 1];
 
-  
-  
+
+
   // Monitor the Opening and closing of this modal
   // We do this because we use fly:out -
-  // this keeps the component alive, so we need 
-  // to manually $destroy it. 
-  let modalComponent:SvelteComponentDev;
+  // this keeps the component alive, so we need
+  // to manually $destroy it.
+  let modalComponent: any;
   $: if(last && focusedId !== last.id) {
     focusedId = last.id;
   } else if(!last && focusedId) {
     try {
-      modalComponent.$destroy();
+      // Svelte 5: $destroy() no longer exists, handled by lifecycle
+      // modalComponent.$destroy();
     } catch(e) {}
   }
   
