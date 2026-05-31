@@ -9,7 +9,7 @@
   import MonthGoal from './month-goal.svelte'
   import WeekGoal from './week-goal.svelte'
 
-  const { goal } = $props<{ goal: GoalClass }>()
+  let { goal } = $props<{ goal: GoalClass }>()
 </script>
 
 <div class="goal-detail flex flex-col h-full filler ">
