@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { onMount } from 'svelte'
 
@@ -22,38 +24,40 @@
   import { PivotStore } from './PivotStore'
   import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
 
-  export let id: string
-  export let pivot: PivotClass
+  const { id, pivot } = $props<{ id: string; pivot: PivotClass }>()
 
-  let name: string
-  let emoji: string
-  let days: number
-  let searchterms = ""
-  let searchenabled = false
-  let countsearchterms = 0
-  let filters: Object
-  let amountoffilters: number
-  let workingPivot: PivotClass
-  let emojiselector = false;
+  let name = $state('')
+  let emoji = $state('')
+  let days = $state(0)
+  let searchterms = $state("")
+  let searchenabled = $state(false)
+  let countsearchterms = $state(0)
+  let filters = $state<Object>({})
+  let amountoffilters = $state(0)
+  let workingPivot = $state<PivotClass>()
+  let emojiselector = $state(false)
 
-  let mounted = false
-  $: if (pivot && mounted && !workingPivot) {
-    workingPivot = new PivotClass(pivot)
-    name = workingPivot.tag;
-    emoji = workingPivot.emoji;
-    days = workingPivot.days;
-    searchterms = workingPivot.searchterm.terms || "";
-    searchenabled = workingPivot.searchterm.enabled || false;
-    filters = workingPivot.options.valueFilter;
-    amountoffilters = Object.keys(filters).length;
-    searchtermcounts()
-    
+  let mounted = $state(false)
 
-  }
+  $effect(() => {
+    if (pivot && mounted && !workingPivot) {
+      workingPivot = new PivotClass(pivot)
+      name = workingPivot.tag;
+      emoji = workingPivot.emoji;
+      days = workingPivot.days;
+      searchterms = workingPivot.searchterm.terms || "";
+      searchenabled = workingPivot.searchterm.enabled || false;
+      filters = workingPivot.options.valueFilter;
+      amountoffilters = Object.keys(filters).length;
+      searchtermcounts()
+    }
+  })
 
-  $: if (searchterms != "") {
-    searchtermcounts()
-  }
+  $effect(() => {
+    if (searchterms != "") {
+      searchtermcounts()
+    }
+  })
 
   function searchtermcounts() {
     countsearchterms = (searchterms.match(/;/g) || []).length;
