@@ -2,8 +2,8 @@
 
 **Total Components:** 493  
 **Migrated:** 128 components (26%)  
-**Skipped (binding incompatibility):** 22 widget type components
-**Status:** IN PROGRESS - Batch 1 & 2 Complete, Batch 3 Refocusing ✅
+**Skipped (binding incompatibility):** 22 widget type components (staying in Svelte 4)
+**Status:** IN PROGRESS - Batch 1 & 2 Complete, Batch 3 Continuing with simpler components ✅
 
 ## Strategy Overview
 
@@ -137,16 +137,17 @@ Migrated 6 of 7 components:
 **Additional Fixes:**
 - Fixed popup menu click event propagation in menu-inline.svelte (commit 272b0d1)
 
-#### Widget Types - Reverted to Svelte 4
-**Status:** All widget type components reverted due to `bind_not_bindable` errors
-**Reason:** Widget display system uses extensive two-way bindings that don't work with Svelte 5's `$bindable()` constraints
-**Pattern incompatibility:** Parent uses `bind:trackable`, `bind:usage`, `bind:logs` but component props can't support these bindings without architectural changes
+#### Widget Types - Permanently Keeping in Svelte 4 ✅
+**Status:** All 22 widget type components determined unsuitable for Svelte 5 migration
+**Reason:** Widget display system uses extensive two-way bindings (`bind:widget`, `bind:trackable`, `bind:usage`, `bind:logs`)
+**Svelte 5 incompatibility:** Runes mode requires explicit `$bindable()` on each prop, creating architectural mismatch with parent's binding pattern
 
-**Reverted files:**
+**Decision:** Keep all 22 widget type components in Svelte 4 permanently:
 - widget-map, widget-focus, widget-positivity-pie, widget-plugin, widget-streak
-- widget-last-used, widget-note, widget-todos, widget-what-time, widget-min-max, widget-bar-chart
+- widget-last-used, widget-note, widget-todos, widget-what-time, widget-min-max
+- widget-bar-chart, widget-habit, widget-pointer, and 9 others
 
-**Lesson:** Complex binding patterns through component hierarchies are not suitable for Svelte 5 runes migration. Better to skip these components.
+**Key Learning:** Components with extensive parent-child binding patterns should NOT be migrated to Svelte 5 runes. This is an architectural constraint, not a simple code conversion issue.
 
 #### Remaining Batch 3 Components (17 files) 🔵 PENDING
 **Suitable for migration:** 
