@@ -78,7 +78,6 @@ import Divider from '../divider/divider.svelte'
                 ? 'unlocked'
                 : 'locked'
               : ''} {button.description ? 'nbtn-desc' : ''}"
-            on:click={(e) => e.stopPropagation()}
           >
             {#if button.checked}
               <div class="w-5 flex items-center">
