@@ -24,7 +24,7 @@
     showDate?: boolean
   }>()
 
-  let loaded = false
+  let loaded = $state(false)
 
   type WidgetWrapper = {
     id: string
@@ -35,9 +35,9 @@
     logs: Array<NLog>
   }
 
-  let logs: Array<NLog> = []
-  let widgets: Array<WidgetWrapper> = []
-  let dateFormats = getDateFormats()
+  let logs: Array<NLog> = $state([])
+  let widgets: Array<WidgetWrapper> = $state([])
+  let dateFormats = $state(getDateFormats())
 
   /**
    * Load Dashboard Usage
@@ -128,9 +128,11 @@
     loaded = true
   }
 
-  $: if (dashboard) {
-    loadDashboardUsage()
-  }
+  $effect(() => {
+    if (dashboard) {
+      loadDashboardUsage()
+    }
+  })
 </script>
 
 <div id="widgets-frame" class={showDate ? 'bg-gray-100 pt-4 dark:bg-gray-800' : ''}>
