@@ -22,8 +22,14 @@
 
     }
 
-    setTimeout(()=>{currentwidth = document.querySelector('.pvtAxisContainer').clientWidth;
-        screenratio = window.innerHeight/window.innerWidth;},10)
+    setTimeout(()=>{
+        // Use the output container width for the chart
+        const outputContainer = document.querySelector('.pvtOutput');
+        if (outputContainer) {
+            currentwidth = outputContainer.clientWidth;
+        }
+        screenratio = window.innerHeight/window.innerWidth;
+    }, 10)
 
 
 
