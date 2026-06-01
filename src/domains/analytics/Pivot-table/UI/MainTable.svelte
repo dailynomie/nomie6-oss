@@ -1,7 +1,9 @@
+<svelte:options runes={true} />
+
 <script>
     import { Prefs } from '../../../preferences/Preferences'
-    export let horizUnused;
-    let theme = $Prefs.theme;
+    const { horizUnused } = $props<{ horizUnused: any }>()
+    let theme = $state($Prefs.theme);
     let cssVarStyles = "";
     if (theme == 'dark') {
     let bgdark= '#000000';

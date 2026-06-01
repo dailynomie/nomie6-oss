@@ -1,9 +1,11 @@
+<svelte:options runes={true} />
+
 <script>
     import Sortable from "./Sortable.svelte";
     import DraggableAttribute from "./DraggableAttribute.svelte";
     import { getSort } from "../Utilities";
 
-    export let items, onChange, valueFilter, attrValues, sorters, menuLimit, onUpdate;
+    const { items, onChange, valueFilter, attrValues, sorters, menuLimit, onUpdate } = $props()
 
     const options = {
         group: "shared",

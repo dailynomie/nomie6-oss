@@ -1,14 +1,15 @@
+<svelte:options runes={true} />
+
 <script>
     import { clickOutside } from "./utils";
     import { createEventDispatcher } from "svelte";
     import { Prefs } from '../../../preferences/Preferences'
-    
+
     const dispatch = createEventDispatcher();
 
-    export let current,
-        values = [];
+    const { current, values = [] } = $props<{ current: any, values?: any[] }>()
 
-    let open = false;
+    let open = $state(false);
     const toggle = () => (open = !open);
     let fontsize = Math.round(14 /(1400/window.innerWidth));
     if (fontsize < 10) {fontsize=10}
