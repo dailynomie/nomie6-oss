@@ -48,7 +48,15 @@
     let darkPlaceholder = $derived(theme === 'dark' ? "D" : "");
 
     // Create PivotData from props
-    let pivotData = $derived.by(() => new PivotData(restProps));
+    import { untrack } from 'svelte';
+
+    let pivotData = $state(undefined);
+
+    $effect(() => {
+        untrack(() => {
+            pivotData = new PivotData(restProps);
+        });
+    });
 
 
     // Helper function for setting row/col-span in pivotTableRenderer
