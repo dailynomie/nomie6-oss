@@ -1,5 +1,7 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
-      
+
       import escapeRegExp from 'lodash/escapeRegExp'
       import PivotTableUI from "./Pivot-table/PivotTableUI.svelte";
     import Container from '../../components/container/container.svelte'
@@ -29,20 +31,20 @@
     import { EyeClosedSolid } from '../../components/icon/nicons'
     import IonIcon from "../../components/icon/ion-icon.svelte";
 
-    let notenoughdata = false;
-    let plotlyRenderers = {};
-    let renderers;
-    let loaded = false;
-    let pivotconfig = new PivotClass;
-    let loading = true;
-    let workingPivotId = "0";
-    let workingPivotTag = "Initiati0nPiv0t";
-    let workingPivotEmoji = "🐣";
-    let workingPivotDefault = false;
-    let workingPivotDays = 90;
-    let workingPivotSearchTerm = new Object({"enabled":true,"terms":""})
+    let notenoughdata = $state(false);
+    let plotlyRenderers = $state({});
+    let renderers = $state(undefined);
+    let loaded = $state(false);
+    let pivotconfig = $state(new PivotClass());
+    let loading = $state(true);
+    let workingPivotId = $state("0");
+    let workingPivotTag = $state("Initiati0nPiv0t");
+    let workingPivotEmoji = $state("🐣");
+    let workingPivotDefault = $state(false);
+    let workingPivotDays = $state(90);
+    let workingPivotSearchTerm = $state(new Object({"enabled":true,"terms":""}));
     let { derivedAttributes, cols, rows, vals, sorters, valueFilter } = PivotData.defaultProps;
-    let fontsize = Math.round(16 /(1400/window.innerWidth));
+    let fontsize = $state(Math.round(16 /(1400/window.innerWidth)));
     if (fontsize <9) {fontsize=9}
 
     onMount(async () => {
@@ -52,12 +54,12 @@
         renderers = { ...TableRenderers, ...plotlyRenderers };
         initialzePivotsPage();
         getData();
-        
-        
+
+
     });
 
-    let grouping = true;
-    let compactRows = true;
+    let grouping = $state(true);
+    let compactRows = $state(true);
     let rowGroupBefore = true;
     let colGroupBefore = false; 
     let rendererName = "Table";
@@ -285,10 +287,11 @@
 
     // CRUDS START
 
-    
-    $: if ($PivotStore) {
-        initialzePivotsPage()
-  }
+    $effect(() => {
+        if ($PivotStore) {
+            initialzePivotsPage()
+        }
+    })
 
     const createPivot = () => {
         const pivot = new PivotClass({tag:"New Pivot"})

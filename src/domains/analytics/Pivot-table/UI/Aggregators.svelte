@@ -1,16 +1,11 @@
+<svelte:options runes={true} />
+
 <script>
     import DropdownNomie from "./DropdownNomie.svelte";
 
-    export let onChange, onUpdate;
-    // export let propUpdater;
+    const { onChange, onUpdate, aggregatorName, aggregators, valAttrs, vals } = $props()
 
-    export let aggregatorName;
-    export let aggregators;
-    export let valAttrs;
-    export let vals;
-
-    let numValsAllowed;
-    $: numValsAllowed = aggregators[aggregatorName]([])().numInputs || 0;
+    let numValsAllowed = $derived(aggregators[aggregatorName]([])().numInputs || 0);
 
     const sortIcons = {
         key_a_to_z: {
