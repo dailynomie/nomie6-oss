@@ -114,13 +114,13 @@
     const remove = (set, arr) => arr.forEach(set.delete, set) || set;
     const toggle = (set, arr) => (has(set, arr) ? remove : add)(set, arr);
 
-    let colAttrs = $derived(pivotData.props.cols);
-    let rowAttrs = $derived(pivotData.props.rows);
-    let grandTotalAggregator = $derived(pivotData.getAggregator([], []));
+    let colAttrs = $derived(pivotData?.props?.cols || []);
+    let rowAttrs = $derived(pivotData?.props?.rows || []);
+    let grandTotalAggregator = $derived(pivotData?.getAggregator([], []) || null);
 
-    let grouping = $derived(pivotData.props.grouping);
+    let grouping = $derived(pivotData?.props?.grouping || false);
     let useCompactRows = $derived(grouping && compactRows);
-    let specialCase = $derived(grouping && !pivotData.props.rowGroupBefore);
+    let specialCase = $derived(grouping && !pivotData?.props?.rowGroupBefore);
 
     let folded = $state(new Set());
     const isFolded = (keys) => has(folded, keys.map(flatKey));
@@ -128,6 +128,8 @@
 
     // Compute row/col keys and color functions
     let computedColors = $derived.by(() => {
+        if (!pivotData) return { rowKeys: [], colKeys: [], valueCellColors: () => "", rowTotalColors: () => "", colTotalColors: () => "" };
+
         let rowKeys = pivotData.getRowKeys(true);
         let colKeys = pivotData.getColKeys(true);
         let valueCellColors = (r, c, v) => "";
@@ -203,8 +205,8 @@
             : null
     );
 
-    let rbClass = $derived(grouping ? (pivotData.props.rowGroupBefore ? "rowGroupBefore" : "rowGroupAfter") : "");
-    let cbClass = $derived(grouping ? (pivotData.props.colGroupBefore ? "colGroupBefore" : "colGroupAfter") : "");
+    let rbClass = $derived(grouping && pivotData ? (pivotData.props.rowGroupBefore ? "rowGroupBefore" : "rowGroupAfter") : "");
+    let cbClass = $derived(grouping && pivotData ? (pivotData.props.colGroupBefore ? "colGroupBefore" : "colGroupAfter") : "");
     let clickClass = $derived((pred, closed) => (pred ? " pvtClickable" + (closed ? " closed" : "") : ""));
 </script>
 
