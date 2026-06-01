@@ -55,6 +55,8 @@
             sorters = {}
         } = props;
         const currentTranspose = transpose;
+        const currentTraceOptions = traceOptions;
+        const currentLayoutOptions = layoutOptions;
 
         // Untrack all state writes to prevent effect from re-running when it modifies state
         untrack(() => {
@@ -88,14 +90,14 @@
                     labels.push(datumKey.join('-') || ' ');
                 }
                 const trace = { name: traceKey.join('-') || fullAggName };
-                if (traceOptions.type === 'pie') {
+                if (currentTraceOptions.type === 'pie') {
                     trace.values = values;
                     trace.labels = labels.length > 1 ? labels : [fullAggName];
                 } else {
                     trace.x = currentTranspose ? values : labels;
                     trace.y = currentTranspose ? labels : values;
                 }
-                return Object.assign(trace, traceOptions);
+                return Object.assign(trace, currentTraceOptions);
             });
 
             let titleText = fullAggName;
@@ -131,7 +133,7 @@
             };
 
 
-            if (traceOptions.type === 'pie') {
+            if (currentTraceOptions.type === 'pie') {
                 const columns = Math.ceil(Math.sqrt(data.length));
                 const rows = Math.ceil(data.length / columns);
                 layout.grid = { columns, rows };
