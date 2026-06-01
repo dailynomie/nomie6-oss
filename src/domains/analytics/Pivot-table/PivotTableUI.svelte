@@ -8,6 +8,7 @@
     import PivotTable from './PivotTable.svelte';
     import TableRenderers from './TableRenderers';
     import { PivotData, sortAs, aggregators as defaultAggregators } from './Utilities';
+    import { getRendererConfig } from './PlotlyRenderers.js';
 
     let {
         rendererName: initialRendererName = 'Table',
@@ -106,6 +107,16 @@
         return renderers[validRendererName];
     });
 
+    // Get renderer configuration (traceOptions, layoutOptions, transpose)
+    let rendererOptions = $derived.by(() => {
+        const config = getRendererConfig(rendererName);
+        return {
+            traceOptions: config.traceOptions || {},
+            layoutOptions: config.layoutOptions || {},
+            transpose: config.transpose || false
+        };
+    });
+
     // Select aggregator
     let aggregator = $derived.by(() => {
         const validAggregatorName = aggregatorName in aggregators ? aggregatorName : Object.keys(aggregators)[0];
@@ -178,6 +189,9 @@
         {workingPivotDays}
         {workingPivotSearchTerm}
         {renderers}
+        traceOptions={rendererOptions.traceOptions}
+        layoutOptions={rendererOptions.layoutOptions}
+        transpose={rendererOptions.transpose}
         bind:pivotconfig={pivotconfig}
         bind:getConfig={getConfig}
     />
