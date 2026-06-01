@@ -14,17 +14,17 @@
     const { data, layout, config } = $props()
     const onUpdate = () => {}; // TODO: connect to plotly events
 
-    function create(node) {
+    function create(node, options) {
         // Use untrack to avoid re-running the action when Plotly updates DOM via proxy
         untrack(() => {
-            Plotly.newPlot(node, data, layout, config);
+            Plotly.newPlot(node, options.data, options.layout, options.config);
         });
 
         return {
-            update() {
+            update(newOptions) {
                 // Also untrack here to prevent feedback loops
                 untrack(() => {
-                    Plotly.newPlot(node, data, layout, config);
+                    Plotly.newPlot(node, newOptions.data, newOptions.layout, newOptions.config);
                 });
             },
             destroy() {
@@ -35,7 +35,7 @@
 </script>
 
 {#if Plotly}
-    <div use:create />
+    <div use:create={{ data, layout, config }} />
 {:else}
     <p>Error! Plotly.js not initialized.</p>
 {/if}

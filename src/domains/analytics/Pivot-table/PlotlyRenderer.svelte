@@ -61,7 +61,6 @@
             pivotData = new PivotData(props);
             rowKeys = pivotData.getRowKeys();
             colKeys = pivotData.getColKeys();
-            console.log('PlotlyRenderer - rowKeys:', rowKeys.length, 'colKeys:', colKeys.length);
             traceKeys = currentTranspose ? colKeys : rowKeys;
             if (traceKeys.length === 0) {
                 traceKeys.push([]);
@@ -98,7 +97,6 @@
                 }
                 return Object.assign(trace, traceOptions);
             });
-            console.log('PlotlyRenderer - data traces:', data.length, 'first trace:', data[0]);
 
             let titleText = fullAggName;
             hAxisTitle = currentTranspose ? pivotData.props.rows.join('-') : pivotData.props.cols.join('-');
