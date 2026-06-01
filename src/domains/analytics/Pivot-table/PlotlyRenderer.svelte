@@ -38,115 +38,119 @@
     let groupByTitle = $state('');
     let layout = $state({});
 
+    let recomputeKey = $state(0);
+
     $effect(() => {
-        // Use untrack to read props without creating reactive dependency to prevent
-        // infinite loops when Plotly internally modifies state
-        const trackedProps = props;
-        const untrackPivotData = () => new PivotData(trackedProps);
+        // Access props and transpose to establish dependencies
+        const currentProps = props;
+        const currentTranspose = transpose;
 
-        pivotData = untrack(untrackPivotData);
-        rowKeys = pivotData.getRowKeys();
-        colKeys = pivotData.getColKeys();
-        traceKeys = transpose ? colKeys : rowKeys;
-        if (traceKeys.length === 0) {
-            traceKeys.push([]);
-        }
-        datumKeys = transpose ? rowKeys : colKeys;
-        if (datumKeys.length === 0) {
-            datumKeys.push([]);
-        }
-
-        let fullAggName = pivotData.props.aggregatorName;
-        numInputs = pivotData.props.aggregators[fullAggName]([])().numInputs || 0;
-        if (numInputs !== 0) {
-            fullAggName += ` of ${pivotData.props.vals.slice(0, numInputs).join(', ')}`;
-        }
-        data = traceKeys.map((traceKey) => {
-            const values = [];
-            const labels = [];
-            for (const datumKey of datumKeys) {
-                const val = parseFloat(
-                    pivotData
-                        .getAggregator(transpose ? datumKey : traceKey, transpose ? traceKey : datumKey)
-                        .value()
-                );
-                values.push(isFinite(val) ? val : null);
-                labels.push(datumKey.join('-') || ' ');
+        // Untrack all state writes to prevent effect from re-running when it modifies state
+        untrack(() => {
+            pivotData = new PivotData(currentProps);
+            rowKeys = pivotData.getRowKeys();
+            colKeys = pivotData.getColKeys();
+            traceKeys = currentTranspose ? colKeys : rowKeys;
+            if (traceKeys.length === 0) {
+                traceKeys.push([]);
             }
-            const trace = { name: traceKey.join('-') || fullAggName };
-            if (traceOptions.type === 'pie') {
-                trace.values = values;
-                trace.labels = labels.length > 1 ? labels : [fullAggName];
-            } else {
-                trace.x = transpose ? values : labels;
-                trace.y = transpose ? labels : values;
+            datumKeys = currentTranspose ? rowKeys : colKeys;
+            if (datumKeys.length === 0) {
+                datumKeys.push([]);
             }
-            return Object.assign(trace, traceOptions);
-        });
 
-        let titleText = fullAggName;
-        hAxisTitle = transpose ? pivotData.props.rows.join('-') : pivotData.props.cols.join('-');
-        groupByTitle = transpose ? pivotData.props.cols.join('-') : pivotData.props.rows.join('-');
-        if (hAxisTitle !== '') {
-            titleText += ` vs ${hAxisTitle}`;
-        }
-        if (groupByTitle !== '') {
-            titleText += ` by ${groupByTitle}`;
-        }
-
-        layout = {
-            title: titleText,
-            hovermode: 'closest',
-            xaxis: {fixedrange: true},
-            yaxis: {fixedrange: true},
-            /* eslint-disable no-magic-numbers */
-            //width: window.innerWidth / getSizeFactor(window.innerWidth),
-            width: currentwidth,
-            //height: window.innerHeight / getSizeFactor(window.innerHeight),
-            height:currentwidth * screenratio,
-            dragmode:false,
-            plot_bgcolor: plotbgcolor,
-            paper_bgcolor: paperbgcolor,
-            font: {size:18 / (1400/currentwidth),color:plottextcolor},
-            legend: {"orientation": "h"},
-            margin: {
-    l: 0,
-    r: 0,
-    b: 100,
-    t: 100,
-    pad: 4
-  },
-            //autosize:true,
-            /* eslint-enable no-magic-numbers */
-        };
-
-
-        if (traceOptions.type === 'pie') {
-            const columns = Math.ceil(Math.sqrt(data.length));
-            const rows = Math.ceil(data.length / columns);
-            layout.grid = { columns, rows };
-            data.forEach((d, i) => {
-                d.domain = {
-                    row: Math.floor(i / columns),
-                    column: i - columns * Math.floor(i / columns),
-                };
-                if (data.length > 1) {
-                    d.title = d.name;
+            let fullAggName = pivotData.props.aggregatorName;
+            numInputs = pivotData.props.aggregators[fullAggName]([])().numInputs || 0;
+            if (numInputs !== 0) {
+                fullAggName += ` of ${pivotData.props.vals.slice(0, numInputs).join(', ')}`;
+            }
+            data = traceKeys.map((traceKey) => {
+                const values = [];
+                const labels = [];
+                for (const datumKey of datumKeys) {
+                    const val = parseFloat(
+                        pivotData
+                            .getAggregator(currentTranspose ? datumKey : traceKey, currentTranspose ? traceKey : datumKey)
+                            .value()
+                    );
+                    values.push(isFinite(val) ? val : null);
+                    labels.push(datumKey.join('-') || ' ');
                 }
+                const trace = { name: traceKey.join('-') || fullAggName };
+                if (traceOptions.type === 'pie') {
+                    trace.values = values;
+                    trace.labels = labels.length > 1 ? labels : [fullAggName];
+                } else {
+                    trace.x = currentTranspose ? values : labels;
+                    trace.y = currentTranspose ? labels : values;
+                }
+                return Object.assign(trace, traceOptions);
             });
-            if (data[0].labels.length === 1) {
-                layout.showlegend = false;
+
+            let titleText = fullAggName;
+            hAxisTitle = currentTranspose ? pivotData.props.rows.join('-') : pivotData.props.cols.join('-');
+            groupByTitle = currentTranspose ? pivotData.props.cols.join('-') : pivotData.props.rows.join('-');
+            if (hAxisTitle !== '') {
+                titleText += ` vs ${hAxisTitle}`;
             }
-        } else {
-            layout.xaxis = {
-                title: transpose ? fullAggName : null,
-                automargin: true,
+            if (groupByTitle !== '') {
+                titleText += ` by ${groupByTitle}`;
+            }
+
+            layout = {
+                title: titleText,
+                hovermode: 'closest',
+                xaxis: {fixedrange: true},
+                yaxis: {fixedrange: true},
+                /* eslint-disable no-magic-numbers */
+                //width: window.innerWidth / getSizeFactor(window.innerWidth),
+                width: currentwidth,
+                //height: window.innerHeight / getSizeFactor(window.innerHeight),
+                height:currentwidth * screenratio,
+                dragmode:false,
+                plot_bgcolor: plotbgcolor,
+                paper_bgcolor: paperbgcolor,
+                font: {size:18 / (1400/currentwidth),color:plottextcolor},
+                legend: {"orientation": "h"},
+                margin: {
+        l: 0,
+        r: 0,
+        b: 100,
+        t: 100,
+        pad: 4
+      },
+                //autosize:true,
+                /* eslint-enable no-magic-numbers */
             };
-            layout.yaxis = {
-                title: transpose ? null : fullAggName,
-                automargin: true,
-            };
-        }
+
+
+            if (traceOptions.type === 'pie') {
+                const columns = Math.ceil(Math.sqrt(data.length));
+                const rows = Math.ceil(data.length / columns);
+                layout.grid = { columns, rows };
+                data.forEach((d, i) => {
+                    d.domain = {
+                        row: Math.floor(i / columns),
+                        column: i - columns * Math.floor(i / columns),
+                    };
+                    if (data.length > 1) {
+                        d.title = d.name;
+                    }
+                });
+                if (data[0].labels.length === 1) {
+                    layout.showlegend = false;
+                }
+            } else {
+                layout.xaxis = {
+                    title: currentTranspose ? fullAggName : null,
+                    automargin: true,
+                };
+                layout.yaxis = {
+                    title: currentTranspose ? null : fullAggName,
+                    automargin: true,
+                };
+            }
+        });
     })
 </script>
 
