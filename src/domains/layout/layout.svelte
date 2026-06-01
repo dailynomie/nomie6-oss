@@ -43,12 +43,14 @@ import appConfig from '../../config/appConfig';
     if (footerPos && footerBuffer) {
       footerBuffer.style.height = `${footerPos.eleHeight + 70}px`
     }
-  }
+  })
 
-  $: if ($Device.height && mainEle) {
-    const pos = getElementPosition(mainEle)
-    mainEleHeight = `${pos.eleHeight}px`
-  }
+  $effect(() => {
+    if ($Device.height && mainEle) {
+      const pos = getElementPosition(mainEle)
+      mainEleHeight = `${pos.eleHeight}px`
+    }
+  })
 </script>
 
 <svelte:head>
