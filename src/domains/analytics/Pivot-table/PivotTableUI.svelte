@@ -9,7 +9,7 @@
     import TableRenderers from './TableRenderers';
     import { PivotData, sortAs, aggregators as defaultAggregators } from './Utilities';
 
-    const {
+    let {
         rendererName: initialRendererName = 'Table',
         renderers = TableRenderers,
         aggregatorName: initialAggregatorName = 'Count',
@@ -25,7 +25,7 @@
         workingPivotDays = 90,
         workingPivotSearchTerm = {"enabled":false,terms:""},
         menuLimit = 500,
-        pivotconfig: pivotconfigProp = undefined,
+        pivotconfig = $bindable(),
         getConfig: getConfigProp = false,
         derivedAttributes = PivotData.defaultProps.derivedAttributes,
         cols: initialCols = PivotData.defaultProps.cols,
@@ -45,7 +45,6 @@
     let aggregatorName = $state(initialAggregatorName);
     let valueFilter = $state(initialValueFilter);
     let unusedOrder = $state([]);
-    let pivotconfig = $state(pivotconfigProp);
     let getConfig = $state(getConfigProp);
 
     // Sync prop changes to local state
@@ -56,7 +55,6 @@
         rendererName = initialRendererName;
         aggregatorName = initialAggregatorName;
         valueFilter = initialValueFilter;
-        pivotconfig = pivotconfigProp;
         getConfig = getConfigProp;
     });
 
