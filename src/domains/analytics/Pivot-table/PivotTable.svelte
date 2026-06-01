@@ -5,9 +5,9 @@
     import { PivotClass } from '../pivot-class';
     import { aggregators as defaultAggregators } from '../Pivot-table/Utilities';
 
-    const {
+    let {
         renderer = TableRenderers.Table,
-        pivotconfig: pivotconfigProp = undefined,
+        pivotconfig = $bindable(),
         getConfig = false,
         workingPivotId = "1dummy2",
         workingPivotTag = "Dummy",
@@ -19,7 +19,6 @@
         ...restProps
     } = $props();
 
-    let pivotconfig = $state(pivotconfigProp);
     let aggregators = $state(defaultAggregators);
 
     // Build pivot config when getConfig changes

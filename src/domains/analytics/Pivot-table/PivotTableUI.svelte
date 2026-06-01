@@ -25,8 +25,8 @@
         workingPivotDays = 90,
         workingPivotSearchTerm = {"enabled":false,terms:""},
         menuLimit = 500,
-        pivotconfig,
-        getConfig = false,
+        pivotconfig: pivotconfigProp = undefined,
+        getConfig: getConfigProp = false,
         derivedAttributes = PivotData.defaultProps.derivedAttributes,
         cols: initialCols = PivotData.defaultProps.cols,
         rows: initialRows = PivotData.defaultProps.rows,
@@ -45,6 +45,8 @@
     let aggregatorName = $state(initialAggregatorName);
     let valueFilter = $state(initialValueFilter);
     let unusedOrder = $state([]);
+    let pivotconfig = $state(pivotconfigProp);
+    let getConfig = $state(getConfigProp);
 
     // Sync prop changes to local state
     $effect(() => {
@@ -54,6 +56,8 @@
         rendererName = initialRendererName;
         aggregatorName = initialAggregatorName;
         valueFilter = initialValueFilter;
+        pivotconfig = pivotconfigProp;
+        getConfig = getConfigProp;
     });
 
     // Compute attrValues from data
