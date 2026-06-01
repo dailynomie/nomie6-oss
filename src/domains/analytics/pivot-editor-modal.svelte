@@ -24,7 +24,7 @@
   import { PivotStore } from './PivotStore'
   import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
 
-  const { id, pivot } = $props())
+  const { id, pivot } = $props();
 
   let name = $state('')
   let emoji = $state('')
@@ -32,9 +32,9 @@
   let searchterms = $state("")
   let searchenabled = $state(false)
   let countsearchterms = $state(0)
-  let filters = $state<Object>({})
+  let filters: Object = $state({})
   let amountoffilters = $state(0)
-  let workingPivot = $state<PivotClass>()
+  let workingPivot: PivotClass | undefined = $state(undefined)
   let emojiselector = $state(false)
 
   let mounted = $state(false)
