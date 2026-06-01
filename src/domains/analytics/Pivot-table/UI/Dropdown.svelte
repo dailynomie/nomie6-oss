@@ -1,6 +1,6 @@
 <svelte:options runes={true} />
 
-<script>
+<script lang="ts">
     import { clickOutside } from "./utils";
     import { createEventDispatcher } from "svelte";
     import { Prefs } from '../../../preferences/Preferences'

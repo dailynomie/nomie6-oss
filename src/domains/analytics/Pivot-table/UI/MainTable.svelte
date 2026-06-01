@@ -1,6 +1,6 @@
 <svelte:options runes={true} />
 
-<script>
+<script lang="ts">
     import { Prefs } from '../../../preferences/Preferences'
     const { horizUnused } = $props<{ horizUnused: any }>()
     let theme = $state($Prefs.theme);

@@ -1,6 +1,6 @@
 <svelte:options runes={true} />
 
-<script>
+<script lang="ts">
     import Sortable from "./Sortable.svelte";
     import DraggableAttribute from "./DraggableAttribute.svelte";
     import { getSort } from "../Utilities";
