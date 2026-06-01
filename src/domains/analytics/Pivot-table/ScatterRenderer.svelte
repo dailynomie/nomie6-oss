@@ -30,54 +30,66 @@
     setTimeout(()=>{currentwidth = document.querySelector('.pvtAxisContainer').clientWidth;
         screenratio = window.innerHeight/window.innerWidth;},10)
 
+    import { untrack } from 'svelte';
 
     $effect(() => {
-        pivotData = new PivotData(props);
-        rowKeys = pivotData.getRowKeys();
-        colKeys = pivotData.getColKeys();
-        if (rowKeys.length === 0) {
-            rowKeys.push([]);
-        }
-        if (colKeys.length === 0) {
-            colKeys.push([]);
-        }
+        // Establish dependencies by accessing props outside untrack
+        const currentProps = props;
+        const currentCurrentwidth = currentwidth;
+        const currentScreenratio = screenratio;
+        const currentPlotbgcolor = plotbgcolor;
+        const currentPaperbgcolor = paperbgcolor;
+        const currentPlottextcolor = plottextcolor;
 
-        data = { x: [], y: [], text: [], type: 'scatter', mode: 'markers' };
+        // Untrack all state writes to prevent effect from re-running when it modifies state
+        untrack(() => {
+            pivotData = new PivotData(currentProps);
+            rowKeys = pivotData.getRowKeys();
+            colKeys = pivotData.getColKeys();
+            if (rowKeys.length === 0) {
+                rowKeys.push([]);
+            }
+            if (colKeys.length === 0) {
+                colKeys.push([]);
+            }
 
-        rowKeys.map((rowKey) => {
-            colKeys.map((colKey) => {
-                const v = pivotData.getAggregator(rowKey, colKey).value();
-                if (v !== null) {
-                    data.x.push(colKey.join('-'));
-                    data.y.push(rowKey.join('-'));
-                    data.text.push(v);
-                }
+            const dataObj = { x: [], y: [], text: [], type: 'scatter', mode: 'markers' };
+
+            rowKeys.map((rowKey) => {
+                colKeys.map((colKey) => {
+                    const v = pivotData.getAggregator(rowKey, colKey).value();
+                    if (v !== null) {
+                        dataObj.x.push(colKey.join('-'));
+                        dataObj.y.push(rowKey.join('-'));
+                        dataObj.text.push(v);
+                    }
+                });
             });
-        });
 
-        layout = {
-            title: pivotData.props.rows.join('-') + ' vs ' + pivotData.props.cols.join('-'),
-            hovermode: 'closest',
-            /* eslint-disable no-magic-numbers */
-            xaxis: { title: pivotData.props.cols.join('-'), automargin: true },
-            yaxis: { title: pivotData.props.rows.join('-'), automargin: true },
-            //width: window.innerWidth / getSizeFactor(window.innerWidth),
-            width: currentwidth,
-            //height: window.innerHeight / getSizeFactor(window.innerHeight),
-            height:currentwidth * screenratio,
-            dragmode:false,
-            plot_bgcolor: plotbgcolor,
-            paper_bgcolor: paperbgcolor,
-            font: {size:18 / (1400/currentwidth),color:plottextcolor},
-            legend: {"orientation": "h"},
-            margin: {
-    l: 0,
-    r: 0,
-    b: 100,
-    t: 100,
-    pad: 4
-  },
-        };
+            data = dataObj;
+
+            layout = {
+                title: pivotData.props.rows.join('-') + ' vs ' + pivotData.props.cols.join('-'),
+                hovermode: 'closest',
+                /* eslint-disable no-magic-numbers */
+                xaxis: { title: pivotData.props.cols.join('-'), automargin: true },
+                yaxis: { title: pivotData.props.rows.join('-'), automargin: true },
+                width: currentCurrentwidth,
+                height: currentCurrentwidth * currentScreenratio,
+                dragmode: false,
+                plot_bgcolor: currentPlotbgcolor,
+                paper_bgcolor: currentPaperbgcolor,
+                font: { size: 18 / (1400 / currentCurrentwidth), color: currentPlottextcolor },
+                legend: { "orientation": "h" },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 100,
+                    t: 100,
+                    pad: 4
+                },
+            };
+        });
     })
 </script>
 
