@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import type NLog from '../nomie-log/nomie-log'
   import { logsToTimeline, type TimelineFilterProps, type TimelineItemType } from './timeline-utils'
@@ -27,29 +29,30 @@
   import { textToId } from '../../utils/text/text'
 
   import ListItem from '../../components/list-item/list-item.svelte'
-  
 
-  export let logs: Array<NLog> = []
-  export let filters: TimelineFilterProps = {}
+
+  const { logs = [], filters = {} } = $props<{ logs?: Array<NLog>, filters?: TimelineFilterProps }>()
   const dispatch = createEventDispatcher()
 
-  let timeline: Array<TimelineItemType> = []
-  let dateFormats = getDateFormats()
+  let timeline: Array<TimelineItemType> = $state([])
+  let dateFormats = $state(getDateFormats())
 
-  let listStartIndex: number
-  let listEndIndex: number
+  let listStartIndex: number | undefined = $state(undefined)
+  let listEndIndex: number | undefined = $state(undefined)
 
-  $: if ($TrackableStore) {
-    timeline = logsToTimeline(logs, $TrackableStore.trackables)
-  }
+  $effect(() => {
+    if ($TrackableStore) {
+      timeline = logsToTimeline(logs, $TrackableStore.trackables)
+    }
+  })
 
-  let topItem: TimelineItemType | undefined = undefined
+  let topItem: TimelineItemType | undefined = $state(undefined)
 
-  // let lastEndIndex = 0
-
-  $: if (listEndIndex === timeline.length && timeline.length > 0) {
-    dispatch('endOfItems')
-  }
+  $effect(() => {
+    if (listEndIndex === timeline.length && timeline.length > 0) {
+      dispatch('endOfItems')
+    }
+  })
 </script>
 
 <NvirtualList

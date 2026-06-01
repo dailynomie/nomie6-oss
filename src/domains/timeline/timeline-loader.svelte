@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   /**
    * Timeline Loader
@@ -41,18 +43,16 @@
     context: false,
   }
 
-  export let filters: TimelineFilterProps = { ...baseFilters }
-  export let daysToLoad: number = 30
-  export let startingDate: Date = new Date()
+  let { filters = $bindable(baseFilters), daysToLoad = 30, startingDate = $bindable(new Date()) } = $props<{ filters?: TimelineFilterProps, daysToLoad?: number, startingDate?: Date }>()
 
   const maxEmptyCalls = 15 // Number of calls that come back empty before we stop looking
 
-  let logs: Array<NLog> = []
-  let date: Dayjs = dayjs(startingDate)
-  let lastDate: Dayjs = dayjs(startingDate)
+  let logs: Array<NLog> = $state([])
+  let date: Dayjs = $state(dayjs(startingDate))
+  let lastDate: Dayjs = $state(dayjs(startingDate))
 
-  let loading: boolean = true
-  let mounted: boolean
+  let loading: boolean = $state(true)
+  let mounted: boolean = $state(false)
 
   const emit = createEventDispatcher()
 
@@ -63,26 +63,23 @@
     mounted = false
   })
 
-  let lastStartingDate: Date = new Date()
-  $: if (startingDate && startingDate.toDateString() !== lastStartingDate.toDateString()) {
-    
-    lastStartingDate = startingDate
-    logs = []
-    date = dayjs(startingDate)
-    lastDate = dayjs(startingDate)
-    emptyCalls = 0
-    loadLogs()
-  }
+  let lastStartingDate: Date = $state(new Date())
+  $effect(() => {
+    if (startingDate && startingDate.toDateString() !== lastStartingDate.toDateString()) {
+      lastStartingDate = startingDate
+      logs = []
+      date = dayjs(startingDate)
+      lastDate = dayjs(startingDate)
+      emptyCalls = 0
+      loadLogs()
+    }
+  })
 
-  // let displayDate = dayjs(date)
   const dateFormats = getDateFormats()
-  // const emit = createEventDispatcher()
 
-  let emptyCalls = 0 // Current number of empty Calls
+  let emptyCalls: number = $state(0)
 
-  // Determine if we're at the end.
-  let atEnd: boolean = false
-  $: atEnd = emptyCalls >= maxEmptyCalls
+  let atEnd = $derived(emptyCalls >= maxEmptyCalls)
 
   /**
    * It's a recursive function that loads logs from the database.
