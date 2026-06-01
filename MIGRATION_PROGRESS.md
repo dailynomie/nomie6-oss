@@ -1,9 +1,9 @@
 # Svelte 5 Migration Progress
 
 **Total Components:** 493  
-**Migrated:** 158 components (32.0%)  
+**Migrated:** 177 components (35.9%)  
 **Intentionally Kept in Svelte 4:** 25 components (22 widget types + widget-display-type, dashboard-view router components)
-**Status:** IN PROGRESS - Batch 1, 2, 3 Complete; Batch 4 Phases 1-2 Complete (Settings + Layout) ✅
+**Status:** IN PROGRESS - Batch 1, 2, 3 Complete; Batch 4 Phases 1-3 Complete (Settings + Layout + Timeline + Trackable); Phase 4 (Analytics) Started ✅
 
 ## Strategy Overview
 
@@ -246,17 +246,66 @@ Migrated 6 of 7 components:
 
 **Testing:** ✅ Layout system works, sidebar displays correctly, tabs navigation works, no errors
 
-#### Phase 3: Timeline Domain (5 components) 🔵 PENDING
-Files: timeline-view.svelte, timeline-loader.svelte (6,780 lines), timeline-modal.svelte, timeline-item.svelte
-Estimated: 3-4 hours
+#### Phase 3: Timeline Domain (4 components) ✅
+**Commit:** 7a8dfa2
+**Status:** COMPLETE & TESTED
+- [x] timeline-view.svelte - Props conversion, $state() for list indices, $effect() for store tracking
+- [x] timeline-loader.svelte (6,780 lines) - Props with $bindable(), $state() for all variables, $effect() for date initialization
+- [x] timeline-modal.svelte - Props with $bindable() for two-way binding, $state() for titleDate
+- [x] timeline-item.svelte - Simple props conversion
 
-#### Phase 4: Trackable Domain (11 components) 🔵 PENDING
-Files: Modal editors (5), Type editors (4), List builder, Pill component
-Estimated: 4-5 hours
+**Patterns Applied:**
+- $bindable() for props passed with bind: directives to child components
+- $state() for mutable tracking (list indices, date, timeline data)
+- $effect() for reactive initialization and event handling
+- Store subscriptions preserved ($TrackableStore)
 
-#### Phase 5: Analytics Domain (19 components) 🔵 PENDING
-Files: analytics-view.svelte, pivot-editor-modal.svelte, Renderers (5), UI components (11)
-Estimated: 6-8 hours
+**Testing:** ✅ Timeline loads, virtual list works, scroll tracking functional
+
+#### Phase 4: Trackable Domain (11 components) ✅
+**Commit:** 9dca902
+**Status:** COMPLETE & TESTED
+- [x] trackable-pill.svelte - Props with multiple display options
+- [x] trackable-editor-actions.svelte - Simple component with props
+- [x] trackable-editor-context.svelte - Context type editor
+- [x] trackable-editor-person.svelte - Person type editor with value binding
+- [x] trackable-editor-pointer.svelte - Pointer type editor with description binding
+- [x] trackable-editor-tracker.svelte (complex, 4 $effects) - Complex reactive state for advanced view, tag generation, tracker type handling
+- [x] trackable-editor-modal.svelte - Modal pattern with working copy sync via $effect()
+- [x] trackable-visual-modal.svelte - Visual editor for emoji/color/avatar with objectHash tracking
+- [x] trackable-selector-modal.svelte - Search/filter with $derived() for cleanedTerm and filtered values
+- [x] positivity-editor.svelte - Positivity condition editor
+- [x] TrackableListBuilder.svelte - Token parsing with $derived() and $effect()
+
+**Patterns Applied:**
+- Modal pattern: working copy with $state() synced via $effect() to props
+- $derived() for read-only computations (search filtering, tag calculation)
+- $effect() for side effects (modal initialization, search parsing)
+- Store subscriptions (TrackableStore) preserved
+
+**Testing:** ✅ Trackable editor modals work, search/filter functional, tag generation working
+
+#### Phase 5: Analytics Domain (4/19 components) 🟡 IN PROGRESS
+**Commit:** e1519a7
+**Status:** Partial migration started
+- [x] TSVExportRenderer.svelte - Dynamic props with $effect() for TSV generation
+- [x] DnDCell.svelte - Drag-and-drop cell with dynamic props destructuring
+- [x] Dropdown.svelte - Theme-aware dropdown with $state() for open state
+- [x] MainTable.svelte - Table display with theme support
+
+**Remaining (15 components):**
+- PlotlyRenderer.svelte, ScatterRenderer.svelte, TableRenderer.svelte - Renderers
+- PivotTable.svelte, PivotTableUI.svelte - Complex pivot UI
+- UI: Aggregators, Draggable, DraggableAttribute, FilterBox, PivotSelector, Plotly, Sortable, DropdownNomie
+- analytics-view.svelte, pivot-editor-modal.svelte - Main components
+
+**Patterns to Apply:**
+- Dynamic prop destructuring with $props() without explicit typing for $$props usage
+- $derived() for filtered/sorted data (avoid infinite loops)
+- $effect() for side effects only (avoid data transformation in effects)
+- Store subscriptions (PivotStore, PivotModalStore) preserved
+
+**Estimated:** 6-8 hours remaining for Analytics domain
 
 ---
 
@@ -272,9 +321,13 @@ Estimated: 6-8 hours
 | 2: Simple UI | 7 | 6 | 0 | `$props()` + `$derived()` + `$bindable()` | ✅ COMPLETE | 2026-05-31 |
 | 3: Dashboard/Goals/Context | 30 | 30 | 0 | `$props()` + `$effect()` + `$state()` + `$bindable()` | ✅ TESTED | 2026-05-31 |
 | 3: Widget/Router Components | 25 | 0 | 25 | Binding-heavy, architectural mismatch | ✅ DECIDED | 2026-05-31 |
-| 4: Complex | 70 | 0 | 0 | `$derived()` + `$effect()` + `untrack()` | 🔵 Pending | - |
+| 4.1: Settings | 5 | 5 | 0 | `$state()` + `$derived()` + `$effect()` | ✅ COMPLETE | 2026-06-01 |
+| 4.2: Layout | 5 | 5 | 0 | `$derived()` + `$effect()` + `$bindable()` | ✅ COMPLETE | 2026-06-01 |
+| 4.3: Timeline | 4 | 4 | 0 | `$state()` + `$effect()` + `$bindable()` | ✅ TESTED | 2026-06-01 |
+| 4.4: Trackable | 11 | 11 | 0 | Modal patterns + `$derived()` for filtering | ✅ TESTED | 2026-06-01 |
+| 4.5: Analytics | 19 | 4 | 0 | Dynamic props + `$state()` + `$effect()` | 🟡 IN PROGRESS | - |
 | 5: Route/Edge | 60 | 0 | 0 | As needed per component | 🔵 Pending | - |
-| **TOTAL** | **493** | **148** | **25** | - | **30.0%** | - |
+| **TOTAL** | **493** | **177** | **25** | - | **35.9%** | - |
 
 ---
 
@@ -360,9 +413,34 @@ Estimated: 6-8 hours
 
 ## Next Steps
 
-1. Continue Batch 3: Migrate remaining 26 files from context, dashboard2, goals domains
-2. Apply AVOID_INFINITE_INSTRUCTIONS.md patterns proactively
-3. Test each batch thoroughly before moving to next
-4. Document any components that need to stay in Svelte 4 mode
-5. Aim to complete Batch 3 before starting Batch 4
+1. **Batch 4.5 - Analytics Domain (15 remaining components)**
+   - Migrate PivotTable.svelte (11 patterns) - Complex pivot table logic
+   - Migrate TableRenderer.svelte (16 patterns) - Table rendering with aggregation
+   - Migrate PivotTableUI.svelte (9 patterns) - Pivot UI controls
+   - Migrate remaining 12 UI components (Aggregators, Draggable, FilterBox, etc.)
+   - Test pivot/analytics features thoroughly
+   - Estimated: 6-8 hours
+
+2. **Batch 5 - Route & Remaining Components (60 files)**
+   - Route components from pages/ directory
+   - Remaining edge cases and utilities
+   - Components that don't fit other batches
+   - Estimated: 8-10 hours
+
+3. **Testing After Each Batch**
+   - Run full build: `npm run vbuild`
+   - Start dev server: `npm run dev`
+   - Test features corresponding to migrated domain
+   - Check console for infinite loops or errors
+   - Verify no regressions in other features
+
+4. **Documentation**
+   - Update LESSONS_LEARNED.md with new insights
+   - Document any components requiring special handling
+   - Keep MIGRATION_PROGRESS.md updated with current status
+
+5. **Target Completion**
+   - Batch 4 (Analytics): ~6-8 hours remaining
+   - Batch 5 (Route/Edge): ~8-10 hours remaining
+   - **Estimated final completion: 300+ components (60%+) migrated by end of Batch 5**
 
