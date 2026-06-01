@@ -38,8 +38,9 @@
     }
 
     :global(.pvtAxisContainer) {
-        width: 80px;
+        width: 50px;
         overflow: auto;
+        font-size: 11px;
     }
 
     :global(.pvtOutput) {
