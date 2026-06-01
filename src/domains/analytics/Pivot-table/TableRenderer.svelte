@@ -1,49 +1,57 @@
+<svelte:options runes={true} />
+
 <script>
     import { PivotData } from "./Utilities";
     import "./grouping.css";
     import "./groupingdark.css";
    import "./pivottable.css";
-    
-    import { Prefs } from '../../preferences/Preferences' 
 
-    export let tableColorScaleGenerator = redColorScaleGenerator;
-    export let tableOptions = {};
-    export let compactRows = true;
+    import { Prefs } from '../../preferences/Preferences'
 
-    export let opts = {};
+    const {
+        tableColorScaleGenerator = redColorScaleGenerator,
+        tableOptions = {},
+        compactRows = true,
+        opts = {},
+        ...restProps
+    } = $props();
 
-    let pvtValBGPlaceholder ="";
-    let darkPlaceholder ="";
-    let theme = $Prefs.theme;
-    let cssVarStyles = "";
-    if (theme == 'dark') {
-        darkPlaceholder="D"
-        if (!opts.heatmapMode) {pvtValBGPlaceholder = ";background-color:black;color:white"};
-    let bgdark= '#1D2737';
-    let border = '#2A303C';
-    let bgbt= '#0D324F';
-    let borderbt ='#0D324F'
-    let fontcolorbt = '#C8C8C8'
-    let pvtTotalcolor = '#716e6e'
-	cssVarStyles = `--bg:${bgdark};--border:${border};--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt};--totalcolor:${pvtTotalcolor}`;}
-    else {
-        if (!opts.heatmapMode) {pvtValBGPlaceholder = ";background-color:white"};
-        let bglight= '#E2F0F7';
-        let border = '#CCCCCC';
-        let bgbt= '#DFF0F8';
-        let borderbt = '#CDEEFF'
-        let fontcolorbt = '#000000'
-        let pvtTotalcolor = '#b0b0b0'
-        cssVarStyles = `--bg:${bglight};--border:${border};--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt};--totalcolor:${pvtTotalcolor}`;
-    
-    }
-	
-    
-    let pivotData = new PivotData($$restProps);
-    $: pivotData = new PivotData($$restProps);
+    let theme = $state($Prefs.theme);
+
+    // Theme-based styles
+    let cssVarStyles = $derived.by(() => {
+        if (theme === 'dark') {
+            const bgdark = '#1D2737';
+            const border = '#2A303C';
+            const bgbt = '#0D324F';
+            const borderbt = '#0D324F';
+            const fontcolorbt = '#C8C8C8';
+            const pvtTotalcolor = '#716e6e';
+            return `--bg:${bgdark};--border:${border};--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt};--totalcolor:${pvtTotalcolor}`;
+        } else {
+            const bglight = '#E2F0F7';
+            const border = '#CCCCCC';
+            const bgbt = '#DFF0F8';
+            const borderbt = '#CDEEFF';
+            const fontcolorbt = '#000000';
+            const pvtTotalcolor = '#b0b0b0';
+            return `--bg:${bglight};--border:${border};--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt};--totalcolor:${pvtTotalcolor}`;
+        }
+    });
+
+    let pvtValBGPlaceholder = $derived(
+        !opts.heatmapMode
+            ? (theme === 'dark' ? ";background-color:black;color:white" : ";background-color:white")
+            : ""
+    );
+
+    let darkPlaceholder = $derived(theme === 'dark' ? "D" : "");
+
+    // Create PivotData from props
+    let pivotData = $derived.by(() => new PivotData(restProps));
 
 
-    // helper function for setting row/col-span in pivotTableRenderer
+    // Helper function for setting row/col-span in pivotTableRenderer
     const spanSize = function (arr, i, j, no_loop = false) {
         let x;
         if (i !== 0) {
@@ -83,10 +91,12 @@
         const min = Math.min.apply(Math, values);
         const max = Math.max.apply(Math, values);
         return (x) => {
-            // eslint-disable-next-line no-magic-numbers
             const nonRed = 255 - Math.round((255 * (x - min)) / (max - min));
-            if (theme == 'dark' && nonRed == 255) {return `background-color: rgb(0,0,0)` }
-            else {return `background-color: rgb(255,${nonRed},${nonRed})`;}
+            if (theme === 'dark' && nonRed === 255) {
+                return `background-color: rgb(0,0,0)`;
+            } else {
+                return `background-color: rgb(255,${nonRed},${nonRed})`;
+            }
         };
     }
 
@@ -96,30 +106,25 @@
     const remove = (set, arr) => arr.forEach(set.delete, set) || set;
     const toggle = (set, arr) => (has(set, arr) ? remove : add)(set, arr);
 
-    let grandTotalAggregator;
-    $: colAttrs = pivotData.props.cols;
-    $: rowAttrs = pivotData.props.rows;
-    $: grandTotalAggregator = pivotData.getAggregator([], []);
+    let colAttrs = $derived(pivotData.props.cols);
+    let rowAttrs = $derived(pivotData.props.rows);
+    let grandTotalAggregator = $derived(pivotData.getAggregator([], []));
 
-    let grouping, specialCase, useCompactRows;
-    $: grouping = pivotData.props.grouping;
-    $: useCompactRows = grouping && compactRows;
-    // speacial case for spanSize counting (no_loop)
-    $: specialCase = grouping && !pivotData.props.rowGroupBefore;
+    let grouping = $derived(pivotData.props.grouping);
+    let useCompactRows = $derived(grouping && compactRows);
+    let specialCase = $derived(grouping && !pivotData.props.rowGroupBefore);
 
-    let folded = new Set();
+    let folded = $state(new Set());
     const isFolded = (keys) => has(folded, keys.map(flatKey));
     const fold = (keys) => (folded = toggle(new Set(folded), keys.map(flatKey)));
 
-    let rowKeys;
-    let colKeys;
-    let valueCellColors = (r, c, v) => "";
-    let rowTotalColors = (r, c, v) => "";
-    let colTotalColors = (v) => "";
-
-    $: {
-        rowKeys = pivotData.getRowKeys(true);
-        colKeys = pivotData.getColKeys(true);
+    // Compute row/col keys and color functions
+    let computedColors = $derived.by(() => {
+        let rowKeys = pivotData.getRowKeys(true);
+        let colKeys = pivotData.getColKeys(true);
+        let valueCellColors = (r, c, v) => "";
+        let rowTotalColors = (r, c, v) => "";
+        let colTotalColors = (v) => "";
 
         if (grouping) {
             for (const key of folded) {
@@ -159,9 +164,17 @@
                 valueCellColors = (r, c, v) => colColorScales[c](v);
             }
         }
-    }
-    let getClickHandler;
-    $: getClickHandler =
+
+        return { rowKeys, colKeys, valueCellColors, rowTotalColors, colTotalColors };
+    });
+
+    let rowKeys = $derived(computedColors.rowKeys);
+    let colKeys = $derived(computedColors.colKeys);
+    let valueCellColors = $derived(computedColors.valueCellColors);
+    let rowTotalColors = $derived(computedColors.rowTotalColors);
+    let colTotalColors = $derived(computedColors.colTotalColors);
+
+    let getClickHandler = $derived.by(() =>
         tableOptions && tableOptions.clickCallback
             ? (value, rowValues, colValues) => {
                   const filters = {};
@@ -179,12 +192,12 @@
                   }
                   return (e) => tableOptions.clickCallback(e, value, filters, pivotData);
               }
-            : null;
+            : null
+    );
 
-    let rbClass, cbClass, clickClass;
-    $: rbClass = grouping ? (pivotData.props.rowGroupBefore ? "rowGroupBefore" : "rowGroupAfter") : "";
-    $: cbClass = grouping ? (pivotData.props.colGroupBefore ? "colGroupBefore" : "colGroupAfter") : "";
-    $: clickClass = (pred, closed) => (pred ? " pvtClickable" + (closed ? " closed" : "") : "");
+    let rbClass = $derived(grouping ? (pivotData.props.rowGroupBefore ? "rowGroupBefore" : "rowGroupAfter") : "");
+    let cbClass = $derived(grouping ? (pivotData.props.colGroupBefore ? "colGroupBefore" : "colGroupAfter") : "");
+    let clickClass = $derived((pred, closed) => (pred ? " pvtClickable" + (closed ? " closed" : "") : ""));
 </script>
 
 <table class={`pvtTable ${rbClass} ${cbClass}`} style={cssVarStyles}>
