@@ -37,21 +37,8 @@
         width: 100px;
     }
 
-    :global(.pvtAxisContainer) {
-        max-width: 40px !important;
-        width: 40px !important;
-        overflow: hidden;
-        word-wrap: break-word;
-        word-break: break-all;
-        font-size: 10px !important;
-    }
-
-    :global(.pvtAttr) {
-        display: block;
-        word-wrap: break-word;
-        word-break: break-all;
-        font-size: 10px !important;
-        max-width: 35px;
+    :global(.pvtAxisContainer.pvtVertList) {
+        display: none;
     }
 
     :global(.pvtOutput) {
