@@ -358,6 +358,7 @@
                     {totalAggregator.format(totalAggregator.value())}
                 </td>
             {/each}
+            {#if grandTotalAggregator}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <td
                 on:click={getClickHandler && getClickHandler(grandTotalAggregator.value(), [null], [null])}
@@ -365,6 +366,7 @@
             >
                 {grandTotalAggregator.format(grandTotalAggregator.value())}
             </td>
+            {/if}
         </tr>
     </tbody>
 </table>
