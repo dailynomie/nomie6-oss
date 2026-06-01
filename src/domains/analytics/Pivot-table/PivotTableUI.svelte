@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script>
     import Aggregators from './UI/Aggregators.svelte';
     import DnDCell from './UI/DnDCell.svelte';
@@ -7,9 +9,10 @@
     import TableRenderers from './TableRenderers';
     import { PivotData, sortAs, aggregators as defaultAggregators } from './Utilities';
 
-    export let rendererName = 'Table',
+    const {
+        rendererName: initialRendererName = 'Table',
         renderers = TableRenderers,
-        aggregatorName = 'Count',
+        aggregatorName: initialAggregatorName = 'Count',
         aggregators = defaultAggregators,
         hiddenAttributes = [],
         hiddenFromAggregators = [],
@@ -22,72 +25,91 @@
         workingPivotDays = 90,
         workingPivotSearchTerm = {"enabled":false,terms:""},
         menuLimit = 500,
-        pivotconfig ,
-        getConfig = false;
+        pivotconfig,
+        getConfig = false,
+        derivedAttributes = PivotData.defaultProps.derivedAttributes,
+        cols: initialCols = PivotData.defaultProps.cols,
+        rows: initialRows = PivotData.defaultProps.rows,
+        vals: initialVals = PivotData.defaultProps.vals,
+        sorters = PivotData.defaultProps.sorters,
+        valueFilter: initialValueFilter = PivotData.defaultProps.valueFilter,
+        data
+    } = $props();
 
-    // pivotData props managed by PivotTableUI
-    export let { derivedAttributes, cols, rows, vals, sorters, valueFilter } = PivotData.defaultProps;
-    export let data;
+    // Local mutable state for these props
+    let cols = $state(initialCols);
+    let rows = $state(initialRows);
+    let vals = $state(initialVals);
+    let rendererName = $state(initialRendererName);
+    let aggregatorName = $state(initialAggregatorName);
+    let valueFilter = $state(initialValueFilter);
+    let unusedOrder = $state([]);
 
-    let unusedOrder = [],
-        attrValues = {};
+    // Sync prop changes to local state
+    $effect(() => {
+        cols = initialCols;
+        rows = initialRows;
+        vals = initialVals;
+        rendererName = initialRendererName;
+        aggregatorName = initialAggregatorName;
+        valueFilter = initialValueFilter;
+    });
 
-
-    $: {
-        attrValues = {};
+    // Compute attrValues from data
+    let attrValues = $derived.by(() => {
+        const result = {};
         let recordsProcessed = 0;
         PivotData.forEachRecord(data, derivedAttributes, function (record) {
             for (const attr of Object.keys(record)) {
-                if (!(attr in attrValues)) {
-                    attrValues[attr] = {};
+                if (!(attr in result)) {
+                    result[attr] = {};
                     if (recordsProcessed > 0) {
-                        attrValues[attr].null = recordsProcessed;
+                        result[attr].null = recordsProcessed;
                     }
                 }
             }
-            for (const attr in attrValues) {
+            for (const attr in result) {
                 const value = attr in record ? record[attr] : 'null';
-                if (!(value in attrValues[attr])) {
-                    attrValues[attr][value] = 0;
+                if (!(value in result[attr])) {
+                    result[attr][value] = 0;
                 }
-                attrValues[attr][value]++;
+                result[attr][value]++;
             }
             recordsProcessed++;
         });
-    }
+        return result;
+    });
 
     function notHidden(e) {
         return !hiddenAttributes.includes(e) && !hiddenFromDragDrop.includes(e);
     }
 
-    let colAttrs, rowAttrs;
-    $: colAttrs = cols.filter(notHidden);
-    $: rowAttrs = rows.filter(notHidden);
+    // Filter columns and rows
+    let colAttrs = $derived(cols.filter(notHidden));
+    let rowAttrs = $derived(rows.filter(notHidden));
 
-    let unusedAttrs, horizUnused, valAttrs;
-    $: {
-        unusedAttrs = Object.keys(attrValues)
-            .filter((e) => !colAttrs.includes(e) && !rowAttrs.includes(e) && notHidden(e))
-            .sort(sortAs(unusedOrder));
+    // Compute unused attributes
+    let unusedAttrs = $derived(Object.keys(attrValues)
+        .filter((e) => !colAttrs.includes(e) && !rowAttrs.includes(e) && notHidden(e))
+        .sort(sortAs(unusedOrder)));
 
-        const unusedLength = unusedAttrs.reduce((r, e) => r + e.length, 0);
-        horizUnused = unusedLength < unusedOrientationCutoff;
+    let horizUnused = $derived(unusedAttrs.reduce((r, e) => r + e.length, 0) < unusedOrientationCutoff);
 
-        valAttrs = Object.keys(attrValues).filter(
-            (e) => !hiddenAttributes.includes(e) && !hiddenFromAggregators.includes(e)
-        );
-    }
+    let valAttrs = $derived(Object.keys(attrValues).filter(
+        (e) => !hiddenAttributes.includes(e) && !hiddenFromAggregators.includes(e)
+    ));
 
-    let renderer;
-    $: {
-        rendererName = rendererName in renderers ? rendererName : Object.keys(renderers)[0];
-        renderer = renderers[rendererName];
-    }
-    let aggregator;
-    $: {
-        aggregatorName = aggregatorName in aggregators ? aggregatorName : Object.keys(aggregators)[0];
-        aggregator = aggregators[aggregatorName];
-    }
+    // Select renderer
+    let renderer = $derived.by(() => {
+        const validRendererName = rendererName in renderers ? rendererName : Object.keys(renderers)[0];
+        return renderers[validRendererName];
+    });
+
+    // Select aggregator
+    let aggregator = $derived.by(() => {
+        const validAggregatorName = aggregatorName in aggregators ? aggregatorName : Object.keys(aggregators)[0];
+        return aggregators[validAggregatorName];
+    });
 </script>
 <div class="mtcontainer">
 <MainTable horizUnused={true}>
