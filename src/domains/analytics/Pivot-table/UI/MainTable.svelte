@@ -37,7 +37,7 @@
         width: 100px;
     }
 
-    :global(.pvtAxisContainer.pvtVertList) {
+    :global(.pvtAxisContainer.pvtVertList.pvtRows) {
         display: none;
     }
 
