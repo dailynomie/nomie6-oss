@@ -23,14 +23,22 @@
 
 </script>
 <style>
-    .scrolling-wrapper {
-   overflow-x: scroll;
-     overflow-y: hidden;
-     white-space: nowrap;
-     max-width: 100%;
+    :global(.pvtUi) {
+        width: 100%;
+        border-collapse: collapse;
     }
-     
-   
+
+    :global(.pvtOutput) {
+        width: 100%;
+        flex: 1;
+    }
+
+    .scrolling-wrapper {
+        overflow-x: auto;
+        overflow-y: hidden;
+        width: 100%;
+        height: 100%;
+    }
    </style>
 
 {#if horizUnused}
