@@ -1,37 +1,44 @@
+<svelte:options runes={true} />
+
 <script>
     import Plotly from './UI/Plotly.svelte';
     import { PivotData } from './Utilities';
     import { Prefs } from '../../preferences/Preferences'
 
-    export let plotlyOptions = {},
-        plotlyConfig = {},
-        onRendererUpdate;
+    const props = $props();
+    const { plotlyOptions = {}, plotlyConfig = {}, onRendererUpdate, traceOptions = {}, layoutOptions = {}, transpose = false } = props;
 
-    export let traceOptions = {},
-        layoutOptions = {},
-        transpose = false;
-    
-    let currentwidth = 500;
-    let screenratio = 1;
-    let plotbgcolor = '#ffffff'
-    let paperbgcolor = '#ffffff'
-    let plottextcolor = '#000000'
-    let theme = $Prefs.theme;
+    let currentwidth = $state(500);
+    let screenratio = $state(1);
+    let plotbgcolor = $state('#ffffff')
+    let paperbgcolor = $state('#ffffff')
+    let plottextcolor = $state('#000000')
+    let theme = $state($Prefs.theme);
     if (theme == 'dark') {
         plotbgcolor = '#0D324F';
         paperbgcolor = '#0D324F';
         plottextcolor = 'ffffff';
 
     }
-  
+
     setTimeout(()=>{currentwidth = document.querySelector('.pvtAxisContainer').clientWidth;
         screenratio = window.innerHeight/window.innerWidth;},10)
-    
-    
 
-    let pivotData, rowKeys, colKeys, traceKeys, datumKeys, numInputs, data, hAxisTitle, groupByTitle, layout;
-    $: {
-        pivotData = new PivotData($$restProps);
+
+
+    let pivotData = $state(undefined);
+    let rowKeys = $state([]);
+    let colKeys = $state([]);
+    let traceKeys = $state([]);
+    let datumKeys = $state([]);
+    let numInputs = $state(0);
+    let data = $state([]);
+    let hAxisTitle = $state('');
+    let groupByTitle = $state('');
+    let layout = $state({});
+
+    $effect(() => {
+        pivotData = new PivotData(props);
         rowKeys = pivotData.getRowKeys();
         colKeys = pivotData.getColKeys();
         traceKeys = transpose ? colKeys : rowKeys;
@@ -134,7 +141,7 @@
                 automargin: true,
             };
         }
-    }
+    })
 </script>
 
 <Plotly

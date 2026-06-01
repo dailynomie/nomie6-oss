@@ -1,13 +1,14 @@
+<svelte:options runes={true} />
+
 <script>
     import { clickClose } from './utils';
 
-    export let handle; // query
-    export let close;
+    const { handle, close } = $props()
 
-    let left = 0;
-    let top = 0;
+    let left = $state(0);
+    let top = $state(0);
 
-    let moving = false;
+    let moving = $state(false);
 
     function onMouseDown() {
         moving = true;

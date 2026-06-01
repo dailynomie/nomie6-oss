@@ -6,10 +6,11 @@
     }
 </script>
 
+<svelte:options runes={true} />
+
 <script>
-  
-    export let data, layout, config;
-    export const onUpdate = () => {}; // TODO: connect to plotly events
+    const { data, layout, config } = $props()
+    const onUpdate = () => {}; // TODO: connect to plotly events
 
     function create(node, options) {
         Plotly.newPlot(node, options);

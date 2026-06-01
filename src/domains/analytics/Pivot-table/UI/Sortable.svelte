@@ -2,19 +2,20 @@
     // your script goes here
 </script>
 
+<svelte:options runes={true} />
+
 <script>
     import Sortable from 'sortablejs';
     import { createEventDispatcher } from 'svelte';
 
     const dispatch = createEventDispatcher();
 
+    const { options = {}, items = [] } = $props<{ options?: any, items?: any[] }>()
+
     function notify(el) {
         const val = [...el.children].map((i) => i.dataset.id);
         dispatch('change', val);
     }
-
-    export let options = {};
-    export let items = [];
 
     function create(node) {
         const sortable = Sortable.create(node.parentNode, {

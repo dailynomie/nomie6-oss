@@ -1,20 +1,24 @@
+<svelte:options runes={true} />
+
 <script>
     import { PivotData } from './Utilities';
     import Plotly from './UI/Plotly.svelte';
     import { Prefs } from '../../preferences/Preferences'
 
+    const props = $props();
+    const { plotlyOptions = {}, plotlyConfig = {}, onRendererUpdate } = props;
 
-    export let plotlyOptions = {},
-        plotlyConfig = {},
-        onRendererUpdate;
-
-    let pivotData, rowKeys, colKeys, data, layout;
-    let screenratio = 1;
-    let currentwidth = 500;
-    let plotbgcolor = '#ffffff'
-    let paperbgcolor = '#ffffff'
-    let plottextcolor = '#000000'
-    let theme = $Prefs.theme;
+    let pivotData = $state(undefined);
+    let rowKeys = $state([]);
+    let colKeys = $state([]);
+    let data = $state({});
+    let layout = $state({});
+    let screenratio = $state(1);
+    let currentwidth = $state(500);
+    let plotbgcolor = $state('#ffffff')
+    let paperbgcolor = $state('#ffffff')
+    let plottextcolor = $state('#000000')
+    let theme = $state($Prefs.theme);
     if (theme == 'dark') {
         plotbgcolor = '#0D324F';
         paperbgcolor = '#0D324F';
@@ -25,10 +29,10 @@
 
     setTimeout(()=>{currentwidth = document.querySelector('.pvtAxisContainer').clientWidth;
         screenratio = window.innerHeight/window.innerWidth;},10)
-    
 
-    $: {
-        pivotData = new PivotData($$restProps);
+
+    $effect(() => {
+        pivotData = new PivotData(props);
         rowKeys = pivotData.getRowKeys();
         colKeys = pivotData.getColKeys();
         if (rowKeys.length === 0) {
@@ -74,7 +78,7 @@
     pad: 4
   },
         };
-    }
+    })
 </script>
 
 <Plotly
