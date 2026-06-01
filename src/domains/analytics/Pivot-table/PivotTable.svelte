@@ -8,7 +8,7 @@
     let {
         renderer = TableRenderers.Table,
         pivotconfig = $bindable(),
-        getConfig = false,
+        getConfig = $bindable(false),
         workingPivotId = "1dummy2",
         workingPivotTag = "Dummy",
         workingPivotEmoji = "🐣",
