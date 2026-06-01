@@ -157,10 +157,7 @@
                 xaxis: {fixedrange: true},
                 yaxis: {fixedrange: true},
                 /* eslint-disable no-magic-numbers */
-                //width: window.innerWidth / getSizeFactor(window.innerWidth),
-                width: currentwidth,
-                //height: window.innerHeight / getSizeFactor(window.innerHeight),
-                height:currentwidth * screenratio,
+                autosize: true,
                 dragmode:false,
                 plot_bgcolor: plotbgcolor,
                 paper_bgcolor: paperbgcolor,
@@ -173,7 +170,6 @@
         t: 100,
         pad: 4
       },
-                //autosize:true,
                 /* eslint-enable no-magic-numbers */
             };
 
@@ -207,18 +203,6 @@
         });
     })
 
-    // Separate effect for layout updates that depend on currentwidth
-    $effect(() => {
-        // This effect depends on currentwidth and layout data
-        // When currentwidth changes, update the layout dimensions
-        if (layout && Object.keys(layout).length > 0) {
-            layout.width = currentwidth;
-            layout.height = currentwidth * screenratio;
-            layout.font = {size: 18 / (1400/currentwidth), color: plottextcolor};
-            // Trigger Plotly update by reassigning layout
-            layout = layout;
-        }
-    })
 </script>
 
 <Plotly
