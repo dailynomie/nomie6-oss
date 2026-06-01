@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   // svlete
   import { navigate } from '../../vendor/svelte-navigator'
@@ -5,9 +7,10 @@
   import NToolbar from '../../components/toolbar/toolbar.svelte'
   import NLayout from './layout.svelte'
   //props
-  export let className = undefined
-  // export let withBack = false;
-  export let title = undefined
+  const { className = undefined, title = undefined } = $props<{
+    className?: any
+    title?: any
+  }>()
   // Dynamic
   $: hasHeader = !!$$slots.header || title
   $: hasSubHeader = !!$$slots['sub-header']

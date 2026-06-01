@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import AppTabs from '../../domains/layout/tabs.svelte'
 
@@ -12,29 +14,31 @@
   import { hideMenuBlocker, MenuBlockerStore } from '../../components/menu/useDropmenu'
 import appConfig from '../../config/appConfig';
 
-  export let style: string = ''
-  export let className: string = ''
-  export let pageTitle = undefined
-  export let showTabs: boolean = true
-  export let headerClassNames = ''
-  export let showCapture: boolean = true
+  const { style = '', className = '', pageTitle = undefined, showTabs = true, headerClassNames = '', showCapture = true } = $props<{
+    style?: string
+    className?: string
+    pageTitle?: string | undefined
+    showTabs?: boolean
+    headerClassNames?: string
+    showCapture?: boolean
+  }>()
 
-  let mainEle: HTMLElement
-  let mainEleHeight: string = '100%'
+  let mainEle: HTMLElement | undefined = $state(undefined)
+  let mainEleHeight: string = $state('100%')
 
   let id = `layout-${nid()}`
 
   // Controll Scrolling
 
-  let footerBuffer: HTMLElement
-  let footerEle: HTMLElement
+  let footerBuffer: HTMLElement | undefined = $state(undefined)
+  let footerEle: HTMLElement | undefined = $state(undefined)
 
-  $: hasHeader = !!$$slots.header
-  $: hasFooter = !!$$slots.footer
-  $: hasContent = !!$$slots.content
-  $: hasBottom = !!$$slots.bottom
+  let hasHeader = $derived(!!$$slots.header)
+  let hasFooter = $derived(!!$$slots.footer)
+  let hasContent = $derived(!!$$slots.content)
+  let hasBottom = $derived(!!$$slots.bottom)
 
-  $: {
+  $effect(() => {
     const footerPos = getElementPosition(footerEle)
     if (footerPos && footerBuffer) {
       footerBuffer.style.height = `${footerPos.eleHeight + 70}px`

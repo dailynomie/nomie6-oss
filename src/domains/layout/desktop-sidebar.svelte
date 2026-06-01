@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import EaselOutline from '../../n-icons/EaselOutline.svelte'
 
@@ -39,9 +41,9 @@
   import CalendarNumberSolid from '../../n-icons/CalendarNumberSolid.svelte'
   import CalendarNumberOutline from './../../n-icons/CalendarNumberOutline.svelte'
 
-  export let loggedIn: boolean = false
+  const { loggedIn = false } = $props<{ loggedIn?: boolean }>()
 
-  let goalPercentage: number | undefined = undefined
+  let goalPercentage: number | undefined = $state(undefined)
 
   type NavType = {
     id: string
