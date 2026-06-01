@@ -14,10 +14,10 @@
   import { hideMenuBlocker, MenuBlockerStore } from '../../components/menu/useDropmenu'
 import appConfig from '../../config/appConfig';
 
-  const { style = '', className = '', pageTitle = undefined, showTabs = true, headerClassNames = '', showCapture = true } = $props<{
+  const { style = '', className = '', pageTitle, showTabs = true, headerClassNames = '', showCapture = true } = $props<{
     style?: string
     className?: string
-    pageTitle?: string | undefined
+    pageTitle?: string
     showTabs?: boolean
     headerClassNames?: string
     showCapture?: boolean
