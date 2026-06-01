@@ -22,61 +22,9 @@
 
     }
 
-    // Use ResizeObserver to dynamically update chart width when container resizes
-    let resizeObserver;
+    // With Plotly autosize, we don't need to manually calculate width
     $effect(() => {
-        // Try to find the table container for accurate width
-        const findContainer = () => {
-            // First try to find the parent table
-            let container = document.querySelector('.pvtUi');
-            if (!container) {
-                container = document.querySelector('.pvtOutput');
-            }
-            if (!container) {
-                container = document.querySelector('.scrolling-wrapper');
-            }
-            // If still no container, use a wider parent
-            if (!container || container.clientWidth < 150) {
-                container = document.body;
-            }
-            return container;
-        };
-
-        const container = findContainer();
-
-        if (container && typeof ResizeObserver !== 'undefined') {
-            // Use ResizeObserver to track container width changes
-            resizeObserver = new ResizeObserver(() => {
-                // Calculate available width: full body width minus left panel
-                const bodyWidth = document.body.clientWidth;
-                // Estimate left panel width (attributes columns)
-                const leftPanelWidth = 200;
-                const newWidth = Math.max(bodyWidth - leftPanelWidth - 40, 300);
-                if (newWidth !== currentwidth && newWidth > 150) {
-                    currentwidth = newWidth;
-                }
-            });
-            resizeObserver.observe(window);
-
-            // Set initial width
-            const bodyWidth = document.body.clientWidth;
-            const leftPanelWidth = 200;
-            const initialWidth = Math.max(bodyWidth - leftPanelWidth - 40, 300);
-            if (initialWidth > 150 && initialWidth !== currentwidth) {
-                currentwidth = initialWidth;
-            }
-        } else {
-            // Fallback for older browsers
-            currentwidth = window.innerWidth - 300;
-        }
-
         screenratio = window.innerHeight / window.innerWidth;
-
-        return () => {
-            if (resizeObserver) {
-                resizeObserver.disconnect();
-            }
-        };
     })
 
 
