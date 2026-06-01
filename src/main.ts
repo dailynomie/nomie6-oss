@@ -1,29 +1,3 @@
-// Polyfills for Node 16 compatibility
-if (typeof globalThis !== 'undefined' && !globalThis.structuredClone) {
-  globalThis.structuredClone = (obj: any) => JSON.parse(JSON.stringify(obj));
-}
-if (!Array.prototype.findLastIndex) {
-  Array.prototype.findLastIndex = function(predicate: any, thisArg?: any) {
-    for (let i = this.length - 1; i >= 0; i--) {
-      if (predicate.call(thisArg, this[i], i, this)) {
-        return i;
-      }
-    }
-    return -1;
-  };
-}
-if (!Array.prototype.at) {
-  Array.prototype.at = function(index: any) {
-    const len = this.length >>> 0;
-    const relativeIndex = Math.trunc(index) || 0;
-    const actualIndex = relativeIndex < 0 ? len + relativeIndex : relativeIndex;
-    if (actualIndex < 0 || actualIndex >= len) {
-      return undefined;
-    }
-    return this[actualIndex];
-  };
-}
-
 //@ts-ignore
 import NomieApp from './App.svelte'
 import { useRegisterSW } from 'virtual:pwa-register/svelte'
