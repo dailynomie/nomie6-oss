@@ -15,24 +15,24 @@
     const onUpdate = () => {}; // TODO: connect to plotly events
 
     function create(node, options) {
-        // Clone data and layout to prevent Plotly's internal mutations from triggering reactivity
+        // Extract plain values from reactive proxies so Plotly's mutations don't trigger reactivity
         untrack(() => {
             Plotly.newPlot(
                 node,
-                structuredClone(options.data),
-                structuredClone(options.layout),
+                JSON.parse(JSON.stringify(options.data)),
+                JSON.parse(JSON.stringify(options.layout)),
                 options.config
             );
         });
 
         return {
             update(newOptions) {
-                // Clone to prevent Plotly's mutations (e.g., deleteProperty) from triggering reactive updates
+                // Extract plain values to prevent Plotly's mutations from triggering reactive updates
                 untrack(() => {
                     Plotly.newPlot(
                         node,
-                        structuredClone(newOptions.data),
-                        structuredClone(newOptions.layout),
+                        JSON.parse(JSON.stringify(newOptions.data)),
+                        JSON.parse(JSON.stringify(newOptions.layout)),
                         newOptions.config
                     );
                 });
