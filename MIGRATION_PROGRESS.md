@@ -1,9 +1,9 @@
 # Svelte 5 Migration Progress
 
 **Total Components:** 493  
-**Migrated:** 148 components (30.0%)  
+**Migrated:** 153 components (31.0%)  
 **Intentionally Kept in Svelte 4:** 25 components (22 widget types + widget-display-type, dashboard-view router components)
-**Status:** IN PROGRESS - Batch 1 & 2 Complete, Batch 3 Complete (30 files migrated, 3 intentionally Svelte 4) ✅
+**Status:** IN PROGRESS - Batch 1, 2, 3 Complete; Batch 4 Phase 1 Complete (Settings) ✅
 
 ## Strategy Overview
 
@@ -211,8 +211,40 @@ Migrated 6 of 7 components:
 
 ---
 
-### Batch 4: Complex Feature Components (50-70 files) 🔵 PENDING
-**Examples:** Dashboard, Editor, Timeline, Analytics, Widget components
+### Batch 4: Complex Feature Components 🟡 IN PROGRESS
+
+#### Phase 1: Settings Domain (5 components) ✅
+**Commit:** 1432fd0
+**Status:** COMPLETE & TESTED
+- [x] settings-page.svelte - $state() declarations + $derived() helpers
+- [x] settings-data-list.svelte - $derived() for storage details
+- [x] settings-about-list.svelte - $state() for counts object
+- [x] settings-features-list.svelte - $state() + $effect() for pin tracking
+- [x] settings-tweak-list.svelte - Runes opt-in only
+
+**Patterns Applied:**
+- Store subscriptions with $store syntax (no changes needed)
+- $derived() for read-only computations (storage details)
+- $effect() for reactive state updates (pin detection)
+- $state() for all mutable variables
+
+**Testing:** ✅ Settings page loads, all toggles work, no errors
+
+#### Phase 2: Layout Domain (5 components) 🔵 PENDING
+Files: layout.svelte, page.svelte, desktop-sidebar.svelte (7,903 lines), app.svelte (1,811 lines), tabs.svelte (5,711 lines)
+Estimated: 3-4 hours
+
+#### Phase 3: Timeline Domain (5 components) 🔵 PENDING
+Files: timeline-view.svelte, timeline-loader.svelte (6,780 lines), timeline-modal.svelte, timeline-item.svelte
+Estimated: 3-4 hours
+
+#### Phase 4: Trackable Domain (11 components) 🔵 PENDING
+Files: Modal editors (5), Type editors (4), List builder, Pill component
+Estimated: 4-5 hours
+
+#### Phase 5: Analytics Domain (19 components) 🔵 PENDING
+Files: analytics-view.svelte, pivot-editor-modal.svelte, Renderers (5), UI components (11)
+Estimated: 6-8 hours
 
 ---
 
