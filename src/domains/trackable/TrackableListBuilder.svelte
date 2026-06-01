@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { AllTrackables, TrackableStore } from './TrackableStore'
   import { getTrackerInputAsString } from '../tracker/input/TrackerInputStore'
@@ -19,20 +21,21 @@
   import SortableList2 from '../../components/sortable-list/sortable-list2.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
 
-  export let value: string = ''
-  export let className: string = ''
+  let { value = '', className = '' } = $props<{ value?: string, className?: string }>()
 
-  let trackables: Array<Trackable> = []
-  let manualAdd: string = ''
-  let ready: boolean = true
+  let trackables: Array<Trackable> = $state([])
+  let manualAdd: string = $state('')
+  let ready: boolean = $state(true)
 
-  let lastValueHash: any
-  $: if (value && value !== lastValueHash) {
-    lastValueHash = value
-    trackables = tokenizeLite(`${value || ''}`).map((token) => {
-      return tokenToTrackable(token, $AllTrackables)
-    })
-  }
+  let lastValueHash: any = $state(undefined)
+  $effect(() => {
+    if (value && value !== lastValueHash) {
+      lastValueHash = value
+      trackables = tokenizeLite(`${value || ''}`).map((token) => {
+        return tokenToTrackable(token, $AllTrackables)
+      })
+    }
+  })
 
   // Adding a token to the trackables array.
   async function addToken(token: Token) {

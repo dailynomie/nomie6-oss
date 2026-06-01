@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import TrackableAvatar from '../../../components/avatar/trackable-avatar.svelte'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
@@ -24,37 +26,41 @@
   import { TrackableStore } from '../TrackableStore'
   import type { TrackableSelectorProps } from './TrackableSelectorStore'
 
-  export let id: string
-  export let payload: TrackableSelectorProps
+  const { id, payload } = $props<{ id: string, payload: TrackableSelectorProps }>()
 
-  let selected: Array<Trackable> = []
-  let searchTerm: string | undefined = undefined
-  let cleanSearchTerm: string | undefined = undefined
+  let selected: Array<Trackable> = $state([])
+  let searchTerm: string | undefined = $state(undefined)
+  let cleanSearchTerm: string | undefined = $state(undefined)
 
-  let known: Array<Trackable>
-  let unknownTrackables: Array<Trackable> = []
-  let type: TrackableTypes
-  let subtype: ITrackerType
+  let known: Array<Trackable> = $state([])
+  let unknownTrackables: Array<Trackable> = $state([])
+  let type: TrackableTypes = $state(undefined)
+  let subtype: ITrackerType = $state(undefined)
 
   const getHeaderKey = (label) => {
     return label.substring(0, 1).toUpperCase()
   }
 
-  let groupedTrackables: Array<[string, Array<Trackable>]> = []
+  let groupedTrackables: Array<[string, Array<Trackable>]> = $state([])
 
-  $: if (payload) {
-    type = payload.type
-    subtype = payload.subtype
-    let tempknown = toTrackableArray($TrackableStore.trackables).sort((a, b) => {
-      return a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
-    })
-    if (subtype) {
-    known = tempknown.filter(function (el) {
-      if (el.tracker) {
-  return el.tracker.type === subtype }
-  });}
-  else {known = tempknown}
-  }
+  $effect(() => {
+    if (payload) {
+      type = payload.type
+      subtype = payload.subtype
+      let tempknown = toTrackableArray($TrackableStore.trackables).sort((a, b) => {
+        return a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
+      })
+      if (subtype) {
+        known = tempknown.filter(function (el) {
+          if (el.tracker) {
+            return el.tracker.type === subtype
+          }
+        })
+      } else {
+        known = tempknown
+      }
+    }
+  })
 
   /**
    * Close Modal
@@ -98,8 +104,8 @@
       cleanSearchTerm = undefined
     }
   }
-  $: cleanedTerm = cleanTerm(searchTerm);
-  $: filtered = known.filter((t) => {
+  let cleanedTerm = $derived(cleanTerm(searchTerm))
+  let filtered = $derived(known.filter((t) => {
     if (cleanedTerm && payload.type) {
       return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1 && t.type === payload.type
     } else if (payload.type) {
@@ -108,19 +114,21 @@
       return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1
     }
     return t
-  })
+  }))
 
-  $: if (filtered) {
-    const groups = new Map<string, Array<Trackable>>()
-    filtered.forEach((t) => {
-      const key = getHeaderKey(t.label)
-      if (!groups.has(key)) {
-        groups.set(key, [])
-      }
-      groups.get(key).push(t)
-    })
-    groupedTrackables = Array.from(groups.entries())
-  }
+  $effect(() => {
+    if (filtered) {
+      const groups = new Map<string, Array<Trackable>>()
+      filtered.forEach((t) => {
+        const key = getHeaderKey(t.label)
+        if (!groups.has(key)) {
+          groups.set(key, [])
+        }
+        groups.get(key).push(t)
+      })
+      groupedTrackables = Array.from(groups.entries())
+    }
+  })
 
   /**
    * On User Select

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Avatar from '../../../components/avatar/avatar.svelte'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
@@ -21,18 +23,15 @@
   import { getTrackableVisuals } from '../trackable-utils'
   import type { Trackable } from '../Trackable.class'
 
-  export let id: string
-  export let trackable: Trackable
-  export let onComplete: Function
-  // export let onCancel: Function
+  const { id, trackable, onComplete } = $props<{ id: string, trackable: Trackable, onComplete: Function }>()
 
-  let emojiOrColor: 'color' | 'emoji' | 'image' = 'emoji'
+  let emojiOrColor: 'color' | 'emoji' | 'image' = $state('emoji')
 
-  let color: string
-  let emoji: string
-  let avatar: string
+  let color: string = $state('')
+  let emoji: string = $state('')
+  let avatar: string = $state('')
 
-  let ready: boolean = true
+  let ready: boolean = $state(true)
 
   const refresh = async () => {
     ready = false
@@ -52,14 +51,16 @@
     avatar = undefined
   }
 
-  let lastTrackableHash = ''
-  $: if (trackable && objectHash(trackable) !== lastTrackableHash) {
-    lastTrackableHash = objectHash(trackable)
-    const visuals = getTrackableVisuals(trackable)
-    color = visuals.color
-    emoji = visuals.emoji
-    avatar = visuals.avatar
-  }
+  let lastTrackableHash: string = $state('')
+  $effect(() => {
+    if (trackable && objectHash(trackable) !== lastTrackableHash) {
+      lastTrackableHash = objectHash(trackable)
+      const visuals = getTrackableVisuals(trackable)
+      color = visuals.color
+      emoji = visuals.emoji
+      avatar = visuals.avatar
+    }
+  })
 
   const close = () => {
     onComplete({

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   // Svelte
   import { createEventDispatcher } from 'svelte'
@@ -28,11 +30,8 @@
   import { wait } from '../../../utils/tick/tick'
   import { showToast } from '../../../components/toast/ToastStore'
 
-  // Prosp
-  export let tracker: TrackerClass | undefined = undefined
-  export let className = ''
+  const { tracker = undefined, className = '' } = $props<{ tracker?: TrackerClass, className?: string }>()
 
-  // consts
   const dispatch = createEventDispatcher()
 
   // State

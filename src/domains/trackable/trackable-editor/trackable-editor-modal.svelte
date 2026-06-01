@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import ScanOutline from './../../../n-icons/ScanOutline.svelte'
   import TrackableAvatar from '../../../components/avatar/trackable-avatar.svelte'
@@ -44,45 +46,47 @@
   import CopyOutline from '../../../n-icons/CopyOutline.svelte'
   import { openTrackableEditor } from './TrackableEditorStore'
 
-  export let trackable: Trackable
-  export let id: string
-  export let saveByPass: Function
+  const { trackable, id, saveByPass } = $props<{ trackable: Trackable, id: string, saveByPass: Function }>()
 
-  let workingTrackable: Trackable
-  let canSave: boolean = false
-  let ogTag: string
+  let workingTrackable: Trackable | undefined = $state(undefined)
+  let canSave: boolean = $state(false)
+  let ogTag: string | undefined = $state(undefined)
 
-  let workingTag: string
-  let label: string = 'Label'
-  let tagExists: boolean = false
+  let workingTag: string = $state('')
+  let label: string = $state('Label')
+  let tagExists: boolean = $state(false)
 
-  let saving: boolean = false
+  let saving: boolean = $state(false)
 
-  $: if (trackable && !workingTrackable) {
-    workingTrackable = new Trackable(trackable)
-    workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
-    ogTag = workingTag
+  $effect(() => {
+    if (trackable && !workingTrackable) {
+      workingTrackable = new Trackable(trackable)
+      workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
+      ogTag = workingTag
 
-    if (!ogTag && !workingTrackable.emoji) {
-      workingTrackable.emoji = randomEmoji()
-      workingTrackable.color = randomColor()
+      if (!ogTag && !workingTrackable.emoji) {
+        workingTrackable.emoji = randomEmoji()
+        workingTrackable.color = randomColor()
+      }
+      if (workingTrackable.type == 'tracker') label = 'Tracker Label'
+      if (workingTrackable.type == 'person') label = `Person's Name`
     }
-    if (workingTrackable.type == 'tracker') label = 'Tracker Label'
-    if (workingTrackable.type == 'person') label = `Person's Name`
-  }
+  })
 
-  $: if (objectHash(workingTrackable)) {
-    canSave = workingTrackable.canSave
-    if (canSave && ogTag !== workingTag) {
-      if ($TrackableStore.trackables[`${workingTrackable.prefix}${workingTag}`]) {
-        canSave = false
-        tagExists = true
-        console.error('That tag already exists!')
-      } else {
-        tagExists = false
+  $effect(() => {
+    if (workingTrackable && objectHash(workingTrackable)) {
+      canSave = workingTrackable.canSave
+      if (canSave && ogTag !== workingTag) {
+        if ($TrackableStore.trackables[`${workingTrackable.prefix}${workingTag}`]) {
+          canSave = false
+          tagExists = true
+          console.error('That tag already exists!')
+        } else {
+          tagExists = false
+        }
       }
     }
-  }
+  })
 
   const generateCode = async (trackable: Trackable) => {
     try {

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Input from '../../../../components/input/input.svelte'
   import ListItem from '../../../../components/list-item/list-item.svelte'
@@ -7,7 +9,7 @@
   import { parseNumber } from '../../../../utils/parseNumber/parseNumber'
   import type { Trackable } from '../../Trackable.class'
 
-  export let trackable: Trackable
+  let { trackable } = $props<{ trackable: Trackable }>()
 
   function toggleReminder () {
     trackable.ptr.reminder = !trackable.ptr.reminder

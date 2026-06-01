@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { wait } from '../../../../utils/tick/tick'
 
@@ -52,58 +54,65 @@
   import PositivityEditor from '../../positivity-editor/positivity-editor.svelte'
   import TrackableListBuilder from '../../TrackableListBuilder.svelte'
 
-  export let trackable: Trackable
-  let tracker: TrackerClass
-  $: if (trackable) {
-    tracker = trackable.tracker
-  }
+  let { trackable } = $props<{ trackable: Trackable }>()
+  let tracker: TrackerClass = $state(trackable.tracker)
+
+  $effect(() => {
+    if (trackable) {
+      tracker = trackable.tracker
+    }
+  })
 
   const groupedUOM = getGroupedUoms()
 
-  let advanced = false
-  let forceAdvancedView = false
-  let advancedCanToggle = true
-  let tagHardcoded = false
-  let alsoInclude: boolean = false
+  let advanced: boolean = $state(false)
+  let forceAdvancedView: boolean = $state(false)
+  let advancedCanToggle: boolean = $state(true)
+  let tagHardcoded: boolean = $state(false)
+  let alsoInclude: boolean = $state(false)
 
-  // Watch for Tracker Changed while NOT Forced Advanced
-  $: if (tracker && !forceAdvancedView) {
-    if (tracker.include) {
-      alsoInclude = true
-    }
-    if (
-      tracker.include ||
-      tracker.default ||
-      tracker.math !== 'sum' ||
-      tracker.uom !== 'num' ||
-      tracker.step ||
-      tracker.one_tap
-    ) {
+  $effect(() => {
+    if (tracker && !forceAdvancedView) {
+      if (tracker.include) {
+        alsoInclude = true
+      }
+      if (
+        tracker.include ||
+        tracker.default ||
+        tracker.math !== 'sum' ||
+        tracker.uom !== 'num' ||
+        tracker.step ||
+        tracker.one_tap
+      ) {
+        advanced = true
+        advancedCanToggle = false
+      } else {
+        advancedCanToggle = true
+        advanced = false
+      }
+    } else if (forceAdvancedView) {
       advanced = true
-      advancedCanToggle = false
-    } else {
-      advancedCanToggle = true
-      advanced = false
     }
-  } else if (forceAdvancedView) {
-    advanced = true
-  }
+  })
 
-  //Catch if the UPM is timer and not a timer tracker
-  $: if (tracker.type === 'timer') {
-    tracker.uom = 'timer'
-    tracker.min = null
-    tracker.max = null
-  } else if (tracker.uom == 'timer') {
-    tracker.uom = 'num'
-  } else if (tracker.type === 'range' && isNaN(tracker.min)) {
-    tracker.min = 1
-    tracker.max = 10
-  }
+  $effect(() => {
+    if (tracker.type === 'timer') {
+      tracker.uom = 'timer'
+      tracker.min = null
+      tracker.max = null
+    } else if (tracker.uom == 'timer') {
+      tracker.uom = 'num'
+    } else if (tracker.type === 'range' && isNaN(tracker.min)) {
+      tracker.min = 1
+      tracker.max = 10
+    }
+  })
 
-  $: if (tracker.label && tracker._dirty && !tagHardcoded) {
-    tracker.tag = toTag(tracker.label)
-  }
+  $effect(() => {
+    if (tracker.label && tracker._dirty && !tagHardcoded) {
+      tracker.tag = toTag(tracker.label)
+    }
+  })
 
   /**
    * Get the Input for a tracker
