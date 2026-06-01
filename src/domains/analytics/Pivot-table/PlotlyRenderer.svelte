@@ -98,6 +98,7 @@
                 }
                 return Object.assign(trace, traceOptions);
             });
+            console.log('PlotlyRenderer - data traces:', data.length, 'first trace:', data[0]);
 
             let titleText = fullAggName;
             hAxisTitle = currentTranspose ? pivotData.props.rows.join('-') : pivotData.props.cols.join('-');
