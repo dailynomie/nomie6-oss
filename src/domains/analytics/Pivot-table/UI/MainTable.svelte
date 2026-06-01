@@ -38,9 +38,20 @@
     }
 
     :global(.pvtAxisContainer) {
-        width: 50px;
-        overflow: auto;
-        font-size: 11px;
+        max-width: 40px !important;
+        width: 40px !important;
+        overflow: hidden;
+        word-wrap: break-word;
+        word-break: break-all;
+        font-size: 10px !important;
+    }
+
+    :global(.pvtAttr) {
+        display: block;
+        word-wrap: break-word;
+        word-break: break-all;
+        font-size: 10px !important;
+        max-width: 35px;
     }
 
     :global(.pvtOutput) {
