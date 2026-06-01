@@ -33,7 +33,8 @@
         vals: initialVals = PivotData.defaultProps.vals,
         sorters = PivotData.defaultProps.sorters,
         valueFilter: initialValueFilter = PivotData.defaultProps.valueFilter,
-        data
+        data,
+        ...restProps
     } = $props();
 
     // Local mutable state for these props
@@ -161,7 +162,7 @@
     <PivotTable
         slot="outputCell"
         {renderer}
-        {...$$restProps}
+        {...restProps}
         {cols}
         {rows}
         {vals}
