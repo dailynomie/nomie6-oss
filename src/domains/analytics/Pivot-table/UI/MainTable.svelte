@@ -2,20 +2,22 @@
 
 <script lang="ts">
     import { Prefs } from '../../../preferences/Preferences'
-    const { horizUnused } = $props())
+    const { horizUnused } = $props();
     let theme = $state($Prefs.theme);
-    let cssVarStyles = "";
-    if (theme == 'dark') {
-    let bgdark= '#000000';
-    let border = '#2A303C';
-    let fontcolor = "#ffffff"
-	cssVarStyles = `--bg:${bgdark};--border:${border};--fontcolor:${fontcolor}`;}
-    else {
-        let bglight= '#ffffff';
-        let border = '#CCCCCC';
-        let fontcolor = "#000000"
-	cssVarStyles = `--bg:${bglight};--border:${border};--fontcolor:${fontcolor}`;
-    }
+
+    let cssVarStyles = $derived.by(() => {
+        if (theme === 'dark') {
+            const bgdark = '#000000';
+            const border = '#2A303C';
+            const fontcolor = "#ffffff";
+            return `--bg:${bgdark};--border:${border};--fontcolor:${fontcolor}`;
+        } else {
+            const bglight = '#ffffff';
+            const border = '#CCCCCC';
+            const fontcolor = "#000000";
+            return `--bg:${bglight};--border:${border};--fontcolor:${fontcolor}`;
+        }
+    });
 
 
 
