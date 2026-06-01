@@ -166,7 +166,7 @@
 
 <Plotly
     {data}
-    layout={Object.assign(layout, layoutOptions, plotlyOptions)}
+    layout={Object.assign({}, layout, layoutOptions, plotlyOptions)}
     config={plotlyConfig}
     onUpdate={onRendererUpdate}
 />
