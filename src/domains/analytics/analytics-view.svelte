@@ -70,12 +70,12 @@
     let unusedOrientationCutoff = 85;
     let menuLimit = 500;
     
-    let tempdata = [];
-    let data = [];
-    let getConfig = false;
-    let pivots: Array<PivotClass> = [];
-    let menushow = true;
-    let countpivots = 0;
+    let tempdata = $state([]);
+    let data = $state([]);
+    let getConfig = $state(false);
+    let pivots: Array<PivotClass> = $state([]);
+    let menushow = $state(true);
+    let countpivots = $state(0);
 
     let options = {
         "rows": rows,
