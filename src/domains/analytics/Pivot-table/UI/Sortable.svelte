@@ -22,7 +22,8 @@
             ...options,
             onUpdate: (ev) => notify(ev.to),
             onAdd: (ev) => notify(ev.to),
-            onRemove: (ev) => notify(ev.from),
+            // onRemove suppressed to prevent duplicate notifications during cross-container drags
+            // The destination's onAdd is sufficient to update state
         });
 
         // Temporary node removal
