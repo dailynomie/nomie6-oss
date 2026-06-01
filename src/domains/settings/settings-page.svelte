@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { navigate } from '../../vendor/svelte-navigator'
 
@@ -58,17 +60,17 @@
   import { openPluginsModal } from '../plugins/PluginStore'
   import { openPointersModal } from '../pointers/pointer-store'
   import PluginsMoreMenu from '../plugins/plugins-more-menu.svelte'
-  import IonIcon from '../../components/icon/ion-icon.svelte'   
+  import IonIcon from '../../components/icon/ion-icon.svelte'
   import ChevronUpOutline from '../../n-icons/ChevronUpOutline.svelte';
 
   import ChevronDownOutline from '../../n-icons/ChevronDownOutline.svelte'
   import { openLocationModal } from '../locations/LocationStore'
 
-  export const location = undefined
-  export const style = undefined
+  const location = undefined
+  const style = undefined
 
-  let st = 0
-  let showplugins = false;
+  let st = $state(0)
+  let showplugins = $state(false)
   async function specialTap() {
     st = st + 1
     if (st > 9) {

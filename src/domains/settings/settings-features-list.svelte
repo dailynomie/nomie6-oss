@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import capitalize from 'lodash/capitalize'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -27,14 +29,13 @@
   import SelectPop from '../../select-pop/select-pop.svelte'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
-  let hasPin: boolean = false
+  let hasPin: boolean = $state(false)
 
-
-
-  $: if (($Prefs.usePin || '').length) {
-    hasPin = true
-  }
-  
+  $effect(() => {
+    if (($Prefs.usePin || '').length) {
+      hasPin = true
+    }
+  })
 
   onMount(() => {
     if ($Prefs.usePin) {

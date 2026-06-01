@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { useStorageSelectMenu } from './settings-functions'
 
@@ -65,10 +67,7 @@
     })
   }
 
-  let storageDetails: StorageEngineType
-  $: {
-    storageDetails = getStorageEngineDetails($Prefs.storageType)
-  }
+  let storageDetails = $derived(getStorageEngineDetails($Prefs.storageType))
 </script>
 
 <List solo className="mb-4" title={Lang.t('settings.my-data', 'My Data')} outside>

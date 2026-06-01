@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
 	import { LaunchCount } from './../preferences/LaunchCount.ts';
   import { navigate } from '../../vendor/svelte-navigator'
@@ -17,7 +19,7 @@
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
 
-  let counts = {
+  let counts = $state({
     trackers: 0,
     people: 0,
     context: 0,
@@ -25,7 +27,7 @@
     reminders: 0,
     locations: 0,
     total: 0,
-  }
+  })
 
   onMount(() => {
     counts.trackers = Object.keys($TrackerStore).length
