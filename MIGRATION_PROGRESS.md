@@ -1,9 +1,9 @@
 # Svelte 5 Migration Progress
 
 **Total Components:** 493  
-**Migrated:** 153 components (31.0%)  
+**Migrated:** 158 components (32.0%)  
 **Intentionally Kept in Svelte 4:** 25 components (22 widget types + widget-display-type, dashboard-view router components)
-**Status:** IN PROGRESS - Batch 1, 2, 3 Complete; Batch 4 Phase 1 Complete (Settings) ✅
+**Status:** IN PROGRESS - Batch 1, 2, 3 Complete; Batch 4 Phases 1-2 Complete (Settings + Layout) ✅
 
 ## Strategy Overview
 
@@ -230,9 +230,21 @@ Migrated 6 of 7 components:
 
 **Testing:** ✅ Settings page loads, all toggles work, no errors
 
-#### Phase 2: Layout Domain (5 components) 🔵 PENDING
-Files: layout.svelte, page.svelte, desktop-sidebar.svelte (7,903 lines), app.svelte (1,811 lines), tabs.svelte (5,711 lines)
-Estimated: 3-4 hours
+#### Phase 2: Layout Domain (5 components) ✅
+**Commit:** f5dae70
+**Status:** COMPLETE & TESTED
+- [x] layout.svelte - Props conversion, $derived() for slot checks, $effect() for footer positioning
+- [x] page.svelte - Simple props conversion
+- [x] tabs.svelte (5,711 lines) - Props, $state() for path/page state, $effect() for mounted tracking
+- [x] app.svelte (1,811 lines) - Props, $effect() for document.title side effect
+- [x] desktop-sidebar.svelte (7,903 lines) - Props, $state() for goalPercentage
+
+**Patterns Applied:**
+- $derived() for slot existence checks (non-mutation computations)
+- $effect() for side effects (DOM manipulation, setting document.title)
+- Store subscriptions preserved as-is ($store syntax works in runes mode)
+
+**Testing:** ✅ Layout system works, sidebar displays correctly, tabs navigation works, no errors
 
 #### Phase 3: Timeline Domain (5 components) 🔵 PENDING
 Files: timeline-view.svelte, timeline-loader.svelte (6,780 lines), timeline-modal.svelte, timeline-item.svelte
