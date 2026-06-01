@@ -24,7 +24,7 @@
   import { PivotStore } from './PivotStore'
   import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
 
-  const { id, pivot } = $props<{ id: string; pivot: PivotClass }>()
+  const { id, pivot } = $props())
 
   let name = $state('')
   let emoji = $state('')

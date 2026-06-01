@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import { Prefs } from '../../../preferences/Preferences'
-    const { horizUnused } = $props<{ horizUnused: any }>()
+    const { horizUnused } = $props())
     let theme = $state($Prefs.theme);
     let cssVarStyles = "";
     if (theme == 'dark') {

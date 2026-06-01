@@ -10,7 +10,7 @@
 
     const dispatch = createEventDispatcher();
 
-    const { name, values, valueFilter = {}, menuLimit = 500 } = $props<{ name: any, values: any[], valueFilter?: any, menuLimit?: number }>()
+    const { name, values, valueFilter = {}, menuLimit = 500 } = $props();
 
     let theme = $state($Prefs.theme);
     let cssVarStyles = $state("");

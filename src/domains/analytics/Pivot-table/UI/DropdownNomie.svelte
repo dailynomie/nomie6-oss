@@ -7,7 +7,7 @@
 
     const dispatch = createEventDispatcher();
 
-    let { current = $bindable(), values = [] } = $props<{ current: any, values?: any[] }>()
+    let { current = $bindable(), values = [] } = $props();
 
     let open = $state(false);
     const toggle = () => (open = !open);

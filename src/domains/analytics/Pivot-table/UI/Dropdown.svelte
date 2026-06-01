@@ -7,7 +7,7 @@
 
     const dispatch = createEventDispatcher();
 
-    const { current, values = [] } = $props<{ current: any, values?: any[] }>()
+    const { current, values = [] } = $props())
 
     let open = $state(false);
     const toggle = () => (open = !open);
