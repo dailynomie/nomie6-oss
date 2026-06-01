@@ -31,7 +31,7 @@
   import ListItem from '../../components/list-item/list-item.svelte'
 
 
-  const { logs = [], filters = {} } = $props<{ logs?: Array<NLog>, filters?: TimelineFilterProps }>()
+  const { logs = [], filters = $bindable({}) } = $props<{ logs?: Array<NLog>, filters?: TimelineFilterProps }>()
   const dispatch = createEventDispatcher()
 
   let timeline: Array<TimelineItemType> = $state([])
