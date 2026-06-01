@@ -26,11 +26,26 @@
     :global(.pvtUi) {
         width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    :global(.pvtRenderers) {
+        width: 100px;
+    }
+
+    :global(.pvtVals) {
+        width: 100px;
+    }
+
+    :global(.pvtAxisContainer) {
+        width: 150px;
+        overflow: auto;
     }
 
     :global(.pvtOutput) {
-        width: 100%;
+        width: auto;
         flex: 1;
+        min-width: 0;
     }
 
     .scrolling-wrapper {
@@ -38,6 +53,7 @@
         overflow-y: hidden;
         width: 100%;
         height: 100%;
+        display: block;
     }
    </style>
 
