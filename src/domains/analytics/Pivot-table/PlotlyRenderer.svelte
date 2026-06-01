@@ -43,13 +43,22 @@
     let recomputeKey = $state(0);
 
     $effect(() => {
-        // Access props and transpose to establish dependencies
-        const currentProps = props;
+        // Establish dependencies by accessing props outside untrack
+        // Only the state writes are untracked, not the dependency tracking
+        const {
+            cols = [],
+            rows = [],
+            vals = [],
+            data: propData = [],
+            derivedAttributes = [],
+            aggregator,
+            sorters = {}
+        } = props;
         const currentTranspose = transpose;
 
         // Untrack all state writes to prevent effect from re-running when it modifies state
         untrack(() => {
-            pivotData = new PivotData(currentProps);
+            pivotData = new PivotData(props);
             rowKeys = pivotData.getRowKeys();
             colKeys = pivotData.getColKeys();
             traceKeys = currentTranspose ? colKeys : rowKeys;
