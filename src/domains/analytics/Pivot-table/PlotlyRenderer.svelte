@@ -61,6 +61,7 @@
             pivotData = new PivotData(props);
             rowKeys = pivotData.getRowKeys();
             colKeys = pivotData.getColKeys();
+            console.log('PlotlyRenderer - rowKeys:', rowKeys.length, 'colKeys:', colKeys.length);
             traceKeys = currentTranspose ? colKeys : rowKeys;
             if (traceKeys.length === 0) {
                 traceKeys.push([]);
