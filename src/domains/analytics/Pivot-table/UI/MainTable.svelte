@@ -23,36 +23,11 @@
 
 </script>
 <style>
-    :global(.pvtUi) {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-    }
-
-    :global(.pvtRenderers) {
-        width: 100px;
-    }
-
-    :global(.pvtVals) {
-        width: 100px;
-    }
-
-    :global(.pvtAxisContainer.pvtVertList.pvtRows) {
-        display: none;
-    }
-
-    :global(.pvtOutput) {
-        width: auto;
-        flex: 1;
-        min-width: 0;
-    }
-
     .scrolling-wrapper {
-        overflow-x: auto;
+        overflow-x: scroll;
         overflow-y: hidden;
-        width: 100%;
-        height: 100%;
-        display: block;
+        white-space: nowrap;
+        max-width: 100%;
     }
    </style>
 
