@@ -23,10 +23,18 @@
     }
 
     setTimeout(()=>{
-        // Use the output container width for the chart
-        const outputContainer = document.querySelector('.pvtOutput');
-        if (outputContainer) {
-            currentwidth = outputContainer.clientWidth;
+        // Try multiple container selectors to find the actual available width
+        let container = document.querySelector('.scrolling-wrapper');
+        if (!container) {
+            container = document.querySelector('.pvtOutput');
+        }
+        if (!container) {
+            container = document.querySelector('.pvtUi');
+        }
+        if (container) {
+            currentwidth = Math.max(container.clientWidth - 20, 300); // Leave some padding
+        } else {
+            currentwidth = window.innerWidth - 100;
         }
         screenratio = window.innerHeight/window.innerWidth;
     }, 10)
