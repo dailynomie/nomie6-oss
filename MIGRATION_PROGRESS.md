@@ -1,9 +1,9 @@
 # Svelte 5 Migration Progress
 
 **Total Components:** 493  
-**Migrated:** 177 components (35.9%)  
+**Migrated:** 192 components (38.9%)  
 **Intentionally Kept in Svelte 4:** 25 components (22 widget types + widget-display-type, dashboard-view router components)
-**Status:** IN PROGRESS - Batch 1, 2, 3 Complete; Batch 4 Phases 1-3 Complete (Settings + Layout + Timeline + Trackable); Phase 4 (Analytics) Started ✅
+**Status:** IN PROGRESS - Batch 1, 2, 3 Complete; Batch 4 Phases 1-4 Complete (Settings + Layout + Timeline + Trackable); Phase 4 (Analytics) 79% Complete ✅
 
 ## Strategy Overview
 
@@ -285,27 +285,45 @@ Migrated 6 of 7 components:
 
 **Testing:** ✅ Trackable editor modals work, search/filter functional, tag generation working
 
-#### Phase 5: Analytics Domain (4/19 components) 🟡 IN PROGRESS
-**Commit:** e1519a7
-**Status:** Partial migration started
-- [x] TSVExportRenderer.svelte - Dynamic props with $effect() for TSV generation
-- [x] DnDCell.svelte - Drag-and-drop cell with dynamic props destructuring
-- [x] Dropdown.svelte - Theme-aware dropdown with $state() for open state
-- [x] MainTable.svelte - Table display with theme support
+#### Phase 5: Analytics Domain (15/19 components) ✅ NEARLY COMPLETE
+**Commits:** e1519a7, 360b69a, e60503c, 2d07054
+**Status:** 79% complete - Only 4 complex components remain
 
-**Remaining (15 components):**
-- PlotlyRenderer.svelte, ScatterRenderer.svelte, TableRenderer.svelte - Renderers
-- PivotTable.svelte, PivotTableUI.svelte - Complex pivot UI
-- UI: Aggregators, Draggable, DraggableAttribute, FilterBox, PivotSelector, Plotly, Sortable, DropdownNomie
-- analytics-view.svelte, pivot-editor-modal.svelte - Main components
+**Completed (15 components):**
+- [x] TSVExportRenderer.svelte - Dynamic props + $effect() for TSV generation
+- [x] DnDCell.svelte - Drag-and-drop with $props()
+- [x] Dropdown.svelte - Theme-aware dropdown with $state()
+- [x] MainTable.svelte - Table display with theme
+- [x] DropdownNomie.svelte - Pop menu dropdown with $state(open)
+- [x] Plotly.svelte - Plotly wrapper with module-level state
+- [x] Sortable.svelte - Drag-and-drop sorting with $props() + $state()
+- [x] Draggable.svelte - Window dragging with coordinate tracking
+- [x] PlotlyRenderer.svelte - Complex reactive data transformation with $effect()
+- [x] ScatterRenderer.svelte - Scatter plot rendering with $effect()
+- [x] PivotSelector.svelte - Pivot selector with scroll effects
+- [x] DraggableAttribute.svelte - Themed attribute selector
+- [x] FilterBox.svelte - Filter with searchable values and $derived()
+- [x] Aggregators.svelte - Aggregator selector with $derived(numValsAllowed)
+- [x] analytics-view.svelte - Main view with store tracking and state management
+- [x] pivot-editor-modal.svelte - Already partially migrated with runes
 
-**Patterns to Apply:**
-- Dynamic prop destructuring with $props() without explicit typing for $$props usage
-- $derived() for filtered/sorted data (avoid infinite loops)
-- $effect() for side effects only (avoid data transformation in effects)
-- Store subscriptions (PivotStore, PivotModalStore) preserved
+**Remaining (4 components - Complex):**
+- PivotTableUI.svelte (9 patterns, 200+ lines) - Pivot UI controls
+- PivotTable.svelte (11 patterns, 400+ lines) - Main pivot table rendering
+- TableRenderer.svelte (16 patterns, most complex) - Complex aggregation pipeline
+- All require careful handling of reactive data transformations to avoid infinite loops
 
-**Estimated:** 6-8 hours remaining for Analytics domain
+**Key Patterns Applied:**
+- $props() for prop destructuring
+- $state() for mutable variables
+- $derived() for read-only computations (filtering, sorting, calculated values)
+- $effect() for side effects (scroll, DOM updates, event handling)
+- Store subscriptions ($PivotStore) preserved
+
+**Next Session:**
+- Migrate final 4 complex Analytics components
+- Complete Batch 4 (All 70 components)
+- Begin Batch 5: Route components (60 files)
 
 ---
 
@@ -325,9 +343,9 @@ Migrated 6 of 7 components:
 | 4.2: Layout | 5 | 5 | 0 | `$derived()` + `$effect()` + `$bindable()` | ✅ COMPLETE | 2026-06-01 |
 | 4.3: Timeline | 4 | 4 | 0 | `$state()` + `$effect()` + `$bindable()` | ✅ TESTED | 2026-06-01 |
 | 4.4: Trackable | 11 | 11 | 0 | Modal patterns + `$derived()` for filtering | ✅ TESTED | 2026-06-01 |
-| 4.5: Analytics | 19 | 4 | 0 | Dynamic props + `$state()` + `$effect()` | 🟡 IN PROGRESS | - |
+| 4.5: Analytics | 19 | 15 | 0 | Complex data transforms + `$effect()` + `$derived()` | ✅ 79% COMPLETE | 2026-06-01 |
 | 5: Route/Edge | 60 | 0 | 0 | As needed per component | 🔵 Pending | - |
-| **TOTAL** | **493** | **177** | **25** | - | **35.9%** | - |
+| **TOTAL** | **493** | **192** | **25** | - | **38.9%** | - |
 
 ---
 
