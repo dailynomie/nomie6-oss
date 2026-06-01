@@ -57,12 +57,14 @@
     }
   }
 
-  $: if ($GoalScoreStore[1]) {
-    const _goalPercent = Math.round(($GoalScoreStore[0] / $GoalScoreStore[1]) * 100)
-    if (!isNaN(_goalPercent)) {
-      goalPercentage = _goalPercent
+  $effect(() => {
+    if ($GoalScoreStore[1]) {
+      const _goalPercent = Math.round(($GoalScoreStore[0] / $GoalScoreStore[1]) * 100)
+      if (!isNaN(_goalPercent)) {
+        goalPercentage = _goalPercent
+      }
     }
-  }
+  })
 
   const navigation: Array<NavType> = [
     {
