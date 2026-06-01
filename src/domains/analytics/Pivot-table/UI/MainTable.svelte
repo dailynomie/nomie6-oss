@@ -38,7 +38,7 @@
     }
 
     :global(.pvtAxisContainer) {
-        width: 150px;
+        width: 80px;
         overflow: auto;
     }
 
