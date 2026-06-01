@@ -10,7 +10,7 @@
 
     const dispatch = createEventDispatcher();
 
-    const { options = {}, items = [] } = $props<{ options?: any, items?: any[] }>();
+    const { options = {}, items = [] } = $props();
 
     function notify(el) {
         const val = [...el.children].map((i) => i.dataset.id);
