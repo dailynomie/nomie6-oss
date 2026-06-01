@@ -9,17 +9,23 @@
 <svelte:options runes={true} />
 
 <script>
+    import { untrack } from 'svelte';
+
     const { data, layout, config } = $props()
     const onUpdate = () => {}; // TODO: connect to plotly events
 
-    function create(node, options) {
-        Plotly.newPlot(node, options);
+    function create(node) {
+        // Use untrack to avoid re-running the action when Plotly updates DOM via proxy
+        untrack(() => {
+            Plotly.newPlot(node, data, layout, config);
+        });
 
         return {
-            update(options) {
-                //options.layout.width = width;
-                //options.layout.height = height;
-                Plotly.newPlot(node, options);
+            update() {
+                // Also untrack here to prevent feedback loops
+                untrack(() => {
+                    Plotly.newPlot(node, data, layout, config);
+                });
             },
             destroy() {
                 Plotly.purge(node);
@@ -29,7 +35,7 @@
 </script>
 
 {#if Plotly}
-    <div use:create={{ data, layout, config }} />
+    <div use:create />
 {:else}
     <p>Error! Plotly.js not initialized.</p>
 {/if}
