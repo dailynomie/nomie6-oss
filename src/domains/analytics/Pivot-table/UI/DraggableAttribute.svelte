@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script>
     import Draggable from "./Draggable.svelte";
     import FilterBox from "./FilterBox.svelte";
@@ -5,13 +7,9 @@
 
     const is_empty = (obj) => !obj || Object.keys(obj).length === 0
 
-    export let valueFilter;
-    export let name;
-    export let attrValues;
-    export let menuLimit;
-    export let updateValuesInFilter;
+    const { valueFilter, name, attrValues, menuLimit, updateValuesInFilter } = $props()
 
-    let open = false;
+    let open = $state(false);
     let fontsize = Math.round(14 /(1400/window.innerWidth));
     if (fontsize < 12) {fontsize=12}
 

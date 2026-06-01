@@ -2,19 +2,18 @@
     let zIndexGlobal = 1000;
 </script>
 
+<svelte:options runes={true} />
+
 <script>
     import { createEventDispatcher } from "svelte";
     import { Prefs } from '../../../preferences/Preferences'
 
     const dispatch = createEventDispatcher();
 
-    export let name;
-    export let values;
-    export let valueFilter = {};
-    export let menuLimit = 500;
+    const { name, values, valueFilter = {}, menuLimit = 500 } = $props<{ name: any, values: any[], valueFilter?: any, menuLimit?: number }>()
 
-    let theme = $Prefs.theme;
-    let cssVarStyles = "";
+    let theme = $state($Prefs.theme);
+    let cssVarStyles = $state("");
     if (theme == 'dark') {
     let bgbt= '#0D324F';
     let borderbt ='#0D324F'
@@ -25,14 +24,13 @@
         let borderbt = '#CDEEFF'
         let fontcolorbt = '#000000'
         cssVarStyles = `--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt}`;
-    
+
     }
 
-    
-    let filterText = "";
 
-    let shown;
-    $: filterText, (shown = values.filter(matchesFilter));
+    let filterText = $state("");
+
+    let shown = $derived(values.filter(matchesFilter));
 
     function toggleValue(value) {
         value in valueFilter ? removeValuesFromFilter([value]) : addValuesToFilter([value]);

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { onMount } from 'svelte'
 
@@ -6,18 +8,21 @@
   import { PivotClass } from '../../pivot-class'
   import { createEventDispatcher } from 'svelte';
 
-  export let pivots: Array<PivotClass> = []
-  
+  const { pivots = [] } = $props<{ pivots?: Array<PivotClass> }>()
+
   const dispatch = createEventDispatcher();
-  let mounted = false
-  $: if ( mounted) {
-    setTimeout(() => {
-      const ele = document.querySelector('.pivot-selector .active-pivot')
-      if (ele) {
-        ele.scrollIntoView()
-      }
-    }, 300)
-  }
+  let mounted = $state(false)
+
+  $effect(() => {
+    if (mounted) {
+      setTimeout(() => {
+        const ele = document.querySelector('.pivot-selector .active-pivot')
+        if (ele) {
+          ele.scrollIntoView()
+        }
+      }, 300)
+    }
+  })
 
   const select = (selectedId) => {
     let Id = selectedId
@@ -29,10 +34,11 @@
     dispatch('newpivot')
   }
 
-
-  $: if (mounted && !pivots.length) {
-    //pivots = [{tag:"test1",config:"testingconfig1",emoji:"🫣"},{tag:"test1",config:"testingconfig1",emoji:"👌"}]
-  }
+  $effect(() => {
+    if (mounted && !pivots.length) {
+      // Empty effect
+    }
+  })
 
   const savePivot = () => {
     dispatch("save")
