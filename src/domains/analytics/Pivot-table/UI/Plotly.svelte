@@ -15,16 +15,26 @@
     const onUpdate = () => {}; // TODO: connect to plotly events
 
     function create(node, options) {
-        // Use untrack to avoid re-running the action when Plotly updates DOM via proxy
+        // Clone data and layout to prevent Plotly's internal mutations from triggering reactivity
         untrack(() => {
-            Plotly.newPlot(node, options.data, options.layout, options.config);
+            Plotly.newPlot(
+                node,
+                structuredClone(options.data),
+                structuredClone(options.layout),
+                options.config
+            );
         });
 
         return {
             update(newOptions) {
-                // Also untrack here to prevent feedback loops
+                // Clone to prevent Plotly's mutations (e.g., deleteProperty) from triggering reactive updates
                 untrack(() => {
-                    Plotly.newPlot(node, newOptions.data, newOptions.layout, newOptions.config);
+                    Plotly.newPlot(
+                        node,
+                        structuredClone(newOptions.data),
+                        structuredClone(newOptions.layout),
+                        newOptions.config
+                    );
                 });
             },
             destroy() {
