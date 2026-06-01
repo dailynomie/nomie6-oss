@@ -22,22 +22,51 @@
 
     }
 
-    setTimeout(()=>{
-        // Try multiple container selectors to find the actual available width
-        let container = document.querySelector('.scrolling-wrapper');
-        if (!container) {
-            container = document.querySelector('.pvtOutput');
-        }
-        if (!container) {
-            container = document.querySelector('.pvtUi');
-        }
-        if (container) {
-            currentwidth = Math.max(container.clientWidth - 20, 300); // Leave some padding
+    // Use ResizeObserver to dynamically update chart width when container resizes
+    let resizeObserver;
+    $effect(() => {
+        // Find the scrolling-wrapper or pvtOutput container
+        const findContainer = () => {
+            let container = document.querySelector('.scrolling-wrapper');
+            if (!container) {
+                container = document.querySelector('.pvtOutput');
+            }
+            if (!container) {
+                container = document.querySelector('.pvtUi');
+            }
+            return container;
+        };
+
+        const container = findContainer();
+
+        if (container && typeof ResizeObserver !== 'undefined') {
+            // Use ResizeObserver to track container width changes
+            resizeObserver = new ResizeObserver(() => {
+                const newWidth = Math.max(container.clientWidth - 40, 300);
+                if (newWidth !== currentwidth) {
+                    currentwidth = newWidth;
+                }
+            });
+            resizeObserver.observe(container);
+
+            // Set initial width
+            const initialWidth = Math.max(container.clientWidth - 40, 300);
+            if (initialWidth !== currentwidth) {
+                currentwidth = initialWidth;
+            }
         } else {
+            // Fallback for older browsers
             currentwidth = window.innerWidth - 100;
         }
-        screenratio = window.innerHeight/window.innerWidth;
-    }, 10)
+
+        screenratio = window.innerHeight / window.innerWidth;
+
+        return () => {
+            if (resizeObserver) {
+                resizeObserver.disconnect();
+            }
+        };
+    })
 
 
 
