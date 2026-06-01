@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script>
+    import { untrack } from 'svelte';
     import Plotly from './UI/Plotly.svelte';
     import { PivotData } from './Utilities';
     import { Prefs } from '../../preferences/Preferences'
@@ -38,7 +39,12 @@
     let layout = $state({});
 
     $effect(() => {
-        pivotData = new PivotData(props);
+        // Use untrack to read props without creating reactive dependency to prevent
+        // infinite loops when Plotly internally modifies state
+        const trackedProps = props;
+        const untrackPivotData = () => new PivotData(trackedProps);
+
+        pivotData = untrack(untrackPivotData);
         rowKeys = pivotData.getRowKeys();
         colKeys = pivotData.getColKeys();
         traceKeys = transpose ? colKeys : rowKeys;
@@ -128,7 +134,7 @@
                     d.title = d.name;
                 }
             });
-            if (data[0].labels.length === 1) { 
+            if (data[0].labels.length === 1) {
                 layout.showlegend = false;
             }
         } else {
