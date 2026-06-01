@@ -9,6 +9,11 @@
     const props = $props();
     const { plotlyOptions = {}, plotlyConfig = {}, onRendererUpdate, traceOptions = {}, layoutOptions = {}, transpose = false } = props;
 
+    // Debug: log when traceOptions changes
+    $effect(() => {
+        console.log('PlotlyRenderer - traceOptions changed:', traceOptions);
+    });
+
     let currentwidth = $state(500);
     let screenratio = $state(1);
     let plotbgcolor = $state('#ffffff')
