@@ -36,12 +36,7 @@
     }
 </script>
 
-<div bind:this={containerEl}>
-    <!-- Placeholder for sortable attachment -->
-    {#if !initialized}
-        <div {@attach sortableAttachment(options, onChange)}></div>
-    {/if}
-
+<div bind:this={containerEl} use:sortableAttachment={sortableAttachment(options, onChange)}>
     <!-- Items rendered without keys -->
     {#each items as name}
         <DraggableAttribute
