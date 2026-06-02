@@ -53,9 +53,7 @@
         loaded = false;
         renderers = { ...TableRenderers, ...plotlyRenderers };
         initialzePivotsPage();
-        getData();
-
-
+        // getData() will be called from selectPivot() after pivot is selected
     });
 
     let grouping = $state(true);
