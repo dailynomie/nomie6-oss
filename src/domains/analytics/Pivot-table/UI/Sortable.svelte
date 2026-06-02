@@ -2,14 +2,19 @@
 
 <script>
     import { createEventDispatcher } from 'svelte';
-    import sortableAttachment from './SortableAttachment';
+    import SortableAttachment from './SortableAttachment';
 
     const dispatch = createEventDispatcher();
 
     const { options = {}, items = [] } = $props();
+
+    function createSortableAction(node) {
+        const action = SortableAttachment(options, (val) => dispatch('change', val));
+        return action(node);
+    }
 </script>
 
-<div use:sortableAttachment={sortableAttachment(options, (val) => dispatch('change', val))}>
+<div use:createSortableAction>
     {#each items as item}
         <slot {item} />
     {/each}
