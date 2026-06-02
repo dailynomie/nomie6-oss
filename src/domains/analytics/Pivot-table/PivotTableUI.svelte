@@ -60,6 +60,7 @@
 
     // Compute attrValues from data
     let attrValues = $derived.by(() => {
+        console.log('PivotTableUI: attrValues recalculating, data has', data?.length || 0, 'records');
         const result = {};
         let recordsProcessed = 0;
         PivotData.forEachRecord(data, derivedAttributes, function (record) {
@@ -80,6 +81,8 @@
             }
             recordsProcessed++;
         });
+        const attrKeys = Object.keys(result);
+        console.log('PivotTableUI: attrValues has', attrKeys.length, 'attributes:', attrKeys.filter(k => k.includes('🕵')));
         return result;
     });
 
@@ -92,9 +95,16 @@
     let rowAttrs = $derived(rows.filter(notHidden));
 
     // Compute unused attributes
-    let unusedAttrs = $derived(Object.keys(attrValues)
-        .filter((e) => !colAttrs.includes(e) && !rowAttrs.includes(e) && notHidden(e))
-        .sort(sortAs(unusedOrder)));
+    let unusedAttrs = $derived.by(() => {
+        const unused = Object.keys(attrValues)
+            .filter((e) => !colAttrs.includes(e) && !rowAttrs.includes(e) && notHidden(e))
+            .sort(sortAs(unusedOrder));
+        const searchTerms = unused.filter(a => a.includes('🕵'));
+        if (searchTerms.length > 0 || unused.length !== Object.keys(attrValues).length) {
+            console.log('PivotTableUI: unusedAttrs updated -', unused.length, 'unused, search terms:', searchTerms);
+        }
+        return unused;
+    });
 
     let horizUnused = $derived(unusedAttrs.reduce((r, e) => r + e.length, 0) < unusedOrientationCutoff);
 
