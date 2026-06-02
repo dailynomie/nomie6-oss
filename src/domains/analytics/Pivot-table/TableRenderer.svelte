@@ -153,32 +153,36 @@
 
         if (opts.heatmapMode) {
             const colorScaleGenerator = tableColorScaleGenerator;
-            const rowTotalValues = colKeys.map((x) => pivotData.getAggregator([], x).value());
+            // Use all data (not filtered) for computing color scales
+            const dataRowKeys = pivotData.getRowKeys(false);
+            const dataColKeys = pivotData.getColKeys(false);
+
+            const rowTotalValues = dataColKeys.map((x) => pivotData.getAggregator([], x).value());
             rowTotalColors = colorScaleGenerator(rowTotalValues);
-            const colTotalValues = rowKeys.map((x) => pivotData.getAggregator(x, []).value());
+            const colTotalValues = dataRowKeys.map((x) => pivotData.getAggregator(x, []).value());
             colTotalColors = colorScaleGenerator(colTotalValues);
 
             if (opts.heatmapMode === "full") {
                 const allValues = [];
-                rowKeys.map((r) =>
-                    colKeys.map((c) => allValues.push(pivotData.getAggregator(r, c).value()))
+                dataRowKeys.forEach((r) =>
+                    dataColKeys.forEach((c) => allValues.push(pivotData.getAggregator(r, c).value()))
                 );
                 const colorScale = colorScaleGenerator(allValues);
                 valueCellColors = (r, c, v) => colorScale(v);
             } else if (opts.heatmapMode === "row") {
                 const rowColorScales = {};
-                rowKeys.map((r) => {
-                    const rowValues = colKeys.map((x) => pivotData.getAggregator(r, x).value());
-                    rowColorScales[r] = colorScaleGenerator(rowValues);
+                dataRowKeys.forEach((r) => {
+                    const rowValues = dataColKeys.map((x) => pivotData.getAggregator(r, x).value());
+                    rowColorScales[flatKey(r)] = colorScaleGenerator(rowValues);
                 });
-                valueCellColors = (r, c, v) => rowColorScales[r](v);
+                valueCellColors = (r, c, v) => rowColorScales[flatKey(r)](v);
             } else if (opts.heatmapMode === "col") {
                 const colColorScales = {};
-                colKeys.map((c) => {
-                    const colValues = rowKeys.map((x) => pivotData.getAggregator(x, c).value());
-                    colColorScales[c] = colorScaleGenerator(colValues);
+                dataColKeys.forEach((c) => {
+                    const colValues = dataRowKeys.map((x) => pivotData.getAggregator(x, c).value());
+                    colColorScales[flatKey(c)] = colorScaleGenerator(colValues);
                 });
-                valueCellColors = (r, c, v) => colColorScales[c](v);
+                valueCellColors = (r, c, v) => colColorScales[flatKey(c)](v);
             }
         }
 
