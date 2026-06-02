@@ -141,7 +141,6 @@
         Interact.blocker(message)
         let trackables;
         let searches = workingPivotSearchTerm.terms.split(';');
-        console.log('getData() called with searchTerm:', workingPivotSearchTerm, 'searches:', searches);
         var timeout = setInterval(async function() {
             trackables = $AllTrackablesAsArray;
 
@@ -164,10 +163,6 @@
             }}
 
         data = await bringItTogether(tempdata)
-        console.log('Final data from bringItTogether:', data);
-        if (data.length > 0) {
-            console.log('Data attributes (keys from first record):', Object.keys(data[0]));
-        }
         options.data = data;
         loaded = true;
         Interact.stopBlocker()
@@ -243,14 +238,12 @@
     }
 
     async function addSearch2Data(term){
-        console.log('addSearch2Data() called with term:', term);
         if (term !="") {
         let daysBack =  workingPivotDays;
         let date = new Date()
         let end = dayjs(date || new Date()).endOf('day')
         let start = dayjs(date).subtract(daysBack, 'days')
         let results = await LedgerStore.query({ search: escapeRegExp(term), start, end });
-        console.log('addSearch2Data() - search results for "' + term + '":', results.length, 'records');
 
         var emoji = "🕵🏻‍♂️"
         var search = emoji+term;
@@ -319,7 +312,6 @@
     }
 
     const selectPivot = (pvt) => {
-        console.log('selectPivot() called with pivot:', pvt.detail);
         let historyperiodchanged = true;
         let searchtermschanged = true;
         workingPivotId = pvt.detail.id;
@@ -330,10 +322,8 @@
         if (Delta === 0) {
             historyperiodchanged = false}
         workingPivotDays = pvt.detail.days || 90;
-        console.log('Before searchterm check - old:', workingPivotSearchTerm, 'new:', pvt.detail.searchterm);
         if (workingPivotSearchTerm.terms == pvt.detail.searchterm.terms && workingPivotSearchTerm.enabled == pvt.detail.searchterm.enabled ) {searchtermschanged = false}
         workingPivotSearchTerm = pvt.detail.searchterm || {"enabled":false,"terms":""}
-        console.log('historyperiodchanged:', historyperiodchanged, 'searchtermschanged:', searchtermschanged);
         grouping = pvt.detail.grouping;
         compactRows = pvt.detail.compactRows;
         rowGroupBefore = pvt.detail.rowGroupBefore;
@@ -342,9 +332,6 @@
         aggregatorName = pvt.detail.aggregatorName;
         options = pvt.detail.options;
         options.data = data;
-        // Always call getData() when a pivot is selected to ensure fresh data
-        // This handles cases where search terms are already loaded but need to be reprocessed
-        console.log('Calling getData() on pivot selection');
         getData();
     }
 
