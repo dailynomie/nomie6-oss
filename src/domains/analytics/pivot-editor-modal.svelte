@@ -53,11 +53,6 @@
     }
   })
 
-  $effect(() => {
-    if (searchterms != "") {
-      searchtermcounts()
-    }
-  })
 
   function searchtermcounts() {
     countsearchterms = (searchterms.match(/;/g) || []).length;
@@ -232,7 +227,7 @@
     <Divider left={16} />
     <Input
       type="text"
-      on:input={(evt) => {searchterms = evt.detail;searchtermcounts;}}
+      on:input={(evt) => {searchterms = evt.detail; searchtermcounts();}}
       value={searchterms}
       listItem
       label="Searchterms"
