@@ -164,12 +164,13 @@
                 await addUsage2Data(usage,trackables[i].id)
             }
         }
-        if (workingPivotSearchTerm.enabled == true){
-            for (i in searches) {
-                await addSearch2Data(searches[i])
-            }}
-
         data = await bringItTogether(tempdata)
+
+        // Add search term attributes to consolidated data
+        if (workingPivotSearchTerm.enabled == true){
+            data = await addSearchAttributesToConsolidatedData(data, searches)
+        }
+
         loaded = true;
         Interact.stopBlocker()
         isLoadingData = false;
@@ -246,70 +247,40 @@
         return time
     }
 
-    async function addSearch2Data(term){
-        if (term !="") {
-        let daysBack =  workingPivotDays;
-        let date = new Date()
-        let end = dayjs(date || new Date()).endOf('day')
-        let start = dayjs(date).subtract(daysBack, 'days')
-        let results = await LedgerStore.query({ search: escapeRegExp(term), start, end });
+    async function addSearchAttributesToConsolidatedData(consolidatedData, searchTerms) {
+        // Create a copy of the data so we don't mutate the original
+        let result = consolidatedData.map(item => ({...item}));
 
-        var emoji = "🕵🏻‍♂️"
-        var search = emoji+term;
+        for (let termIndex in searchTerms) {
+            let term = searchTerms[termIndex];
+            if (term !== "") {
+                let daysBack = workingPivotDays;
+                let date = new Date();
+                let end = dayjs(date || new Date()).endOf('day');
+                let start = dayjs(date).subtract(daysBack, 'days');
+                let queryResults = await LedgerStore.query({ search: escapeRegExp(term), start, end });
 
-        // Consolidate results by date
-        var consolidated = {}
-        results.forEach((result) => {
-            var shortdate = result.start.toISOString().slice(0,10);
-            if (!consolidated[shortdate]) {
-                consolidated[shortdate] = 0;
+                var emoji = "🕵🏻‍♂️";
+                var searchAttr = emoji + term;
+
+                // Build a map of date -> count
+                var countMap = {};
+                queryResults.forEach((qr) => {
+                    var shortdate = qr.start.toISOString().slice(0, 10);
+                    if (!countMap[shortdate]) {
+                        countMap[shortdate] = 0;
+                    }
+                    countMap[shortdate]++;
+                });
+
+                // Add search attribute to each record in result
+                result.forEach((item) => {
+                    item[searchAttr] = countMap[item.ShortDate] || 0;
+                });
             }
-            consolidated[shortdate]++;
-        });
-
-        // For each date in consolidated, add search record to tempdata
-        // This ensures search term appears even with 0 results
-        for (let shortdate in consolidated) {
-            // Add record for this date with search term count
-            var day = await determineDay(new Date(shortdate))
-            var dayperiod = await determineDayPeriod(new Date(shortdate))
-            tempdata.push({
-                "Date": new Date(shortdate),
-                [search]: consolidated[shortdate],
-                "ShortDate": shortdate,
-                "Day": day,
-                "DayPeriod": dayperiod
-            });
         }
 
-        // Also ensure search term exists for all other dates with 0 count
-        var existingDates = new Set();
-        tempdata.forEach((item) => {
-            existingDates.add(item.ShortDate);
-        });
-
-        existingDates.forEach((shortdate) => {
-            if (!consolidated[shortdate]) {
-                // This date doesn't have search results, but search term should still appear with 0
-                var found = false;
-                for (let i = 0; i < tempdata.length; i++) {
-                    if (tempdata[i].ShortDate === shortdate && search in tempdata[i]) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    // Find the first existing entry for this date and add the search attribute
-                    for (let i = 0; i < tempdata.length; i++) {
-                        if (tempdata[i].ShortDate === shortdate) {
-                            tempdata[i][search] = 0;
-                            break;
-                        }
-                    }
-                }
-            }
-        });
-    }
+        return result;
     }
 
     async function bringItTogether(data){
