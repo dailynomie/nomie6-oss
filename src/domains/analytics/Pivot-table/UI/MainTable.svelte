@@ -32,7 +32,7 @@
    </style>
 
 {#if horizUnused}
-    <table class="pvtUi" style='{cssVarStyles}'>
+    <table class="pvtUi" style={cssVarStyles}>
         <tbody>
             <tr>
                 <td class="pvtRenderers"><slot name="rendererCell" /></td>
@@ -49,7 +49,7 @@
         </tbody>
     </table>
 {:else}
-    <table class="pvtUi">
+    <table class="pvtUi" style={cssVarStyles}>
         <tbody>
             <tr>
                 <td class="pvtRenderers"><slot name="rendererCell" /></td>
@@ -59,7 +59,7 @@
             <tr>
                 <td class="pvtAxisContainer pvtUnused pvtVertList"><slot name="unusedAttrsCell" /></td>
                 <td class="pvtAxisContainer pvtVertList pvtRows"><slot name="rowAttrsCell" /></td>
-                <td class="pvtOutput"><slot name="outputCell" /></td>
+                <td class="pvtOutput"><div class="scrolling-wrapper"><slot name="outputCell" /></div></td>
             </tr>
         </tbody>
     </table>

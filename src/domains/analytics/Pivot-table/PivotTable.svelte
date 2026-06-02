@@ -9,6 +9,7 @@
         renderer = TableRenderers.Table,
         pivotconfig = $bindable(),
         getConfig = $bindable(false),
+        opts = {},
         workingPivotId = "1dummy2",
         workingPivotTag = "Dummy",
         workingPivotEmoji = "🐣",
@@ -59,7 +60,7 @@
 
 
 <div class="cont">
-<svelte:component this={renderer} {pivotconfig} {...restProps} />
+<svelte:component this={renderer} {pivotconfig} {opts} {...restProps} />
 </div>
 
 <style>

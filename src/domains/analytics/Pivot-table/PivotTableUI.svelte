@@ -107,6 +107,18 @@
         return renderers[validRendererName];
     });
 
+    // Compute heatmap options based on renderer name
+    let heatmapOpts = $derived.by(() => {
+        if (rendererName === 'Table Heatmap') {
+            return { heatmapMode: 'full' };
+        } else if (rendererName === 'Table Col Heatmap') {
+            return { heatmapMode: 'col' };
+        } else if (rendererName === 'Table Row Heatmap') {
+            return { heatmapMode: 'row' };
+        }
+        return {};
+    });
+
     // Get renderer configuration (traceOptions, layoutOptions, transpose)
     let rendererOptions = $derived.by(() => {
         const config = getRendererConfig(rendererName);
@@ -189,6 +201,7 @@
         {workingPivotDays}
         {workingPivotSearchTerm}
         {renderers}
+        opts={heatmapOpts}
         traceOptions={rendererOptions.traceOptions}
         layoutOptions={rendererOptions.layoutOptions}
         transpose={rendererOptions.transpose}

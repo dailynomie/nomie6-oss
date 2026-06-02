@@ -19,11 +19,9 @@
         ...restProps
     } = $props();
 
-    let theme = $state($Prefs.theme);
-
     // Theme-based styles
     let cssVarStyles = $derived.by(() => {
-        if (theme === 'dark') {
+        if ($Prefs.theme === 'dark') {
             const bgdark = '#1D2737';
             const border = '#2A303C';
             const bgbt = '#0D324F';
@@ -44,11 +42,11 @@
 
     let pvtValBGPlaceholder = $derived(
         !opts.heatmapMode
-            ? (theme === 'dark' ? ";background-color:black;color:white" : ";background-color:white")
+            ? ($Prefs.theme === 'dark' ? ";background-color:black;color:white" : ";background-color:white")
             : ""
     );
 
-    let darkPlaceholder = $derived(theme === 'dark' ? "D" : "");
+    let darkPlaceholder = $derived($Prefs.theme === 'dark' ? "D" : "");
 
     // Create PivotData from props
     import { untrack } from 'svelte';
@@ -110,7 +108,7 @@
         const max = Math.max.apply(Math, values);
         return (x) => {
             const nonRed = 255 - Math.round((255 * (x - min)) / (max - min));
-            if (theme === 'dark' && nonRed === 255) {
+            if ($Prefs.theme === 'dark' && nonRed === 255) {
                 return `background-color: rgb(0,0,0)`;
             } else {
                 return `background-color: rgb(255,${nonRed},${nonRed})`;
@@ -319,7 +317,7 @@
                     {@const aggregator = pivotData.getAggregator(rowKey, colKey)}
                     {@const colGap = colAttrs.length - colKey.length}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    {#if theme == "light" }
+                    {#if $Prefs.theme === "light" }
                     <td
                         class={"pvtVal" + (colGap ? " pvtLevel" + colGap : "")}
                         on:click={getClickHandler && getClickHandler(aggregator.value(), rowKey, colKey)}
