@@ -290,6 +290,13 @@
     $effect(() => {
         if ($PivotStore) {
             initialzePivotsPage()
+            // Reload current pivot if it's been updated in PivotStore
+            if (workingPivotId !== "0") {
+                const updatedPivot = $PivotStore.find(p => p.id === workingPivotId);
+                if (updatedPivot) {
+                    selectPivot({ detail: updatedPivot });
+                }
+            }
         }
     })
 
