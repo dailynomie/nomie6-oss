@@ -164,7 +164,7 @@
         {attrValues}
         items={unusedAttrs}
         onChange={(order) => (unusedOrder = order)}
-        onUpdate={(v) => (valueFilter = v)}
+        onUpdate={(v) => { console.log('PivotTableUI onUpdate (unused):', v); valueFilter = v; }}
         {menuLimit}
     />
 
@@ -175,7 +175,7 @@
         {attrValues}
         items={colAttrs}
         onChange={(v) => (cols = v)}
-        onUpdate={(v) => (valueFilter = v)}
+        onUpdate={(v) => { console.log('PivotTableUI onUpdate (cols):', v); valueFilter = v; }}
         {menuLimit}
     />
 
@@ -186,7 +186,7 @@
         {attrValues}
         items={rowAttrs}
         onChange={(v) => (rows = v)}
-        onUpdate={(v) => (valueFilter = v)}
+        onUpdate={(v) => { console.log('PivotTableUI onUpdate (rows):', v); valueFilter = v; }}
         {menuLimit}
     />
     
