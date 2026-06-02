@@ -76,6 +76,7 @@
     let pivots: Array<PivotClass> = $state([]);
     let menushow = $state(true);
     let countpivots = $state(0);
+    let isLoadingData = $state(false);
 
     let options = {
         "rows": rows,
@@ -135,6 +136,12 @@
     }
 
     async function getData(){
+        // Prevent concurrent getData() calls which can cause race conditions
+        if (isLoadingData) {
+            return;
+        }
+        isLoadingData = true;
+
         loaded = false;
         let message = "Loading Data...";
         if (workingPivotDays > 270) {message = `> 270 days, be patience..`}
@@ -147,7 +154,7 @@
             if (trackables.length && $LedgerStore.books) {
             if(/[#@+]/.test(trackables[0].id)) {
                 clearInterval(timeout);
-                
+
         tempdata = [];
         var i;
         
@@ -162,16 +169,19 @@
                 await addSearch2Data(searches[i])
             }}
 
-        data = await bringItTogether(tempdata)
+        data = await bringItogether(tempdata)
         options.data = data;
         loaded = true;
         Interact.stopBlocker()
+        isLoadingData = false;
         }
         }
         else {
             clearInterval(timeout);
             Interact.stopBlocker()
-            notenoughdata = true}}, 100);
+            notenoughdata = true
+            isLoadingData = false;
+        }}, 100);
     }
 
        
