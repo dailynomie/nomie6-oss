@@ -1,8 +1,9 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-    import Sortable from "./Sortable.svelte";
+    import { onMount } from "svelte";
     import DraggableAttribute from "./DraggableAttribute.svelte";
+    import sortableAttachment from "./SortableAttachment";
     import { getSort } from "../Utilities";
 
     const { items, onChange, valueFilter, attrValues, sorters, menuLimit, onUpdate } = $props()
@@ -12,28 +13,43 @@
         ghostClass: "pvtPlaceholder",
         filter: ".pvtFilterBox",
         preventOnFilter: false,
+        revertOnSpill: true,
+        removeOnSpill: false,
     };
 
-    let x;
+    let initialized = $state(false);
+    let containerEl: HTMLElement;
 
-    function getAttrValues(x) {
+    onMount(() => {
+        initialized = true;
+    });
+
+    function getAttrValues(x: string) {
         const values = attrValues[x] ?? {},
             sorter = getSort(sorters, x);
         return Object.keys(values).sort(sorter);
     }
 
-    function updateValuesInFilter(attribute, values) {
+    function updateValuesInFilter(attribute: string, values: any) {
         valueFilter[attribute] = values;
         onUpdate(valueFilter);
     }
 </script>
 
-<Sortable {items} let:item={x} on:change={(ev) => onChange(ev.detail)} {options}>
-    <DraggableAttribute
-        attrValues={getAttrValues(x)}
-        name={x}
-        valueFilter={valueFilter[x] || {}}
-        {menuLimit}
-        {updateValuesInFilter}
-    />
-</Sortable>
+<div bind:this={containerEl}>
+    <!-- Placeholder for sortable attachment -->
+    {#if !initialized}
+        <div {@attach sortableAttachment(options, onChange)}></div>
+    {/if}
+
+    <!-- Items rendered without keys -->
+    {#each items as name}
+        <DraggableAttribute
+            attrValues={getAttrValues(name)}
+            {name}
+            valueFilter={valueFilter[name] || {}}
+            {menuLimit}
+            {updateValuesInFilter}
+        />
+    {/each}
+</div>
