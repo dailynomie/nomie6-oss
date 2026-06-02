@@ -57,12 +57,14 @@
         // Establish dependencies by accessing these props outside untrack
         // This ensures the effect re-runs when cols/rows/vals/data/valueFilter changes
         const { cols, rows, vals, data, aggregator, sorters, derivedAttributes, valueFilter } = restProps;
+        console.log('TableRenderer effect running, valueFilter:', valueFilter);
         const currentGrouping = grouping;
         const currentRowGroupBefore = rowGroupBefore;
         const currentColGroupBefore = colGroupBefore;
 
         untrack(() => {
             pivotData = new PivotData({ ...restProps, grouping: currentGrouping, rowGroupBefore: currentRowGroupBefore, colGroupBefore: currentColGroupBefore });
+            console.log('PivotData recreated with valueFilter:', valueFilter);
         });
     });
 

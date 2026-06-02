@@ -51,6 +51,10 @@
     // Provide valueFilter via context so FilterBox can access and update it
     setContext('valueFilter', valueFilter);
 
+    $effect(() => {
+        console.log('PivotTableUI valueFilter changed:', valueFilter);
+    });
+
     // Sync prop changes to local state
     $effect(() => {
         cols = initialCols;

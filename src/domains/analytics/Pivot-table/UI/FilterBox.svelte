@@ -32,7 +32,9 @@
     }
 
     function toggleValue(value) {
+        console.log('FilterBox.toggleValue:', name, value, 'before:', valueFilter);
         value in valueFilter ? removeValuesFromFilter([value]) : addValuesToFilter([value]);
+        console.log('FilterBox.toggleValue:', name, value, 'after:', valueFilter, 'globalFilter:', globalFilter);
     }
 
     function setValuesInFilter(vals) {
