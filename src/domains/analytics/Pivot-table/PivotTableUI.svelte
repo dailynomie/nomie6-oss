@@ -61,6 +61,11 @@
     // Compute attrValues from data
     let attrValues = $derived.by(() => {
         console.log('PivotTableUI: attrValues recalculating, data has', data?.length || 0, 'records');
+        if (data?.length > 0) {
+            console.log('First record keys:', Object.keys(data[0]));
+            const searchKeys = Object.keys(data[0]).filter(k => k.includes('🕵'));
+            console.log('Search term attributes in first record:', searchKeys);
+        }
         const result = {};
         let recordsProcessed = 0;
         PivotData.forEachRecord(data, derivedAttributes, function (record) {
@@ -91,7 +96,11 @@
     }
 
     // Filter columns and rows
-    let colAttrs = $derived(cols.filter(notHidden));
+    let colAttrs = $derived.by(() => {
+        const filtered = cols.filter(notHidden);
+        console.log('colAttrs updated:', filtered);
+        return filtered;
+    });
     let rowAttrs = $derived(rows.filter(notHidden));
 
     // Compute unused attributes
