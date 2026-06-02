@@ -169,7 +169,7 @@
                 await addSearch2Data(searches[i])
             }}
 
-        data = await bringItogether(tempdata)
+        data = await bringItTogether(tempdata)
         options.data = data;
         loaded = true;
         Interact.stopBlocker()
