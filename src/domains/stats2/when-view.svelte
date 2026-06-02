@@ -13,7 +13,7 @@
   import type { Trackable } from '../trackable/Trackable.class'
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
-  const { logs, usage, trackable } = $props()
+  const { logs = $bindable(), usage, trackable } = $props()
 
   let dayOfWeek = $state<IDow | undefined>(undefined)
   let loading = $state(true)
