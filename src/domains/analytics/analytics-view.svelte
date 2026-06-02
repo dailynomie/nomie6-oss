@@ -425,15 +425,7 @@
         hiddenFromDragDrop = [];
         unusedOrientationCutoff = 85;
         menuLimit = 500;
-        options = {
-        "rows": rows,
-        "cols": cols,
-        "vals": vals,
-        data,
-        "valueFilter": valueFilter,
-        "sorters": sorters,
-        derivedAttributes,
-    };
+        // options is now derived, so no need to assign
     }
 
     const deletePivot = async () => {
