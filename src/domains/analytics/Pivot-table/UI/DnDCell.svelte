@@ -21,7 +21,9 @@
     }
 
     function updateValuesInFilter(attribute: string, values: any) {
+        console.log('DnDCell.updateValuesInFilter:', attribute, values);
         valueFilter[attribute] = values;
+        console.log('DnDCell.updateValuesInFilter calling onUpdate with:', valueFilter);
         onUpdate(valueFilter);
     }
 </script>
