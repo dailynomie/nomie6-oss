@@ -258,21 +258,57 @@
         var emoji = "🕵🏻‍♂️"
         var search = emoji+term;
 
-        // Create a map of dates with their counts
-        var countMap = {};
+        // Consolidate results by date
+        var consolidated = {}
         results.forEach((result) => {
-            result.shortdate = result.start.toISOString().slice(0,10);
-            if (!countMap[result.shortdate]) {
-                countMap[result.shortdate] = 0;
+            var shortdate = result.start.toISOString().slice(0,10);
+            if (!consolidated[shortdate]) {
+                consolidated[shortdate] = 0;
             }
-            countMap[result.shortdate]++;
+            consolidated[shortdate]++;
         });
 
-        // Add search term attribute to all dates in tempdata
-        // This ensures the search term appears as a draggable even if count is 0
+        // For each date in consolidated, add search record to tempdata
+        // This ensures search term appears even with 0 results
+        for (let shortdate in consolidated) {
+            // Add record for this date with search term count
+            var day = await determineDay(new Date(shortdate))
+            var dayperiod = await determineDayPeriod(new Date(shortdate))
+            tempdata.push({
+                "Date": new Date(shortdate),
+                [search]: consolidated[shortdate],
+                "ShortDate": shortdate,
+                "Day": day,
+                "DayPeriod": dayperiod
+            });
+        }
+
+        // Also ensure search term exists for all other dates with 0 count
+        var existingDates = new Set();
         tempdata.forEach((item) => {
-            let itemDate = item.ShortDate;
-            item[search] = countMap[itemDate] || 0;
+            existingDates.add(item.ShortDate);
+        });
+
+        existingDates.forEach((shortdate) => {
+            if (!consolidated[shortdate]) {
+                // This date doesn't have search results, but search term should still appear with 0
+                var found = false;
+                for (let i = 0; i < tempdata.length; i++) {
+                    if (tempdata[i].ShortDate === shortdate && search in tempdata[i]) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    // Find the first existing entry for this date and add the search attribute
+                    for (let i = 0; i < tempdata.length; i++) {
+                        if (tempdata[i].ShortDate === shortdate) {
+                            tempdata[i][search] = 0;
+                            break;
+                        }
+                    }
+                }
+            }
         });
     }
     }
