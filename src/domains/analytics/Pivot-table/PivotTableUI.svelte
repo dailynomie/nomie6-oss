@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script>
+    import { setContext } from 'svelte';
     import Aggregators from './UI/Aggregators.svelte';
     import DnDCell from './UI/DnDCell.svelte';
     import DropdownNomie  from './UI/DropdownNomie.svelte';
@@ -46,6 +47,9 @@
     let aggregatorName = $state(initialAggregatorName);
     let valueFilter = $state(initialValueFilter);
     let unusedOrder = $state([]);
+
+    // Provide valueFilter via context so FilterBox can access and update it
+    setContext('valueFilter', valueFilter);
 
     // Sync prop changes to local state
     $effect(() => {
