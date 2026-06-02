@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script>
-    import { setContext } from 'svelte';
     import Aggregators from './UI/Aggregators.svelte';
     import DnDCell from './UI/DnDCell.svelte';
     import DropdownNomie  from './UI/DropdownNomie.svelte';
@@ -48,9 +47,6 @@
     let valueFilter = $state(initialValueFilter);
     let unusedOrder = $state([]);
 
-    // Provide valueFilter via context so FilterBox can access and update it
-    // We need to pass an object that FilterBox can mutate, so use valueFilter directly
-    setContext('valueFilter', valueFilter);
 
     // Sync prop changes to local state
     $effect(() => {
@@ -172,7 +168,7 @@
         {attrValues}
         items={colAttrs}
         onChange={(v) => (cols = v)}
-        onUpdate={(v) => { console.log('PivotTableUI onUpdate (cols):', v); valueFilter = v; }}
+        onUpdate={(v) => (valueFilter = v)}
         {menuLimit}
     />
 
@@ -183,7 +179,7 @@
         {attrValues}
         items={rowAttrs}
         onChange={(v) => (rows = v)}
-        onUpdate={(v) => { console.log('PivotTableUI onUpdate (rows):', v); valueFilter = v; }}
+        onUpdate={(v) => (valueFilter = v)}
         {menuLimit}
     />
     

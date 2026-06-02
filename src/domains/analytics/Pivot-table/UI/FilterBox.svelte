@@ -5,14 +5,13 @@
 <svelte:options runes={true} />
 
 <script>
-    import { getContext, createEventDispatcher } from "svelte";
+    import { createEventDispatcher } from "svelte";
     import { Prefs } from '../../../preferences/Preferences'
 
     const dispatch = createEventDispatcher();
-    const { name, values, menuLimit = 500 } = $props();
+    const { name, values, valueFilter: initialValueFilter = {}, menuLimit = 500 } = $props();
 
-    let globalFilter = getContext('valueFilter') || {};
-    let valueFilter = $state(globalFilter[name] ?? {});
+    let valueFilter = $state(initialValueFilter);
 
     let filterText = $state("");
 
@@ -45,12 +44,10 @@
 
     function addValuesToFilter(vals) {
         vals.forEach((v) => (valueFilter[v] = true));
-        globalFilter[name] = valueFilter;
     }
 
     function removeValuesFromFilter(vals) {
         vals.forEach((v) => delete valueFilter[v]);
-        globalFilter[name] = valueFilter;
     }
 
     function matchesFilter(x) {
