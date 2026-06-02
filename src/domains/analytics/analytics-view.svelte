@@ -342,12 +342,10 @@
         aggregatorName = pvt.detail.aggregatorName;
         options = pvt.detail.options;
         options.data = data;
-        if (historyperiodchanged == true || searchtermschanged == true) {
-            console.log('Calling getData()');
-            getData();
-        } else {
-            console.log('NOT calling getData() - conditions not met');
-        }
+        // Always call getData() when a pivot is selected to ensure fresh data
+        // This handles cases where search terms are already loaded but need to be reprocessed
+        console.log('Calling getData() on pivot selection');
+        getData();
     }
 
     const setDefault = async (pvt) => {
