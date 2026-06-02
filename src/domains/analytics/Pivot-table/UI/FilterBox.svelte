@@ -5,9 +5,10 @@
 <svelte:options runes={true} />
 
 <script>
-    import { getContext } from "svelte";
+    import { getContext, createEventDispatcher } from "svelte";
     import { Prefs } from '../../../preferences/Preferences'
 
+    const dispatch = createEventDispatcher();
     const { name, values, menuLimit = 500 } = $props();
 
     let globalFilter = getContext('valueFilter') || {};
@@ -35,11 +36,13 @@
         console.log('FilterBox.toggleValue:', name, value, 'before:', valueFilter);
         value in valueFilter ? removeValuesFromFilter([value]) : addValuesToFilter([value]);
         console.log('FilterBox.toggleValue:', name, value, 'after:', valueFilter, 'globalFilter:', globalFilter);
+        dispatch('change', valueFilter);
     }
 
     function setValuesInFilter(vals) {
         Object.keys(valueFilter).forEach((key) => delete valueFilter[key]);
         addValuesToFilter(vals);
+        dispatch('change', valueFilter);
     }
 
     function addValuesToFilter(vals) {
