@@ -78,7 +78,7 @@
     let countpivots = $state(0);
     let isLoadingData = $state(false);
 
-    let options = {
+    let options = $derived.by(() => ({
         "rows": rows,
         "cols": cols,
         "vals": vals,
@@ -86,7 +86,7 @@
         "valueFilter": valueFilter,
         "sorters": sorters,
         derivedAttributes,
-    };
+    }));
 
     const initialzePivotsPage = debounce(() => {
         let lastcount = countpivots;
