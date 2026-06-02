@@ -374,8 +374,15 @@
         colGroupBefore = pvt.detail.colGroupBefore;
         rendererName = pvt.detail.rendererName;
         aggregatorName = pvt.detail.aggregatorName;
-        options = pvt.detail.options;
-        options.data = data;
+        // Sync pivot configuration from stored options
+        if (pvt.detail.options) {
+            cols = pvt.detail.options.cols || cols;
+            rows = pvt.detail.options.rows || rows;
+            vals = pvt.detail.options.vals || vals;
+            sorters = pvt.detail.options.sorters || sorters;
+            valueFilter = pvt.detail.options.valueFilter || valueFilter;
+            derivedAttributes = pvt.detail.options.derivedAttributes || derivedAttributes;
+        }
         getData();
     }
 
