@@ -118,10 +118,12 @@
         lastcount=countpivots;
         deselectAll();
     }
-    else if (lastcount = countpivots) {
+    else if (lastcount == countpivots && workingPivotId !== "0") {
         lastcount=countpivots;
         let pvt  = {"detail":$PivotStore.find(element => element.id == workingPivotId)};
-        selectPivot(pvt)
+        if (pvt.detail) {
+            selectPivot(pvt)
+        }
     }
 
   }, 200)
@@ -290,13 +292,6 @@
     $effect(() => {
         if ($PivotStore) {
             initialzePivotsPage()
-            // Reload current pivot if it's been updated in PivotStore
-            if (workingPivotId !== "0") {
-                const updatedPivot = $PivotStore.find(p => p.id === workingPivotId);
-                if (updatedPivot) {
-                    selectPivot({ detail: updatedPivot });
-                }
-            }
         }
     })
 
