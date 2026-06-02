@@ -59,9 +59,12 @@
         // Establish dependencies by accessing these props outside untrack
         // This ensures the effect re-runs when cols/rows/vals/data changes
         const { cols, rows, vals, data, aggregator, sorters, derivedAttributes } = restProps;
+        const currentGrouping = grouping;
+        const currentRowGroupBefore = rowGroupBefore;
+        const currentColGroupBefore = colGroupBefore;
 
         untrack(() => {
-            pivotData = new PivotData(restProps);
+            pivotData = new PivotData({ ...restProps, grouping: currentGrouping, rowGroupBefore: currentRowGroupBefore, colGroupBefore: currentColGroupBefore });
         });
     });
 
@@ -306,7 +309,7 @@
                         </th>
                     {/if}
                 {/each}
-                {#if !useCompactRows && rowGap && rowGroupBefore}
+                {#if !useCompactRows && rowGap}
                     <th class="pvtRowLabel" colSpan={rowGap + 1}>
                         {"Total (" + rowKey[rowKey.length - 1] + ")"}
                     </th>
@@ -321,7 +324,7 @@
                         class={"pvtVal" + (colGap ? " pvtLevel" + colGap : "")}
                         on:click={getClickHandler && getClickHandler(aggregator.value(), rowKey, colKey)}
                         style={valueCellColors(rowKey, colKey, aggregator.value())}
-                        
+
                     >
                         {aggregator.format(aggregator.value())}
                     </td>
@@ -330,12 +333,12 @@
                         class={"pvtVal" + (colGap ? " pvtLevelD" + colGap : "")}
                         on:click={getClickHandler && getClickHandler(aggregator.value(), rowKey, colKey)}
                         style={valueCellColors(rowKey, colKey, aggregator.value())+";color:white"}
-                        
+
                     >
                         {aggregator.format(aggregator.value())}
                     </td>
                     {/if}
-                    
+
                 {/each}
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <td
