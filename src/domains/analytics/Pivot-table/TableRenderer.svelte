@@ -12,6 +12,9 @@
         tableColorScaleGenerator = redColorScaleGenerator,
         tableOptions = {},
         compactRows = true,
+        grouping = false,
+        rowGroupBefore = false,
+        colGroupBefore = false,
         opts = {},
         ...restProps
     } = $props();
@@ -122,9 +125,8 @@
     let rowAttrs = $derived(pivotData?.props?.rows || []);
     let grandTotalAggregator = $derived(pivotData?.getAggregator([], []) || null);
 
-    let grouping = $derived(pivotData?.props?.grouping || false);
     let useCompactRows = $derived(grouping && compactRows);
-    let specialCase = $derived(grouping && !pivotData?.props?.rowGroupBefore);
+    let specialCase = $derived(grouping && !rowGroupBefore);
 
     let folded = $state(new Set());
     const isFolded = (keys) => has(folded, keys.map(flatKey));
@@ -209,8 +211,8 @@
             : null
     );
 
-    let rbClass = $derived(grouping && pivotData ? (pivotData.props.rowGroupBefore ? "rowGroupBefore" : "rowGroupAfter") : "");
-    let cbClass = $derived(grouping && pivotData ? (pivotData.props.colGroupBefore ? "colGroupBefore" : "colGroupAfter") : "");
+    let rbClass = $derived(grouping && pivotData ? (rowGroupBefore ? "rowGroupBefore" : "rowGroupAfter") : "");
+    let cbClass = $derived(grouping && pivotData ? (colGroupBefore ? "colGroupBefore" : "colGroupAfter") : "");
     let clickClass = $derived((pred, closed) => (pred ? " pvtClickable" + (closed ? " closed" : "") : ""));
 </script>
 
