@@ -21,12 +21,9 @@
     }
 
     function updateValuesInFilter(attribute: string, values: any) {
-        console.log('DnDCell.updateValuesInFilter:', attribute, values);
         valueFilter[attribute] = values;
         // Create new object reference so Svelte detects the change
-        const newFilter = { ...valueFilter };
-        console.log('DnDCell.updateValuesInFilter calling onUpdate with:', newFilter);
-        onUpdate(newFilter);
+        onUpdate({ ...valueFilter });
     }
 </script>
 

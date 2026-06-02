@@ -51,7 +51,6 @@
     // Provide valueFilter via context so FilterBox can access and update it
     // Update context whenever valueFilter changes
     $effect(() => {
-        console.log('PivotTableUI valueFilter changed:', valueFilter);
         setContext('valueFilter', valueFilter);
     });
 
@@ -164,7 +163,7 @@
         {attrValues}
         items={unusedAttrs}
         onChange={(order) => (unusedOrder = order)}
-        onUpdate={(v) => { console.log('PivotTableUI onUpdate (unused):', v); valueFilter = v; }}
+        onUpdate={(v) => (valueFilter = v)}
         {menuLimit}
     />
 
