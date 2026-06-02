@@ -40,7 +40,7 @@
     function setValuesInFilter(values) {
         Object.keys(valueFilter).forEach((key) => delete valueFilter[key]);
         addValuesToFilter(values);
-        // values.forEach((v) => (valueFilter[v] = true));
+        dispatch("change", valueFilter);
     }
 
     function addValuesToFilter(values) {

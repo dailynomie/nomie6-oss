@@ -55,8 +55,8 @@
 
     $effect(() => {
         // Establish dependencies by accessing these props outside untrack
-        // This ensures the effect re-runs when cols/rows/vals/data changes
-        const { cols, rows, vals, data, aggregator, sorters, derivedAttributes } = restProps;
+        // This ensures the effect re-runs when cols/rows/vals/data/valueFilter changes
+        const { cols, rows, vals, data, aggregator, sorters, derivedAttributes, valueFilter } = restProps;
         const currentGrouping = grouping;
         const currentRowGroupBefore = rowGroupBefore;
         const currentColGroupBefore = colGroupBefore;
