@@ -49,10 +49,10 @@
     let unusedOrder = $state([]);
 
     // Provide valueFilter via context so FilterBox can access and update it
-    setContext('valueFilter', valueFilter);
-
+    // Update context whenever valueFilter changes
     $effect(() => {
         console.log('PivotTableUI valueFilter changed:', valueFilter);
+        setContext('valueFilter', valueFilter);
     });
 
     // Sync prop changes to local state
