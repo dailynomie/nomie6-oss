@@ -1,9 +1,8 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-    import { onMount } from "svelte";
+    import Sortable from "./Sortable.svelte";
     import DraggableAttribute from "./DraggableAttribute.svelte";
-    import sortableAttachment from "./SortableAttachment";
     import { getSort } from "../Utilities";
 
     const { items, onChange, valueFilter, attrValues, sorters, menuLimit, onUpdate } = $props()
@@ -13,16 +12,7 @@
         ghostClass: "pvtPlaceholder",
         filter: ".pvtFilterBox",
         preventOnFilter: false,
-        revertOnSpill: true,
-        removeOnSpill: false,
     };
-
-    let initialized = $state(false);
-    let containerEl: HTMLElement;
-
-    onMount(() => {
-        initialized = true;
-    });
 
     function getAttrValues(x: string) {
         const values = attrValues[x] ?? {},
@@ -36,15 +26,12 @@
     }
 </script>
 
-<div bind:this={containerEl} use:sortableAttachment={sortableAttachment(options, onChange)}>
-    <!-- Items rendered without keys -->
-    {#each items as name}
-        <DraggableAttribute
-            attrValues={getAttrValues(name)}
-            {name}
-            valueFilter={valueFilter[name] || {}}
-            {menuLimit}
-            {updateValuesInFilter}
-        />
-    {/each}
-</div>
+<Sortable {items} let:item={name} on:change={(ev) => onChange(ev.detail)} {options}>
+    <DraggableAttribute
+        attrValues={getAttrValues(name)}
+        {name}
+        valueFilter={valueFilter[name] || {}}
+        {menuLimit}
+        {updateValuesInFilter}
+    />
+</Sortable>
