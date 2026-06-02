@@ -11,6 +11,11 @@ import rollupPluginsSvelte from 'rollup-plugin-svelte-svg'
 
 import { string } from 'rollup-plugin-string'
 
+// Polyfill structuredClone for vite-plugin-pwa
+if (!globalThis.structuredClone) {
+  globalThis.structuredClone = (obj) => JSON.parse(JSON.stringify(obj));
+}
+
 export default defineConfig({
   define: {
     'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version)
