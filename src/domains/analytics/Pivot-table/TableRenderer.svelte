@@ -306,7 +306,7 @@
                         </th>
                     {/if}
                 {/each}
-                {#if !useCompactRows && rowGap}
+                {#if !useCompactRows && rowGap && rowGroupBefore}
                     <th class="pvtRowLabel" colSpan={rowGap + 1}>
                         {"Total (" + rowKey[rowKey.length - 1] + ")"}
                     </th>
