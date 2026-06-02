@@ -170,7 +170,6 @@
             }}
 
         data = await bringItTogether(tempdata)
-        options.data = data;
         loaded = true;
         Interact.stopBlocker()
         isLoadingData = false;
