@@ -60,12 +60,6 @@
 
     // Compute attrValues from data
     let attrValues = $derived.by(() => {
-        console.log('>>> attrValues RECALCULATING, cols has', cols.length, 'items, data has', data?.length || 0, 'records');
-        if (data?.length > 0) {
-            console.log('First record keys:', Object.keys(data[0]));
-            const searchKeys = Object.keys(data[0]).filter(k => k.includes('🕵'));
-            console.log('Search term attributes in first record:', searchKeys);
-        }
         const result = {};
         let recordsProcessed = 0;
         PivotData.forEachRecord(data, derivedAttributes, function (record) {
@@ -86,8 +80,6 @@
             }
             recordsProcessed++;
         });
-        const attrKeys = Object.keys(result);
-        console.log('PivotTableUI: attrValues has', attrKeys.length, 'attributes:', attrKeys.filter(k => k.includes('🕵')));
         return result;
     });
 
@@ -96,24 +88,13 @@
     }
 
     // Filter columns and rows
-    let colAttrs = $derived.by(() => {
-        const filtered = cols.filter(notHidden);
-        console.log('colAttrs updated:', filtered);
-        return filtered;
-    });
+    let colAttrs = $derived(cols.filter(notHidden));
     let rowAttrs = $derived(rows.filter(notHidden));
 
     // Compute unused attributes
-    let unusedAttrs = $derived.by(() => {
-        const unused = Object.keys(attrValues)
-            .filter((e) => !colAttrs.includes(e) && !rowAttrs.includes(e) && notHidden(e))
-            .sort(sortAs(unusedOrder));
-        const searchTerms = unused.filter(a => a.includes('🕵'));
-        if (searchTerms.length > 0 || unused.length !== Object.keys(attrValues).length) {
-            console.log('PivotTableUI: unusedAttrs updated -', unused.length, 'unused, search terms:', searchTerms);
-        }
-        return unused;
-    });
+    let unusedAttrs = $derived(Object.keys(attrValues)
+        .filter((e) => !colAttrs.includes(e) && !rowAttrs.includes(e) && notHidden(e))
+        .sort(sortAs(unusedOrder)));
 
     let horizUnused = $derived(unusedAttrs.reduce((r, e) => r + e.length, 0) < unusedOrientationCutoff);
 

@@ -163,15 +163,12 @@
             }
         }
         data = await bringItTogether(tempdata)
-        console.log('getData: data consolidated, has', data.length, 'records');
 
         // Add search term attributes to consolidated data
         if (workingPivotSearchTerm.enabled == true){
             data = await addSearchAttributesToConsolidatedData(data, searches)
-            console.log('getData: after adding search attributes, first record keys:', Object.keys(data[0] || {}));
         }
 
-        console.log('getData: final data set, search terms in first record:', Object.keys(data[0] || {}).filter(k => k.includes('🕵')));
         loaded = true;
         Interact.stopBlocker()
         isLoadingData = false;
