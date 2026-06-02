@@ -141,6 +141,7 @@
         Interact.blocker(message)
         let trackables;
         let searches = workingPivotSearchTerm.terms.split(';');
+        console.log('getData() called with searchTerm:', workingPivotSearchTerm, 'searches:', searches);
         var timeout = setInterval(async function() {
             trackables = $AllTrackablesAsArray;
 
@@ -238,6 +239,7 @@
     }
 
     async function addSearch2Data(term){
+        console.log('addSearch2Data() called with term:', term);
         if (term !="") {
         let daysBack =  workingPivotDays;
         let date = new Date()
@@ -312,6 +314,7 @@
     }
 
     const selectPivot = (pvt) => {
+        console.log('selectPivot() called with pivot:', pvt.detail);
         let historyperiodchanged = true;
         let searchtermschanged = true;
         workingPivotId = pvt.detail.id;
