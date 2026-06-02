@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Container from '../../components/container/container.svelte'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -10,9 +12,9 @@
   import { openExternalTemplate, openTemplateRef } from '../templates/templates-svelte-helpers'
   import { templateRefs } from '../templates/templates-utils'
 
-  let showAdvanced: boolean = false
+  let showAdvanced = $state(false)
 
-  let advancedButtons = [
+  const advancedButtons = [
     {
       title: 'Open Template URL...',
       click: openExternalTemplate,
@@ -24,10 +26,9 @@
     //   },
     // },
   ]
-  let buttons: Array<PopMenuButton> = []
 
-  $: {
-    buttons = [
+  let buttons = $derived.by(() => {
+    const result = [
       ...templateRefs.map((tr) => {
         return {
           ...tr,
@@ -36,12 +37,12 @@
           },
         }
       }),
-      ...[],
     ]
     if (showAdvanced) {
-      buttons = [...buttons, ...advancedButtons]
+      result.push(...advancedButtons)
     }
-  }
+    return result
+  })
 </script>
 
 <Container className="filler  flex items-center  flex-col pt-3 px-5 slide-templates ">

@@ -1,15 +1,12 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import Button from '../../components/button/button.svelte'
   import Stepper from '../../components/stepper/stepper.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-  export let activeIndex: number = 0
-  export let totalSlides: number = 0
-  export let nextTitle: string = 'Next'
-  export let nextDisabled: boolean = false
-  export let hideBack: boolean = false
-  export let component: any
+  const { activeIndex = 0, totalSlides = 0, nextTitle = 'Next', nextDisabled = false, hideBack = false, component = $bindable() } = $props()
 
   const emit = createEventDispatcher()
 </script>
