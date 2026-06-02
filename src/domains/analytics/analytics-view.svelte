@@ -325,18 +325,23 @@
         if (Delta === 0) {
             historyperiodchanged = false}
         workingPivotDays = pvt.detail.days || 90;
+        console.log('Before searchterm check - old:', workingPivotSearchTerm, 'new:', pvt.detail.searchterm);
         if (workingPivotSearchTerm.terms == pvt.detail.searchterm.terms && workingPivotSearchTerm.enabled == pvt.detail.searchterm.enabled ) {searchtermschanged = false}
         workingPivotSearchTerm = pvt.detail.searchterm || {"enabled":false,"terms":""}
+        console.log('historyperiodchanged:', historyperiodchanged, 'searchtermschanged:', searchtermschanged);
         grouping = pvt.detail.grouping;
         compactRows = pvt.detail.compactRows;
         rowGroupBefore = pvt.detail.rowGroupBefore;
-        colGroupBefore = pvt.detail.colGroupBefore; 
+        colGroupBefore = pvt.detail.colGroupBefore;
         rendererName = pvt.detail.rendererName;
         aggregatorName = pvt.detail.aggregatorName;
         options = pvt.detail.options;
         options.data = data;
         if (historyperiodchanged == true || searchtermschanged == true) {
+            console.log('Calling getData()');
             getData();
+        } else {
+            console.log('NOT calling getData() - conditions not met');
         }
     }
 
