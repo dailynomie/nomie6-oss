@@ -164,6 +164,10 @@
             }}
 
         data = await bringItTogether(tempdata)
+        console.log('Final data from bringItTogether:', data);
+        if (data.length > 0) {
+            console.log('Data attributes (keys from first record):', Object.keys(data[0]));
+        }
         options.data = data;
         loaded = true;
         Interact.stopBlocker()
@@ -245,7 +249,8 @@
         let date = new Date()
         let end = dayjs(date || new Date()).endOf('day')
         let start = dayjs(date).subtract(daysBack, 'days')
-        let results = await LedgerStore.query({ search: escapeRegExp(term), start, end })
+        let results = await LedgerStore.query({ search: escapeRegExp(term), start, end });
+        console.log('addSearch2Data() - search results for "' + term + '":', results.length, 'records');
         
 
         //loop through results and add to array
