@@ -60,8 +60,8 @@
 
     let grouping = $state(true);
     let compactRows = $state(true);
-    let rowGroupBefore = true;
-    let colGroupBefore = false; 
+    let rowGroupBefore = $state(true);
+    let colGroupBefore = $state(false); 
     let rendererName = "Table";
     let aggregatorName = "Count";
     let hiddenAttributes = [];
