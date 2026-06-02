@@ -10,7 +10,7 @@
 </script>
 
 <div use:sortableAttachment={{ options, onchange: (val) => dispatch('change', val) }}>
-    {#each items as item}
+    {#each items as item (item)}
         <slot {item} />
     {/each}
 </div>

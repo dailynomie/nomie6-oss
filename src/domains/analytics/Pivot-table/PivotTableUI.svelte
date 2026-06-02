@@ -60,7 +60,7 @@
 
     // Compute attrValues from data
     let attrValues = $derived.by(() => {
-        console.log('PivotTableUI: attrValues recalculating, data has', data?.length || 0, 'records');
+        console.log('>>> attrValues RECALCULATING, cols has', cols.length, 'items, data has', data?.length || 0, 'records');
         if (data?.length > 0) {
             console.log('First record keys:', Object.keys(data[0]));
             const searchKeys = Object.keys(data[0]).filter(k => k.includes('🕵'));
