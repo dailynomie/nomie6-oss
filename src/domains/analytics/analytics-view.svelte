@@ -250,21 +250,20 @@
 
         // Create a map of dates with their counts
         var countMap = {};
-        for (let i in results) {
-            results[i].shortdate = results[i].start.toISOString().slice(0,10);
-            if (!countMap[results[i].shortdate]) {
-                countMap[results[i].shortdate] = 0;
+        results.forEach((result) => {
+            result.shortdate = result.start.toISOString().slice(0,10);
+            if (!countMap[result.shortdate]) {
+                countMap[result.shortdate] = 0;
             }
-            countMap[results[i].shortdate]++;
-        }
+            countMap[result.shortdate]++;
+        });
 
         // Add search term attribute to all dates in tempdata
         // This ensures the search term appears as a draggable even if count is 0
-        for (let i in tempdata) {
-            let item = tempdata[i];
+        tempdata.forEach((item) => {
             let itemDate = item.ShortDate;
             item[search] = countMap[itemDate] || 0;
-        }
+        });
     }
     }
 
