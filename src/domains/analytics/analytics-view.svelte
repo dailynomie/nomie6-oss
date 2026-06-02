@@ -251,26 +251,26 @@
         let start = dayjs(date).subtract(daysBack, 'days')
         let results = await LedgerStore.query({ search: escapeRegExp(term), start, end });
         console.log('addSearch2Data() - search results for "' + term + '":', results.length, 'records');
-        
 
-        //loop through results and add to array
-        var consolidated = []
-        var i;
-        for (i in results) {
+        var emoji = "🕵🏻‍♂️"
+        var search = emoji+term;
+
+        // Create a map of dates with their counts
+        var countMap = {};
+        for (let i in results) {
             results[i].shortdate = results[i].start.toISOString().slice(0,10);
-            var countfortoday  = results.filter(result => result.start.toISOString().slice(0,10) === results[i].start.toISOString().slice(0,10));
-            consolidated = consolidated.filter(consol => consol.shortdate != results[i].start.toISOString().slice(0,10));
-            var shortdate = await determineShortDate(results[i].start)
-            var day = await determineDay(results[i].start)
-            var dayperiod = await determineDayPeriod(results[i].start)
-            var emoji = "🕵🏻‍♂️"
-            var search = emoji+term;
-            consolidated.push({ "Date":results[i].start,[search]:countfortoday.length,"ShortDate":shortdate,"Day":day,"DayPeriod":dayperiod})
-    
-        }  
-        let j;
-        for (j in consolidated){
-            tempdata.push(consolidated[j])
+            if (!countMap[results[i].shortdate]) {
+                countMap[results[i].shortdate] = 0;
+            }
+            countMap[results[i].shortdate]++;
+        }
+
+        // Add search term attribute to all dates in tempdata
+        // This ensures the search term appears as a draggable even if count is 0
+        for (let i in tempdata) {
+            let item = tempdata[i];
+            let itemDate = item.ShortDate;
+            item[search] = countMap[itemDate] || 0;
         }
     }
     }
