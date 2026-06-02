@@ -49,10 +49,8 @@
     let unusedOrder = $state([]);
 
     // Provide valueFilter via context so FilterBox can access and update it
-    // Update context whenever valueFilter changes
-    $effect(() => {
-        setContext('valueFilter', valueFilter);
-    });
+    // We need to pass an object that FilterBox can mutate, so use valueFilter directly
+    setContext('valueFilter', valueFilter);
 
     // Sync prop changes to local state
     $effect(() => {
