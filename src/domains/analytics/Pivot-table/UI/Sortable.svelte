@@ -39,6 +39,6 @@
 </script>
 
 <div use:create><!-- Temporary node only for the initialization. --></div>
-{#each items as item (item)}
+{#each items as item, index (item + index)}
     <slot {item} />
 {/each}
