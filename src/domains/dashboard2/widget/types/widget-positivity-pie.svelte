@@ -3,6 +3,7 @@
 <script lang="ts">
   // import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   // import type { Trackable } from '../../../trackable/Trackable.class'
+  import { untrack } from 'svelte'
   import type { WidgetClass } from '../widget-class'
   import NLog from '../../../nomie-log/nomie-log'
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
@@ -18,15 +19,17 @@
   let localLogs = $state<Array<NLog>>([])
   $effect(() => {
     if (logs && logs.length) {
-      localLogs = logs.map((log) => {
-        let note = `#int_score(${log.score || 0})`
-        return new NLog({
-          note,
-          end: log.end,
+      untrack(() => {
+        localLogs = logs.map((log) => {
+          let note = `#int_score(${log.score || 0})`
+          return new NLog({
+            note,
+            end: log.end,
+          })
         })
-      })
 
-      scoreUsage = logsToTrackableUsage(localLogs)['#int_score']?.byDay
+        scoreUsage = logsToTrackableUsage(localLogs)['#int_score']?.byDay
+      })
     }
   })
 </script>

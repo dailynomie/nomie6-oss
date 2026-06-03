@@ -9,7 +9,7 @@
 
   import Avatar from '../../../../components/avatar/avatar.svelte'
 import type { WidgetClass } from '../widget-class';
-  const { widget } = $props();
+  const { widget = $bindable() } = $props();
 
   let mounted = $state(false)
   $effect(() => {
