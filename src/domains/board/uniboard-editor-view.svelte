@@ -41,10 +41,15 @@
   })
 
   $effect(() => {
-    if (workingBoard?.elements && allTrackables.length) {
-      boardTrackables = workingBoard.elements
-        .map((tag) => allTrackables.find((at) => at.tag === tag))
-        .filter((trackable) => trackable !== undefined) as Array<Trackable>
+    if (workingBoard?.elements && allTrackables.length > 0) {
+      const found: Array<Trackable> = []
+      for (const tag of workingBoard.elements) {
+        const trackable = allTrackables.find((at) => at.tag === tag)
+        if (trackable) {
+          found.push(trackable)
+        }
+      }
+      boardTrackables = found
     }
   })
 
