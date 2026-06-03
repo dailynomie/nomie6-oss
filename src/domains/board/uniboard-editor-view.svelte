@@ -37,7 +37,14 @@
     if (board && !workingBoard) {
       workingBoard = { ...board }
       allTrackables = toTrackableArray($TrackableStore.trackables)
-      boardTrackables = getBoardTrackables()
+    }
+  })
+
+  $effect(() => {
+    if (workingBoard?.elements && allTrackables.length) {
+      boardTrackables = workingBoard.elements
+        .map((tag) => allTrackables.find((at) => at.tag === tag))
+        .filter((trackable) => trackable !== undefined) as Array<Trackable>
     }
   })
 
@@ -47,7 +54,7 @@
       .map((tag) => {
         return allTrackables.find((at) => at.tag === tag)
       })
-      .filter((n) => n) as Array<Trackable>
+      .filter((n) => n !== undefined) as Array<Trackable>
   }
 
   const dispatchChange = () => {
