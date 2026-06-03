@@ -63,18 +63,16 @@
   let widgetTypes = $state(getWidgetTypes($PluginStore));
 
   $effect(() => {
-    if (editingWidget.type) {
-      untrack(() => {
-        activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
-        if (editingWidget.type == "plugin"){
-          pluginGetWidgets(editingWidget?.data?.pluginId);
-        }
-        if (editingWidget.type == "pointer"){
-          if (!editingWidget?.data) {
-            editingWidget["data"]= {"pointersamples": 5}
-          };
-        }
-      })
+    if (editingWidget?.type) {
+      activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
+      if (editingWidget.type == "plugin"){
+        pluginGetWidgets(editingWidget?.data?.pluginId);
+      }
+      if (editingWidget.type == "pointer"){
+        if (!editingWidget?.data) {
+          editingWidget["data"]= {"pointersamples": 5}
+        };
+      }
     }
   })
 
