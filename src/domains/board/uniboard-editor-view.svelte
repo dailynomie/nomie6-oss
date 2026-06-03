@@ -108,30 +108,32 @@
           dispatchChange()
         }}
       >
-        <ShortcutButton
-          hideMore
-          style="width:{$Device.size === 'xs'
-            ? '150px; margin:6px;'
-            : $Device.size === 'sm'
-            ? '150px; margin:8px;'
-            : $Device.size === 'md'
-            ? '150px; margin:10px;'
-            : '160px; margin:12px;'}"
-          compact={$Prefs.compactTrackers}
-          id="tracker-{item.tag}"
-          title={item.label}
-          hoursUsed={$TodayStore.usage[item.tag] ? $TodayStore.usage[item.tag].hours : []}
-          subtitle={$UsageLast[item.tag] ? time.fromNow($UsageLast[item.tag].d) : undefined}
-          emoji={item.tracker?.emoji}
-          value={$TodayStore.usage[item.tag] ? $TodayStore.usage[item.tag].displayValue : undefined}
-          oneTap={item.tracker?.one_tap}
-          color={item.color}
-          className="tracker-{item.id} animate-shake tracker-board-button"
-        >
-          <button class="delete-button" on:click={() => localRemoveTrackable(item)}>
-            <IonIcon icon={CloseOutline} className="text-white" size={12} />
-          </button>
-        </ShortcutButton>
+        {#if item}
+          <ShortcutButton
+            hideMore
+            style="width:{$Device.size === 'xs'
+              ? '150px; margin:6px;'
+              : $Device.size === 'sm'
+              ? '150px; margin:8px;'
+              : $Device.size === 'md'
+              ? '150px; margin:10px;'
+              : '160px; margin:12px;'}"
+            compact={$Prefs.compactTrackers}
+            id="tracker-{item.tag}"
+            title={item.label}
+            hoursUsed={$TodayStore.usage[item.tag] ? $TodayStore.usage[item.tag].hours : []}
+            subtitle={$UsageLast[item.tag] ? time.fromNow($UsageLast[item.tag].d) : undefined}
+            emoji={item.tracker?.emoji}
+            value={$TodayStore.usage[item.tag] ? $TodayStore.usage[item.tag].displayValue : undefined}
+            oneTap={item.tracker?.one_tap}
+            color={item.color}
+            className="tracker-{item.id} animate-shake tracker-board-button"
+          >
+            <button class="delete-button" on:click={() => localRemoveTrackable(item)}>
+              <IonIcon icon={CloseOutline} className="text-white" size={12} />
+            </button>
+          </ShortcutButton>
+        {/if}
       </SortableList2>
     </Container>
   {/key}
