@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
@@ -11,9 +13,9 @@
 
   import { Device } from '../../store/device-store'
   import { Interact } from '../../store/interact'
-  
+
   import time from '../../utils/time/time'
-  
+
   import { Prefs } from '../preferences/Preferences'
   import { toTrackableArray } from '../trackable/trackable-utils'
   import { Trackable } from '../trackable/Trackable.class'
@@ -23,31 +25,34 @@
   import { UsageLast } from '../usage/UsageStore'
   import type { UniboardType } from './UniboardStore'
 
-
-  export let board: UniboardType
+  const { board } = $props<{ board: UniboardType }>()
 
   const dispatch = createEventDispatcher()
 
-  let workingBoard: UniboardType
-  let allTrackables: Array<Trackable>
-  let boardTrackables: Array<Trackable>
+  let workingBoard = $state<UniboardType | undefined>(undefined)
+  let allTrackables = $state<Array<Trackable>>([])
+  let boardTrackables = $state<Array<Trackable>>([])
 
-  $: if (board && !workingBoard) {
-    workingBoard = { ...board }
-    allTrackables = toTrackableArray($TrackableStore.trackables)
-    boardTrackables = getBoardTrackables()
-  }
+  $effect(() => {
+    if (board && !workingBoard) {
+      workingBoard = { ...board }
+      allTrackables = toTrackableArray($TrackableStore.trackables)
+      boardTrackables = getBoardTrackables()
+    }
+  })
 
   const getBoardTrackables = (): Array<Trackable> => {
-    return workingBoard.elements
+    return workingBoard?.elements
       .map((tag) => {
         return allTrackables.find((at) => at.tag === tag)
       })
-      .filter((n) => n)
+      .filter((n) => n) || []
   }
 
   const dispatchChange = () => {
-    dispatch('updated', workingBoard)
+    if (workingBoard) {
+      dispatch('updated', workingBoard)
+    }
   }
 
   const localRemoveTrackable = async (trackable: Trackable) => {
@@ -55,14 +60,16 @@
       `Remove ${trackable.tag} from this tab?`,
       'You can always add it back later.'
     )
-    if (confirmed) {
+    if (confirmed && workingBoard) {
       workingBoard.elements = workingBoard.elements.filter((w) => {
         return w !== trackable.tag
       })
       dispatchChange()
     }
-    workingBoard.elements = workingBoard.elements
-    boardTrackables = getBoardTrackables()
+    if (workingBoard) {
+      workingBoard.elements = workingBoard.elements
+      boardTrackables = getBoardTrackables()
+    }
   }
 </script>
 

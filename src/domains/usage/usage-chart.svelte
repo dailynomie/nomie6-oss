@@ -1,9 +1,10 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import _ from "lodash"
   import dayjs from 'dayjs'
   import type { ChartConfiguration, ChartDataset } from 'chart.js'
   import type { Dayjs } from 'dayjs'
-  import { onMount } from 'svelte'
   import usageStats from "./usage-stats";
   import Chartjs from '../../components/charts/chartjs.svelte'
   import { openDropMenu } from '../../components/menu/useDropmenu'
@@ -28,38 +29,36 @@
   import { getContextOn } from '../context/context-utils'
   import { Prefs } from '../preferences/Preferences'
 
-  export let usages: Array<TrackableUsage> = []
-  export let style: string = ''
-  export let className: string = ''
-  export let type: 'bar' | 'line' = 'bar'
-  export let hideLabels: boolean = false
-  export let hideValues: boolean = false
+  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false } = $props<{
+    usages?: Array<TrackableUsage>
+    style?: string
+    className?: string
+    type?: 'bar' | 'line'
+    hideLabels?: boolean
+    hideValues?: boolean
+    id: string
+    stacked?: boolean
+    isstatsview?: boolean
+    showcontext?: boolean
+  }>()
 
-  export let id: string
-  export let stacked: boolean = false
-  export let isstatsview: boolean = false
-  export let showcontext: boolean = false
+  let dateFormats = $state(getDateFormats())
+  let usage = $state<TrackableUsage | undefined>(undefined)
+  let reverseUsage = $state<TrackableUsage | undefined>(undefined)
 
+  let activeDate = $state<Dayjs | undefined>(undefined)
+  let activeFormatedValue = $state<string | undefined>(undefined)
+  let contextannotation = $state({})
+  let theme = $state($Prefs.theme)
+  let labelcolor = $state($Prefs.theme === 'dark' ? '#ffffff' : '#000000')
 
-  let dateFormats = getDateFormats()
-  let usage: TrackableUsage
-  let reverseUsage: TrackableUsage
+  $effect(() => {
+    if (usages && usages.length) {
+      usage = usages[0].backfill()
+    }
+  })
 
-  let activeDate: Dayjs | undefined = undefined
-  let activeFormatedValue: string
-  let contextannotation = {}
-  let theme = $Prefs.theme;
-  let labelcolor = '#ffffff';
-
-  if (theme == 'dark'){
-    labelcolor = '#ffffff'
-  }
-  else {labelcolor = '#000000'}
-  $: if (usages && usages.length) {
-    usage = usages[0].backfill()
-  }
-
-  onMount(() => {
+  $effect(() => {
     initChartOptions()
   })
 

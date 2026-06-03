@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
@@ -19,24 +21,22 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import AddIcon from '../../n-icons/AddIcon.svelte'
 
+  const { trackables = [], hideMore = false, hideAdd = false, searching = false } = $props<{
+    trackables?: Array<Trackable>
+    hideMore?: boolean
+    hideAdd?: boolean
+    searching?: boolean
+  }>()
+
   const dispatch = createEventDispatcher()
 
-  export let trackables: Array<Trackable> = []
-  export let hideMore: boolean = false
-  export let hideAdd: boolean = false
-  export let searching: boolean = false
-
-  /**
-   * Gets Todays Usage for a given Trackable
-   * @param trackable
-   * @param format
-   */
-
-  let lastLedgerHash: string = ''
-  $: if ($LedgerStore.hash !== lastLedgerHash) {
-    lastLedgerHash = $LedgerStore.hash
-    loadToday({ knownTrackables: $TrackableStore.trackables, date: $TodayStore.date })
-  }
+  let lastLedgerHash = $state('')
+  $effect(() => {
+    if ($LedgerStore.hash !== lastLedgerHash) {
+      lastLedgerHash = $LedgerStore.hash
+      loadToday({ knownTrackables: $TrackableStore.trackables, date: $TodayStore.date })
+    }
+  })
 </script>
 
 <!-- Short Cut Button Style -->
