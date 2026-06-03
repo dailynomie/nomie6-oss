@@ -41,47 +41,70 @@
 
   let visible = $state(false)
   let editingWidget = $state<WidgetClass | undefined>(undefined)
+  let processedWidgetId = $state<string | undefined>(undefined)
 
   const { props, id } = $props()
 
-  let activeType = $state<IWidgetType | undefined>(undefined)
   let conditionalStyling = $state(false)
   let canSave = $state(false)
 
   $effect(() => {
-    if (props.widget) {
-      untrack(() => {
-        editingWidget = new WidgetClass(props.widget)
-        visible = true
-        if (isTruthy(editingWidget.compareValue)) {
-          conditionalStyling = true
-        }
-      })
+    if (props.widget && props.widget.id !== processedWidgetId) {
+      editingWidget = new WidgetClass(props.widget)
+      visible = true
+      processedWidgetId = props.widget.id
+      if (isTruthy(editingWidget.compareValue)) {
+        conditionalStyling = true
+      }
     }
   })
 
   let widgetTypes = $state(getWidgetTypes($PluginStore));
 
+  // Callback to handle widget type changes from child
+  const handleWidgetTypeChange = (selectedType: IWidgetType) => {
+    // Explicitly update the parent's editingWidget with the new type and data
+    if (editingWidget) {
+      editingWidget.type = selectedType.id
+      editingWidget.data = selectedType.data
+    }
+    // Force reactivity by incrementing a trigger
+    updateTrigger = updateTrigger + 1
+  }
+
+  let updateTrigger = $state(0)
+
+  // Compute activeType as derived value (no side effects)
+  // Depends on updateTrigger to force re-evaluation when widget type changes
+  let activeType = $derived.by(() => {
+    const _ = updateTrigger // use trigger to create dependency
+    return editingWidget?.type ? widgetTypes.find((wt) => wt.id === editingWidget.type) : undefined
+  })
+
+  // Separate effect for plugin side effect
   $effect(() => {
-    untrack(() => {
-      if (editingWidget?.type) {
-        activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
-        if (editingWidget.type == "plugin"){
-          pluginGetWidgets(editingWidget?.data?.pluginId);
-        }
-        if (editingWidget.type == "pointer"){
-          if (!editingWidget?.data) {
-            editingWidget["data"]= {"pointersamples": 5}
-          }
-        }
-      }
-    })
+    if (editingWidget?.type === "plugin") {
+      pluginGetWidgets(editingWidget?.data?.pluginId);
+    }
+  })
+
+  // Separate effect for pointer data initialization
+  $effect(() => {
+    if (editingWidget?.type === "pointer" && !editingWidget?.data) {
+      editingWidget["data"] = {"pointersamples": 5}
+    }
   })
 
   let lastWidgetHash = $state<string | undefined>(undefined)
   $effect(() => {
-    if (objectHash(editingWidget) !== lastWidgetHash) {
-      lastWidgetHash = objectHash(editingWidget)
+    // Explicitly depend on updateTrigger to re-run when widget type changes
+    const _ = updateTrigger
+
+    const currentHash = objectHash(editingWidget)
+    const prevHash = untrack(() => lastWidgetHash)
+
+    if (currentHash !== prevHash) {
+      lastWidgetHash = currentHash
       try {
         canSave = canSaveWidget(editingWidget, widgetTypes);
       } catch (e) {
@@ -118,6 +141,7 @@
   }
 
   const close = async () => {
+    console.log('Close button clicked')
     closeModal(id)
   }
 
@@ -128,6 +152,8 @@
     else {selected = await selectTrackable()}
     let token = trackableToToken(selected)
     editingWidget.token = token
+    // Force reactivity update
+    updateTrigger = updateTrigger + 1
   }
 
   const localSelectPointer = async (multiple: boolean) => {
@@ -135,10 +161,13 @@
     selected = await selectTrackable('pointer')
     let pointer = trackableToToken(selected)
     editingWidget.pointer = pointer
+    // Force reactivity update
+    updateTrigger = updateTrigger + 1
   }
 
   const saveWidget = async () => {
     try {
+      console.log('Save button clicked, editingWidget:', editingWidget, 'activeType:', activeType)
 
       if([...activeType.requires, ...activeType.optional].indexOf('timeframe') === -1) {
         editingWidget.timeRange = undefined;
@@ -156,6 +185,7 @@
       }
       close()
     } catch (e) {
+      console.error('Save error:', e)
       Interact.error(e)
     }
   }
@@ -180,14 +210,15 @@
     </ToolbarGrid>
 
     <!-- Widget Type Selector -->
-    <WidgetTypeSelector bind:widget={editingWidget} />
+    <WidgetTypeSelector bind:widget={editingWidget} onWidgetTypeChange={handleWidgetTypeChange} {updateTrigger} />
   </div>
 
   <div class="h-4" />
 
   <main class="px-2">
-    <!-- Select the Trackable if its required the by the active ttype  -->
-    <List solo>
+    {#key updateTrigger}
+      <!-- Select the Trackable if its required the by the active ttype  -->
+      <List solo>
       {#if (activeType?.requires?.indexOf('token') > -1) || activeType?.optional?.indexOf('token') > -1}
         
         <ListItem
@@ -418,5 +449,6 @@
     <!-- Styling -->
 
     <List solo className="mt-4 dark:text-white" />
+    {/key}
   </main>
 </BackdropModal>

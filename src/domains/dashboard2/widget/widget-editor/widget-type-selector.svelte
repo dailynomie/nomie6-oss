@@ -9,7 +9,7 @@
 
   import Avatar from '../../../../components/avatar/avatar.svelte'
 import type { WidgetClass } from '../widget-class';
-  const { widget = $bindable() } = $props();
+  const { widget = $bindable(), onWidgetTypeChange, updateTrigger = 0 } = $props();
 
   let mounted = $state(false)
   $effect(() => {
@@ -24,8 +24,13 @@ import type { WidgetClass } from '../widget-class';
   })
 
   const select = (selectedType: IWidgetType) => {
+    // Mutate directly and call callback to notify parent
     widget.type = selectedType.id
     widget.data = selectedType.data;
+    // Notify parent of change
+    if (onWidgetTypeChange) {
+      onWidgetTypeChange(selectedType)
+    }
   }
 
   let allWidgetTypes = $state<Array<IWidgetType>>([])
@@ -56,7 +61,7 @@ import type { WidgetClass } from '../widget-class';
       }}
     >
       <div
-        class="{widget.type === widgetType.id && widget.data == widgetType.data
+        class="{updateTrigger, widget.type === widgetType.id && widget.data == widgetType.data
           ? 'active-type scale-110'
           : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
       >
