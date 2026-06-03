@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { untrack } from 'svelte'
   import ButtonGroup from '../../../../components/button-group/button-group.svelte'
   import Button from '../../../../components/button/button.svelte'
   import TinyColorPicker from '../../../../components/color-picker/tiny-color-picker.svelte'
@@ -61,15 +62,17 @@
 
   $effect(() => {
     if (editingWidget.type) {
-      activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
-      if (editingWidget.type == "plugin"){
-        pluginGetWidgets(editingWidget?.data?.pluginId);
-      }
-      if (editingWidget.type == "pointer"){
-        if (!editingWidget?.data) {
-          editingWidget["data"]= {"pointersamples": 5}
-        };
-      }
+      untrack(() => {
+        activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
+        if (editingWidget.type == "plugin"){
+          pluginGetWidgets(editingWidget?.data?.pluginId);
+        }
+        if (editingWidget.type == "pointer"){
+          if (!editingWidget?.data) {
+            editingWidget["data"]= {"pointersamples": 5}
+          };
+        }
+      })
     }
   })
 
