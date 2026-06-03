@@ -12,7 +12,7 @@
   import { getDateFormats } from '../../../preferences/Preferences'
   import { UsageStore } from '../../../usage/UsageStore'
 
-  const { widget, trackable, usage } = $props()
+  const { widget = $bindable(), trackable = $bindable(), usage = $bindable() } = $props()
 
   let dateFormat = $state(getDateFormats())
   let lastUsedDate = $state<Date | undefined>(undefined)

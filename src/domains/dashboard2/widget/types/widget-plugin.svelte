@@ -6,7 +6,7 @@
   import { PluginStore } from '../../../plugins/PluginStore'
   import type { PluginClass } from '../../../plugins/plugin-helpers'
   import PluginFrame from '../../../plugins/plugin-frame.svelte'
-  const { widget, trackable = undefined, usage = undefined, logs = undefined } = $props()
+  const { widget = $bindable(), trackable = $bindable(undefined), usage = $bindable(undefined), logs = $bindable(undefined) } = $props()
   // export let trackable: Trackable
   let plugin = $state<PluginClass | undefined>(undefined)
   let widgetindexparam = $state("");

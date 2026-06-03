@@ -9,7 +9,7 @@
   import { getDateFormats } from '../../../preferences/Preferences'
   import { openDateOptionPopMenu } from '../../../../components/pop-menu/usePopmenu'
 
-  const { trackable, widget, usage } = $props()
+  const { trackable = $bindable(), widget = $bindable(), usage = $bindable() } = $props()
 
   let dateFormat = $derived(getDateFormats())
 </script>

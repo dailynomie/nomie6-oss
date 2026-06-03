@@ -8,7 +8,7 @@
 
   import nid from '../../../../modules/nid/nid'
   import { Prefs } from '../../../preferences/Preferences'
-  const { trackable = undefined, widget, usage } = $props()
+  const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable() } = $props()
   // export let trackable: Trackable | undefined = undefined
 
   let type = $state<'bar' | 'line'>('bar')
@@ -41,7 +41,7 @@
   })
 </script>
 
-{#if widget}
+{#if widget && reverseUsage}
   <div class="chart-value relative h-full">
     <UsageChart
       id={`usage-${nid(widget.id)}`}

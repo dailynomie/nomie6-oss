@@ -6,7 +6,7 @@
   import math from '../../../../utils/math/math'
   import { round } from 'lodash'
 
-  const { widget, usage, trackable = undefined, logs = undefined } = $props()
+  const { widget = $bindable(), usage = $bindable(), trackable = $bindable(undefined), logs = $bindable(undefined) } = $props()
   // export let trackable: Trackable
 
   let datacheck = false

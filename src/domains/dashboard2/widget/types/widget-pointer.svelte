@@ -1,11 +1,12 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { untrack } from 'svelte'
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   import type { WidgetClass } from '../widget-class'
 
   //export let logs: Array<NLog>
-  const { widget, trackable, usage, logs = undefined } = $props()
+  const { widget = $bindable(), trackable = $bindable(), usage = $bindable(), logs = $bindable(undefined) } = $props()
 
   let amountofsamples = $state(widget.data.pointersamples || 4)
   let samples = $state([])
@@ -56,12 +57,16 @@
     barwidth = (Math.round(100 / samples.length) - 2).toString() + '%'
   }
 
-  onMount(() => {
-    tempusage = usage.logs.filter(function (el) {
-      return el.note?.includes('^' + widget.pointer.id)
-    })
-    //console.log("FILTER: ",tempusage)
-    initWidget()
+  $effect(() => {
+    if (usage && usage.logs && widget.pointer) {
+      untrack(() => {
+        tempusage = usage.logs.filter(function (el) {
+          return el.note?.includes('^' + widget.pointer.id)
+        })
+        //console.log("FILTER: ",tempusage)
+        initWidget()
+      })
+    }
   })
 </script>
 

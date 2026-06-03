@@ -7,7 +7,7 @@
   import Map from '../../../map/map.svelte'
   import type { WidgetClass } from '../widget-class'
 
-  const { trackable = undefined, widget, usage } = $props()
+  const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable() } = $props()
   // export let trackable: Trackable
 </script>
 

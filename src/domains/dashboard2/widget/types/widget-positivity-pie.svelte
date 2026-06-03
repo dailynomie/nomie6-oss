@@ -9,7 +9,7 @@
   import logsToTrackableUsage from '../../../usage/usage-utils'
   import UsageChart from '../../../usage/usage-chart.svelte'
 
-  const { trackable = undefined, widget, logs, usage } = $props()
+  const { trackable = $bindable(undefined), widget = $bindable(), logs = $bindable(), usage = $bindable() } = $props()
 
   let scoreUsage = $state<TrackableUsage | undefined>(undefined)
   // export let trackable: Trackable
@@ -32,7 +32,7 @@
 </script>
 
 <div class="value">
-  {#if logs && logs.length}
+  {#if logs && logs.length && scoreUsage}
     <UsageChart id="positivity-chart" usages={[scoreUsage]} />
   {/if}
 </div>

@@ -7,7 +7,7 @@
 
   // let _elCalendar
 
-  const { widget, trackable = undefined, usage = undefined } = $props()
+  const { widget = $bindable(), trackable = $bindable(undefined), usage = $bindable(undefined) } = $props()
   // export let trackable: Trackable
   // export let usage: TrackableUsage
 
