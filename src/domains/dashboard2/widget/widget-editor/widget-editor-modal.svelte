@@ -67,6 +67,11 @@
     if (editingWidget) {
       editingWidget.type = selectedType.id
       editingWidget.data = selectedType.data
+
+      // Initialize pointer data if this is a pointer widget
+      if (selectedType.id === "pointer" && !editingWidget.data) {
+        editingWidget.data = { pointersamples: 5 }
+      }
     }
     // Force reactivity by incrementing a trigger
     updateTrigger = updateTrigger + 1
@@ -90,10 +95,10 @@
     }
   })
 
-  // Separate effect for pointer data initialization
+  // Separate effect for pointer data initialization (fallback)
   $effect(() => {
-    if (editingWidget?.type === "pointer" && !editingWidget?.data) {
-      editingWidget["data"] = {"pointersamples": 5}
+    if (editingWidget?.type === "pointer" && (!editingWidget?.data || !editingWidget?.data?.pointersamples)) {
+      editingWidget.data = {"pointersamples": 5}
     }
   })
 
@@ -314,15 +319,30 @@
             </div>
           </ListItem>
         {/if}
-        {/if}
-      {#if editingWidget?.type == "pointer" && editingWidget?.data}
-      <Divider left={18} />
-      <ListItem>
-        Samples: {editingWidget?.data?.pointersamples}
-        <div slot="right">
-          <input id="large-range" type="range" min="1" max="8" bind:value={editingWidget.data.pointersamples} step="1" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700">
-        </div>
-      </ListItem>
+      {#if editingWidget?.type == "pointer"}
+        <Divider left={18} />
+        <ListItem>
+          Samples: {editingWidget?.data?.pointersamples || 5}
+          <div slot="right" style="flex: 1; padding-right: 1rem; display: flex; align-items: center; min-height: 48px; width: 200px;">
+            {#if editingWidget?.data}
+              <input
+                type="range"
+                min="1"
+                max="8"
+                value={editingWidget.data.pointersamples}
+                on:input={(e) => {
+                  editingWidget.data.pointersamples = parseInt(e.target.value)
+                  updateTrigger = updateTrigger + 1
+                }}
+                step="1"
+                style="width: 100%; height: 24px; cursor: pointer; -webkit-appearance: none; appearance: none; background: transparent; border: none; outline: none;"
+              >
+            {:else}
+              <span style="color: #999; font-size: 12px;">initializing...</span>
+            {/if}
+          </div>
+        </ListItem>
+      {/if}
       <Divider left={18} />
       <ListItem>
         Size
@@ -336,7 +356,7 @@
           slot="right"
         />
       </ListItem>
-      {/if}
+        {/if}
       {/if}
     </List>
 
@@ -457,3 +477,58 @@
     {/key}
   </main>
 </BackdropModal>
+
+<style lang="postcss">
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 24px;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 8px;
+    background: linear-gradient(to right, #9ca3af, #6b7280);
+    border-radius: 5px;
+    outline: none;
+    border: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 2px solid #3b82f6;
+    margin-top: -8px;
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 8px;
+    background: linear-gradient(to right, #9ca3af, #6b7280);
+    border-radius: 5px;
+    outline: none;
+    border: none;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 2px solid #3b82f6;
+  }
+
+  input[type="range"]::-moz-range-progress {
+    background: linear-gradient(to right, #9ca3af, #6b7280);
+  }
+</style>
