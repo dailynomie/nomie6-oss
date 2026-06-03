@@ -191,7 +191,7 @@
           }}
           className="h-16" >
           Trackable
-          {#if !editingWidget.token}
+          {#if !editingWidget?.token}
             <span class="opacity-50 text-black dark:text-white">
               {#if (activeType?.requires?.indexOf('token') > -1)}
                 (required)
@@ -201,9 +201,9 @@
             </span>
           {/if}
           <div slot="right" class="flex items-center space-x-2">
-            {#if !editingWidget.tokens.length}
+            {#if !editingWidget?.tokens?.length}
               <div class="text-primary-500">{Lang.t('general.select', 'Select')}</div>
-            {:else if editingWidget.token}
+            {:else if editingWidget?.token}
               <TrackablePill size={28} hideValue trackable={tokenToTrackable(editingWidget.token, $TrackableStore.trackables)} />
               {#if (activeType?.requires?.indexOf('token') === -1)}
                 <button class="flex items-center justify-center" on:click={()=>{editingWidget.token = undefined}}>
@@ -224,7 +224,7 @@
           }}
           className="h-16" >
           Pointer
-          {#if !editingWidget.pointer}
+          {#if !editingWidget?.pointer}
             <span class="opacity-50 text-black dark:text-white">
               {#if (activeType?.requires?.indexOf('token') > -1)}
                 (required)
@@ -234,7 +234,7 @@
             </span>
           {/if}
           <div slot="right" class="flex items-center space-x-2">
-            {#if !editingWidget.pointer}
+            {#if !editingWidget?.pointer}
               <div class="text-primary-500">{Lang.t('general.select', 'Select')}</div>
             {:else if editingWidget.pointer}
               <TrackablePill size={28} hideValue trackable={tokenToTrackable(editingWidget.pointer, $TrackableStore.trackables)} />
@@ -251,7 +251,7 @@
       <!-- Select the timeframe if required -->
       {#if activeType && [...activeType.requires, ...activeType.optional].indexOf('timeframe') > -1}
         <Divider left={18} />
-        <Input listItem bind:value={editingWidget.timeRange} type="select" label="Timeframe">
+        <Input listItem bind:value={editingWidget?.timeRange} type="select" label="Timeframe">
           <div
             slot="left"
             class="{!editingWidget.timeRange
@@ -276,7 +276,7 @@
           </ListItem>
         {/if}
       {/if}
-      {#if editingWidget.type == "pointer"}
+      {#if editingWidget?.type == "pointer"}
       <Divider left={18} />
       <ListItem>
         Samples: {editingWidget.data.pointersamples}
