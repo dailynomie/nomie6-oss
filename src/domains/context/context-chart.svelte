@@ -24,7 +24,7 @@
     getTrackableDetailPopButton,
   } from '../../modules/pop-buttons/pop-buttons'
 
-  const { date = new Date(), height: initialHeight = 320, className = '', size: initialSize = 'sm' } = $props<{
+  let { date = $bindable(new Date()), height = 320, className = '', size = 'sm' } = $props<{
     date?: Date
     height?: number
     className?: string
@@ -55,8 +55,6 @@
   let end = $state<Date | undefined>(undefined)
   let rowHeight = $state(0)
   let contextMap = $state<Array<ContextTrackableUsage>>([])
-  let height = $state(initialHeight)
-  let size = $state<'sm' | 'md' | 'lg' | 'auto'>(initialSize)
   let lastDate = $state<Date | undefined>(undefined)
 
   $effect(() => {
