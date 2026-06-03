@@ -251,7 +251,8 @@
       <!-- Select the timeframe if required -->
       {#if activeType && [...activeType.requires, ...activeType.optional].indexOf('timeframe') > -1}
         <Divider left={18} />
-        <Input listItem bind:value={editingWidget?.timeRange} type="select" label="Timeframe">
+        {#if editingWidget}
+        <Input listItem bind:value={editingWidget.timeRange} type="select" label="Timeframe">
           <div
             slot="left"
             class="{!editingWidget.timeRange
@@ -275,13 +276,13 @@
             </div>
           </ListItem>
         {/if}
-      {/if}
+        {/if}
       {#if editingWidget?.type == "pointer"}
       <Divider left={18} />
       <ListItem>
         Samples: {editingWidget?.data?.pointersamples}
         <div slot="right">
-          <input id="large-range" type="range" min="1" max="8" bind:value={editingWidget?.data?.pointersamples} step="1" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700">
+          <input id="large-range" type="range" min="1" max="8" bind:value={editingWidget.data.pointersamples} step="1" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700">
         </div>
       </ListItem>
       <Divider left={18} />
@@ -313,7 +314,8 @@
     {#if activeType?.id == 'plugin'}
     {#if pluginWidgets.length > 0}
     <List solo className="mt-4">
-    <Input listItem bind:value={editingWidget?.data?.widgetindex} type="select" label="Widget">
+    {#if editingWidget?.data}
+    <Input listItem bind:value={editingWidget.data.widgetindex} type="select" label="Widget">
       <div
         slot="left"
         class="{!editingWidget?.data?.widgetindex
@@ -331,6 +333,7 @@
       
         <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
       </List>
+    {/if}
     {/if}
     {/if}
 
