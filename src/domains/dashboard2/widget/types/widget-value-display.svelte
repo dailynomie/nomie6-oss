@@ -8,7 +8,7 @@
   import math from '../../../../utils/math/math'
   import ProgressBar from '../../../../components/progress-bar/progress-bar.svelte'
 
-  const { widget, usage } = $props()
+  const { trackable = undefined, widget, usage } = $props()
 
   
 

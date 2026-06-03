@@ -8,7 +8,7 @@
 
   import nid from '../../../../modules/nid/nid'
   import { Prefs } from '../../../preferences/Preferences'
-  const { widget, usage } = $props()
+  const { trackable = undefined, widget, usage } = $props()
   // export let trackable: Trackable | undefined = undefined
 
   let type = $state<'bar' | 'line'>('bar')

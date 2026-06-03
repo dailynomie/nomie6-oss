@@ -7,7 +7,7 @@
 
   // let _elCalendar
 
-  const { widget } = $props()
+  const { widget, trackable = undefined, usage = undefined } = $props()
   // export let trackable: Trackable
   // export let usage: TrackableUsage
 

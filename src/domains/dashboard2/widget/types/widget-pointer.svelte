@@ -1,17 +1,16 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   import type { WidgetClass } from '../widget-class'
-  import { onMount } from 'svelte'
 
   //export let logs: Array<NLog>
-  export let widget: WidgetClass
-  export let trackable: Trackable
-  export let usage: TrackableUsage
+  const { widget, trackable, usage, logs = undefined } = $props()
 
-  let amountofsamples = widget.data.pointersamples || 4
-  let samples = []
-  let tempusage = []
-  let barwidth = '10%'
+  let amountofsamples = $state(widget.data.pointersamples || 4)
+  let samples = $state([])
+  let tempusage = $state([])
+  let barwidth = $state('10%')
 
   function createDate(inputdate) {
     let date = inputdate

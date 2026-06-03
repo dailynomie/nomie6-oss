@@ -1,6 +1,6 @@
-<script lang="ts">
-  import { onMount } from 'svelte'
+<svelte:options runes={true} />
 
+<script lang="ts">
   import HScroller from '../../../../components/h-scroller/h-scroller.svelte'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
 
@@ -9,31 +9,37 @@
 
   import Avatar from '../../../../components/avatar/avatar.svelte'
 import type { WidgetClass } from '../widget-class';
-  export let widget: WidgetClass;
+  const { widget } = $props();
 
-  let mounted = false
-  $: if (widget && widget.type && mounted) {
-    setTimeout(() => {
-      const ele = document.querySelector('.widget-type-selector .active-type')
-      if (ele) {
-        ele.scrollIntoView()
-      }
-    }, 300)
-  }
+  let mounted = $state(false)
+  $effect(() => {
+    if (widget && widget.type && mounted) {
+      setTimeout(() => {
+        const ele = document.querySelector('.widget-type-selector .active-type')
+        if (ele) {
+          ele.scrollIntoView()
+        }
+      }, 300)
+    }
+  })
 
   const select = (selectedType: IWidgetType) => {
     widget.type = selectedType.id
     widget.data = selectedType.data;
   }
 
-  let allWidgetTypes: Array<IWidgetType> = []
+  let allWidgetTypes = $state<Array<IWidgetType>>([])
 
-  $: if (mounted && !allWidgetTypes.length) {
-    allWidgetTypes = getWidgetTypes($PluginStore)
-  }
+  $effect(() => {
+    if (mounted && !allWidgetTypes.length) {
+      allWidgetTypes = getWidgetTypes($PluginStore)
+    }
+  })
 
-  onMount(() => {
-    mounted = true
+  $effect(() => {
+    if (!mounted) {
+      mounted = true
+    }
   })
 </script>
 

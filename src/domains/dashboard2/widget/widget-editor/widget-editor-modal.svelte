@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import ButtonGroup from '../../../../components/button-group/button-group.svelte'
   import Button from '../../../../components/button/button.svelte'
@@ -36,50 +38,55 @@
   import Storage from '../../../../domains/storage/storage'
   import type { ITrackerType } from '../../../../modules/tracker/TrackerClass'
 
-  let visible: boolean = false
-  let editingWidget: WidgetClass | undefined
+  let visible = $state(false)
+  let editingWidget = $state<WidgetClass | undefined>(undefined)
 
-  export let props: WidgetEditorProps
-  export let id: string
+  const { props, id } = $props()
 
-  let activeType: IWidgetType | undefined
-  let conditionalStyling: boolean = false
-  let canSave: boolean = false
+  let activeType = $state<IWidgetType | undefined>(undefined)
+  let conditionalStyling = $state(false)
+  let canSave = $state(false)
 
-  $: if (props.widget && !visible) {
-    visible = true
-    editingWidget = new WidgetClass(props.widget)
-    if (isTruthy(editingWidget.compareValue)) {
-      conditionalStyling = true
+  $effect(() => {
+    if (props.widget && !visible) {
+      visible = true
+      editingWidget = new WidgetClass(props.widget)
+      if (isTruthy(editingWidget.compareValue)) {
+        conditionalStyling = true
+      }
     }
-  }
+  })
 
-  let widgetTypes = getWidgetTypes($PluginStore);
+  let widgetTypes = $state(getWidgetTypes($PluginStore));
 
-  $: if (editingWidget.type) {
-    activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
-    if (editingWidget.type == "plugin"){
-      pluginGetWidgets(editingWidget.data.pluginId);
+  $effect(() => {
+    if (editingWidget.type) {
+      activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
+      if (editingWidget.type == "plugin"){
+        pluginGetWidgets(editingWidget.data.pluginId);
+      }
+      if (editingWidget.type == "pointer"){
+        if (!editingWidget.data) {
+          editingWidget["data"]= {"pointersamples": 5}
+        };
+      }
     }
-    if (editingWidget.type == "pointer"){
-      if (!editingWidget.data) {
-        editingWidget["data"]= {"pointersamples": 5}
-      };
-    }
-  }
+  })
 
-  let lastWidgetHash: string | undefined = undefined
-  $: if (objectHash(editingWidget) !== lastWidgetHash) {
-    lastWidgetHash = objectHash(editingWidget)
-    try {
-      canSave = canSaveWidget(editingWidget, widgetTypes);
-    } catch (e) {
-      console.error(e)
-      canSave = false
+  let lastWidgetHash = $state<string | undefined>(undefined)
+  $effect(() => {
+    if (objectHash(editingWidget) !== lastWidgetHash) {
+      lastWidgetHash = objectHash(editingWidget)
+      try {
+        canSave = canSaveWidget(editingWidget, widgetTypes);
+      } catch (e) {
+        console.error(e)
+        canSave = false
+      }
     }
-  }
+  })
 
-  let pluginWidgets = [];
+  let pluginWidgets = $state([]);
   async function pluginGetWidgets(pluginId:String) {
     let path = `plugins/${pluginId}/prefs.json`
     let data: any = undefined

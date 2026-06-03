@@ -8,7 +8,7 @@
   import type NLog from '../../../nomie-log/nomie-log'
 
   // export let widget: WidgetClass
-  const { logs } = $props()
+  const { logs, widget = undefined, trackable = undefined, usage = undefined } = $props()
   let scores = $state<Array<IFocusResults>>([])
 
   async function init() {

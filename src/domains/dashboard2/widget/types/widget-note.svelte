@@ -14,7 +14,7 @@
 import { onLogNoteChange } from '../../../ledger/LedgerStore';
 import type NLog from '../../../nomie-log/nomie-log';
 
-  const { widget, usage } = $props()
+  const { trackable = undefined, widget, usage, logs = [] } = $props()
   // export let trackable: Trackable
 
   let activeIndex = $state<number>(-1)

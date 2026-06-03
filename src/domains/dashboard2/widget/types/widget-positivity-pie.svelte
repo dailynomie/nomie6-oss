@@ -9,7 +9,7 @@
   import logsToTrackableUsage from '../../../usage/usage-utils'
   import UsageChart from '../../../usage/usage-chart.svelte'
 
-  const { widget, logs, usage } = $props()
+  const { trackable = undefined, widget, logs, usage } = $props()
 
   let scoreUsage = $state<TrackableUsage | undefined>(undefined)
   // export let trackable: Trackable

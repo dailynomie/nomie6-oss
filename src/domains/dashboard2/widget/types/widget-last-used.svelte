@@ -19,13 +19,15 @@
   let lastUsedValue = $state<number | undefined>(undefined)
   let last = $state<undefined | { d: string; v: number }>(undefined)
 
-  $: if ($UsageStore[trackable.tag]) {
-    last = $UsageStore[trackable.tag].last
-    if (last) {
-      lastUsedDate = new Date(last.d)
-      lastUsedValue = last.v
+  $effect(() => {
+    if (trackable && $UsageStore[trackable.tag]) {
+      last = $UsageStore[trackable.tag].last
+      if (last) {
+        lastUsedDate = new Date(last.d)
+        lastUsedValue = last.v
+      }
     }
-  }
+  })
 </script>
 
 {#if widget}

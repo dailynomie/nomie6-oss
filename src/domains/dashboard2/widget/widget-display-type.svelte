@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import WidgetWhatTime from './types/widget-what-time.svelte'
   import WidgetFocus from './types/widget-focus.svelte'
@@ -17,17 +19,34 @@
   import type { WidgetClass } from './widget-class'
   import type { Trackable } from '../../trackable/Trackable.class'
   import type { TrackableUsage } from '../../usage/trackable-usage.class'
-  import { onMount } from 'svelte'
   import { TrackableStore } from '../../trackable/TrackableStore'
   import type NLog from '../../nomie-log/nomie-log'
 
 
-  export let trackable: Trackable | undefined = undefined
-  export let widget: WidgetClass
-  export let usage: TrackableUsage
-  export let logs: Array<NLog>
+  const { trackable: trackableProp = undefined, widget: widgetProp, usage: usageProp, logs: logsProp } = $props()
 
-  onMount(() => {
+  let trackable = $state(trackableProp)
+  let widget = $state(widgetProp)
+  let usage = $state(usageProp)
+  let logs = $state(logsProp)
+
+  $effect(() => {
+    trackable = trackableProp
+  })
+
+  $effect(() => {
+    widget = widgetProp
+  })
+
+  $effect(() => {
+    usage = usageProp
+  })
+
+  $effect(() => {
+    logs = logsProp
+  })
+
+  $effect(() => {
     if (trackable && usage) {
       usage.trackable = trackable || $TrackableStore?.trackables[usage.trackable.tag] || usage.trackable
     }
