@@ -1,14 +1,14 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
-  
+
 
   import type { WidgetClass } from '../widget-class'
   import math from '../../../../utils/math/math'
   import ProgressBar from '../../../../components/progress-bar/progress-bar.svelte'
 
-  export let widget: WidgetClass
-  // export let trackable: Trackable
-  export let usage: TrackableUsage
+  const { widget, usage } = $props()
 
   
 

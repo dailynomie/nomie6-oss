@@ -1,12 +1,13 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   import type { WidgetClass } from '../widget-class'
   import math from '../../../../utils/math/math'
   import { round } from 'lodash'
 
-  export let widget: WidgetClass
+  const { widget, usage } = $props()
   // export let trackable: Trackable
-  export let usage: TrackableUsage
 
   let datacheck = false
   let habitlabel1 = ""

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   // import type { WidgetClass } from '../widget-class'
   import { getFocusScoresFromLogs, type IFocusResults } from '../../../focus/focus-utils'
@@ -6,8 +8,8 @@
   import type NLog from '../../../nomie-log/nomie-log'
 
   // export let widget: WidgetClass
-  export let logs: Array<NLog>
-  let scores: Array<IFocusResults> = []
+  const { logs } = $props()
+  let scores = $state<Array<IFocusResults>>([])
 
   async function init() {
     scores = getFocusScoresFromLogs(logs, $TrackableStore.trackables)
