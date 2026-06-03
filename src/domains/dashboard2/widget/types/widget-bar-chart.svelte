@@ -16,7 +16,8 @@
   let reverseUsage = $state<TrackableUsage | undefined>(undefined)
 
   $effect(() => {
-    if (usage) {
+    // Explicitly reference usage to ensure dependency tracking
+    if (usage && widget) {
       if (['last-365', 'this-year'].indexOf(widget.timeframe.details.id) > -1) {
         reverseUsage = usage
           .reverse()
@@ -31,7 +32,8 @@
   })
 
   $effect(() => {
-    if (usage) {
+    // Explicitly reference usage and widget to ensure dependency tracking
+    if (usage && widget) {
       if (widget.type == 'barchart') {
         type = 'bar'
       } else {
