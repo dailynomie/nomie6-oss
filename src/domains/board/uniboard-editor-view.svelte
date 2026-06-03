@@ -87,19 +87,21 @@
 </script>
 
 <section aria-label="Edit this Tabs name and trackables">
-  <Container>
-    <List solo>
-      <Input
-        type="text"
-        listItem
-        placeholder="Tab Label"
-        on:input={() => {
-          dispatchChange()
-        }}
-        bind:value={workingBoard.label}
-      />
-    </List>
-  </Container>
+  {#if workingBoard}
+    <Container>
+      <List solo>
+        <Input
+          type="text"
+          listItem
+          placeholder="Tab Label"
+          on:input={() => {
+            dispatchChange()
+          }}
+          bind:value={workingBoard.label}
+        />
+      </List>
+    </Container>
+  {/if}
   {#if workingBoard && boardTrackables}
     {#key workingBoard.elements.length}
       <Container size="md">
