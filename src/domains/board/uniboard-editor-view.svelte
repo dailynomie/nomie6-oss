@@ -42,11 +42,12 @@
   })
 
   const getBoardTrackables = (): Array<Trackable> => {
-    return workingBoard?.elements
+    if (!workingBoard?.elements) return []
+    return workingBoard.elements
       .map((tag) => {
         return allTrackables.find((at) => at.tag === tag)
       })
-      .filter((n) => n) || []
+      .filter((n) => n) as Array<Trackable>
   }
 
   const dispatchChange = () => {
