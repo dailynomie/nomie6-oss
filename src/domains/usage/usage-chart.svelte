@@ -76,15 +76,15 @@
     marks: Array<ContextMapWrapper>
   }
 
-  let localType: 'bar' | 'line' = type
-  let showChart: boolean = true
-  let chartScale: 'linear' | 'logarithmic' = 'linear'
-  let chartStats: 'none' | "avg" | 'sma-7' | 'sma-15' | 'sma-30' | 'ema-7' | 'ema-15' | 'ema-30' | 'split-11' | 'split-12' | 'split-13' | 'cumm' = 'none'
-  let startWithZero: boolean = true
-  let ignoreZero: boolean = true
-  let showContext: boolean = false
-  let includeAlso: Trackable
-  let includeAlsoLabel = "None"
+  let localType = $state<'bar' | 'line'>(type)
+  let showChart = $state(true)
+  let chartScale = $state<'linear' | 'logarithmic'>('linear')
+  let chartStats = $state<'none' | "avg" | 'sma-7' | 'sma-15' | 'sma-30' | 'ema-7' | 'ema-15' | 'ema-30' | 'split-11' | 'split-12' | 'split-13' | 'cumm'>('none')
+  let startWithZero = $state(true)
+  let ignoreZero = $state(true)
+  let showContext = $state(false)
+  let includeAlso = $state<Trackable | undefined>(undefined)
+  let includeAlsoLabel = $state("None")
 
   const setChartType = async (type, swz, iz,stats, include, showcontext,save: boolean = true) => {
     showChart = false
