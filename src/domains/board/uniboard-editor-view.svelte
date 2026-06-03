@@ -100,19 +100,20 @@
       />
     </List>
   </Container>
-  {#key workingBoard.elements.length}
-    <Container size="md">
-      <SortableList2
-        key="id"
-        items={boardTrackables}
-        direction="xy"
-        let:item
-        on:update={(evt) => {
-          let trackablesArrayData = evt.detail
-          workingBoard.elements = trackablesArrayData.map((t) => new Trackable(t).tag)
-          dispatchChange()
-        }}
-      >
+  {#if workingBoard && boardTrackables}
+    {#key workingBoard.elements.length}
+      <Container size="md">
+        <SortableList2
+          key="id"
+          items={boardTrackables}
+          direction="xy"
+          let:item
+          on:update={(evt) => {
+            let trackablesArrayData = evt.detail
+            workingBoard.elements = trackablesArrayData.map((t) => new Trackable(t).tag)
+            dispatchChange()
+          }}
+        >
         {#if item}
           <ShortcutButton
             hideMore
@@ -139,7 +140,8 @@
             </button>
           </ShortcutButton>
         {/if}
-      </SortableList2>
-    </Container>
-  {/key}
+        </SortableList2>
+      </Container>
+    {/key}
+  {/if}
 </section>
