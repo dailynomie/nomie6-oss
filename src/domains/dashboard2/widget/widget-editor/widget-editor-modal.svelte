@@ -67,9 +67,11 @@
         pluginGetWidgets(editingWidget?.data?.pluginId);
       }
       if (editingWidget.type == "pointer"){
-        if (!editingWidget?.data) {
-          editingWidget["data"]= {"pointersamples": 5}
-        };
+        untrack(() => {
+          if (!editingWidget?.data) {
+            editingWidget["data"]= {"pointersamples": 5}
+          }
+        })
       }
     }
   })
