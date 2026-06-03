@@ -180,6 +180,7 @@
 
   <div class="h-4" />
 
+  {#if editingWidget}
   <main class="px-2">
     <!-- Select the Trackable if its required the by the active ttype  -->
     <List solo>
@@ -412,4 +413,5 @@
 
     <List solo className="mt-4 dark:text-white" />
   </main>
+  {/if}
 </BackdropModal>
