@@ -63,10 +63,10 @@
     if (editingWidget.type) {
       activeType = widgetTypes.find((wt) => wt.id === editingWidget.type)
       if (editingWidget.type == "plugin"){
-        pluginGetWidgets(editingWidget.data.pluginId);
+        pluginGetWidgets(editingWidget?.data?.pluginId);
       }
       if (editingWidget.type == "pointer"){
-        if (!editingWidget.data) {
+        if (!editingWidget?.data) {
           editingWidget["data"]= {"pointersamples": 5}
         };
       }
@@ -279,9 +279,9 @@
       {#if editingWidget?.type == "pointer"}
       <Divider left={18} />
       <ListItem>
-        Samples: {editingWidget.data.pointersamples}
+        Samples: {editingWidget?.data?.pointersamples}
         <div slot="right">
-          <input id="large-range" type="range" min="1" max="8" bind:value={editingWidget.data.pointersamples} step="1" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700">
+          <input id="large-range" type="range" min="1" max="8" bind:value={editingWidget?.data?.pointersamples} step="1" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700">
         </div>
       </ListItem>
       <Divider left={18} />
@@ -313,14 +313,14 @@
     {#if activeType?.id == 'plugin'}
     {#if pluginWidgets.length > 0}
     <List solo className="mt-4">
-    <Input listItem bind:value={editingWidget.data.widgetindex} type="select" label="Widget">
+    <Input listItem bind:value={editingWidget?.data?.widgetindex} type="select" label="Widget">
       <div
         slot="left"
-        class="{!editingWidget.data.widgetindex
+        class="{!editingWidget?.data?.widgetindex
           ? 'pl-2 pt-3 w-full'
           : ''} text-black dark:text-white pointer-events-none absolute"
       >
-        {#if !editingWidget.data.widgetindex}
+        {#if !editingWidget?.data?.widgetindex}
           Select a Widget
         {/if}
       </div>
