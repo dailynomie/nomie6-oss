@@ -83,6 +83,8 @@
 
   // Separate effect for plugin side effect
   $effect(() => {
+    // Depend on updateTrigger to re-run when widget type changes
+    const _ = updateTrigger
     if (editingWidget?.type === "plugin") {
       pluginGetWidgets(editingWidget?.data?.pluginId);
     }
@@ -120,8 +122,8 @@
     let data: any = undefined
     try {
       data = await Storage.get(path) || {widgets:[]};
-      pluginWidgets = data.widgets;
-      if (pluginWidgets == undefined || !validateWidgetParams(data.widgets)){pluginWidgets = [];}
+      pluginWidgets = data.widgets || [];
+      if (pluginWidgets == undefined || !validateWidgetParams(pluginWidgets)){pluginWidgets = [];}
     } catch (e) {
       console.error(e)
       pluginWidgets = [];
@@ -136,7 +138,7 @@
       valid = false;
       }
       i++;
-    }   
+    }
     return valid;
   }
 
@@ -313,7 +315,7 @@
           </ListItem>
         {/if}
         {/if}
-      {#if editingWidget?.type == "pointer"}
+      {#if editingWidget?.type == "pointer" && editingWidget?.data}
       <Divider left={18} />
       <ListItem>
         Samples: {editingWidget?.data?.pointersamples}
@@ -349,27 +351,28 @@
     
     <!-- Plugins -->
     {#if activeType?.id == 'plugin'}
-    {#if pluginWidgets.length > 0}
     <List solo className="mt-4">
-    <Input listItem bind:value={editingWidget.data.widgetindex} type="select" label="Widget">
-      <div
-        slot="left"
-        class="{!editingWidget?.data?.widgetindex
-          ? 'pl-2 pt-3 w-full'
-          : ''} text-black dark:text-white pointer-events-none absolute"
-      >
-        {#if !editingWidget?.data?.widgetindex}
-          Select a Widget
-        {/if}
-      </div>
-      {#each pluginWidgets as pluginWidget}
-        <option value={pluginWidget.widgetid}>{pluginWidget.emoji} {pluginWidget.name}</option>
-      {/each}
-    </Input>
-
+      {#if pluginWidgets.length > 0}
+        <Input listItem bind:value={editingWidget.data.widgetindex} type="select" label="Widget">
+          <div
+            slot="left"
+            class="{!editingWidget?.data?.widgetindex
+              ? 'pl-2 pt-3 w-full'
+              : ''} text-black dark:text-white pointer-events-none absolute"
+          >
+            {#if !editingWidget?.data?.widgetindex}
+              Select a Widget
+            {/if}
+          </div>
+          {#each pluginWidgets as pluginWidget}
+            <option value={pluginWidget.widgetid}>{pluginWidget.emoji} {pluginWidget.name}</option>
+          {/each}
+        </Input>
         <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
-      </List>
-    {/if}
+      {:else}
+        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Loading plugin widgets...</div>
+      {/if}
+    </List>
     {/if}
 
     <!-- Start Conditional Styling -->
@@ -423,6 +426,7 @@
               value={editingWidget.compareOverColor}
               on:change={(evt) => {
                 editingWidget.compareOverColor = evt.detail
+                updateTrigger = updateTrigger + 1
               }}
             />
           </ListItem>
@@ -435,6 +439,7 @@
               value={editingWidget.compareUnderColor}
               on:change={(evt) => {
                 editingWidget.compareUnderColor = evt.detail
+                updateTrigger = updateTrigger + 1
               }}
             />
           </ListItem>

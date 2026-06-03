@@ -201,23 +201,25 @@
   </Toolbar>
 
   {#if $DashStore.activeDashboard}
-    <Container size="xl">
-      {#if $DashStore.activeDashboard.widgets.length === 0}
-        <DashboardEmptyView />
-      {:else if $DashStore.editMode}
-        <DashbardEditView
-          dashboard={$DashStore.activeDashboard}
-          on:save={(evt) => {
-            saveChanges(evt.detail)
-          }}
-          on:update={(evt) => {
-            saveChanges(evt.detail, true)
-          }}
-        />
-      {:else}
-        <DashboardWidgetGrid {showDate} dashboard={$DashStore.activeDashboard} />
-      {/if}
-    </Container>
+    {#key $DashStore.activeDashboard.widgets.length}
+      <Container size="xl">
+        {#if $DashStore.activeDashboard.widgets.length === 0}
+          <DashboardEmptyView />
+        {:else if $DashStore.editMode}
+          <DashbardEditView
+            dashboard={$DashStore.activeDashboard}
+            on:save={(evt) => {
+              saveChanges(evt.detail)
+            }}
+            on:update={(evt) => {
+              saveChanges(evt.detail, true)
+            }}
+          />
+        {:else}
+          <DashboardWidgetGrid {showDate} dashboard={$DashStore.activeDashboard} />
+        {/if}
+      </Container>
+    {/key}
     <hr class="mt-4 mb-6 border-gray-500 dark:border-opacity-20 dark:border-gray-200 border-opacity-20" />
     <Container size="md">
       <div class="non-printable">
