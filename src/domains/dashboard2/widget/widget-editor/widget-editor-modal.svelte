@@ -299,6 +299,7 @@
         />
       </ListItem>
       {/if}
+      {/if}
     </List>
 
     <!-- Just Note -->
