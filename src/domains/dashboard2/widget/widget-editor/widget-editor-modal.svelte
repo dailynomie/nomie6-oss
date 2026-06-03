@@ -50,11 +50,13 @@
 
   $effect(() => {
     if (props.widget) {
-      editingWidget = new WidgetClass(props.widget)
-      visible = true
-      if (isTruthy(editingWidget.compareValue)) {
-        conditionalStyling = true
-      }
+      untrack(() => {
+        editingWidget = new WidgetClass(props.widget)
+        visible = true
+        if (isTruthy(editingWidget.compareValue)) {
+          conditionalStyling = true
+        }
+      })
     }
   })
 
