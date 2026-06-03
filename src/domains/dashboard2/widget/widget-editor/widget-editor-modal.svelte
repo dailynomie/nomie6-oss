@@ -315,7 +315,6 @@
     {#if activeType?.id == 'plugin'}
     {#if pluginWidgets.length > 0}
     <List solo className="mt-4">
-    {#if editingWidget?.data}
     <Input listItem bind:value={editingWidget.data.widgetindex} type="select" label="Widget">
       <div
         slot="left"
@@ -331,10 +330,9 @@
         <option value={pluginWidget.widgetid}>{pluginWidget.emoji} {pluginWidget.name}</option>
       {/each}
     </Input>
-      
+
         <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
       </List>
-    {/if}
     {/if}
     {/if}
 
