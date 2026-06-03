@@ -370,7 +370,7 @@
         </Input>
         <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
       {:else}
-        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Loading plugin widgets...</div>
+        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">No widget options available for this plugin</div>
       {/if}
     </List>
     {/if}
