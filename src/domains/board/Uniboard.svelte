@@ -41,7 +41,7 @@
   import NLog from '../nomie-log/nomie-log'
   import { UsageStore } from '../usage/UsageStore'
 
-  let { searching = $bindable(undefined), sort = $bindable(undefined), filter = (ele: Trackable) => true } = $props<{
+  let { searching = $bindable(undefined), sort = $bindable(undefined), filter = $bindable((ele: Trackable) => true) } = $props<{
     searching?: string
     sort?: Function
     filter?: Function
