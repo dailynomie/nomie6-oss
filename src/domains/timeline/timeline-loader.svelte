@@ -20,7 +20,7 @@
   import TimelineView from '../../domains/timeline/timeline-view.svelte'
   import { getDateFormats } from '../../domains/preferences/Preferences'
 
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
 
   import { wait } from '../../utils/tick/tick'
 
@@ -56,11 +56,11 @@
 
   const emit = createEventDispatcher()
 
-  onMount(() => {
+  $effect(() => {
     mounted = true
-  })
-  onDestroy(() => {
-    mounted = false
+    return () => {
+      mounted = false
+    }
   })
 
   let lastStartingDate: Date = $state(new Date())
@@ -189,7 +189,7 @@
   let onLogsDeleted: Function
   let firstKnownDate: Dayjs
 
-  onMount(async () => {
+  $effect(async () => {
     // Device.scrollToTop()
     firstKnownDate = await LedgerStore.getFirstDate()
     clearAndLoad()
@@ -207,12 +207,13 @@
       await wait(200)
       await clearAndLoad()
     })
-  })
-  onDestroy(() => {
-    // Unsubscribe
-    onLogSaved()
-    onLogUpdate()
-    onLogsDeleted()
+
+    return () => {
+      // Unsubscribe
+      onLogSaved()
+      onLogUpdate()
+      onLogsDeleted()
+    }
   })
 </script>
 
