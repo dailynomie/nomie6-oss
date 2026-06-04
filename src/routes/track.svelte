@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Toolbar from '../components/toolbar/toolbar.svelte'
   import Button from '../components/button/button.svelte'
@@ -43,8 +45,8 @@
   import type { UniboardType } from '../domains/board/UniboardStore'
   import UpgradeMessage from '../components/upgrade-message/upgrade-message.svelte'
 
-  export const location = undefined
-  export const style = ''
+  const location = undefined
+  const style = ''
 
   /**
    * Get Dynamic boards

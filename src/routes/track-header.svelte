@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import TodayDateController from '../domains/usage/today-date-controller.svelte'
   import Toolbar from '../components/toolbar/toolbar.svelte'
@@ -11,24 +13,26 @@
   import { slide } from 'svelte/transition'
   import appConfig from '../config/appConfig'
 
-  export let showController: boolean
-  export let editMode: boolean
-  export let editingLabel: string | undefined
-  export let editedUniboard: any
-  export let onToggleEditMode: () => void
-  export let onSaveEdits: () => void
-  export let boardAddMenu: any[]
-  export let onBoardTabTap: (evt: any) => void
-  export let combinedBoards: any[]
-  export let searchFor: string | undefined
-  export let onSearchChange: (evt: any) => void
-  export let onSearchClear: () => void
-  export let trackableCount: number
-  export let deviceWidth: number
-  export let runningTimers: any[]
-  export let onShowRunningTimers: () => void
-  export let carouselIcon: any
-  export let alarmIcon: any
+  const {
+    showController = false,
+    editMode = false,
+    editingLabel = undefined,
+    editedUniboard = undefined,
+    onToggleEditMode = () => {},
+    onSaveEdits = () => {},
+    boardAddMenu = [],
+    onBoardTabTap = () => {},
+    combinedBoards = [],
+    searchFor = undefined,
+    onSearchChange = () => {},
+    onSearchClear = () => {},
+    trackableCount = 0,
+    deviceWidth = 0,
+    runningTimers = [],
+    onShowRunningTimers = () => {},
+    carouselIcon = undefined,
+    alarmIcon = undefined,
+  } = $props()
 </script>
 
 {#if showController}

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Container from './../components/container/container.svelte'
 
@@ -59,8 +61,8 @@
   import { selectFuzzyDate } from '../domains/timeline/select-date-fuzzy'
   import { openUnisearch } from '../domains/search/UnisearchStore'
 
-  export const location = undefined
-  export let style = undefined
+  const location = undefined
+  let { style = undefined } = $props()
 
   let appTitle = null
   let showSearch = false

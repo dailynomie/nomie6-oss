@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { Router, Route } from '../vendor/svelte-navigator'
   import FileBrowser from './file-browser.svelte'
