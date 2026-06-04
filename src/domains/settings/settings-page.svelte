@@ -10,8 +10,6 @@
 
   //Vendors
 
-  import { onMount } from 'svelte'
-
   import SocialShare from '../../modules/share/share'
 
   // Components
@@ -115,8 +113,7 @@
     },
   }
 
-  // const setTimeout = setTimeout;
-  onMount(() => {
+  $effect(() => {
     Device.scrollToTop()
   })
 </script>

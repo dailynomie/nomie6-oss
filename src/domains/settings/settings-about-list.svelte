@@ -9,7 +9,6 @@
   import { Lang } from '../../store/lang'
   import ListItem from '../../components/list-item/list-item.svelte'
   import List from '../../components/list/list.svelte'
-  import { onMount } from 'svelte'
   import { TrackableStore } from '../trackable/TrackableStore'
   import { TrackerStore } from '../tracker/TrackerStore'
   import { PeopleStore } from '../people/PeopleStore'
@@ -29,7 +28,7 @@
     total: 0,
   })
 
-  onMount(() => {
+  $effect(() => {
     counts.trackers = Object.keys($TrackerStore).length
     counts.context = Object.keys($ContextStore).length
     counts.pointers = Object.keys($PointerStore).length

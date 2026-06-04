@@ -10,7 +10,6 @@
   import { Interact } from '../../store/interact'
 
   import tick from '../../utils/tick/tick'
-  import { onMount } from 'svelte'
 
   import List from '../../components/list/list.svelte'
   import { Prefs, setDocumentTheme, type ThemeTypes } from '../preferences/Preferences'
@@ -32,12 +31,6 @@
   let hasPin: boolean = $state(false)
 
   $effect(() => {
-    if (($Prefs.usePin || '').length) {
-      hasPin = true
-    }
-  })
-
-  onMount(() => {
     if ($Prefs.usePin) {
       hasPin = true
     }
