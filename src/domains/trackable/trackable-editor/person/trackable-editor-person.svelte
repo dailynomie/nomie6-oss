@@ -5,7 +5,7 @@
   import List from '../../../../components/list/list.svelte'
   import type { Trackable } from '../../Trackable.class'
 
-  let { trackable } = $props<{ trackable: Trackable }>()
+  let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 </script>
 
 <List solo>

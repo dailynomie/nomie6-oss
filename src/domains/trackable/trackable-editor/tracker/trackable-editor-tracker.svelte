@@ -54,7 +54,7 @@
   import PositivityEditor from '../../positivity-editor/positivity-editor.svelte'
   import TrackableListBuilder from '../../TrackableListBuilder.svelte'
 
-  let { trackable } = $props<{ trackable: Trackable }>()
+  let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
   let tracker: TrackerClass = $state(trackable.tracker)
 
   $effect(() => {

@@ -9,7 +9,7 @@
   import { parseNumber } from '../../../../utils/parseNumber/parseNumber'
   import type { Trackable } from '../../Trackable.class'
 
-  let { trackable } = $props<{ trackable: Trackable }>()
+  let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 
   function toggleReminder () {
     trackable.ptr.reminder = !trackable.ptr.reminder

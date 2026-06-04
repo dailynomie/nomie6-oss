@@ -7,7 +7,7 @@
   import { parseNumber } from '../../../../utils/parseNumber/parseNumber'
   import type { Trackable } from '../../Trackable.class'
 
-  const { trackable } = $props<{ trackable: Trackable }>()
+  let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 </script>
 
 <List solo>
