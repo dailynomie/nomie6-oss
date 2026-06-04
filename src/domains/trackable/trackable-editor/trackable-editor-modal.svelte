@@ -195,9 +195,9 @@
     <h2
       class="font-bold  text-sm flex-grow-0 line-clamp-1 text-black  dark:text-white capitalize flex items-center space-x-2"
     >
-      {#if !saving}
+      {#if !saving && workingTrackable}
         {workingTrackable.label} Editor
-      {:else}
+      {:else if saving}
         <Spinner size={24} />
       {/if}
     </h2>
