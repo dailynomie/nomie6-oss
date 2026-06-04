@@ -66,60 +66,61 @@
 
   let edittedUniboard: UniboardType
 
-  /**
-   * React to the Board Change
-   */
-
-  $: if (
-    $CombinedBoards &&
-    $CombinedBoards.length &&
-    $UniboardStore.activeId &&
-    $UniboardStore.activeId !== activeBoard?.id
-  ) {
-    activeBoard = $CombinedBoards.find((b) => b.id === $UniboardStore.activeId)
-    if (activeBoard) {
-      setBoardFilters(activeBoard)
-    }
-  }
-
   let lastActiveHash = ''
   let boardAddMenu = []
-
-  $: if ($Prefs) {
-    boardAddMenu = [
-      ...getBoardAddOptions($ActiveBoard, $TrackableStore.trackables),
-      ...addDividerToFirst(getBoardMenu($ActiveBoard)),
-      ...[
-        {
-          title: 'Search Nomie',
-          divider: true,
-          icon: SearchIcon,
-          click() {
-            openUnisearch()
-          },
-        },
-      ],
-    ]
-  }
-
-  $: if ($UniboardStore.hash !== lastActiveHash) {
-    lastActiveHash = $UniboardStore.hash
-    setBoardFilters($ActiveBoard)
-  }
-
-  /**
-   * Setup Searching for any Trackable
-   */
   let searching = false
-  $: if (searchFor) {
-    searching = true
-    trackableFilter = (trackable: Trackable): any => {
-      return JSON.stringify(trackable).toLowerCase().search(searchFor.toLowerCase()) > -1 ? true : false
+
+  $effect(() => {
+    if (
+      $CombinedBoards &&
+      $CombinedBoards.length &&
+      $UniboardStore.activeId &&
+      $UniboardStore.activeId !== activeBoard?.id
+    ) {
+      activeBoard = $CombinedBoards.find((b) => b.id === $UniboardStore.activeId)
+      if (activeBoard) {
+        setBoardFilters(activeBoard)
+      }
     }
-  } else if (searching) {
-    searching = false
-    setBoardFilters(activeBoard)
-  }
+  })
+
+  $effect(() => {
+    if ($Prefs) {
+      boardAddMenu = [
+        ...getBoardAddOptions($ActiveBoard, $TrackableStore.trackables),
+        ...addDividerToFirst(getBoardMenu($ActiveBoard)),
+        ...[
+          {
+            title: 'Search Nomie',
+            divider: true,
+            icon: SearchIcon,
+            click() {
+              openUnisearch()
+            },
+          },
+        ],
+      ]
+    }
+  })
+
+  $effect(() => {
+    if ($UniboardStore.hash !== lastActiveHash) {
+      lastActiveHash = $UniboardStore.hash
+      setBoardFilters($ActiveBoard)
+    }
+  })
+
+  $effect(() => {
+    if (searchFor) {
+      searching = true
+      trackableFilter = (trackable: Trackable): any => {
+        return JSON.stringify(trackable).toLowerCase().search(searchFor.toLowerCase()) > -1 ? true : false
+      }
+    } else if (searching) {
+      searching = false
+      setBoardFilters(activeBoard)
+    }
+  })
 
   /**
    * Default Trackable Filtering

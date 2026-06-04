@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import ProgressBar from '../../components/progress-bar/progress-bar.svelte'
   import dayjs from 'dayjs'
@@ -57,8 +59,7 @@
     log.score = ScoreNote(log.note, log.end, $TrackerStore)
     return log
   })
-  let tu: TrackableUsageMap
-  $: tu = logsToTrackableUsage(fakeNotes, { trackables: $TrackableStore.trackables })
+  let tu: TrackableUsageMap = $derived(logsToTrackableUsage(fakeNotes, { trackables: $TrackableStore.trackables }))
   // let date = dayjs()
 </script>
 

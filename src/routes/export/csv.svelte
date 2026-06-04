@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { CheckmarkCircle, CircleOutline } from '../../components/icon/nicons'
   import { dedupArray } from '../../utils/array/array_utils'
@@ -62,40 +64,41 @@
     end: dayjs().format('YYYY-MM-DD'),
   }
 
-  // Prepare Dynamic values
-  let startDate, endDate
+  let startDate: any, endDate: any
+  let doc: Array<any> = []
+  let lastUseAllTrackables = !useAllTrackables
 
-  // If start Changes, make sure end date is the same year
-  // Searching only works year by year.
-  $: if (state.start && dayjs(state.start, 'YYYY-MM-DD') !== startDate) {
-    startDate = dayjs(state.start, 'YYYY-MM-DD')
-    doc = []
-  }
+  $effect(() => {
+    if (state.start && dayjs(state.start, 'YYYY-MM-DD') !== startDate) {
+      startDate = dayjs(state.start, 'YYYY-MM-DD')
+      doc = []
+    }
+  })
 
-  $: if (state.end && dayjs(state.end, 'YYYY-MM-DD') !== endDate) {
-    endDate = dayjs(state.end, 'YYYY-MM-DD')
-    doc = []
-  }
+  $effect(() => {
+    if (state.end && dayjs(state.end, 'YYYY-MM-DD') !== endDate) {
+      endDate = dayjs(state.end, 'YYYY-MM-DD')
+      doc = []
+    }
+  })
 
-  $: {
+  $effect(() => {
     let needsTrackables = csvType.required.indexOf('trackables') > -1 ? true : false
     let meetsNeeds = needsTrackables ? state.trackables.length > 0 : true
     canSave = !generating && meetsNeeds
-  }
+  })
 
-  // Monitor if the user needs all known trackables or not
-  let lastUseAllTrackables = !useAllTrackables
-  $: if (useAllTrackables !== lastUseAllTrackables) {
-    lastUseAllTrackables = useAllTrackables
+  $effect(() => {
+    if (useAllTrackables !== lastUseAllTrackables) {
+      lastUseAllTrackables = useAllTrackables
 
-    if (useAllTrackables) {
-      state.trackables = $AllTrackablesAsArray
-    } else {
-      state.trackables = []
+      if (useAllTrackables) {
+        state.trackables = $AllTrackablesAsArray
+      } else {
+        state.trackables = []
+      }
     }
-  }
-
-  let doc: Array<any> = []
+  })
 
   const methods = {
     async generateCSV(): Promise<Array<any>> {

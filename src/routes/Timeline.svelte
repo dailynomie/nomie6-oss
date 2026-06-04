@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   /**
    * Timeline Page
@@ -13,7 +15,6 @@
   import { getDateFormats } from '../domains/preferences/Preferences'
   import LetterTicker from '../components/letter-ticker/letter-ticker.svelte'
   import { TrackableStore } from '../domains/trackable/TrackableStore'
-  import { onMount } from 'svelte'
 
   import Button from '../components/button/button.svelte'
   import IonIcon from '../components/icon/ion-icon.svelte'
@@ -54,9 +55,11 @@
 
   let hashDate: any
 
-  $: if (date && date !== hashDate && $TrackableStore.ready) {
-    hashDate = date
-  }
+  $effect(() => {
+    if (date && date !== hashDate && $TrackableStore.ready) {
+      hashDate = date
+    }
+  })
 
   /**
    * Jump to specific point in time
@@ -94,7 +97,7 @@
     return f
   }
 
-  let filters: TimelineFilterProps = { ...baseFilters }
+  let filters: TimelineFilterProps = $state({ ...baseFilters })
 
   /**
    * Show the Menu Filter
@@ -134,16 +137,17 @@
     return options
   }
 
-  let filterMenu: Array<PopMenuButton> = showFilterMenu()
+  let filterMenu: Array<PopMenuButton> = $state(showFilterMenu())
+  let mounted: boolean = $state(false)
 
-  $: if ($TimelineOptionsStore.filters) {
-    filters = $TimelineOptionsStore.filters
-    filterMenu = showFilterMenu()
-  }
+  $effect(() => {
+    if ($TimelineOptionsStore.filters) {
+      filters = $TimelineOptionsStore.filters
+      filterMenu = showFilterMenu()
+    }
+  })
 
-  let mounted: boolean
-
-  onMount(async () => {
+  $effect(() => {
     mounted = true
   })
 </script>

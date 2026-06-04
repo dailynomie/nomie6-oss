@@ -89,14 +89,18 @@
   let isToday = true
   let view: OTDViewOption = 'all'
 
-  // If the date changes - check to see if it's still today
   let activeDate
-  $: if (state.date && state.date !== activeDate) {
-    activeDate = state.date
-    isToday = new Date().toDateString() == state.date.toDate().toDateString()
-  }
 
-  $: appTitle = `History ${state.date.format('YYYY-MM-DD')}`
+  $effect(() => {
+    if (state.date && state.date !== activeDate) {
+      activeDate = state.date
+      isToday = new Date().toDateString() == state.date.toDate().toDateString()
+    }
+  })
+
+  $effect(() => {
+    appTitle = `History ${state.date.format('YYYY-MM-DD')}`
+  })
 
   function composeHere() {
     let logConfig = { end: undefined }
