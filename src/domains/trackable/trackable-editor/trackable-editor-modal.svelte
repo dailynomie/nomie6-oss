@@ -288,44 +288,46 @@
     </section>
   {/if}
 
-  <section class="mt-4 bg-white dark:bg-black pb-10">
-    <ListItem
-      bottomLine={16}
-      clickable
-      on:click={() => {
-        downloadTrackables([workingTrackable], `${AppVersion}`)
-      }}
-    >
-      Share Tracker
-      <IonIcon slot="right" icon={DownloadOutline} className="text-primary" />
-    </ListItem>
-
-    {#if $Prefs.betaFeatures}
-      <ListItem bottomLine={16} on:click={() => generateCode(workingTrackable)}>
-        <span> Generate QR Code or NFC </span>
-        <IonIcon slot="right" icon={ScanOutline} className="text-primary" />
-      </ListItem>
-    {/if}
-    {#if workingTrackable.type == 'tracker'}
+  {#if workingTrackable}
+    <section class="mt-4 bg-white dark:bg-black pb-10">
       <ListItem
         bottomLine={16}
+        clickable
         on:click={() => {
-          duplicateTrackable()
+          downloadTrackables([workingTrackable], `${AppVersion}`)
         }}
       >
-        Duplicate Trackable...
-        <IonIcon slot="right" icon={CopyOutline} className="text-primary-500" />
+        Share Tracker
+        <IonIcon slot="right" icon={DownloadOutline} className="text-primary" />
       </ListItem>
-    {/if}
 
-    <ListItem
-      on:click={async () => {
-        await removeTrackableFromNomie(workingTrackable)
-        close()
-      }}
-    >
-      <span class="text-red-500">Delete Trackable</span>
-      <IonIcon slot="right" icon={TrashOutline} className="text-red-500" />
-    </ListItem>
-  </section>
+      {#if $Prefs.betaFeatures}
+        <ListItem bottomLine={16} on:click={() => generateCode(workingTrackable)}>
+          <span> Generate QR Code or NFC </span>
+          <IonIcon slot="right" icon={ScanOutline} className="text-primary" />
+        </ListItem>
+      {/if}
+      {#if workingTrackable.type == 'tracker'}
+        <ListItem
+          bottomLine={16}
+          on:click={() => {
+            duplicateTrackable()
+          }}
+        >
+          Duplicate Trackable...
+          <IonIcon slot="right" icon={CopyOutline} className="text-primary-500" />
+        </ListItem>
+      {/if}
+
+      <ListItem
+        on:click={async () => {
+          await removeTrackableFromNomie(workingTrackable)
+          close()
+        }}
+      >
+        <span class="text-red-500">Delete Trackable</span>
+        <IonIcon slot="right" icon={TrashOutline} className="text-red-500" />
+      </ListItem>
+    </section>
+  {/if}
 </BackdropModal>
