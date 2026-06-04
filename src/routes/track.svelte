@@ -122,23 +122,13 @@
     }
   })
 
-  /**
-   * Default Trackable Filtering
-   * @param ele
-   */
-  let trackableFilter = (ele: Trackable) => {
+  let trackableFilter: (ele: Trackable) => boolean = $state((ele: Trackable) => {
     return ele.type
-    // == 'tracker'
-  }
+  })
 
-  /**
-   * Default Trackable Sorting
-   * @param ele1
-   * @param ele2
-   */
-  let trackableSort = (ele1: Trackable, ele2: Trackable) => {
+  let trackableSort: (ele1: Trackable, ele2: Trackable) => number = $state((ele1: Trackable, ele2: Trackable) => {
     return ele1.label.toLowerCase() > ele2.label.toLowerCase() ? 1 : -1
-  }
+  })
 
   /**
    * Setup the Filter and Sort

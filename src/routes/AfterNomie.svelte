@@ -1,4 +1,7 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
+
   import Layout from '../domains/layout/layout.svelte'
 
   import AnalyticsView from '../domains/afternomie/afternomie-view.svelte'
