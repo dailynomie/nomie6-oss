@@ -206,83 +206,87 @@
     >
   </ToolbarGrid>
 
-  <!-- Trackable Visuals Collector 
+  <!-- Trackable Visuals Collector
   Avatar, Emoji, Color, Label  -->
-  <section class="label-emoji-color filler overflow-y-auto  px-4 dark:text-gray-200 py-4 bg-gray-50 dark:bg-black mb-4">
-    <div class="visuals-editor flex items-center space-x-4">
-      <button
-        class="bg-primary-500 w-20 h-20 stiff"
-        style="border-radius:33%; {workingTrackable.color
-          ? `background-color:${workingTrackable.color} !important;`
-          : ''}"
-        on:click={async () => {
-          const visuals = await openTrackableVisuals(workingTrackable)
-          if (visuals) {
-            if (visuals.color) workingTrackable.color = visuals.color
-            if (visuals.emoji) workingTrackable.emoji = visuals.emoji
-            if (visuals.avatar) workingTrackable.avatar = visuals.avatar
-          }
-        }}
-      >
-        {#key workingTrackable}
-          <TrackableAvatar trackable={workingTrackable} size={64} />
-        {/key}
-      </button>
-
-      <!-- Lable Collection -->
-      <div class="flex flex-col w-full">
-        <Input
-          className="outline"
-          id="trackable-label-input"
-          value={workingTrackable.label}
-          on:input={(evt) => {
-            workingTrackable.label = evt.detail
-            if (!ogTag) {
-              workingTag = `${strToTagSafe(workingTrackable.label)}`
-              workingTrackable.tag = workingTag
+  {#if workingTrackable}
+    <section class="label-emoji-color filler overflow-y-auto  px-4 dark:text-gray-200 py-4 bg-gray-50 dark:bg-black mb-4">
+      <div class="visuals-editor flex items-center space-x-4">
+        <button
+          class="bg-primary-500 w-20 h-20 stiff"
+          style="border-radius:33%; {workingTrackable.color
+            ? `background-color:${workingTrackable.color} !important;`
+            : ''}"
+          on:click={async () => {
+            const visuals = await openTrackableVisuals(workingTrackable)
+            if (visuals) {
+              if (visuals.color) workingTrackable.color = visuals.color
+              if (visuals.emoji) workingTrackable.emoji = visuals.emoji
+              if (visuals.avatar) workingTrackable.avatar = visuals.avatar
             }
           }}
-          placeholder={label}
-          {label}
-        />
-        {#if ogTag || workingTag}
-          <div class="tag-control flex justify-end items-center space-x-2">
-            {#if tagExists}
-              <div class="text-red-500 text-xs">Tag already exists</div>
-            {/if}
-            <button
-              on:click={() => editTag()}
-              class="flex items-center focus:outline-none focus:ring ring-primary-500 rounded-md"
-            >
-              {#if ogTag && ogTag.length}
-                <span class="opacity-50 ">Tag:</span> <span>{truncateText(ogTag, $Device.size == 'lg' ? 40 : 20)}</span>
-                <IonIcon icon={LockClosedSolid} size={12} />
-              {:else if workingTag}
-                <span class="opacity-50">Tag:</span>
-                <span>{truncateText(`${workingTrackable.prefix}${workingTag}`, $Device.size == 'lg' ? 40 : 20)}</span>
-                <IonIcon icon={CreateOutline} size={12} />
-              {/if}
-            </button>
-          </div>
-        {/if}
-      </div>
-    </div>
-  </section>
+        >
+          {#key workingTrackable}
+            <TrackableAvatar trackable={workingTrackable} size={64} />
+          {/key}
+        </button>
 
-  <section class="px-2 h-50vh ">
-    {#if workingTrackable.type == 'context'}
-      <TrackableEditorContext bind:trackable={workingTrackable} />
-    {/if}
-    {#if workingTrackable.type == 'pointer'}
-      <TrackableEditorPointer bind:trackable={workingTrackable} />
-    {/if}
-    {#if workingTrackable.type == 'person'}
-      <TrackableEditorPerson bind:trackable={workingTrackable} />
-    {/if}
-    {#if workingTrackable.type == 'tracker'}
-      <TrackableEditorTracker bind:trackable={workingTrackable} />
-    {/if}
-  </section>
+        <!-- Lable Collection -->
+        <div class="flex flex-col w-full">
+          <Input
+            className="outline"
+            id="trackable-label-input"
+            value={workingTrackable.label}
+            on:input={(evt) => {
+              workingTrackable.label = evt.detail
+              if (!ogTag) {
+                workingTag = `${strToTagSafe(workingTrackable.label)}`
+                workingTrackable.tag = workingTag
+              }
+            }}
+            placeholder={label}
+            {label}
+          />
+          {#if ogTag || workingTag}
+            <div class="tag-control flex justify-end items-center space-x-2">
+              {#if tagExists}
+                <div class="text-red-500 text-xs">Tag already exists</div>
+              {/if}
+              <button
+                on:click={() => editTag()}
+                class="flex items-center focus:outline-none focus:ring ring-primary-500 rounded-md"
+              >
+                {#if ogTag && ogTag.length}
+                  <span class="opacity-50 ">Tag:</span> <span>{truncateText(ogTag, $Device.size == 'lg' ? 40 : 20)}</span>
+                  <IonIcon icon={LockClosedSolid} size={12} />
+                {:else if workingTag}
+                  <span class="opacity-50">Tag:</span>
+                  <span>{truncateText(`${workingTrackable.prefix}${workingTag}`, $Device.size == 'lg' ? 40 : 20)}</span>
+                  <IonIcon icon={CreateOutline} size={12} />
+                {/if}
+              </button>
+            </div>
+          {/if}
+        </div>
+      </div>
+    </section>
+  {/if}
+
+  {#if workingTrackable}
+    <section class="px-2 h-50vh ">
+      {#if workingTrackable.type == 'context'}
+        <TrackableEditorContext bind:trackable={workingTrackable} />
+      {/if}
+      {#if workingTrackable.type == 'pointer'}
+        <TrackableEditorPointer bind:trackable={workingTrackable} />
+      {/if}
+      {#if workingTrackable.type == 'person'}
+        <TrackableEditorPerson bind:trackable={workingTrackable} />
+      {/if}
+      {#if workingTrackable.type == 'tracker'}
+        <TrackableEditorTracker bind:trackable={workingTrackable} />
+      {/if}
+    </section>
+  {/if}
 
   <section class="mt-4 bg-white dark:bg-black pb-10">
     <ListItem
