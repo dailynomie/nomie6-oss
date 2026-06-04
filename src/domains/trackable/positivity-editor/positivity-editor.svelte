@@ -34,12 +34,11 @@
 
   const dispatch = createEventDispatcher()
 
-  // State
-  let state = {
+  let state = $state({
     showConditionForm: false,
     genesisCalc: new PositivityCondition({}),
     selectedIndex: -1,
-  }
+  })
 
   // const getTrackerInput = async () => {
   //   const response = await Interact.trackerInput(tracker, {
