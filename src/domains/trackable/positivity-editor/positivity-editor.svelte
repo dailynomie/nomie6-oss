@@ -34,7 +34,11 @@
 
   const dispatch = createEventDispatcher()
 
-  let showNeutral = $derived(!tracker?.score)
+  let showNeutral = $state(true)
+
+  $effect(() => {
+    showNeutral = !tracker?.score
+  })
 
   let state = $state({
     showConditionForm: false,
@@ -121,24 +125,26 @@
 
 {#if tracker}
   <div class={className}>
-    <NInput
-      listItem
-      type="select"
-      bind:value={tracker.score}
-      placeholder="Select a Positivity"
-      on:input={methods.change}
-      label={Lang.t('tracker.positivity', 'Positivity')}
-    >
-      <div slot="left" class="pt-3 text-black dark:text-white">
-        {#if showNeutral}
-          <div class="pl-2">😐 {Lang.t('tracker.neutral', 'Neutral')}</div>
-        {/if}
-      </div>
-      {#each appConfig.positivity as positivity}
-        <option value={`${positivity.score}`}>{positivity.emoji} {positivity.label}</option>
-      {/each}
-      <option value="custom">🛠 {Lang.t('general.customize', ' Custom')}</option>
-    </NInput>
+    {#key showNeutral}
+      <NInput
+        listItem
+        type="select"
+        bind:value={tracker.score}
+        placeholder="Select a Positivity"
+        on:input={methods.change}
+        label={Lang.t('tracker.positivity', 'Positivity')}
+      >
+        <div slot="left" class="pt-3 text-black dark:text-white">
+          {#if showNeutral}
+            <div class="pl-2">😐 {Lang.t('tracker.neutral', 'Neutral')}</div>
+          {/if}
+        </div>
+        {#each appConfig.positivity as positivity}
+          <option value={`${positivity.score}`}>{positivity.emoji} {positivity.label}</option>
+        {/each}
+        <option value="custom">🛠 {Lang.t('general.customize', ' Custom')}</option>
+      </NInput>
+    {/key}
     {#if tracker.score === 'custom'}
       <section class="points-editor">
         {#if !state.showConditionForm}
