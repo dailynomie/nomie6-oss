@@ -46,13 +46,18 @@
     let fontsize = $state(Math.round(16 /(1400/window.innerWidth)));
     if (fontsize <9) {fontsize=9}
 
-    $effect(async () => {
-        // create Plotly renderers via dependency injection
-        plotlyRenderers = PlotlyRenderers(Plotly);
-        loaded = false;
-        renderers = { ...TableRenderers, ...plotlyRenderers };
-        initialzePivotsPage();
-        // getData() will be called from selectPivot() after pivot is selected
+    let initialized = $state(false);
+
+    $effect(() => {
+        if (!initialized) {
+            // create Plotly renderers via dependency injection
+            plotlyRenderers = PlotlyRenderers(Plotly);
+            loaded = false;
+            renderers = { ...TableRenderers, ...plotlyRenderers };
+            initialzePivotsPage();
+            initialized = true;
+            // getData() will be called from selectPivot() after pivot is selected
+        }
     });
 
     let grouping = $state(true);
