@@ -5,10 +5,6 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import Container from '../../components/container/container.svelte'
 
-  // Vendors
-
-  import { onMount } from 'svelte'
-
   // Components
   import AppTab from '../../components/app-tab/app-tab.svelte'
 
@@ -42,6 +38,10 @@
   let page: 'track' | 'dashboard' | 'goals' | 'timeline' | 'history' | undefined = $state(undefined)
 
   $effect(() => {
+    state.mounted = true
+  })
+
+  $effect(() => {
     if (state.mounted) {
       path = document.location.pathname
       if (path === '/' && $Prefs.startPage === 'track') {
@@ -65,10 +65,6 @@
         }
       }
     }
-  })
-
-  onMount(() => {
-    state.mounted = true
   })
 </script>
 

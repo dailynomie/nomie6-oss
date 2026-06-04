@@ -11,11 +11,8 @@
     className?: any
     title?: any
   }>()
-  // Dynamic
-  $: hasHeader = !!$$slots.header || title
-  $: hasSubHeader = !!$$slots['sub-header']
-
-  // methods
+  let hasHeader = $derived(!!$$slots.header || title)
+  let hasSubHeader = $derived(!!$$slots['sub-header'])
 </script>
 
 <NLayout pageTitle={title} {className}>

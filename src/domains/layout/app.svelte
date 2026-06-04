@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { onMount } from 'svelte'
   import AppTabs from './tabs.svelte'
   import { Device } from '../../store/device-store'
 
@@ -17,7 +16,7 @@
     }
   })
 
-  onMount(async () => {
+  $effect(() => {
     Device.scrollToTop()
   })
 </script>
