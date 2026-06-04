@@ -18,7 +18,6 @@
     import Button from '../../components/button/button.svelte'
     import dayjs from 'dayjs'
     import { LedgerStore, queryToTrackableUsage } from '../ledger/LedgerStore'
-    import { onMount } from 'svelte'
     import PivotSelector from "./Pivot-table/UI/PivotSelector.svelte";
     import debounce from 'lodash/debounce'
     import { Interact } from '../../store/interact'
@@ -47,7 +46,7 @@
     let fontsize = $state(Math.round(16 /(1400/window.innerWidth)));
     if (fontsize <9) {fontsize=9}
 
-    onMount(async () => {
+    $effect(async () => {
         // create Plotly renderers via dependency injection
         plotlyRenderers = PlotlyRenderers(Plotly);
         loaded = false;
