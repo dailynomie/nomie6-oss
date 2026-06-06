@@ -39,22 +39,26 @@
   } from './library-manager/LibraryManagerStore'
   import AvailableTemplatesList from '../templates/available-templates-list.svelte'
 
-  let ready = false
-  let libraryTrackers: Array<LibraryTrackerType> = []
-  let searchResults: Array<Trackable> = []
-  let searchTerm: string
+  const { id } = $props()
+
+  let ready = $state(false)
+  let libraryTrackers = $state<Array<LibraryTrackerType>>([])
+  let searchResults = $state<Array<Trackable>>([])
+  let searchTerm = $state<string>(undefined)
   onMount(() => {
     ready = true
   })
 
-  $: if ($TrackerLibrary && !libraryTrackers.length && ready) {
-    
-    getAllLibraryTrackers().then((lts: Array<LibraryTrackerType>) => {
-       libraryTrackers = lts.sort((a, b) => (a?.title.toLowerCase() > b?.title.toLowerCase() ? 1 : -1))
-     })
-    libraryTrackers = []
-  }
-  let activeId: any
+  $effect(() => {
+    if ($TrackerLibrary && !libraryTrackers.length && ready) {
+      getAllLibraryTrackers().then((lts: Array<LibraryTrackerType>) => {
+         libraryTrackers = lts.sort((a, b) => (a?.title.toLowerCase() > b?.title.toLowerCase() ? 1 : -1))
+       })
+      libraryTrackers = []
+    }
+  })
+
+  let activeId = $state<any>(undefined)
 
   /**
    * Toggle the Active Category
@@ -125,9 +129,11 @@
     }
   }
 
-  $: if (searchTerm) {
-    searchResults = searchTrackables(searchTerm)
-  }
+  $effect(() => {
+    if (searchTerm) {
+      searchResults = searchTrackables(searchTerm)
+    }
+  })
 
   const searchTrackables = (term): Array<Trackable> => {
     const matches: Array<Trackable> = []
@@ -146,8 +152,6 @@
   const close = async () => {
     closeModal(id)
   }
-
-  const { id } = $props()
 </script>
 
 <BackdropModal>

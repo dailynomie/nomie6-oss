@@ -2,7 +2,6 @@
 
 <script lang="ts">
   import { Link } from '../vendor/svelte-navigator'
-  export let to = ''
 
   function getProps({ location, href, isPartiallyCurrent, isCurrent }) {
     const isActive = href === '/' ? isCurrent : isPartiallyCurrent || isCurrent

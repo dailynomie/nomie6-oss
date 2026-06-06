@@ -14,11 +14,11 @@
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
 import Divider from '../divider/divider.svelte'
 
-  let accessorySize: number = compact ? 18 : 24;
-  let open: boolean = false;
-  let activeIndex: number = -1;
-
   const { x, y, buttonClass, buttonStyle, id, title, compact, menuButtons } = $props()
+
+  let accessorySize = $derived(compact ? 18 : 24)
+  let open = $state(false)
+  let activeIndex = $state(-1)
 </script>
 
 <div {id} class="id-{id} {compact ? 'compact' : ''} relative menu-inline">

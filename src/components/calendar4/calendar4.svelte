@@ -20,7 +20,7 @@
 
   const dispatch = createEventDispatcher()
 
-  let weekDays = [
+  let weekDays = $state([
     Lang.t('days.monday', 'Monday'),
     Lang.t('days.tuesday', 'Tuesday'),
     Lang.t('days.wednesday', 'Wednesday'),
@@ -28,30 +28,37 @@
     Lang.t('days.friday', 'Friday'),
     Lang.t('days.saturday', 'Saturday'),
     Lang.t('days.sunday', 'Sunday'),
-  ]
+  ])
 
   type DayMapType = {
     [key: string]: CalendarDayUnit
   }
-  let daysMap: DayMapType = {}
+  let daysMap = $state<DayMapType>({})
 
-  $: if (objectHash(days)) {
-    days.forEach((day) => {
-      daysMap[day.date.toDateString()] = day
-    })
-  }
+  let { date = $bindable(), weekStarts, days, size } = $props()
 
-  $: datejs = dayjs(date).startOf('month')
-  $: daysInMonth = datejs.daysInMonth()
-  $: daysInPreviousMonth = datejs.subtract(1, 'month').daysInMonth()
-  $: firstDayColumn = datejs.day() - (weekStarts === 'monday' ? 1 : 0)
-  $: lastDayColumn = datejs.endOf('month').day() + (weekStarts === 'monday' ? 0 : 1)
-  $: month = datejs.month()
-  $: year = parseNumber(datejs.format('YYYY'))
-  $: if (weekStarts == 'sunday') {
-    const sunday = weekDays.pop()
-    weekDays.unshift(sunday)
-  }
+  let datejs = $derived(dayjs(date).startOf('month'))
+  let daysInMonth = $derived(datejs.daysInMonth())
+  let daysInPreviousMonth = $derived(datejs.subtract(1, 'month').daysInMonth())
+  let firstDayColumn = $derived(datejs.day() - (weekStarts === 'monday' ? 1 : 0))
+  let lastDayColumn = $derived(datejs.endOf('month').day() + (weekStarts === 'monday' ? 0 : 1))
+  let month = $derived(datejs.month())
+  let year = $derived(parseNumber(datejs.format('YYYY')))
+
+  $effect(() => {
+    if (objectHash(days)) {
+      days.forEach((day) => {
+        daysMap[day.date.toDateString()] = day
+      })
+    }
+  })
+
+  $effect(() => {
+    if (weekStarts == 'sunday') {
+      const sunday = weekDays.pop()
+      weekDays.unshift(sunday)
+    }
+  })
 
   const nextPrev = (dir: 'next' | 'previous') => {
     if (dir === 'next') {
@@ -85,8 +92,6 @@
   const dayClicked = (d: Dayjs) => {
     dispatch('input', d.toDate())
   }
-
-  const { date, weekStarts, days, size } = $props()
 </script>
 
 <div class="calendar-4" style="">

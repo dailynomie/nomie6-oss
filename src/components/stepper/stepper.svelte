@@ -1,26 +1,23 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  export let steps = 0
-  export let current = 0
-  export let dark = false
-  export let stepClass = ''
-  export let single = false
-  export let style = ''
-
-  let _steps = []
-  $: if (steps || current) {
-    _steps = []
-    for (let i = 0; i < steps; i++) {
-      if (!single) {
-        _steps.push(current >= i)
-      } else {
-        _steps.push(current == i)
-      }
-    }
-  }
 
   const { steps, current, dark, stepClass, single, style } = $props()
+
+  let _steps = $state([])
+
+  $effect(() => {
+    if (steps || current) {
+      _steps = []
+      for (let i = 0; i < steps; i++) {
+        if (!single) {
+          _steps.push(current >= i)
+        } else {
+          _steps.push(current == i)
+        }
+      }
+    }
+  })
 </script>
 
 <div class="n-stepper {dark ? 'dark' : 'light'}" {style}>

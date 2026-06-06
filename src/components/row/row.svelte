@@ -1,8 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  export let className = ''
-  export let style = ''
 
 
   const { className, style, insetLeft, insetRight } = $props()

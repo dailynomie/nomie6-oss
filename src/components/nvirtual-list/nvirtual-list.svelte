@@ -5,19 +5,24 @@
   import { createEventDispatcher, onMount } from 'svelte'
   import { getElementPosition } from '../../modules/html-elements/position'
 
+  let { items, className, start = $bindable(), end = $bindable(), height = $bindable() } = $props()
+
   let wrapper: HTMLElement
 
   const dispatch = createEventDispatcher()
 
-  $: {
+  $effect(() => {
     if (end === items.length) {
       dispatch('end')
     }
     dispatch('topItem', items[start])
-  }
+  })
+
   const calculateHeight = () => {
     const size = getElementPosition(wrapper)
-    height = `${size.eleHeight}px`
+    if (height !== undefined) {
+      height = `${size.eleHeight}px`
+    }
   }
 
   onMount(() => {
@@ -25,8 +30,6 @@
       calculateHeight()
     })
   })
-
-  const { items, className, start, end, height } = $props()
 </script>
 
 <div class="virtual-list-wrapper overflow-hidden  {className}" bind:this={wrapper}>

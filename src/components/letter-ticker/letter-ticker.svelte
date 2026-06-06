@@ -1,16 +1,21 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { untrack } from 'svelte'
 
-  let items: Array<string> = []
-  let lastItems: Array<string> = []
-
-  $: if (text) {
-    lastItems = items || []
-    items = `${text || ''}`.split('')
-  }
+  let items = $state<Array<string>>([])
+  let lastItems = $state<Array<string>>([])
 
   const { text, className, style } = $props()
+
+  $effect(() => {
+    if (text) {
+      untrack(() => {
+        lastItems = items || []
+        items = `${text || ''}`.split('')
+      })
+    }
+  })
 </script>
 
 {#if text}

@@ -7,10 +7,10 @@
   import Button from '../../components/button/button.svelte'
 
   // Props
-  export let value = ''
 
   // Consts
   const dispatch = createEventDispatcher()
+  let { value = $bindable() } = $props()
 
   // Methods
   const select = (num) => () => (value += num)
@@ -21,8 +21,6 @@
       event.stopPropagation()
     }, 10)
   }
-
-  const { value } = $props()
 </script>
 
 <div class="keypad">

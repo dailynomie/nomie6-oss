@@ -8,30 +8,32 @@
   import { TrackerStore } from '../../domains/tracker/TrackerStore'
   import { positivityFromLogs } from '../../utils/positivity/positivity'
 
-  let mounted = false
-  let byHour: Array<any> = []
-  let score: number = 0
+  let mounted = $state(false)
+  let byHour = $state<Array<any>>([])
+  let score = $state(0)
 
-  $: if (logs && mounted) {
-    let pos = positivityFromLogs(logs, $TrackerStore)
-    score = 0
-    byHour = pos.byHour.map((number) => {
-      score = score + number
-      if (number > 0) {
-        return 'positive'
-      } else if (number < 0) {
-        return 'negative'
-      } else {
-        return 'neutral'
-      }
-    })
-  }
+  const { logs, className } = $props()
+
+  $effect(() => {
+    if (logs && mounted) {
+      let pos = positivityFromLogs(logs, $TrackerStore)
+      score = 0
+      byHour = pos.byHour.map((number) => {
+        score = score + number
+        if (number > 0) {
+          return 'positive'
+        } else if (number < 0) {
+          return 'negative'
+        } else {
+          return 'neutral'
+        }
+      })
+    }
+  })
 
   onMount(() => {
     mounted = true
   })
-
-  const { logs, className } = $props()
 </script>
 
 {#if score}

@@ -12,9 +12,7 @@
   const dispatch = createEventDispatcher()
   // Props
 
-  export let title = 'Modal'
 
-  export let flexBody = undefined
 
   const has_header = !!$$slots.header
   const has_raw_header = !!$$slots['raw-header']

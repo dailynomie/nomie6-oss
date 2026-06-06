@@ -28,22 +28,25 @@
   import Textarea from '../../components/textarea/textarea.svelte'
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
 
-  let activeTimeframe: DayPartUnit | 'any' = 'any'
+  let { id, editMode = $bindable(), onSelect } = $props()
 
-  let editing: WritingPrompt | undefined
-  let canSave: boolean = false
+  let activeTimeframe = $state<DayPartUnit | 'any'>('any')
 
-  $: canSave = editing?.text?.length > 1 && editing?.time ? true : false
+  let editing = $state<WritingPrompt | undefined>(undefined)
+  let canSave = $derived(editing?.text?.length > 1 && editing?.time ? true : false)
 
   const editPrompt = (prompt: WritingPromptType) => {
     editing = new WritingPrompt(prompt)
   }
 
   onMount(() => {})
-  let prompts: Array<WritingPrompt> = []
-  $: if ($WritingPromptStore && $WritingPromptStore.length) {
-    initData()
-  }
+  let prompts = $state<Array<WritingPrompt>>([])
+
+  $effect(() => {
+    if ($WritingPromptStore && $WritingPromptStore.length) {
+      initData()
+    }
+  })
 
   const initData = () => {
     prompts = [...$WritingPromptStore]
@@ -73,8 +76,6 @@
       initData()
     }
   }
-
-  const { id, editMode, onSelect } = $props()
 </script>
 
 <BackdropModal mainClass="px-2 lg:px-4">

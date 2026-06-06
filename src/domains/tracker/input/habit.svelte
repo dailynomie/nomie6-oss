@@ -7,22 +7,21 @@
   import ButtonGroup from '../../../components/button-group/button-group.svelte';
 
   const dispatch = createEventDispatcher()
+  const { tracker, value } = $props()
 
-  export let value = 1
+  let tempValue = $state<number>(value)
+  $effect(() => {
+    tempValue = value
+  })
 
-  let tempValue: number
-  $: tempValue = value
-
-  $: if (tempValue) {
+  $effect(() => {
+    if (tempValue) {
       dispatch('change', tempValue)
     }
+  })
 
-  let habittrue = tracker.habitChoice[0] || "Missed"
-  let habitfalse = tracker.habitChoice[1] || "Achieved"
-  
-
-
-  const { tracker, value } = $props()
+  let habittrue = $state(tracker.habitChoice[0] || "Missed")
+  let habitfalse = $state(tracker.habitChoice[1] || "Achieved")
 </script>
 
 <div class="picker-input-wrapper filler overflow-y-auto max-h-full min-h-0">

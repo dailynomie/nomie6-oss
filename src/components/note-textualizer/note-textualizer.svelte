@@ -13,16 +13,16 @@
   
   // Props
 
-  export let trackers = {}
 
   const dispatch = createEventDispatcher()
+  const { note, trackers, className, tokenClass } = $props()
 
-  const state = {
+  const state = $state({
     words: [],
     note: ``
-  }
+  })
 
-  let actual = 0
+  let actual = $state(0)
 
   const toggleCheckbox = (index) => {
      const check = state.words[index];
@@ -61,10 +61,9 @@
     },
   }
 
-  $: state.words = methods.note_to_array(note)
-  
-
-  const { note, trackers, className, tokenClass } = $props()
+  $effect(() => {
+    state.words = methods.note_to_array(note)
+  })
 </script>
 
 {#if actual}

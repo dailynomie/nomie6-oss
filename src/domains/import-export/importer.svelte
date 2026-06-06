@@ -29,11 +29,13 @@
 
   // let fileInput // holder of dom element self
 
-  let version = undefined // version we're dealing with
-  let importingAll = false
+  let { id, fileData = $bindable() } = $props()
+
+  let version = $state(undefined) // version we're dealing with
+  let importingAll = $state(false)
 
   // Status of imports
-  let importing = {
+  let importing = $state({
     boards: { running: false, done: false },
     locations: { running: false, done: false },
     goals: { running: false, done: false },
@@ -45,14 +47,16 @@
     context: { running: false, done: false },
     pointers: { running: false, done: false },
     all: { running: false, done: false },
-  }
+  })
 
   const importLoader = new ImportLoader()
 
-  let initialized = false
-  $: if (fileData && !initialized) {
-    methods.init()
-  }
+  let initialized = $state(false)
+  $effect(() => {
+    if (fileData && !initialized) {
+      methods.init()
+    }
+  })
 
   const methods = {
     // Initialze once we have data.
@@ -276,8 +280,6 @@
       closeModal(id)
     }
   }
-
-  const { id, fileData } = $props()
 </script>
 
 <BackdropModal>

@@ -10,19 +10,17 @@
 
   import { MoreVertical } from '../icon/nicons'
 
-  export let hoursUsed = []
+  const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon, oneTap, hoursUsed } = $props()
 
-  let clickSkip
+  let clickSkip = $state(undefined)
 
   const dispatch = createEventDispatcher()
 
-  $: emojiSize = compact ? 30 : 40
+  let emojiSize = $derived(compact ? 30 : 40)
 
   async function more() {
     dispatch('more')
   }
-
-  const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon, oneTap, hoursUsed } = $props()
 </script>
 
 <div class="button-wrapper relative w-full flex-grow flex-shrink  {compact ? 'compact' : 'normal'}">

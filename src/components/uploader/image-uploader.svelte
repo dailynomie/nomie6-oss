@@ -15,10 +15,7 @@
   let canvas: HTMLCanvasElement
   let input: HTMLInputElement
 
-  export let className = ''
 
-  export let maxW = 64*4
-  export let maxH = 64*4
 
   let output: string
 

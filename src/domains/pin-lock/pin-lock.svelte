@@ -17,15 +17,19 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
 
-  let _pin = ''
+  const { id, onPin, title, canClose } = $props()
+
+  let _pin = $state('')
 
   onMount(() => {
     _pin = ''
   })
 
-  $: if (_pin.length > 6) {
-    _pin = _pin.substring(0, 6)
-  }
+  $effect(() => {
+    if (_pin.length > 6) {
+      _pin = _pin.substring(0, 6)
+    }
+  })
 
   const methods = {
     submit() {
@@ -44,8 +48,6 @@
       closeModal(id)
     },
   }
-
-  const { id, onPin, title, canClose } = $props()
 </script>
 
 <BackdropModal>

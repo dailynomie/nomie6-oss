@@ -19,22 +19,23 @@
   import { getAwardById } from '../../domains/awards/helpers/usage-awards'
 
   let dispatch = createEventDispatcher()
-
-  let buttonGroup: Array<Array<PopMenuButton>> = []
-
-  $: if (buttons) {
-    buttonGroup = [[]]
-    let current: number = buttonGroup.length - 1
-    buttons.forEach((button: PopMenuButton) => {
-      if (button.divider) {
-        buttonGroup.push([])
-        current = buttonGroup.length - 1
-      }
-      buttonGroup[current].push(button)
-    })
-  }
-
   const { buttons, listType } = $props()
+
+  let buttonGroup = $state<Array<Array<PopMenuButton>>>([])
+
+  $effect(() => {
+    if (buttons) {
+      buttonGroup = [[]]
+      let current: number = buttonGroup.length - 1
+      buttons.forEach((button: PopMenuButton) => {
+        if (button.divider) {
+          buttonGroup.push([])
+          current = buttonGroup.length - 1
+        }
+        buttonGroup[current].push(button)
+      })
+    }
+  })
 </script>
 
 {#each buttonGroup as group, gIndex}

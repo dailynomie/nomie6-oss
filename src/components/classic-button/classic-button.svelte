@@ -22,17 +22,9 @@
 
   // Props
 
-  export let value = null
   // export let refreshing = false;
-  export let id = undefined
-  export let className = ''
-  export let labelClass = ''
-  export let disabled = undefined
-  export let hideMore = false
-  export let hoursUsed = []
   // export let hideMore = false;
   // export let lastUsed = null; // or dayjs object
-  export let positivity = 0
 
   // Define Dispatch
   const dispatch = createEventDispatcher()

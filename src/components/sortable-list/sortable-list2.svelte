@@ -10,33 +10,36 @@
 
   // export let gap = 0
   // export let itemWidth = '120px'
-  export let className = ''
-  export let containerClass = ''
 
   // const console = new Logger('↕️ NSortable');
-  let cleanItems: Array<any> = []
-  $: if (items && items.length) {
-    // cleanItems = dedupArray(items, key)
-    cleanItems = [...items]
-  }
-
-  let grid: Muuri
-
-  let gridEle: HTMLElement
+  let cleanItems = $state<Array<any>>([])
+  let grid = $state<Muuri>(undefined)
+  let gridEle = $state<HTMLElement>(undefined)
   // let sortableItems: HTMLElement
-  let ready: boolean = false
+  let ready = $state(false)
+  let lastItemCount = $state<number>(undefined)
 
-  let lastItemCount: number
-  $: if (ready && grid && cleanItems.length !== lastItemCount && sortable) {
-    try {
-      lastItemCount = cleanItems.length
-      // const children = sortableItems.children
-      // grid.add(children)
-      grid.refreshItems(grid.getItems(), true).layout()
-    } catch (e) {
-      console.error(`${e.message}`)
+  const { items, sortable, direction, className, containerClass, handleClass, key, id, enabled } = $props()
+
+  $effect(() => {
+    if (items && items.length) {
+      // cleanItems = dedupArray(items, key)
+      cleanItems = [...items]
     }
-  }
+  })
+
+  $effect(() => {
+    if (ready && grid && cleanItems.length !== lastItemCount && sortable) {
+      try {
+        lastItemCount = cleanItems.length
+        // const children = sortableItems.children
+        // grid.add(children)
+        grid.refreshItems(grid.getItems(), true).layout()
+      } catch (e) {
+        console.error(`${e.message}`)
+      }
+    }
+  })
 
   const getMurriConfig = (): GridOptions => {
     return {
@@ -182,8 +185,6 @@
   onMount(() => {
     main()
   })
-
-  const { items, sortable, direction, className, containerClass, handleClass, key, id, enabled } = $props()
 </script>
 
 <div {id} class="sortable-list2 {containerClass} h-full w-full" bind:this={gridEle}>

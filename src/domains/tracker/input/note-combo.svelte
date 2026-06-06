@@ -25,14 +25,16 @@
   import List from '../../../components/list/list.svelte'
   import Title from '../../../components/title/title.svelte'
 
-  export let value = '5'
+  const { value, tracker } = $props()
 
-  let tempValue
-  $: tempValue = value
+  let tempValue = $state(value)
+  $effect(() => {
+    tempValue = value
+  })
 
   const dispatch = createEventDispatcher()
 
-  let trackables: Array<Trackable> = []
+  let trackables = $state<Array<Trackable>>([])
 
   async function main() {
     const noteElements: Array<Token> = tokenizeLite(tracker.note)
@@ -87,8 +89,6 @@
   }
 
   onMount(main)
-
-  const { value, tracker } = $props()
 </script>
 
 <div class="h-full tracker-input-combo">

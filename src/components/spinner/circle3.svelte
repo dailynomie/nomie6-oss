@@ -2,7 +2,6 @@
 
 <script lang="ts">
 
-  export let duration = '1.5s'
 
   const { size, unit, ballTopLeft, ballTopRight, ballBottomLeft, ballBottomRight, style, duration } = $props()
 </script>

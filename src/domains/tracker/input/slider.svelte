@@ -6,14 +6,12 @@
   import RangeSlider from 'svelte-range-slider-pips'
   import is from '../../../utils/is/is'
 
-  export let min = '0'
-  export let max = '10'
-  export let value = '5'
+  const { min, max, value, tracker, step } = $props()
 
-  export let step = tracker ? tracker.step : '1'
-
-  let tempValue
-  $: tempValue = value
+  let tempValue = $state(value)
+  $effect(() => {
+    tempValue = value
+  })
 
   const dispatch = createEventDispatcher()
 
@@ -25,8 +23,6 @@
   }
 
   onMount(main)
-
-  const { min, max, value, tracker, step } = $props()
 </script>
 
 <div class="tracker-input-slider relative">

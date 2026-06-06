@@ -14,31 +14,30 @@
 
   //consts
   const dispatch = createEventDispatcher()
+  let { date = $bindable(), time = $bindable(), className, style, size } = $props()
 
   let inputEle: HTMLInputElement
-  let localDate: any
-  let lastTime: number
+  let localDate = $state<any>(dayjs(new Date()).format('YYYY-MM-DDTHH:mm'))
+  let lastTime = $state(time)
   const dtlFormat = 'YYYY-MM-DDTHH:mm'
-  let dateTimeFormat: string
+  let dateTimeFormat = $derived($Prefs.use24hour ? 'dd/mm/yyyy HH:mm' : 'mm/dd/yyyy hh:mm a')
 
-  $: dateTimeFormat = $Prefs.use24hour ? 'dd/mm/yyyy HH:mm' : 'mm/dd/yyyy hh:mm a'
-
-  $: if (time) {
-    if (time !== lastTime) {
-      lastTime = time
-      localDate = dayjs(new Date(time)).format(dtlFormat)
+  $effect(() => {
+    if (time) {
+      if (time !== lastTime) {
+        lastTime = time
+        localDate = dayjs(new Date(time)).format(dtlFormat)
+      }
+    } else {
+      localDate = dayjs(new Date()).format(dtlFormat)
     }
-  } else {
-    localDate = dayjs(new Date()).format(dtlFormat)
-  }
+  })
 
   function fireChange(evt: any) {
     date = new Date(evt.target.value)
     time = date.getTime()
     dispatch('change', date);
   }
-
-  const { date, time, className, style, size } = $props()
 </script>
 
 <div class="n-date-picker {className}">

@@ -15,19 +15,17 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let active = []
+  let picks = $state([])
+  let searchFilter = $state<string>(undefined)
 
-  let picks = []
-  let searchFilter: string
-
-  $: {
+  $effect(() => {
     picks = tracker && tracker.picks ? tracker.picks : []
     if (searchFilter) {
       picks = picks.filter((p) => {
         return p.toLowerCase().search(`${searchFilter}`.toLowerCase()) > -1
       })
     }
-  }
+  })
 
   function toggle(pick) {
     if (active.indexOf(pick) > -1) {
@@ -56,7 +54,7 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
     return lastCharacter === ':'
   }
 
-  const { tracker, active } = $props()
+  let { tracker, active = $bindable() } = $props()
 </script>
 
 <div class="w-full p-2 bg-gray-100 dark:bg-gray-800 ">

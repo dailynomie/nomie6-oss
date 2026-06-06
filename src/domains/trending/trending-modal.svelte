@@ -33,19 +33,19 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
   } from './TrendingModalStore'
   import { AroundThisTimeStore } from './TrendingModalStore'
 
-  let loading: boolean = true
-  let activeDate: Date = new Date()
-  let activeFocal: ATTFocalUnit = 'day'
-  let onlyShow: 'all' | 'tracker' | 'people' | 'context' | 'pointer' = 'all'
+  let loading = $state(true)
+  let activeDate = $state(new Date())
+  let activeFocal = $state('day' as ATTFocalUnit)
+  let onlyShow = $state('all' as 'all' | 'tracker' | 'people' | 'context' | 'pointer')
 
-  let usageArray: Array<UsageComparedType> = []
-  let trendingUp: Array<UsageComparedType> = []
-  let trendingDown: Array<UsageComparedType> = []
-  let newItems: Array<UsageComparedType> = []
+  let usageArray = $state<Array<UsageComparedType>>([])
+  let trendingUp = $state<Array<UsageComparedType>>([])
+  let trendingDown = $state<Array<UsageComparedType>>([])
+  let newItems = $state<Array<UsageComparedType>>([])
   // let max: number = 100
 
-  let dateFormats = getDateFormats()
-  let title: string = 'Loading...'
+  let dateFormats = $state(getDateFormats())
+  let title = $state('Loading...')
 
   const init = async () => {
     trackEvent('trending-modal')
@@ -62,48 +62,53 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
     // max = math.max(usageArray.map((uct) => uct.trackableUsage.values.length))
     loading = false
   }
-  $: activeDate = $AroundThisTimeStore.date
-  $: activeFocal = $AroundThisTimeStore.focalPeriod
+  $effect(() => {
+    activeDate = $AroundThisTimeStore.date
+    activeFocal = $AroundThisTimeStore.focalPeriod
+  })
 
   // $: filter = (uct: UsageComparedType) => {
   //   if (onlyShow === 'all') return true
   //   return uct.trackableUsage.trackable.type === onlyShow
   // }
 
-  $: if (!loading && onlyShow) {
-    trendingDown = usageArray
-      .filter((uct) => {
-        if (onlyShow === 'all') return true
-        return uct.trackableUsage.trackable.type === onlyShow
-      })
-      .filter((uct) => {
-        return (
-          uct.compared.value.direction === 'down' &&
-          [uct.compared.value.from, uct.compared.value.to].join(',') !== '0,1'
-        )
-      })
+  $effect(() => {
+    if (!loading && onlyShow) {
+      trendingDown = usageArray
+        .filter((uct) => {
+          if (onlyShow === 'all') return true
+          return uct.trackableUsage.trackable.type === onlyShow
+        })
+        .filter((uct) => {
+          return (
+            uct.compared.value.direction === 'down' &&
+            [uct.compared.value.from, uct.compared.value.to].join(',') !== '0,1'
+          )
+        })
 
-    trendingUp = usageArray
-      .filter((uct) => {
-        if (onlyShow === 'all') return true
-        return uct.trackableUsage.trackable.type === onlyShow
-      })
-      .filter((uct) => {
-        return (
-          uct.compared.value.direction === 'up' && [uct.compared.value.from, uct.compared.value.to].join(',') !== '0,1'
-        )
-      })
+      trendingUp = usageArray
+        .filter((uct) => {
+          if (onlyShow === 'all') return true
+          return uct.trackableUsage.trackable.type === onlyShow
+        })
+        .filter((uct) => {
+          return (
+            uct.compared.value.direction === 'up' && [uct.compared.value.from, uct.compared.value.to].join(',') !== '0,1'
+          )
+        })
 
-    newItems = trendingUp.filter((uct) => {
-      return uct.compared.value.from === 0
-    })
-    trendingUp = trendingUp.filter((uct) => {
-      return uct.compared.value.from
-    })
-  }
+      newItems = trendingUp.filter((uct) => {
+        return uct.compared.value.from === 0
+      })
+      trendingUp = trendingUp.filter((uct) => {
+        return uct.compared.value.from
+      })
+    }
+  })
 
-  $: if ($AroundThisTimeStore) {
-    init()
+  $effect(() => {
+    if ($AroundThisTimeStore) {
+      init()
 
     if (activeFocal === 'day') {
       title = dayjs(activeDate).format(dateFormats.mmm_d_yyyy)
@@ -114,7 +119,8 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
     } else if (activeFocal === 'month') {
       title = `${dayjs(activeDate).format('MMM YYYY')}`
     }
-  }
+    }
+  })
 
   const close = () => {
     closeModal(id)

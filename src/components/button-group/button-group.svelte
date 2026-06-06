@@ -18,18 +18,11 @@
     click?: Function
   }
 
-  export let size = 'sm'
-  export let labelClass = ''
-  export let inverse = false
 
-  export let className = ''
-  export let style = ''
-  export let id = ''
-  export let scrollable = false
 
   const dispatch = createEventDispatcher()
 
-  const { buttons, size, labelClass, inverse, compact, className, style, id, scrollable, value } = $props()
+  let { buttons, size, labelClass, inverse, compact, className, style, id, scrollable, value = $bindable() } = $props()
 </script>
 
 <div

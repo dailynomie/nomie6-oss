@@ -18,9 +18,6 @@
   let buffer = []
   let fontSize = 40
 
-  export let value = 0
-  export let displayFormat = undefined
-  export let defaultEphemeral = true
 
   let tapped = false
 
@@ -170,7 +167,7 @@
     }
   }
 
-  const { value, displayFormat, defaultEphemeral } = $props()
+  let { value = $bindable(), displayFormat, defaultEphemeral } = $props()
 </script>
 
 <svelte:window on:keydown={handleKeydown} />

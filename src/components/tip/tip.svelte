@@ -10,7 +10,6 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { ChevronBackOutline, ChevronForwardOutline } from '../icon/nicons'
 
-  export let className = ''
 
   let hiddenTips = Storage.local.get('hidden-tips') || []
 

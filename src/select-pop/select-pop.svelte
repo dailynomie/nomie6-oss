@@ -9,7 +9,6 @@ import CheckmarkOutline from '../n-icons/CheckmarkOutline.svelte';
 
   import ChevronDownOutline from '../n-icons/ChevronDownOutline.svelte'
 
-  export let options: Array<{ key: string | number; value: any, selected?: boolean }> = []
 
   const emit = createEventDispatcher();
   const showMenu = () => {
@@ -28,10 +27,10 @@ import CheckmarkOutline from '../n-icons/CheckmarkOutline.svelte';
     })
   }
 
-  const { className, value, placeholder, id } = $props()
+  const { className, value, placeholder, id, ...rest } = $props()
 </script>
 
-<button on:click={showMenu} class="select-pop {$$restProps.class || ''} {className || ''}" {...$$restProps}>
+<button on:click={showMenu} class="select-pop {rest.class || ''} {className || ''}" {...rest}>
   <span class="mr-4 font-medium">{value || placeholder}</span>
   <IonIcon icon={ChevronDownOutline} size={16} />
 </button>

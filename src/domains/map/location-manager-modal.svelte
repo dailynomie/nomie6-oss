@@ -38,29 +38,29 @@
   import Empty from '../../components/empty/empty.svelte'
   import { showToast } from '../../components/toast/ToastStore'
 
-  const state = {
+  let state = $state({
     locations: [],
     active: null,
     mode: 'edit',
     mapLocation: null,
     locating: false,
-  }
+  })
 
-  // $: state.locations = $LocationStore 
+  let lastLocation = $state(null)
+  let mapLocation = $state(null)
+  let showMap = $state(false)
+  let locationSearchTerm = $state<string | undefined>(undefined)
+  let resultsHidden = $state(true)
+  let searchResults = $state<Array<LookupLocationType>>([])
+  let ready = $state(true)
+  let sortedTimeout = $state<any>(undefined)
+  let saving = $state(false)
 
-  $: {
+  const { id, onSelect } = $props()
+
+  $effect(() => {
     state.locations = $LocationStore
-    //console.log('state.locations: ',state.locations)
-  }
-
-  let lastLocation = null
-  let mapLocation = null
-
-  let showMap = false
-  let locationSearchTerm: string | undefined = undefined
-  let resultsHidden = true
-  let searchResults: Array<LookupLocationType> = []
-  let ready = true
+  })
 
   // function goto(location) {
   //   state.active = location;
@@ -79,10 +79,6 @@
   //   let exists = state.locations.find((l) => l.hash == loc.hash) ? true : false
   //   // showFavoriteButton = !exists
   // }
-
-  let sortedTimeout
-
-  let saving = false
 
   function sorted(evt): void {
 
@@ -222,8 +218,6 @@
     //select(location)
     resultsHidden = true
   }
-
-  const { id, onSelect } = $props()
 </script>
 
 <BackdropModal className="h-full bg-white dark:bg-gray-900 w-full">

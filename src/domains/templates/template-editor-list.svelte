@@ -21,18 +21,20 @@ import { onMount } from 'svelte';
   }
 
   const removeTemplate = async (template: Template) => {
-   
+
    await TemplateStore.remove(template)
    showToast({ message: 'Template removed' })
  }
 
- $: if ($TemplateStore) {
-  TemplateStore.init();
- }
+ $effect(() => {
+   if ($TemplateStore) {
+     TemplateStore.init();
+   }
+ })
 
   onMount(()=>{
     TemplateStore.init();
-    
+
   })
 </script>
 

@@ -27,7 +27,7 @@
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
 
-  const state = {
+  const state = $state({
     notes: [],
     trackers: [],
     trackers1: [],
@@ -37,13 +37,13 @@
     context: [],
     pointers: [],
     locations: [],
-  }
+  })
 
-  let loading = true
+  let loading = $state(true)
 
-  let views: typeof OTDViews = OTDViews
+  let views = $state<typeof OTDViews>(OTDViews)
 
-  let view: OTDViewOption = 'all'
+  let view = $state<OTDViewOption>('all')
 
   function setView(v: OTDViewOption) {
     view = v

@@ -44,20 +44,23 @@
   import { getUnisearchResults, type UnisearchResultsType, UnisearchStore } from './UnisearchStore'
 import { openTimelineModal } from '../timeline/timeline-helpers';
 
-  let results: UnisearchResultsType | undefined
-  let exactMatchOptions: Array<PopMenuButton> = []
+  let results = $state<UnisearchResultsType | undefined>(undefined)
+  let exactMatchOptions = $state<Array<PopMenuButton>>([])
+  let currentIndex = $state(-1)
+  let dateFormats = $state(getDateFormats())
+  let showLogs = $state(true)
+  let showTrackables = $state(true)
+  let showCommands = $state(true)
+  let searchInitialized = $state(false)
+  let searchTimeout = $state<any>(undefined)
 
-  let currentIndex: number = -1
+  let { searchTerm = $bindable(), id } = $props()
 
-  let dateFormats = getDateFormats()
-
-  let showLogs = true
-  let showTrackables = true
-  let showCommands = true
-
-  $: if (searchTerm?.length === 0) {
-    results = undefined
-  }
+  $effect(() => {
+    if (searchTerm?.length === 0) {
+      results = undefined
+    }
+  })
 
   onMount(() => {
     document.getElementById('search-field').focus()
@@ -66,13 +69,10 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     }
   })
 
-  let searchInitialized = false
-
   const close = async () => {
     closeModal(id)
   }
 
-  let searchTimeout
   const debounceSearch = async (term: string) => {
     searchTerm = term
     clearTimeout(searchTimeout)
@@ -93,14 +93,19 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     }
   }
 
-  $: if (!searchTerm && $UnisearchStore.term && !searchInitialized) {
-    searchInitialized = true
-    searchTerm = $UnisearchStore.term
-  }
-  $: if (searchTerm && !searchInitialized) {
-    searchInitialized = true
-    debounceSearch(searchTerm)
-  }
+  $effect(() => {
+    if (!searchTerm && $UnisearchStore.term && !searchInitialized) {
+      searchInitialized = true
+      searchTerm = $UnisearchStore.term
+    }
+  })
+
+  $effect(() => {
+    if (searchTerm && !searchInitialized) {
+      searchInitialized = true
+      debounceSearch(searchTerm)
+    }
+  })
 
   const clickSelected = () => {
     const selectable = document.querySelectorAll('.unisearch .selectable')[currentIndex]
@@ -173,15 +178,15 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     ]
   }
 
-  $: if ($BackdropStore[$BackdropStore.length - 1] === 'unisearch') {
-    //@ts-ignore
-    document.querySelector('.unisearch input')?.focus()
-  } else {
-    //@ts-ignore
-    document.querySelector('.unisearch input')?.blur()
-  }
-
-  const { searchTerm, id } = $props()
+  $effect(() => {
+    if ($BackdropStore[$BackdropStore.length - 1] === 'unisearch') {
+      //@ts-ignore
+      document.querySelector('.unisearch input')?.focus()
+    } else {
+      //@ts-ignore
+      document.querySelector('.unisearch input')?.blur()
+    }
+  })
 </script>
 
 <BackdropModal

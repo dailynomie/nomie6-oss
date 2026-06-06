@@ -6,7 +6,6 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { CloseOutline, SearchIcon } from '../icon/nicons'
 
-  export let searchText = ''
 
   let searchField
 
@@ -26,7 +25,7 @@
     }
   }
 
-  const { searchText } = $props()
+  let { searchText = $bindable() } = $props()
 </script>
 
 <div class="svelte-emoji-picker__search">

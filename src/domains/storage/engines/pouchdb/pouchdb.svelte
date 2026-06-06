@@ -19,12 +19,12 @@
 
   import PouchDB from 'pouchdb'
 
-  let pouchEngine // Holder for the pouchEngine
-  let connecting = false
+  let pouchEngine = $state(undefined) // Holder for the pouchEngine
+  let connecting = $state(false)
 
-  let isOpen = false
+  let isOpen = $state(false)
 
-  let state: any = {
+  let state = $state<any>({
     engine: null,
     isValidSyncURL: false,
     form: {
@@ -36,7 +36,7 @@
     success: false,
     syncing: false,
     canSync: false,
-  }
+  })
 
   const methods = {
     // Initialize Pouch DB
@@ -154,31 +154,39 @@
   }
 
   // Watch Form and Connection String
-  let connectionString = null
+  let connectionString = $state<any>(null)
 
-  let lastHost = null
-  $: if (state.form.host && state.form.host !== lastHost) {
-    lastHost = state.form.host
-    connectionString = methods.getConnectionURL(true)
-  }
+  let lastHost = $state(null)
+  $effect(() => {
+    if (state.form.host && state.form.host !== lastHost) {
+      lastHost = state.form.host
+      connectionString = methods.getConnectionURL(true)
+    }
+  })
 
-  let lastDatabase = null
-  $: if (state.form.database && state.form.database !== lastDatabase) {
-    lastDatabase = state.form.database
-    connectionString = methods.getConnectionURL(true)
-  }
+  let lastDatabase = $state(null)
+  $effect(() => {
+    if (state.form.database && state.form.database !== lastDatabase) {
+      lastDatabase = state.form.database
+      connectionString = methods.getConnectionURL(true)
+    }
+  })
 
-  let lastUsername = null
-  $: if (state.form.username && state.form.username !== lastUsername) {
-    lastUsername = state.form.username
-    connectionString = methods.getConnectionURL(true)
-  }
+  let lastUsername = $state(null)
+  $effect(() => {
+    if (state.form.username && state.form.username !== lastUsername) {
+      lastUsername = state.form.username
+      connectionString = methods.getConnectionURL(true)
+    }
+  })
 
-  let lastPassword = null
-  $: if (state.form.password && state.form.password !== lastPassword) {
-    lastPassword = state.form.password
-    connectionString = methods.getConnectionURL(true)
-  }
+  let lastPassword = $state(null)
+  $effect(() => {
+    if (state.form.password && state.form.password !== lastPassword) {
+      lastPassword = state.form.password
+      connectionString = methods.getConnectionURL(true)
+    }
+  })
 
   onMount(async () => {
     // Get Pouch ENgine

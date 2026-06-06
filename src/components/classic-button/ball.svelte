@@ -3,14 +3,6 @@
 <script lang="ts">
   import Avatar from '../avatar/avatar.svelte'
 
-  export let avatar = null
-  export let emoji = null
-  export let username = null
-  export let size = 102
-  export let color = '#000'
-  export let className = ''
-  export let style = ''
-  export let radius = 0
 
   const { avatar, emoji, username, size, color, className, style, radius } = $props()
 </script>

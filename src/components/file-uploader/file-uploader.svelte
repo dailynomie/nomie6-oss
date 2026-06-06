@@ -6,10 +6,6 @@
   import Button from '../button/button.svelte'
 
   import Input from '../input/input.svelte'
-  export let className = ''
-  export let accept = 'png,jpeg,jpg,csv'
-  export let placeholder = 'No file chosen'
-  export let label = 'File'
 
   const dispatch = createEventDispatcher()
 
@@ -18,9 +14,11 @@
     data: string
   }
 
-  let uploaded: IUploaded
-  let _input
-  let uploadedFileName
+  let { className, accept, placeholder, label = $bindable() } = $props()
+
+  let uploaded = $state<IUploaded>(undefined)
+  let _input = $state(undefined)
+  let uploadedFileName = $state(undefined)
 
   function clear() {
     uploaded = undefined
@@ -49,8 +47,6 @@
     let files = evt.target.files
     readFile(files[0])
   }
-
-  const { className, accept, placeholder, label } = $props()
 </script>
 
 <Input {className} {placeholder} {label} value={uploadedFileName} disabled>

@@ -3,7 +3,7 @@
 <script lang="ts">
 
 
-  const { checked, className, sm } = $props()
+  let { checked = $bindable(), className, sm } = $props()
 </script>
 
 <input type="checkbox" class:sm bind:checked class="n-radio {className}" />

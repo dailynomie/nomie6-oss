@@ -12,10 +12,6 @@
   import IonIcon from '../icon/ion-icon.svelte'
   const dispatch = createEventDispatcher()
 
-  export let placeholder = `Search...`
-
-  export const autocomplete: boolean = false
-
   let _elInput: any
   // export let hasResults = false;
 
@@ -52,7 +48,7 @@
   //   }
   // }
 
-  const { searchTerm, placeholder, style, className, inputClass, compact, showClose, autofocus, searchButton } = $props()
+  let { searchTerm = $bindable(), placeholder, style, className, inputClass, compact, showClose, autofocus, searchButton } = $props()
 </script>
 
 <Toolbar className="search-bar {className}" {style}>

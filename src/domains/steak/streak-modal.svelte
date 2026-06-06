@@ -34,31 +34,38 @@ import { wait } from '../../utils/tick/tick';
   import { UsageStore } from '../usage/UsageStore'
 import { streakSummary, type StreakSummaryResults } from './streak-helper';
 
-  let usage: TrackableUsage
-  let endDate: Dayjs
-  let startDate: Dayjs
-  let _startDate: Date
-  let max: number = 0
-
-  let values: Array<{ date: Dayjs; value: number; index?: number; logs: Array<NLog> }> = []
-  let dateFormats = getDateFormats()
+  let { trackable, date = $bindable(), id } = $props()
 
   const DAYS_BACK = 30
 
-  let lastTrackable
-  $: if (trackable && trackable !== lastTrackable) {
-    lastTrackable = trackable
-    values = []
-  }
-  $: if (date) {
-    endDate = dayjs(date)
-    startDate = endDate.subtract(DAYS_BACK, 'days')
-    _startDate = startDate.toDate()
-    loadUsage()
-  }
+  let usage = $state<TrackableUsage>(undefined)
+  let endDate = $state<Dayjs>(undefined)
+  let startDate = $state<Dayjs>(undefined)
+  let _startDate = $state<Date>(undefined)
+  let max = $state(0)
 
-  let rawUsage: TrackableUsage
-  let loading: boolean = false;
+  let values = $state<Array<{ date: Dayjs; value: number; index?: number; logs: Array<NLog> }>>([])
+  let dateFormats = getDateFormats()
+
+  let lastTrackable = $state<Trackable>(undefined)
+  $effect(() => {
+    if (trackable && trackable !== lastTrackable) {
+      lastTrackable = trackable
+      values = []
+    }
+  })
+
+  $effect(() => {
+    if (date) {
+      endDate = dayjs(date)
+      startDate = endDate.subtract(DAYS_BACK, 'days')
+      _startDate = startDate.toDate()
+      loadUsage()
+    }
+  })
+
+  let rawUsage = $state<TrackableUsage>(undefined)
+  let loading = $state(false)
   const loadUsage = async () => {
     loading = true;
     rawUsage = await queryToTrackableUsage(
@@ -106,28 +113,27 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
     closeModal(id)
   }
 
-  let lastKnownEnd: number
-  let listEndIndex: number
-  let listStartIndex: number
+  let lastKnownEnd = $state<number>(undefined)
+  let listEndIndex = $state<number>(undefined)
+  let listStartIndex = $state<number>(undefined)
 
-  let streak: StreakSummaryResults;
+  let streak = $state<StreakSummaryResults>(undefined)
 
-  $: if (lastKnownEnd !== listEndIndex && listEndIndex === values.length - 1 && values.length > 0) {
-    lastKnownEnd = listEndIndex
-    startDate = startDate.subtract(DAYS_BACK, 'day')
-    _startDate = startDate.toDate()
-    endDate = endDate.subtract(DAYS_BACK, 'day')
-    loadUsage()
-    let knownDates:Array<Date> = values.filter((v)=>{
-      return v.value > 0 || v.value < 0
-    }).map(v=>{
-      return v.date.toDate()
-    });
-    streak = streakSummary(knownDates)
-    
-  }
-
-  const { trackable, date, id } = $props()
+  $effect(() => {
+    if (lastKnownEnd !== listEndIndex && listEndIndex === values.length - 1 && values.length > 0) {
+      lastKnownEnd = listEndIndex
+      startDate = startDate.subtract(DAYS_BACK, 'day')
+      _startDate = startDate.toDate()
+      endDate = endDate.subtract(DAYS_BACK, 'day')
+      loadUsage()
+      let knownDates:Array<Date> = values.filter((v)=>{
+        return v.value > 0 || v.value < 0
+      }).map(v=>{
+        return v.date.toDate()
+      });
+      streak = streakSummary(knownDates)
+    }
+  })
 </script>
 
 <BackdropModal headerClass="glass mb-2" mainClass="bg-white filler dark:bg-black">

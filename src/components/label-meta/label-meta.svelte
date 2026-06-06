@@ -8,28 +8,27 @@
 
   import TrackableAvatar from '../avatar/trackable-avatar.svelte'
 
-  export let str = undefined
-  export let titleClass = ''
-  export let className = ''
+  const { str, titleClass, className, selected } = $props()
 
-  let tokenized: Array<Token> = []
-  let label = ''
-  let meta = ''
-  let trackable: Trackable | undefined = undefined
+  let tokenized = $state<Array<Token>>([])
+  let label = $state('')
+  let meta = $state('')
+  let trackable = $state<Trackable | undefined>(undefined)
 
-  let lastStr
-  $: if (str !== lastStr) {
-    lastStr = str
-    tokenized = tokenizeLite(str)
-    label = tokenized
-      .filter((t) => {
-        return t.type == 'generic'
-      })
-      .map((t) => {
-        return t.raw
-      })
-      .join(' ')
-      .trim()
+  let lastStr = $state(undefined)
+  $effect(() => {
+    if (str !== lastStr) {
+      lastStr = str
+      tokenized = tokenizeLite(str)
+      label = tokenized
+        .filter((t) => {
+          return t.type == 'generic'
+        })
+        .map((t) => {
+          return t.raw
+        })
+        .join(' ')
+        .trim()
 
     meta = tokenized
       .filter((t) => {
@@ -41,12 +40,11 @@
       .join(' ')
       .trim()
 
-    if (meta.length) {
-      trackable = strToTrackable(meta, $TrackableStore.trackables)
+      if (meta.length) {
+        trackable = strToTrackable(meta, $TrackableStore.trackables)
+      }
     }
-  }
-
-  const { str, titleClass, className, selected } = $props()
+  })
 </script>
 
 <div class="n-label-meta space-x-2 flex items-center {selected ? 'selected' : ''} {className} h-8">

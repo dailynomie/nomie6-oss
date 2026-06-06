@@ -12,12 +12,17 @@
   import CloseCircleOutline from '../../n-icons/CloseCircleOutline.svelte'
   import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte'
 
-  let timer: number = 0
-  let clearInterval: any
-  let percentage: number = 0
-  $: if (toast) {
-    percentage = math.percentage((toast.timeout || 3000) - 200, timer)
-  }
+  let timer = $state(0)
+  let clearInterval = $state<any>(undefined)
+  let percentage = $state(0)
+
+  const { toast } = $props()
+
+  $effect(() => {
+    if (toast) {
+      percentage = math.percentage((toast.timeout || 3000) - 200, timer)
+    }
+  })
 
   onMount(() => {
     if (toast) {
@@ -38,8 +43,6 @@
       clearInterval()
     } catch (e) {}
   })
-
-  const { toast } = $props()
 </script>
 
 {#if toast}

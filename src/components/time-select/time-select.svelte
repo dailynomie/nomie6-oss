@@ -8,47 +8,51 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
   
 
   const dispatch = createEventDispatcher()
+  let { time, className, style, is24Hour, showDateButton, dateButtonClass, value = $bindable() } = $props()
 
-  let lastValue: any // Value to hold last reaction
-  let hour: number // local hour
-  let minute: number // local minute
-  let ampm: any // local ampm
+  let lastValue = $state<any>(undefined) // Value to hold last reaction
+  let hour = $state(0) // local hour
+  let minute = $state(0) // local minute
+  let ampm = $state<any>(undefined) // local ampm
+  let hour12 = $state(0)
 
-  let hour12: number
-
-  $: if (time) {
-    value = dayjs(new Date(time))
-  }
+  $effect(() => {
+    if (time) {
+      value = dayjs(new Date(time))
+    }
+  })
 
   // 24 Hour Array
-  let hours24 = Array(24)
+  const hours24 = Array(24)
     .fill(0)
     .map(({}, i) => {
       return i
     })
   // 12 Hour Array
-  let hours12 = Array(12)
+  const hours12 = Array(12)
     .fill(0)
     .map(({}, i) => {
       return i + 1
     })
   // 60 minute Array
-  let minutes = Array(60)
+  const minutes = Array(60)
     .fill(0)
     .map(({}, i) => {
       return i
     })
 
   // Reactively Set Hours
-  $: hours = is24Hour ? hours24 : hours12
+  let hours = $derived(is24Hour ? hours24 : hours12)
 
-  $: if (value && value.format('hh:mm a') !== dayjs(lastValue || '2010-01-01T01:01:01').format('hh:mm a')) {
-    lastValue = value
-    hour = parseInt(value.format('HH'))
-    hour12 = ((hour + 11) % 12) + 1
-    minute = parseInt(value.format('mm'))
-    ampm = value.format('a')
-  }
+  $effect(() => {
+    if (value && value.format('hh:mm a') !== dayjs(lastValue || '2010-01-01T01:01:01').format('hh:mm a')) {
+      lastValue = value
+      hour = parseInt(value.format('HH'))
+      hour12 = ((hour + 11) % 12) + 1
+      minute = parseInt(value.format('mm'))
+      ampm = value.format('a')
+    }
+  })
 
   const dateFormats = getDateFormats();
 
@@ -70,8 +74,6 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
     const updatedDate = ogDate.set('hour', newHour).set('minute', minute).set('day', ogDay)
     dispatch('change', updatedDate.toDate())
   }
-
-  const { time, className, style, is24Hour, showDateButton, dateButtonClass, value } = $props()
 </script>
 
 {#if value}

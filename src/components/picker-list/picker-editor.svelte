@@ -10,29 +10,26 @@
   import { Lang } from '../../store/lang'
   import Text from '../text/text.svelte'
   const dispatch = createEventDispatcher()
+  const { style, className, itemClass, list, showHeaderContent } = $props()
 
-  export let style = ''
-  export let className = ''
-  export let itemClass = ''
-
-  let ready = false
-  let textList
-  let picks = []
+  let ready = $state(false)
+  let textList = $state(undefined)
+  let picks = $state([])
 
   function textListChanged(evt) {
     picks = textList.getValue().split('\n')
     dispatch('change', picks)
   }
 
-  $: if (list && list.length && picks.length == 0) {
-    picks = list || []
-  }
+  $effect(() => {
+    if (list && list.length && picks.length == 0) {
+      picks = list || []
+    }
+  })
 
   onMount(() => {
     ready = true
   })
-
-  const { style, className, itemClass, list, showHeaderContent } = $props()
 </script>
 
 <div class="n-picker-list edit-mode {className}" {style}>

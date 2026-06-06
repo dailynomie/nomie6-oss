@@ -20,12 +20,11 @@
   import { ActiveBackdropId, closeModal } from '../../components/backdrop/BackdropStore2'
   import KeyDown from '../../modules/keyDown/keyDown.svelte'
 
-  export const location = undefined
-  export const style = undefined
+  const { id, term: termProp = undefined, location = undefined, style = undefined, className = '' } = $props()
 
-  export const className = ''
-
-  let searchTerm: string
+  let searchTerm = $state('')
+  let searchInitalized = $state(false)
+  let term = $state(termProp)
 
   function back() {
     SearchStore.clear()
@@ -33,19 +32,24 @@
     closeModal(id)
   }
 
-  $: if ($SearchStore && $SearchStore.active?.term) {
-    searchTerm = $SearchStore.active.term
-  }
+  $effect(() => {
+    if ($SearchStore && $SearchStore.active?.term) {
+      searchTerm = $SearchStore.active.term
+    }
+  })
 
-  $: if ($SearchStore.active?.term) {
-    term = $SearchStore.active.term
-  }
+  $effect(() => {
+    if ($SearchStore.active?.term) {
+      term = $SearchStore.active.term
+    }
+  })
 
-  let searchInitalized = false
-  $: if (searchTerm && !searchInitalized) {
-    searchInitalized = true
-    SearchStore.setActiveTerm(new SearchTerm({ searchTerm, type: 'history' }))
-  }
+  $effect(() => {
+    if (searchTerm && !searchInitalized) {
+      searchInitalized = true
+      SearchStore.setActiveTerm(new SearchTerm({ searchTerm, type: 'history' }))
+    }
+  })
 
   function clear() {
     SearchStore.clear()
@@ -58,8 +62,6 @@
       SearchStore.setActiveTerm(new SearchTerm({ term, type: 'history' }))
     }
   }
-
-  const { id, term } = $props()
 </script>
 
 <BackdropModal className="h-full" headerClass="glass">

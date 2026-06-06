@@ -15,6 +15,7 @@
    */
 
   // Svelte
+  import { untrack } from 'svelte'
 
   // import { slide } from "svelte/transition";
 
@@ -68,40 +69,74 @@
   // Consts
 
   let textarea: any
-  let saving = false
-  let saved = false
-  let showDateSelector = false
-  let isFocused = false
-  let isPopulated = false
-  export let className = ''
+  let saving = $state(false)
+  let saved = $state(false)
+  let showDateSelector = $state(false)
+  let isFocused = $state(false)
+  let showCaptureTextarea = $state(false)
 
-  let promptMenu: Array<PopMenuButton> = []
-  // let activeLogDayjs: Dayjs;
+  let promptMenu = $state<Array<PopMenuButton>>([])
 
-  $: if ($LedgerStoreSaving) {
-    saving = true
-  } else {
-    saving = false
-  }
+  // Only update promptMenu on PluginStore changes, not WritingPromptStore (which getPromptMenu updates)
+  $effect(() => {
+    if ($PluginStore) {
+      const newMenu: Array<PopMenuButton> = untrack(() => {
+        return [
+          ...getPromptMenu(),
+          ...$PluginStore
+            .filter((p) => p.addToCaptureMenu && p.active)
+            .map((p, index) => ({
+              title: p.name,
+              disabled: p.locked,
+              divider: index === 0,
+              emoji: p.emoji,
+              click() {
+                openPluginModal(p)
+              },
+            })),
+          {
+            divider: true,
+            click() {},
+            component: CaptureAddonMenuController,
+          },
+        ]
+      })
+      // Only update if menu actually changed to avoid circular updates
+      if (JSON.stringify(promptMenu) !== JSON.stringify(newMenu)) {
+        promptMenu = newMenu
+      }
+    }
+  })
+
+  $effect(() => {
+    if ($LedgerStoreSaving) {
+      saving = true
+    } else {
+      saving = false
+    }
+  })
 
   /**
    * If TodayStore is on a Different Day
    * Adjust the Active Log end date
    */
 
-  $: if ($TodayStore.date.format('YYYY-MM-DD') !== dayjs().format('YYYY-MM-DD')) {
-    $ActiveLogStore.end = $TodayStore.date.toDate()
-  }
+  $effect(() => {
+    if ($TodayStore.date.format('YYYY-MM-DD') !== dayjs().format('YYYY-MM-DD')) {
+      $ActiveLogStore.end = $TodayStore.date.toDate()
+    }
+  })
 
   /**
    * Is the Form Populated?
    */
-  $: isPopulated = $ActiveLogStore.note?.trim().length > 0
+  let isPopulated = $derived($ActiveLogStore.note?.trim().length > 0)
 
   /**
    * Active Dates Formatted
    */
-  $: selectedDateFormated = dayjs(new Date($ActiveLogStore.end || new Date().getTime())).format(dateTimeFormat)
+  let dateTimeFormat = $state($Prefs.use24hour ? 'HH:mm' : 'h:mm a')
+  let selectedDateFormated = $derived(dayjs(new Date($ActiveLogStore.end || new Date().getTime())).format(dateTimeFormat))
 
   const setFocused = () => {
     showCaptureTextarea = true
@@ -110,8 +145,6 @@
     }
     isFocused = true
   }
-
-  let dateTimeFormat = $Prefs.use24hour ? 'HH:mm' : 'h:mm a'
 
   // $: if(!showCaptureTextarea && $ActiveLogStore.note?.length) {
   //   showCaptureTextarea = true;
@@ -144,29 +177,6 @@
     }
   }
 
-  $: if ($WritingPromptStore) {
-    promptMenu = getPromptMenu()
-    if ($PluginStore && $PluginStore.length) {
-      $PluginStore
-        .filter((p) => p.addToCaptureMenu && p.active)
-        .map((p, index) => {
-          promptMenu.push({
-            title: p.name,
-            disabled: p.locked,
-            divider: index === 0,
-            emoji: p.emoji,
-            click() {
-              openPluginModal(p)
-            },
-          })
-        })
-    }
-    promptMenu.push({
-      divider: true,
-      click() {},
-      component: CaptureAddonMenuController,
-    })
-  }
 
   /**
    * Monitor Note Change
@@ -311,8 +321,6 @@
       date: dayjs(e.detail),
     })
   }
-
-  let showCaptureTextarea: boolean = false
 
   const { className } = $props()
 </script>

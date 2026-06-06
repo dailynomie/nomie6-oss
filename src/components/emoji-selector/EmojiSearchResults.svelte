@@ -6,13 +6,11 @@
   import emojiData from './data/emoji-light'
 
   import Empty from '../empty/empty.svelte'
-  export let searchText = ''
 
   const dispatch = createEventDispatcher()
-
-  $: searchResults = emojiData.filter((emoji) => emoji.n.indexOf((searchText || '').toLowerCase()) >= 0)
-
   const { searchText } = $props()
+
+  let searchResults = $derived(emojiData.filter((emoji) => emoji.n.indexOf((searchText || '').toLowerCase()) >= 0))
 </script>
 
 <div class="">

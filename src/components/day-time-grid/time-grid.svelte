@@ -10,20 +10,24 @@
   import math from '../../utils/math/math'
   import { logsToTimeGrid, type TimeGridArray } from './time-grid-utils'
 
+  const { usage, trackable, className, style } = $props()
+
   // export let size: number = 4
 
-  $: if (usage) {
-    render()
-  }
-
-  let timeGrid: TimeGridArray = []
-  let max: number = 0
+  let timeGrid = $state<TimeGridArray>([])
+  let max = $state(0)
 
   const render = () => {
     const timeGridResponse = logsToTimeGrid(usage.logs, $Prefs.weekStarts, trackable)
     timeGrid = timeGridResponse.grid
     max = timeGridResponse.meta.max
   }
+
+  $effect(() => {
+    if (usage) {
+      render()
+    }
+  })
 
   const formatHour = (hour: number) => {
     if ($Prefs.use24hour) {
@@ -34,8 +38,6 @@
       return formated
     }
   }
-
-  const { usage, trackable, className, style } = $props()
 </script>
 
 <div class="time-grid {className}" style="--color:{trackable.color}; {style}">

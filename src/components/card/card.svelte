@@ -4,13 +4,6 @@
   import Toolbar from '../toolbar/toolbar.svelte'
   import Text from '../text/text.svelte'
 
-  export let className = ''
-  export let style = ''
-  export let title = undefined
-  export let pad = false
-  export let compact = false
-  export let shadow = true
-  export let bodyClass = ''
 
   const { className, style, title, pad, compact, shadow, bodyClass } = $props()
 </script>

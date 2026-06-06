@@ -15,16 +15,22 @@
   import { TrackableStore } from '../trackable/TrackableStore'
   import { getTrackableInputValue } from '../tracker/input/TrackerInputStore'
 
-  let workingCondition: ICondition
+  const { condition, index, trackable } = $props()
+
+  let workingCondition = $state<ICondition>(undefined)
   const dispatch = createEventDispatcher()
 
-  $: if (!workingCondition && condition) {
-    workingCondition = { ...condition }
-  }
+  $effect(() => {
+    if (!workingCondition && condition) {
+      workingCondition = { ...condition }
+    }
+  })
 
-  $: if (workingCondition) {
-    dispatch('change', workingCondition)
-  }
+  $effect(() => {
+    if (workingCondition) {
+      dispatch('change', workingCondition)
+    }
+  })
 
   const getTrackableValue = async () => {
     const res = await getTrackableInputValue(trackable, $TrackableStore.trackables, 'Add Condition →', {
@@ -72,8 +78,6 @@
     }
     return hours
   }
-
-  const { condition, index, trackable } = $props()
 </script>
 
 <div class="w-full py-2 flex flex-col items-center text-black dark:text-white">

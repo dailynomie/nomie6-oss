@@ -16,6 +16,7 @@
   import { createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
+  const { libraryTracker } = $props()
 
   function getTypeLabel(id: string) {
     if (TrackerTypes.hasOwnProperty(id)) {
@@ -25,10 +26,7 @@
     }
   }
 
-  let trackables: ITrackables = {}
-  $: trackables = $TrackableStore.trackables
-
-  const { libraryTracker } = $props()
+  let trackables = $derived<ITrackables>($TrackableStore.trackables)
 </script>
 
 <List solo className="">

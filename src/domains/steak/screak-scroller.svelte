@@ -25,20 +25,23 @@
   import LetterTicker from '../../components/letter-ticker/letter-ticker.svelte'
 
   const dispatch = createEventDispatcher()
+  let { endDate, trackable, loading = $bindable() } = $props()
 
   // TODO: See why it's not adding all the them .
 
-  let selectedIndex
-  let selectedLabel: string | undefined = undefined
-  let unsubLastUsedStore: Function
-  let lastUsedState: LastUsedStoreState
+  let selectedIndex = $state(undefined)
+  let selectedLabel = $state(undefined)
+  let unsubLastUsedStore = $state(null)
+  let lastUsedState = $state(null)
 
-  let trackableUsage: TrackableUsage
+  let trackableUsage = $state(null)
 
-  let trackableMaxUsed: number = 10
-  $: if (lastUsedState && (trackable || endDate)) {
-    getData()
-  }
+  let trackableMaxUsed = $state(10)
+  $effect(() => {
+    if (lastUsedState && (trackable || endDate)) {
+      getData()
+    }
+  })
 
   let getDataTimeout
   const getData = async () => {
@@ -113,8 +116,6 @@
       }
     }])
   }
-
-  const { endDate, trackable, loading } = $props()
 </script>
 
 <div class="streak-2 bg-white dark:bg-black py-1">

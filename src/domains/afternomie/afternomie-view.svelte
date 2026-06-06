@@ -19,78 +19,73 @@
     import { QRCodeImage } from "svelte-qrcode-image";
 
 
-    var view = "step1"
-    var retrycreateqr = false
-    var refreshqr = false
-    var qrwidth = 0;
-    var  innerWidth = 0;
-    var lockwidth = false;
-    let pouchEngine
-    var stored = false;
-    var enckey = "Dummy"
-    var txt = ""
-    var domain = "www.afternomie.com";
-
-   
+    let view = $state("step1")
+    let retrycreateqr = $state(false)
+    let refreshqr = $state(false)
+    let qrwidth = $state(0)
+    let innerWidth = $state(0)
+    let lockwidth = $state(false)
+    let pouchEngine = $state(undefined)
+    let stored = $state(false)
+    let enckey = $state("Dummy")
+    let txt = $state("")
+    let domain = $state("www.afternomie.com")
 
     //message variables
-    var subject = ""
-    var subject_valid = false;
-    var subject_style = "background-color:rgba(255, 0, 0, 0.05)";
-    var message = "";
-    var message_valid = false;
-    var message_style = "background-color:rgba(255, 0, 0, 0.05)";
-    var primaryemail = ""
-    var primary_valid = false;
-    var primary_style = "background-color:rgba(255, 0, 0, 0.05)";
-    var secondaryemail = ""
-    var secondary_valid = false;
-    var secondary_style = "background-color:rgba(255, 0, 0, 0.05)";
-    var waitingtime = 0
-    var expiration = false
-    var expirationdate = new Date()
-    var nomie = false
-    var nomiedata = {url:"",db:"",user:"",pw:""}
-    var nomiedata_valid = false;
-    
-    
-    $: if (innerWidth && !lockwidth) {
-    qrwidth = innerWidth*0.93;
-    if (qrwidth > 500){qrwidth = 500}
+    let subject = $state("")
+    let subject_valid = $state(false)
+    let subject_style = $state("background-color:rgba(255, 0, 0, 0.05)")
+    let message = $state("")
+    let message_valid = $state(false)
+    let message_style = $state("background-color:rgba(255, 0, 0, 0.05)")
+    let primaryemail = $state("")
+    let primary_valid = $state(false)
+    let primary_style = $state("background-color:rgba(255, 0, 0, 0.05)")
+    let secondaryemail = $state("")
+    let secondary_valid = $state(false)
+    let secondary_style = $state("background-color:rgba(255, 0, 0, 0.05)")
+    let waitingtime = $state(0)
+    let expiration = $state(false)
+    let expirationdate = $state(new Date())
+    let nomie = $state(false)
+    let nomiedata = $state({url:"",db:"",user:"",pw:""})
+    let nomiedata_valid = $state(false)
 
-    //refreshqr
-    refreshqr = true;
-    setTimeout(function() {
-      refreshqr = false
-      
-   }, 10)
-
-  }
-
-    //validate input status
-    $: if(nomiedata){
-      if (nomiedata.url.toString() !=""){
-        nomiedata_valid  = true
+    $effect(() => {
+      if (innerWidth && !lockwidth) {
+        qrwidth = innerWidth*0.93;
+        if (qrwidth > 500){qrwidth = 500}
+        refreshqr = true;
+        setTimeout(function() {
+          refreshqr = false
+        }, 10)
       }
-      else {nomiedata_valid  = false}
-    }
+    })
 
+    $effect(() => {
+      if(nomiedata){
+        if (nomiedata.url.toString() !=""){
+          nomiedata_valid  = true
+        }
+        else {nomiedata_valid  = false}
+      }
+    })
 
-    $: if (primaryemail) {
+    $effect(() => {
+      if (primaryemail) {
         primary_valid = checkemail(primaryemail);
         if (primary_valid) {primary_style = "background-color:rgba(0, 255, 0, 0.05)";}
         else {primary_style = "background-color:rgba(255, 0, 0, 0.05)";}
-        
       }
-    $: if (secondaryemail) {
+    })
+
+    $effect(() => {
+      if (secondaryemail) {
         secondary_valid = checkemail(secondaryemail);
         if (secondary_valid) {secondary_style = "background-color:rgba(0, 255, 0, 0.05)";}
         else {secondary_style = "background-color:rgba(255, 0, 0, 0.05)";}
-        
       }
-
-    $: if (retrycreateqr == true || retrycreateqr == false){
-    }
+    })
 
     function checkemail(enteredEmail=""){
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

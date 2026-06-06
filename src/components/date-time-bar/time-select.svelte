@@ -8,9 +8,6 @@
 
   const dispatch = createEventDispatcher()
 
-  export let value = dayjs()
-  export let className = ''
-  export let style = ''
 
   let lastValue // Value to hold last reaction
   let hour // local hour

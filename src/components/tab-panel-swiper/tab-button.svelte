@@ -3,8 +3,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
-  export let className = ''
-  export let style = ''
 
   const dispatch = createEventDispatcher()
 

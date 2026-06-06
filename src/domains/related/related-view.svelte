@@ -26,29 +26,31 @@
 
   import Spinner from '../../components/spinner/spinner.svelte'
 
-  
+
 
   import RelatedWorker from './related-worker?worker'
   import { BarChartOutline } from '../../components/icon/nicons'
   import BarChartSolid from '../../n-icons/BarChartSolid.svelte'
 
+  const { className, style, trackable } = $props()
+
   // export let id: string
 
-  let usagesForChart: Array<TrackableUsage> = []
+  let usagesForChart = $state<Array<TrackableUsage>>([])
   // let allowed: boolean = true
 
-  let mounted = false
-  let loading: boolean = false
-  let results: Array<{
+  let mounted = $state(false)
+  let loading = $state(false)
+  let results = $state<Array<{
     trackable: Trackable
     score: number
     percent: number
     usage: TrackableUsage
-  }> = []
+  }>>([])
 
-  let lastTrackable: Trackable
-  let selfUsage: TrackableUsage // this gets normalized
-  let originalSelfUsage: TrackableUsage // lets keep this one untouched
+  let lastTrackable = $state<Trackable>(undefined)
+  let selfUsage = $state<TrackableUsage>(undefined) // this gets normalized
+  let originalSelfUsage = $state<TrackableUsage>(undefined) // lets keep this one untouched
 
   // How Far Back should we look?
   let START_DATE = dayjs().subtract(1.5, 'month')
@@ -56,10 +58,12 @@
   /**
    * When Mounted and Ready
    */
-  $: if (mounted && lastTrackable !== trackable) {
-    lastTrackable = trackable
-    main()
-  }
+  $effect(() => {
+    if (mounted && lastTrackable !== trackable) {
+      lastTrackable = trackable
+      main()
+    }
+  })
 
   type scoreType = {
     score: number
@@ -130,7 +134,7 @@
     
   }
 
-  let usages: TrackableUsageMap
+  let usages = $state<TrackableUsageMap>(undefined)
 
   /**
    * Main Find the Correlates
@@ -274,7 +278,7 @@
     return tu.byDay.backfill(startDate, endDate)
   }
 
-  let chartLoading = false
+  let chartLoading = $state(false)
   const toggleChartItem = async (trackableRes) => {
     chartLoading = true
     if (usagesForChart.find((tu) => tu.trackable.tag === trackableRes.trackable.tag) ? true : false) {
@@ -291,8 +295,6 @@
     loading = true
     mounted = true
   })
-
-  const { className, style, trackable } = $props()
 </script>
 
 {#key usagesForChart}

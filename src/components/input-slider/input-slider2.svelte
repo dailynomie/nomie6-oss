@@ -6,15 +6,14 @@
   import { createEventDispatcher, onMount } from 'svelte'
   import type { Trackable } from '../../domains/trackable/Trackable.class'
 
-  export let min = 0
-  export let max = 10
-  export let value = 5
+  const { min, max, value, className, trackable, mini, step } = $props()
 
-  export let step = 1
+  let smallInput = $state<HTMLInputElement>(undefined)
+  let tempValue = $state(value)
 
-  let smallInput: HTMLInputElement
-  let tempValue: any
-  $: tempValue = value
+  $effect(() => {
+    tempValue = value
+  })
 
   const dispatch = createEventDispatcher()
   async function main() {
@@ -26,8 +25,6 @@
   }
 
   onMount(main)
-
-  const { min, max, value, className, trackable, mini, step } = $props()
 </script>
 
 <div

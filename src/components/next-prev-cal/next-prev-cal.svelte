@@ -7,10 +7,6 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { CalendarOutline, ChevronBackOutline, ChevronForwardOutline } from '../icon/nicons'
 
-  export let isToday = true
-  export let hideCal = false
-  export let style = ''
-  export let className = ''
 
   const dispatch = createEventDispatcher()
 

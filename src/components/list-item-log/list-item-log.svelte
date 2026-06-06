@@ -25,19 +25,18 @@
   import is from '../../utils/is/is'
 
   // props
-  export let log = undefined
   // export let trackers = {};
 
-  export let hideTrackables = false
-  export let className = ''
 
   // consts
 
-  let displayLog: NLog
+  let displayLog = $state<NLog>(undefined)
   // let editMode:boolean = true;
 
-  let lastLog: string | undefined = undefined
-  let logElements: Array<{ token: Token; trackable: Trackable; value: number }> = []
+  let lastLog = $state<string | undefined>(undefined)
+  let logElements = $state<Array<{ token: Token; trackable: Trackable; value: number }>>([])
+
+  const { log, fullDate, hideTrackables, className } = $props()
 
   /**
    * Watches for a Log Change
@@ -45,24 +44,26 @@
    * expensive function, otherwise don't
    * do it!
    */
-  $: if (log && objectHash(log) !== lastLog) {
-    lastLog = objectHash(log)
-    // Setup the display log
-    displayLog = new NLog(log)
+  $effect(() => {
+    if (log && objectHash(log) !== lastLog) {
+      lastLog = objectHash(log)
+      // Setup the display log
+      displayLog = new NLog(log)
 
-    // Format the log Elements
-    logElements = log.elements
-      .filter((t) => t.type !== 'generic')
-      .map((token, index) => {
-        const trk = tokenToTrackable(token, $TrackableStore.trackables)
-        return {
-          trackable: trk,
-          token,
-          value: parseNumber(token.value || trk?.value || 0),
-        }
-      })
-      .filter((le) => le.trackable)
-  }
+      // Format the log Elements
+      logElements = log.elements
+        .filter((t) => t.type !== 'generic')
+        .map((token, index) => {
+          const trk = tokenToTrackable(token, $TrackableStore.trackables)
+          return {
+            trackable: trk,
+            token,
+            value: parseNumber(token.value || trk?.value || 0),
+          }
+        })
+        .filter((le) => le.trackable)
+    }
+  })
 
   const changePositivity = async (log: NLog) => {
     const results: any = await selectPositivityPopmenu(log.score)
@@ -108,8 +109,6 @@
   }
 
   let dateFormats = getDateFormats()
-
-  const { log, fullDate, hideTrackables, className } = $props()
 </script>
 
 {#if displayLog}

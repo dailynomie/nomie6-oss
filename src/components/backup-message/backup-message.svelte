@@ -9,18 +9,20 @@
   import { backupConfirmed, BackupDaysAgo, generateBackup } from '../../domains/backup/BackupStore'
   import { onMount } from 'svelte'
 
-  let visible: boolean = false
-  let mounted: boolean = false
-  let dayWarning = $Prefs.backupDays
-  let lastBackupDaysBack = 0
+  let visible = $state(false)
+  let mounted = $state(false)
+  let dayWarning = $state($Prefs.backupDays)
+  let lastBackupDaysBack = $state(0)
 
-  $: if (isNaN($BackupDaysAgo)) {
-    lastBackupDaysBack = 1001
-  } else {
-    lastBackupDaysBack = $BackupDaysAgo
-  }
+  $effect(() => {
+    if (isNaN($BackupDaysAgo)) {
+      lastBackupDaysBack = 1001
+    } else {
+      lastBackupDaysBack = $BackupDaysAgo
+    }
+  })
 
-  $: {
+  $effect(() => {
     dayWarning = $Prefs.backupDays
     if (
       mounted &&
@@ -34,7 +36,7 @@
     } else {
       visible = false
     }
-  }
+  })
 
   onMount(() => {
     setTimeout(() => {

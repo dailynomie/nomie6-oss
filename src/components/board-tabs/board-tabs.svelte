@@ -19,35 +19,42 @@
 
   const dispatch = createEventDispatcher()
 
-  const state = {
+  let state = $state({
     active: null,
     activeIndex: 0,
     hasTimers: false,
     editMode: false,
-  }
-  let ready: boolean = true
-  let localBoards: Array<UniboardType> = []
-  let active: UniboardType
+  })
+  let ready = $state(true)
+  let localBoards = $state<Array<UniboardType>>([])
+  let active = $state<UniboardType>(undefined)
 
-  $: if ($CombinedBoards && $Prefs) {
-    localBoards = $CombinedBoards || []
-    active = $ActiveBoard
-    localBoards = localBoards
-  }
+  const { boards, className, editMode } = $props()
 
-  $: if (editMode === true) {
-    state.editMode = true
-  } else if (editMode === false) {
-    state.editMode = false
-  }
-  // When board size changes
-  $: if (boards.length && active) {
-    boards.forEach((b, index) => {
-      if (b.id == active.id && b.id !== '_all' && b.id !== '_timers') {
-        state.activeIndex = index // all
-      }
-    })
-  }
+  $effect(() => {
+    if ($CombinedBoards && $Prefs) {
+      localBoards = $CombinedBoards || []
+      active = $ActiveBoard
+    }
+  })
+
+  $effect(() => {
+    if (editMode === true) {
+      state.editMode = true
+    } else if (editMode === false) {
+      state.editMode = false
+    }
+  })
+
+  $effect(() => {
+    if (boards && boards.length && active) {
+      boards.forEach((b, index) => {
+        if (b.id == active.id && b.id !== '_all' && b.id !== '_timers') {
+          state.activeIndex = index
+        }
+      })
+    }
+  })
 
   async function deleteBoard(board) {
     let confirmed = await Interact.confirm(
@@ -61,8 +68,6 @@
       showToast({ message: 'Deleted' })
     }
   }
-
-  const { boards, className, editMode } = $props()
 </script>
 
 {#if $CombinedBoards && $CombinedBoards.length === 1}

@@ -19,14 +19,14 @@
 
   const dispatch = createEventDispatcher()
 
-  let mounted: boolean = false
-  let firstPosItem: any
-  let firstPos: ItemDetailType
-  let centerPos: ItemDetailType
-  let centerPosItem: any
-  let scrollWrap: HTMLElement
-  let center: number
-  let itemDetails: Array<ItemDetailType> = []
+  let mounted = $state(false)
+  let firstPosItem = $state<any>(undefined)
+  let firstPos = $state<ItemDetailType>(undefined)
+  let centerPos = $state<ItemDetailType>(undefined)
+  let centerPosItem = $state<any>(undefined)
+  let scrollWrap = $state<HTMLElement>(undefined)
+  let center = $state<number>(undefined)
+  let itemDetails = $state<Array<ItemDetailType>>([])
 
   type ItemDetailType = {
     item: any
@@ -39,18 +39,22 @@
     height: number
   }
 
-  $: if (mounted && scrollToIndex) {
-    setTimeout(() => {
-      const child = scrollWrap.children[scrollToIndex]
+  const { items, direction, className, itemsClass, itemClass, snapToItem, start, centerPoint, scrollToIndex } = $props()
 
-      child?.scrollIntoView({
-        behavior: 'auto',
-        block: 'center',
-        inline: 'center',
-      })
-      main()
-    }, 100)
-  }
+  $effect(() => {
+    if (mounted && scrollToIndex) {
+      setTimeout(() => {
+        const child = scrollWrap.children[scrollToIndex]
+
+        child?.scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+          inline: 'center',
+        })
+        main()
+      }, 100)
+    }
+  })
 
   const initialScroll = () => {
     if (start == 'center') {
@@ -200,8 +204,6 @@
     main(true)
     mounted = true
   })
-
-  const { items, direction, className, itemsClass, itemClass, snapToItem, start, centerPoint, scrollToIndex } = $props()
 </script>
 
 <div

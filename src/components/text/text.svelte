@@ -3,24 +3,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  export let size = "md";
-  export let bold = false;
-  export let center = false;
-  export let className = "";
-  export let color = "";
-  export let faded = false;
-  export let inline = false;
-  export let lineHeightMd = false;
-  export let medium = false;
-  export let style = "";
-  export let tag = "div";
-  export let truncate = false;
-  export let truncate2 = false;
-  export let truncate3 = false;
-  export let underline = false;
-  export let leading1 = false;
-  export let leading2 = false;
-  export let leading3 = false;
 
   const dispatch = createEventDispatcher();
 

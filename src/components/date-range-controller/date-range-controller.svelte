@@ -11,11 +11,11 @@
 
   import { getDateFormats } from '../../domains/preferences/Preferences'
 
-  $: dateFormats = getDateFormats()
-
   const dispatch = createEventDispatcher()
 
   const { start, end, date, className, dateClass } = $props()
+
+  let dateFormats = $derived(getDateFormats())
 </script>
 
 <div class="flex items-center py-2 justify-center {className}">

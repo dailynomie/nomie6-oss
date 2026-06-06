@@ -12,8 +12,6 @@
   import ButtonGroup from '../button-group/button-group.svelte'
   import Panel from '../panel/panel.svelte'
 
-  export let maxRecents = 50
-  export let autoClose = true
 
   let variantsVisible = false
 

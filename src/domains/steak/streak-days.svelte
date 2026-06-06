@@ -10,7 +10,6 @@
   import appConfig from '../../config/appConfig'
   import type NLog from '../nomie-log/nomie-log'
 
-  export let date = dayjs()
 
   let loopOver: Array<any> = []
 

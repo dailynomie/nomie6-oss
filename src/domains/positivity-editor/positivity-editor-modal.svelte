@@ -25,8 +25,8 @@
   import ConditionItem from './condition-item.svelte'
   import type { OpenScoreEditorProps } from './PositivityEditorStore'
 
-  let workingCalc: Array<ICondition> = []
-  let mounted = false
+  let workingCalc = $state<Array<ICondition>>([])
+  let mounted = $state(false)
 
   const dedupCalcs = (base):Array<ICondition>=>{
     return base.filter((c,index)=>{

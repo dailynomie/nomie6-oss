@@ -7,7 +7,6 @@
   import { NavigateCircleSolid } from '../icon/nicons'
   import { findNearestLocation, LocationStore } from '../../domains/locations/LocationStore'
 
-  export let className = undefined
 
   const dispatch = createEventDispatcher()
 

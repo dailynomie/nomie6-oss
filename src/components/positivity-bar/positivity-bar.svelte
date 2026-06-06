@@ -5,14 +5,17 @@
 
   import math from '../../utils/math/math'
 
-  let score = 0
-  let neuCount = { type: 'neutral', count: 0, percent: 0 }
+  let score = $state(0)
+  let neuCount = $state({ type: 'neutral', count: 0, percent: 0 })
+  let counts = $state([])
 
-  let counts = []
+  const { positive, negative, neutral, className, style, height } = $props()
 
-  $: if (neutral | positive | negative) {
-    main()
-  }
+  $effect(() => {
+    if (neutral | positive | negative) {
+      main()
+    }
+  })
 
   function whatsThis() {
     let message = `Using your total negative (red), positive (green), and neutral (gray) events for the day, Nomie calculates your Positivity Score. 
@@ -35,8 +38,6 @@
     ]
     score = positive - negative
   }
-
-  const { positive, negative, neutral, className, style, height } = $props()
 </script>
 
 {#if negative || neutral || positive}

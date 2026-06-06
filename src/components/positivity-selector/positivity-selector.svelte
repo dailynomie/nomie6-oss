@@ -11,12 +11,6 @@
 
   const dispatch = createEventDispatcher()
 
-  export let score = 0
-  export let className = ''
-  export let style = ''
-  export let size = 'md'
-  export let transparent = false
-  export let id = undefined
 
   async function onChange(sc) {
     score = sc

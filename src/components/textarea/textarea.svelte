@@ -6,14 +6,15 @@
   import autosize from 'svelte-autosize'
 
   const emit = createEventDispatcher()
-
-	export const setSelectionRange = (a,b)=>{
-		textarea.setSelectionRange(a,b);
-		textarea.focus();
-	}
+  let { value = $bindable(), tributeConfig, ...rest } = $props()
 
   let tribute
   let textarea: HTMLTextAreaElement
+
+  const setSelectionRange = (a,b)=>{
+    textarea.setSelectionRange(a,b);
+    textarea.focus();
+  }
 
 	const tributeTriggered = (e)=>{
 		let payload:any = e.detail;
@@ -36,11 +37,10 @@
 		textarea.removeEventListener('tribute-replaced', tributeTriggered)
 	})
 
-  const { value, tributeConfig } = $props()
 </script>
 
 <textarea
-  {...$$restProps}
+  {...rest}
   bind:this={textarea}
   use:autosize
   bind:value
@@ -56,5 +56,5 @@
   on:blur={(evt) => {
     emit('blur', evt)
   }}
-  class={`${$$restProps.class}`}
+  class={`${rest.class}`}
 />

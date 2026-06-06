@@ -13,13 +13,8 @@
   import { ChevronForwardOutline, CloseOutline } from '../icon/nicons'
   import { openDateOptionPopMenu } from '../pop-menu/usePopmenu'
 
-  export let labels = []
-  export let height = 200
 
-  export let title = ''
-  export let color = '#4d84a1'
 
-  export let activeIndex = 2
 
   // export let beginAtZero: boolean = true;
 
@@ -31,7 +26,6 @@
   let theChart
   let lastPoints = []
 
-  export let selected = undefined
 
   $: if (points && theChart && points.map((p) => p.y).join() !== lastPoints) {
     lastPoints = points.map((p) => p.y).join()

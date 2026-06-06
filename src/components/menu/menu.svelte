@@ -16,36 +16,40 @@
   type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
   const dispatch = createEventDispatcher()
-  let buttonGroup: Array<Array<PopMenuButton>> = []
-  let accessorySize: number = 24
-
-  $: if (buttons) {
-    buttonGroup = [[]]
-    let current: number = buttonGroup.length - 1
-    buttons.forEach((button: PopMenuButton) => {
-      if (button.divider) {
-        buttonGroup.push([])
-        current = buttonGroup.length - 1
-      }
-      buttonGroup[current].push(button)
-    })
-  }
-
-  $: if (size) {
-    if (size == 'xs') {
-      accessorySize = 14
-    } else if (size == 'sm') {
-      accessorySize = 18
-    } else if (size == 'md') {
-      accessorySize = 22
-    } else if (size == 'lg') {
-      accessorySize = 26
-    } else if (size == 'xl') {
-      accessorySize = 32
-    }
-  }
+  let buttonGroup = $state<Array<Array<PopMenuButton>>>([])
+  let accessorySize = $state(24)
 
   const { buttons, size, className, style, id } = $props()
+
+  $effect(() => {
+    if (buttons) {
+      buttonGroup = [[]]
+      let current = buttonGroup.length - 1
+      buttons.forEach((button: PopMenuButton) => {
+        if (button.divider) {
+          buttonGroup.push([])
+          current = buttonGroup.length - 1
+        }
+        buttonGroup[current].push(button)
+      })
+    }
+  })
+
+  $effect(() => {
+    if (size) {
+      if (size == 'xs') {
+        accessorySize = 14
+      } else if (size == 'sm') {
+        accessorySize = 18
+      } else if (size == 'md') {
+        accessorySize = 22
+      } else if (size == 'lg') {
+        accessorySize = 26
+      } else if (size == 'xl') {
+        accessorySize = 32
+      }
+    }
+  })
 </script>
 
 <div role="menu" {id} class="n-menu size-{size} {className}" {style}>

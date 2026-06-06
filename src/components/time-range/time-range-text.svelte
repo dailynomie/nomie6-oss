@@ -4,17 +4,19 @@
   import dayjs, { Dayjs } from 'dayjs'
   import { getDateFormats } from '../../domains/preferences/Preferences'
 
-  let end: Dayjs
-  let start: Dayjs
-  let daysDiff: number
-  const dateFormats = getDateFormats()
-  $: if (date || seconds) {
-    end = dayjs(date)
-    start = dayjs(date).subtract(seconds, 'seconds')
-    daysDiff = Math.floor(seconds / (3600 * 24))
-  }
-
   const { date, seconds, className, style } = $props()
+
+  let end = $state<Dayjs>(undefined)
+  let start = $state<Dayjs>(undefined)
+  let daysDiff = $state<number>(undefined)
+  const dateFormats = getDateFormats()
+  $effect(() => {
+    if (date || seconds) {
+      end = dayjs(date)
+      start = dayjs(date).subtract(seconds, 'seconds')
+      daysDiff = Math.floor(seconds / (3600 * 24))
+    }
+  })
 </script>
 
 <span class="time-range-text {className}" {style}>

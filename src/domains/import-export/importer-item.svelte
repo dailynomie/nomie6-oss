@@ -10,10 +10,7 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { CheckmarkCircle } from '../../components/icon/nicons'
 
-  export let emoji = '🙃'
-  export let title = 'Unknown'
 
-  export let count = '0'
 
   const dispatch = createEventDispatcher()
 

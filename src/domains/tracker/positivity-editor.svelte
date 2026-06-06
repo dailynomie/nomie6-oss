@@ -31,7 +31,6 @@
 
   // Prosp
 
-  export let className = ''
 
   // consts
   const dispatch = createEventDispatcher()

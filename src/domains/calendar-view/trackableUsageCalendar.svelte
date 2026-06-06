@@ -15,11 +15,12 @@
   import Calendar3 from './calendar3.svelte'
 
   const dispatch = createEventDispatcher()
+  let { trackable, date = $bindable() } = $props()
 
-  let loading = true
-  let tu: TrackableUsage
+  let loading = $state(true)
+  let tu = $state<TrackableUsage>(undefined)
 
-  let loadClearTimeout
+  let loadClearTimeout = $state(undefined)
   const loadData = async () => {
     loading = true
     clearTimeout(loadClearTimeout)
@@ -38,16 +39,16 @@
     }, 100)
   }
 
-  let lastHash = ''
-  $: if (date && trackable && $LedgerStore.hash && `${date?.toDateString()}${trackable.tag}` !== lastHash) {
-    lastHash = `${date.toDateString()}${trackable.tag}`
-    loadData()
-  }
+  let lastHash = $state('')
+  $effect(() => {
+    if (date && trackable && $LedgerStore.hash && `${date?.toDateString()}${trackable.tag}` !== lastHash) {
+      lastHash = `${date.toDateString()}${trackable.tag}`
+      loadData()
+    }
+  })
   onMount(() => {
     loadData()
   })
-
-  const { trackable, date } = $props()
 </script>
 
 {#if tu}

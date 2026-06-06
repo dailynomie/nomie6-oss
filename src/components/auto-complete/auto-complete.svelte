@@ -14,18 +14,14 @@
   import { slide } from 'svelte/transition'
 
   const dispatch = createEventDispatcher()
+  const { input, scroller, className, style } = $props()
 
-  export let input = null
-  export let scroller = false
-  export let className = ''
-  export let style = ''
-
-  let state = {
+  let state = $state({
     partialTag: null,
     results: [],
     tag: null,
     cursorIndex: 0,
-  }
+  })
 
   // function close() {
   //   state.results = []
@@ -128,16 +124,18 @@
    * Main Mount
    */
 
-  let lastInput
-  $: if (lastInput !== input) {
-    lastInput = input
-    onInput(input)
-  }
-  $: if (!input) {
-    state.results = undefined
-  }
-
-  const { input, scroller, className, style } = $props()
+  let lastInput = $state(undefined)
+  $effect(() => {
+    if (lastInput !== input) {
+      lastInput = input
+      onInput(input)
+    }
+  })
+  $effect(() => {
+    if (!input) {
+      state.results = undefined
+    }
+  })
 </script>
 
 {#if state.results && state.results.length}

@@ -12,15 +12,17 @@
   import ProgressBar from '../progress-bar/progress-bar.svelte'
   import TimeRangeText from '../time-range/time-range-text.svelte'
 
-  let value: number = 0
+  const { log, trackable, max, className, hideTime } = $props()
+
+  let value = $state(0)
   const dateFormats = getDateFormats()
   const dispatch = createEventDispatcher()
 
-  $: if (log || trackable) {
-    value = trackable.tracker ? log.getTrackerValue(trackable.tracker?.tag) : 1
-  }
-
-  const { log, trackable, max, className, hideTime } = $props()
+  $effect(() => {
+    if (log || trackable) {
+      value = trackable.tracker ? log.getTrackerValue(trackable.tracker?.tag) : 1
+    }
+  })
 </script>
 
 <button

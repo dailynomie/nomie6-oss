@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  export let size = 24
 
   const { size } = $props()
 </script>

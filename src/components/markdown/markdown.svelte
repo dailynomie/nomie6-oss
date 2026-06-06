@@ -14,10 +14,10 @@
     })
   })
 
-  const { content } = $props()
+  const { content, ...rest } = $props()
 </script>
 
-<div bind:this={wrapperEle} {...$$restProps} class="markdown {$$restProps['class']}">
+<div bind:this={wrapperEle} {...rest} class="markdown {rest['class']}">
   <SvelteMarkdown source={content} />
 </div>
 

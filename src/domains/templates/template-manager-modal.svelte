@@ -20,7 +20,7 @@
 import TemplateEditorList from './template-editor-list.svelte'
 import AvailableTemplatesList from './available-templates-list.svelte'
 
-  let view: 'templates' | 'mine' = 'templates'
+  let view = $state<'templates' | 'mine'>('templates')
 
   onMount(() => {
     TemplateStore.init()

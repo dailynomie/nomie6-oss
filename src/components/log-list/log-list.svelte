@@ -11,18 +11,12 @@
   import { createEventDispatcher } from 'svelte'
   import dayjs from 'dayjs'
   const dispatch = createEventDispatcher()
+  const { logs, compact, style, className, fullDate, showTimeDiff } = $props()
 
-  export let logs = null
-  export let compact = false
-  export let style = ''
-  export let className = ''
-  export let fullDate = false
-  export let showTimeDiff = false
-
-  let loading = false
+  let loading = $state(false)
   // export let hideMore = false;
 
-  let internalLogs = []
+  let internalLogs = $state([])
 
   function sort(logs) {
     return logs
@@ -35,11 +29,11 @@
       })
   }
 
-  $: if (logs) {
-    internalLogs = sort(logs)
-  }
-
-  const { logs, compact, style, className, fullDate, showTimeDiff } = $props()
+  $effect(() => {
+    if (logs) {
+      internalLogs = sort(logs)
+    }
+  })
 </script>
 
 {#if loading}

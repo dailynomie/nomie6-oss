@@ -17,16 +17,20 @@
 
   const dispatch = createEventDispatcher()
 
-  let lastDate
-  let _date: Dayjs // local
-  let _opened: boolean = opened
-  let hide = false
+  let lastDate = $state(undefined)
+  let _date = $state<Dayjs>(undefined)
+  let _opened = $state(false)
+  let hide = $state(false)
 
-  $: if (date && date !== lastDate) {
-    init()
-  } else if (!date && lastDate) {
-    init()
-  }
+  let { date = $bindable(), opened, style, calendarClass, calendarPosition } = $props()
+
+  $effect(() => {
+    if (date && date !== lastDate) {
+      init()
+    } else if (!date && lastDate) {
+      init()
+    }
+  })
 
   async function toggleOpen(): Promise<void> {
     _opened = !_opened
@@ -62,8 +66,6 @@
     dispatch('change', _date)
   }
   onMount(init)
-
-  const { date, opened, style, calendarClass, calendarPosition } = $props()
 </script>
 
 {#if _date}

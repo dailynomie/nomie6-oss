@@ -48,19 +48,12 @@
   import type { TrackerInputResponseType } from './tracker-input-utils'
 
   // Props
-  export let value = undefined // If a valid is provided
 
-  export let saveLabel = Lang.t('general.save', 'Save') // The label of the save Button
-  export let nextLabel = Lang.t('general.next', 'Next') // The label of the save Button
+  let tracker = $state<TrackerClass | undefined>(undefined)
+  let manual = $state(false)
+  let nextLabel = $state(undefined)
 
-  let tracker: TrackerClass | undefined = undefined
-  let manual: boolean = false
-
-  $: {
-    nextLabel = payload?.nextLabel
-  }
-
-  let data = {
+  let data = $state({
     value: null, // holds current value
     ready: false,
     suffix: '',
@@ -68,7 +61,13 @@
     editing: false,
     saving: false,
     note: undefined as undefined | string,
-  }
+  })
+
+  let { value = $bindable(), saveLabel = $bindable(), id, payload } = $props()
+
+  $effect(() => {
+    nextLabel = payload?.nextLabel
+  })
 
   // Set up the Methods
   const methods = {
@@ -156,8 +155,6 @@
   }
 
   initialize();
-
-  const { value, saveLabel, nextLabel, id, payload } = $props()
 </script>
 
 <BackdropModal className="tracker-input-modal">

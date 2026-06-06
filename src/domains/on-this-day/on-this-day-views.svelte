@@ -35,47 +35,49 @@
   import Memories from '../ledger/Memories.svelte'
   import { createEventDispatcher } from 'svelte'
 
-  let trackers: Array<TrackerProcessedConfig> = []
-  let notes: Array<NLog> = []
-  let people: Array<Person> = []
-  let context: Array<string> = []
-  let pointers: Array<string> = []  
+  let trackers = $state<Array<TrackerProcessedConfig>>([])
+  let notes = $state<Array<NLog>>([])
+  let people = $state<Array<Person>>([])
+  let context = $state<Array<string>>([])
+  let pointers = $state<Array<string>>([])
 
   const dispatch = createEventDispatcher()
 
-  let lastLogs: string
-  let startDate: Date = new Date()
-
-  let columns: number = 3
-
-  $: if ($Device.width < 400) {
-    columns = 2
-  } else if ($Device.width < 700) {
-    columns = 3
-  } else if ($Device.width > 900) {
-    columns = 3
-  }
-
-  let focusScores: Array<IFocusResults>
-  let hasFocusScores: boolean
-
-  $: if (logs && logs.length && lastLogs !== logs.map((l) => l._id).join(',')) {
-    startDate = logs[0].end
-    lastLogs = logs.map((l) => l._id).join(',')
-    let trackersUsed = getTrackersAndValuesFromLogs(logs)
-
-    notes = getNotes(logs)
-    people = getPeople(logs, $PeopleStore)
-    context = getContext(logs)
-    pointers = getPointers(logs)
-    trackers = processTrackers(trackersUsed, $TrackerStore)
-    focusScores = getFocusScoresFromLogs(logs, $TrackableStore.trackables)
-
-    hasFocusScores =
-      focusScores && (focusScores[0].score !== 0 || focusScores[1].score !== 0 || focusScores[2].score !== 0)
-  }
+  let lastLogs = $state('')
+  let startDate = $state(new Date())
+  let columns = $state(3)
+  let focusScores = $state<Array<IFocusResults>>()
+  let hasFocusScores = $state(false)
 
   const { view, logs } = $props()
+
+  $effect(() => {
+    if ($Device.width < 400) {
+      columns = 2
+    } else if ($Device.width < 700) {
+      columns = 3
+    } else if ($Device.width > 900) {
+      columns = 3
+    }
+  })
+
+  $effect(() => {
+    if (logs && logs.length && lastLogs !== logs.map((l) => l._id).join(',')) {
+      startDate = logs[0].end
+      lastLogs = logs.map((l) => l._id).join(',')
+      let trackersUsed = getTrackersAndValuesFromLogs(logs)
+
+      notes = getNotes(logs)
+      people = getPeople(logs, $PeopleStore)
+      context = getContext(logs)
+      pointers = getPointers(logs)
+      trackers = processTrackers(trackersUsed, $TrackerStore)
+      focusScores = getFocusScoresFromLogs(logs, $TrackableStore.trackables)
+
+      hasFocusScores =
+        focusScores && (focusScores[0].score !== 0 || focusScores[1].score !== 0 || focusScores[2].score !== 0)
+    }
+  })
 </script>
 
 {#if view !== 'context' || 'pointers' }

@@ -7,11 +7,7 @@
   import PositivitySelector from './positivity-selector.svelte'
   import IonIcon from '../icon/ion-icon.svelte'
   import { CloseOutline } from '../icon/nicons'
-  export let score = 0
 
-  export let className = ''
-  export let size = 'lg'
-  export let y = '60%'
 
   let selected: any
   let showMenu: boolean = false

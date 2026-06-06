@@ -6,16 +6,15 @@
 import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte';
   import IonIcon from '../icon/ion-icon.svelte'
 
-  export let size = 24
-  export let className = ''
   const dispatch = createEventDispatcher()
-
-  let selected
-  $: if (value && value !== selected) {
-    selected = value
-  }
-
   const { value, colors, size, className } = $props()
+
+  let selected = $state(undefined)
+  $effect(() => {
+    if (value && value !== selected) {
+      selected = value
+    }
+  })
 </script>
 
 <div class="tiny-color-picker flex {className}">
