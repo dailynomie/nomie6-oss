@@ -10,7 +10,7 @@
   import { Lang } from '../../store/lang'
   import Text from '../text/text.svelte'
   const dispatch = createEventDispatcher()
-  const { style, className, itemClass, list, showHeaderContent } = $props()
+  let { style, className, itemClass, list = $bindable(), showHeaderContent } = $props()
 
   let ready = $state(false)
   let textList = $state(undefined)

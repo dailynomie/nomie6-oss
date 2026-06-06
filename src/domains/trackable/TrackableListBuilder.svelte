@@ -21,7 +21,7 @@
   import SortableList2 from '../../components/sortable-list/sortable-list2.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
 
-  let { value = '', className = '' } = $props<{ value?: string, className?: string }>()
+  let { value = $bindable(), className = '' } = $props<{ value?: string, className?: string }>()
 
   let trackables: Array<Trackable> = $state([])
   let manualAdd: string = $state('')

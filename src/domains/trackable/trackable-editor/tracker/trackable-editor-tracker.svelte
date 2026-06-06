@@ -68,6 +68,13 @@
     }
   })
 
+  // Initialize note field if undefined
+  $effect(() => {
+    if (tracker && tracker.type === 'note' && tracker.note === undefined) {
+      tracker.note = ''
+    }
+  })
+
   // Sync tracker changes back to parent trackable
   $effect(() => {
     if (tracker && trackable && tracker !== lastTrackerRef) {
@@ -88,19 +95,28 @@
       if (tracker.include) {
         alsoInclude = true
       }
-      if (
-        tracker.include ||
-        tracker.default ||
-        tracker.math !== 'sum' ||
-        tracker.uom !== 'num' ||
-        tracker.step ||
-        tracker.one_tap
-      ) {
-        advanced = true
-        advancedCanToggle = false
-      } else {
+      // For habit type, always allow toggling - don't force advanced based on properties
+      if (tracker.type === 'habit') {
         advancedCanToggle = true
         advanced = false
+      } else {
+        // For other types, check if they have advanced properties set
+        const mathCheck = tracker.math !== 'sum'
+        const hasAdvancedProps =
+          tracker.include ||
+          tracker.default ||
+          mathCheck ||
+          tracker.uom !== 'num' ||
+          tracker.step ||
+          tracker.one_tap
+
+        if (hasAdvancedProps) {
+          advanced = true
+          advancedCanToggle = false
+        } else {
+          advancedCanToggle = true
+          advanced = false
+        }
       }
     } else if (forceAdvancedView) {
       advanced = true
