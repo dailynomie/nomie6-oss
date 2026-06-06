@@ -25,45 +25,21 @@
   $effect(() => {
     if($AllTrackablesAsArray) {
       const trackables = $AllTrackablesAsArray
-      pointers =  trackables.filter((trackable) => {
-      return trackable.type == 'pointer';});
-
-      pointers.sort((a, b) => {
-        // Sort on reminder enabled
-    if (a.ptr.reminder < b.ptr.reminder) return 1;
-    if (a.ptr.reminder > b.ptr.reminder) return -1;
-    // Only sort on date if not identical
-    if (new Date(a.ptr.reminderdate) < new Date(b.ptr.reminderdate)) return -1;
-    if (new Date(a.ptr.reminderdate) > new Date(b.ptr.reminderdate)) return 1;
-
-    // Both idential, return 0
-    return 0;
-  });
-
-
-
-      //pointers.sort((a,b) => new Date(a.ptr.reminderdate) - new Date(b.ptr.reminderdate));
+      pointers = trackables
+        .filter((trackable) => trackable.type == 'pointer')
+        .sort((a, b) => {
+          // Sort on reminder enabled
+          if (a.ptr.reminder < b.ptr.reminder) return 1
+          if (a.ptr.reminder > b.ptr.reminder) return -1
+          // Only sort on date if not identical
+          if (new Date(a.ptr.reminderdate) < new Date(b.ptr.reminderdate)) return -1
+          if (new Date(a.ptr.reminderdate) > new Date(b.ptr.reminderdate)) return 1
+          // Both identical, return 0
+          return 0
+        })
     }
   })
 
-  onMount(async () => {
-    const trackables = $AllTrackablesAsArray
-    pointers =  trackables.filter((trackable) => {
-    return trackable.type == 'pointer';
-   });
-   pointers.sort((a, b) => {
-    // Sort on reminder enabled
-  if (a.ptr.reminder < b.ptr.reminder) return 1;
-  if (a.ptr.reminder > b.ptr.reminder) return -1;
-  // Only sort on date if not identical
-  if (new Date(a.ptr.reminderdate) < new Date(b.ptr.reminderdate)) return -1;
-  if (new Date(a.ptr.reminderdate) > new Date(b.ptr.reminderdate)) return 1;
-  
-  // Both idential, return 0
-  return 0;
-});
-
-  })
 
   
 

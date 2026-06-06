@@ -11,8 +11,8 @@
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 
-  function toggleReminder () {
-    trackable.ptr.reminder = !trackable.ptr.reminder
+  function toggleReminder() {
+    trackable.ptr = { ...trackable.ptr, reminder: !trackable.ptr.reminder }
   }
 </script>
 

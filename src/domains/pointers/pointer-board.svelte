@@ -4,7 +4,7 @@
 import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
 
 
-  const { pointers } = $props()
+  const { pointers = $bindable() } = $props()
 </script>
 <div class="flex flex-col gap-y-2">
   
