@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import { wait } from '../../../../utils/tick/tick'
+  import { untrack } from 'svelte'
 
   /**
    * Welcome to the Editor - this is a mess... but I'm trying to simplify the whole process
@@ -56,10 +57,21 @@
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
   let tracker: TrackerClass = $state(trackable.tracker)
+  let updateTrigger: number = $state(0)
+  let lastTrackerRef = $state<TrackerClass | undefined>(undefined)
 
+  // Sync parent's tracker changes to child
   $effect(() => {
-    if (trackable) {
+    if (trackable && trackable.tracker !== lastTrackerRef) {
       tracker = trackable.tracker
+      lastTrackerRef = trackable.tracker
+    }
+  })
+
+  // Sync tracker changes back to parent trackable
+  $effect(() => {
+    if (tracker && trackable && tracker !== lastTrackerRef) {
+      trackable.tracker = tracker
     }
   })
 
@@ -163,6 +175,8 @@
     await wait(200)
     tracker.type = type
     if (tracker.type == 'habit') {tracker.math = 'mean'}
+    // Force reactivity update
+    updateTrigger++
   }
 
   const methods = {
@@ -197,11 +211,12 @@
   }
 </script>
 
-<!-- Tracker Label input -->
-<main class="flex flex-col space-y-4">
-  <!-- Tracker Type Selector -->
+{#key updateTrigger}
+  <!-- Tracker Label input -->
+  <main class="flex flex-col space-y-4">
+    <!-- Tracker Type Selector -->
 
-  <List solo>
+    <List solo>
     <ListItem
       id="tracker-type-selector"
       clickable
@@ -601,4 +616,5 @@
       </List>
     </section>
   {/if} -->
-</main>
+  </main>
+{/key}

@@ -26,6 +26,7 @@
   import { Lang } from '../../../store/lang'
   import { removePrefix, truncateText } from '../../../utils/text/text'
   import { wait } from '../../../utils/tick/tick'
+  import { toTag } from '../../../modules/tracker/TrackerClass'
   import { getAwardChain, giveAward } from '../../awards/AwardsStore'
   import { removeTrackableFromNomie } from '../../board/boardActions'
 
@@ -271,6 +272,13 @@
               } else if (workingTrackable.type === 'context') {
                 // For context: label getter and canSave both use ctx.label
                 workingTrackable.ctx = { ...workingTrackable.ctx, label: evt.detail }
+              } else if (workingTrackable.type === 'tracker') {
+                // For tracker: update tracker.label and tag
+                const newTag = toTag(evt.detail)
+                workingTrackable.tracker = { ...workingTrackable.tracker, label: evt.detail, tag: newTag || workingTrackable.tracker.tag }
+              } else if (workingTrackable.type === 'pointer') {
+                // For pointer: update ptr.label which canSave checks
+                workingTrackable.ptr = { ...workingTrackable.ptr, label: evt.detail }
               }
 
               if (!ogTag) {

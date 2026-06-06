@@ -7,8 +7,7 @@
   // consts
   const dispatch = createEventDispatcher()
 
-  const { value: initialValue = false, locked, className, title } = $props()
-  let value = $state(initialValue)
+  let { value = $bindable(false), locked, className, title } = $props()
 
   const methods = {
     onChange() {

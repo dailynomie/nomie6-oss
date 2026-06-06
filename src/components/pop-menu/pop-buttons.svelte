@@ -21,20 +21,20 @@
   let dispatch = createEventDispatcher()
   const { buttons, listType } = $props()
 
-  let buttonGroup = $state<Array<Array<PopMenuButton>>>([])
-
-  $effect(() => {
+  let buttonGroup = $derived.by(() => {
     if (buttons) {
-      buttonGroup = [[]]
-      let current: number = buttonGroup.length - 1
+      const groups: Array<Array<PopMenuButton>> = [[]]
+      let current: number = 0
       buttons.forEach((button: PopMenuButton) => {
         if (button.divider) {
-          buttonGroup.push([])
-          current = buttonGroup.length - 1
+          groups.push([])
+          current = groups.length - 1
         }
-        buttonGroup[current].push(button)
+        groups[current].push(button)
       })
+      return groups
     }
+    return [[]]
   })
 </script>
 
