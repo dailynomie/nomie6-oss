@@ -57,6 +57,7 @@
   let tagExists: boolean = $state(false)
 
   let saving: boolean = $state(false)
+  let workingTrackableVersion: number = $state(0)
 
   $effect(() => {
     if (trackable && !workingTrackable) {
@@ -74,8 +75,31 @@
   })
 
   $effect(() => {
-    if (workingTrackable && objectHash(workingTrackable)) {
+    // Explicitly depend on version to force re-run when properties change
+    workingTrackableVersion
+
+    if (workingTrackable) {
+      // Explicitly read all nested properties at top level to ensure proper dependency tracking
+      const label = workingTrackable.label
+      const type = workingTrackable.type
+      const personUsername = workingTrackable.person?.username
+      const ctxLabel = workingTrackable.ctx?.label
+      const trackerLabel = workingTrackable.tracker?.label
+      const trackerType = workingTrackable.tracker?.type
+      const trackerTag = workingTrackable.tracker?.tag
+      const ptrLabel = workingTrackable.ptr?.label
+
+      // Compute typeValue using explicitly read properties
+      const typeValue = type === 'tracker'
+        ? `${trackerLabel}${trackerType}${trackerTag}`
+        : type === 'person'
+        ? personUsername
+        : type === 'context'
+        ? ctxLabel
+        : ptrLabel
+
       canSave = workingTrackable.canSave
+
       if (canSave && ogTag !== workingTag) {
         if ($TrackableStore.trackables[`${workingTrackable.prefix}${workingTag}`]) {
           canSave = false
@@ -237,11 +261,24 @@
             id="trackable-label-input"
             value={workingTrackable.label}
             on:input={(evt) => {
-              workingTrackable.label = evt.detail
-              if (!ogTag) {
-                workingTag = `${strToTagSafe(workingTrackable.label)}`
-                workingTrackable.tag = workingTag
+              // For person: update both displayName (for label getter) and username (for canSave)
+              if (workingTrackable.type === 'person') {
+                workingTrackable.person = {
+                  ...workingTrackable.person,
+                  displayName: evt.detail,
+                  username: evt.detail
+                }
+              } else if (workingTrackable.type === 'context') {
+                // For context: label getter and canSave both use ctx.label
+                workingTrackable.ctx = { ...workingTrackable.ctx, label: evt.detail }
               }
+
+              if (!ogTag) {
+                workingTag = `${strToTagSafe(evt.detail)}`
+              }
+
+              // Increment version to trigger effect re-run
+              workingTrackableVersion++
             }}
             placeholder={label}
             {label}
