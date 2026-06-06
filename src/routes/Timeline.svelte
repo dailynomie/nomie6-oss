@@ -9,6 +9,7 @@
 
   import dayjs from 'dayjs'
   import type { Dayjs } from 'dayjs'
+  import { untrack } from 'svelte'
 
   import Layout from '../domains/layout/layout.svelte'
 
@@ -138,17 +139,16 @@
   }
 
   let filterMenu: Array<PopMenuButton> = $state(showFilterMenu())
-  let mounted: boolean = $state(false)
+  let mounted: boolean = $state(true)
 
   $effect(() => {
     if ($TimelineOptionsStore.filters) {
-      filters = $TimelineOptionsStore.filters
+      const newFilters = $TimelineOptionsStore.filters
+      if (JSON.stringify(newFilters) !== JSON.stringify(filters)) {
+        filters = newFilters
+      }
       filterMenu = showFilterMenu()
     }
-  })
-
-  $effect(() => {
-    mounted = true
   })
 </script>
 

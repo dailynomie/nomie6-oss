@@ -33,7 +33,7 @@
   class:compact
   {style}
 >
-  {#if buttons.length}
+  {#if buttons && buttons.length}
     {#each buttons as button, index}
       {#if button.hide !== false}
         <button

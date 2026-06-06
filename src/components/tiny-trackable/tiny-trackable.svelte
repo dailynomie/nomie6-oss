@@ -6,11 +6,11 @@
   import type { Trackable } from '../../domains/trackable/Trackable.class'
   import TrackableAvatar from '../avatar/trackable-avatar.svelte'
 
-  let color = trackable.color;
-
   const emit = createEventDispatcher()
 
   const { date, trackable, value } = $props()
+
+  let color = $derived(trackable?.color)
 </script>
 
 {#if trackable.type == "pointer"}

@@ -11,7 +11,7 @@
   let tribute
   let textarea: HTMLTextAreaElement
 
-  const setSelectionRange = (a,b)=>{
+  export const setSelectionRange = (a,b)=>{
     textarea.setSelectionRange(a,b);
     textarea.focus();
   }

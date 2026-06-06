@@ -93,15 +93,17 @@
 
   async function initAndRender() {
     try {
-      await methods.init()
-      methods.renderMap()
+      if (methods) {
+        await methods.init()
+        methods.renderMap()
+      }
     } catch (e) {
       console.error(`init and render error`, e.message)
     }
   }
 
   $effect(() => {
-    if (!locations.length && records.length) {
+    if (locations && !locations.length && records && records.length) {
       try {
         let locs = records
           .filter((r) => r.lat)

@@ -23,6 +23,7 @@
 </script>
 
 <Textarea
+  bind:this={textarea}
   aria-label="Note entry field"
   {id}
   on:inserted={async (evt) => {
