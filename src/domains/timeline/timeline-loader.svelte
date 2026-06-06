@@ -20,7 +20,7 @@
   import TimelineView from '../../domains/timeline/timeline-view.svelte'
   import { getDateFormats } from '../../domains/preferences/Preferences'
 
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
 
   import { wait } from '../../utils/tick/tick'
 
@@ -52,16 +52,9 @@
   let lastDate: Dayjs = $state(dayjs(startingDate))
 
   let loading: boolean = $state(true)
-  let mounted: boolean = $state(false)
+  let mounted: boolean = $state(true)
 
   const emit = createEventDispatcher()
-
-  $effect(() => {
-    mounted = true
-    return () => {
-      mounted = false
-    }
-  })
 
   let lastStartingDate: Date = $state(new Date())
   $effect(() => {
@@ -189,30 +182,42 @@
   let onLogsDeleted: Function
   let firstKnownDate: Dayjs
 
-  $effect(async () => {
+  onMount(async () => {
     // Device.scrollToTop()
     firstKnownDate = await LedgerStore.getFirstDate()
-    clearAndLoad()
+    await clearAndLoad()
+  })
+
+  $effect(() => {
     onLogUpdate = LedgerStore.hook('onLogUpdate', async (log) => {
       await wait(600)
       loadLogs(true, 'onLogUpdate')
     })
 
+    return () => {
+      if (onLogUpdate) onLogUpdate()
+    }
+  })
+
+  $effect(() => {
     onLogSaved = LedgerStore.hook('onLogSaved', async (log) => {
       await wait(600)
-      loadLogs(true, 'onLogSaved')
+      await clearAndLoad()
     })
 
+    return () => {
+      if (onLogSaved) onLogSaved()
+    }
+  })
+
+  $effect(() => {
     onLogsDeleted = LedgerStore.hook('onLogsDeleted', async (logs) => {
       await wait(200)
       await clearAndLoad()
     })
 
     return () => {
-      // Unsubscribe
-      onLogSaved()
-      onLogUpdate()
-      onLogsDeleted()
+      if (onLogsDeleted) onLogsDeleted()
     }
   })
 </script>
