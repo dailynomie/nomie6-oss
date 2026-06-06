@@ -12,15 +12,19 @@
   const dispatch = createEventDispatcher()
 
   $effect(() => {
-    if (end === items.length) {
-      dispatch('end')
+    if (items && items.length > 0) {
+      if (end === items.length) {
+        dispatch('end')
+      }
+      if (start !== undefined) {
+        dispatch('topItem', items[start])
+      }
     }
-    dispatch('topItem', items[start])
   })
 
   const calculateHeight = () => {
     const size = getElementPosition(wrapper)
-    if (height !== undefined) {
+    if (size && size.eleHeight) {
       height = `${size.eleHeight}px`
     }
   }
@@ -32,7 +36,7 @@
   })
 </script>
 
-<div class="virtual-list-wrapper overflow-hidden  {className}" bind:this={wrapper}>
+<div class="virtual-list-wrapper overflow-hidden {className}" bind:this={wrapper} style={height ? `height: ${height}` : 'height: 100vh'}>
   <VirtualList {items} bind:start {height} let:item bind:end>
     <slot {item} />
   </VirtualList>
