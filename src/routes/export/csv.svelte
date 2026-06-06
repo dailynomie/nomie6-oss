@@ -37,7 +37,7 @@
     required: Array<string>
   }
 
-  let csvTypes: Array<CSVExportType> = [
+  let csvTypes: Array<CSVExportType> = $state([
     {
       type: 'column',
       required: ['trackables'],
@@ -50,23 +50,23 @@
       label: 'Note View',
       description: `Each Note containing any matching trackables`,
     },
-  ]
+  ])
 
-  let csvType: CSVExportType = csvTypes[0]
-  let generating = false
-  let canSave: boolean = false
-  let useAllTrackables: boolean = true
+  let csvType: CSVExportType = $state(csvTypes[0])
+  let generating = $state(false)
+  let canSave: boolean = $state(false)
+  let useAllTrackables: boolean = $state(true)
 
   // Set state
-  let state = {
+  let state = $state({
     trackables: [],
     start: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     end: dayjs().format('YYYY-MM-DD'),
-  }
+  })
 
-  let startDate: any, endDate: any
-  let doc: Array<any> = []
-  let lastUseAllTrackables = !useAllTrackables
+  let startDate: any = $state(), endDate: any = $state()
+  let doc: Array<any> = $state([])
+  let lastUseAllTrackables = $state(!useAllTrackables)
 
   $effect(() => {
     if (state.start && dayjs(state.start, 'YYYY-MM-DD') !== startDate) {

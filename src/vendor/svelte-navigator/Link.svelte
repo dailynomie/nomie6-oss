@@ -19,11 +19,7 @@
 	import { LINK_ID } from "./warning";
 	import { parsePath, stringifyPath } from "./routes";
 
-	export let replace = false;
-	export let state = {};
-	export let getProps = null;
-
-	usePreflightCheck(LINK_ID, $$props);
+	const { replace = false, state = {}, getProps = null, to, ...rest } = $props();
 
 	const location = useLocation();
 	const dispatch = createEventDispatcher();
@@ -33,12 +29,12 @@
 	// We need to pass location here to force re-resolution of the link,
 	// when the pathname changes. Otherwise we could end up with stale path params,
 	// when for example an :id changes in the parent Routes path
-	$: href = resolve(to, $location);
-	$: isPartiallyCurrent = startsWith($location.pathname, href);
-	$: isCurrent = href === $location.pathname;
-	$: isExactCurrent = parsePath(href) === stringifyPath($location);
-	$: ariaCurrent = isCurrent ? { "aria-current": "page" } : {};
-	$: props = (() => {
+	let href = $derived(resolve(to, $location));
+	let isPartiallyCurrent = $derived(startsWith($location.pathname, href));
+	let isCurrent = $derived(href === $location.pathname);
+	let isExactCurrent = $derived(parsePath(href) === stringifyPath($location));
+	let ariaCurrent = $derived(isCurrent ? { "aria-current": "page" } : {});
+	let props = $derived((() => {
 		if (isFunction(getProps)) {
 			const dynamicProps = getProps({
 				location: $location,
@@ -46,10 +42,10 @@
 				isPartiallyCurrent,
 				isCurrent,
 			});
-			return { ...$$restProps, ...dynamicProps };
+			return { ...rest, ...dynamicProps };
 		}
-		return $$restProps;
-	})();
+		return rest;
+	})());
 
 	function onClick(event) {
 		dispatch("click", event);
@@ -62,8 +58,6 @@
 			navigate(href, { state, replace: shouldReplace });
 		}
 	}
-
-  const { to, replace, state, getProps } = $props()
 </script>
 
 <a {href} {...ariaCurrent} on:click={onClick} {...props}>

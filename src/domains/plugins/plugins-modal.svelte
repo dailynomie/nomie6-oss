@@ -70,7 +70,8 @@
     openPluginInstaller(url)
   }
 
-  const { tab = $bindable('installed'), showAdd = $bindable(false) } = $props()
+  let tab = $state('installed')
+  let showAdd = $state(false)
 </script>
 
 <BackdropModal>

@@ -5,8 +5,6 @@
 	import { createCounter, createMarkerProps } from "./utils";
 
 	const createId = createCounter();
-
-  const { path, component, meta, primary } = $props()
 </script>
 
 <script>
@@ -31,12 +29,12 @@
 	import { join } from "./paths";
 	import { ROUTE_ID } from "./warning";
 
-	export let path = "";
-	export let component = null;
-	export let meta = {};
-	export let primary = true;
+	const { path = "", component = null, meta = {}, primary = true } = $props();
 
-	usePreflightCheck(ROUTE_ID, $$props);
+	// usePreflightCheck requires $$props, but in runes mode we validate manually
+	if (path === undefined) {
+		throw new Error("Route: 'path' prop is required");
+	}
 
 	const id = createId();
 

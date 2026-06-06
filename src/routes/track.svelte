@@ -61,14 +61,14 @@
    * TODO: look what happens if these do not match up
    */
 
-  let activeBoard: UniboardType | undefined = undefined
-  let searchFor: string | undefined = undefined
+  let activeBoard: UniboardType | undefined = $state(undefined)
+  let searchFor: string | undefined = $state(undefined)
 
-  let edittedUniboard: UniboardType
+  let edittedUniboard: UniboardType = $state()
 
-  let lastActiveHash = ''
-  let boardAddMenu = []
-  let searching = false
+  let lastActiveHash = $state('')
+  let boardAddMenu = $state([])
+  let searching = $state(false)
 
   $effect(() => {
     if (
