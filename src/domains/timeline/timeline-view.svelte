@@ -41,7 +41,7 @@
   let listEndIndex: number | undefined = $state(undefined)
 
   $effect(() => {
-    if ($TrackableStore) {
+    if ($TrackableStore?.trackables && logs && logs.length > 0) {
       timeline = logsToTimeline(logs, $TrackableStore.trackables)
     }
   })

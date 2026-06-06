@@ -78,36 +78,48 @@
    * It's a recursive function that loads logs from the database.
    */
   const sequentialLogLoad = async (): Promise<void> => {
-    // Go back days
-    lastDate = date.subtract(daysToLoad, 'day')
+    try {
+      // Go back days
+      lastDate = date.subtract(daysToLoad, 'day')
 
-    // Query Log
-    const query: IQueryOptions = {
-      end: date,
-      start: lastDate,
-    }
-    if (filters.search) {
-      
-      query.search = filters.search
-      query.fuzzy = true
-    }
-    const queryLogs = await LedgerStore.query(query)
+      // Query Log
+      const query: IQueryOptions = {
+        end: date,
+        start: lastDate,
+      }
+      if (filters.search) {
 
-    // If Query is empty - increase emptyCall Count
-    if (queryLogs.length === 0) {
-      emptyCalls = emptyCalls + 1
-    }
+        query.search = filters.search
+        query.fuzzy = true
+      }
+      console.log('Timeline query:', { start: lastDate.format(), end: date.format(), search: filters.search })
+      const queryLogs = await LedgerStore.query(query)
+      console.log('Timeline query result:', queryLogs?.length || 0, 'logs found')
 
-    // Merge Logs together and sort / filter
-    logs = [...queryLogs, ...logs.filter((l) => !queryLogs.find((lg) => lg._id === l._id))].sort((a, b) => {
-      return a.end > b.end ? -1 : 1
-    })
+      // If Query is empty - increase emptyCall Count
+      if (queryLogs.length === 0) {
+        emptyCalls = emptyCalls + 1
+      }
 
-    if (logs.length == 0 && emptyCalls <= maxEmptyCalls) {
-      date = dayjs(lastDate)
-      await sequentialLogLoad()
+      // Merge Logs together and sort / filter
+      logs = [...queryLogs, ...logs.filter((l) => !queryLogs.find((lg) => lg._id === l._id))].sort((a, b) => {
+        return a.end > b.end ? -1 : 1
+      })
+      console.log('Logs assigned to state:', logs.length)
+
+      if (logs.length == 0 && emptyCalls <= maxEmptyCalls) {
+        date = dayjs(lastDate)
+        await sequentialLogLoad()
+      }
+    } catch (error) {
+      console.error('Timeline query error:', error)
+      loading = false
     }
   }
+
+  $effect(() => {
+    console.log('Timeline state:', { logs_length: logs.length, loading, mounted })
+  })
 
   /**
    * Get Logs
@@ -228,7 +240,7 @@
     </Container>
   {/if} -->
 {#if mounted}
-  
+
   {#if logs.length}
     <TimelineView
       {logs}
