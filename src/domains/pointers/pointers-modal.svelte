@@ -22,9 +22,9 @@
 
   let pointers = $state<string | any[]>([])
 
-  $effect(() => {
-    if($AllTrackablesAsArray) {
-      const trackables = $AllTrackablesAsArray
+  const updatePointers = () => {
+    const trackables = $AllTrackablesAsArray
+    if (trackables && trackables.length > 0) {
       pointers = trackables
         .filter((trackable) => trackable.type == 'pointer')
         .sort((a, b) => {
@@ -38,15 +38,22 @@
           return 0
         })
     }
+  }
+
+  $effect(() => {
+    if ($AllTrackablesAsArray) {
+      updatePointers()
+    }
   })
 
-
-  
+  onMount(() => {
+    updatePointers()
+  })
 
   //let editMode: boolean = false
   let hasLocked: boolean = false
 
-  
+
 </script>
 
 <BackdropModal>
