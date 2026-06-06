@@ -8,12 +8,15 @@
   let { items, className, start = $bindable(), end = $bindable(), height = $bindable() } = $props()
 
   let wrapper: HTMLElement
+  let lastDispatchedEnd: number | undefined = $state(undefined)
 
   const dispatch = createEventDispatcher()
 
   $effect(() => {
     if (items && items.length > 0) {
-      if (end === items.length) {
+      // Only dispatch 'end' if we newly reached the end (not already dispatched for this position)
+      if (end === items.length && lastDispatchedEnd !== end) {
+        lastDispatchedEnd = end
         dispatch('end')
       }
       if (start !== undefined) {

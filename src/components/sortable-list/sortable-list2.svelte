@@ -19,7 +19,7 @@
   let ready = $state(false)
   let lastItemCount = $state<number>(undefined)
 
-  const { items, sortable, direction, className, containerClass, handleClass, key, id, enabled } = $props()
+  const { items = $bindable(), sortable, direction, className, containerClass, handleClass, key, id, enabled } = $props()
 
   $effect(() => {
     if (items && items.length) {
@@ -167,23 +167,30 @@
   }
 
   function main() {
-    // let isFirst = true
-    grid = new Muuri(`#${id} .sl2-grid`, getMurriConfig())
+    const selector = `#${id} .sl2-grid`
+    const element = document.querySelector(selector)
+
+    if (!element) {
+      console.warn(`sortable-list2: Element not found for selector: ${selector}`)
+      return
+    }
+
+    grid = new Muuri(selector, getMurriConfig())
 
     grid.on('layoutEnd', function (updatedItems) {
       let final = updatedItems.map((item: any) => {
         return JSON.parse(item._element.getAttribute('data-item'))
       })
       fireSorted(final)
-      // if (!isFirst)
-      // isFirst = false
     })
 
     ready = true
   }
 
   onMount(() => {
-    main()
+    requestAnimationFrame(() => {
+      main()
+    })
   })
 </script>
 

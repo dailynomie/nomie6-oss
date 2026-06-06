@@ -16,23 +16,24 @@
   type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
   const dispatch = createEventDispatcher()
-  let buttonGroup = $state<Array<Array<PopMenuButton>>>([])
   let accessorySize = $state(24)
 
   const { buttons, size, className, style, id } = $props()
 
-  $effect(() => {
+  const buttonGroup = $derived.by(() => {
     if (buttons) {
-      buttonGroup = [[]]
-      let current = buttonGroup.length - 1
+      const groups: Array<Array<PopMenuButton>> = [[]]
+      let current = groups.length - 1
       buttons.forEach((button: PopMenuButton) => {
         if (button.divider) {
-          buttonGroup.push([])
-          current = buttonGroup.length - 1
+          groups.push([])
+          current = groups.length - 1
         }
-        buttonGroup[current].push(button)
+        groups[current].push(button)
       })
+      return groups
     }
+    return []
   })
 
   $effect(() => {
