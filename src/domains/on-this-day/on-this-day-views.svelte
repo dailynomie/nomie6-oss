@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Button from '../../components/button/button.svelte'
   import Container from '../../components/container/container.svelte'

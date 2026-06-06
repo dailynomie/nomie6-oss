@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { strToTokens } from './../../modules/tokenizer/lite'
   import { CombinedBoards } from './../board/UniboardStore'

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import UpdateAvailable from './components/update-available/update-available.svelte'
 
@@ -6,7 +8,7 @@
   import Tailwindcss from './style/Tailwind.svelte'
   import './style/main.css'
 
-  import { onMount } from 'svelte'
+  import { onMount, untrack } from 'svelte'
 
   // import DynamicPage from './DynamicPage.svelte'
 
@@ -80,11 +82,11 @@
 
   let todayCheckFormat = 'YYYY-MM-DD'
   // let todayKey = dayjs().format(todayCheckFormat)
-  let todayKey = dayjs().format(todayCheckFormat)
+  let todayKey = $state(dayjs().format(todayCheckFormat))
 
-  let loading = true
-  let onBoarding: Boolean | undefined = undefined
-  let last_firstdate = undefined
+  let loading = $state(true)
+  let onBoarding: Boolean | undefined = $state(undefined)
+  let last_firstdate = $state(undefined)
 
   /**
    * Check if New Day
@@ -142,49 +144,53 @@
   // Initialize Offline Queue regardless if we're offline
   // OfflineQueue.init()
 
-  let mounted = false
+  let mounted = $state(false)
 
   if (window.location.href.search(/\?bypass/gi) > -1) {
     $Prefs.storageType = 'local'
     window.location.href = '/'
   }
 
-  $: if (mounted && !$Prefs.onboarded) {
-    /**
-     * If we're mounted, and no Storage Type
-     * - go to Onboarding
-     */
-    onBoarding = !$Prefs.onboarded
-    Interact.stopBlocker()
-    loading = false
-    hideSplashScreen()
-  } else if (mounted && $Prefs.storageType) {
-    /**
-     * If Mounted and Storage Type set
-     * - initialize Storage
-     */
-
-    wait(200).then(() => {
-      hideSplashScreen()
-    })
-
-    /**
-     * Fetch location onload if configured
-     * This caches a location to speed up Log creation on some mobile devices
-     */
-    if ($Prefs.alwaysLocate) {
-      // Get the Location
-      locate().catch((e) => console.warn('Error fetching initial onload location', e))
-    }
-
-    Storage.init().then(async () => {
-      // await initGoals()
-      wait(2000).then(() => {
-        checkGoals('storage-init')
-        trackLaunch()
+  $effect(() => {
+    if (mounted && !$Prefs.onboarded) {
+      /**
+       * If we're mounted, and no Storage Type
+       * - go to Onboarding
+       */
+      untrack(() => {
+        onBoarding = !$Prefs.onboarded
+        Interact.stopBlocker()
+        loading = false
+        hideSplashScreen()
       })
-    })
-  }
+    } else if (mounted && $Prefs.storageType) {
+      /**
+       * If Mounted and Storage Type set
+       * - initialize Storage
+       */
+
+      wait(200).then(() => {
+        hideSplashScreen()
+      })
+
+      /**
+       * Fetch location onload if configured
+       * This caches a location to speed up Log creation on some mobile devices
+       */
+      if ($Prefs.alwaysLocate) {
+        // Get the Location
+        locate().catch((e) => console.warn('Error fetching initial onload location', e))
+      }
+
+      Storage.init().then(async () => {
+        // await initGoals()
+        wait(2000).then(() => {
+          checkGoals('storage-init')
+          trackLaunch()
+        })
+      })
+    }
+  })
 
   const checkGoals = async (caller) => {
     return loadGoalsForToday($GoalStore, $TrackableStore.trackables, { caller })
@@ -204,7 +210,7 @@
     loading = false
   }
 
-  let pluginsInitizlied: boolean = false
+  let pluginsInitizlied: boolean = $state(false)
 
   onMount(async () => {
     await boot()

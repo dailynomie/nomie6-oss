@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { showConfetti } from './ConfettiStore'
   // Pulled from https://svelte.dev/tutorial/congratulations

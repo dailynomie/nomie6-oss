@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { getFocusScoresFromLogs, type IFocusResults } from '../../domains/focus/focus-utils'
   import type NLog from '../../domains/nomie-log/nomie-log'

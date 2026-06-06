@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Text from '@/components/text/text.svelte'
   // Components

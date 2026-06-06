@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import IonIcon from './../icon/ion-icon.svelte'
   import { createEventDispatcher } from 'svelte'

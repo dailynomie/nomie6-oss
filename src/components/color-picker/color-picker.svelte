@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import NHScroller from '../h-scroller/h-scroller.svelte'
   import { base } from '../../modules/colors/colors'

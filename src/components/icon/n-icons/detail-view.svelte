@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   export let size = "100%";
   export const solid = false;

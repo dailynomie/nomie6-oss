@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   export let title: string = 'Tab'
   export let className: string = ''

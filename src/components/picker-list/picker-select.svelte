@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import ListItem from '../list-item/list-item.svelte'

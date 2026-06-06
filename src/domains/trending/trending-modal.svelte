@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import dayjs from 'dayjs'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'

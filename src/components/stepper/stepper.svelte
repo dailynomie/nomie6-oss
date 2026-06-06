@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   export let steps = 0
   export let current = 0

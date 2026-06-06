@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   // Port and modification from vue-n-calendar
   // https://github.com/maryayi/vue-sweet-calendar/blob/master/src/components/Calendar.vue

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { ToastStore } from './ToastStore'
   import { fly } from 'svelte/transition'

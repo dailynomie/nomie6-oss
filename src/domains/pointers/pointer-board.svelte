@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
 import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
 export let pointers

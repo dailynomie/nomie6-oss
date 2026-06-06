@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Emoji from './Emoji.svelte'
   export let emojis

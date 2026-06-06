@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import VirtualList from '@sveltejs/svelte-virtual-list'
   import { createEventDispatcher, onMount } from 'svelte'

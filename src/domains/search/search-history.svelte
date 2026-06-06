@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Panel from '../../components/panel/panel.svelte'
   import LogListLoader from '../../components/log-list/log-list-loader.svelte'

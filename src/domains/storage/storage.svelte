@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   // Svelte
   import { navigate } from '../../vendor/svelte-navigator'

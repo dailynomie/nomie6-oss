@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { openTemplateEditor, openTemplateRef, TemplateStore } from './templates-svelte-helpers'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'

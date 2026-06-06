@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import type { Trackable } from '../../domains/trackable/Trackable.class'
   import { TrackableStore } from '../../domains/trackable/TrackableStore'

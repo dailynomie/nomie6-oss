@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   export let className: string = ''
   export let mainClass: string = ''

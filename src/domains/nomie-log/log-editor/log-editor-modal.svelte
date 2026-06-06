@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { Prefs } from './../../preferences/Preferences'
   import MagnetSolid from './../../../n-icons/MagnetSolid.svelte'

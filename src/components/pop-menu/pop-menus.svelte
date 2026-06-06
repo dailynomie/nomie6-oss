@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import KeyDown from '../../modules/keyDown/keyDown.svelte'
   import { Device } from '../../store/device-store'

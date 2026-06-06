@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   //@ts-ignore
   import RangePure from 'rangeslider-pure'

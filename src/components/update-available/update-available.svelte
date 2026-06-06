@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { useRegisterSW } from 'virtual:pwa-register/svelte'
 
@@ -19,7 +21,7 @@
     needRefresh.set(false)
   }
 
-  $: toast = $needRefresh
+  let toast = $derived($needRefresh)
   // let toast = true
 </script>
 

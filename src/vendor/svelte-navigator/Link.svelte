@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script>
 	/*
 	 * Adapted from https://github.com/EmilTholin/svelte-routing

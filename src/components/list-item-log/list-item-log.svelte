@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { getDateFormats } from '../../domains/preferences/Preferences'
   import { getEmojiFromScore, selectPositivity, selectPositivityPopmenu } from '../../utils/positivity/positivity'

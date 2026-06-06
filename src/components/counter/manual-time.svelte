@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   // Svelte
   import { createEventDispatcher } from 'svelte'

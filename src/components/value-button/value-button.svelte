@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import type { Dayjs } from 'dayjs'
   import { createEventDispatcher } from 'svelte'

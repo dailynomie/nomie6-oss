@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { Template } from './templates-utils.ts'
   import { openTemplateEditor, TemplateStore } from './templates-svelte-helpers'

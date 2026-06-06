@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import tick from '../../utils/tick/tick'
   import { createEventDispatcher } from 'svelte'

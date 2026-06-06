@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script context="module">
 	// eslint-disable-next-line import/order
 	import { createCounter, createMarkerProps } from "./utils";

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script type="ts">
   import { onMount } from 'svelte'
   // import Chart from 'chart.js/auto'

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   
   import type { NLog } from './../../nomie-log/nomie-log'

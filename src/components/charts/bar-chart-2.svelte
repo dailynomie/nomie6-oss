@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script type="ts">
   import { createEventDispatcher, onMount } from 'svelte'
   const dispatch = createEventDispatcher()

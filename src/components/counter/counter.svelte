@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import LetterTicker from '../letter-ticker/letter-ticker.svelte'
   import { onMount } from 'svelte'

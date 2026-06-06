@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { slide, fade } from 'svelte/transition'
   import { AwardStore } from '../../domains/awards/AwardsStore'

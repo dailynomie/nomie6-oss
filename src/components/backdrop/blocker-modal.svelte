@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import ProgressBar from '../../components/progress-bar/progress-bar.svelte'
 

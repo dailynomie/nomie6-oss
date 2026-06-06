@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   // Originally from https://github.com/metonym/svelte-keydown/blob/master/component/Keydown.svelte
   /**

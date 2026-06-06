@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import dropRight from 'lodash/dropRight'
   // Inspirated by https://codepen.io/ethanryan/details/MryqXv

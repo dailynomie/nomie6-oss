@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import type { IPopMenuOptions } from '../../store/interact'
 

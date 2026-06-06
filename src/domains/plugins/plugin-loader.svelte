@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import dayjs from 'dayjs'
 
@@ -375,17 +377,18 @@
     }
   }
 
-  let autoLoadPlugin: Array<PluginClass> = []
-
-  $: if ($PluginStore) {
-    autoLoadPlugin = $PluginStore
-      .filter((p) => {
-        return p.active && !p.locked
-      })
-      .filter((p) => {
-        return p.uses.includes('onLaunch') || p.uses.includes('onNote')
-      })
-  }
+  let autoLoadPlugin: Array<PluginClass> = $derived.by(() => {
+    if ($PluginStore) {
+      return $PluginStore
+        .filter((p) => {
+          return p.active && !p.locked
+        })
+        .filter((p) => {
+          return p.uses.includes('onLaunch') || p.uses.includes('onNote')
+        })
+    }
+    return []
+  })
 
   let unsub: any
   onMount(() => {

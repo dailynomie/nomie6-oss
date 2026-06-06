@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import Tribute from 'tributejs/dist/tribute.esm'

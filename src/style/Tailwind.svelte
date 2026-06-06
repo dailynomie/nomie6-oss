@@ -1,1 +1,1 @@
-<div class="tailwind" />
+<div class="tailwind"></div>

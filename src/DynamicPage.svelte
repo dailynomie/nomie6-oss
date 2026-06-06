@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { onMount } from 'svelte'
   import Error404 from './routes/Error404.svelte'

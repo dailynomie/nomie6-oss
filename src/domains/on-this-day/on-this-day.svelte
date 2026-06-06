@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { LedgerStore } from '../ledger/LedgerStore'
   import dayjs from 'dayjs'

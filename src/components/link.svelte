@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { Link } from '../vendor/svelte-navigator'
   export let to = ''

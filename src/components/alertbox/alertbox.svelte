@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import Button from '../button/button.svelte'
   import Text from '../text/text.svelte'

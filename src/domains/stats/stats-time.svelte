@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import DayTimeGrid from '../../components/day-time-grid/day-time-grid.svelte'
 

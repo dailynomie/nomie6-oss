@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   export let emojis: Array<string> = []
   export let size: number = 42

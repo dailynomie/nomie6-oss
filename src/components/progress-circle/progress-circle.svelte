@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   // https://github.com/stephane-vanraes/svelte-progresscircle/edit/master/src/index.svelte
 

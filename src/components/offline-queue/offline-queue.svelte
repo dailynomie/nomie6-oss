@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { OfflineQueue } from '../../store/offline-queue-store'
   import Text from '../text/text.svelte'

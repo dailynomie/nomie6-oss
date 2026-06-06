@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { getEmojiFromScore } from '../../utils/positivity/positivity'
 

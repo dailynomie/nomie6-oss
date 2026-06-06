@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import KeyDown from '../../modules/keyDown/keyDown.svelte'

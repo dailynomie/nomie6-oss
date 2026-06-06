@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte'
   import Muuri from 'muuri'

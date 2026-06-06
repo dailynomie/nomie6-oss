@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { generateBackup } from '../../domains/backup/BackupStore'
   import SelectPop from '../../select-pop/select-pop.svelte'

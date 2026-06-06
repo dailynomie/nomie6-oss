@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import BulbSolid from './../../n-icons/BulbSolid.svelte'
 

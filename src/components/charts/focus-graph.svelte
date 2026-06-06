@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import type { IFocusResults } from '../../domains/focus/focus-utils'
   import math from '../../utils/math/math'

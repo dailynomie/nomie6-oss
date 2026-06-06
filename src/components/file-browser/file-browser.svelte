@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { onMount } from 'svelte'
   import { navigate } from '../../vendor/svelte-navigator'

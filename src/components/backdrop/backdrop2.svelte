@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { quadInOut } from 'svelte/easing'
   import { fade, fly } from 'svelte/transition'
@@ -6,25 +8,24 @@
   import ScrollStopper from './scroll-stopper.svelte'
 
   const zIndex: number = 5000
-  let focusedId: string;
-  let last = $BackdropStore2[$BackdropStore2.length - 1]
-  $: last = $BackdropStore2[$BackdropStore2.length - 1];
-
-
+  let focusedId: string = $state()
+  let last = $derived($BackdropStore2[$BackdropStore2.length - 1])
 
   // Monitor the Opening and closing of this modal
   // We do this because we use fly:out -
   // this keeps the component alive, so we need
   // to manually $destroy it.
-  let modalComponent: any;
-  $: if(last && focusedId !== last.id) {
-    focusedId = last.id;
-  } else if(!last && focusedId) {
-    try {
-      // Svelte 5: $destroy() no longer exists, handled by lifecycle
-      // modalComponent.$destroy();
-    } catch(e) {}
-  }
+  let modalComponent: any = $state();
+  $effect(() => {
+    if(last && focusedId !== last.id) {
+      focusedId = last.id;
+    } else if(!last && focusedId) {
+      try {
+        // Svelte 5: $destroy() no longer exists, handled by lifecycle
+        // modalComponent.$destroy();
+      } catch(e) {}
+    }
+  })
   
 </script>
 

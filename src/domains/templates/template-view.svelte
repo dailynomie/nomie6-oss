@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import { Prefs } from './../preferences/Preferences'
   import Title from './../../components/title/title.svelte'

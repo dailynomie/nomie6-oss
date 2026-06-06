@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
