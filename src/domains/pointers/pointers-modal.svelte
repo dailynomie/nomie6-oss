@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, untrack } from 'svelte'
   import PointerBoard from './pointer-board.svelte'
 
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
@@ -42,7 +42,9 @@
 
   $effect(() => {
     if ($AllTrackablesAsArray) {
-      updatePointers()
+      untrack(() => {
+        updatePointers()
+      })
     }
   })
 
