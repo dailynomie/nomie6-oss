@@ -5,10 +5,8 @@
 
   import Avatar from './avatar.svelte'
 
-  export let trackable: Trackable
-  export let className: string = ''
-  export let style: string = ''
-  export let size: number = 32
+
+  const { trackable, className, style, size } = $props()
 </script>
 
 {#if trackable}

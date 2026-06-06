@@ -14,9 +14,6 @@
 
   import Calendar3 from './calendar3.svelte'
 
-  export let trackable: Trackable
-  export let date: Date = new Date()
-
   const dispatch = createEventDispatcher()
 
   let loading = true
@@ -49,6 +46,8 @@
   onMount(() => {
     loadData()
   })
+
+  const { trackable, date } = $props()
 </script>
 
 {#if tu}

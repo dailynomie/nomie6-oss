@@ -3,8 +3,9 @@
 <script lang="ts">
   export let className = ''
   export let style = ''
-  export let insetLeft: boolean = false
-  export let insetRight: boolean = false
+
+
+  const { className, style, insetLeft, insetRight } = $props()
 </script>
 
 <style>

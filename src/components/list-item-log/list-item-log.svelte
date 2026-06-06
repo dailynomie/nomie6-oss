@@ -27,7 +27,7 @@
   // props
   export let log = undefined
   // export let trackers = {};
-  export let fullDate: boolean = false
+
   export let hideTrackables = false
   export let className = ''
 
@@ -108,6 +108,8 @@
   }
 
   let dateFormats = getDateFormats()
+
+  const { log, fullDate, hideTrackables, className } = $props()
 </script>
 
 {#if displayLog}

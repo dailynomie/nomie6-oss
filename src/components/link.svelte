@@ -12,6 +12,8 @@
     }
     return {}
   }
+
+  const { to } = $props()
 </script>
 
 <Link class="n-link" {to} {getProps}>

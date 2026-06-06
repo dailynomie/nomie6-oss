@@ -20,9 +20,6 @@
   let loading: boolean = true
   let content: string
 
-  export let id: string
-  export let props: MarkdownModalStoreProps
-
   const getContent = async () => {
     loading = true
     const call = await fetch(props.path)
@@ -38,6 +35,8 @@
   const close = () => {
     closeModal(id)
   }
+
+  const { id, props } = $props()
 </script>
 
 <BackdropModal className="min-h-75vh">

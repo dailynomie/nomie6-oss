@@ -14,8 +14,6 @@
   export let style = ''
   export let className = ''
   export let itemClass = ''
-  export let list: Array<any> = []
-  export let showHeaderContent: boolean = true
 
   let ready = false
   let textList
@@ -33,6 +31,8 @@
   onMount(() => {
     ready = true
   })
+
+  const { style, className, itemClass, list, showHeaderContent } = $props()
 </script>
 
 <div class="n-picker-list edit-mode {className}" {style}>

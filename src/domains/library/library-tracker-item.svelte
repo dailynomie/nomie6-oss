@@ -13,9 +13,10 @@
 
   import type { LibraryTrackerType } from './library-manager/LibraryManagerStore'
 
-  export let libraryTracker: LibraryTrackerType
   let expand: boolean = false
   const dispatch = createEventDispatcher()
+
+  const { libraryTracker } = $props()
 </script>
 
 <ListItem

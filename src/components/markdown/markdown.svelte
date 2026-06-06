@@ -5,8 +5,6 @@
 
   import SvelteMarkdown from 'svelte-markdown'
 
-  export let content: string
-
   let wrapperEle: HTMLElement
 
   onMount(() => {
@@ -15,6 +13,8 @@
       item.setAttribute('target', '_blank')
     })
   })
+
+  const { content } = $props()
 </script>
 
 <div bind:this={wrapperEle} {...$$restProps} class="markdown {$$restProps['class']}">

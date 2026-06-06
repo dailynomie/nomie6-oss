@@ -14,18 +14,11 @@
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
 import Divider from '../divider/divider.svelte'
 
-  export let x: 'right' | 'left' = 'left'
-  export let y: 'top' | 'bottom' = 'top'
-  export let buttonClass: string = undefined
-  export let buttonStyle: string = ""
-  export let id: string
-  export let title: string = ""
-  export let compact: boolean = false;
-
-  export let menuButtons: Array<PopMenuButton> = []
   let accessorySize: number = compact ? 18 : 24;
   let open: boolean = false;
   let activeIndex: number = -1;
+
+  const { x, y, buttonClass, buttonStyle, id, title, compact, menuButtons } = $props()
 </script>
 
 <div {id} class="id-{id} {compact ? 'compact' : ''} relative menu-inline">

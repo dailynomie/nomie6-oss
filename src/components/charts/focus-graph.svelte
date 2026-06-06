@@ -4,8 +4,6 @@
   import type { IFocusResults } from '../../domains/focus/focus-utils'
   import math from '../../utils/math/math'
 
-  export let scores: Array<IFocusResults> = []
-
   let internalScores: Array<IFocusResults> = []
   $: if (scores) {
     const percentages = math.percentile(scores.map((s) => s.score))
@@ -16,6 +14,8 @@
       }
     })
   }
+
+  const { scores } = $props()
 </script>
 
 <div class="focus-graph">

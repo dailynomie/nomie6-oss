@@ -11,6 +11,8 @@
   export let className = ''
   export let style = ''
   export let radius = 0
+
+  const { avatar, emoji, username, size, color, className, style, radius } = $props()
 </script>
 
 <div

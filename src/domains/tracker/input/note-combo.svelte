@@ -26,7 +26,6 @@
   import Title from '../../../components/title/title.svelte'
 
   export let value = '5'
-  export let tracker: TrackerClass = undefined
 
   let tempValue
   $: tempValue = value
@@ -88,6 +87,8 @@
   }
 
   onMount(main)
+
+  const { value, tracker } = $props()
 </script>
 
 <div class="h-full tracker-input-combo">

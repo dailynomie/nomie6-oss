@@ -11,6 +11,8 @@
   const dispatch = createEventDispatcher()
 
   $: searchResults = emojiData.filter((emoji) => emoji.n.indexOf((searchText || '').toLowerCase()) >= 0)
+
+  const { searchText } = $props()
 </script>
 
 <div class="">

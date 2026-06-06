@@ -12,11 +12,8 @@
 
   
   // Props
-  export let note: string = ''
+
   export let trackers = {}
-  export let className: string | undefined = undefined
-  export let tokenClass: undefined | string = undefined
-  
 
   const dispatch = createEventDispatcher()
 
@@ -66,6 +63,8 @@
 
   $: state.words = methods.note_to_array(note)
   
+
+  const { note, trackers, className, tokenClass } = $props()
 </script>
 
 {#if actual}
@@ -148,7 +147,6 @@
 {/if}
 
 <style lang="postcss" global> 
-
 
   .n-note-textualized input[type=checkbox] {
     @apply cursor-pointer;

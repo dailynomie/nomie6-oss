@@ -5,9 +5,10 @@
 
   export let className = ''
   export let style = ''
-  export let isActive: boolean = false
-  export let index: number
+
   const dispatch = createEventDispatcher()
+
+  const { className, style, isActive, index } = $props()
 </script>
 
 <button

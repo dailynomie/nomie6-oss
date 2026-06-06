@@ -18,18 +18,18 @@
     click?: Function
   }
 
-  export let buttons: Array<ButtonGroupButtonType> = []
   export let size = 'sm'
   export let labelClass = ''
   export let inverse = false
-  export let compact: boolean = false
+
   export let className = ''
   export let style = ''
   export let id = ''
   export let scrollable = false
-  export let value: any = undefined
 
   const dispatch = createEventDispatcher()
+
+  const { buttons, size, labelClass, inverse, compact, className, style, id, scrollable, value } = $props()
 </script>
 
 <div

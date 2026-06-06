@@ -10,21 +10,6 @@
 
   import { MoreVertical } from '../icon/nicons'
 
-  export let title: string | undefined = undefined
-  export let subtitle: string | undefined = undefined
-  export let value: any = undefined
-  export let color: string | number | undefined = undefined
-  export let emoji: string | undefined = undefined
-  export let avatar: string | undefined = undefined
-  export let style: string = ''
-  export let id: string | undefined = undefined
-
-  export let hideMore: boolean = false
-  export let hideValue: boolean = false
-  export let className: string = ''
-  export let compact: boolean = false
-  export let moreIcon: any = MoreVertical
-  export let oneTap: boolean = false
   export let hoursUsed = []
 
   let clickSkip
@@ -36,6 +21,8 @@
   async function more() {
     dispatch('more')
   }
+
+  const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon, oneTap, hoursUsed } = $props()
 </script>
 
 <div class="button-wrapper relative w-full flex-grow flex-shrink  {compact ? 'compact' : 'normal'}">

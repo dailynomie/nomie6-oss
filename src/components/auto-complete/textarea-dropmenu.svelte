@@ -4,8 +4,6 @@
   import { onDestroy, onMount } from 'svelte'
 
   import getCaretCoordinates from 'textarea-caret'
-  export let textareaId: string
-  export let className: string = ''
 
   let listener: any = undefined
 
@@ -34,6 +32,8 @@
   onDestroy(() => {
     ele.removeEventListener('input', onInput)
   })
+
+  const { textareaId, className } = $props()
 </script>
 
 {#if left > 0}

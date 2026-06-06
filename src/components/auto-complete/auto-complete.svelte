@@ -136,6 +136,8 @@
   $: if (!input) {
     state.results = undefined
   }
+
+  const { input, scroller, className, style } = $props()
 </script>
 
 {#if state.results && state.results.length}

@@ -56,9 +56,6 @@
   let tracker: TrackerClass | undefined = undefined
   let manual: boolean = false
 
-  export let id: string
-  export let payload: TrackerInputProps
-
   $: {
     nextLabel = payload?.nextLabel
   }
@@ -159,6 +156,8 @@
   }
 
   initialize();
+
+  const { value, saveLabel, nextLabel, id, payload } = $props()
 </script>
 
 <BackdropModal className="tracker-input-modal">

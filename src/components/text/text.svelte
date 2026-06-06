@@ -23,6 +23,8 @@
   export let leading3 = false;
 
   const dispatch = createEventDispatcher();
+
+  const { size, bold, center, className, color, faded, inline, lineHeightMd, medium, style, tag, truncate, truncate2, truncate3, underline, leading1, leading2, leading3 } = $props()
 </script>
 
 <style lang="postcss">

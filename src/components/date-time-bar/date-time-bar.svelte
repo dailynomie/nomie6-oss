@@ -17,12 +17,6 @@
 
   const dispatch = createEventDispatcher()
 
-  export let date: any = new Date().getTime() // prop
-  export let opened: boolean = false
-  export let style: string = ''
-  export let calendarClass: string = ''
-  export let calendarPosition: 'top' | 'bottom' = 'bottom'
-
   let lastDate
   let _date: Dayjs // local
   let _opened: boolean = opened
@@ -68,6 +62,8 @@
     dispatch('change', _date)
   }
   onMount(init)
+
+  const { date, opened, style, calendarClass, calendarPosition } = $props()
 </script>
 
 {#if _date}

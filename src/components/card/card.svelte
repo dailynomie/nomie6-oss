@@ -11,6 +11,8 @@
   export let compact = false
   export let shadow = true
   export let bodyClass = ''
+
+  const { className, style, title, pad, compact, shadow, bodyClass } = $props()
 </script>
 
 <div class="n-card {className} {pad ? 'p-3' : ''} {compact ? 'comapct' : ''} {!shadow ? 'box-shadow-off' : ''}" {style}>

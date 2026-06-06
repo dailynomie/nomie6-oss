@@ -4,11 +4,8 @@
   import { Link } from '../../vendor/svelte-navigator'
   import Button from '../button/button.svelte'
 
-  export let label: string
-  export let id: string
-  export let link: string
-  export let className: string = ''
-  export let notify: any = false
+
+  const { label, id, link, className, notify } = $props()
 </script>
 
 <Button className="tab-wrap tab-{id} {className}" ariaLabel={label}>

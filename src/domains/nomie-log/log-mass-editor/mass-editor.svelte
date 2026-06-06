@@ -206,6 +206,8 @@
       }
     },
   }
+
+  const { show } = $props()
 </script>
 
 {#if show}

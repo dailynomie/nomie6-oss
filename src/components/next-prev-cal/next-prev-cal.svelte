@@ -13,6 +13,8 @@
   export let className = ''
 
   const dispatch = createEventDispatcher()
+
+  const { isToday, hideCal, style, className } = $props()
 </script>
 
 <div class="flex items-center flex-grow-0 flex-shrink-0 next-prev-cal {className}" {style}>

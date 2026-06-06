@@ -34,8 +34,6 @@
   export let size = 'md'
   export let className = ''
   export let style = ''
-  export let height: any = undefined
-  export let width: any = undefined
 
   let firstDayOfWeek: 'sunday' | 'monday' = 'sunday'
 
@@ -51,7 +49,6 @@
   export let showDetails = true
   export let tracker = null
   export const color: string = appConfig.primary_color
-  export let compact: boolean = false
 
   // Data
   export let state = {
@@ -255,6 +252,8 @@
       }
     },
   }
+
+  const { initialDate, size, className, style, height, width, events, offDays, showHeader, showControls, showCalControl, showDetails, tracker, compact, state } = $props()
 </script>
 
 {#if state.date && mounted}

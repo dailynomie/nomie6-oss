@@ -11,7 +11,6 @@
   export let str = undefined
   export let titleClass = ''
   export let className = ''
-  export let selected: boolean = false
 
   let tokenized: Array<Token> = []
   let label = ''
@@ -46,6 +45,8 @@
       trackable = strToTrackable(meta, $TrackableStore.trackables)
     }
   }
+
+  const { str, titleClass, className, selected } = $props()
 </script>
 
 <div class="n-label-meta space-x-2 flex items-center {selected ? 'selected' : ''} {className} h-8">

@@ -8,18 +8,10 @@
 
   const dispatch = createEventDispatcher()
 
-  export let items: Array<any> = []
-  export let sortable: boolean = true
-  export let direction: 'x' | 'y' | 'xy' = 'xy'
   // export let gap = 0
   // export let itemWidth = '120px'
   export let className = ''
   export let containerClass = ''
-  export let handleClass: undefined | string = undefined
-  export let key: string
-  export let id: string = `sl2-${nid()}`
-
-  export let enabled: boolean = true
 
   // const console = new Logger('↕️ NSortable');
   let cleanItems: Array<any> = []
@@ -190,6 +182,8 @@
   onMount(() => {
     main()
   })
+
+  const { items, sortable, direction, className, containerClass, handleClass, key, id, enabled } = $props()
 </script>
 
 <div {id} class="sortable-list2 {containerClass} h-full w-full" bind:this={gridEle}>

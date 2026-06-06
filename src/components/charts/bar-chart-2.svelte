@@ -16,20 +16,12 @@
   export let labels = []
   export let height = 200
 
-  export let id: string
-
   export let title = ''
   export let color = '#4d84a1'
-  export let points: any
+
   export let activeIndex = 2
-  export let xFormat: Function = (x) => x
-  export let yFormat: Function = (y) => y
-  export let hideYTicks: boolean = false
-  export let hideXTicks: boolean = false
-  export let type: string = 'bar'
+
   // export let beginAtZero: boolean = true;
-  export let showSelected: boolean = true
-  export let ignoreZero: boolean = false
 
   // Generate a random ID for this Component
   const chartId = `chart-${nid()}`
@@ -176,6 +168,8 @@
       // showChart = true
     }
   })
+
+  const { labels, height, id, title, color, points, activeIndex, xFormat, yFormat, hideYTicks, hideXTicks, type, showSelected, ignoreZero, selected } = $props()
 </script>
 
 <div class="wrapper active-{activeIndex}" style="--chart-color:{color}">

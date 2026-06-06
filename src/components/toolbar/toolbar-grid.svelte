@@ -5,7 +5,9 @@
   export let style = ''
   import './toolbar.css'
   export let mainClass = ''
-  export let shadow:boolean = false;
+
+
+  const { className, style, mainClass, shadow } = $props()
 </script>
 
 <div  class="n-toolbar-grid {shadow ? 'shadow' : ''} {className}" {style}>

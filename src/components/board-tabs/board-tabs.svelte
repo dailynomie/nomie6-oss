@@ -17,12 +17,6 @@
   import { showToast } from '../toast/ToastStore'
   import { Prefs } from '../../domains/preferences/Preferences'
 
-  export let boards: Array<UniboardType> = []
-
-  export let className: string = ''
-
-  export let editMode: boolean = false
-
   const dispatch = createEventDispatcher()
 
   const state = {
@@ -67,6 +61,8 @@
       showToast({ message: 'Deleted' })
     }
   }
+
+  const { boards, className, editMode } = $props()
 </script>
 
 {#if $CombinedBoards && $CombinedBoards.length === 1}

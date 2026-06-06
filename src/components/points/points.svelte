@@ -5,6 +5,8 @@
   export let className = undefined
   $: dir = points > 0 ? '+' : points < 0 ? '' : ''
   $: positiveClass = points > 0 ? 'positive' : points < 0 ? 'negative' : 'neutral'
+
+  const { points, className } = $props()
 </script>
 
 {#if points !== 0}

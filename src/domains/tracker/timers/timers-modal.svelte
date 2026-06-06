@@ -19,13 +19,13 @@
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
 
-  export let id: string
-
   $: trackables = $RunningTimers.map((tracker: TrackerClass) => tracker.toTrackable())
 
   const close = () => {
     closeModal(id)
   }
+
+  const { id } = $props()
 </script>
 
 <BackdropModal className="h-full bg-gray-100 dark:bg-gray-900">

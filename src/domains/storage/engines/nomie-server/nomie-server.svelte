@@ -9,8 +9,6 @@
   import { wait } from '../../../../utils/tick/tick'
   import { Interact } from '../../../../store/interact'
 
-  export let onConnected: (() => void) | undefined = undefined
-
   let server: any = {
     url: null,
     token: null,
@@ -84,6 +82,8 @@
     if (token.length <= 8) return token
     return token.substring(0, 4) + '•••••••' + token.substring(token.length - 4)
   }
+
+  const { onConnected } = $props()
 </script>
 
 <!-- <div class="p-4 md:p-6 text-center">

@@ -12,8 +12,6 @@
   import CloseCircleOutline from '../../n-icons/CloseCircleOutline.svelte'
   import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte'
 
-  export let toast: ToastType
-
   let timer: number = 0
   let clearInterval: any
   let percentage: number = 0
@@ -40,6 +38,8 @@
       clearInterval()
     } catch (e) {}
   })
+
+  const { toast } = $props()
 </script>
 
 {#if toast}

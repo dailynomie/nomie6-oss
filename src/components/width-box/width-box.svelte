@@ -5,12 +5,7 @@
   import { getElementPosition } from '../../modules/html-elements/position'
   import { Device } from '../../store/device-store'
 
-  export let className: string = ''
-  export let style: string = ''
-
   let box: HTMLElement
-  export let width: number = 0
-  export let height: number = 0
 
   const dispatch = createEventDispatcher()
 
@@ -31,6 +26,8 @@
   onMount(() => {
     refresh()
   })
+
+  const { className, style, width, height } = $props()
 </script>
 
 <div bind:this={box} class="width-box {className}" {style}><slot {width} {height} /></div>

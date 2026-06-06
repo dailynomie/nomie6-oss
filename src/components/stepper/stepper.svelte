@@ -19,6 +19,8 @@
       }
     }
   }
+
+  const { steps, current, dark, stepClass, single, style } = $props()
 </script>
 
 <div class="n-stepper {dark ? 'dark' : 'light'}" {style}>

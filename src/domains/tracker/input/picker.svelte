@@ -13,8 +13,6 @@
 
   const dispatch = createEventDispatcher()
 
-  export let tracker: TrackerClass
-
   let selected = []
   let mode: 'view' | 'edit' = 'view'
 
@@ -44,6 +42,8 @@
   //     mode = 'edit'
   //   }
   // }
+
+  const { tracker } = $props()
 </script>
 
 <div class="picker-input-wrapper filler overflow-y-auto max-h-full min-h-0">

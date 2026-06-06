@@ -8,9 +8,6 @@
   import { closeModal } from '../backdrop/BackdropStore2'
 import Markdown from '../markdown/markdown.svelte'
 
-  export let payload: AlertType
-  export let id: string
-
   let hasSlot = false
 
   let showBase = false
@@ -31,6 +28,8 @@ import Markdown from '../markdown/markdown.svelte'
       }
     },
   }
+
+  const { payload, id } = $props()
 </script>
 
 <KeyDown
@@ -62,7 +61,6 @@ import Markdown from '../markdown/markdown.svelte'
   {/if}
   <slot />
   </div>
-
 
   <div class="footer">
     <button

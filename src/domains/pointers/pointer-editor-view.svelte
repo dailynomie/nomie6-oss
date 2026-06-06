@@ -7,7 +7,8 @@
   import List from '../../components/list/list.svelte'
   import type { PointerClass } from './pointer-class'
 
-  export let pointer: PointerClass
+
+  const { pointer } = $props()
 </script>
 
 <List outside solo title="Pointer Settings" className="context-editor">

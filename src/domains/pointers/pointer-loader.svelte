@@ -5,11 +5,13 @@ import { onMount } from 'svelte'
 import { AllTrackablesAsArray } from '../trackable/TrackableStore'
 import { openPointersModal } from '../pointers/pointer-store'
 
-let pointers: string | any[] = []
-let reminderCheckPeriod = 1000 * 5 * 2 
-let modalview = false
-let overdues = false
-let interval;
+let pointers: string | any[] = $state([])
+let reminderCheckPeriod = $state(1000 * 5 * 2)
+let modalview = $state(false)
+let overdues = $state(false)
+let interval: any = $state()
+
+let toast = $derived(overdues)
 
 const checkReminders = () => {
     if (!modalview) {
@@ -21,11 +23,13 @@ const checkReminders = () => {
     }
 }
 
-  $: if($AllTrackablesAsArray) {
-    const trackables = $AllTrackablesAsArray
-    pointers =  trackables.filter((trackable) => {
-    return trackable.type == 'pointer';});
-  }
+  $effect(() => {
+    if($AllTrackablesAsArray) {
+      const trackables = $AllTrackablesAsArray
+      pointers =  trackables.filter((trackable) => {
+      return trackable.type == 'pointer';});
+    }
+  })
 
   onMount(async () => {
     const trackables = $AllTrackablesAsArray
@@ -56,12 +60,8 @@ interval = setInterval(async () => {
 
   function close() {
     overdues = false;
-    toast = false;
     delaymessage()
-
   }
-
-  $: toast = overdues;
 
 </script>
 

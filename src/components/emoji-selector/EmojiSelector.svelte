@@ -96,6 +96,8 @@
 
   let selectedIndex = 1
   let selectedCategory = 'People'
+
+  const { maxRecents, autoClose } = $props()
 </script>
 
 <svelte:body on:keydown={onKeyDown} />

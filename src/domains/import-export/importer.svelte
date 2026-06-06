@@ -27,9 +27,6 @@
   import { importStorage } from '../storage/import-export'
   import DownloadOutline from '../../n-icons/DownloadOutline.svelte'
 
-  export let id: string
-  export let fileData: any = undefined
-
   // let fileInput // holder of dom element self
 
   let version = undefined // version we're dealing with
@@ -279,6 +276,8 @@
       closeModal(id)
     }
   }
+
+  const { id, fileData } = $props()
 </script>
 
 <BackdropModal>

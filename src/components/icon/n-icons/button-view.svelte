@@ -9,6 +9,8 @@
   if (size !== "100%") {
     size = size.slice(-1) === "x" ? size.slice(0, size.length - 1) + "em" : parseInt(size) + "px";
   }
+
+  const { size } = $props()
 </script>
 
 <svg

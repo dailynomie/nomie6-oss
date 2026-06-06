@@ -11,7 +11,7 @@
   export let id = undefined
   export let size = 'md'
   export let type = ''
-  export let shape: 'round' | 'rounded' = 'rounded'
+
   export let color = ''
   export let className = ''
   export let mainClass = ''
@@ -52,6 +52,8 @@
       dispatch('click', evt)
     }
   }
+
+  const { id, size, type, shape, color, className, mainClass, block, style, disabled, delay, icon, title, ariaLabel, prevent, inline, text, confirm, role, autofocus, primary, clear } = $props()
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->

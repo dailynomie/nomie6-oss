@@ -10,13 +10,6 @@
   import { parseNumber } from '../../utils/parseNumber/parseNumber'
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
-  export let date: Date = new Date()
-  export let weekStarts: 'monday' | 'sunday' = 'sunday'
-  export let trackableUsage: TrackableUsage | undefined = undefined
-  export let size: 'sm' | 'base' = 'base'
-  export let loading: boolean
-  export let hidePrevNext: boolean = false;
-
   let now = dayjs().format('YYYY-MM-DD')
 
   const dispatch = createEventDispatcher()
@@ -70,6 +63,8 @@
   const dayClicked = (d: Dayjs) => {
     dispatch('input', d.toDate())
   }
+
+  const { date, weekStarts, trackableUsage, size, loading, hidePrevNext } = $props()
 </script>
 
 {#key trackableUsage}

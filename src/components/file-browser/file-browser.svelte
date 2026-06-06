@@ -271,6 +271,8 @@
     }
     return path.replace('//', '/')
   }
+
+  const { path } = $props()
 </script>
 
 {#if !state.file}

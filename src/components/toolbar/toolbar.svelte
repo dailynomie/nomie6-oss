@@ -4,6 +4,8 @@
   export let pinTop = undefined
   export let className = ''
   export let style = ''
+
+  const { pinTop, className, style } = $props()
 </script>
 
 <div class="n-toolbar {pinTop ? 'pin-top' : ''} {className}" {style}>

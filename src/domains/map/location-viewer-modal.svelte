@@ -12,10 +12,6 @@
   import type NLog from '../nomie-log/nomie-log'
 import Title from '../../components/title/title.svelte';
 
-  export let id: string
-  export let locations: Array<GeoType>
-  export let logs: Array<NLog>
-
   // export let show = false
 
   // let locations: Array<GeoType> = []
@@ -27,6 +23,8 @@ import Title from '../../components/title/title.svelte';
   const close = () => {
     closeModal(id)
   }
+
+  const { id, locations, logs } = $props()
 </script>
 
 <BackdropModal>

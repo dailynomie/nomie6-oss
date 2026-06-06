@@ -47,10 +47,6 @@ import Divider from '../../../components/divider/divider.svelte'
   let listMode = 'list'
   let expandFields = false
 
-  export let id: string = 'csv-import'
-
-  export let fileUpload:
-    | undefined
     | {
         data: string
         file: File
@@ -314,6 +310,8 @@ import Divider from '../../../components/divider/divider.svelte'
     await CsvTemplateStore.init()
   }
   onMount(main)
+
+  const { id, fileUpload } = $props()
 </script>
 
 <BackdropModal className="import" showCapture={false}>
@@ -335,7 +333,6 @@ import Divider from '../../../components/divider/divider.svelte'
       {/if}
     </div>
   </ToolbarGrid>
-
 
   <main class="page page-csv-import flex-column">
     {#if activeImporter && activeImporter.name}

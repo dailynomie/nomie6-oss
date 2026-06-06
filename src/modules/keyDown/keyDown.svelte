@@ -17,6 +17,8 @@
   $: combination = combo.join('-')
   $: comboByKey = combo.reduce((keys, key) => ({ ...keys, [key]: true }), {})
   $: if (combo.length > 0) dispatch('combo', combination)
+
+  const { paused, pauseOnInput } = $props()
 </script>
 
 <svelte:body

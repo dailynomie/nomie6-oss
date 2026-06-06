@@ -17,13 +17,14 @@
   export let size = 'md'
   export let transparent = false
   export let id = undefined
-  export let showClose: boolean = false
 
   async function onChange(sc) {
     score = sc
     await tick(200)
     dispatch('change', score)
   }
+
+  const { score, className, style, size, transparent, id, showClose } = $props()
 </script>
 
 <div

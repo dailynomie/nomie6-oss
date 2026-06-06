@@ -38,6 +38,8 @@
   $: if (logs) {
     internalLogs = sort(logs)
   }
+
+  const { logs, compact, style, className, fullDate, showTimeDiff } = $props()
 </script>
 
 {#if loading}

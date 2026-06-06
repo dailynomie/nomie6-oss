@@ -10,14 +10,6 @@
   import ScrollStopper from './scroll-stopper.svelte'
   // import { pan } from "svelte-hammer";
 
-  export let visible: boolean = true
-  export let stopPropagation: boolean = true
-  export let tappable: boolean = true
-  export let opacity: number = 0.75
-  export let className: string = ''
-  export let position: 'center' | 'bottom' | 'top' | 'bottom-center' = 'center'
-  export let id: string
-
   const dispatch = createEventDispatcher()
 
   let activeId: string
@@ -69,6 +61,8 @@
     scale = (98 - (indexLevel + 2)) / 100
     translateY = -20 / scale
   }
+
+  const { visible, stopPropagation, tappable, opacity, className, position, id } = $props()
 </script>
 
 {#if activeId}

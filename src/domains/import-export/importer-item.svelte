@@ -12,10 +12,12 @@
 
   export let emoji = '🙃'
   export let title = 'Unknown'
-  export let status
+
   export let count = '0'
 
   const dispatch = createEventDispatcher()
+
+  const { emoji, title, status, count } = $props()
 </script>
 
 <ListItem bottomLine={48}>

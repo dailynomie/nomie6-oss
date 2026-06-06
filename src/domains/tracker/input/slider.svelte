@@ -9,7 +9,7 @@
   export let min = '0'
   export let max = '10'
   export let value = '5'
-  export let tracker: any = undefined
+
   export let step = tracker ? tracker.step : '1'
 
   let tempValue
@@ -25,6 +25,8 @@
   }
 
   onMount(main)
+
+  const { min, max, value, tracker, step } = $props()
 </script>
 
 <div class="tracker-input-slider relative">

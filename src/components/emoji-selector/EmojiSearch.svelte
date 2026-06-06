@@ -25,6 +25,8 @@
       event.stopPropagation()
     }
   }
+
+  const { searchText } = $props()
 </script>
 
 <div class="svelte-emoji-picker__search">

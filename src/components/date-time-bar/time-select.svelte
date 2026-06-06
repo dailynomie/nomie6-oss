@@ -67,6 +67,8 @@
     const updatedDate = ogDate.set('hour', newHour).set('minute', minute).set('day', ogDay)
     dispatch('change', updatedDate)
   }
+
+  const { value, className, style } = $props()
 </script>
 
 {#if value}

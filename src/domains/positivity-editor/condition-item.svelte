@@ -14,9 +14,6 @@
   import type { Trackable } from '../trackable/Trackable.class'
   import { TrackableStore } from '../trackable/TrackableStore'
   import { getTrackableInputValue } from '../tracker/input/TrackerInputStore'
-  export let condition: ICondition
-  export let index: number
-  export let trackable: Trackable
 
   let workingCondition: ICondition
   const dispatch = createEventDispatcher()
@@ -75,6 +72,8 @@
     }
     return hours
   }
+
+  const { condition, index, trackable } = $props()
 </script>
 
 <div class="w-full py-2 flex flex-col items-center text-black dark:text-white">

@@ -26,12 +26,7 @@
 
 import RelatedView from './related-view.svelte'
 
-
-
-  export let id: string
-
   let trackable: Trackable
-
 
   $: if ($RelatedStore) {
     trackable = $RelatedStore.trackable
@@ -41,6 +36,8 @@ import RelatedView from './related-view.svelte'
     const close = () => {
     closeModal(id)
   }
+
+  const { id } = $props()
 </script>
 
 <BackdropModal>

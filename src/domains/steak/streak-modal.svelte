@@ -34,12 +34,6 @@ import { wait } from '../../utils/tick/tick';
   import { UsageStore } from '../usage/UsageStore'
 import { streakSummary, type StreakSummaryResults } from './streak-helper';
 
-  
-
-  export let trackable: Trackable
-  export let date: Date
-  export let id: string
-
   let usage: TrackableUsage
   let endDate: Dayjs
   let startDate: Dayjs
@@ -132,6 +126,8 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
     streak = streakSummary(knownDates)
     
   }
+
+  const { trackable, date, id } = $props()
 </script>
 
 <BackdropModal headerClass="glass mb-2" mainClass="bg-white filler dark:bg-black">

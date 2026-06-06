@@ -25,9 +25,6 @@
 
   export const className = ''
 
-  export let id: string
-  export let term: string
-
   let searchTerm: string
 
   function back() {
@@ -61,6 +58,8 @@
       SearchStore.setActiveTerm(new SearchTerm({ term, type: 'history' }))
     }
   }
+
+  const { id, term } = $props()
 </script>
 
 <BackdropModal className="h-full" headerClass="glass">

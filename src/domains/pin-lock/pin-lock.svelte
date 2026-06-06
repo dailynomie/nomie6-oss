@@ -18,10 +18,6 @@
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
 
   let _pin = ''
-  export let id: string
-  export let onPin: Function
-  export let title: string = 'Enter a Pin'
-  export let canClose: boolean = false
 
   onMount(() => {
     _pin = ''
@@ -48,6 +44,8 @@
       closeModal(id)
     },
   }
+
+  const { id, onPin, title, canClose } = $props()
 </script>
 
 <BackdropModal>

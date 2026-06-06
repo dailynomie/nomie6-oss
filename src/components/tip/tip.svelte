@@ -48,6 +48,8 @@
       state.activeTip--
     }
   }
+
+  const { className } = $props()
 </script>
 
 {#if show}

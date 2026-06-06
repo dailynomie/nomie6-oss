@@ -5,6 +5,8 @@
 	import { createCounter, createMarkerProps } from "./utils";
 
 	const createId = createCounter();
+
+  const { path, component, meta, primary } = $props()
 </script>
 
 <script>

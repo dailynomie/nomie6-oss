@@ -55,6 +55,8 @@
       return ms / 1000
     },
   }
+
+  const { started, initialDuration, lg, className, color, filled } = $props()
 </script>
 
 <div

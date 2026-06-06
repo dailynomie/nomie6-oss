@@ -27,8 +27,6 @@
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
 
-  export let id: string
-
   const state = {
     notes: [],
     trackers: [],
@@ -100,6 +98,8 @@
   onMount(() => {
     mounted()
   })
+
+  const { id } = $props()
 </script>
 
 <BackdropModal>

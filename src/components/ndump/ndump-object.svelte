@@ -3,8 +3,6 @@
 <script lang="ts">
   import dayjs from 'dayjs'
 
-  export let variable: Object
-
   let type: string = 'string'
   $: if (variable) {
     if (variable instanceof Array) {
@@ -18,6 +16,8 @@
       type = typeof variable
     }
   }
+
+  const { variable } = $props()
 </script>
 
 <div class="nd-object my-px text-xs  bg-gray-500 bg-opacity-20 border-gray-400 py-1 px-2 rounded-md {type}">

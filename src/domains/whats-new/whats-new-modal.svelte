@@ -13,14 +13,14 @@
   import { Lang } from '../../store/lang'
   import List from '../../components/list/list.svelte'
 
-  export let id: string
-
   let showFixes = false
   let showUpdates = false
 
   let newfeatures = whatsNew.features.filter(feature => feature.version == whatsNew.version);
   let newfixes = whatsNew.fixes.filter(fix => fix.version == whatsNew.version);
   
+
+  const { id } = $props()
 </script>
 
 <BackdropModal>

@@ -11,18 +11,10 @@
 
   const dispatch = createEventDispatcher()
   // Props
-  export let padding: boolean = false
+
   export let title = 'Modal'
-  export let allowClose: boolean | undefined = undefined
-  export let fullscreen: boolean = false
+
   export let flexBody = undefined
-  export let show: boolean = true // Defaulted to true so it can be controlled by a parent component
-  export let className: string = ''
-  export let type: string = 'normal' // cover, fullscreen, bottom, bottom-slide-up
-  export let bodyClass: string = ''
-  export let closeOnBackgroundTap: boolean = false
-  export let ariaLabel: string = 'modal'
-  export let level: number = undefined
 
   const has_header = !!$$slots.header
   const has_raw_header = !!$$slots['raw-header']
@@ -57,6 +49,8 @@
   onDestroy(() => {
     // document.body.classList.remove("no-scroll");
   })
+
+  const { padding, title, allowClose, fullscreen, flexBody, show, className, type, bodyClass, closeOnBackgroundTap, ariaLabel, level } = $props()
 </script>
 
 <div

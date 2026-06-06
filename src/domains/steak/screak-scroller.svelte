@@ -33,10 +33,6 @@
   let unsubLastUsedStore: Function
   let lastUsedState: LastUsedStoreState
 
-  export let endDate: Date = new Date()
-  export let trackable: undefined | Trackable = undefined
-  export let loading: boolean = true
-
   let trackableUsage: TrackableUsage
 
   let trackableMaxUsed: number = 10
@@ -117,6 +113,8 @@
       }
     }])
   }
+
+  const { endDate, trackable, loading } = $props()
 </script>
 
 <div class="streak-2 bg-white dark:bg-black py-1">

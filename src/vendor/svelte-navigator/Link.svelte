@@ -19,7 +19,6 @@
 	import { LINK_ID } from "./warning";
 	import { parsePath, stringifyPath } from "./routes";
 
-	export let to;
 	export let replace = false;
 	export let state = {};
 	export let getProps = null;
@@ -63,6 +62,8 @@
 			navigate(href, { state, replace: shouldReplace });
 		}
 	}
+
+  const { to, replace, state, getProps } = $props()
 </script>
 
 <a {href} {...ariaCurrent} on:click={onClick} {...props}>

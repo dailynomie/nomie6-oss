@@ -11,9 +11,9 @@
   import { tokenToTrackable } from '../../modules/tokenizer/tokenToTrackable'
   import { TrackableStore } from '../trackable/TrackableStore'
 
-  export let term: string
-
   let results: Array<NLog> = []
+
+  const { term } = $props()
 </script>
 
 <Panel className="h-full">

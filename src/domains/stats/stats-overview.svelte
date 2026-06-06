@@ -7,9 +7,6 @@
   import type { Trackable } from '../trackable/Trackable.class'
   import type { IStats } from './stats-types'
 
-  export let stats: IStats
-  export let trackable: Trackable
-
   function formatValue(value: number, includeUnit?: boolean) {
     if (trackable) {
       return trackable.formatValue(value, includeUnit)
@@ -20,6 +17,8 @@
     let score = stats._stats.getScore()
     return `${score.score} ${score.emoji}`
   }
+
+  const { stats, trackable } = $props()
 </script>
 
 {#if stats}

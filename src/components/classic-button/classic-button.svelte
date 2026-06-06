@@ -21,7 +21,7 @@
   import { MoreVertical } from '../icon/nicons'
 
   // Props
-  export let tracker: Tracker = new Tracker({})
+
   export let value = null
   // export let refreshing = false;
   export let id = undefined
@@ -71,6 +71,8 @@
       data.pressing = true
     },
   }
+
+  const { tracker, value, id, className, labelClass, disabled, hideMore, hoursUsed, positivity } = $props()
 </script>
 
 <div

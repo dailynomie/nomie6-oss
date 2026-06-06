@@ -8,9 +8,6 @@
   import { TrackerStore } from '../../domains/tracker/TrackerStore'
   import { positivityFromLogs } from '../../utils/positivity/positivity'
 
-  export let logs: Array<NLog> = []
-  export let className:string = "";
-
   let mounted = false
   let byHour: Array<any> = []
   let score: number = 0
@@ -33,6 +30,8 @@
   onMount(() => {
     mounted = true
   })
+
+  const { logs, className } = $props()
 </script>
 
 {#if score}

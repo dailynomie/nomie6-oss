@@ -9,11 +9,11 @@
 
   import TemplateView from './template-view.svelte'
 
-  export let id: string
-  export let template: Template
   const close = () => {
     closeModal(id)
   }
+
+  const { id, template } = $props()
 </script>
 
 <BackdropModal className="h-full" mainClass="bg-gray-100 dark:bg-gray-800">

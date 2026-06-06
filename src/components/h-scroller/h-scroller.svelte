@@ -10,13 +10,7 @@
   import { wait } from '../../utils/tick/tick'
 
   export let activeIndex = undefined
-  export let activeClass: string = 'active'
-  export let className: string = ''
-  export let centerIfPossible: boolean = false
-  export let wrapperClass: string = ''
-  export let wrapperStyle: string = ''
-  export let captureCenter: boolean = false
-  export let captureCenterWindow: boolean = false
+
   export let style = ''
   export let id = `hs-${nid()}`
 
@@ -191,6 +185,8 @@
   onDestroy(() => {
     scroller.removeEventListener('scroll', onScroll)
   })
+
+  const { activeIndex, activeClass, className, centerIfPossible, wrapperClass, wrapperStyle, captureCenter, captureCenterWindow, style, id } = $props()
 </script>
 
 <div {id} class="n-hscroller {className}" {style} data-scroll="0" bind:this={scroller}>

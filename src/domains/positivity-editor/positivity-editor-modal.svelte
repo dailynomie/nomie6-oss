@@ -25,9 +25,6 @@
   import ConditionItem from './condition-item.svelte'
   import type { OpenScoreEditorProps } from './PositivityEditorStore'
 
-  export let id: string
-  export let props: OpenScoreEditorProps
-
   let workingCalc: Array<ICondition> = []
   let mounted = false
 
@@ -97,6 +94,8 @@
     }
     refresh()
   }
+
+  const { id, props } = $props()
 </script>
 
 <BackdropModal className="bg-gray-200 dark:bg-gray-800 h-full">

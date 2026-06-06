@@ -5,8 +5,6 @@
   // import Chart from 'chart.js/auto'
   import nid from '../../modules/nid/nid'
 
-  export let data: Array<IPieData> = []
-
   const chartId = `chart-${nid()}`
 
   interface IPieData {
@@ -43,6 +41,8 @@
     // })
   }
   onMount(createDoughnut)
+
+  const { data } = $props()
 </script>
 
 <canvas id={chartId} width="150" height="150" />

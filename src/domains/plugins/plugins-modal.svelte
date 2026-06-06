@@ -27,9 +27,6 @@
 
   import Badge from '../../components/badge/badge.svelte'
 
-  export let tab: 'installed' | 'avail' = 'installed'
-  export let showAdd: boolean = false
-
   let officialPlugins = []
   onMount(async () => {
     officialPlugins = []
@@ -72,6 +69,8 @@
     // pluginUrl = url
     openPluginInstaller(url)
   }
+
+  const { tab = $bindable('installed'), showAdd = $bindable(false) } = $props()
 </script>
 
 <BackdropModal>

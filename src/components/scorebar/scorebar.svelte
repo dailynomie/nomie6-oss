@@ -16,13 +16,6 @@
     className?: string
     color?: string
   }
-  export let scores: Array<ScoreType>
-  export let barClass: string = 'h-2'
-  export let className: string = ''
-  export let style: string = ''
-  export let total: number | undefined = undefined
-
-  export let expanded: boolean = false
 
   let localScores: Array<ScoreType> = []
   $: {
@@ -36,6 +29,8 @@
       }
     })
   }
+
+  const { scores, barClass, className, style, total, expanded } = $props()
 </script>
 
 <button {style} on:click={() => (expanded = !expanded)} class="scorebar {className} {expanded ? 'expanded' : ''}">

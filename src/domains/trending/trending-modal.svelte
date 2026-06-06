@@ -33,8 +33,6 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
   } from './TrendingModalStore'
   import { AroundThisTimeStore } from './TrendingModalStore'
 
-  export let id: string
-
   let loading: boolean = true
   let activeDate: Date = new Date()
   let activeFocal: ATTFocalUnit = 'day'
@@ -175,6 +173,8 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
       }),
     })
   }
+
+  const { id } = $props()
 </script>
 
 <BackdropModal>

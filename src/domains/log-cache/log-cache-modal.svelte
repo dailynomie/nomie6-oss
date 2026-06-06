@@ -28,8 +28,6 @@
   import type NLog from '../nomie-log/nomie-log'
   import { getDateFormats } from '../preferences/Preferences'
 
-  export let id: string
-
   let dateFormats = getDateFormats()
   const close = () => {
     closeModal(id)
@@ -82,6 +80,8 @@
     await deleteLogFromCache(log)
     init()
   }
+
+  const { id } = $props()
 </script>
 
 <BackdropModal>

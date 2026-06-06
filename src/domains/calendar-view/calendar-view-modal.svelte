@@ -34,9 +34,6 @@
   import ListItemLog from '../../components/list-item-log/list-item-log.svelte'
 import ListItemSingleTrackable from '../../components/list-item-log/list-item-single-trackable.svelte';
 
-  export let id: string
-  export let props: CalendarViewProps
-
   let starterDate: Date // capture the initial date to start  but let user change
   let activeDate: Dayjs
   let trackableUsage: TrackableUsage
@@ -69,6 +66,8 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
   const close = () => {
     closeModal(id)
   }
+
+  const { id, props } = $props()
 </script>
 
 <BackdropModal className="calendar-view-modal">

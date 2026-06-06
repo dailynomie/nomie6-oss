@@ -37,8 +37,6 @@
   // import download from '../../modules/download/download'
   // import { strToTagSafe } from '../trackable/trackable-utils'
 
-  export let template: Template
-
   const strToTrackable = (str: string): Trackable => {
     return tokenToTrackable(strToToken(str), $TrackableStore.trackables)
   }
@@ -368,6 +366,8 @@
       buttons: trackerAddButtons,
     })
   }
+
+  const { template } = $props()
 </script>
 
 {#if template}

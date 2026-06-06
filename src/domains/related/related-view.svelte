@@ -31,14 +31,8 @@
   import RelatedWorker from './related-worker?worker'
   import { BarChartOutline } from '../../components/icon/nicons'
   import BarChartSolid from '../../n-icons/BarChartSolid.svelte'
-  
-
-  export let className: string = ''
-  export let style: string = ''
 
   // export let id: string
-
-  export let trackable: Trackable
 
   let usagesForChart: Array<TrackableUsage> = []
   // let allowed: boolean = true
@@ -297,6 +291,8 @@
     loading = true
     mounted = true
   })
+
+  const { className, style, trackable } = $props()
 </script>
 
 {#key usagesForChart}

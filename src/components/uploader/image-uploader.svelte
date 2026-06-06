@@ -16,7 +16,7 @@
   let input: HTMLInputElement
 
   export let className = ''
-  export let label: string = 'Select'
+
   export let maxW = 64*4
   export let maxH = 64*4
 
@@ -52,6 +52,8 @@
   onDestroy(() => {
     mounted = false
   })
+
+  const { className, label, maxW, maxH } = $props()
 </script>
 
 {#if mounted}

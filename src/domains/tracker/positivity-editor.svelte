@@ -30,7 +30,7 @@
   import { showToast } from '../../components/toast/ToastStore'
 
   // Prosp
-  export let tracker: TrackerClass | undefined = undefined
+
   export let className = ''
 
   // consts
@@ -119,6 +119,8 @@
       methods.change()
     },
   }
+
+  const { tracker, className } = $props()
 </script>
 
 {#if tracker}

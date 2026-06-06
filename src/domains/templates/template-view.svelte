@@ -10,7 +10,8 @@
   import type { Template } from './templates-utils'
   import { useTemplate } from './templates-svelte-helpers'
 
-  export let template: Template
+
+  const { template } = $props()
 </script>
 
 <div class="template-view">

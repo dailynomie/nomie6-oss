@@ -8,9 +8,6 @@
 
   const dispatch = createEventDispatcher()
 
-  export let id: string = `sw-${nid()}`
-  export let className: string = ''
-
   export const scrollTo: Function = (index: number) => {
     if (index > -1) {
       const ele: any = document.querySelector(`#${id} [data-child-id='${index}']`)
@@ -28,6 +25,8 @@
       }
     }, 100)
   })
+
+  const { id, className } = $props()
 </script>
 
 <div class="n-swiper {className}" {id}>

@@ -83,6 +83,8 @@
   onMount(() => {
     reset()
   })
+
+  const { term, limit, className, compact, fullDate, results, showTimeDiff } = $props()
 </script>
 
 <div class="log-list-loader">

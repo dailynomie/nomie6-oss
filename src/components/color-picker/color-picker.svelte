@@ -12,6 +12,8 @@
 
   $: selectedIndex = colors.indexOf(value) || 0
   const dispatch = createEventDispatcher()
+
+  const { value, grid, colors, className } = $props()
 </script>
 
 {#if grid}

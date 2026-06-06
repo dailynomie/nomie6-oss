@@ -5,14 +5,6 @@
   import { createEventDispatcher, onMount } from 'svelte'
   import { getElementPosition } from '../../modules/html-elements/position'
 
-  export let items: Array<any> = []
-  export let className: string = ''
-
-  export let start: number = undefined
-  export let end: number = undefined
-
-  export let height: string = '100vh'
-
   let wrapper: HTMLElement
 
   const dispatch = createEventDispatcher()
@@ -33,6 +25,8 @@
       calculateHeight()
     })
   })
+
+  const { items, className, start, end, height } = $props()
 </script>
 
 <div class="virtual-list-wrapper overflow-hidden  {className}" bind:this={wrapper}>

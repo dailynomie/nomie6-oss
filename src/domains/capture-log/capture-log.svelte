@@ -313,6 +313,8 @@
   }
 
   let showCaptureTextarea: boolean = false
+
+  const { className } = $props()
 </script>
 
 <div class="capture-wrapper {className} relative" id="note-capture">

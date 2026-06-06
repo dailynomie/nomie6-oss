@@ -44,9 +44,6 @@
   import { getUnisearchResults, type UnisearchResultsType, UnisearchStore } from './UnisearchStore'
 import { openTimelineModal } from '../timeline/timeline-helpers';
 
-  export let searchTerm: string
-  export let id: string
-
   let results: UnisearchResultsType | undefined
   let exactMatchOptions: Array<PopMenuButton> = []
 
@@ -183,6 +180,8 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     //@ts-ignore
     document.querySelector('.unisearch input')?.blur()
   }
+
+  const { searchTerm, id } = $props()
 </script>
 
 <BackdropModal

@@ -37,31 +37,33 @@
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import Empty from '../../components/empty/empty.svelte'
 
-  export let id: string
-  export let onSelect: Function
+  interface Props {
+    id: string
+    onSelect: Function
+  }
 
-  const state = {
+  const { id, onSelect } = $props<Props>()
+
+  const state = $state({
     locations: [],
     active: null,
     mode: 'view',
     mapLocation: null,
     locating: false,
-  }
+  })
 
-  // $: state.locations = $LocationStore 
-
-  $: {
+  $effect(() => {
     state.locations = $LocationStore
-  }
+  })
 
-  let lastLocation = null
-  let mapLocation = null
+  let lastLocation = $state(null)
+  let mapLocation = $state(null)
 
-  let showMap = false
-  let locationSearchTerm: string | undefined = undefined
-  let resultsHidden = true
-  let searchResults: Array<LookupLocationType> = []
-  let ready = true
+  let showMap = $state(false)
+  let locationSearchTerm: string | undefined = $state(undefined)
+  let resultsHidden = $state(true)
+  let searchResults: Array<LookupLocationType> = $state([])
+  let ready = $state(true)
 
   // function goto(location) {
   //   state.active = location;
@@ -81,9 +83,9 @@
   //   // showFavoriteButton = !exists
   // }
 
-  let sortedTimeout
+  let sortedTimeout = $state()
 
-  let saving = false
+  let saving = $state(false)
 
   function sorted(evt): void {
     clearTimeout(sortedTimeout)

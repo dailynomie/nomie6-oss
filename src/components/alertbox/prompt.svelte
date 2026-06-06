@@ -6,14 +6,13 @@
   import DateTimeBar from '../date-time-bar/date-time-bar.svelte'
   import Alertbox from './alertbox.svelte'
 
-  export let id: string
-  export let payload: AlertType
-
   const ifOnEnter = (e, func) => {
     if (e.charCode === 13) {
       func()
     }
   }
+
+  const { id, payload } = $props()
 </script>
 
 <Alertbox {id} {payload}>

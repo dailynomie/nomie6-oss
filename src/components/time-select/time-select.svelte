@@ -9,21 +9,12 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
 
   const dispatch = createEventDispatcher()
 
-  export let time: number = new Date().getTime()
-  export let className: string = ''
-  export let style: string = ''
-  export let is24Hour: boolean
-  export let showDateButton: boolean = false;
-  export let dateButtonClass: string = "";
-  export let value: Dayjs | undefined = undefined;
-
   let lastValue: any // Value to hold last reaction
   let hour: number // local hour
   let minute: number // local minute
   let ampm: any // local ampm
 
   let hour12: number
-
 
   $: if (time) {
     value = dayjs(new Date(time))
@@ -79,6 +70,8 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
     const updatedDate = ogDate.set('hour', newHour).set('minute', minute).set('day', ogDay)
     dispatch('change', updatedDate.toDate())
   }
+
+  const { time, className, style, is24Hour, showDateButton, dateButtonClass, value } = $props()
 </script>
 
 {#if value}

@@ -11,11 +11,6 @@
 
   import ProgressBar from '../progress-bar/progress-bar.svelte'
   import TimeRangeText from '../time-range/time-range-text.svelte'
-  export let log: NLog
-  export let trackable: Trackable
-  export let max: number = undefined
-  export let className: string = ''
-  export let hideTime: boolean = false;
 
   let value: number = 0
   const dateFormats = getDateFormats()
@@ -24,6 +19,8 @@
   $: if (log || trackable) {
     value = trackable.tracker ? log.getTrackerValue(trackable.tracker?.tag) : 1
   }
+
+  const { log, trackable, max, className, hideTime } = $props()
 </script>
 
 <button

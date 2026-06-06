@@ -13,10 +13,7 @@
   import type TrackerClass from '../../modules/tracker/TrackerClass'
 import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
 
-
   const dispatch = createEventDispatcher()
-
-  export let tracker: ITracker | TrackerClass
 
   export let active = []
 
@@ -58,6 +55,8 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
     let lastCharacter = pick.trim().substr(pick.trim().length - 1, 1)
     return lastCharacter === ':'
   }
+
+  const { tracker, active } = $props()
 </script>
 
 <div class="w-full p-2 bg-gray-100 dark:bg-gray-800 ">

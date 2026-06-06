@@ -4,10 +4,6 @@
   import { onMount } from 'svelte'
   import Error404 from './routes/Error404.svelte'
 
-  export let route: string | undefined = undefined
-  export let component: string | undefined = undefined
-  export let container: string | undefined = undefined
-
   let dynamicPage = null
 
   onMount(async () => {
@@ -26,6 +22,8 @@
       dynamicPage = Error404
     }
   })
+
+  const { route, component, container } = $props()
 </script>
 
 {#if dynamicPage}

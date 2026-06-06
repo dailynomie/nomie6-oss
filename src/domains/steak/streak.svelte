@@ -18,13 +18,6 @@
   import { strToTrackable } from '../trackable/trackable-utils'
   import { TrackableStore } from '../trackable/TrackableStore'
 
-  export let term: string
-  export let selectedDate: Dayjs = dayjs()
-  export let view: StreakViewTypes = 'month'
-  export let trackable: Trackable
-  export let className: string = ''
-  export let showDetail: boolean = true
-
   let calendarLogs: Array<CalendarLog>
   let mockTracker: TrackerClass
   let lastTerm: string
@@ -47,6 +40,8 @@
       calendarLogs = StreakHelper.logsToCalendar(logs)
     }
   }
+
+  const { term, selectedDate, view, trackable, className, showDetail } = $props()
 </script>
 
 <div class="n-streak n-streak-{view} {className}">

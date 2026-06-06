@@ -21,6 +21,8 @@
       event.stopPropagation()
     }, 10)
   }
+
+  const { value } = $props()
 </script>
 
 <div class="keypad">

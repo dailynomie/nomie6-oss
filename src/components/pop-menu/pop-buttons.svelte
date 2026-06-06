@@ -18,9 +18,6 @@
   import { Interact } from '../../store/interact'
   import { getAwardById } from '../../domains/awards/helpers/usage-awards'
 
-  export let buttons: Array<PopMenuButton> = []
-  export let listType: 'grid' | 'list' = 'list'
-
   let dispatch = createEventDispatcher()
 
   let buttonGroup: Array<Array<PopMenuButton>> = []
@@ -36,6 +33,8 @@
       buttonGroup[current].push(button)
     })
   }
+
+  const { buttons, listType } = $props()
 </script>
 
 {#each buttonGroup as group, gIndex}

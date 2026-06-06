@@ -9,9 +9,7 @@
   export let min = 0
   export let max = 10
   export let value = 5
-  export let className: string = ''
-  export let trackable: Trackable
-  export let mini: boolean = false
+
   export let step = 1
 
   let smallInput: HTMLInputElement
@@ -28,6 +26,8 @@
   }
 
   onMount(main)
+
+  const { min, max, value, className, trackable, mini, step } = $props()
 </script>
 
 <div

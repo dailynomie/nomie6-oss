@@ -10,11 +10,7 @@
   import appConfig from '../../config/appConfig'
   import type NLog from '../nomie-log/nomie-log'
 
-  export let logs: Array<NLog>
   export let date = dayjs()
-  export let days: number = 7
-  export let color: string = appConfig.primary_color
-  export let size: number = 24
 
   let loopOver: Array<any> = []
 
@@ -32,6 +28,8 @@
       })
       .reverse()
   }
+
+  const { logs, date, days, color, size } = $props()
 </script>
 
 <div class="streak-days">

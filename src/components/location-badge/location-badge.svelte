@@ -6,7 +6,6 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { NavigateCircleSolid } from '../icon/nicons'
   import { findNearestLocation, LocationStore } from '../../domains/locations/LocationStore'
-  export let location
 
   export let className = undefined
 
@@ -29,6 +28,8 @@
       }
     }
   }
+
+  const { location, className } = $props()
 </script>
 
 {#if location}

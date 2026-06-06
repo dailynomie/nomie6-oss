@@ -15,12 +15,6 @@
 
   type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
-  export let buttons: Array<PopMenuButton> = []
-  export let size: Sizes = 'lg'
-  export let className: string = ''
-  export let style: string = ''
-  export let id: string = ''
-
   const dispatch = createEventDispatcher()
   let buttonGroup: Array<Array<PopMenuButton>> = []
   let accessorySize: number = 24
@@ -50,6 +44,8 @@
       accessorySize = 32
     }
   }
+
+  const { buttons, size, className, style, id } = $props()
 </script>
 
 <div role="menu" {id} class="n-menu size-{size} {className}" {style}>

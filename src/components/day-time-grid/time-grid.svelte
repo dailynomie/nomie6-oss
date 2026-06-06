@@ -9,11 +9,8 @@
   import { Device } from '../../store/device-store'
   import math from '../../utils/math/math'
   import { logsToTimeGrid, type TimeGridArray } from './time-grid-utils'
-  export let usage: TrackableUsage
-  export let trackable: Trackable
+
   // export let size: number = 4
-  export let className: string = ''
-  export let style: string = ''
 
   $: if (usage) {
     render()
@@ -37,6 +34,8 @@
       return formated
     }
   }
+
+  const { usage, trackable, className, style } = $props()
 </script>
 
 <div class="time-grid {className}" style="--color:{trackable.color}; {style}">

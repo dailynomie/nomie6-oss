@@ -1,14 +1,10 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  export let size: string | number = '60'
-  export let unit: string = 'px'
-  export let ballTopLeft: string = '#FF3E00'
-  export let ballTopRight: string = '#F8B334'
-  export let ballBottomLeft: string = '#40B3FF'
-  export let ballBottomRight: string = '#676778'
-  export let style: string = ''
+
   export let duration = '1.5s'
+
+  const { size, unit, ballTopLeft, ballTopRight, ballBottomLeft, ballBottomRight, style, duration } = $props()
 </script>
 
 <div

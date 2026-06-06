@@ -38,9 +38,6 @@
   import Empty from '../../components/empty/empty.svelte'
   import { showToast } from '../../components/toast/ToastStore'
 
-  export let id: string
-  export let onSelect: Function
-
   const state = {
     locations: [],
     active: null,
@@ -225,6 +222,8 @@
     //select(location)
     resultsHidden = true
   }
+
+  const { id, onSelect } = $props()
 </script>
 
 <BackdropModal className="h-full bg-white dark:bg-gray-900 w-full">

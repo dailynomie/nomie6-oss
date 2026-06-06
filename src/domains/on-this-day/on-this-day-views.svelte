@@ -35,9 +35,6 @@
   import Memories from '../ledger/Memories.svelte'
   import { createEventDispatcher } from 'svelte'
 
-  export let view: OTDViewOption = 'notes'
-  export let logs: Array<NLog> = []
-
   let trackers: Array<TrackerProcessedConfig> = []
   let notes: Array<NLog> = []
   let people: Array<Person> = []
@@ -77,6 +74,8 @@
     hasFocusScores =
       focusScores && (focusScores[0].score !== 0 || focusScores[1].score !== 0 || focusScores[2].score !== 0)
   }
+
+  const { view, logs } = $props()
 </script>
 
 {#if view !== 'context' || 'pointers' }

@@ -2,8 +2,9 @@
 
 <script lang="ts">
 import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
-export let pointers
 
+
+  const { pointers } = $props()
 </script>
 <div class="flex flex-col gap-y-2">
   

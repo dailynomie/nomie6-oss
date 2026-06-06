@@ -169,6 +169,8 @@
       fontSize = 20
     }
   }
+
+  const { value, displayFormat, defaultEphemeral } = $props()
 </script>
 
 <svelte:window on:keydown={handleKeydown} />

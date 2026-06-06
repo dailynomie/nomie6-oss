@@ -30,9 +30,6 @@
     annotationPlugin
   )
 
-  export let id: string
-  export let chartjsPayload: ChartConfiguration
-
   let chart: Chart
   let ctx: HTMLCanvasElement
   const dispatch = createEventDispatcher()
@@ -71,6 +68,8 @@
   onMount(() => {
     render()
   })
+
+  const { id, chartjsPayload } = $props()
 </script>
 
 <canvas height="100%" id={`chart-${id}`} bind:this={ctx} />

@@ -8,7 +8,6 @@
   // export let started = undefined;
   export let className = ''
   export let value = 0
-  export let size: 'sm' | 'default' = 'default'
 
   // Consts
   const dispatch = createEventDispatcher()
@@ -105,6 +104,8 @@
   }
 
   // On Mount
+
+  const { className, value, size } = $props()
 </script>
 
 <div class="n-counter-manual size-{size} {className}">

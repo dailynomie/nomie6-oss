@@ -10,8 +10,8 @@
   import { createEventDispatcher } from 'svelte'
   import { closeModal } from '../backdrop/BackdropStore2'
 
-  export let menu: IPopMenuOptions
-  export let id: string
+
+  const { menu, id } = $props()
 </script>
 
 <div class="pop-menu2-wrapper w-full max-w-md" style="min-width:320px;">

@@ -11,8 +11,8 @@
   import PluginFrame from './plugin-frame.svelte'
   import type { PluginClass } from './plugin-helpers'
 
-  export let plugin: PluginClass
-  export let id: string
+
+  const { plugin, id } = $props()
 </script>
 
 <BackdropModal>

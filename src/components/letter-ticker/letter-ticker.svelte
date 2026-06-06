@@ -1,9 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  export let text: string = ''
-  export let className: string = ''
-  export let style: string = ''
 
   let items: Array<string> = []
   let lastItems: Array<string> = []
@@ -12,6 +9,8 @@
     lastItems = items || []
     items = `${text || ''}`.split('')
   }
+
+  const { text, className, style } = $props()
 </script>
 
 {#if text}

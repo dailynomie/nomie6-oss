@@ -33,8 +33,6 @@
   let showDom: boolean = false
   let trackers: Array<TrackerClass> = []
 
-  export let id: string
-
   let lastHash = ''
   $: if (objectHash($LibraryManagerStore.libraryTracker) !== lastHash) {
     lastHash = objectHash($LibraryManagerStore.libraryTracker)
@@ -85,6 +83,8 @@
   const close = () => {
     closeModal(id)
   }
+
+  const { id } = $props()
 </script>
 
 <Modal2 visible={showDom} id="library-tracker-editor" on:close={() => close()}>

@@ -3,11 +3,6 @@
 <script lang="ts">
   import './grid.css'
 
-  export let columns: number = 3
-  export let gap: number = 2
-  export let className: string = ''
-  export let style: string = ''
-
   let columnFr: string = '1fr 1fr 1fr'
   let columnDots: string = '. . .'
   let gapStr: string = '2px 2px'
@@ -17,6 +12,8 @@
     columnDots = Array(columns).fill('.').join(' ')
     gapStr = `${gap}px`
   }
+
+  const { columns, gap, className, style } = $props()
 </script>
 
 <div class="nc-grid {className}" style="--columnFr: {columnFr}; --columnDots: {columnDots}; --gap: {gapStr}; {style}">

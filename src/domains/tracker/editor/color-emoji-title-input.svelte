@@ -13,9 +13,6 @@
   import { PencilOutline } from '../../../components/icon/nicons'
   import { strToTagSafe } from '../../trackable/trackable-utils'
 
-  export let tracker: ITracker | any
-  export let className: string = ''
-
   const dispatch = createEventDispatcher()
 
   let isDirty: boolean = false
@@ -70,6 +67,8 @@
       localTracker.tag = tag
     }
   }
+
+  const { tracker, className } = $props()
 </script>
 
 {#if localTracker}

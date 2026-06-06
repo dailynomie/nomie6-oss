@@ -6,9 +6,6 @@
 
   import math from '../../utils/math/math'
 
-  export let log1: NLog
-  export let log2: NLog
-
   let diff: number = 0
   let display: string = ``
 
@@ -24,6 +21,8 @@
   }
 
   onMount(main)
+
+  const { log1, log2 } = $props()
 </script>
 
 {#if diff > 1}

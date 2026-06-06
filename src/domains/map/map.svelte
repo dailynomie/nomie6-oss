@@ -29,17 +29,11 @@
   import { LocationStore } from '../locations/LocationStore'
 
   // props
-  export let locations: Array<NLocationType> = []
 
-  export let records: Array<NLog> = []
-
-  export let small: boolean = undefined
-  export let picker: boolean = undefined
   export let height = undefined
   export let className = ''
   export let style = ''
-  export let lock: boolean = false
-  export let hideFavorite: boolean = false
+
   // export let activeLogs: Array<NLog> = []
 
   // const L: any = window['L']
@@ -444,6 +438,8 @@
     await wait(600)
     initAndRender()
   })
+
+  const { locations, records, small, picker, height, className, style, lock, hideFavorite, methods } = $props()
 </script>
 
 <div

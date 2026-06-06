@@ -11,11 +11,6 @@
   import { Prefs } from '../../domains/preferences/Preferences'
 
   // data
-  export let date: Date | undefined
-  export let time: any = undefined
-  export let className: string = ''
-  export let style: string = ''
-  export let size: 'sm' | 'lg' = 'sm'
 
   //consts
   const dispatch = createEventDispatcher()
@@ -42,6 +37,8 @@
     time = date.getTime()
     dispatch('change', date);
   }
+
+  const { date, time, className, style, size } = $props()
 </script>
 
 <div class="n-date-picker {className}">

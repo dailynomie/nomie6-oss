@@ -16,13 +16,6 @@
   import ProgressBar from '../progress-bar/progress-bar.svelte'
   import type { CalendarDayUnit } from './calendar-utils'
 
-  export let date: Date = new Date()
-  export let weekStarts: 'monday' | 'sunday' = 'sunday'
-
-  export let days: Array<CalendarDayUnit> = []
-
-  export let size: 'sm' | 'base' = 'base'
-
   let now = dayjs().format('YYYY-MM-DD')
 
   const dispatch = createEventDispatcher()
@@ -92,6 +85,8 @@
   const dayClicked = (d: Dayjs) => {
     dispatch('input', d.toDate())
   }
+
+  const { date, weekStarts, days, size } = $props()
 </script>
 
 <div class="calendar-4" style="">

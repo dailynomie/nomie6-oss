@@ -12,12 +12,10 @@
   import { getDateFormats } from '../../domains/preferences/Preferences'
 
   $: dateFormats = getDateFormats()
-  export let start: Dayjs | undefined = undefined
-  export let end: Dayjs | undefined = undefined
-  export let date: Dayjs | undefined = dayjs()
-  export let className: string = ''
-  export let dateClass: string = 'text-center text-gray-600 dark:text-gray-400 text-xs md:text-sm my-1'
+
   const dispatch = createEventDispatcher()
+
+  const { start, end, date, className, dateClass } = $props()
 </script>
 
 <div class="flex items-center py-2 justify-center {className}">

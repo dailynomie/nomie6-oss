@@ -49,6 +49,8 @@
     let files = evt.target.files
     readFile(files[0])
   }
+
+  const { className, accept, placeholder, label } = $props()
 </script>
 
 <Input {className} {placeholder} {label} value={uploadedFileName} disabled>

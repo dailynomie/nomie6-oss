@@ -8,7 +8,6 @@
 
   const dispatch = createEventDispatcher()
 
-  export let tracker: TrackerClass
   export let value = 1
 
   let tempValue: number
@@ -22,6 +21,8 @@
   let habitfalse = tracker.habitChoice[1] || "Achieved"
   
 
+
+  const { tracker, value } = $props()
 </script>
 
 <div class="picker-input-wrapper filler overflow-y-auto max-h-full min-h-0">

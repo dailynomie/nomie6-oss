@@ -39,8 +39,6 @@
   } from './library-manager/LibraryManagerStore'
   import AvailableTemplatesList from '../templates/available-templates-list.svelte'
 
-  export let id: string
-
   let ready = false
   let libraryTrackers: Array<LibraryTrackerType> = []
   let searchResults: Array<Trackable> = []
@@ -148,6 +146,8 @@
   const close = async () => {
     closeModal(id)
   }
+
+  const { id } = $props()
 </script>
 
 <BackdropModal>

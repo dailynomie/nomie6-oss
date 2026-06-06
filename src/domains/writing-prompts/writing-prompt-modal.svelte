@@ -28,10 +28,6 @@
   import Textarea from '../../components/textarea/textarea.svelte'
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
 
-  export let id: string
-
-  export let editMode: boolean = false
-  export let onSelect: (wp: WritingPrompt) => void | undefined
   let activeTimeframe: DayPartUnit | 'any' = 'any'
 
   let editing: WritingPrompt | undefined
@@ -77,6 +73,8 @@
       initData()
     }
   }
+
+  const { id, editMode, onSelect } = $props()
 </script>
 
 <BackdropModal mainClass="px-2 lg:px-4">

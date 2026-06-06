@@ -11,14 +11,9 @@
   import Spinner from '../../../components/spinner/spinner.svelte'
   import type TrackerClass from '../../../modules/tracker/TrackerClass'
 
-  export let tracker: ITracker | TrackerClass
-  export let value: number | undefined
-  export let allowSave: boolean
-  export let saving: boolean
-  export let saveLabel: string = Lang.t('general.save', 'Save')
-  export let nextLabel: string = Lang.t('general.next', 'Next')
-
   const dispatch = createEventDispatcher()
+
+  const { tracker, value, allowSave, saving, saveLabel, nextLabel } = $props()
 </script>
 
 <footer class=" tracker-input-footer py-3 stiff  glass-lite z-50 w-full rounded-b-2xl">

@@ -5,16 +5,12 @@
   import Tribute from 'tributejs/dist/tribute.esm'
   import autosize from 'svelte-autosize'
 
-  export let value: any
-  
-  export let tributeConfig: any = undefined;
   const emit = createEventDispatcher()
 
 	export const setSelectionRange = (a,b)=>{
 		textarea.setSelectionRange(a,b);
 		textarea.focus();
 	}
-
 
   let tribute
   let textarea: HTMLTextAreaElement
@@ -39,6 +35,8 @@
 	onDestroy(()=>{
 		textarea.removeEventListener('tribute-replaced', tributeTriggered)
 	})
+
+  const { value, tributeConfig } = $props()
 </script>
 
 <textarea

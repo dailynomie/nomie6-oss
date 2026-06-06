@@ -8,7 +8,8 @@
   import { showTrackablePopmenu } from '../board/boardActions'
   import type { UsageComparedType } from './TrendingModalStore'
 
-  export let uct: UsageComparedType
+
+  const { uct } = $props()
 </script>
 
 <ListItem

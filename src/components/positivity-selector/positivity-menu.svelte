@@ -8,11 +8,10 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { CloseOutline } from '../icon/nicons'
   export let score = 0
-  export let closeBackgroundTap: boolean = false
+
   export let className = ''
   export let size = 'lg'
   export let y = '60%'
-  export let direction: 'horizontal' | 'vertical' = 'horizontal'
 
   let selected: any
   let showMenu: boolean = false
@@ -32,6 +31,8 @@
     }
     showMenu = !showMenu
   }
+
+  const { score, closeBackgroundTap, className, size, y, direction } = $props()
 </script>
 
 <div

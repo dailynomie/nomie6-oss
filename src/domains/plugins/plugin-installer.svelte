@@ -26,7 +26,6 @@
   import { PluginClass, type PluginType } from './plugin-helpers'
   import { broadcastPluginMessage, PluginStore } from './PluginStore'
 
-  export let url: string
   let id: string
   let pluginDetails: any | PluginType = {}
   let loading: boolean = false
@@ -126,6 +125,8 @@
   }
 
   const emit = createEventDispatcher()
+
+  const { url } = $props()
 </script>
 
 {#if showInstallCard && pluginDetails && pluginDetails.name}

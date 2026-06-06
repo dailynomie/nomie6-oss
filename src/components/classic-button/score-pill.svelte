@@ -14,6 +14,8 @@
       changed = false
     }, 200)
   }
+
+  const { positivity, score } = $props()
 </script>
 
 <div

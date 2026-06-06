@@ -5,13 +5,6 @@
 
   import math from '../../utils/math/math'
 
-  export let positive: number
-  export let negative: number
-  export let neutral: number
-  export let className: string = ''
-  export let style: string = ''
-  export let height: string = '8pt'
-
   let score = 0
   let neuCount = { type: 'neutral', count: 0, percent: 0 }
 
@@ -42,6 +35,8 @@
     ]
     score = positive - negative
   }
+
+  const { positive, negative, neutral, className, style, height } = $props()
 </script>
 
 {#if negative || neutral || positive}

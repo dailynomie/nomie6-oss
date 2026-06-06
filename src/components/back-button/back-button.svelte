@@ -10,10 +10,6 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ArrowBack } from '../icon/nicons'
 
-  export let to: string | undefined = undefined
-  export let back: Function | undefined = undefined
-  export let label: string | undefined = undefined
-
   const dispatch = createEventDispatcher()
   const onClick = (event) => {
     if (document.referrer.match(document.location.origin)) {
@@ -25,6 +21,8 @@
     }
     dispatch('click', event)
   }
+
+  const { to, back, label } = $props()
 </script>
 
 <button

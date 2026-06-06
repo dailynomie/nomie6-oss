@@ -7,16 +7,6 @@
   import Button from '../button/button.svelte'
   import IonIcon from '../icon/ion-icon.svelte'
 
-  export let emoji: string = undefined
-  export let icon: any = undefined
-  export let title: string = undefined
-  export let description: string = undefined
-  export let className: string = ''
-  export let style: string = ''
-  export let buttonLabel: string = undefined
-  export let buttonClick: any = undefined
-  export let small: boolean = false;
-
   let loaded: boolean = false
 
   onMount(() => {
@@ -24,6 +14,8 @@
       loaded = true
     }, 200)
   })
+
+  const { emoji, icon, title, description, className, style, buttonLabel, buttonClick, small } = $props()
 </script>
 
 <div class="empty-box {className} {loaded ? 'finish' : 'start'}" class:small={small} {style}>

@@ -6,14 +6,8 @@
 
   const dispatch = createEventDispatcher()
 
-  export let percentage: number
-  export let value: string
-  export let color: string
-  export let size: number
-  export let className: string = ''
-  export let wrapperClass: string = ''
-  export let date: Dayjs
-  export let topLabel: string
+
+  const { percentage, value, color, size, className, wrapperClass, date, topLabel } = $props()
 </script>
 
 <div class="value-button-wrapper {wrapperClass}" style="--size:{size}px">

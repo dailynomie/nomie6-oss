@@ -17,17 +17,6 @@
   import math from '../../utils/math/math'
   import { wait } from '../../utils/tick/tick'
 
-  export let items: Array<any>
-  export let direction: 'x' | 'y' = 'x'
-  export let className: string = ''
-  export let itemsClass: string = ''
-  export let itemClass: string = ''
-  export let snapToItem: 'center' | 'start' | 'end' = 'start'
-  export let start: 'center' | 'start' | 'end' = 'start'
-  export let centerPoint: boolean = false
-
-  export let scrollToIndex: number = undefined
-
   const dispatch = createEventDispatcher()
 
   let mounted: boolean = false
@@ -211,6 +200,8 @@
     main(true)
     mounted = true
   })
+
+  const { items, direction, className, itemsClass, itemClass, snapToItem, start, centerPoint, scrollToIndex } = $props()
 </script>
 
 <div

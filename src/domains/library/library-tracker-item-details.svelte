@@ -15,8 +15,6 @@
   import TrackerTypes from '../../modules/tracker-types/tracker-types'
   import { createEventDispatcher } from 'svelte'
 
-  export let libraryTracker: LibraryTrackerType
-
   const dispatch = createEventDispatcher()
 
   function getTypeLabel(id: string) {
@@ -29,6 +27,8 @@
 
   let trackables: ITrackables = {}
   $: trackables = $TrackableStore.trackables
+
+  const { libraryTracker } = $props()
 </script>
 
 <List solo className="">
