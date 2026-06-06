@@ -10,6 +10,13 @@
   import type { Trackable } from '../../Trackable.class'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
+
+  let reminderEnabled = $state(trackable.ptr.reminder)
+
+  $effect(() => {
+    // Sync local state back to trackable when changed
+    trackable.ptr = { ...trackable.ptr, reminder: reminderEnabled }
+  })
 </script>
 
 
@@ -34,25 +41,22 @@
     <div>
       <h1 class="line-clamp-1">Do you want to activate a reminder for this pointer?</h1>
     </div>
-    <RadioButton slot="right" bind:checked={trackable.ptr.reminder} />
+    <RadioButton slot="right" bind:checked={reminderEnabled} />
   </ListItem>
 </List>
 <div class="mb-4" />
 <List solo>
-  <Input 
+  <Input
     type="date"
-    disabled = {!trackable.ptr.reminder}
+    disabled={!reminderEnabled}
     label="Provide next reminder date"
     placeholder="01/01/2099"
     bind:value={trackable.ptr.reminderdate}
-    rows={1} 
-    on:change = {(evt) => {
-      trackable.ptr.reminderdate = (evt.detail)
-      console.log(evt.detail)
-    }} >
-    
-    
-  </Input>
+    rows={1}
+    on:change={(evt) => {
+      trackable.ptr.reminderdate = evt.detail
+    }}
+  />
 </List>
 <p class="list-note">
   A pointer is literaly a point in time. You can assign pointers to individual notes to quickly find them later.
