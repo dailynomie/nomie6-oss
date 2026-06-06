@@ -44,18 +44,16 @@
     showMassEditor: false,
   }
 
-  let fileContent
-  let editor
+  let fileContent = $state()
+  let editor = $state()
+  let path = $state(undefined)
+  let lastPath = $state(null)
 
-  // Not working
-  export let path = undefined
-  // Old fashion way is working
-
-  let lastPath = null
-
-  $: if (path && path !== lastPath) {
-    init()
-  }
+  $effect(() => {
+    if (path && path !== lastPath) {
+      init()
+    }
+  })
 
   async function init() {
     state.file = null

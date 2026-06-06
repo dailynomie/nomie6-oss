@@ -29,9 +29,8 @@
 	import { join } from "./paths";
 	import { ROUTE_ID } from "./warning";
 
-	const { path = "", component = null, meta = {}, primary = true } = $props();
+	const { path = "", component = null, meta = {}, primary = true, ...rest } = $props();
 
-	// usePreflightCheck requires $$props, but in runes mode we validate manually
 	if (path === undefined) {
 		throw new Error("Route: 'path' prop is required");
 	}
@@ -49,7 +48,7 @@
 	let ssrMatch;
 
 	const route = writable();
-	$: {
+	$effect(() => {
 		// The route store will be re-computed whenever props, location or parentBase change
 		const isDefault = path === "";
 		const rawBase = join($parentBase, path);
@@ -71,15 +70,17 @@
 		// If we're in SSR mode and the Route matches,
 		// `registerRoute` will return the match
 		ssrMatch = registerRoute(updatedRoute);
-	}
+	})
 
-	$: isActive = !!(ssrMatch || ($activeRoute && $activeRoute.id === id));
+	let isActive = $derived(!!(ssrMatch || ($activeRoute && $activeRoute.id === id)));
 
 	const params = writable({});
-	$: if (isActive) {
-		const { params: activeParams } = ssrMatch || $activeRoute;
-		params.set(activeParams);
-	}
+	$effect(() => {
+		if (isActive) {
+			const { params: activeParams } = ssrMatch || $activeRoute;
+			params.set(activeParams);
+		}
+	})
 
 	setContext(ROUTE, route);
 	setContext(ROUTE_PARAMS, params);
@@ -111,7 +112,7 @@
 				location={$location}
 				{navigate}
 				{...isSSR ? get(params) : $params}
-				{...$$restProps}
+				{...rest}
 			/>
 		{:else}
 			<slot
