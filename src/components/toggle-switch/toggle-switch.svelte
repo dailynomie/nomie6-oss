@@ -7,6 +7,9 @@
   // consts
   const dispatch = createEventDispatcher()
 
+  const { value: initialValue = false, locked, className, title } = $props()
+  let value = $state(initialValue)
+
   const methods = {
     onChange() {
       if (locked === undefined) {
@@ -15,8 +18,6 @@
       }
     },
   }
-
-  const { value, locked, className, title } = $props()
 </script>
 
 <div class="onoffswitch {value ? 'on' : 'off'} {className}">

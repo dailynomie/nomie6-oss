@@ -1,13 +1,9 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  export let className = ''
-  export let style = ''
   import './toolbar.css'
-  export let mainClass = ''
 
-
-  const { className, style, mainClass, shadow } = $props()
+  const { className = '', style = '', mainClass = '', shadow = false } = $props()
 </script>
 
 <div  class="n-toolbar-grid {shadow ? 'shadow' : ''} {className}" {style}>
