@@ -10,10 +10,6 @@
   import type { Trackable } from '../../Trackable.class'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
-
-  function toggleReminder() {
-    trackable.ptr = { ...trackable.ptr, reminder: !trackable.ptr.reminder }
-  }
 </script>
 
 
@@ -34,12 +30,11 @@
   </List>
   <div class="mb-4" />
   <List solo>
-  <ListItem bottomLine={70} clickable on:click={() => toggleReminder()}>
+  <ListItem bottomLine={70}>
     <div>
       <h1 class="line-clamp-1">Do you want to activate a reminder for this pointer?</h1>
-      
     </div>
-    <RadioButton slot="right" className="pointer-events-none" checked={trackable.ptr.reminder} />
+    <RadioButton slot="right" bind:checked={trackable.ptr.reminder} />
   </ListItem>
 </List>
 <div class="mb-4" />
