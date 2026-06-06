@@ -4,19 +4,16 @@
 
   const { steps, current, dark, stepClass, single, style } = $props()
 
-  let _steps = $state([])
-
-  $effect(() => {
-    if (steps || current) {
-      _steps = []
-      for (let i = 0; i < steps; i++) {
-        if (!single) {
-          _steps.push(current >= i)
-        } else {
-          _steps.push(current == i)
-        }
+  let _steps = $derived.by(() => {
+    const result = []
+    for (let i = 0; i < steps; i++) {
+      if (!single) {
+        result.push(current >= i)
+      } else {
+        result.push(current == i)
       }
     }
+    return result
   })
 </script>
 

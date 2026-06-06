@@ -15,11 +15,9 @@
   <slot name="header" />
   <svelte:component
     this={component}
-    on:next={() => {
-      console.log(' On Next')
-    }}
+    on:next={() => emit('next')}
   />
-  <div class="fixed bottom-0 w-full">
+  <div class="fixed bottom-0 w-full z-40">
     <ToolbarGrid className="mx-auto max-w-xl py-1">
       <Button
         slot="left"

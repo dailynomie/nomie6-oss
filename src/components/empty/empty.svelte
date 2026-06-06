@@ -7,7 +7,7 @@
   import Button from '../button/button.svelte'
   import IonIcon from '../icon/ion-icon.svelte'
 
-  let loaded: boolean = false
+  let loaded = $state(false)
 
   onMount(() => {
     setTimeout(() => {
