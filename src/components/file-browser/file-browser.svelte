@@ -278,11 +278,11 @@
 
 {#if !browserFile}
   <NLayout className="n-file-browser">
-    <ToolbarGrid slot="header" style="position: relative; z-index: 10;">
+    <ToolbarGrid slot="header" style="position: relative; z-index: 50;">
       <BackButton on:click={() => back()} slot="left" />
       <h1 class="ntitle">{browserTitle}</h1>
     </ToolbarGrid>
-    <div class="content n-panel vertical scroll-y">
+    <div class="content n-panel vertical scroll-y" style="position: relative; z-index: 0;">
       <div class="">
         <List className="mt-2" solo role="menu">
           {#if browserLoading}
