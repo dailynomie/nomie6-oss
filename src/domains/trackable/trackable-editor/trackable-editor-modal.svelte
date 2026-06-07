@@ -54,6 +54,7 @@
 
   let workingTag: string = $state('')
   let label: string = $state('Label')
+  let editingLabel: string = $state('')
 
   let saving: boolean = $state(false)
   let workingTrackableVersion: number = $state(0)
@@ -64,14 +65,27 @@
       workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
+      // Set editing label based on type
+      if (workingTrackable.type === 'pointer') {
+        editingLabel = workingTrackable.ptr?.label || ''
+        label = 'Pointer Name'
+      } else if (workingTrackable.type === 'context') {
+        editingLabel = workingTrackable.ctx?.label || ''
+        label = 'Context Label'
+      } else if (workingTrackable.type === 'person') {
+        editingLabel = workingTrackable.person?.displayName || ''
+        label = `Person's Name`
+      } else if (workingTrackable.type === 'tracker') {
+        editingLabel = workingTrackable.tracker?.label || ''
+        label = 'Tracker Label'
+      } else {
+        editingLabel = workingTrackable.label || ''
+      }
+
       if (!ogTag && !workingTrackable.emoji) {
         workingTrackable.emoji = randomEmoji()
         workingTrackable.color = randomColor()
       }
-      if (workingTrackable.type == 'tracker') label = 'Tracker Label'
-      if (workingTrackable.type == 'person') label = `Person's Name`
-      if (workingTrackable.type == 'pointer') label = 'Pointer Name'
-      if (workingTrackable.type == 'context') label = 'Context Label'
     }
   })
 
@@ -252,29 +266,33 @@
           <Input
             className="outline"
             id="trackable-label-input"
-            value={workingTrackable.type === 'pointer' ? workingTrackable.ptr?.label : workingTrackable.type === 'context' ? workingTrackable.ctx?.label : workingTrackable.type === 'person' ? workingTrackable.person?.displayName : workingTrackable.type === 'tracker' ? workingTrackable.tracker?.label : workingTrackable.label}
+            bind:value={editingLabel}
             on:input={(evt) => {
               // For person: update both displayName (for label getter) and username (for canSave)
               if (workingTrackable.type === 'person') {
                 workingTrackable.person = {
                   ...workingTrackable.person,
-                  displayName: evt.detail,
-                  username: evt.detail
+                  displayName: editingLabel,
+                  username: editingLabel
                 }
               } else if (workingTrackable.type === 'context') {
                 // For context: label getter and canSave both use ctx.label
-                workingTrackable.ctx = { ...workingTrackable.ctx, label: evt.detail }
+                workingTrackable.ctx = { ...workingTrackable.ctx, label: editingLabel }
               } else if (workingTrackable.type === 'tracker') {
                 // For tracker: update tracker.label and tag
-                const newTag = toTag(evt.detail)
-                workingTrackable.tracker = { ...workingTrackable.tracker, label: evt.detail, tag: newTag || workingTrackable.tracker.tag }
+                const newTag = toTag(editingLabel)
+                workingTrackable.tracker = { ...workingTrackable.tracker, label: editingLabel, tag: newTag || workingTrackable.tracker.tag }
               } else if (workingTrackable.type === 'pointer') {
                 // For pointer: update ptr.label which canSave checks
-                workingTrackable.ptr = { ...workingTrackable.ptr, label: evt.detail }
+                if (!workingTrackable.ptr) {
+                  workingTrackable.ptr = { label: editingLabel }
+                } else {
+                  workingTrackable.ptr = { ...workingTrackable.ptr, label: editingLabel }
+                }
               }
 
               if (!ogTag) {
-                workingTag = `${strToTagSafe(evt.detail)}`
+                workingTag = `${strToTagSafe(editingLabel)}`
               }
 
               // Increment version to trigger effect re-run
