@@ -10,7 +10,7 @@
   import { parseNumber } from '../../utils/parseNumber/parseNumber'
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
-  let { date = $bindable(), weekStarts, trackableUsage, size, loading, hidePrevNext } = $props()
+  let { date = $bindable(), weekStarts, trackableUsage = $bindable(), size, loading, hidePrevNext } = $props()
 
   let now = dayjs().format('YYYY-MM-DD')
 
