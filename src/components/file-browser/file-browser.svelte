@@ -278,7 +278,7 @@
 
 {#if !browserFile}
   <NLayout className="n-file-browser">
-    <ToolbarGrid slot="header">
+    <ToolbarGrid slot="header" style="position: relative; z-index: 10;">
       <BackButton on:click={() => back()} slot="left" />
       <h1 class="ntitle">{browserTitle}</h1>
     </ToolbarGrid>
