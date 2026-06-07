@@ -282,9 +282,9 @@
       <BackButton on:click={() => back()} slot="left" />
       <h1 class="ntitle">{browserTitle}</h1>
     </ToolbarGrid>
-    <div class="content n-panel vertical scroll-y" style="overflow-y: auto;">
-      <div class="">
-        <List className="mt-2" solo role="menu">
+    <div class="content n-panel vertical scroll-y" style="overflow: hidden;">
+      <div style="overflow-y: auto; height: 100%;">
+        <List className="mt-2" solo role="menu" style="position: relative;">
           {#if browserLoading}
             <div class="p-4 n-panel h-20 flex items-center justify-center">
               <NSpinner size={30} />
