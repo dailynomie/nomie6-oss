@@ -113,22 +113,24 @@
   }
 
   async function back() {
-    if (!browserPath.length) {
-      navigate('/settings')
-    } else {
+    // If viewing a file, return to list view
+    if (browserFile) {
+      browserFile = null
+      browserEdit = false
+      fileContent = null
+      return
+    }
+
+    // If in a subdirectory, go back to parent directory
+    if (browserPath.length) {
       browserPath.pop()
       await tick(10)
       browserFiles = extractFiles()
-      // await tick(100)
       init()
+    } else {
+      // At root, go to settings
+      navigate('/settings')
     }
-    // if (browserPath.length) {
-    //   browserPath.pop();
-    //   await tick(10);
-    //   browserFiles = extractFiles();
-    // } else {
-    //   history.back();
-    // }
   }
 
   function extractFiles() {
