@@ -31,10 +31,16 @@
   const dispatch = createEventDispatcher()
 
   let lastLedgerHash = $state('')
+  let isLoading = $state(false)
+
   $effect(() => {
-    if ($LedgerStore.hash !== lastLedgerHash) {
+    if ($LedgerStore.hash !== lastLedgerHash && !isLoading) {
+      isLoading = true
       lastLedgerHash = $LedgerStore.hash
-      loadToday({ knownTrackables: $TrackableStore.trackables, date: $TodayStore.date })
+      Promise.resolve().then(() => {
+        loadToday({ knownTrackables: $TrackableStore.trackables, date: $TodayStore.date })
+        isLoading = false
+      })
     }
   })
 </script>
