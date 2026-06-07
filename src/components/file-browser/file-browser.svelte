@@ -68,15 +68,12 @@
   }
 
   $effect(() => {
-    console.log('[FileBrowser] effect running, path:', path, 'lastPath:', lastPath)
     if (path !== lastPath) {
-      console.log('[FileBrowser] path changed, calling init')
       init(path)
     }
   })
 
   async function init(pathStr = '') {
-    console.log('[FileBrowser] init called with path:', pathStr)
     state.file = null
     state.edit = false
     lastPath = pathStr
@@ -86,8 +83,6 @@
     }
     normalizedPath = normalizedPath.replace(/\/\//g, '/')
     let ogPath = normalizedPath ? normalizedPath.split('/').filter(p => p) : []
-
-    console.log('[FileBrowser] normalized path:', normalizedPath, 'ogPath:', ogPath)
 
     if (ogPath.length > 0) {
       let fileName = ogPath[ogPath.length - 1]
@@ -106,7 +101,6 @@
       state.title = 'File Browser'
     }
 
-    console.log('[FileBrowser] init complete, state.files:', state.files)
     state.loading = false
   }
   function cancelEdits() {
@@ -205,18 +199,13 @@
 
   onMount(async () => {
     state.loading = true
-    console.log('[FileBrowser] onMount: setting up Storage callbacks')
     Storage.getEngine().onReady(async () => {
-      console.log('[FileBrowser] Storage.onReady fired')
       let files = await Storage.list()
-      console.log('[FileBrowser] Storage.list returned:', files?.length || 0, 'files')
       state.tree = Treeify(files)
       state.files = extractFiles()
-      console.log('[FileBrowser] state.files updated:', state.files)
       state.loading = false
     })
     await Storage.init()
-    console.log('[FileBrowser] Storage.init complete')
   })
 
   async function deleteFile(file) {
