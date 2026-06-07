@@ -68,7 +68,9 @@
   let lastPath = $state(null)
 
   $effect(() => {
-    if (path !== undefined && path !== null) {
+    if (path && path !== lastPath) {
+      init(path)
+    } else if (path === '' && lastPath !== '') {
       init(path)
     }
   })
@@ -199,13 +201,13 @@
 
   onMount(async () => {
     state.loading = true
-    await Storage.init()
     Storage.getEngine().onReady(async () => {
       let files = await Storage.list()
       state.tree = Treeify(files)
       state.files = extractFiles()
-      init(path)
+      state.loading = false
     })
+    await Storage.init()
   })
 
   async function deleteFile(file) {
