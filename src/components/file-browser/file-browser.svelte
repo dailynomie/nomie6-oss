@@ -104,9 +104,8 @@
           buttonLabel: 'Reload',
           timeout: 2500,
           buttonClick() {
-            // Navigate back to file browser before reloading
-            const reloadUrl = browserPath.length ? `/files/${browserPath.join('/')}` : '/files'
-            window.location.href = reloadUrl
+            // Do a full page reload to refresh all stores
+            window.location.reload()
           },
         })
       } catch (e) {
