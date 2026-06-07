@@ -69,7 +69,7 @@
       let fileName = ogPath[ogPath.length - 1]
       if (isFile(fileName)) {
         browserFile = fileName
-        browserPath = ogPath
+        browserPath = ogPath.slice(0, -1)
         readFile()
       } else {
         browserPath = ogPath
