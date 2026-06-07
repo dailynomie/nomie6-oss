@@ -113,26 +113,19 @@
   }
 
   async function back() {
-    // If viewing a file, navigate back to the parent directory
+    // If viewing a file, return to list view
     if (browserFile) {
-      if (browserPath.length) {
-        // Navigate to parent directory
-        navigate(`/files/${browserPath.join('/')}`)
-      } else {
-        // Navigate to root file browser
-        navigate('/files')
-      }
+      browserFile = null
+      browserEdit = false
+      fileContent = null
       return
     }
 
     // If in a subdirectory, go back to parent directory
     if (browserPath.length) {
-      const parentPath = browserPath.slice(0, -1)
-      if (parentPath.length) {
-        navigate(`/files/${parentPath.join('/')}`)
-      } else {
-        navigate('/files')
-      }
+      browserPath = browserPath.slice(0, -1)
+      await tick(10)
+      browserFiles = extractFiles()
     } else {
       // At root, go to settings
       navigate('/settings')
