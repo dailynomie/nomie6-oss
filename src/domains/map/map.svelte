@@ -96,6 +96,21 @@
       if (methods) {
         await methods.init()
         methods.renderMap()
+      } else if (_el && locations && locations.length > 0) {
+        // Default map initialization when methods not provided
+        const mapElement = _el.querySelector('.n-map')
+        if (mapElement && !MAP) {
+          MAP = L.map(mapElement).setView([locations[0].lat, locations[0].lng], 12)
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19,
+          }).addTo(MAP)
+
+          // Add markers for each location
+          locations.forEach((loc) => {
+            L.marker([loc.lat, loc.lng]).addTo(MAP).bindPopup(loc.name || 'Location')
+          })
+        }
       }
     } catch (e) {
       console.error(`init and render error`, e.message)
