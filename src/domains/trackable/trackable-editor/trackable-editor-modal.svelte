@@ -70,6 +70,8 @@
       }
       if (workingTrackable.type == 'tracker') label = 'Tracker Label'
       if (workingTrackable.type == 'person') label = `Person's Name`
+      if (workingTrackable.type == 'pointer') label = 'Pointer Name'
+      if (workingTrackable.type == 'context') label = 'Context Label'
     }
   })
 
@@ -250,7 +252,7 @@
           <Input
             className="outline"
             id="trackable-label-input"
-            value={workingTrackable.label}
+            value={workingTrackable.type === 'pointer' ? workingTrackable.ptr?.label : workingTrackable.type === 'context' ? workingTrackable.ctx?.label : workingTrackable.type === 'person' ? workingTrackable.person?.displayName : workingTrackable.type === 'tracker' ? workingTrackable.tracker?.label : workingTrackable.label}
             on:input={(evt) => {
               // For person: update both displayName (for label getter) and username (for canSave)
               if (workingTrackable.type === 'person') {
