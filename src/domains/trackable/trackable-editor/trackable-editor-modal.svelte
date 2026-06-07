@@ -284,31 +284,34 @@
             id="trackable-label-input"
             bind:value={editingLabel}
             on:input={(evt) => {
+              const newValue = evt.detail || editingLabel
+              editingLabel = newValue
+
               // For person: update both displayName (for label getter) and username (for canSave)
               if (workingTrackable.type === 'person') {
                 workingTrackable.person = {
                   ...workingTrackable.person,
-                  displayName: editingLabel,
-                  username: editingLabel
+                  displayName: newValue,
+                  username: newValue
                 }
               } else if (workingTrackable.type === 'context') {
                 // For context: label getter and canSave both use ctx.label
-                workingTrackable.ctx = { ...workingTrackable.ctx, label: editingLabel }
+                workingTrackable.ctx = { ...workingTrackable.ctx, label: newValue }
               } else if (workingTrackable.type === 'tracker') {
                 // For tracker: update tracker.label and tag
-                const newTag = toTag(editingLabel)
-                workingTrackable.tracker = { ...workingTrackable.tracker, label: editingLabel, tag: newTag || workingTrackable.tracker.tag }
+                const newTag = toTag(newValue)
+                workingTrackable.tracker = { ...workingTrackable.tracker, label: newValue, tag: newTag || workingTrackable.tracker.tag }
               } else if (workingTrackable.type === 'pointer') {
                 // For pointer: update ptr.label which canSave checks
                 if (!workingTrackable.ptr) {
-                  workingTrackable.ptr = { label: editingLabel }
+                  workingTrackable.ptr = { label: newValue }
                 } else {
-                  workingTrackable.ptr = { ...workingTrackable.ptr, label: editingLabel }
+                  workingTrackable.ptr = { ...workingTrackable.ptr, label: newValue }
                 }
               }
 
               if (!ogTag) {
-                workingTag = `${strToTagSafe(editingLabel)}`
+                workingTag = `${strToTagSafe(newValue)}`
               }
 
               // Increment version to trigger effect re-run
