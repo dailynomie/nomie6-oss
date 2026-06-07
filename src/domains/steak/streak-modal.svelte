@@ -120,20 +120,29 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
   let streak = $state<StreakSummaryResults>(undefined)
 
   $effect(() => {
+    // Only load more if we've reached the end and haven't loaded this segment yet
     if (lastKnownEnd !== listEndIndex && listEndIndex === values.length - 1 && values.length > 0 && !isLoadingMore) {
+      // Immediately mark as loading to prevent re-entry
       isLoadingMore = true
-      lastKnownEnd = listEndIndex
-      startDate = startDate.subtract(DAYS_BACK, 'day')
-      _startDate = startDate.toDate()
-      endDate = endDate.subtract(DAYS_BACK, 'day')
-      loadUsage().then(() => {
-        isLoadingMore = false
+      const currentEndIndex = listEndIndex
+
+      // Schedule the load asynchronously to avoid re-triggering the effect
+      Promise.resolve().then(async () => {
+        startDate = startDate.subtract(DAYS_BACK, 'day')
+        _startDate = startDate.toDate()
+        endDate = endDate.subtract(DAYS_BACK, 'day')
+        lastKnownEnd = currentEndIndex
+
+        await loadUsage()
+
         let knownDates:Array<Date> = values.filter((v)=>{
           return v.value > 0 || v.value < 0
         }).map(v=>{
           return v.date.toDate()
         });
         streak = streakSummary(knownDates)
+
+        isLoadingMore = false
       })
     }
   })
