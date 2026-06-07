@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { Router, Route } from '../vendor/svelte-navigator'
-  import FileBrowser from './file-browser.svelte'
+  import FileBrowser from '../components/file-browser/file-browser.svelte'
   // import DynamicPage from '../DynamicPage.svelte'
   // import Messages from './Messages.svelte'
   import Csv from './export/csv.svelte'
