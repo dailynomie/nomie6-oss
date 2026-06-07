@@ -39,6 +39,12 @@ export class PointerClass {
       this.avatar = starter.avatar
       this.emoji = starter.emoji
       this.color = starter.color || strToColor(this.tag)
+    } else {
+      // Initialize defaults for new pointer
+      this.label = ''
+      this.description = ''
+      this.reminder = false
+      this.reminderdate = new Date()
     }
   }
 
