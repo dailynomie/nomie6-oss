@@ -20,11 +20,9 @@
   let loading = $state(true)
   let tu = $state<TrackableUsage>(undefined)
 
-  let loadClearTimeout = $state(undefined)
   const loadData = async () => {
-    loading = true
-    clearTimeout(loadClearTimeout)
-    loadClearTimeout = setTimeout(async () => {
+    try {
+      loading = true
       tu = await queryToTrackableUsage(
         trackable,
         {
@@ -33,10 +31,10 @@
         },
         $TrackableStore.trackables
       )
-
       dispatch('usage', tu)
+    } finally {
       loading = false
-    }, 100)
+    }
   }
 
   // Disabled to prevent infinite loop with LedgerStore updates
