@@ -78,7 +78,7 @@
   let lastLocations = $state(undefined)
   let markers = $state<Array<any>>([])
 
-  let { locations = $bindable(), records, small, picker, height, className, style, lock = $bindable(), hideFavorite, methods } = $props()
+  let { locations = $bindable(), records = $bindable(), small, picker, height, className, style, lock = $bindable(), hideFavorite, methods } = $props()
 
   $effect(() => {
     if (locations && JSON.stringify(locations) !== lastLocations) {
