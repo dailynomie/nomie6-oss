@@ -48,25 +48,6 @@
   let editor = $state()
   let lastPath = $state(null)
 
-  const state = {
-    get title() { return browserTitle },
-    set title(v) { browserTitle = v },
-    get path() { return browserPath },
-    set path(v) { browserPath = v },
-    get tree() { return browserTree },
-    set tree(v) { browserTree = v },
-    get files() { return browserFiles },
-    set files(v) { browserFiles = v },
-    get file() { return browserFile },
-    set file(v) { browserFile = v },
-    get edit() { return browserEdit },
-    set edit(v) { browserEdit = v },
-    get loading() { return browserLoading },
-    set loading(v) { browserLoading = v },
-    get showMassEditor() { return browserShowMassEditor },
-    set showMassEditor(v) { browserShowMassEditor = v }
-  }
-
   $effect(() => {
     if (path !== lastPath) {
       init(path)
@@ -74,8 +55,8 @@
   })
 
   async function init(pathStr = '') {
-    state.file = null
-    state.edit = false
+    browserFile = null
+    browserEdit = false
     lastPath = pathStr
     let normalizedPath = pathStr || ''
     if (normalizedPath.substr(0, 1) == '/') {
@@ -87,24 +68,24 @@
     if (ogPath.length > 0) {
       let fileName = ogPath[ogPath.length - 1]
       if (isFile(fileName)) {
-        state.file = fileName
-        state.path = ogPath
+        browserFile = fileName
+        browserPath = ogPath
         readFile()
       } else {
-        state.path = ogPath
-        state.files = extractFiles()
+        browserPath = ogPath
+        browserFiles = extractFiles()
       }
     } else {
       // Root path - show all files
-      state.path = []
-      state.files = extractFiles()
-      state.title = 'File Browser'
+      browserPath = []
+      browserFiles = extractFiles()
+      browserTitle = 'File Browser'
     }
 
-    state.loading = false
+    browserLoading = false
   }
   function cancelEdits() {
-    state.edit = false
+    browserEdit = false
   }
   async function saveChanges() {
     if (!editor) {
@@ -116,7 +97,7 @@
       try {
         let payload = JSON.parse(value)
         editor.value = JSON.stringify(payload, null, 2)
-        await Storage.put(state.path.join('/'), payload)
+        await Storage.put(browserPath.join('/'), payload)
         showToast({
           message: 'File Saved',
           buttonLabel: 'Reload',
@@ -132,35 +113,35 @@
   }
 
   async function back() {
-    if (!state.path.length) {
+    if (!browserPath.length) {
       navigate('/settings')
     } else {
-      state.path.pop()
+      browserPath.pop()
       await tick(10)
-      state.files = extractFiles()
+      browserFiles = extractFiles()
       // await tick(100)
       init()
     }
-    // if (state.path.length) {
-    //   state.path.pop();
+    // if (browserPath.length) {
+    //   browserPath.pop();
     //   await tick(10);
-    //   state.files = extractFiles();
+    //   browserFiles = extractFiles();
     // } else {
     //   history.back();
     // }
   }
 
   function extractFiles() {
-    if (state.path.length) {
-      let obj = { ...state.tree }
-      state.path.forEach((name) => {
+    if (browserPath.length) {
+      let obj = { ...browserTree }
+      browserPath.forEach((name) => {
         if (obj.hasOwnProperty(name)) {
           obj = obj[name]
         }
       })
       return Object.keys(obj)
     } else {
-      return Object.keys(state.tree)
+      return Object.keys(browserTree)
     }
   }
 
@@ -198,18 +179,18 @@
   }
 
   onMount(async () => {
-    state.loading = true
+    browserLoading = true
     Storage.getEngine().onReady(async () => {
       let files = await Storage.list()
-      state.tree = Treeify(files)
-      state.files = extractFiles()
-      state.loading = false
+      browserTree = Treeify(files)
+      browserFiles = extractFiles()
+      browserLoading = false
     })
     await Storage.init()
   })
 
   async function deleteFile(file) {
-    let filepath = `${state.path.join('/')}`
+    let filepath = `${browserPath.join('/')}`
     let confirm = await Interact.confirm(
       `Really delete ${file}?`,
       `This can cause serious issues if you don't know what you're doing. File to delete: ${filepath}`,
@@ -233,8 +214,8 @@
   }
 
   async function download(file) {
-    let filename = state.path[state.path.length - 1]
-    let content = await Storage.get(state.path.join('/'))
+    let filename = browserPath[browserPath.length - 1]
+    let content = await Storage.get(browserPath.join('/'))
     Downloader.json(filename, content)
   }
 
@@ -244,7 +225,7 @@
       return true
     } else if (filesArray.indexOf(name) > -1) {
       return true
-    } else if (state.path[state.path.length - 1] == 'books') {
+    } else if (browserPath[browserPath.length - 1] == 'books') {
       return true
     } else {
       return false
@@ -274,7 +255,7 @@
   }
 
   async function editFile() {
-    state.edit = true
+    browserEdit = true
     await tick(200)
     editor = document.getElementById('file-editor')
     editor.addEventListener('onkeydown', onKeyPress)
@@ -282,34 +263,34 @@
 
   function getPath(file) {
     let path
-    if (state.path.length == 1) {
-      let root = state.path[0]
+    if (browserPath.length == 1) {
+      let root = browserPath[0]
       if (root.substr(0, 1) == '/') {
         root = root.substr(1, root.length - 2)
       }
       path = `/files/${root}/${file}`
     } else {
-      path = `/files/${state.path.join('/')}/${file}`
+      path = `/files/${browserPath.join('/')}/${file}`
     }
     return path.replace('//', '/')
   }
 </script>
 
-{#if !state.file}
+{#if !browserFile}
   <NLayout className="n-file-browser">
     <ToolbarGrid slot="header">
       <BackButton on:click={() => back()} slot="left" />
-      <h1 class="ntitle">{state.title}</h1>
+      <h1 class="ntitle">{browserTitle}</h1>
     </ToolbarGrid>
     <div class="content n-panel vertical scroll-y">
       <div class="">
         <List className="mt-2" solo role="menu">
-          {#if state.loading}
+          {#if browserLoading}
             <div class="p-4 n-panel h-20 flex items-center justify-center">
               <NSpinner size={30} />
             </div>
           {/if}
-          {#each state.files as file}
+          {#each browserFiles as file}
             {#if !isFile(file)}
               <NItem
                 bottomLine
@@ -354,7 +335,7 @@
             className="bg-transparent"
             title="{Lang.t('settings.find-and-replace', 'Find and Replace')}..."
             on:click={() => {
-              state.showMassEditor = true
+              browserShowMassEditor = true
             }}
           >
             <span slot="left">🕵️‍♂️</span>
@@ -367,12 +348,12 @@
   <NLayout className="n-file-browser" showTabs={false}>
     <ToolbarGrid>
       <BackButton on:click={back} slot="left" />
-      <h1 class="ntitle">{state.file}</h1>
+      <h1 class="ntitle">{browserFile}</h1>
       <div slot="right" class="flex items-center space-x-2">
         <Button
           icon
           on:click={() => {
-            download(state.file)
+            download(browserFile)
           }}
         >
           <IonIcon icon={DownloadOutline} className="text-primary-500" />
@@ -380,7 +361,7 @@
         <Button
           icon
           on:click={() => {
-            deleteFile(state.file)
+            deleteFile(browserFile)
           }}
         >
           <IonIcon icon={TrashOutline} className="text-red-500" />
@@ -390,7 +371,7 @@
 
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex filler pb-12">
       {#if fileContent}
-        {#if !state.edit}
+        {#if !browserEdit}
           <pre class="text-gray-800 dark:text-gray-200">{fileContent}</pre>
         {:else}
           <textarea id="file-editor" class="min-h-screen" autocapitalize="off" autocorrect="off">{fileContent}</textarea
@@ -406,7 +387,7 @@
     <div slot="footer">
       {#if $Prefs.allowFileEdit}
         <div class=" px-2 pt-1 pb-2 flex">
-          {#if state.edit}
+          {#if browserEdit}
             <Button clear primary block on:click={cancelEdits}>Cancel</Button>
             <Button primary block on:click={saveChanges}>Save Changes</Button>
           {:else}
@@ -418,12 +399,12 @@
   </NLayout>
 {/if}
 
-{#if state.showMassEditor}
+{#if browserShowMassEditor}
   <!-- <MassEditor
     on:close={() => {
-      state.showMassEditor = false
+      browserShowMassEditor = false
     }}
-    show={state.showMassEditor}
+    show={browserShowMassEditor}
   /> -->
 {/if}
 
