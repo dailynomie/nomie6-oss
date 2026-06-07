@@ -14,8 +14,8 @@
   let reminderEnabled = $state(trackable.ptr.reminder)
 
   $effect(() => {
-    // Sync local state back to trackable when changed
-    trackable.ptr = { ...trackable.ptr, reminder: reminderEnabled }
+    // Sync reminder state back to trackable, preserving PointerClass structure
+    trackable.ptr.reminder = reminderEnabled
   })
 </script>
 
@@ -53,9 +53,6 @@
     placeholder="01/01/2099"
     bind:value={trackable.ptr.reminderdate}
     rows={1}
-    on:change={(evt) => {
-      trackable.ptr.reminderdate = evt.detail
-    }}
   />
 </List>
 <p class="list-note">
