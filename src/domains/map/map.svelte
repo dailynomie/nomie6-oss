@@ -103,7 +103,7 @@
   }
 
   $effect(() => {
-    if (locations && !locations.length && records && records.length) {
+    if ((!locations || !locations.length) && records && records.length) {
       try {
         let locs = records
           .filter((r) => r.lat)
