@@ -104,8 +104,9 @@
           buttonLabel: 'Reload',
           timeout: 2500,
           buttonClick() {
-            // Do a full page reload to refresh all stores
-            window.location.reload()
+            // Navigate to file browser and reload to refresh all stores
+            navigate('/files')
+            setTimeout(() => window.location.reload(), 100)
           },
         })
       } catch (e) {
@@ -295,8 +296,8 @@
       <h1 class="ntitle">{browserTitle}</h1>
     </ToolbarGrid>
     <div class="content n-panel vertical scroll-y" style="overflow: hidden;">
-      <div style="overflow-y: auto; height: 100%;">
-        <List className="mt-2" solo role="menu" style="position: relative;">
+      <div style="overflow-y: auto; height: 100%; position: relative; z-index: 0;">
+        <List className="mt-2" solo role="menu" style="position: relative; z-index: 0;">
           {#if browserLoading}
             <div class="p-4 n-panel h-20 flex items-center justify-center">
               <NSpinner size={30} />
