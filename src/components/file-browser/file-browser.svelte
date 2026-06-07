@@ -31,39 +31,59 @@
   import { DownloadOutline, TrashOutline } from '../icon/nicons'
   import { showToast } from '../toast/ToastStore'
 
+  const { path = "" } = $props()
+
+  let browserTitle = $state('File Browser')
+  let browserPath = $state([])
+  let browserTree = $state({})
+  let browserFiles = $state([])
+  let browserAnimateForward = $state(false)
+  let browserAnimateBack = $state(false)
+  let browserFile = $state(null)
+  let browserLoading = $state(true)
+  let browserEdit = $state(false)
+  let browserShowMassEditor = $state(false)
+
   const state = {
-    title: 'File Browser',
-    path: [],
-    tree: {},
-    files: [],
-    animateForward: false,
-    animateBack: false,
-    file: null,
-    loading: true,
-    edit: false,
-    showMassEditor: false,
+    get title() { return browserTitle },
+    set title(v) { browserTitle = v },
+    get path() { return browserPath },
+    set path(v) { browserPath = v },
+    get tree() { return browserTree },
+    set tree(v) { browserTree = v },
+    get files() { return browserFiles },
+    set files(v) { browserFiles = v },
+    get file() { return browserFile },
+    set file(v) { browserFile = v },
+    get edit() { return browserEdit },
+    set edit(v) { browserEdit = v },
+    get loading() { return browserLoading },
+    set loading(v) { browserLoading = v },
+    get showMassEditor() { return browserShowMassEditor },
+    set showMassEditor(v) { browserShowMassEditor = v }
   }
 
   let fileContent = $state()
   let editor = $state()
-  let path = $state(undefined)
   let lastPath = $state(null)
 
   $effect(() => {
-    if (path && path !== lastPath) {
-      init()
+    if (path !== undefined && path !== null) {
+      init(path)
     }
   })
 
-  async function init() {
+  async function init(pathStr = '') {
     state.file = null
     state.edit = false
-    lastPath = path
-    if (path.substr(0, 1) == '/') {
-      path = path.replace('/', '')
+    lastPath = pathStr
+    let normalizedPath = pathStr || ''
+    if (normalizedPath.substr(0, 1) == '/') {
+      normalizedPath = normalizedPath.substring(1)
     }
-    path = path.replace(/\/\//g, '/')
-    let ogPath = path.split('/')
+    normalizedPath = normalizedPath.replace(/\/\//g, '/')
+    let ogPath = normalizedPath ? normalizedPath.split('/').filter(p => p) : []
+
     if (ogPath.length > 0) {
       let fileName = ogPath[ogPath.length - 1]
       if (isFile(fileName)) {
@@ -72,12 +92,16 @@
         readFile()
       } else {
         state.path = ogPath
-
         state.files = extractFiles()
       }
+    } else {
+      // Root path - show all files
+      state.path = []
+      state.files = extractFiles()
+      state.title = 'File Browser'
     }
-    state.title = ogPath.join('/')
-    state.path = ogPath
+
+    state.loading = false
   }
   function cancelEdits() {
     state.edit = false
@@ -175,13 +199,13 @@
 
   onMount(async () => {
     state.loading = true
+    await Storage.init()
     Storage.getEngine().onReady(async () => {
       let files = await Storage.list()
       state.tree = Treeify(files)
       state.files = extractFiles()
-      state.loading = false
+      init(path)
     })
-    await Storage.init()
   })
 
   async function deleteFile(file) {
