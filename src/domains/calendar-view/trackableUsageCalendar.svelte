@@ -39,13 +39,15 @@
     }, 100)
   }
 
-  let lastHash = $state('')
-  $effect(() => {
-    if (date && trackable && $LedgerStore.hash && `${date?.toDateString()}${trackable.tag}` !== lastHash) {
-      lastHash = `${date.toDateString()}${trackable.tag}`
-      loadData()
-    }
-  })
+  // Disabled to prevent infinite loop with LedgerStore updates
+  // let lastHash = $state('')
+  // $effect(() => {
+  //   if (date && trackable && $LedgerStore.hash && `${date?.toDateString()}${trackable.tag}` !== lastHash) {
+  //     lastHash = `${date.toDateString()}${trackable.tag}`
+  //     loadData()
+  //   }
+  // })
+
   onMount(() => {
     loadData()
   })
