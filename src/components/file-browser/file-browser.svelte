@@ -103,7 +103,9 @@
           buttonLabel: 'Reload',
           timeout: 2500,
           buttonClick() {
-            window.location.href = window.location.href
+            // Navigate back to file browser before reloading
+            const reloadUrl = browserPath.length ? `/files/${browserPath.join('/')}` : '/files'
+            window.location.href = reloadUrl
           },
         })
       } catch (e) {
