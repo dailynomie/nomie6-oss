@@ -44,6 +44,10 @@
   let browserEdit = $state(false)
   let browserShowMassEditor = $state(false)
 
+  let fileContent = $state()
+  let editor = $state()
+  let lastPath = $state(null)
+
   const state = {
     get title() { return browserTitle },
     set title(v) { browserTitle = v },
@@ -62,10 +66,6 @@
     get showMassEditor() { return browserShowMassEditor },
     set showMassEditor(v) { browserShowMassEditor = v }
   }
-
-  let fileContent = $state()
-  let editor = $state()
-  let lastPath = $state(null)
 
   $effect(() => {
     console.log('[FileBrowser] effect running, path:', path, 'lastPath:', lastPath)
