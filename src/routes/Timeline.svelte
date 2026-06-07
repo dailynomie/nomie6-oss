@@ -46,11 +46,11 @@
 
   import TimelineLoader from '../domains/timeline/timeline-loader.svelte'
 
-  let startingDate: Date = new Date()
+  let startingDate = $state<Date>(new Date())
   let date: Dayjs = dayjs(startingDate)
   let displayDate = dayjs()
   let topItem: TimelineItemType
-  let inPast: boolean = false
+  let inPast = $state(false)
 
   const dateFormats = getDateFormats()
 
@@ -68,14 +68,8 @@
   const jumpTo = async () => {
     const jumpDate = await selectFuzzyDate(dayjs(date), false)
     if (jumpDate) {
-      date = dayjs(jumpDate)
       startingDate = jumpDate.toDate()
-      displayDate = date
-      if (startingDate.toDateString() !== new Date().toDateString()) {
-        inPast = true
-      } else {
-        inPast = false
-      }
+      inPast = jumpDate.toDate().toDateString() !== new Date().toDateString()
     }
   }
 
