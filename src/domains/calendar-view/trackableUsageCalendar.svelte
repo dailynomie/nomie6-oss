@@ -47,8 +47,10 @@
       console.log('Query completed with result:', result)
       if (result) {
         tu = result
-        dispatch('usage', tu)
         console.log('tu set, data loaded')
+        console.log('Dispatching usage event with tu:', tu)
+        dispatch('usage', tu)
+        console.log('usage event dispatched')
       } else {
         console.log('Query returned null/undefined')
       }
