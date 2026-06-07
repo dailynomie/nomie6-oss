@@ -29,16 +29,17 @@ export class PointerClass {
     if (starter && typeof starter === 'string') {
       this.tag = starter
       this.label = starter.replace('^', '')
-    } else if (starter && typeof starter === 'object' && starter.tag) {
+    } else if (starter && typeof starter === 'object') {
+      // Load all properties from object, even if tag doesn't exist yet
       this.tag = starter.tag
-      this.label = starter.label || starter.tag
+      this.label = starter.label || starter.tag || ''
       this.duration = starter.duration || 1
       this.description = starter.description || ""
       this.reminder = starter.reminder || false
       this.reminderdate = starter.reminderdate || new Date()
       this.avatar = starter.avatar
       this.emoji = starter.emoji
-      this.color = starter.color || strToColor(this.tag)
+      this.color = starter.color || (this.tag ? strToColor(this.tag) : undefined)
     } else {
       // Initialize defaults for new pointer
       this.label = ''
