@@ -89,6 +89,22 @@
     }
   })
 
+  $effect(() => {
+    // Keep editingLabel in sync with the underlying trackable label
+    if (workingTrackable && editingLabel !== undefined) {
+      const currentLabel =
+        workingTrackable.type === 'pointer' ? workingTrackable.ptr?.label :
+        workingTrackable.type === 'context' ? workingTrackable.ctx?.label :
+        workingTrackable.type === 'person' ? workingTrackable.person?.displayName :
+        workingTrackable.type === 'tracker' ? workingTrackable.tracker?.label :
+        workingTrackable.label
+
+      if (currentLabel !== editingLabel && currentLabel !== undefined && currentLabel !== null) {
+        editingLabel = currentLabel
+      }
+    }
+  })
+
   let canSave = $derived.by(() => {
     if (!workingTrackable) return false
 
