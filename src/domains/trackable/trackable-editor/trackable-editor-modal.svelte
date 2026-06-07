@@ -34,6 +34,7 @@
 
   import { downloadTrackables, strToTagSafe } from '../trackable-utils'
   import { Trackable } from '../Trackable.class'
+  import { PointerClass } from '../../pointers/pointer-class'
   import { InitTrackableStore, saveTrackable, TrackableStore } from '../TrackableStore'
   import TrackableEditorContext from './context/trackable-editor-context.svelte'
   import TrackableEditorPointer from './pointer/trackable-editor-pointer.svelte'
@@ -90,8 +91,9 @@
   })
 
   $effect(() => {
-    // Keep editingLabel in sync with the underlying trackable label
-    if (workingTrackable && editingLabel !== undefined) {
+    // Only sync from trackable to editingLabel when first loading the trackable
+    // Don't constantly sync during editing, as that resets user input
+    if (workingTrackable && editingLabel === '') {
       const currentLabel =
         workingTrackable.type === 'pointer' ? workingTrackable.ptr?.label :
         workingTrackable.type === 'context' ? workingTrackable.ctx?.label :
@@ -99,11 +101,12 @@
         workingTrackable.type === 'tracker' ? workingTrackable.tracker?.label :
         workingTrackable.label
 
-      if (currentLabel !== editingLabel && currentLabel !== undefined && currentLabel !== null) {
+      if (currentLabel && currentLabel !== '') {
         editingLabel = currentLabel
       }
     }
   })
+
 
   let canSave = $derived.by(() => {
     if (!workingTrackable) return false
@@ -283,38 +286,50 @@
             className="outline"
             id="trackable-label-input"
             bind:value={editingLabel}
-            on:input={(evt) => {
-              const newValue = evt.detail || editingLabel
-              editingLabel = newValue
+            on:input={() => {
+              // Sync editingLabel to the trackable on every keystroke
+              const newTag = !ogTag ? strToTagSafe(editingLabel) : workingTag
 
-              // For person: update both displayName (for label getter) and username (for canSave)
-              if (workingTrackable.type === 'person') {
-                workingTrackable.person = {
-                  ...workingTrackable.person,
-                  displayName: newValue,
-                  username: newValue
-                }
-              } else if (workingTrackable.type === 'context') {
-                // For context: label getter and canSave both use ctx.label
-                workingTrackable.ctx = { ...workingTrackable.ctx, label: newValue }
-              } else if (workingTrackable.type === 'tracker') {
-                // For tracker: update tracker.label and tag
-                const newTag = toTag(newValue)
-                workingTrackable.tracker = { ...workingTrackable.tracker, label: newValue, tag: newTag || workingTrackable.tracker.tag }
-              } else if (workingTrackable.type === 'pointer') {
-                // For pointer: update ptr.label which canSave checks
-                if (!workingTrackable.ptr) {
-                  workingTrackable.ptr = { label: newValue }
+              if (workingTrackable?.type === 'pointer') {
+                // Always recreate PointerClass with all properties to ensure proper initialization
+                workingTrackable.ptr = new PointerClass({
+                  label: editingLabel,
+                  tag: newTag,
+                  duration: workingTrackable.ptr?.duration || 1,
+                  description: workingTrackable.ptr?.description || '',
+                  reminder: workingTrackable.ptr?.reminder ?? false,
+                  reminderdate: workingTrackable.ptr?.reminderdate || new Date(),
+                  emoji: workingTrackable.ptr?.emoji,
+                  color: workingTrackable.ptr?.color,
+                  avatar: workingTrackable.ptr?.avatar,
+                })
+              } else if (workingTrackable?.type === 'context') {
+                if (!workingTrackable.ctx) {
+                  workingTrackable.ctx = { label: editingLabel }
                 } else {
-                  workingTrackable.ptr = { ...workingTrackable.ptr, label: newValue }
+                  workingTrackable.ctx.label = editingLabel
+                }
+              } else if (workingTrackable?.type === 'person') {
+                if (!workingTrackable.person) {
+                  workingTrackable.person = { displayName: editingLabel, username: editingLabel }
+                } else {
+                  workingTrackable.person.displayName = editingLabel
+                  workingTrackable.person.username = editingLabel
+                }
+              } else if (workingTrackable?.type === 'tracker') {
+                if (!workingTrackable.tracker) {
+                  workingTrackable.tracker = { label: editingLabel, tag: newTag }
+                } else {
+                  workingTrackable.tracker.label = editingLabel
+                  workingTrackable.tracker.tag = newTag || workingTrackable.tracker.tag
                 }
               }
 
               if (!ogTag) {
-                workingTag = `${strToTagSafe(newValue)}`
+                workingTag = newTag
               }
 
-              // Increment version to trigger effect re-run
+              // Force canSave to re-evaluate
               workingTrackableVersion++
             }}
             placeholder={label}
