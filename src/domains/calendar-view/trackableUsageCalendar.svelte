@@ -23,11 +23,8 @@
   const loadData = async () => {
     try {
       loading = true
-      console.log('loadData starting for', trackable?.label)
-      // Add timeout to prevent infinite loading
       const timeoutPromise = new Promise((resolve) => {
         setTimeout(() => {
-          console.log('Query timeout after 5 seconds')
           resolve(null)
         }, 5000) // 5 second timeout
       })
@@ -44,21 +41,14 @@
         timeoutPromise
       ])
 
-      console.log('Query completed with result:', result)
       if (result) {
         tu = result
-        console.log('tu set, data loaded')
-        console.log('Dispatching usage event with tu:', tu)
         dispatch('usage', tu)
-        console.log('usage event dispatched')
-      } else {
-        console.log('Query returned null/undefined')
       }
     } catch (e) {
       console.error('loadData error:', e)
     } finally {
       loading = false
-      console.log('loadData complete, loading set to false')
     }
   }
 

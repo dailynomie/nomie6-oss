@@ -101,13 +101,11 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
         trackable={props.trackable}
         bind:date={starterDate}
         on:usage={(evt) => {
-          console.log('calendar-view-modal received usage event:', evt.detail)
           loading = false
 
           activeDate = undefined
           trackableUsage = evt.detail
           lastUsageData = $UsageStore[trackableUsage.trackable.tag]
-          console.log('calendar-view-modal: loading set to false, trackableUsage set')
         }}
       />
     </Panel>
