@@ -118,14 +118,23 @@
       browserFile = null
       browserEdit = false
       fileContent = null
+      // Navigate to the correct URL for current directory
+      if (browserPath.length) {
+        navigate(`/files/${browserPath.join('/')}`)
+      } else {
+        navigate('/files')
+      }
       return
     }
 
     // If in a subdirectory, go back to parent directory
     if (browserPath.length) {
-      browserPath = browserPath.slice(0, -1)
-      await tick(10)
-      browserFiles = extractFiles()
+      const parentPath = browserPath.slice(0, -1)
+      if (parentPath.length) {
+        navigate(`/files/${parentPath.join('/')}`)
+      } else {
+        navigate('/files')
+      }
     } else {
       // At root, go to settings
       navigate('/settings')
