@@ -23,15 +23,29 @@
   const loadData = async () => {
     try {
       loading = true
-      tu = await queryToTrackableUsage(
-        trackable,
-        {
-          start: dayjs(date).startOf('month'),
-          end: dayjs(date).endOf('month'),
-        },
-        $TrackableStore.trackables
-      )
-      dispatch('usage', tu)
+      // Add timeout to prevent infinite loading
+      const timeoutPromise = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(null)
+        }, 5000) // 5 second timeout
+      })
+
+      const result = await Promise.race([
+        queryToTrackableUsage(
+          trackable,
+          {
+            start: dayjs(date).startOf('month'),
+            end: dayjs(date).endOf('month'),
+          },
+          $TrackableStore.trackables
+        ),
+        timeoutPromise
+      ])
+
+      if (result) {
+        tu = result
+        dispatch('usage', tu)
+      }
     } finally {
       loading = false
     }
