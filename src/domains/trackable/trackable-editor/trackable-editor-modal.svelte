@@ -50,12 +50,10 @@
   const { trackable, id, saveByPass } = $props<{ trackable: Trackable, id: string, saveByPass: Function }>()
 
   let workingTrackable: Trackable | undefined = $state(undefined)
-  let canSave: boolean = $state(false)
   let ogTag: string | undefined = $state(undefined)
 
   let workingTag: string = $state('')
   let label: string = $state('Label')
-  let tagExists: boolean = $state(false)
 
   let saving: boolean = $state(false)
   let workingTrackableVersion: number = $state(0)
@@ -75,42 +73,34 @@
     }
   })
 
-  $effect(() => {
-    // Explicitly depend on version to force re-run when properties change
+  let canSave = $derived.by(() => {
+    if (!workingTrackable) return false
+
+    // Access version to track changes
     workingTrackableVersion
 
-    if (workingTrackable) {
-      // Explicitly read all nested properties at top level to ensure proper dependency tracking
-      const label = workingTrackable.label
-      const type = workingTrackable.type
-      const personUsername = workingTrackable.person?.username
-      const ctxLabel = workingTrackable.ctx?.label
-      const trackerLabel = workingTrackable.tracker?.label
-      const trackerType = workingTrackable.tracker?.type
-      const trackerTag = workingTrackable.tracker?.tag
-      const ptrLabel = workingTrackable.ptr?.label
+    let baseCanSave = workingTrackable.canSave
 
-      // Compute typeValue using explicitly read properties
-      const typeValue = type === 'tracker'
-        ? `${trackerLabel}${trackerType}${trackerTag}`
-        : type === 'person'
-        ? personUsername
-        : type === 'context'
-        ? ctxLabel
-        : ptrLabel
-
-      canSave = workingTrackable.canSave
-
-      if (canSave && ogTag !== workingTag) {
-        if ($TrackableStore.trackables[`${workingTrackable.prefix}${workingTag}`]) {
-          canSave = false
-          tagExists = true
-          console.error('That tag already exists!')
-        } else {
-          tagExists = false
-        }
+    if (baseCanSave && ogTag !== workingTag) {
+      if ($TrackableStore.trackables[`${workingTrackable.prefix}${workingTag}`]) {
+        return false
       }
     }
+
+    return baseCanSave
+  })
+
+  let tagExists = $derived.by(() => {
+    if (!workingTrackable) return false
+
+    // Access version to track changes
+    workingTrackableVersion
+
+    if (ogTag !== workingTag) {
+      return !!$TrackableStore.trackables[`${workingTrackable.prefix}${workingTag}`]
+    }
+
+    return false
   })
 
   const generateCode = async (trackable: Trackable) => {
