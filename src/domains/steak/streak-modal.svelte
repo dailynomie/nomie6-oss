@@ -104,9 +104,8 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
         item.index = index
         return item
       })
-    wait(500).then(()=>{
-      loading = false;
-    })
+    await wait(500)
+    loading = false
   }
 
   const close = () => {
@@ -116,22 +115,26 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
   let lastKnownEnd = $state<number>(undefined)
   let listEndIndex = $state<number>(undefined)
   let listStartIndex = $state<number>(undefined)
+  let isLoadingMore = $state(false)
 
   let streak = $state<StreakSummaryResults>(undefined)
 
   $effect(() => {
-    if (lastKnownEnd !== listEndIndex && listEndIndex === values.length - 1 && values.length > 0) {
+    if (lastKnownEnd !== listEndIndex && listEndIndex === values.length - 1 && values.length > 0 && !isLoadingMore) {
+      isLoadingMore = true
       lastKnownEnd = listEndIndex
       startDate = startDate.subtract(DAYS_BACK, 'day')
       _startDate = startDate.toDate()
       endDate = endDate.subtract(DAYS_BACK, 'day')
-      loadUsage()
-      let knownDates:Array<Date> = values.filter((v)=>{
-        return v.value > 0 || v.value < 0
-      }).map(v=>{
-        return v.date.toDate()
-      });
-      streak = streakSummary(knownDates)
+      loadUsage().then(() => {
+        isLoadingMore = false
+        let knownDates:Array<Date> = values.filter((v)=>{
+          return v.value > 0 || v.value < 0
+        }).map(v=>{
+          return v.date.toDate()
+        });
+        streak = streakSummary(knownDates)
+      })
     }
   })
 </script>
