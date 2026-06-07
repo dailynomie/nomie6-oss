@@ -20,6 +20,7 @@ import Spinner from '../../components/spinner/spinner.svelte'
 
   import CloseOutline from '../../n-icons/CloseOutline.svelte'
 import { wait } from '../../utils/tick/tick';
+  import { onMount } from 'svelte'
   import Calendar3 from '../calendar-view/calendar3.svelte'
 
   import { queryToTrackableUsage } from '../ledger/LedgerStore'
@@ -55,16 +56,15 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
     }
   })
 
-  // Disabled to prevent infinite loop with UniboardTrackableGrid
-  // TODO: Re-implement this without triggering store updates that cause circular dependency
-  // $effect(() => {
-  //   if (date) {
-  //     endDate = dayjs(date)
-  //     startDate = endDate.subtract(DAYS_BACK, 'days')
-  //     _startDate = startDate.toDate()
-  //     loadUsage()
-  //   }
-  // })
+  onMount(() => {
+    // Load initial data when modal opens
+    if (date) {
+      endDate = dayjs(date)
+      startDate = endDate.subtract(DAYS_BACK, 'days')
+      _startDate = startDate.toDate()
+      loadUsage()
+    }
+  })
 
   let rawUsage = $state<TrackableUsage>(undefined)
   let loading = $state(false)
