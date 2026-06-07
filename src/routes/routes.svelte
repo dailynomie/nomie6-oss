@@ -99,6 +99,10 @@
   <Route path="/settings/export/csv">
     <Csv />
   </Route>
+  <Route path="/files">
+    <FileBrowser />
+  </Route>
+
   <Route path="/files/*path" let:params>
     <FileBrowser path={params.path} />
   </Route>
