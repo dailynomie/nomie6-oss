@@ -55,14 +55,16 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
     }
   })
 
-  $effect(() => {
-    if (date) {
-      endDate = dayjs(date)
-      startDate = endDate.subtract(DAYS_BACK, 'days')
-      _startDate = startDate.toDate()
-      loadUsage()
-    }
-  })
+  // Disabled to prevent infinite loop with UniboardTrackableGrid
+  // TODO: Re-implement this without triggering store updates that cause circular dependency
+  // $effect(() => {
+  //   if (date) {
+  //     endDate = dayjs(date)
+  //     startDate = endDate.subtract(DAYS_BACK, 'days')
+  //     _startDate = startDate.toDate()
+  //     loadUsage()
+  //   }
+  // })
 
   let rawUsage = $state<TrackableUsage>(undefined)
   let loading = $state(false)
