@@ -97,7 +97,8 @@
       try {
         let payload = JSON.parse(value)
         editor.value = JSON.stringify(payload, null, 2)
-        await Storage.put(browserPath.join('/'), payload)
+        const filePath = browserPath.length ? `${browserPath.join('/')}/${browserFile}` : browserFile
+        await Storage.put(filePath, payload)
         showToast({
           message: 'File Saved',
           buttonLabel: 'Reload',
