@@ -17,9 +17,9 @@
   $effect(() => {
     if (logs && mounted) {
       let pos = positivityFromLogs(logs, $TrackerStore)
-      score = 0
+      let totalScore = 0
       byHour = pos.byHour.map((number) => {
-        score = score + number
+        totalScore = totalScore + number
         if (number > 0) {
           return 'positive'
         } else if (number < 0) {
@@ -28,6 +28,7 @@
           return 'neutral'
         }
       })
+      score = totalScore
     }
   })
 
