@@ -10,7 +10,7 @@
 
   import { MoreVertical } from '../icon/nicons'
 
-  const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon, oneTap, hoursUsed } = $props()
+  const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon = MoreVertical, oneTap, hoursUsed } = $props()
 
   let clickSkip = $state(undefined)
 
