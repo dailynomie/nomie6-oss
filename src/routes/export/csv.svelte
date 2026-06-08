@@ -125,7 +125,7 @@
     async download() {
       let filename = `export-${startDate.format('YYYY-M-D')}-${endDate.format('YYYY-M-D')}.${nid(6)}.${
         import.meta.env.PACKAGE_VERSION
-      }.csv`
+      }`
 
       download.csv(filename, doc.join('\r\n'))
       await tick(120)
