@@ -183,9 +183,7 @@
       title: 'Create a Tracker',
       async click() {
         openTrackableEditor(new Trackable({ type: 'tracker' }), (trackable) => {
-          
-          template.trackables.push(trackable)
-          template.trackables = template.trackables
+          template.trackables = [...template.trackables, trackable]
         })
       },
     },
@@ -194,9 +192,7 @@
       title: 'Create a Person',
       async click() {
         openTrackableEditor(new Trackable({ type: 'person' }), (trackable) => {
-          
-          template.trackables.push(trackable)
-          template.trackables = template.trackables
+          template.trackables = [...template.trackables, trackable]
         })
       },
     },
@@ -205,9 +201,7 @@
       title: 'Create a Context',
       async click() {
         openTrackableEditor(new Trackable({ type: 'context' }), (trackable) => {
-          
-          template.trackables.push(trackable)
-          template.trackables = template.trackables
+          template.trackables = [...template.trackables, trackable]
         })
       },
     },
@@ -216,9 +210,7 @@
       title: 'Create a Pointer',
       async click() {
         openTrackableEditor(new Trackable({ type: 'pointer' }), (trackable) => {
-          
-          template.trackables.push(trackable)
-          template.trackables = template.trackables
+          template.trackables = [...template.trackables, trackable]
         })
       },
     },
