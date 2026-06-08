@@ -54,6 +54,7 @@
   import CloseOutline from '../../../n-icons/CloseOutline.svelte'
 
   // Props
+  const { log = undefined } = $props<{ log?: NLog }>()
 
   let textarea
   // consts
