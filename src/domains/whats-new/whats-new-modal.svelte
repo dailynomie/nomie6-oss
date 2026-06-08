@@ -13,8 +13,8 @@
   import { Lang } from '../../store/lang'
   import List from '../../components/list/list.svelte'
 
-  let showFixes = false
-  let showUpdates = false
+  let showFixes = $state(false)
+  let showUpdates = $state(false)
 
   let newfeatures = whatsNew.features.filter(feature => feature.version == whatsNew.version);
   let newfixes = whatsNew.fixes.filter(fix => fix.version == whatsNew.version);
