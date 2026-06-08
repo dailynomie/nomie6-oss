@@ -8,7 +8,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
   
 
   const dispatch = createEventDispatcher()
-  let { time, className, style, is24Hour, showDateButton, dateButtonClass, value = $bindable() } = $props()
+  let { time = $bindable(), className, style, is24Hour, showDateButton, dateButtonClass, value = $bindable() } = $props()
 
   let lastValue = $state<any>(undefined) // Value to hold last reaction
   let hour = $state(0) // local hour
