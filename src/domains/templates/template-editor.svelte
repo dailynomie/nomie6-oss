@@ -71,7 +71,7 @@
 
   const addTrackableToTemplate = (trackable: Trackable) => {
     if (!template.trackables.find((t) => t.id == trackable.id)) {
-      template.trackables = [...template.trackables, trackable]
+      template = { ...template, trackables: [...template.trackables, trackable] }
 
       // Import Combo / Note Trackables too
       if (trackable.type == 'tracker' && trackable.tracker.type == 'note') {
