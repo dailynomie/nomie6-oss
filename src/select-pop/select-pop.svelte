@@ -27,7 +27,7 @@ import CheckmarkOutline from '../n-icons/CheckmarkOutline.svelte';
     })
   }
 
-  const { className, value, placeholder, id, ...rest } = $props()
+  const { className, value, placeholder, id, options, ...rest } = $props()
 </script>
 
 <button on:click={showMenu} class="select-pop {rest.class || ''} {className || ''}" {...rest}>
