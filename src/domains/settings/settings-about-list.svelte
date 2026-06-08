@@ -30,13 +30,14 @@
 
   $effect(() => {
     counts.trackers = Object.keys($TrackerStore).length
-    counts.context = Object.keys($ContextStore).length
-    counts.pointers = Object.keys($PointerStore).length
+    counts.context = $ContextStore.length
+    counts.pointers = $PointerStore.length
     counts.people = Object.keys($PeopleStore).length
     counts.total = Object.keys($TrackableStore).length
     counts.locations = $LocationStore.length
-    counts.reminders = Object.keys($PointerStore.filter((pointer) => {
-      return pointer.reminder == true;})).length
+    counts.reminders = $PointerStore.filter((pointer) => {
+      return pointer.reminder == true
+    }).length
   })
 </script>
 
