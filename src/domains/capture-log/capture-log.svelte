@@ -343,7 +343,7 @@
             <MenuInline
               compact
               buttonStyle="width:40px !important;"
-              y="bottom"
+              y="top"
               x="right"
               id="prompt-button"
               buttonClass="stiff block max-w-8 h-8 w-8 z-40  text-primary bg-transparent rounded-full"
