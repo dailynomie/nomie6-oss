@@ -147,7 +147,7 @@
 
 <NLayout pageTitle="Export your Data" className="Export">
   <ToolbarGrid slot="header">
-    <NBackButton slot="left" to="/" />
+    <NBackButton slot="left" to="/settings" />
     <h1 class="ntitle">Export to CSV</h1>
   </ToolbarGrid>
 
