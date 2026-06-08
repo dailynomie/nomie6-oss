@@ -164,6 +164,9 @@
       let total = 0
       let score = undefined
       // Filter values, get only this days
+      if (!events || events.length === 0) {
+        return {}
+      }
       let values = events
         .filter((row) => {
           return day.toDate().toDateString() === new Date(row.end).toDateString()
