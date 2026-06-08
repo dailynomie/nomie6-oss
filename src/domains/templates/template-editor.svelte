@@ -368,8 +368,6 @@
       buttons: trackerAddButtons,
     })
   }
-
-  const { template } = $props()
 </script>
 
 {#if template}
