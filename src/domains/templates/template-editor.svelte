@@ -71,19 +71,18 @@
 
   const addTrackableToTemplate = (trackable: Trackable) => {
     if (!template.trackables.find((t) => t.id == trackable.id)) {
-      template.trackables.push(trackable)
+      template.trackables = [...template.trackables, trackable]
 
       // Import Combo / Note Trackables too
       if (trackable.type == 'tracker' && trackable.tracker.type == 'note') {
         const tokens = strToTokens(trackable.tracker.note || '')
-       
+
         tokens.forEach((token: Token) => {
           const includedTrackable = tokenToTrackable(token, $TrackableStore.trackables)
           addTrackableToTemplate(includedTrackable)
         })
       }
     }
-    template.trackables = template.trackables
   }
 
   onMount(() => {
