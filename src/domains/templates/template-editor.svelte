@@ -37,7 +37,22 @@
   // import download from '../../modules/download/download'
   // import { strToTagSafe } from '../trackable/trackable-utils'
 
-  const { template = $bindable() } = $props<{ template: Template }>()
+  const { template: originalTemplate = $bindable() } = $props<{ template: Template }>()
+
+  let template = $state(originalTemplate)
+
+  $effect(() => {
+    template = originalTemplate
+  })
+
+  $effect(() => {
+    // Sync local changes back to the bindable prop
+    // This updates the parent component with changes made in this editor
+    originalTemplate.trackables = template.trackables
+    originalTemplate.boards = template.boards
+    originalTemplate.goals = template.goals
+    originalTemplate.pivots = template.pivots
+  })
 
   const strToTrackable = (str: string): Trackable => {
     return tokenToTrackable(strToToken(str), $TrackableStore.trackables)
