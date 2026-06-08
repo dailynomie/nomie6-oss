@@ -64,19 +64,20 @@
     end: dayjs().format('YYYY-MM-DD'),
   })
 
-  let startDate: any = $state(), endDate: any = $state()
+  let startDate: any = $state(dayjs(state.start, 'YYYY-MM-DD'))
+  let endDate: any = $state(dayjs(state.end, 'YYYY-MM-DD'))
   let doc: Array<any> = $state([])
   let lastUseAllTrackables = $state(!useAllTrackables)
 
   $effect(() => {
-    if (state.start && dayjs(state.start, 'YYYY-MM-DD') !== startDate) {
+    if (state.start && state.start !== startDate?.format('YYYY-MM-DD')) {
       startDate = dayjs(state.start, 'YYYY-MM-DD')
       doc = []
     }
   })
 
   $effect(() => {
-    if (state.end && dayjs(state.end, 'YYYY-MM-DD') !== endDate) {
+    if (state.end && state.end !== endDate?.format('YYYY-MM-DD')) {
       endDate = dayjs(state.end, 'YYYY-MM-DD')
       doc = []
     }
