@@ -11,7 +11,7 @@
   import { useTemplate } from './templates-svelte-helpers'
 
 
-  const { template } = $props()
+  const { template = $bindable() } = $props()
 </script>
 
 <div class="template-view">
