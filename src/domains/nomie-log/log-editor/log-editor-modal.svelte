@@ -54,7 +54,7 @@
   import CloseOutline from '../../../n-icons/CloseOutline.svelte'
 
   // Props
-  const { log = undefined } = $props<{ log?: NLog }>()
+  const { log = undefined, id } = $props<{ log?: NLog; id?: string }>()
 
   let textarea
   // consts
@@ -156,8 +156,6 @@
     await wait(200)
     textarea?.focus()
   })
-
-  const { log, id } = $props()
 </script>
 
 <BackdropModal mainClass="bg-white dark:bg-black filler" className="h-full bg-white dark:bg-gray-800">
