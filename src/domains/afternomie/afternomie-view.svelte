@@ -52,7 +52,7 @@
     let nomiedata_valid = $state(false)
 
     $effect(() => {
-      if (innerWidth && !lockwidth) {
+      if (innerWidth && !lockwidth && !refreshqr) {
         qrwidth = innerWidth*0.93;
         if (qrwidth > 500){qrwidth = 500}
         refreshqr = true;
