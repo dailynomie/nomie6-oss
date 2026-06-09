@@ -8,12 +8,17 @@
 
   const { min, max, value, tracker, step } = $props()
 
-  let tempValue = $state(parseFloat(value || tracker.min || 0))
-  $effect(() => {
-    tempValue = parseFloat(value || tracker.min || 0)
-  })
+  let tempValue = $state(Number(value) || parseFloat(tracker.min) || 0)
 
   const dispatch = createEventDispatcher()
+
+  $effect(() => {
+    // Sync prop changes to tempValue
+    const newValue = Number(value) || parseFloat(tracker.min) || 0
+    if (tempValue !== newValue) {
+      tempValue = newValue
+    }
+  })
 
   async function main() {
     // Trigger the change so the parent catches it.
@@ -42,7 +47,11 @@
     <RangeSlider
       bind:value={tempValue}
       on:change={(evt) => {
+        console.log('RangeSlider change event:', evt.detail)
         dispatch('change', tempValue)
+      }}
+      on:input={(evt) => {
+        console.log('RangeSlider input event:', evt.detail, 'tempValue:', tempValue)
       }}
       style="--range-slider:{tracker.color};"
       springValues={{
