@@ -152,7 +152,6 @@
   }
 
   const close = async () => {
-    console.log('Close button clicked')
     closeModal(id)
   }
 
@@ -178,8 +177,6 @@
 
   const saveWidget = async () => {
     try {
-      console.log('Save button clicked, editingWidget:', editingWidget, 'activeType:', activeType)
-
       if([...activeType.requires, ...activeType.optional].indexOf('timeframe') === -1) {
         editingWidget.timeRange = undefined;
       }
