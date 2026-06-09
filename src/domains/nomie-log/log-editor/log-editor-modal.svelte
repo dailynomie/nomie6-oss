@@ -151,8 +151,8 @@
 </script>
 
 <BackdropModal mainClass="bg-white dark:bg-black filler" className="h-full bg-white dark:bg-gray-800">
-  {#if state.log}
-    <div slot="header" class="shadow-md z-40 relative">
+  <div slot="header" class="shadow-md z-40 relative">
+    {#if state.log}
       <ToolbarGrid>
         <Button slot="left" clear primary on:click={close}>
           {Lang.t('general.close', 'Close')}
@@ -215,8 +215,8 @@
           {/if}
         </Button>
       </ToolbarGrid>
-    </div>
-  {/if}
+    {/if}
+  </div>
 
   {#if state.log}
     <!-- Score and Date -->
