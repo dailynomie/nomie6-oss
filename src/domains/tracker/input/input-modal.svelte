@@ -52,6 +52,7 @@
   let tracker = $state<TrackerClass | undefined>(undefined)
   let manual = $state(false)
   let nextLabel = $state(undefined)
+  let saveLabel = $state('Save')
 
   let data = $state({
     value: null, // holds current value
