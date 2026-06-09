@@ -204,7 +204,7 @@
         >
           <div title="Select Score for this note" class="w-full text-center" style="width:100%;">
             <div class="value w-10">
-              {getEmojiFromScore(workingLog.score).emoji}
+              {updateTrigger >= 0 ? getEmojiFromScore(workingLog.score).emoji : ''}
             </div>
           </div>
         </MenuInline>
@@ -230,9 +230,9 @@
             console.log('Pin button clicked. After:', workingLog.pinned, 'Trigger:', updateTrigger)
           }}
         >
-          {#if workingLog.pinned}
+          {#if updateTrigger >= 0 && workingLog.pinned}
             <IonIcon icon={MagnetSolid} className="text-green-500 dark:text-green-400" />
-          {:else}
+          {:else if updateTrigger >= 0}
             <IonIcon icon={MagnetOutline} className="text-primary opacity-80" />
           {/if}
         </Button>
