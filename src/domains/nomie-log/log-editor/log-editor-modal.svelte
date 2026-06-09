@@ -83,15 +83,10 @@
   // Derive positivity buttons so they update when score changes
   let positivityButtons = $derived(
     workingLog && updateTrigger >= 0
-      ? (() => {
-          console.log('Positivity buttons re-derived. Score:', workingLog.score, 'Trigger:', updateTrigger)
-          return getPositivityButtons(workingLog.score, (pos) => {
-            console.log('Positivity changed to:', pos.score)
-            workingLog.score = pos.score
-            updateTrigger++
-            console.log('After change - Score:', workingLog.score, 'Trigger:', updateTrigger)
-          })
-        })()
+      ? getPositivityButtons(workingLog.score, (pos) => {
+          workingLog.score = pos.score
+          updateTrigger++
+        })
       : []
   )
 
@@ -224,10 +219,8 @@
           clear
           icon
           on:click={() => {
-            console.log('Pin button clicked. Before:', workingLog.pinned)
             workingLog.pinned = !workingLog.pinned
             updateTrigger++
-            console.log('Pin button clicked. After:', workingLog.pinned, 'Trigger:', updateTrigger)
           }}
         >
           {#if updateTrigger >= 0 && workingLog.pinned}
