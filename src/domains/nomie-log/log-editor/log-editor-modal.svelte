@@ -69,24 +69,24 @@
   let state = $state<LogEditorState>({
     saving: false,
     mapReady: false,
-    log: log as undefined | NLog,
+    log: undefined,
   })
 
-  // Watch for Log
-  // $: if (log) {
-  //   state.log = new NomieLog(log);
-  // }
+  // Initialize log when component mounts
+  $effect(() => {
+    if (log) {
+      state.log = new NomieLog(log)
+    }
+  })
 
   // Set up Methods
   const methods = {
     async init() {
+      if (!state.log) return
       let getLocation: boolean = $Prefs.alwaysLocate
-      if (log) {
-        state.log = new NomieLog(log)
-        state.log.note = `${state.log.note} `
-        if (state.log.lat && $Prefs.alwaysLocate) {
-          getLocation = false
-        }
+      state.log.note = `${state.log.note} `
+      if (state.log.lat && $Prefs.alwaysLocate) {
+        getLocation = false
       }
       if (getLocation) {
         const geo = await locate()
@@ -150,11 +150,17 @@
     closeModal(id)
   }
 
-  onMount(async () => {
-    methods.init()
-    trackEvent('journal-editor')
-    await wait(200)
-    textarea?.focus()
+  $effect(async () => {
+    if (state.log && state.mapReady === false) {
+      await methods.init()
+      trackEvent('journal-editor')
+      await wait(200)
+      textarea?.focus()
+    }
+  })
+
+  onMount(() => {
+    // initialization moved to $effect
   })
 </script>
 
