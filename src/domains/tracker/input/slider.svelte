@@ -41,8 +41,8 @@
 
     <RangeSlider
       on:change={(evt) => {
-        // dispatch('change', evt.detail)
-        dispatch('change', parseInt(evt.detail.value))
+        tempValue = parseInt(evt.detail.value)
+        dispatch('change', tempValue)
       }}
       style="--range-slider:{tracker.color};"
       springValues={{
