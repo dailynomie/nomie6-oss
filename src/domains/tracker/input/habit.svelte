@@ -10,8 +10,18 @@
   const { tracker, value } = $props()
 
   let tempValue = $state<number>(value)
+  let habittrue = $state(tracker?.habitChoice?.[0] || "Missed")
+  let habitfalse = $state(tracker?.habitChoice?.[1] || "Achieved")
+
   $effect(() => {
     tempValue = value
+  })
+
+  $effect(() => {
+    if (tracker?.habitChoice) {
+      habittrue = tracker.habitChoice[0] || "Missed"
+      habitfalse = tracker.habitChoice[1] || "Achieved"
+    }
   })
 
   $effect(() => {
@@ -19,9 +29,6 @@
       dispatch('change', tempValue)
     }
   })
-
-  let habittrue = $state(tracker.habitChoice[0] || "Missed")
-  let habitfalse = $state(tracker.habitChoice[1] || "Achieved")
 </script>
 
 <div class="picker-input-wrapper filler overflow-y-auto max-h-full min-h-0">
