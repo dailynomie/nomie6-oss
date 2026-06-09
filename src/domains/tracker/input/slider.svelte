@@ -13,13 +13,7 @@
   const dispatch = createEventDispatcher()
 
   $effect(() => {
-    console.log('Slider effect - tempValue changed:', tempValue)
-  })
-
-  $effect(() => {
-    // Sync prop changes to tempValue
     const newValue = Number(value) || parseFloat(tracker.min) || 0
-    console.log('Slider effect - prop value changed to:', newValue)
     if (tempValue !== newValue) {
       tempValue = newValue
     }
@@ -52,11 +46,7 @@
     <RangeSlider
       bind:value={tempValue}
       on:change={(evt) => {
-        console.log('RangeSlider change event:', evt.detail)
         dispatch('change', tempValue)
-      }}
-      on:input={(evt) => {
-        console.log('RangeSlider input event:', evt.detail, 'tempValue:', tempValue)
       }}
       style="--range-slider:{tracker.color};"
       springValues={{
