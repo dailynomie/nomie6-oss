@@ -69,14 +69,7 @@
   let state = $state<LogEditorState>({
     saving: false,
     mapReady: false,
-    log: undefined,
-  })
-
-  // Initialize log when component mounts
-  $effect(() => {
-    if (log) {
-      state.log = new NomieLog(log)
-    }
+    log: log ? new NomieLog(log) : undefined,
   })
 
   // Set up Methods
@@ -84,7 +77,6 @@
     async init() {
       if (!state.log) return
       let getLocation: boolean = $Prefs.alwaysLocate
-      state.log.note = `${state.log.note} `
       if (state.log.lat && $Prefs.alwaysLocate) {
         getLocation = false
       }
@@ -150,85 +142,81 @@
     closeModal(id)
   }
 
-  $effect(async () => {
-    if (state.log && state.mapReady === false) {
-      await methods.init()
-      trackEvent('journal-editor')
-      await wait(200)
-      textarea?.focus()
-    }
-  })
-
-  onMount(() => {
-    // initialization moved to $effect
+  onMount(async () => {
+    methods.init()
+    trackEvent('journal-editor')
+    await wait(200)
+    textarea?.focus()
   })
 </script>
 
 <BackdropModal mainClass="bg-white dark:bg-black filler" className="h-full bg-white dark:bg-gray-800">
-  <div slot="header" class="shadow-md z-40 relative">
-    <ToolbarGrid>
-      <Button slot="left" clear primary on:click={close}>
-        {Lang.t('general.close', 'Close')}
-      </Button>
+  {#if state.log}
+    <div slot="header" class="shadow-md z-40 relative">
+      <ToolbarGrid>
+        <Button slot="left" clear primary on:click={close}>
+          {Lang.t('general.close', 'Close')}
+        </Button>
 
-      <div class="line-clamp-1 text-sm w-full min-w-0 text-black dark:text-white">
-        {state.log.note}
-      </div>
-
-      <Button clear primary on:click={methods.save} slot="right">
-        {Lang.t('general.save', 'Save')}
-      </Button>
-    </ToolbarGrid>
-    <!-- <div class="w-full flex items-center relative pl-4 h-10 border-t border-gray-500 border-opacity-20">
-      
-    </div> -->
-
-    <ToolbarGrid>
-      <MenuInline
-        slot="left"
-        id="log-editor-options"
-        x="left"
-        title="Select Score for this note"
-        buttonClass="text-lg "
-        menuButtons={[
-          ...getPositivityButtons(state.log.score, (pos) => {
-            state.log.score = pos.score
-          }),
-        ]}
-      >
-        <div title="Select Score for this note" class="w-full text-center" style="width:100%;">
-          <div class="value w-10">
-            {getEmojiFromScore(state.log.score).emoji}
-          </div>
+        <div class="line-clamp-1 text-sm w-full min-w-0 text-black dark:text-white">
+          {state.log.note}
         </div>
-      </MenuInline>
 
-      <DatePicker
-        size="sm"
-        on:change={(evt) => {
-          state.log.end = evt.detail
-        }}
-        time={state.log.end}
-        date={state.log.end}
-      />
+        <Button clear primary on:click={methods.save} slot="right">
+          {Lang.t('general.save', 'Save')}
+        </Button>
+      </ToolbarGrid>
+      <!-- <div class="w-full flex items-center relative pl-4 h-10 border-t border-gray-500 border-opacity-20">
 
-      <Button
-        title="Pin/Unpin Entry to top of Day"
-        slot="right"
-        clear
-        icon
-        on:click={() => {
-          state.log.pinned = !state.log.pinned
-        }}
-      >
-        {#if state.log.pinned}
-          <IonIcon icon={MagnetSolid} className="text-green-500 dark:text-green-400" />
-        {:else}
-          <IonIcon icon={MagnetOutline} className="text-primary opacity-80" />
-        {/if}
-      </Button>
-    </ToolbarGrid>
-  </div>
+      </div> -->
+
+      <ToolbarGrid>
+        <MenuInline
+          slot="left"
+          id="log-editor-options"
+          x="left"
+          title="Select Score for this note"
+          buttonClass="text-lg "
+          menuButtons={[
+            ...getPositivityButtons(state.log.score, (pos) => {
+              state.log.score = pos.score
+            }),
+          ]}
+        >
+          <div title="Select Score for this note" class="w-full text-center" style="width:100%;">
+            <div class="value w-10">
+              {getEmojiFromScore(state.log.score).emoji}
+            </div>
+          </div>
+        </MenuInline>
+
+        <DatePicker
+          size="sm"
+          on:change={(evt) => {
+            state.log.end = evt.detail
+          }}
+          time={state.log.end}
+          date={state.log.end}
+        />
+
+        <Button
+          title="Pin/Unpin Entry to top of Day"
+          slot="right"
+          clear
+          icon
+          on:click={() => {
+            state.log.pinned = !state.log.pinned
+          }}
+        >
+          {#if state.log.pinned}
+            <IonIcon icon={MagnetSolid} className="text-green-500 dark:text-green-400" />
+          {:else}
+            <IonIcon icon={MagnetOutline} className="text-primary opacity-80" />
+          {/if}
+        </Button>
+      </ToolbarGrid>
+    </div>
+  {/if}
 
   {#if state.log}
     <!-- Score and Date -->
