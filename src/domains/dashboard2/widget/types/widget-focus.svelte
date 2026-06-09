@@ -11,21 +11,20 @@
   const { logs = $bindable(), widget = $bindable(undefined), trackable = $bindable(undefined), usage = $bindable(undefined) } = $props()
   let scores = $state<Array<IFocusResults>>([])
 
-  async function init() {
-    scores = getFocusScoresFromLogs(logs, $TrackableStore.trackables)
-    return scores
-  }
+  $effect(() => {
+    if (logs && logs.length > 0) {
+      scores = getFocusScoresFromLogs(logs, $TrackableStore.trackables)
+    }
+  })
 </script>
 
-{#await init()}
-  Loading...
-{:then value}
-  <div class="mind-body-spirit flex item-center justify-center h-full">
+<div class="mind-body-spirit flex item-center justify-center h-full">
+  {#if scores.length > 0}
     <FocusGraph {scores} />
-  </div>
-{:catch error}
-  error{error.message}
-{/await}
+  {:else}
+    Loading...
+  {/if}
+</div>
 
 <style lang="postcss">
 </style>
