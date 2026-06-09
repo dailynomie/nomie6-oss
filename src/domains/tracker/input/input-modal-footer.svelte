@@ -13,7 +13,9 @@
 
   const dispatch = createEventDispatcher()
 
-  const { tracker, value = $bindable(), allowSave = $bindable(), saving = $bindable(), saveLabel = $bindable(), nextLabel = $bindable() } = $props()
+  const { tracker, value = $bindable(), allowSave = $bindable(), saving = $bindable(), saveLabel = $bindable('Save'), nextLabel = $bindable() } = $props()
+
+  let displayLabel = $derived(saveLabel || 'Save')
 </script>
 
 <footer class=" tracker-input-footer py-3 stiff  glass-lite z-50 w-full rounded-b-2xl">
@@ -69,7 +71,7 @@
               }}
               class="action-button bg-primary-500 text-white"
             >
-              {saveLabel}
+              {displayLabel}
             </button>
           {/if}
         {:else if allowSave}
@@ -81,7 +83,7 @@
             }}
             class="action-button bg-primary-500 text-white"
           >
-            {saveLabel}
+            {displayLabel}
           </button>
         {/if}
       {:else}
