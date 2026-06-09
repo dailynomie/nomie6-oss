@@ -195,7 +195,7 @@
     <footer class="px-1 flex widget-footer space-x-2 justify-between">
       {#if widget.timeRange &&  widget.type !== 'plugin'}
         <button on:click={(evt) => showTimeframeMenu(evt)} class="">
-          {widgetInstance.getLabel().replace('days', '')}
+          {updateTrigger, widgetInstance.getLabel().replace('days', '')}
         </button>
       {/if}
       {#if !hideTools}
