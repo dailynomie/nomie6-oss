@@ -125,9 +125,10 @@
                 max={parseFloat(`${trackable.tracker.max}`) || 100}
                 on:input={(evt) => {
                   console.log('note-combo received input event:', evt.detail, 'trackable.label:', trackable.label)
-                  trackable.value = evt.detail
+                  const index = trackables.indexOf(trackable)
+                  trackables[index] = { ...trackable, value: evt.detail }
                   trackables = trackables
-                  console.log('trackable.value updated to:', trackable.value)
+                  console.log('trackable.value updated to:', trackables[index].value)
                   fireChange()
                 }}
                 className="w-full"
