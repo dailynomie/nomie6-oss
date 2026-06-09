@@ -102,7 +102,7 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
   })
 
   $effect(() => {
-    if ($AroundThisTimeStore && !loading) {
+    if ($AroundThisTimeStore) {
       init()
     }
   })
