@@ -73,43 +73,41 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
   // }
 
   $effect(() => {
-    if (!loading && onlyShow) {
-      trendingDown = usageArray
-        .filter((uct) => {
-          if (onlyShow === 'all') return true
-          return uct.trackableUsage.trackable.type === onlyShow
-        })
-        .filter((uct) => {
-          return (
-            uct.compared.value.direction === 'down' &&
-            [uct.compared.value.from, uct.compared.value.to].join(',') !== '0,1'
-          )
-        })
+    if (!loading && usageArray.length > 0 && onlyShow) {
+      const filtered = usageArray.filter((uct) => {
+        if (onlyShow === 'all') return true
+        return uct.trackableUsage.trackable.type === onlyShow
+      })
 
-      trendingUp = usageArray
-        .filter((uct) => {
-          if (onlyShow === 'all') return true
-          return uct.trackableUsage.trackable.type === onlyShow
-        })
-        .filter((uct) => {
-          return (
-            uct.compared.value.direction === 'up' && [uct.compared.value.from, uct.compared.value.to].join(',') !== '0,1'
-          )
-        })
+      trendingDown = filtered.filter((uct) => {
+        return (
+          uct.compared.value.direction === 'down' &&
+          [uct.compared.value.from, uct.compared.value.to].join(',') !== '0,1'
+        )
+      })
 
-      newItems = trendingUp.filter((uct) => {
+      const upTrends = filtered.filter((uct) => {
+        return (
+          uct.compared.value.direction === 'up' && [uct.compared.value.from, uct.compared.value.to].join(',') !== '0,1'
+        )
+      })
+
+      newItems = upTrends.filter((uct) => {
         return uct.compared.value.from === 0
       })
-      trendingUp = trendingUp.filter((uct) => {
-        return uct.compared.value.from
+      trendingUp = upTrends.filter((uct) => {
+        return uct.compared.value.from !== 0
       })
     }
   })
 
   $effect(() => {
-    if ($AroundThisTimeStore) {
+    if ($AroundThisTimeStore && !loading) {
       init()
+    }
+  })
 
+  $effect(() => {
     if (activeFocal === 'day') {
       title = dayjs(activeDate).format(dateFormats.mmm_d_yyyy)
     } else if (activeFocal === 'week') {
@@ -118,7 +116,6 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
         .format(`${dateFormats.tinyDate} YYYY`)}`
     } else if (activeFocal === 'month') {
       title = `${dayjs(activeDate).format('MMM YYYY')}`
-    }
     }
   })
 
