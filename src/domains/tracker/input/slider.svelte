@@ -8,9 +8,9 @@
 
   const { min, max, value, tracker, step } = $props()
 
-  let tempValue = $state(value)
+  let tempValue = $state(parseFloat(value || tracker.min || 0))
   $effect(() => {
-    tempValue = value
+    tempValue = parseFloat(value || tracker.min || 0)
   })
 
   const dispatch = createEventDispatcher()
@@ -40,8 +40,8 @@
     {/if}
 
     <RangeSlider
+      bind:value={tempValue}
       on:change={(evt) => {
-        tempValue = parseInt(evt.detail.value)
         dispatch('change', tempValue)
       }}
       style="--range-slider:{tracker.color};"
@@ -55,7 +55,6 @@
       first={tracker.minLabel}
       last={tracker.maxLabel}
       vertical={true}
-      value={tempValue}
       min={parseFloat(tracker.min)}
       max={parseFloat(tracker.max)}
       steps={parseFloat(tracker.step || 1)}
