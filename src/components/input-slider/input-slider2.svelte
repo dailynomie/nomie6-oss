@@ -9,10 +9,13 @@
   const { min, max, value, className, trackable, mini, step } = $props()
 
   let smallInput = $state<HTMLInputElement>(undefined)
-  let tempValue = $state(value)
+  let tempValue = $state(Number(value) || 0)
 
   $effect(() => {
-    tempValue = value
+    const newValue = Number(value) || 0
+    if (tempValue !== newValue) {
+      tempValue = newValue
+    }
   })
 
   const dispatch = createEventDispatcher()
