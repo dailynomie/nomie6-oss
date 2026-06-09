@@ -29,7 +29,6 @@ import is from '../../utils/is/is';
   }
 
   let onInput = (evt: any) => {
-    console.log('Input onInput event:', evt.target.value, 'type:', type)
     if (evt.key == 'Enter') {
       dispatch('enter', value)
     }

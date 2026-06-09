@@ -17,20 +17,8 @@
   let picks = $state([])
 
   function textListChanged(evt) {
-    console.log('textListChanged fired, evt:', evt, 'evt.detail:', evt.detail)
-    console.log('textList reference:', textList)
-    console.log('textList.getValue:', textList?.getValue)
-    const value = textList?.getValue?.()
-    console.log('textListChanged fired, raw value:', value)
-    if (!value) {
-      console.log('No value from getValue, trying evt.detail:', evt.detail)
-      picks = (evt.detail || '').split('\n').filter(item => item.trim())
-    } else {
-      picks = value.split('\n').filter(item => item.trim())
-    }
-    console.log('picks updated to:', picks)
+    picks = (evt.detail || '').split('\n').filter(item => item.trim())
     list = picks
-    console.log('list updated to:', list)
     dispatch('change', picks)
   }
 
