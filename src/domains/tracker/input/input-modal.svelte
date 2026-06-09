@@ -64,7 +64,7 @@
     note: undefined as undefined | string,
   })
 
-  let { value = $bindable(), saveLabel = $bindable(), id, payload } = $props()
+  let { value = $bindable(), id, payload } = $props()
 
   $effect(() => {
     nextLabel = payload?.nextLabel
