@@ -48,6 +48,16 @@
     }
   })
 
+  // Update widgetInstance when updateTrigger changes to reflect mutations
+  $effect(() => {
+    const _ = updateTrigger
+    if (widget instanceof WidgetClass) {
+      widgetInstance = widget
+    } else if (widget) {
+      widgetInstance = new WidgetClass(widget)
+    }
+  })
+
   function widgetActions() {
     showTrackablePopmenu(trackable, {
       title: trackable.label,
