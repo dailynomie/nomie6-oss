@@ -109,7 +109,6 @@
           knownTrackables: $TrackableStore.trackables,
           date: dayjs(),
         })
-        checkReminders()
       }, 500)
     }
   }
