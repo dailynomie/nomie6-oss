@@ -444,12 +444,15 @@
           <Divider center />
           <ListItem>
             {Lang.t('dashboard.widget-above-value-color', 'Above value color')}
+            {console.log('Above color - conditionalStyling:', conditionalStyling, 'compareOverColor:', editingWidget.compareOverColor)}
             <TinyColorPicker
               slot="right"
               size={16}
               value={editingWidget.compareOverColor}
               on:change={(evt) => {
+                console.log('compareOverColor changed to:', evt.detail)
                 editingWidget.compareOverColor = evt.detail
+                editingWidget = editingWidget
                 updateTrigger = updateTrigger + 1
               }}
             />
@@ -457,12 +460,15 @@
 
           <ListItem>
             {Lang.t('dashboard.widget-under-value-color', 'Under value color')}
+            {console.log('Under color - conditionalStyling:', conditionalStyling, 'compareUnderColor:', editingWidget.compareUnderColor)}
             <TinyColorPicker
               slot="right"
               size={16}
               value={editingWidget.compareUnderColor}
               on:change={(evt) => {
+                console.log('compareUnderColor changed to:', evt.detail)
                 editingWidget.compareUnderColor = evt.detail
+                editingWidget = editingWidget
                 updateTrigger = updateTrigger + 1
               }}
             />
