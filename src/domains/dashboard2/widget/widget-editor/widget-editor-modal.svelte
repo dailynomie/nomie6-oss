@@ -456,6 +456,7 @@
             <TinyColorPicker
               slot="right"
               size={16}
+              colors={['green', 'orange', 'red', 'blue']}
               value={editingWidget.compareOverColor}
               on:change={(evt) => {
                 editingWidget.compareOverColor = evt.detail
@@ -469,6 +470,7 @@
             <TinyColorPicker
               slot="right"
               size={16}
+              colors={['green', 'orange', 'red', 'blue']}
               value={editingWidget.compareUnderColor}
               on:change={(evt) => {
                 editingWidget.compareUnderColor = evt.detail
