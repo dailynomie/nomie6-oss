@@ -24,11 +24,8 @@ import type { WidgetClass } from '../widget-class';
   })
 
   const select = (selectedType: IWidgetType) => {
-    console.log('widget-type-selector select called, selectedType.id:', selectedType.id, 'current widget.type:', widget.type)
-    // Mutate directly and call callback to notify parent
-    widget.type = selectedType.id
-    widget.data = selectedType.data;
-    console.log('after mutation, widget.type:', widget.type)
+    // Create new object to trigger Svelte 5 reactivity for bindable prop
+    widget = { ...widget, type: selectedType.id, data: selectedType.data }
     // Notify parent of change
     if (onWidgetTypeChange) {
       onWidgetTypeChange(selectedType)
@@ -63,14 +60,9 @@ import type { WidgetClass } from '../widget-class';
       }}
     >
       <div
-        class="{(() => {
-          const isActive = widget.type === widgetType.id
-          if (isActive) {
-            console.log('Button active for type:', widgetType.id, 'widget.type:', widget.type)
-          }
-          return isActive ? 'active-type scale-110' : ''
-        })()}
-        w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+        class="{widget.type === widgetType.id
+          ? 'active-type scale-110'
+          : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
       >
         {#if widgetType.icon}
           <IonIcon icon={widgetType.icon} size={40} />
