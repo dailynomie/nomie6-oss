@@ -38,6 +38,7 @@
 
   // Ensure widget is a WidgetClass instance
   let widgetInstance = $state<WidgetClass>(widget instanceof WidgetClass ? widget : new WidgetClass(widget))
+  let updateTrigger = $state(0)
 
   $effect(() => {
     if (widget && !(widget instanceof WidgetClass)) {
@@ -66,9 +67,9 @@
       return {
         title: b.label,
         click() {
-          // Mutate widget and update instance
+          // Mutate widget and force re-render via updateTrigger
           widget.size = b.id
-          widgetInstance = widgetInstance
+          updateTrigger = updateTrigger + 1
           upsertWidget(widget)
         },
       }
@@ -81,9 +82,9 @@
       return {
         title: tf.label,
         async click() {
-          // Mutate widget and update instance
+          // Mutate widget and force re-render via updateTrigger
           widget.timeRange = tf.id
-          widgetInstance = widgetInstance
+          updateTrigger = updateTrigger + 1
           try {
             await upsertWidget(widget)
             showToast({ message: Lang.t('general.saved', 'Saved') })
@@ -104,7 +105,7 @@
    * Generate a Class Name for this widget
    * @param widget
    */
-  function getClass(widget: WidgetClass): string {
+  function getClass(widget: WidgetClass, _updateTrigger?: number): string {
     let classes = [`type-${widget.type}`]
     let value
     if (usage) {
@@ -115,7 +116,7 @@
       }
     }
     value = value || 0
-    
+
     if (widget.compareValue) {
       if (value > widget.compareValue) {
         classes.push(`over widget-${widget.compareOverColor}`)
@@ -144,7 +145,7 @@
 </script>
 
 {#if widget && widget.type !== 'text'}
-  <div class="dashboard-widget {getClass(widget)}" {id}>
+  <div class="dashboard-widget {getClass(widget, updateTrigger)}" {id}>
     <div class="flex widget-header px-2 py-1">
       {#if trackable && widget.type != 'pointer'}
         <TrackablePill hideValue size={30} transparent {trackable} on:click={widgetActions} />
