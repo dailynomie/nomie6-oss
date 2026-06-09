@@ -66,8 +66,8 @@
       return {
         title: b.label,
         click() {
-          //@ts-ignore
-          widget.size = b.id
+          // Create new object to trigger Svelte 5 reactivity on bindable prop
+          widget = { ...widget, size: b.id }
           upsertWidget(widget)
         },
       }
@@ -80,7 +80,8 @@
       return {
         title: tf.label,
         async click() {
-          widget.timeRange = tf.id
+          // Create new object to trigger Svelte 5 reactivity on bindable prop
+          widget = { ...widget, timeRange: tf.id }
           try {
             await upsertWidget(widget)
             showToast({ message: Lang.t('general.saved', 'Saved') })
