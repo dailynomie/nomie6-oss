@@ -66,11 +66,11 @@
   }
 
   // Setup state
-  let state: LogEditorState = {
+  let state = $state<LogEditorState>({
     saving: false,
     mapReady: false,
     log: log as undefined | NLog,
-  }
+  })
 
   // Watch for Log
   // $: if (log) {
