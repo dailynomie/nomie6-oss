@@ -4,6 +4,7 @@
   import { createEventDispatcher } from 'svelte'
   import nid from '../../../modules/nid/nid'
   import type { WidgetClass } from './widget-class'
+  import { WidgetClass } from './widget-class'
   import { showTrackablePopmenu } from '../../board/boardActions'
 
   import TrackablePill from '../../trackable/trackable-pill.svelte'
@@ -35,6 +36,16 @@
     hideTools?: boolean
   }>()
 
+  // Ensure widget is a WidgetClass instance
+  let widgetInstance = $state<WidgetClass>(widget instanceof WidgetClass ? widget : new WidgetClass(widget))
+
+  $effect(() => {
+    if (widget && !(widget instanceof WidgetClass)) {
+      widgetInstance = new WidgetClass(widget)
+    } else if (widget) {
+      widgetInstance = widget
+    }
+  })
 
   function widgetActions() {
     showTrackablePopmenu(trackable, {
@@ -139,7 +150,7 @@
       {:else if widget.type == 'plugin'}
         {label}
       {:else}
-        <span class="capitalize text-xs font-semibold pt-1 pl-1">{widget.getTitle()}</span>
+        <span class="capitalize text-xs font-semibold pt-1 pl-1">{widgetInstance.getTitle()}</span>
       {/if}
       <div class="filler" />
       {#if !hideTools}
@@ -170,7 +181,7 @@
     <footer class="px-1 flex widget-footer space-x-2 justify-between">
       {#if widget.timeRange &&  widget.type !== 'plugin'}
         <button on:click={(evt) => showTimeframeMenu(evt)} class="">
-          {widget.getLabel().replace('days', '')}
+          {widgetInstance.getLabel().replace('days', '')}
         </button>
       {/if}
       {#if !hideTools}
