@@ -17,8 +17,12 @@
   let picks = $state([])
 
   function textListChanged(evt) {
-    picks = textList.getValue().split('\n').filter(item => item.trim())
+    const value = textList.getValue()
+    console.log('textListChanged fired, raw value:', value)
+    picks = value.split('\n').filter(item => item.trim())
+    console.log('picks updated to:', picks)
     list = picks
+    console.log('list updated to:', list)
     dispatch('change', picks)
   }
 
