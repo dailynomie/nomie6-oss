@@ -14,12 +14,10 @@
 
   const dispatch = createEventDispatcher()
 
-  let globalAnswer: any = '0' //declaring global variable here... this is bad practice
-  let buffer = []
-  let fontSize = 40
-
-
-  let tapped = false
+  let globalAnswer = $state<any>('0')
+  let buffer = $state([])
+  let fontSize = $state(40)
+  let tapped = $state(false)
 
   onMount(() => {
     if (is.truthy(value)) {
