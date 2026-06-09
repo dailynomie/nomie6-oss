@@ -83,6 +83,7 @@
 
   const fireChange = () => {
     const note = getNote()
+    console.log('fireChange called - note:', note)
 
     dispatch('note', note)
     dispatch('change', 1)
@@ -101,7 +102,14 @@
           <header class="flex items-center justify-between">
             <Title>{trackable.label}</Title>
             {#if trackable.tracker?.type == 'range'}
-              <LetterTicker className="text-lg font-bold" text={trackable.tracker?.displayValue(trackable.value)} />
+              {#key trackable.value}
+                <LetterTicker className="text-lg font-bold" text={(() => {
+                  const display = trackable.tracker?.displayValue(trackable.value)
+                  console.log('Display value for', trackable.label, ':', display, 'trackable.value:', trackable.value)
+                  return display
+                })()}
+                />
+              {/key}
             {/if}
           </header>
           {#if trackable.tracker?.type === 'note'}
@@ -116,7 +124,9 @@
                 min={parseFloat(`${trackable.tracker.min}`) || 0}
                 max={parseFloat(`${trackable.tracker.max}`) || 100}
                 on:input={(evt) => {
+                  console.log('note-combo received input event:', evt.detail, 'trackable.label:', trackable.label)
                   trackable.value = evt.detail
+                  console.log('trackable.value updated to:', trackable.value)
                   fireChange()
                 }}
                 className="w-full"

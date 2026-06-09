@@ -49,7 +49,10 @@
       {step}
       bind:this={smallInput}
       bind:value={tempValue}
-      on:input={() => dispatch('input', parseFloat(tempValue))}
+      on:input={() => {
+        console.log('InputSlider2 input event - tempValue:', tempValue, 'trackable.label:', trackable.label)
+        dispatch('input', parseFloat(tempValue))
+      }}
       on:change={() => dispatch('change', parseFloat(tempValue))}
     />
 
