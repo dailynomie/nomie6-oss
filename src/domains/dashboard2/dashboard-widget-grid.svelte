@@ -16,6 +16,7 @@
   import type { DashboardClass } from './dashboard-class'
   import type { Trackable } from '../trackable/Trackable.class'
   import type { WidgetClass } from './widget/widget-class'
+  import { WidgetClass } from './widget/widget-class'
   import type NLog from '../nomie-log/nomie-log'
   import WidgetDisplay from './widget/widget-display.svelte'
 
@@ -80,18 +81,21 @@
 
     // Loop over dashboard widgets
     let newWidgets = dashboardWidgets.map((widget, index) => {
+      // Ensure widget is a WidgetClass instance
+      const widgetInstance = widget instanceof WidgetClass ? widget : new WidgetClass(widget)
+
       // If its a widget that needs a trackable
       let hash = md5(JSON.stringify(widget))
-      if (widget.token) {
+      if (widgetInstance.token) {
         // Get the Trackable for this widget
         //console.log(widget.token)
-        let trackable = tokenToTrackable(widget.token, trackables)
+        let trackable = tokenToTrackable(widgetInstance.token, trackables)
 
         // Filter out based on the time and trackable
         const filteredLogs = logFilter(logs, {
           trackables: [trackable],
-          start: widget.getStartDate($Prefs.weekStarts),
-          end: widget.getEndDate($Prefs.weekStarts),
+          start: widgetInstance.getStartDate($Prefs.weekStarts),
+          end: widgetInstance.getEndDate($Prefs.weekStarts),
         })
 
         // Generate Usage Map
