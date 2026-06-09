@@ -126,6 +126,7 @@
                 on:input={(evt) => {
                   console.log('note-combo received input event:', evt.detail, 'trackable.label:', trackable.label)
                   trackable.value = evt.detail
+                  trackables = trackables
                   console.log('trackable.value updated to:', trackable.value)
                   fireChange()
                 }}
