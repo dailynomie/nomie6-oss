@@ -13,8 +13,13 @@
   const dispatch = createEventDispatcher()
 
   $effect(() => {
+    console.log('Slider effect - tempValue changed:', tempValue)
+  })
+
+  $effect(() => {
     // Sync prop changes to tempValue
     const newValue = Number(value) || parseFloat(tracker.min) || 0
+    console.log('Slider effect - prop value changed to:', newValue)
     if (tempValue !== newValue) {
       tempValue = newValue
     }
@@ -70,6 +75,7 @@
       pips
     />
     <div class="value dark:bg-gray-700 bg-gray-300 px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
+      <div style="color: red; font-size: 8px;">Debug: {tempValue}</div>
       {#if tracker && tracker.uom !== 'num'}
         <LetterTicker
           text={`${tracker.displayValue(tempValue)}`}
