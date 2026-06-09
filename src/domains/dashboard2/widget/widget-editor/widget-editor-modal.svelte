@@ -65,12 +65,16 @@
   const handleWidgetTypeChange = (selectedType: IWidgetType) => {
     // Child already mutated widget, but we need to reassign to trigger Svelte 5 reactivity
     if (editingWidget) {
-      // Create new object to trigger binding reactivity
-      editingWidget = { ...editingWidget, type: selectedType.id, data: selectedType.data }
+      // Preserve all existing properties and only update type and data
+      // Keep conditional coloring settings (compareValue, compareOverColor, compareUnderColor)
+      const newData = selectedType.data ? { ...selectedType.data } : (editingWidget.data || {})
+
+      // Create new object to trigger binding reactivity, preserving all other properties
+      editingWidget = { ...editingWidget, type: selectedType.id, data: newData }
 
       // Initialize pointer data if this is a pointer widget
-      if (selectedType.id === "pointer" && !editingWidget.data) {
-        editingWidget.data = { pointersamples: 5 }
+      if (selectedType.id === "pointer" && !editingWidget.data?.pointersamples) {
+        editingWidget.data = { ...editingWidget.data, pointersamples: 5 }
       }
     }
     // Force reactivity by incrementing a trigger
