@@ -17,7 +17,8 @@
   let picks = $state([])
 
   function textListChanged(evt) {
-    picks = textList.getValue().split('\n')
+    picks = textList.getValue().split('\n').filter(item => item.trim())
+    list = picks
     dispatch('change', picks)
   }
 
