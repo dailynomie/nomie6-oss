@@ -72,6 +72,16 @@
     log: log ? new NomieLog(log) : undefined,
   })
 
+  // Derive positivity buttons so they update when score changes
+  let positivityButtons = $derived(
+    state.log
+      ? getPositivityButtons(state.log.score, (pos) => {
+          state.log.score = pos.score
+          state.log = state.log // Force reactivity
+        })
+      : []
+  )
+
   // Set up Methods
   const methods = {
     async init() {
@@ -177,11 +187,7 @@
           x="left"
           title="Select Score for this note"
           buttonClass="text-lg "
-          menuButtons={[
-            ...getPositivityButtons(state.log.score, (pos) => {
-              state.log.score = pos.score
-            }),
-          ]}
+          menuButtons={positivityButtons}
         >
           <div title="Select Score for this note" class="w-full text-center" style="width:100%;">
             <div class="value w-10">
@@ -194,6 +200,7 @@
           size="sm"
           on:change={(evt) => {
             state.log.end = evt.detail
+            state.log = state.log
           }}
           time={state.log.end}
           date={state.log.end}
@@ -206,6 +213,7 @@
           icon
           on:click={() => {
             state.log.pinned = !state.log.pinned
+            state.log = state.log
           }}
         >
           {#if state.log.pinned}
