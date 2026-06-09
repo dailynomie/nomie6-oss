@@ -114,13 +114,13 @@
         }
       } else {
         const filteredLogs = logFilter(logs, {
-          start: widget.getStartDate($Prefs.weekStarts),
-          end: widget.getEndDate($Prefs.weekStarts),
+          start: widgetInstance.getStartDate($Prefs.weekStarts),
+          end: widgetInstance.getEndDate($Prefs.weekStarts),
         })
 
         return {
-          widget,
-          id: widget.id,
+          widget: widgetInstance,
+          id: widgetInstance.id,
           trackable: undefined,
           usage: undefined,
           logs: filteredLogs,
