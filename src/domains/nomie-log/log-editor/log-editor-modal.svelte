@@ -67,6 +67,7 @@
 
   // Setup state with mutable log
   let workingLog = $state<NLog | undefined>(log ? new NomieLog(log) : undefined)
+  let updateTrigger = $state(0)
 
   let state = $state<LogEditorState>({
     saving: false,
@@ -81,9 +82,10 @@
 
   // Derive positivity buttons so they update when score changes
   let positivityButtons = $derived(
-    workingLog
+    workingLog && updateTrigger
       ? getPositivityButtons(workingLog.score, (pos) => {
           workingLog.score = pos.score
+          updateTrigger++
         })
       : []
   )
@@ -218,6 +220,7 @@
           icon
           on:click={() => {
             workingLog.pinned = !workingLog.pinned
+            updateTrigger++
           }}
         >
           {#if workingLog.pinned}
