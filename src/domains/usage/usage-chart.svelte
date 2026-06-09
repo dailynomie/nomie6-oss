@@ -29,7 +29,7 @@
   import { getContextOn } from '../context/context-utils'
   import { Prefs } from '../preferences/Preferences'
 
-  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false } = $props<{
+  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false, dualAxis = false } = $props<{
     usages?: Array<TrackableUsage>
     style?: string
     className?: string
@@ -40,6 +40,7 @@
     stacked?: boolean
     isstatsview?: boolean
     showcontext?: boolean
+    dualAxis?: boolean
   }>()
 
   let dateFormats = $state(getDateFormats())
@@ -640,9 +641,63 @@ else {contextannotation.annotations ={}}
 
   const generateChartConfig = (): ChartConfiguration => {
     // Get usage by day and backfill it
-    const datasets = usages.map((usage) => {
-      return usageToDataset(usage)
+    const datasets = usages.map((usage, index) => {
+      const dataset = usageToDataset(usage)
+      // Map second dataset to right axis if in dual-axis mode
+      if (dualAxis && index === 1) {
+        dataset.yAxisID = 'y1'
+      } else {
+        dataset.yAxisID = 'y'
+      }
+      return dataset
     })
+
+    // Setup scales configuration
+    const scales: any = {
+      x: {
+        display: !hideLabels,
+        ticks: {
+          autoSkip: true,
+          maxRotation: 0,
+          font: {
+            size: 10,
+          },
+        },
+      },
+      y: {
+        stacked: stacked,
+        display: !hideValues,
+        beginAtZero: startWithZero,
+        type: chartScale,
+        ticks: {
+          font: {
+            size: 10,
+          },
+          callback: function (value: any, index, ticks) {
+            return usage.trackable.formatValue(value)
+          },
+        },
+      },
+    }
+
+    // Add second y-axis if in dual-axis mode
+    if (dualAxis && usages.length > 1) {
+      scales.y1 = {
+        position: 'right',
+        stacked: stacked,
+        display: !hideValues,
+        beginAtZero: startWithZero,
+        type: chartScale,
+        ticks: {
+          font: {
+            size: 10,
+          },
+          callback: function (value: any, index, ticks) {
+            return usages[1].trackable.formatValue(value)
+          },
+        },
+      }
+    }
 
     // Setup Config
     const config: ChartConfiguration = {
@@ -662,7 +717,9 @@ else {contextannotation.annotations ={}}
           tooltip: {
             callbacks: {
               label: function (tooltipItem) {
-                return usage.trackable.formatValue(parseNumber(`${tooltipItem.raw}`))
+                const datasetIndex = tooltipItem.datasetIndex
+                const trackable = usages[datasetIndex]?.trackable || usage.trackable
+                return trackable.formatValue(parseNumber(`${tooltipItem.raw}`))
               },
             },
           },
@@ -674,32 +731,7 @@ else {contextannotation.annotations ={}}
         responsive: true,
         maintainAspectRatio: false,
 
-        scales: {
-          x: {
-            display: !hideLabels,
-            ticks: {
-              autoSkip: true,
-              maxRotation: 0,
-              font: {
-                size: 10,
-              },
-            },
-          },
-          y: {
-            stacked: stacked,
-            display: !hideValues,
-            beginAtZero: startWithZero,
-            type: chartScale,
-            ticks: {
-              font: {
-                size: 10,
-              },
-              callback: function (value: any, index, ticks) {
-                return usage.trackable.formatValue(value)
-              },
-            },
-          },
-        },
+        scales: scales,
       },
       data: {
         labels: usages[0].dates.map((d) => d.format(dateFormats.tinyNumber)),

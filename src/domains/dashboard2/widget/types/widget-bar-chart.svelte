@@ -8,12 +8,18 @@
 
   import nid from '../../../../modules/nid/nid'
   import { Prefs } from '../../../preferences/Preferences'
+  import { queryToTrackableUsage } from '../../../ledger/LedgerStore'
+  import { tokenToTrackable } from '../../../../modules/tokenizer/tokenToTrackable'
+  import { TrackableStore } from '../../../trackable/TrackableStore'
+
   const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable() } = $props()
   // export let trackable: Trackable | undefined = undefined
 
   let type = $state<'bar' | 'line'>('bar')
 
   let reverseUsage = $state<TrackableUsage | undefined>(undefined)
+  let secondUsage = $state<TrackableUsage | undefined>(undefined)
+  let usages = $state<Array<TrackableUsage>>([])
 
   $effect(() => {
     // Explicitly reference usage to ensure dependency tracking
@@ -29,6 +35,50 @@
           .byDay.backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
       }
     }
+  })
+
+  // Load second tracker data if available
+  $effect(async () => {
+    if (widget && widget.secondToken) {
+      try {
+        const secondTrackable = tokenToTrackable(widget.secondToken, $TrackableStore.trackables)
+        const secondUsageData = await queryToTrackableUsage(
+          secondTrackable,
+          {
+            start: widget.getStartDate($Prefs.weekStarts),
+            end: widget.getEndDate($Prefs.weekStarts),
+          },
+          $TrackableStore.trackables
+        )
+
+        if (secondUsageData) {
+          let rawUsage = secondUsageData
+          if (['last-365', 'this-year'].indexOf(widget.timeframe.details.id) > -1) {
+            secondUsage = rawUsage
+              .reverse()
+              .groupBy('week', 'YYYY-MM-D')
+              .backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
+          } else {
+            secondUsage = rawUsage
+              .reverse()
+              .byDay.backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
+          }
+        }
+      } catch (e) {
+        console.error('Error loading second tracker:', e)
+        secondUsage = undefined
+      }
+    } else {
+      secondUsage = undefined
+    }
+  })
+
+  // Build usages array based on available data
+  $effect(() => {
+    const arr: Array<TrackableUsage> = []
+    if (reverseUsage) arr.push(reverseUsage)
+    if (secondUsage) arr.push(secondUsage)
+    usages = arr
   })
 
   $effect(() => {
@@ -48,7 +98,8 @@
     <UsageChart
       id={`usage-${nid(widget.id)}`}
       hideValues={widget.size == 'sm'}
-      usages={[reverseUsage]}
+      {usages}
+      dualAxis={usages.length > 1}
       {type}
       className="w-full"
     />
