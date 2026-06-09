@@ -10,11 +10,13 @@
 
   let smallInput = $state<HTMLInputElement>(undefined)
   let tempValue = $state(Number(value) || 0)
+  let lastPropValue = Number(value) || 0
 
   $effect(() => {
     const newValue = Number(value) || 0
-    if (tempValue !== newValue) {
+    if (newValue !== lastPropValue) {
       tempValue = newValue
+      lastPropValue = newValue
     }
   })
 
