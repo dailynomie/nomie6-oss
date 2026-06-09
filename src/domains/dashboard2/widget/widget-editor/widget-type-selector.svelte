@@ -24,8 +24,9 @@ import type { WidgetClass } from '../widget-class';
   })
 
   const select = (selectedType: IWidgetType) => {
-    // Create new object to trigger Svelte 5 reactivity for bindable prop
-    widget = { ...widget, type: selectedType.id, data: selectedType.data }
+    // Mutate directly - parent will handle reassignment for reactivity
+    widget.type = selectedType.id
+    widget.data = selectedType.data
     // Notify parent of change
     if (onWidgetTypeChange) {
       onWidgetTypeChange(selectedType)

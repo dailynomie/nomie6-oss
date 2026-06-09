@@ -63,10 +63,10 @@
 
   // Callback to handle widget type changes from child
   const handleWidgetTypeChange = (selectedType: IWidgetType) => {
-    // Explicitly update the parent's editingWidget with the new type and data
+    // Child already mutated widget, but we need to reassign to trigger Svelte 5 reactivity
     if (editingWidget) {
-      editingWidget.type = selectedType.id
-      editingWidget.data = selectedType.data
+      // Create new object to trigger binding reactivity
+      editingWidget = { ...editingWidget, type: selectedType.id, data: selectedType.data }
 
       // Initialize pointer data if this is a pointer widget
       if (selectedType.id === "pointer" && !editingWidget.data) {
