@@ -8,7 +8,6 @@
  */
 
 import {
-  AddCircleOutline,
   DuplicateOutline,
   PencilOutline,
   SwapOutline,
@@ -29,9 +28,6 @@ import { openWidgetEditor } from './widget/widget-editor/useWidgetEditorModal'
 import { wait } from '../../utils/tick/tick'
 import { writable } from 'svelte/store'
 import { dedupArray } from '../../utils/array/array_utils'
-import { selectTrackable } from '../trackable/trackable-selector/TrackableSelectorStore'
-import { trackableToToken } from '../trackable/trackable-utils'
-import { tokenToTrackable } from '../../modules/tokenizer/tokenToTrackable'
 
 type InitialState = {
   dashboards: Array<DashboardClass>
@@ -401,37 +397,6 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
       },
     },
   ]
-
-  // Add tracker inclusion options for bar and line charts
-  if (['barchart', 'linechart'].includes(widget.type)) {
-    if (!widget.secondToken) {
-      buttons.push({
-        title: 'Include Tracker',
-        icon: AddCircleOutline,
-        async click() {
-          await wait(200)
-          try {
-            const selected = await selectTrackable()
-            if (selected) {
-              widget.secondToken = trackableToToken(selected)
-              await upsertWidget(widget)
-            }
-          } catch (e) {
-            console.error('Error selecting tracker:', e)
-          }
-        },
-      })
-    } else {
-      buttons.push({
-        title: 'Remove Tracker',
-        icon: TrashOutline,
-        async click() {
-          widget.secondToken = undefined
-          await upsertWidget(widget)
-        },
-      })
-    }
-  }
 
   buttons.push({
     title: 'Delete Widget',

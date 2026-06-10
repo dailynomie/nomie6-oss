@@ -21,6 +21,7 @@
   import type { TrackableUsage } from '../../usage/trackable-usage.class'
   import { TrackableStore } from '../../trackable/TrackableStore'
   import type NLog from '../../nomie-log/nomie-log'
+  import { IncludedTrackableStore } from './types/included-trackable-store'
 
 
   const { trackable: trackableProp = undefined, widget: widgetProp, usage: usageProp, logs: logsProp } = $props()
@@ -29,6 +30,10 @@
   let widget = $state(widgetProp)
   let usage = $state(usageProp)
   let logs = $state(logsProp)
+
+  let includedTrackable = $derived.by(() => {
+    return $IncludedTrackableStore.get(widget?.id || '')
+  })
 
   $effect(() => {
     trackable = trackableProp

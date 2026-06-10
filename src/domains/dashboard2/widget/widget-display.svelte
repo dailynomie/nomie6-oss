@@ -14,6 +14,7 @@
   import type { Trackable } from '../../trackable/Trackable.class'
   import type { TrackableUsage } from '../../usage/trackable-usage.class'
   import { showWidgetPopmenu, upsertWidget } from '../DashStore'
+  import { IncludedTrackableStore } from './types/included-trackable-store'
   import Spinner from '../../../components/spinner/spinner.svelte'
   import type NLog from '../../nomie-log/nomie-log'
   import { MoreVertical } from '../../../components/icon/nicons'
@@ -140,6 +141,10 @@
 
   let label: string = $state('loading')
 
+  let includedTrackable = $derived.by(() => {
+    return $IncludedTrackableStore.get(widget?.id || '')
+  })
+
   $effect(() => {
     if (widget.type == 'plugin') {
       const plugin = $PluginStore.find(p => p.id == widget.data.pluginId)
@@ -156,9 +161,20 @@
 
 {#if widget && widget.type !== 'text'}
   <div class="dashboard-widget {getClass(widget, updateTrigger)}" {id}>
-    <div class="flex widget-header px-2 py-1">
+    <div class="flex widget-header px-2 py-1 items-center gap-1">
       {#if trackable && widget.type != 'pointer'}
-        <TrackablePill hideValue size={30} transparent {trackable} on:click={widgetActions} />
+        <div class="flex items-center gap-1">
+          {#if includedTrackable && ['barchart', 'linechart'].includes(widget.type)}
+            <span style="color: {trackable.color}; font-size: 0.9rem; font-weight: bold;">|</span>
+          {/if}
+          <TrackablePill hideValue size={30} transparent {trackable} on:click={widgetActions} />
+        </div>
+        {#if includedTrackable && ['barchart', 'linechart'].includes(widget.type)}
+          <div class="flex items-center gap-1">
+            <span style="color: {includedTrackable.color}; font-size: 0.9rem; font-weight: bold;">|</span>
+            <TrackablePill hideValue size={30} transparent trackable={includedTrackable} on:click={widgetActions} />
+          </div>
+        {/if}
         {:else if widget.type == 'pointer'}
         <p style="font-size: 90%"><b>🏷 {titleCase(widget.pointer.id)}</b></p><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions}/>
       {:else if widget.type == 'plugin'}

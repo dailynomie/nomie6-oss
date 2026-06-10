@@ -11,6 +11,7 @@
   import { queryToTrackableUsage } from '../../../ledger/LedgerStore'
   import { tokenToTrackable } from '../../../../modules/tokenizer/tokenToTrackable'
   import { TrackableStore } from '../../../trackable/TrackableStore'
+  import { setIncludedTrackable } from './included-trackable-store'
 
   const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable() } = $props()
   // export let trackable: Trackable | undefined = undefined
@@ -20,6 +21,7 @@
   let reverseUsage = $state<TrackableUsage | undefined>(undefined)
   let secondUsage = $state<TrackableUsage | undefined>(undefined)
   let usages = $state<Array<TrackableUsage>>([])
+  let includedTrackable = $state<any>(undefined)
 
   $effect(() => {
     // Explicitly reference usage to ensure dependency tracking
@@ -79,6 +81,18 @@
     if (reverseUsage) arr.push(reverseUsage)
     if (secondUsage) arr.push(secondUsage)
     usages = arr
+  })
+
+  // Update includedTrackable when chart includes another tracker via the menu
+  $effect(() => {
+    if (usages && usages.length > 1) {
+      // The second usage is the "alsoInclude" trackable added via the chart menu
+      includedTrackable = usages[1].trackable
+      setIncludedTrackable(widget.id, usages[1].trackable)
+    } else {
+      includedTrackable = undefined
+      setIncludedTrackable(widget.id, undefined)
+    }
   })
 
   $effect(() => {
