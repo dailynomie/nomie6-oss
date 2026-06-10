@@ -100,15 +100,21 @@
         // Default map initialization when methods not provided
         const mapElement = _el.querySelector('.n-map')
         if (mapElement && !MAP) {
-          MAP = L.map(mapElement).setView([locations[0].lat, locations[0].lng], 12)
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19,
-          }).addTo(MAP)
+          // Use requestAnimationFrame to ensure element is laid out before Leaflet initializes
+          requestAnimationFrame(() => {
+            const rect = mapElement.getBoundingClientRect()
+            if (rect.width > 0 && rect.height > 0) {
+              MAP = L.map(mapElement).setView([locations[0].lat, locations[0].lng], 12)
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19,
+              }).addTo(MAP)
 
-          // Add markers for each location
-          locations.forEach((loc) => {
-            L.marker([loc.lat, loc.lng]).addTo(MAP).bindPopup(loc.name || 'Location')
+              // Add markers for each location
+              locations.forEach((loc) => {
+                L.marker([loc.lat, loc.lng]).addTo(MAP).bindPopup(loc.name || 'Location')
+              })
+            }
           })
         }
       }
@@ -132,7 +138,7 @@
           })
         locations = locs
       } catch (e) {
-        console.error(`Location || record length reaction error`, e.mesasge)
+        console.error(`Location || record length reaction error`, e.message)
       }
     }
   })
@@ -260,6 +266,7 @@
 
 <style lang="postcss" global>
   .n-map-container {
+    height: 100%;
   }
 
   .geocoder-control-input {
@@ -278,6 +285,7 @@
     top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
     z-index: 1;
   }
   .picker-cover {

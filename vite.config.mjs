@@ -54,12 +54,13 @@ export default defineConfig({
 
     VitePWA({
       manifest: manifest,
-      maximumFileSizeToCacheInBytes: 10 * 1024 ** 2, // 10 MB
+      maximumFileSizeToCacheInBytes: 20 * 1024 ** 2, // 20 MB (for 7.15 MB main JS bundle)
 
       // Workbox configuration for intelligent caching strategies
       workbox: {
         // HTML - always network first (want latest version)
         navigateFallback: '/index.html',
+        maximumFileSizeToCacheInBytes: 20 * 1024 * 1024, // 20 MB for large JS bundle
 
         // Caching strategies for different asset types
         runtimeCaching: [
