@@ -47,7 +47,7 @@
             dayOfWeek?.fri.percent,
             dayOfWeek?.sat.percent,
             $Prefs.weekStarts == 'monday' ? dayOfWeek?.sun.percent : null,
-          ].filter((d) => d),
+          ].filter((d) => d !== null),
         },
       ],
     }
