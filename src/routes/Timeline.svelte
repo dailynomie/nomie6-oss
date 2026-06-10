@@ -47,8 +47,8 @@
   import TimelineLoader from '../domains/timeline/timeline-loader.svelte'
 
   let startingDate = $state<Date>(new Date())
-  let date: Dayjs = dayjs(startingDate)
-  let displayDate = dayjs()
+  let date = $derived(dayjs(startingDate))
+  let displayDate = $state(dayjs())
   let topItem: TimelineItemType
   let inPast = $state(false)
 
