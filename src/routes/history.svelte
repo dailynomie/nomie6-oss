@@ -86,7 +86,7 @@
   // and when we have selected more than one.
 
   let isToday = true
-  let view: OTDViewOption = 'all'
+  let view = $state<OTDViewOption>('all')
 
   let activeDate
 
