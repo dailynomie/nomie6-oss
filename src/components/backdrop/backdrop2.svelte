@@ -123,6 +123,12 @@
     @apply top-2;
   }
 
+  .backdrop2 .modal-center {
+    @apply top-1/2 left-1/2;
+    transform: translate(-50%, -50%);
+    @apply absolute;
+  }
+
   .backdrop2.bg-transparent {
     background:transparent !important;
     @apply backdrop-filter-none;
