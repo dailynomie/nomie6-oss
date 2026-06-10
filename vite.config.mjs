@@ -55,6 +55,83 @@ export default defineConfig({
     VitePWA({
       manifest: manifest,
       maximumFileSizeToCacheInBytes: 10 * 1024 ** 2, // 10 MB
+
+      // Workbox configuration for intelligent caching strategies
+      workbox: {
+        // HTML - always network first (want latest version)
+        navigateFallback: '/index.html',
+
+        // Caching strategies for different asset types
+        runtimeCaching: [
+          // API calls - network first with cache fallback
+          {
+            urlPattern: /^https?:\/\/(?:api\.|localhost:|127\.0\.0\.1:)/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              networkTimeoutSeconds: 10,
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 5 * 60, // 5 minutes
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          // Images - cache first with network fallback
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'image-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          // CSS and JS - cache first (versioned by build hash)
+          {
+            urlPattern: /\.(?:js|css)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'assets-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+          // Fonts - cache first with long expiry
+          {
+            urlPattern: /\.(?:woff|woff2|ttf|otf|eot)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'fonts-cache',
+              expiration: {
+                maxEntries: 30,
+                maxAgeSeconds: 60 * 24 * 60 * 60, // 60 days
+              },
+            },
+          },
+        ],
+
+        // Clean up old caches on activation
+        cleanupOutdatedCaches: true,
+
+        // Skip waiting (apply updates immediately)
+        skipWaiting: false, // Keep false for controlled updates via PWAService
+        clientsClaim: true,
+      },
+
+      // Development options
+      devOptions: {
+        enabled: false, // PWA disabled in dev mode (as implemented in PWAService)
+      },
     }),
   ],
 })
