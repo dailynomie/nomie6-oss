@@ -91,12 +91,8 @@
     gotoDate(date.toDate());
   }
 
-  const mounted = async () => {
-    loadDay()
-  }
-
-  onMount(() => {
-    mounted()
+  onMount(async () => {
+    await loadDay()
   })
 
   const { id } = $props()
