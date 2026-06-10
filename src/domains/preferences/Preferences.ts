@@ -6,6 +6,20 @@ import { showToast } from '../../components/toast/ToastStore'
 
 export type ThemeTypes = 'dark' | 'light' | 'auto'
 export type PrefsWeekStartTypes = 'sunday' | 'monday'
+export type AIServiceType = 'claude' | 'chatgpt'
+
+export type AIServiceConfig = {
+  apiKey?: string
+}
+
+export type AIConfig = {
+  enabled?: boolean
+  selectedService?: AIServiceType
+  services?: {
+    claude?: AIServiceConfig
+    chatgpt?: AIServiceConfig
+  }
+}
 
 export type PreferencesStateType = {
   use24hour?: boolean
@@ -30,6 +44,7 @@ export type PreferencesStateType = {
   alwaysLocate?: boolean
   onboarded?: boolean
   startPage?: 'track' | 'timeline' | 'history' | 'goals' | 'dashboard'
+  ai?: AIConfig
 }
 
 const sideStorage = new SideStore('preferences')
@@ -55,6 +70,14 @@ const InitialState: PreferencesStateType = sideStorage.get('state') || {
   hideMessages: false,
   allowFileEdit: false,
   alwaysLocate: true,
+  ai: {
+    enabled: false,
+    selectedService: 'claude',
+    services: {
+      claude: { apiKey: undefined },
+      chatgpt: { apiKey: undefined },
+    },
+  },
 }
 
 export const Prefs = writable(InitialState)

@@ -41,6 +41,7 @@
   import SettingsDataList from './settings-data-list.svelte'
   import SettingsAboutList from './settings-about-list.svelte'
   import SettingsFeaturesList from './settings-features-list.svelte'
+  import SettingsAIList from './settings-ai-list.svelte'
   import { AppVersion } from '../../modules/app-version/app-version'
 
   import AwardsPreviewList from '../awards/components/awards-preview-list.svelte'
@@ -242,6 +243,8 @@
                 <span slot="left">䷾</span>
               </ListItem>
             </List>
+
+            <SettingsAIList />
 
             <div id="data-marker" />
             <SettingsDataList

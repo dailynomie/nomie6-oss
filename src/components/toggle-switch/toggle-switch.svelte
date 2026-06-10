@@ -27,15 +27,15 @@
     on:click={methods.onChange}
   >
     <span class="sr-only">{title || 'Toggle'}</span>
-    <span class="ball w-6 h-6 block bg-white rounded-full" />
+    <span class="ball w-5 h-5 block bg-white rounded-full" />
   </button>
 </div>
 
 <style lang="postcss" global>
   .onoffswitch-btn {
-    @apply w-12 h-8;
+    @apply w-11 h-6;
     @apply rounded-full;
-    @apply p-1;
+    @apply p-0.5;
     @apply transform transition-all duration-100;
     @apply inline-flex;
     @apply focus:outline-none focus:ring-2 ring-green-500 ring-inset;
@@ -53,7 +53,7 @@
     @apply transition-all duration-100;
   }
   .onoffswitch.on .onoffswitch-btn .ball {
-    @apply transform translate-x-4;
+    @apply transform translate-x-5;
   }
   .onoffswitch.off .onoffswitch-btn {
     @apply bg-gray-300 dark:bg-gray-700;
