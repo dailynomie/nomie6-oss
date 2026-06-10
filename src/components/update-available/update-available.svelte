@@ -1,28 +1,21 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { useRegisterSW } from 'virtual:pwa-register/svelte'
+  import { pwService } from '../../modules/pwa/PWAService'
 
-  const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
-    onRegistered(swr: ServiceWorkerRegistration) {
-      console.log(`Nomie Service Worker registered`, {
-        installing: swr.installing,
-        active: swr.active,
-        scope: swr.scope,
-      })
-    },
-    onRegisterError(error) {
-      console.error('Nomie Service Worker registration error', error)
-    },
-  })
+  const offlineReady = pwService.offlineReady
+  const needRefresh = pwService.needRefresh
 
   function close() {
-    offlineReady.set(false)
-    needRefresh.set(false)
+    pwService.dismissOfflineNotification()
+    pwService.dismissUpdateNotification()
   }
 
-  let toast = $derived($needRefresh)
-  // let toast = true
+  async function handleUpdate() {
+    await pwService.applyUpdate()
+  }
+
+  let toast = $derived($needRefresh || $offlineReady)
 </script>
 
 {#if toast}
@@ -45,7 +38,7 @@
         {#if $needRefresh}
           <button
             aria-label="Update the App"
-            on:click={() => updateServiceWorker(true)}
+            on:click={handleUpdate}
             class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-primary-600"
           >
             Update Now
