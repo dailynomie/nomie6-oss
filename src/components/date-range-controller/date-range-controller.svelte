@@ -32,7 +32,7 @@
   <div class="filler">
     <slot />
     <div class="title text-center"><slot name="title" /></div>
-    <p class=" {dateClass}">
+    <p class="text-center {dateClass}">
       {#if start && end}
         {start.format(dateFormats.mmm_d_yyyy)} -
         {end.format(dateFormats.mmm_d_yyyy)}
