@@ -50,6 +50,11 @@
   }
 
   async function loadDay() {
+    if (!$OnThisDayModalStore) {
+      loading = false
+      return
+    }
+
     loading = true
     let day = await LedgerStore.getDay($OnThisDayModalStore)
     let trackersUsed = LedgerStore.extractTrackerTagAndValues(day)

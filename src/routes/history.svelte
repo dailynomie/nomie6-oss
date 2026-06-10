@@ -69,18 +69,17 @@
 
   const dateFormats = getDateFormats()
 
-  const state = {
+  const state = $state({
     date: dayjs(new Date()),
     // time_format: config.book_time_format,
-    logs: [],
     ledger: null,
     locations: [],
     showAllLocations: false,
-  } // Assign State to compiled history page
+  }) // Assign State to compiled history page
 
-  let refreshing = false
-  let logs = [] // holder of the logs
-  let loading = true
+  let refreshing = $state(false)
+  let logs = $state([]) // holder of the logs
+  let loading = $state(true)
   // let locations = []
 
   /// Watchers for when we're in edit mode
@@ -203,10 +202,10 @@
   let onLogsDeleted
 
   // WHen mounted.
-  onMount(() => {
+  onMount(async () => {
     Device.scrollToTop()
 
-    refresh()
+    await refresh()
 
     onLogUpdate = LedgerStore.hook('onLogUpdate', async (log) => {
       await tick(600)
