@@ -200,19 +200,19 @@
 
 <List solo>
   <ListItem bottomLine={52} title={Lang.t('settings.show-all-board', 'Show All Board')}>
-    <IonIcon icon={AllBoardIcon} slot="left" size={24} />
+    <IonIcon icon={AllBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle People Board" />
     </div>
   </ListItem>
   <ListItem bottomLine={52} title={Lang.t('settings.show-people-board', 'Show People Board')}>
-    <IonIcon icon={PeopleBoardIcon} slot="left" size={24} />
+    <IonIcon icon={PeopleBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
     </div>
   </ListItem>
   <ListItem bottomLine={52} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
-    <IonIcon icon={ContextBoardIcon} slot="left" size={24} />
+    <IonIcon icon={ContextBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
     </div>
