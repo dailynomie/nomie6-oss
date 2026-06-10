@@ -29,6 +29,7 @@
     import { EyeSolid } from '../../components/icon/nicons'
     import { EyeClosedSolid } from '../../components/icon/nicons'
     import IonIcon from "../../components/icon/ion-icon.svelte";
+    import Spinner from '../../components/spinner/spinner.svelte';
 
     let notenoughdata = $state(false);
     let plotlyRenderers = $state({});
@@ -145,9 +146,6 @@
         isLoadingData = true;
 
         loaded = false;
-        let message = "Loading Data...";
-        if (workingPivotDays > 270) {message = `> 270 days, be patience..`}
-        Interact.blocker(message)
         let trackables;
         let searches = workingPivotSearchTerm.terms.split(';');
         var timeout = setInterval(async function() {
@@ -174,13 +172,11 @@
         }
 
         loaded = true;
-        Interact.stopBlocker()
         isLoadingData = false;
         }
         }
         else {
             clearInterval(timeout);
-            Interact.stopBlocker()
             notenoughdata = true
             isLoadingData = false;
         }}, 100);
@@ -452,7 +448,14 @@
         {/if}
 
     </Container>
-    {#if notenoughdata}
+    {#if isLoadingData}
+    <div class="flex items-center justify-center py-12">
+        <div class="flex flex-col items-center space-y-4">
+            <Spinner size={48} />
+            <div class="text-xs dark:text-gray-400 text-gray-600">Loading data...</div>
+        </div>
+    </div>
+    {:else if notenoughdata}
     <List transparent className="max-w-md mx-auto">
         <Empty icon={CubeOutline} title="Not Enough Data">
             <div class="my-0 text-center text-lg font-normal leading-tight text-gray-800 dark:text-gray-50">
