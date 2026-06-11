@@ -98,9 +98,15 @@ async function fetchMetrics(
         }
       }
     } else {
-      for (const [key, trackable] of Object.entries(trackables)) {
+      const trackableEntries = Object.entries(trackables)
+      console.log('🔍 Matching tokens to trackables:')
+      console.log('  tokensByKey keys:', Object.keys(tokensByKey))
+      console.log('  trackable keys sample:', trackableEntries.slice(0, 10).map(([k]) => k))
+
+      for (const [key, trackable] of trackableEntries) {
         if (tokensByKey[key]) {
           const values = tokensByKey[key]
+          console.log(`✅ Matched: ${key} with ${values.length} values`)
           metrics[key] = {
             label: (trackable as any)?.label || key,
             count: values.length,
