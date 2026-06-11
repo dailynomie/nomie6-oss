@@ -29,6 +29,13 @@
   async function loadTestData() {
     try {
       const ledger = get(LedgerStore)
+      console.log('📊 LedgerStore entries:', ledger?.entries?.length)
+
+      if (!ledger || !ledger.entries || ledger.entries.length === 0) {
+        testDataInfo = { info: 'No tracking data available yet' }
+        return
+      }
+
       const thirtyDaysAgo = dayjs().subtract(30, 'days')
 
       // Get entries from last 30 days
@@ -52,7 +59,7 @@
         }
       })
 
-      testData = {
+      testDataInfo = {
         totalEntries: recentEntries.length,
         uniqueMetrics: Object.keys(byTag).length,
         metrics: Object.entries(byTag).map(([tag, entries]) => ({
@@ -65,7 +72,7 @@
       contextSummary = context.summary
     } catch (error) {
       console.error('Error loading test data:', error)
-      testData = { error: 'Failed to load test data' }
+      testDataInfo = { error: `Failed: ${(error as Error).message}` }
     }
   }
 
