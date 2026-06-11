@@ -34,31 +34,19 @@ src/routes/api/ai/
 
 ## Setup Steps
 
-### 1. Configure API Key
+### User Configuration (Runtime)
 
-Create `.env.local` in project root:
+Users enable and configure AI directly in the app:
 
-```bash
-# Copy the template
-cp .env.local.example .env.local
+1. Open **Settings > AI Integration**
+2. Toggle **"AI Features Enabled"**
+3. Select AI service (**Claude** or **ChatGPT**)
+4. Enter their personal API key:
+   - Claude: Get from [console.anthropic.com](https://console.anthropic.com/)
+   - ChatGPT: Get from [platform.openai.com](https://platform.openai.com/)
+5. Click **"Save Configuration"**
 
-# Edit and add your Anthropic API key
-# Get it from: https://console.anthropic.com/api_keys
-ANTHROPIC_API_KEY=sk-ant-...
-```
-
-**Never commit `.env.local` to version control** — it's already in .gitignore.
-
-### 2. User Setup (Runtime)
-
-Users configure AI in the app:
-1. Open Settings > AI Integration
-2. Toggle "AI Features Enabled"
-3. Select AI service (Claude or ChatGPT)
-4. Enter their API key
-5. Click "Save Configuration"
-
-The API key is stored in user preferences (browser storage) using the "bring your own key" pattern.
+The API key is stored in **user preferences** (browser storage) using the **"bring your own key"** pattern. Each user controls their own API key — the app does not store or manage keys on the server.
 
 ## Available Profiles
 
@@ -192,19 +180,22 @@ Each profile serves a specific use case:
 
 ## Integration Points
 
-### 1. Settings Page
-The AI settings are already integrated in `src/domains/settings/settings-ai-list.svelte`:
+### 1. Settings Page (User Facing)
+The AI settings are already implemented in `src/domains/settings/settings-ai-list.svelte`:
 - Toggle to enable/disable AI features
 - Select Claude or ChatGPT
-- Store and manage API keys per service
+- Input and save API key per service
+- Collapsible configuration panel
 
-### 2. Store Integration
-The engine automatically integrates with Nomie's stores:
-- **LedgerStore** — Fetches log entries for context
-- **TrackableStore** — Gets tracker metadata and goals
-- **UsageStore** — Accesses aggregate statistics
-
-No additional setup needed — context is assembled automatically.
+### 2. Engine Integration (Developer Facing)
+The engine automatically:
+- **Reads API key from Prefs store** when query is called
+- **Passes key in request body** to server endpoint
+- **Throws clear error** if AI not configured
+- Integrates with Nomie stores for context:
+  - **LedgerStore** — Fetches log entries for context
+  - **TrackableStore** — Gets tracker metadata and goals
+  - **UsageStore** — Accesses aggregate statistics
 
 ### 3. Reactive State
 The `aiState` object provides reactive loading/error states:
@@ -358,10 +349,11 @@ Default values are conservative and suitable for most use cases.
 
 ## Next Steps
 
-1. **Test Locally**: Create `.env.local`, start dev server, test in Settings
-2. **Build Components**: Use examples above to add AI features to your domain
-3. **Extend Profiles**: Create custom profiles for domain-specific use cases
-4. **Monitor Usage**: Track API usage and adjust token budgets as needed
+1. **Test Locally**: Start dev server, test in Settings > AI Integration
+2. **Add Your API Key**: Enter Claude or ChatGPT API key in settings
+3. **Build Components**: Use examples above to add AI features to your domain
+4. **Extend Profiles**: Create custom profiles for domain-specific use cases
+5. **Monitor Usage**: Track API usage and adjust token budgets as needed
 
 ## References
 

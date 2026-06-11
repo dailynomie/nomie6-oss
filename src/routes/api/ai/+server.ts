@@ -1,26 +1,26 @@
 import { json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
-import { ANTHROPIC_API_KEY } from '$env/static/private'
 
 export const POST: RequestHandler = async ({ request }) => {
-  if (!ANTHROPIC_API_KEY) {
-    return json(
-      { error: 'AI service not configured' },
-      { status: 500 }
-    )
-  }
-
   try {
     const body = await request.json()
+    const { apiKey, ...aiRequest } = body
+
+    if (!apiKey) {
+      return json(
+        { error: 'API key not provided' },
+        { status: 400 }
+      )
+    }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(aiRequest)
     })
 
     if (!response.ok) {

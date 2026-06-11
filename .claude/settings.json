@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Read(//Users/ronalddelange/Library/Mobile\\\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss/src/domains/setup/**)"
+      "Read(//Users/ronalddelange/Library/Mobile\\\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss/src/domains/setup/**)",
+      "Read(//Users/ronalddelange/Library/Mobile\\\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss/src/domains/preferences/**)"
     ],
     "additionalDirectories": [
       "/tmp",

@@ -10,6 +10,8 @@ import type {
   Profile,
   ProfileName
 } from './profiles/types'
+import { Prefs } from '../domains/preferences/Preferences'
+import { get } from 'svelte/store'
 
 const profiles: Record<ProfileName, Profile> = {
   insight: insightProfile,
@@ -32,6 +34,16 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
     throw new Error(`Unknown profile: ${req.profile}`)
   }
 
+  const prefs = get(Prefs)
+  const apiKey =
+    prefs.ai?.services?.[prefs.ai?.selectedService || 'claude']?.apiKey
+
+  if (!apiKey) {
+    throw new Error(
+      'AI is not configured. Please enable AI in Settings and add your API key.'
+    )
+  }
+
   aiState.loading = true
   aiState.error = null
 
@@ -42,6 +54,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        apiKey,
         model: 'claude-3-5-sonnet-20241022',
         max_tokens: profile.maxTokens,
         temperature: profile.temperature,
@@ -86,6 +99,16 @@ export async function streamQuery(
     throw new Error(`Unknown profile: ${req.profile}`)
   }
 
+  const prefs = get(Prefs)
+  const apiKey =
+    prefs.ai?.services?.[prefs.ai?.selectedService || 'claude']?.apiKey
+
+  if (!apiKey) {
+    throw new Error(
+      'AI is not configured. Please enable AI in Settings and add your API key.'
+    )
+  }
+
   aiState.loading = true
   aiState.error = null
 
@@ -96,6 +119,7 @@ export async function streamQuery(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        apiKey,
         model: 'claude-3-5-sonnet-20241022',
         max_tokens: profile.maxTokens,
         temperature: profile.temperature,

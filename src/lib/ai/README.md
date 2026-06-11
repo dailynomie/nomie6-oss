@@ -23,22 +23,20 @@ src/routes/api/ai/
 
 ## Setup
 
-### 1. Add API Key
+### User Setup (No Server Configuration Needed)
 
-Create a `.env.local` file in the project root (use `.env.local.example` as a template):
+The AI engine uses the **"bring your own key"** pattern:
 
-```bash
-ANTHROPIC_API_KEY=sk-ant-...
-```
+1. Each user enters their own API key in **Settings > AI Integration**
+2. Keys are stored in browser localStorage via Nomie preferences
+3. Keys are passed to the server only when making API requests
+4. The server never stores keys — it proxies them to Anthropic
 
-Get your API key from [console.anthropic.com](https://console.anthropic.com/)
-
-### 2. Enable AI in Settings
-
-Users enable AI integration in Settings > AI Integration:
-- Toggle to enable AI features
-- Select Claude or ChatGPT
-- Enter their API key (stored in Nomie preferences)
+This means:
+- ✅ No server-side secrets management needed
+- ✅ Users control their own API keys
+- ✅ Multiple users can use different services (Claude vs ChatGPT)
+- ✅ No shared quotas or rate limiting between users
 
 ## Usage
 
@@ -233,9 +231,23 @@ Same request format; response is SSE stream with `content_block_delta` events.
 
 ## Security
 
-- **API Key:** Only stored in `.env.local` on server. Never sent to browser.
-- **Server Proxy:** Browser makes requests to `/api/ai`, not directly to Anthropic API.
-- **User Storage:** User-provided API keys in Settings are stored in Nomie preferences (browser storage). This is intentional for the "bring your own key" pattern—keys are user-owned and not exposed to servers.
+### "Bring Your Own Key" Model
+
+This engine uses a zero-server-secret approach:
+
+- **User Keys:** Stored in browser localStorage via Nomie preferences
+- **No Server Storage:** Server never stores or caches API keys
+- **Key Transmission:** Keys are passed in request bodies only when needed
+- **Server Proxy:** Server endpoint accepts key in request, uses it once, discards it
+- **User Control:** Users manage their own API keys; they never touch the app's infrastructure
+
+### Why This Approach?
+
+1. **Privacy:** Users' API keys never leave their device except in the request
+2. **Scalability:** No key management backend needed
+3. **Cost Control:** Each user manages their own API quota
+4. **Simplicity:** No secrets management, no rotation, no vault needed
+5. **Multi-Service:** Different users can use different AI services
 
 ## Testing Profiles
 
@@ -272,7 +284,8 @@ Both `query()` and `streamQuery()` throw on error after setting `aiState.error`.
 The engine is designed for extensibility:
 
 - **Caching:** Add response caching layer in context-builder based on prompt + context hash
-- **Rate Limiting:** Implement per-user request counters in +server.ts
-- **Logging:** Add request/response logging for monitoring usage and cost
+- **Logging:** Add request/response logging for monitoring usage per user
 - **Custom Temperature Overrides:** Allow components to override profile temperature
 - **Fallback Profiles:** Define degraded behavior if API is unavailable
+- **Key Rotation Prompt:** Remind users when API key may be compromised
+- **Usage Analytics:** Track which profiles users prefer, success rates
