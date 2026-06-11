@@ -31,6 +31,11 @@ export interface UserContext {
   recentMetrics: Record<string, unknown>
   goals: string[]
   summary: string
+  people?: Record<string, {
+    count: number
+    recent: (string | number)[]
+    correlations?: string[]
+  }>
 }
 
 export interface ChartDataset {

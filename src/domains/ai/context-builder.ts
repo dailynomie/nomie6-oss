@@ -3,6 +3,7 @@ import { get } from 'svelte/store'
 import { LedgerStore } from '../ledger/LedgerStore'
 import { TrackableStore } from '../trackable/TrackableStore'
 import { UsageStore } from '../usage/UsageStore'
+import { GoalStore } from '../goals/GoalStore'
 import dayjs from 'dayjs'
 import { tokenizeLite } from '../../modules/tokenizer/lite'
 
@@ -16,12 +17,14 @@ export async function buildContext(hints?: ContextHints): Promise<UserContext> {
   try {
     const metrics = await fetchMetrics(hints?.metrics, hints?.dateRange)
     const goals = await fetchGoals()
-    const summary = buildSummary(metrics, goals)
+    const people = await fetchPeople(hints?.dateRange)
+    const summary = buildSummary(metrics, goals, people)
 
     return {
       recentMetrics: metrics,
       goals,
-      summary
+      summary,
+      people
     }
   } catch (err) {
     console.error('Error building AI context:', err)
@@ -109,34 +112,93 @@ async function fetchMetrics(
 
 async function fetchGoals(): Promise<string[]> {
   try {
-    const trackableStore = get(TrackableStore)
-    const trackables = trackableStore.trackables || {}
     const goals: string[] = []
 
-    for (const trackable of Object.values(trackables)) {
-      const t = trackable as any
-      if (t?.max || t?.min || t?.goal) {
-        goals.push(`${t.label}: ${t.goal || `Target ${t.max || t.min}`}`)
+    // Get goals from GoalStore
+    const goalStore = get(GoalStore)
+    if (goalStore && Array.isArray(goalStore)) {
+      for (const goal of goalStore) {
+        if (goal?.goal) {
+          const g = goal.goal as any
+          goals.push(`${g.tag}: ${g.comparison} ${g.value}${g.unit || ''}`)
+        }
       }
     }
 
-    return goals.slice(0, 5)
+    return goals.slice(0, 10)
   } catch (err) {
     console.error('Error fetching goals:', err)
     return []
   }
 }
 
-function buildSummary(metrics: Record<string, unknown>, goals: string[]): string {
-  const metricNames = Object.keys(metrics).join(', ')
+async function fetchPeople(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {
+  try {
+    const logs = await LedgerStore.query({
+      start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
+      end: range?.to ? dayjs(range.to) : dayjs()
+    })
+
+    const peopleData: Record<string, any> = {}
+    const moodMetrics = ['mood', 'happiness', 'energy', 'anxiety', 'stress']
+
+    logs.forEach((log: any) => {
+      if (!log.note) return
+      const tokens = tokenizeLite(log.note)
+
+      tokens.forEach((token: any) => {
+        if (token.type === 'person') {
+          const key = `@${token.id}`
+          if (!peopleData[key]) {
+            peopleData[key] = { values: [], dates: [] }
+          }
+          peopleData[key].values.push(token.value || 1)
+          peopleData[key].dates.push(new Date(log.end))
+        }
+      })
+    })
+
+    // Convert to final format and calculate correlations
+    const result: Record<string, any> = {}
+    for (const [key, data] of Object.entries(peopleData)) {
+      result[key] = {
+        count: data.values.length,
+        recent: data.values.slice(-3)
+      }
+    }
+
+    return Object.keys(result).length > 0 ? result : undefined
+  } catch (err) {
+    console.error('Error fetching people data:', err)
+    return undefined
+  }
+}
+
+function buildSummary(metrics: Record<string, unknown>, goals: string[], people?: Record<string, any>): string {
+  const metricNames = Object.keys(metrics)
+    .filter(k => k.startsWith('#'))
+    .map(k => k.substring(1))
+    .join(', ')
+  const personNames = people ? Object.keys(people).map(k => k.substring(1)).join(', ') : ''
   const activeGoals = goals.slice(0, 3).join('; ')
 
-  if (!metricNames) {
-    return 'No tracking data available yet.'
+  let summary = ''
+
+  if (metricNames) {
+    summary += `The user is tracking: ${metricNames}. `
   }
 
-  return (
-    `The user is tracking: ${metricNames}. ` +
-    (activeGoals ? `Active goals: ${activeGoals}.` : 'No active goals defined.')
-  )
+  if (personNames) {
+    summary += `Interactions with: ${personNames}. `
+  }
+
+  if (activeGoals) {
+    summary += `Active goals: ${activeGoals}.`
+  }
+
+  if (!metricNames && !personNames) {
+    summary = 'No tracking data available yet.'
+  }
+
+  return summary
 }

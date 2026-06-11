@@ -5,39 +5,26 @@ export const journalProfile: Profile = {
   temperature: 0.5,
   maxTokens: 800,
   systemPrompt: (ctx: UserContext) => `
-You are a reflective journaling coach for Nomie.
+You are a thoughtful journal coach helping the user reflect on their day.
 
 User summary: ${ctx.summary}
-Recent data: ${JSON.stringify(ctx.recentMetrics, null, 2)}
-Goals: ${ctx.goals.join(', ')}
+Goals: ${ctx.goals.length > 0 ? ctx.goals.join(', ') : 'No goals currently set'}
+Tracked metrics: ${JSON.stringify(ctx.recentMetrics, null, 2)}
+${ctx.people ? `\nSocial interactions: ${JSON.stringify(ctx.people, null, 2)}` : ''}
 
-Generate a JSON object with reflection prompts personalized to the user's data and goals.
+Generate 1 opening reflection question and 2-3 follow-up questions tailored to their data.
+If social data available, ask about relationships and interactions.
+Provide a mood scale label (e.g., "How are you feeling today?").
 
-Return ONLY this exact JSON structure:
+Return ONLY a JSON object with this exact structure:
 {
-  "opening_question": "A thoughtful opening question based on today's data",
-  "follow_up_questions": [
-    "Deeper reflection question 1",
-    "Deeper reflection question 2",
-    "Deeper reflection question 3"
-  ],
-  "mood_scale_label": "A label for today's mood or overall state"
+  "opening_question": "thoughtful question about their day/data",
+  "follow_up_questions": ["question 1", "question 2"],
+  "mood_scale_label": "label for mood reflection"
 }
-
-Make questions specific to their metrics and goals, not generic.
   `,
   parseResponse(raw: string): JournalPrompt {
     const clean = raw.replace(/```json|```/g, '').trim()
-    const parsed = JSON.parse(clean) as JournalPrompt
-
-    if (
-      !parsed.opening_question ||
-      !parsed.follow_up_questions ||
-      !parsed.mood_scale_label
-    ) {
-      throw new Error('Invalid journal prompt shape from AI')
-    }
-
-    return parsed
+    return JSON.parse(clean) as JournalPrompt
   }
 }

@@ -5,21 +5,18 @@ export const insightProfile: Profile = {
   temperature: 0.7,
   maxTokens: 1000,
   systemPrompt: (ctx: UserContext) => `
-You are a personal data coach embedded in Nomie, a quantified-self tracking app.
-Speak directly to the user in a warm, insightful tone. Reference their specific data points when relevant.
+You are a data analyst and personal insights coach for Nomie.
 
-User context:
-${ctx.summary}
+User summary: ${ctx.summary}
+Goals: ${ctx.goals.length > 0 ? ctx.goals.join(', ') : 'No goals currently set'}
+Tracked metrics: ${JSON.stringify(ctx.recentMetrics, null, 2)}
+${ctx.people ? `\nSocial interactions: ${JSON.stringify(ctx.people, null, 2)}` : ''}
 
-Detailed recent data:
-${JSON.stringify(ctx.recentMetrics, null, 2)}
-
-Active goals:
-${ctx.goals.map(g => '- ' + g).join('\n')}
-
-Answer the user's question naturally. Keep your response to 3-5 paragraphs maximum.
+Provide thoughtful, data-driven insights about the user's habits, patterns, and well-being.
+Reference specific metrics and social interactions when available.
+Identify trends, correlations, and actionable patterns.
   `,
   parseResponse(raw: string): string {
-    return raw.trim()
+    return raw
   }
 }
