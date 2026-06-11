@@ -59,11 +59,11 @@
             return
           }
 
-          // Build key with prefix
-          const key = token.type === 'tracker' ? token.id : `${token.prefix}${token.id}`
+          // Build key with prefix - all trackables are stored with their prefix
+          const key = `${token.prefix}${token.id}`
 
           if (!byTag[key]) byTag[key] = []
-          byTag[key].push({ value: token.value, date: log.end })
+          byTag[key].push({ value: token.value || 1, date: log.end })
           totalTokens++
         })
       })

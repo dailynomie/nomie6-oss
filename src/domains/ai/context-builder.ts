@@ -69,8 +69,8 @@ async function fetchMetrics(
           return
         }
 
-        // Build key with prefix for non-trackers
-        const key = token.type === 'tracker' ? token.id : `${token.prefix}${token.id}`
+        // Build key with prefix - all trackables are stored with their prefix
+        const key = `${token.prefix}${token.id}`
 
         if (!tokensByKey[key]) tokensByKey[key] = []
         const value = token.value !== undefined && token.value !== '' ? token.value : 1
