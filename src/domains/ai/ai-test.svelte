@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import { query, streamQuery, aiState } from './engine.svelte'
+  import { buildContext } from './context-builder'
   import type {
     AdviceItem,
     ChartDataset,
@@ -10,9 +11,63 @@
   } from './profiles/types'
   import NLayout from '../layout/layout.svelte'
   import NBackButton from '../../components/back-button/back-button.svelte'
+  import { LedgerStore } from '../ledger/LedgerStore'
+  import { get } from 'svelte/store'
+  import dayjs from 'dayjs'
 
   let responseText = $state('')
   let useStreaming = $state(false)
+  let testData = $state<any>(null)
+  let contextSummary = $state('')
+  let showTestData = $state(false)
+
+  // Load test data on mount
+  $effect.pre(() => {
+    loadTestData()
+  })
+
+  async function loadTestData() {
+    try {
+      const ledger = get(LedgerStore)
+      const thirtyDaysAgo = dayjs().subtract(30, 'days')
+
+      // Get entries from last 30 days
+      const recentEntries = ledger?.entries?.filter((e: any) => {
+        const entryDate = dayjs(e.date)
+        return entryDate.isAfter(thirtyDaysAgo)
+      }) || []
+
+      // Group by tag
+      const byTag: Record<string, any[]> = {}
+      recentEntries.forEach((entry: any) => {
+        if (!byTag[entry.tag]) byTag[entry.tag] = []
+        byTag[entry.tag].push(entry)
+      })
+
+      // Get context
+      const context = await buildContext({
+        dateRange: {
+          from: thirtyDaysAgo.format('YYYY-MM-DD'),
+          to: dayjs().format('YYYY-MM-DD')
+        }
+      })
+
+      testData = {
+        totalEntries: recentEntries.length,
+        uniqueMetrics: Object.keys(byTag).length,
+        metrics: Object.entries(byTag).map(([tag, entries]) => ({
+          tag,
+          count: entries.length,
+          recent: (entries as any[]).slice(-3).map((e: any) => e.value)
+        }))
+      }
+
+      contextSummary = context.summary
+    } catch (error) {
+      console.error('Error loading test data:', error)
+      testData = { error: 'Failed to load test data' }
+    }
+  }
 
   async function testInsight() {
     responseText = 'Loading...'
@@ -120,6 +175,56 @@
         <strong>Tip:</strong> Configure your API key in Settings &gt; AI Integration first!
       </p>
     </div>
+
+    {#if testData}
+      <div class="mb-6 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded p-4">
+        <button
+          onclick={() => (showTestData = !showTestData)}
+          class="w-full text-left flex items-center justify-between hover:opacity-70 transition-opacity"
+        >
+          <h3 class="font-semibold text-sm">📊 Test Data (Last 30 Days)</h3>
+          <span class="text-xs">{showTestData ? '▼' : '▶'}</span>
+        </button>
+
+        {#if showTestData}
+          <div class="mt-3 space-y-3 text-xs">
+            {#if testData.error}
+              <p class="text-red-600 dark:text-red-400">{testData.error}</p>
+            {:else}
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-white dark:bg-gray-700 p-2 rounded">
+                  <p class="text-gray-600 dark:text-gray-400">Total Entries</p>
+                  <p class="font-bold text-lg">{testData.totalEntries}</p>
+                </div>
+                <div class="bg-white dark:bg-gray-700 p-2 rounded">
+                  <p class="text-gray-600 dark:text-gray-400">Unique Metrics</p>
+                  <p class="font-bold text-lg">{testData.uniqueMetrics}</p>
+                </div>
+              </div>
+
+              <div class="bg-white dark:bg-gray-700 p-3 rounded">
+                <p class="font-semibold mb-2">Tracked Metrics:</p>
+                <div class="space-y-2 max-h-40 overflow-y-auto">
+                  {#each testData.metrics as metric (metric.tag)}
+                    <div class="text-xs">
+                      <p class="font-medium text-gray-700 dark:text-gray-300">{metric.tag} ({metric.count} entries)</p>
+                      <p class="text-gray-500 dark:text-gray-400">Recent: {metric.recent.join(', ')}</p>
+                    </div>
+                  {/each}
+                </div>
+              </div>
+
+              {#if contextSummary}
+                <div class="bg-white dark:bg-gray-700 p-3 rounded">
+                  <p class="font-semibold mb-2">AI Context Summary:</p>
+                  <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{contextSummary}</p>
+                </div>
+              {/if}
+            {/if}
+          </div>
+        {/if}
+      </div>
+    {/if}
 
     {#if aiState.error}
       <div class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4">
