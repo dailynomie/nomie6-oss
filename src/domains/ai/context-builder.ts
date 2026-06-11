@@ -117,18 +117,12 @@ async function fetchGoals(): Promise<string[]> {
 
     // Get goals from GoalStore
     const goalStore = get(GoalStore)
-    console.log('🎯 GoalStore data:', goalStore)
-    console.log('🎯 GoalStore is array?', Array.isArray(goalStore))
-    console.log('🎯 GoalStore length:', goalStore?.length)
 
     if (goalStore && Array.isArray(goalStore)) {
-      console.log('🎯 Iterating through', goalStore.length, 'goals')
       for (let i = 0; i < goalStore.length; i++) {
         const g = goalStore[i] as any
-        console.log(`🎯 Goal ${i}:`, g)
 
         if (g && g.tag) {
-          console.log(`🎯 Processing goal:`, { tag: g.tag, duration: g.duration, comparison: g.comparison, target: g.target })
           const durationLabel = g.duration ? `(${g.duration})` : '(daily)'
           const comparisonLabel = getComparisonLabel(g.comparison)
           const description = `${g.tag}: ${comparisonLabel} ${g.target}${g.unit || ''} ${durationLabel}`
@@ -142,8 +136,6 @@ async function fetchGoals(): Promise<string[]> {
         }
       }
     }
-
-    console.log('🎯 Final goals array:', goals)
     return goals.slice(0, 15)
   } catch (err) {
     console.error('Error fetching goals:', err)
