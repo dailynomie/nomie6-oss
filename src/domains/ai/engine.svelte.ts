@@ -51,6 +51,13 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
     const context = await buildContext(req.contextHints)
 
     const apiUrl = `http://${window.location.hostname}:5002/api/ai`
+    console.log('🤖 AI Query:', {
+      url: apiUrl,
+      profile: req.profile,
+      hasApiKey: !!apiKey,
+      apiKeyPrefix: apiKey ? apiKey.substring(0, 10) : 'NONE'
+    })
+
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -64,8 +71,12 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
       })
     })
 
+    console.log('🤖 API Response:', { status: response.status, ok: response.ok })
+
     if (!response.ok) {
-      throw new Error(`API error: ${response.status}`)
+      const errorText = await response.text()
+      console.error('🤖 API Error:', errorText)
+      throw new Error(`API error: ${response.status} - ${errorText}`)
     }
 
     const data = await response.json()

@@ -12,7 +12,15 @@ app.post('/api/ai', async (req, res) => {
   try {
     const { model, max_tokens, temperature, system, messages, apiKey } = req.body
 
+    console.log('📨 /api/ai received:', {
+      hasApiKey: !!apiKey,
+      apiKeyPrefix: apiKey ? apiKey.substring(0, 10) : 'NONE',
+      model,
+      messages: messages?.length || 0
+    })
+
     if (!apiKey) {
+      console.error('❌ API key missing')
       return res.status(400).json({ error: 'API key is required' })
     }
 
