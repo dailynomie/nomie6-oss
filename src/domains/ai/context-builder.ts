@@ -18,6 +18,8 @@ export async function buildContext(hints?: ContextHints): Promise<UserContext> {
     const goals = await fetchGoals()
     const summary = buildSummary(metrics, goals)
 
+    console.log('🔨 Context built:', { metrics, goals, summary })
+
     return {
       recentMetrics: metrics,
       goals,
@@ -69,6 +71,9 @@ async function fetchMetrics(
       })
     })
 
+    console.log('📊 Extracted tokens:', Object.keys(tokensByKey))
+    console.log('📊 Available trackers:', Object.keys(trackables?.trackers || {}))
+
     if (keys && keys.length > 0) {
       for (const key of keys) {
         const tracker = trackables?.trackers?.[key]
@@ -95,6 +100,7 @@ async function fetchMetrics(
       }
     }
 
+    console.log('📊 Final metrics:', metrics)
     return metrics
   } catch (err) {
     console.error('Error fetching metrics:', err)
