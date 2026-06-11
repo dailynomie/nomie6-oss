@@ -103,8 +103,7 @@
         await streamQuery(
           {
             profile: 'insight',
-            prompt: 'How am I doing overall based on my data?',
-            contextHints: { metrics: ['sleep', 'mood', 'steps'] }
+            prompt: 'How am I doing overall based on my data?'
           },
           (chunk) => {
             responseText += chunk
@@ -113,8 +112,7 @@
       } else {
         const res = await query<string>({
           profile: 'insight',
-          prompt: 'How am I doing overall based on my data?',
-          contextHints: { metrics: ['sleep', 'mood', 'steps'] }
+          prompt: 'How am I doing overall based on my data?'
         })
         responseText = res.content
       }
@@ -128,10 +126,7 @@
     try {
       const res = await query<AdviceItem[]>({
         profile: 'advice',
-        prompt: 'What actionable advice do you have for me this week?',
-        contextHints: {
-          metrics: ['sleep', 'steps', 'mood']
-        }
+        prompt: 'What actionable advice do you have for me this week?'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -144,10 +139,7 @@
     try {
       const res = await query<ChartDataset>({
         profile: 'data',
-        prompt: 'Create a chart showing my sleep quality over the last week',
-        contextHints: {
-          metrics: ['sleep']
-        }
+        prompt: 'Create a chart showing my top tracked metrics over the last week'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -160,8 +152,7 @@
     try {
       const res = await query<JournalPrompt>({
         profile: 'journal',
-        prompt: 'Generate reflection prompts for today',
-        contextHints: { metrics: ['sleep', 'mood', 'steps'] }
+        prompt: 'Generate reflection prompts for today'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -174,10 +165,7 @@
     try {
       const res = await query<AlertItem[]>({
         profile: 'alert',
-        prompt: 'Detect any anomalies in my tracking data',
-        contextHints: {
-          metrics: ['sleep', 'steps', 'mood', 'hrv']
-        }
+        prompt: 'Detect any anomalies in my tracking data'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {

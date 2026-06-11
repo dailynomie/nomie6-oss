@@ -18,8 +18,6 @@ export async function buildContext(hints?: ContextHints): Promise<UserContext> {
     const goals = await fetchGoals()
     const summary = buildSummary(metrics, goals)
 
-    console.log('🔨 Context built:', { metrics, goals, summary })
-
     return {
       recentMetrics: metrics,
       goals,
@@ -59,13 +57,6 @@ async function fetchMetrics(
       // Parse note to extract tokens
       const tokens = tokenizeLite(log.note)
 
-      if (tokens.length > 0) {
-        console.log('📝 Sample tokens from note:', log.note)
-        tokens.forEach((t: any) => {
-          console.log('   Token:', { id: t.id, type: t.type, prefix: t.prefix, value: t.value, raw: t.raw })
-        })
-      }
-
       tokens.forEach((token: any) => {
         // Skip non-trackable tokens
         if (token.type !== 'tracker' && token.type !== 'person' && token.type !== 'context' && token.type !== 'pointer') {
@@ -74,7 +65,6 @@ async function fetchMetrics(
 
         // Build key with prefix - all trackables are stored with their prefix
         const key = `${token.prefix}${token.id}`
-        console.log('📍 Adding token to metrics:', { key, value: token.value })
 
         if (!tokensByKey[key]) tokensByKey[key] = []
         const value = token.value !== undefined && token.value !== '' ? token.value : 1
@@ -82,12 +72,8 @@ async function fetchMetrics(
       })
     })
 
-    console.log('📊 Extracted tokens:', Object.keys(tokensByKey))
-    console.log('📊 Available trackables:', Object.keys(trackables))
-    console.log('🔎 Checking keys condition: keys =', keys, 'keys.length =', keys?.length)
 
     if (keys && keys.length > 0) {
-      console.log('📋 Taking keys-specific path (requestedKeys:', keys.length, ')')
       for (const key of keys) {
         const trackable = trackables[key]
         if (trackable && tokensByKey[key]) {
@@ -100,16 +86,11 @@ async function fetchMetrics(
         }
       }
     } else {
-      console.log('📋 Taking all-trackables path (no specific keys)')
       const trackableEntries = Object.entries(trackables)
-      console.log('🔍 Matching tokens to trackables:')
-      console.log('  tokensByKey keys:', Object.keys(tokensByKey))
-      console.log('  trackable keys sample:', trackableEntries.slice(0, 10).map(([k]) => k))
 
       for (const [key, trackable] of trackableEntries) {
         if (tokensByKey[key]) {
           const values = tokensByKey[key]
-          console.log(`✅ Matched: ${key} with ${values.length} values`)
           metrics[key] = {
             label: (trackable as any)?.label || key,
             count: values.length,
@@ -119,7 +100,6 @@ async function fetchMetrics(
       }
     }
 
-    console.log('📊 Final metrics:', metrics)
     return metrics
   } catch (err) {
     console.error('Error fetching metrics:', err)

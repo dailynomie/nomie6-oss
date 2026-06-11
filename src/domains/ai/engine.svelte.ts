@@ -51,14 +51,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   try {
     const context = await buildContext(req.contextHints)
 
-    console.log('🤖 AI Query:', {
-      profile: req.profile,
-      hasApiKey: !!apiKey,
-      apiKeyPrefix: apiKey ? apiKey.substring(0, 10) : 'NONE'
-    })
-
     const systemPrompt = profile.systemPrompt(context)
-    console.log('📋 System Prompt:', systemPrompt)
 
     const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 
