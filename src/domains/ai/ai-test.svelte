@@ -121,9 +121,9 @@
       </p>
     </div>
 
-    {#if $aiState.error}
+    {#if aiState.error}
       <div class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4">
-        <strong>Error:</strong> {$aiState.error}
+        <strong>Error:</strong> {aiState.error}
       </div>
     {/if}
 
@@ -136,42 +136,42 @@
       <div class="grid grid-cols-2 gap-2">
         <button
           onclick={testInsight}
-          disabled={$aiState.loading}
+          disabled={aiState.loading}
           class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400 text-sm"
         >
-          {$aiState.loading ? 'Loading...' : '💬 Insight'}
+          {aiState.loading ? 'Loading...' : '💬 Insight'}
         </button>
 
         <button
           onclick={testAdvice}
-          disabled={$aiState.loading}
+          disabled={aiState.loading}
           class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-400 text-sm"
         >
-          {$aiState.loading ? 'Loading...' : '💡 Advice'}
+          {aiState.loading ? 'Loading...' : '💡 Advice'}
         </button>
 
         <button
           onclick={testData}
-          disabled={$aiState.loading}
+          disabled={aiState.loading}
           class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:bg-gray-400 text-sm"
         >
-          {$aiState.loading ? 'Loading...' : '📊 Data'}
+          {aiState.loading ? 'Loading...' : '📊 Data'}
         </button>
 
         <button
           onclick={testJournal}
-          disabled={$aiState.loading}
+          disabled={aiState.loading}
           class="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600 disabled:bg-gray-400 text-sm"
         >
-          {$aiState.loading ? 'Loading...' : '📝 Journal'}
+          {aiState.loading ? 'Loading...' : '📝 Journal'}
         </button>
 
         <button
           onclick={testAlert}
-          disabled={$aiState.loading}
+          disabled={aiState.loading}
           class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 disabled:bg-gray-400 text-sm"
         >
-          {$aiState.loading ? 'Loading...' : '⚠️ Alert'}
+          {aiState.loading ? 'Loading...' : '⚠️ Alert'}
         </button>
       </div>
     </div>
@@ -179,7 +179,7 @@
     <div class="mb-4">
       <h2 class="text-lg font-semibold mb-2">Response:</h2>
       <div class="bg-gray-100 dark:bg-gray-800 rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-gray-900 dark:text-gray-100">
-        {#if $aiState.loading}
+        {#if aiState.loading}
           <span class="text-gray-500">Processing...</span>
         {:else if responseText}
           <pre>{responseText}</pre>
