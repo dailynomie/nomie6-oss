@@ -79,19 +79,10 @@ app.post('/api/ai/stream', async (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream')
     res.setHeader('Cache-Control', 'no-cache')
     res.setHeader('Connection', 'keep-alive')
+    res.setHeader('Access-Control-Allow-Origin', '*')
 
-    const reader = response.body.getReader()
-    const decoder = new TextDecoder()
-
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-
-      const chunk = decoder.decode(value)
-      res.write(chunk)
-    }
-
-    res.end()
+    // Pipe the response body directly to the client
+    response.body.pipe(res)
   } catch (error) {
     console.error('Streaming API error:', error)
     res.status(500).json({ error: error.message })
