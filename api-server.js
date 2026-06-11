@@ -25,6 +25,15 @@ app.post('/api/ai', async (req, res) => {
       return res.status(400).json({ error: 'API key is required' })
     }
 
+    const payload = {
+      model,
+      max_tokens,
+      system,
+      messages
+    }
+
+    console.log('📤 Sending to Anthropic:', JSON.stringify(payload, null, 2).substring(0, 500))
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -32,13 +41,7 @@ app.post('/api/ai', async (req, res) => {
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01'
       },
-      body: JSON.stringify({
-        model,
-        max_tokens,
-        temperature,
-        system,
-        messages
-      })
+      body: JSON.stringify(payload)
     })
 
     if (!response.ok) {
@@ -75,7 +78,6 @@ app.post('/api/ai/stream', async (req, res) => {
       body: JSON.stringify({
         model,
         max_tokens,
-        temperature,
         system,
         messages,
         stream: true
