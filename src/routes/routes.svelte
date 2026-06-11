@@ -26,6 +26,7 @@
   import Settings from './settings.svelte'
   import Export from './export.svelte'
   import Setup from './setup.svelte'
+  import TestAi from './test-ai.svelte'
 </script>
 
 <Router>
@@ -108,5 +109,8 @@
   </Route>
   <Route path="/setup">
     <Setup />
+  </Route>
+  <Route path="/test-ai">
+    <TestAi />
   </Route>
 </Router>
