@@ -46,7 +46,8 @@ app.post('/api/ai', async (req, res) => {
 
     if (!response.ok) {
       const error = await response.text()
-      console.error(`❌ Anthropic API error (${response.status}):`, error)
+      console.error(`❌ Anthropic API error (${response.status}):`)
+      console.error(error)
       return res.status(response.status).json({ error })
     }
 
@@ -94,8 +95,22 @@ app.post('/api/ai/stream', async (req, res) => {
     res.setHeader('Connection', 'keep-alive')
     res.setHeader('Access-Control-Allow-Origin', '*')
 
-    // Pipe the response body directly to the client
-    response.body.pipe(res)
+    // Stream the response body to the client
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        const chunk = decoder.decode(value, { stream: true })
+        res.write(chunk)
+      }
+      res.end()
+    } catch (error) {
+      console.error('Stream error:', error)
+      res.end()
+    }
   } catch (error) {
     console.error('Streaming API error:', error)
     res.status(500).json({ error: error.message })
