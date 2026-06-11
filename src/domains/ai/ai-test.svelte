@@ -28,27 +28,26 @@
 
   async function loadTestData() {
     try {
-      const ledger = get(LedgerStore)
-      console.log('📊 LedgerStore entries:', ledger?.entries?.length)
+      const thirtyDaysAgo = dayjs().subtract(30, 'days')
 
-      if (!ledger || !ledger.entries || ledger.entries.length === 0) {
+      // Query logs from last 30 days
+      const logs = await LedgerStore.query({
+        start: thirtyDaysAgo,
+        end: dayjs()
+      })
+
+      console.log('📊 Logs from last 30 days:', logs?.length)
+
+      if (!logs || logs.length === 0) {
         testDataInfo = { info: 'No tracking data available yet' }
         return
       }
 
-      const thirtyDaysAgo = dayjs().subtract(30, 'days')
-
-      // Get entries from last 30 days
-      const recentEntries = ledger?.entries?.filter((e: any) => {
-        const entryDate = dayjs(e.date)
-        return entryDate.isAfter(thirtyDaysAgo)
-      }) || []
-
       // Group by tag
       const byTag: Record<string, any[]> = {}
-      recentEntries.forEach((entry: any) => {
-        if (!byTag[entry.tag]) byTag[entry.tag] = []
-        byTag[entry.tag].push(entry)
+      logs.forEach((log: any) => {
+        if (!byTag[log.tag]) byTag[log.tag] = []
+        byTag[log.tag].push(log)
       })
 
       // Get context
@@ -60,7 +59,7 @@
       })
 
       testDataInfo = {
-        totalEntries: recentEntries.length,
+        totalEntries: logs.length,
         uniqueMetrics: Object.keys(byTag).length,
         metrics: Object.entries(byTag).map(([tag, entries]) => ({
           tag,
@@ -183,7 +182,7 @@
       </p>
     </div>
 
-    {#if testData}
+    {#if testDataInfo}
       <div class="mb-6 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded p-4">
         <button
           onclick={() => (showTestData = !showTestData)}
@@ -195,24 +194,26 @@
 
         {#if showTestData}
           <div class="mt-3 space-y-3 text-xs">
-            {#if testData.error}
-              <p class="text-red-600 dark:text-red-400">{testData.error}</p>
+            {#if testDataInfo.error}
+              <p class="text-red-600 dark:text-red-400">{testDataInfo.error}</p>
+            {:else if testDataInfo.info}
+              <p class="text-gray-600 dark:text-gray-400">{testDataInfo.info}</p>
             {:else}
               <div class="grid grid-cols-2 gap-2">
                 <div class="bg-white dark:bg-gray-700 p-2 rounded">
                   <p class="text-gray-600 dark:text-gray-400">Total Entries</p>
-                  <p class="font-bold text-lg">{testData.totalEntries}</p>
+                  <p class="font-bold text-lg">{testDataInfo.totalEntries}</p>
                 </div>
                 <div class="bg-white dark:bg-gray-700 p-2 rounded">
                   <p class="text-gray-600 dark:text-gray-400">Unique Metrics</p>
-                  <p class="font-bold text-lg">{testData.uniqueMetrics}</p>
+                  <p class="font-bold text-lg">{testDataInfo.uniqueMetrics}</p>
                 </div>
               </div>
 
               <div class="bg-white dark:bg-gray-700 p-3 rounded">
                 <p class="font-semibold mb-2">Tracked Metrics:</p>
                 <div class="space-y-2 max-h-40 overflow-y-auto">
-                  {#each testData.metrics as metric (metric.tag)}
+                  {#each testDataInfo.metrics as metric (metric.tag)}
                     <div class="text-xs">
                       <p class="font-medium text-gray-700 dark:text-gray-300">{metric.tag} ({metric.count} entries)</p>
                       <p class="text-gray-500 dark:text-gray-400">Recent: {metric.recent.join(', ')}</p>
@@ -227,7 +228,7 @@
                   <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{contextSummary}</p>
                 </div>
               {/if}
-            {/if}
+            {/else}
           </div>
         {/if}
       </div>

@@ -3,6 +3,7 @@ import { get } from 'svelte/store'
 import { LedgerStore } from '../ledger/LedgerStore'
 import { TrackableStore } from '../trackable/TrackableStore'
 import { UsageStore } from '../usage/UsageStore'
+import dayjs from 'dayjs'
 
 interface ContextHints {
   metrics?: string[]
@@ -36,8 +37,13 @@ async function fetchMetrics(
   range?: { from: string; to: string }
 ): Promise<Record<string, unknown>> {
   try {
-    const ledger = get(LedgerStore)
     const trackables = get(TrackableStore)
+
+    // Query logs from ledger
+    const logs = await LedgerStore.query({
+      start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
+      end: range?.to ? dayjs(range.to) : dayjs()
+    })
 
     const metrics: Record<string, unknown> = {}
 
@@ -45,7 +51,7 @@ async function fetchMetrics(
       for (const key of keys) {
         const tracker = trackables?.trackers?.[key]
         if (tracker) {
-          const entries = ledger?.entries?.filter((e: any) => e.tag === key) || []
+          const entries = logs.filter((e: any) => e.tag === key) || []
           metrics[key] = {
             label: tracker.label,
             count: entries.length,
@@ -56,7 +62,7 @@ async function fetchMetrics(
     } else {
       const trackers = trackables?.trackers || {}
       for (const [key, tracker] of Object.entries(trackers)) {
-        const entries = ledger?.entries?.filter((e: any) => e.tag === key) || []
+        const entries = logs.filter((e: any) => e.tag === key) || []
         if (entries.length > 0) {
           metrics[key] = {
             label: (tracker as any)?.label || key,
