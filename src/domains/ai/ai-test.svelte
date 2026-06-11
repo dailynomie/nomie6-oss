@@ -38,6 +38,15 @@
 
       console.log('📊 Logs from last 30 days:', logs?.length)
 
+      if (logs && logs.length > 0) {
+        console.log('First log structure:', logs[0])
+        console.log('Log keys:', Object.keys(logs[0]))
+        console.log('Has trackers?', logs[0].trackers?.length || 0)
+        console.log('Has people?', logs[0].people?.length || 0)
+        console.log('Has context?', logs[0].context?.length || 0)
+        console.log('Has pointers?', logs[0].pointers?.length || 0)
+      }
+
       if (!logs || logs.length === 0) {
         testDataInfo = { info: 'No tracking data available yet' }
         return
