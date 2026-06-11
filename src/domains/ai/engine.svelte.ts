@@ -57,12 +57,15 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
       apiKeyPrefix: apiKey ? apiKey.substring(0, 10) : 'NONE'
     })
 
+    const systemPrompt = profile.systemPrompt(context)
+    console.log('📋 System Prompt:', systemPrompt)
+
     const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 
     const response = await client.messages.create({
       model: 'claude-opus-4-8',
       max_tokens: profile.maxTokens,
-      system: profile.systemPrompt(context),
+      system: systemPrompt,
       messages: [{ role: 'user', content: req.prompt }]
     })
 
