@@ -40,7 +40,8 @@ async function fetchMetrics(
   range?: { from: string; to: string }
 ): Promise<Record<string, unknown>> {
   try {
-    const trackables = get(TrackableStore)
+    const trackableStore = get(TrackableStore)
+    const trackables = trackableStore.trackables || {}
 
     // Query logs from ledger
     const logs = await LedgerStore.query({
@@ -72,27 +73,26 @@ async function fetchMetrics(
     })
 
     console.log('📊 Extracted tokens:', Object.keys(tokensByKey))
-    console.log('📊 Available trackers:', Object.keys(trackables?.trackers || {}))
+    console.log('📊 Available trackables:', Object.keys(trackables))
 
     if (keys && keys.length > 0) {
       for (const key of keys) {
-        const tracker = trackables?.trackers?.[key]
-        if (tracker && tokensByKey[key]) {
+        const trackable = trackables[key]
+        if (trackable && tokensByKey[key]) {
           const values = tokensByKey[key]
           metrics[key] = {
-            label: tracker.label,
+            label: (trackable as any).label,
             count: values.length,
             recent: values.slice(-5)
           }
         }
       }
     } else {
-      const trackers = trackables?.trackers || {}
-      for (const [key, tracker] of Object.entries(trackers)) {
+      for (const [key, trackable] of Object.entries(trackables)) {
         if (tokensByKey[key]) {
           const values = tokensByKey[key]
           metrics[key] = {
-            label: (tracker as any)?.label || key,
+            label: (trackable as any)?.label || key,
             count: values.length,
             recent: values.slice(-3)
           }
@@ -110,12 +110,12 @@ async function fetchMetrics(
 
 async function fetchGoals(): Promise<string[]> {
   try {
-    const trackables = get(TrackableStore)
+    const trackableStore = get(TrackableStore)
+    const trackables = trackableStore.trackables || {}
     const goals: string[] = []
 
-    const trackers = trackables?.trackers || {}
-    for (const tracker of Object.values(trackers)) {
-      const t = tracker as any
+    for (const trackable of Object.values(trackables)) {
+      const t = trackable as any
       if (t?.max || t?.min || t?.goal) {
         goals.push(`${t.label}: ${t.goal || `Target ${t.max || t.min}`}`)
       }
