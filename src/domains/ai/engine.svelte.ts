@@ -50,7 +50,8 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   try {
     const context = await buildContext(req.contextHints)
 
-    const response = await fetch('/api/ai', {
+    const apiUrl = `http://${window.location.hostname}:5002/api/ai`
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -115,7 +116,8 @@ export async function streamQuery(
   try {
     const context = await buildContext(req.contextHints)
 
-    const response = await fetch('/api/ai/stream', {
+    const apiUrl = `http://${window.location.hostname}:5002/api/ai/stream`
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
