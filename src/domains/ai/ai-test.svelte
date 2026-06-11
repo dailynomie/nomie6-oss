@@ -17,7 +17,7 @@
 
   let responseText = $state('')
   let useStreaming = $state(false)
-  let testData = $state<any>(null)
+  let testDataInfo = $state<any>(null)
   let contextSummary = $state('')
   let showTestData = $state(false)
 
