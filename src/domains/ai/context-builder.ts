@@ -58,6 +58,11 @@ async function fetchMetrics(
 
       // Parse note to extract tokens
       const tokens = tokenizeLite(log.note)
+
+      if (tokens.length > 0) {
+        console.log('📝 Sample tokens from note:', log.note, tokens)
+      }
+
       tokens.forEach((token: any) => {
         // Skip non-trackable tokens
         if (token.type !== 'tracker' && token.type !== 'person' && token.type !== 'context' && token.type !== 'pointer') {
@@ -68,7 +73,8 @@ async function fetchMetrics(
         const key = token.type === 'tracker' ? token.id : `${token.prefix}${token.id}`
 
         if (!tokensByKey[key]) tokensByKey[key] = []
-        tokensByKey[key].push(token.value || 1)
+        const value = token.value !== undefined && token.value !== '' ? token.value : 1
+        tokensByKey[key].push(value)
       })
     })
 
