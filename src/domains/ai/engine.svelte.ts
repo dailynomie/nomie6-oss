@@ -10,7 +10,7 @@ import type {
   Profile,
   ProfileName
 } from './profiles/types'
-import { Prefs } from '../domains/preferences/Preferences'
+import { Prefs } from '../preferences/Preferences'
 import { get } from 'svelte/store'
 
 const profiles: Record<ProfileName, Profile> = {
