@@ -196,9 +196,11 @@
           <div class="mt-3 space-y-3 text-xs">
             {#if testDataInfo.error}
               <p class="text-red-600 dark:text-red-400">{testDataInfo.error}</p>
-            {:else if testDataInfo.info}
+            {/if}
+            {#if testDataInfo.info}
               <p class="text-gray-600 dark:text-gray-400">{testDataInfo.info}</p>
-            {:else}
+            {/if}
+            {#if testDataInfo.totalEntries}
               <div class="grid grid-cols-2 gap-2">
                 <div class="bg-white dark:bg-gray-700 p-2 rounded">
                   <p class="text-gray-600 dark:text-gray-400">Total Entries</p>
@@ -228,7 +230,7 @@
                   <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{contextSummary}</p>
                 </div>
               {/if}
-            {/else}
+            {/if}
           </div>
         {/if}
       </div>
