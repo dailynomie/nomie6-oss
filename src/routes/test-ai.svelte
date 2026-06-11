@@ -1,6 +1,8 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import NLayout from '../domains/layout/layout.svelte'
+  import NBackButton from '../components/back-button/back-button.svelte'
   import { query, streamQuery, aiState } from '../domains/ai/engine.svelte'
   import type {
     AdviceItem,
@@ -124,8 +126,17 @@
   }
 </script>
 
-<div class="p-6 max-w-4xl mx-auto">
-  <h1 class="text-3xl font-bold mb-6">🤖 AI Integration Test</h1>
+<NLayout pageTitle="AI Integration Test" showTabs={false}>
+  <div slot="header" class="n-toolbar-grid">
+    <div class="left">
+      <NBackButton />
+    </div>
+    <div class="main title">🤖 AI Test</div>
+    <div class="right" />
+  </div>
+
+  <div slot="content" class="p-6 max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">AI Integration Test</h1>
 
   {#if $aiState.error}
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -212,4 +223,5 @@
       <li>⚠️ <strong>Alert:</strong> Anomaly detection (structured alerts)</li>
     </ul>
   </div>
-</div>
+  </div>
+</NLayout>
