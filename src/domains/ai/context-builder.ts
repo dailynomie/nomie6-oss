@@ -1,8 +1,8 @@
 import type { UserContext } from './profiles/types'
 import { get } from 'svelte/store'
-import { LedgerStore } from '../ledger/ledger-store'
-import { TrackableStore } from '../trackable/trackable-store'
-import { UsageStore } from '../usage/usage-stats'
+import { LedgerStore } from '../ledger/LedgerStore'
+import { TrackableStore } from '../trackable/TrackableStore'
+import { UsageStore } from '../usage/UsageStore'
 
 interface ContextHints {
   metrics?: string[]
