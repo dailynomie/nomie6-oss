@@ -5,7 +5,7 @@ The AI Integration Engine provides a modular, profile-driven system for integrat
 ## Architecture
 
 ```
-src/lib/ai/
+src/domains/ai/
 ├── engine.svelte.ts         # Central orchestrator with Svelte 5 reactivity
 ├── context-builder.ts        # Assembles user data context from stores
 ├── profiles/
@@ -44,8 +44,8 @@ This means:
 
 ```svelte
 <script lang="ts">
-  import { query, aiState } from '$lib/ai/engine.svelte'
-  import type { AdviceItem } from '$lib/ai/profiles/types'
+  import { query, aiState } from '$domains/ai/engine.svelte'
+  import type { AdviceItem } from '$domains/ai/profiles/types'
 
   async function getAdvice() {
     const res = await query<AdviceItem[]>({
@@ -73,7 +73,7 @@ This means:
 
 ```svelte
 <script lang="ts">
-  import { streamQuery, aiState } from '$lib/ai/engine.svelte'
+  import { streamQuery, aiState } from '$domains/ai/engine.svelte'
 
   let response = $state('')
 
@@ -130,10 +130,10 @@ Detects unusual patterns in user data. Low temperature (0.1) for precise anomaly
 
 ## Adding a New Profile
 
-1. Create a new profile file in `src/lib/ai/profiles/`:
+1. Create a new profile file in `src/domains/ai/profiles/`:
 
 ```typescript
-// src/lib/ai/profiles/mycustom.ts
+// src/domains/ai/profiles/mycustom.ts
 import type { Profile, UserContext } from './types'
 
 export const myProfile: Profile = {
@@ -151,7 +151,7 @@ Data: ${JSON.stringify(ctx.recentMetrics, null, 2)}
 }
 ```
 
-2. Add the type to `src/lib/ai/profiles/types.ts`:
+2. Add the type to `src/domains/ai/profiles/types.ts`:
 
 ```typescript
 export type ProfileName = 'insight' | 'data' | 'advice' | 'journal' | 'alert' | 'mycustom'
@@ -161,7 +161,7 @@ export interface MyCustomType {
 }
 ```
 
-3. Register in `src/lib/ai/engine.svelte.ts`:
+3. Register in `src/domains/ai/engine.svelte.ts`:
 
 ```typescript
 import { myProfile } from './profiles/mycustom'
@@ -254,7 +254,7 @@ This engine uses a zero-server-secret approach:
 Profiles are pure functions with no external dependencies, making them easy to unit test:
 
 ```typescript
-import { dataProfile } from '$lib/ai/profiles/data'
+import { dataProfile } from '$domains/ai/profiles/data'
 
 const mockContext = {
   recentMetrics: { sleep: [7.2, 6.8, 7.5] },

@@ -4,9 +4,9 @@ The AI Integration Engine has been successfully integrated into Nomie 6. This gu
 
 ## Files Created
 
-### Core Engine (src/lib/ai/)
+### Core Engine (src/domains/ai/)
 ```
-src/lib/ai/
+src/domains/ai/
 ├── engine.svelte.ts              # Central orchestrator with Svelte 5 reactivity
 ├── context-builder.ts             # Fetches and assembles user data context
 ├── profiles/
@@ -66,8 +66,8 @@ Each profile serves a specific use case:
 
 ```svelte
 <script lang="ts">
-  import { query, aiState } from '$lib/ai/engine.svelte'
-  import type { AdviceItem } from '$lib/ai/profiles/types'
+  import { query, aiState } from '$domains/ai/engine.svelte'
+  import type { AdviceItem } from '$domains/ai/profiles/types'
 
   let advice: AdviceItem[] = $state([])
 
@@ -212,7 +212,7 @@ Components automatically re-render when state changes.
 ### Step 1: Create Profile File
 
 ```typescript
-// src/lib/ai/profiles/myprofile.ts
+// src/domains/ai/profiles/myprofile.ts
 import type { Profile, UserContext } from './types'
 
 export interface MyOutputType {
@@ -243,7 +243,7 @@ Metrics: ${JSON.stringify(ctx.recentMetrics, null, 2)}
 ### Step 2: Update Types
 
 ```typescript
-// src/lib/ai/profiles/types.ts
+// src/domains/ai/profiles/types.ts
 export type ProfileName = 
   | 'insight' 
   | 'data' 
@@ -261,7 +261,7 @@ export interface MyOutputType {
 ### Step 3: Register Profile
 
 ```typescript
-// src/lib/ai/engine.svelte.ts
+// src/domains/ai/engine.svelte.ts
 import { myProfile } from './profiles/myprofile'
 
 const profiles: Record<ProfileName, Profile> = {
@@ -358,5 +358,5 @@ Default values are conservative and suitable for most use cases.
 ## References
 
 - [Anthropic API Docs](https://docs.anthropic.com/)
-- [src/lib/ai/README.md](./src/lib/ai/README.md) — Technical deep-dive
+- [src/domains/ai/README.md](./src/domains/ai/README.md) — Technical deep-dive
 - [Nomie Architecture](./ARCHITECTURE.md) — App structure overview
