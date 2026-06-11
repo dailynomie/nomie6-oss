@@ -43,13 +43,15 @@ app.post('/api/ai', async (req, res) => {
 
     if (!response.ok) {
       const error = await response.text()
+      console.error(`❌ Anthropic API error (${response.status}):`, error)
       return res.status(response.status).json({ error })
     }
 
     const data = await response.json()
+    console.log('✅ Success! Returning data to client')
     res.json(data)
   } catch (error) {
-    console.error('API error:', error)
+    console.error('❌ API error:', error.message, error)
     res.status(500).json({ error: error.message })
   }
 })
