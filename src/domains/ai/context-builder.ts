@@ -84,8 +84,10 @@ async function fetchMetrics(
 
     console.log('📊 Extracted tokens:', Object.keys(tokensByKey))
     console.log('📊 Available trackables:', Object.keys(trackables))
+    console.log('🔎 Checking keys condition: keys =', keys, 'keys.length =', keys?.length)
 
     if (keys && keys.length > 0) {
+      console.log('📋 Taking keys-specific path (requestedKeys:', keys.length, ')')
       for (const key of keys) {
         const trackable = trackables[key]
         if (trackable && tokensByKey[key]) {
@@ -98,6 +100,7 @@ async function fetchMetrics(
         }
       }
     } else {
+      console.log('📋 Taking all-trackables path (no specific keys)')
       const trackableEntries = Object.entries(trackables)
       console.log('🔍 Matching tokens to trackables:')
       console.log('  tokensByKey keys:', Object.keys(tokensByKey))
