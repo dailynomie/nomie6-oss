@@ -14,6 +14,7 @@
   import { LedgerStore } from '../ledger/LedgerStore'
   import { get } from 'svelte/store'
   import dayjs from 'dayjs'
+  import { tokenizeLite } from '../../modules/tokenizer/lite'
 
   let responseText = $state('')
   let useStreaming = $state(false)
@@ -38,63 +39,33 @@
 
       console.log('📊 Logs from last 30 days:', logs?.length)
 
-      if (logs && logs.length > 0) {
-        console.log('First log structure:', logs[0])
-        console.log('Log keys:', Object.keys(logs[0]))
-        console.log('Has trackers?', logs[0].trackers?.length || 0)
-        console.log('Has people?', logs[0].people?.length || 0)
-        console.log('Has context?', logs[0].context?.length || 0)
-        console.log('Has pointers?', logs[0].pointers?.length || 0)
-      }
-
       if (!logs || logs.length === 0) {
         testDataInfo = { info: 'No tracking data available yet' }
         return
       }
 
-      // Extract all tokens from logs (trackers, people, context, pointers)
+      // Extract all tokens from note field using tokenizer
       const byTag: Record<string, any[]> = {}
       let totalTokens = 0
 
       logs.forEach((log: any) => {
-        // Extract trackers
-        if (log.trackers && log.trackers.length > 0) {
-          log.trackers.forEach((token: any) => {
-            if (!byTag[token.id]) byTag[token.id] = []
-            byTag[token.id].push({ value: token.value, date: log.end })
-            totalTokens++
-          })
-        }
+        if (!log.note) return
 
-        // Extract people
-        if (log.people && log.people.length > 0) {
-          log.people.forEach((token: any) => {
-            const key = `@${token.id}`
-            if (!byTag[key]) byTag[key] = []
-            byTag[key].push({ value: token.value || 1, date: log.end })
-            totalTokens++
-          })
-        }
+        // Parse note to extract tokens
+        const tokens = tokenizeLite(log.note)
+        tokens.forEach((token: any) => {
+          // Skip non-trackable tokens (like generic text, links, etc)
+          if (token.type !== 'tracker' && token.type !== 'person' && token.type !== 'context' && token.type !== 'pointer') {
+            return
+          }
 
-        // Extract context
-        if (log.context && log.context.length > 0) {
-          log.context.forEach((token: any) => {
-            const key = `+${token.id}`
-            if (!byTag[key]) byTag[key] = []
-            byTag[key].push({ value: token.value || 1, date: log.end })
-            totalTokens++
-          })
-        }
+          // Build key with prefix
+          const key = token.type === 'tracker' ? token.id : `${token.prefix}${token.id}`
 
-        // Extract pointers
-        if (log.pointers && log.pointers.length > 0) {
-          log.pointers.forEach((token: any) => {
-            const key = `^${token.id}`
-            if (!byTag[key]) byTag[key] = []
-            byTag[key].push({ value: token.value || 1, date: log.end })
-            totalTokens++
-          })
-        }
+          if (!byTag[key]) byTag[key] = []
+          byTag[key].push({ value: token.value, date: log.end })
+          totalTokens++
+        })
       })
 
       console.log('📊 Extracted tokens:', totalTokens, 'Unique metrics:', Object.keys(byTag).length)

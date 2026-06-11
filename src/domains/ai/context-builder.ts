@@ -4,6 +4,7 @@ import { LedgerStore } from '../ledger/LedgerStore'
 import { TrackableStore } from '../trackable/TrackableStore'
 import { UsageStore } from '../usage/UsageStore'
 import dayjs from 'dayjs'
+import { tokenizeLite } from '../../modules/tokenizer/lite'
 
 interface ContextHints {
   metrics?: string[]
@@ -50,40 +51,22 @@ async function fetchMetrics(
     // Extract tokens from all logs and group by id
     const tokensByKey: Record<string, any[]> = {}
     logs.forEach((log: any) => {
-      // Extract trackers
-      if (log.trackers && log.trackers.length > 0) {
-        log.trackers.forEach((token: any) => {
-          if (!tokensByKey[token.id]) tokensByKey[token.id] = []
-          tokensByKey[token.id].push(token.value)
-        })
-      }
+      if (!log.note) return
 
-      // Extract people
-      if (log.people && log.people.length > 0) {
-        log.people.forEach((token: any) => {
-          const key = `@${token.id}`
-          if (!tokensByKey[key]) tokensByKey[key] = []
-          tokensByKey[key].push(token.value || 1)
-        })
-      }
+      // Parse note to extract tokens
+      const tokens = tokenizeLite(log.note)
+      tokens.forEach((token: any) => {
+        // Skip non-trackable tokens
+        if (token.type !== 'tracker' && token.type !== 'person' && token.type !== 'context' && token.type !== 'pointer') {
+          return
+        }
 
-      // Extract context
-      if (log.context && log.context.length > 0) {
-        log.context.forEach((token: any) => {
-          const key = `+${token.id}`
-          if (!tokensByKey[key]) tokensByKey[key] = []
-          tokensByKey[key].push(token.value || 1)
-        })
-      }
+        // Build key with prefix for non-trackers
+        const key = token.type === 'tracker' ? token.id : `${token.prefix}${token.id}`
 
-      // Extract pointers
-      if (log.pointers && log.pointers.length > 0) {
-        log.pointers.forEach((token: any) => {
-          const key = `^${token.id}`
-          if (!tokensByKey[key]) tokensByKey[key] = []
-          tokensByKey[key].push(token.value || 1)
-        })
-      }
+        if (!tokensByKey[key]) tokensByKey[key] = []
+        tokensByKey[key].push(token.value || 1)
+      })
     })
 
     if (keys && keys.length > 0) {
