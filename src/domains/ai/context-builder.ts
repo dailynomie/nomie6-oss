@@ -60,7 +60,10 @@ async function fetchMetrics(
       const tokens = tokenizeLite(log.note)
 
       if (tokens.length > 0) {
-        console.log('📝 Sample tokens from note:', log.note, tokens)
+        console.log('📝 Sample tokens from note:', log.note)
+        tokens.forEach((t: any) => {
+          console.log('   Token:', { id: t.id, type: t.type, prefix: t.prefix, value: t.value, raw: t.raw })
+        })
       }
 
       tokens.forEach((token: any) => {
@@ -71,6 +74,7 @@ async function fetchMetrics(
 
         // Build key with prefix - all trackables are stored with their prefix
         const key = `${token.prefix}${token.id}`
+        console.log('📍 Adding token to metrics:', { key, value: token.value })
 
         if (!tokensByKey[key]) tokensByKey[key] = []
         const value = token.value !== undefined && token.value !== '' ? token.value : 1
