@@ -16,7 +16,9 @@
     "url": "https://www.dailynomie.com"
   },
   "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 5001",
+    "dev": "concurrently \"vite --host 0.0.0.0 --port 5001\" \"node api-server.js\"",
+    "dev:vite": "vite --host 0.0.0.0 --port 5001",
+    "dev:api": "node api-server.js",
     "vbuild": "vite build",
     "vserve": "vite preview --host 0.0.0.0 --port 5000",
     "serve": "vite serve",
@@ -71,6 +73,7 @@
     "commitizen": "^4.3.0",
     "commitlint": "^17.6.7",
     "concurrently": "^8.2.0",
+    "cors": "^2.8.6",
     "cypress": "^4.2.0",
     "cypress-localstorage-commands": "^2.2.3",
     "deepmerge": "^4.3.1",
@@ -78,6 +81,7 @@
     "eslint-plugin-svelte3": "^4.0.0",
     "esri-leaflet-geocoder": "^3.1.4",
     "events": "^3.3.0",
+    "express": "^5.2.1",
     "find-in-files": "^0.5.0",
     "git-cz": "^4.9.0",
     "gitlog": "^4.0.8",
