@@ -12,6 +12,7 @@ import type {
 } from './profiles/types'
 import { Prefs } from '../preferences/Preferences'
 import { get } from 'svelte/store'
+import Anthropic from '@anthropic-ai/sdk'
 
 const profiles: Record<ProfileName, Profile> = {
   insight: insightProfile,
@@ -50,37 +51,22 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   try {
     const context = await buildContext(req.contextHints)
 
-    const apiUrl = `http://${window.location.hostname}:5002/api/ai`
     console.log('🤖 AI Query:', {
-      url: apiUrl,
       profile: req.profile,
       hasApiKey: !!apiKey,
       apiKeyPrefix: apiKey ? apiKey.substring(0, 10) : 'NONE'
     })
 
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        apiKey,
-        model: 'claude-opus-4-8',
-        max_tokens: profile.maxTokens,
-        temperature: profile.temperature,
-        system: profile.systemPrompt(context),
-        messages: [{ role: 'user', content: req.prompt }]
-      })
+    const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
+
+    const response = await client.messages.create({
+      model: 'claude-opus-4-8',
+      max_tokens: profile.maxTokens,
+      system: profile.systemPrompt(context),
+      messages: [{ role: 'user', content: req.prompt }]
     })
 
-    console.log('🤖 API Response:', { status: response.status, ok: response.ok })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('🤖 API Error:', errorText)
-      throw new Error(`API error: ${response.status} - ${errorText}`)
-    }
-
-    const data = await response.json()
-    const raw = data.content[0].text as string
+    const raw = response.content[0].type === 'text' ? response.content[0].text : ''
     const content = profile.parseResponse(raw) as T
 
     const result: AIResponse<T> = {
@@ -127,42 +113,18 @@ export async function streamQuery(
   try {
     const context = await buildContext(req.contextHints)
 
-    const apiUrl = `http://${window.location.hostname}:5002/api/ai/stream`
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        apiKey,
-        model: 'claude-opus-4-8',
-        max_tokens: profile.maxTokens,
-        temperature: profile.temperature,
-        system: profile.systemPrompt(context),
-        messages: [{ role: 'user', content: req.prompt }]
-      })
+    const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
+
+    const stream = client.messages.stream({
+      model: 'claude-opus-4-8',
+      max_tokens: profile.maxTokens,
+      system: profile.systemPrompt(context),
+      messages: [{ role: 'user', content: req.prompt }]
     })
 
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`)
-    }
-
-    const reader = response.body!.getReader()
-    const decoder = new TextDecoder()
-
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-
-      const lines = decoder.decode(value).split('\n')
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue
-        try {
-          const evt = JSON.parse(line.slice(6))
-          if (evt.type === 'content_block_delta') {
-            onChunk(evt.delta.text ?? '')
-          }
-        } catch {
-          // ignore parse errors
-        }
+    for await (const chunk of stream) {
+      if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+        onChunk(chunk.delta.text)
       }
     }
   } catch (e) {

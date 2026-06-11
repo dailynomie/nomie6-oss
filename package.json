@@ -16,9 +16,7 @@
     "url": "https://www.dailynomie.com"
   },
   "scripts": {
-    "dev": "concurrently \"vite --host 0.0.0.0 --port 5001\" \"node api-server.js\"",
-    "dev:vite": "vite --host 0.0.0.0 --port 5001",
-    "dev:api": "node api-server.js",
+    "dev": "vite --host 0.0.0.0 --port 5001",
     "vbuild": "vite build",
     "vserve": "vite preview --host 0.0.0.0 --port 5000",
     "serve": "vite serve",
@@ -115,6 +113,7 @@
     "cypress": "^4.2.0"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.1",
     "@composi/gestures": "^1.0.9",
     "@sveltejs/svelte-virtual-list": "^3.0.1",
     "@tailwindcss/line-clamp": "^0.2.2",
