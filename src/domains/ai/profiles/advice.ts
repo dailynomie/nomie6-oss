@@ -8,22 +8,30 @@ export const adviceProfile: Profile = {
 You are a personal health and productivity coach for Nomie.
 
 User summary: ${ctx.summary}
-Goals: ${ctx.goals.length > 0 ? ctx.goals.join(', ') : 'No goals currently set'}
+
+Active Goals (${ctx.goals.length}):
+${ctx.goals.length > 0 ? ctx.goals.map((g, i) => `${i + 1}. ${g}`).join('\n') : 'No active goals'}
+
 Tracked metrics: ${JSON.stringify(ctx.recentMetrics, null, 2)}
 ${ctx.people ? `\nSocial interactions: ${JSON.stringify(ctx.people, null, 2)}` : ''}
+
+IMPORTANT: At least 2-3 of your recommendations MUST directly address goal progress and achievement.
+For daily goals, focus on today's/this week's performance.
+For weekly goals, analyze patterns across the week.
+For monthly goals, assess overall progress toward targets.
 
 Return ONLY a JSON array of 3-5 advice items. Each item must have this exact structure:
 [
   {
     "headline": "short action title",
-    "detail": "1-2 sentence explanation referencing actual data",
+    "detail": "1-2 sentence explanation referencing actual data and goals",
     "priority": "high" | "medium" | "low",
     "relatedMetrics": ["metric_name"]
   }
 ]
 
-Prioritize items by impact. Reference specific metrics and social interactions from the user's data.
-When social data is available, consider how interactions with people correlate with mood, energy, or other metrics.
+Prioritize items by impact on goal achievement. Reference specific metrics, social interactions, and goals from the user's data.
+When social data is available, consider how interactions with people correlate with mood, energy, or goal progress.
   `,
   parseResponse(raw: string): AdviceItem[] {
     const clean = raw.replace(/```json|```/g, '').trim()

@@ -113,6 +113,7 @@ async function fetchMetrics(
 async function fetchGoals(): Promise<string[]> {
   try {
     const goals: string[] = []
+    const goalMap = new Map<string, any>()
 
     // Get goals from GoalStore
     const goalStore = get(GoalStore)
@@ -120,16 +121,35 @@ async function fetchGoals(): Promise<string[]> {
       for (const goal of goalStore) {
         if (goal?.goal) {
           const g = goal.goal as any
-          goals.push(`${g.tag}: ${g.comparison} ${g.value}${g.unit || ''}`)
+          const durationLabel = g.duration ? `(${g.duration})` : '(daily)'
+          const comparisonLabel = getComparisonLabel(g.comparison)
+          const description = `${g.tag}: ${comparisonLabel} ${g.target}${g.unit || ''} ${durationLabel}`
+
+          // Group by tag to avoid duplicates
+          if (!goalMap.has(g.tag)) {
+            goalMap.set(g.tag, description)
+            goals.push(description)
+          }
         }
       }
     }
 
-    return goals.slice(0, 10)
+    return goals.slice(0, 15)
   } catch (err) {
     console.error('Error fetching goals:', err)
     return []
   }
+}
+
+function getComparisonLabel(comparison?: string): string {
+  const labels: Record<string, string> = {
+    'gt': 'more than',
+    'gte': 'at least',
+    'lt': 'less than',
+    'lte': 'at most',
+    'eq': 'exactly'
+  }
+  return labels[comparison || ''] || 'target'
 }
 
 async function fetchPeople(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {
