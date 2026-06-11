@@ -124,20 +124,19 @@ async function fetchGoals(): Promise<string[]> {
     if (goalStore && Array.isArray(goalStore)) {
       console.log('🎯 Iterating through', goalStore.length, 'goals')
       for (let i = 0; i < goalStore.length; i++) {
-        const goal = goalStore[i]
-        console.log(`🎯 Goal ${i}:`, goal)
-        console.log(`🎯 Goal.goal:`, goal?.goal)
+        const g = goalStore[i] as any
+        console.log(`🎯 Goal ${i}:`, g)
 
-        if (goal?.goal) {
-          const g = goal.goal as any
+        if (g && g.tag) {
           console.log(`🎯 Processing goal:`, { tag: g.tag, duration: g.duration, comparison: g.comparison, target: g.target })
           const durationLabel = g.duration ? `(${g.duration})` : '(daily)'
           const comparisonLabel = getComparisonLabel(g.comparison)
           const description = `${g.tag}: ${comparisonLabel} ${g.target}${g.unit || ''} ${durationLabel}`
 
-          // Group by tag to avoid duplicates
-          if (!goalMap.has(g.tag)) {
-            goalMap.set(g.tag, description)
+          // Group by tag-duration to allow multiple goals per metric
+          const key = `${g.tag}-${g.duration}`
+          if (!goalMap.has(key)) {
+            goalMap.set(key, description)
             goals.push(description)
           }
         }
