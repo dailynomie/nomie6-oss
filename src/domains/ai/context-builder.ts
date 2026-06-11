@@ -47,27 +47,66 @@ async function fetchMetrics(
 
     const metrics: Record<string, unknown> = {}
 
+    // Extract tokens from all logs and group by id
+    const tokensByKey: Record<string, any[]> = {}
+    logs.forEach((log: any) => {
+      // Extract trackers
+      if (log.trackers && log.trackers.length > 0) {
+        log.trackers.forEach((token: any) => {
+          if (!tokensByKey[token.id]) tokensByKey[token.id] = []
+          tokensByKey[token.id].push(token.value)
+        })
+      }
+
+      // Extract people
+      if (log.people && log.people.length > 0) {
+        log.people.forEach((token: any) => {
+          const key = `@${token.id}`
+          if (!tokensByKey[key]) tokensByKey[key] = []
+          tokensByKey[key].push(token.value || 1)
+        })
+      }
+
+      // Extract context
+      if (log.context && log.context.length > 0) {
+        log.context.forEach((token: any) => {
+          const key = `+${token.id}`
+          if (!tokensByKey[key]) tokensByKey[key] = []
+          tokensByKey[key].push(token.value || 1)
+        })
+      }
+
+      // Extract pointers
+      if (log.pointers && log.pointers.length > 0) {
+        log.pointers.forEach((token: any) => {
+          const key = `^${token.id}`
+          if (!tokensByKey[key]) tokensByKey[key] = []
+          tokensByKey[key].push(token.value || 1)
+        })
+      }
+    })
+
     if (keys && keys.length > 0) {
       for (const key of keys) {
         const tracker = trackables?.trackers?.[key]
-        if (tracker) {
-          const entries = logs.filter((e: any) => e.tag === key) || []
+        if (tracker && tokensByKey[key]) {
+          const values = tokensByKey[key]
           metrics[key] = {
             label: tracker.label,
-            count: entries.length,
-            recent: entries.slice(-5).map((e: any) => e.value)
+            count: values.length,
+            recent: values.slice(-5)
           }
         }
       }
     } else {
       const trackers = trackables?.trackers || {}
       for (const [key, tracker] of Object.entries(trackers)) {
-        const entries = logs.filter((e: any) => e.tag === key) || []
-        if (entries.length > 0) {
+        if (tokensByKey[key]) {
+          const values = tokensByKey[key]
           metrics[key] = {
             label: (tracker as any)?.label || key,
-            count: entries.length,
-            recent: entries.slice(-3).map((e: any) => e.value)
+            count: values.length,
+            recent: values.slice(-3)
           }
         }
       }

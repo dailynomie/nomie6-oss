@@ -43,12 +43,52 @@
         return
       }
 
-      // Group by tag
+      // Extract all tokens from logs (trackers, people, context, pointers)
       const byTag: Record<string, any[]> = {}
+      let totalTokens = 0
+
       logs.forEach((log: any) => {
-        if (!byTag[log.tag]) byTag[log.tag] = []
-        byTag[log.tag].push(log)
+        // Extract trackers
+        if (log.trackers && log.trackers.length > 0) {
+          log.trackers.forEach((token: any) => {
+            if (!byTag[token.id]) byTag[token.id] = []
+            byTag[token.id].push({ value: token.value, date: log.end })
+            totalTokens++
+          })
+        }
+
+        // Extract people
+        if (log.people && log.people.length > 0) {
+          log.people.forEach((token: any) => {
+            const key = `@${token.id}`
+            if (!byTag[key]) byTag[key] = []
+            byTag[key].push({ value: token.value || 1, date: log.end })
+            totalTokens++
+          })
+        }
+
+        // Extract context
+        if (log.context && log.context.length > 0) {
+          log.context.forEach((token: any) => {
+            const key = `+${token.id}`
+            if (!byTag[key]) byTag[key] = []
+            byTag[key].push({ value: token.value || 1, date: log.end })
+            totalTokens++
+          })
+        }
+
+        // Extract pointers
+        if (log.pointers && log.pointers.length > 0) {
+          log.pointers.forEach((token: any) => {
+            const key = `^${token.id}`
+            if (!byTag[key]) byTag[key] = []
+            byTag[key].push({ value: token.value || 1, date: log.end })
+            totalTokens++
+          })
+        }
       })
+
+      console.log('📊 Extracted tokens:', totalTokens, 'Unique metrics:', Object.keys(byTag).length)
 
       // Get context
       const context = await buildContext({
@@ -59,7 +99,7 @@
       })
 
       testDataInfo = {
-        totalEntries: logs.length,
+        totalEntries: totalTokens,
         uniqueMetrics: Object.keys(byTag).length,
         metrics: Object.entries(byTag).map(([tag, entries]) => ({
           tag,
