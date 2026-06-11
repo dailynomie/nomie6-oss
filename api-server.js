@@ -4,7 +4,16 @@ const cors = require('cors')
 const app = express()
 const PORT = process.env.API_PORT || 5002
 
-app.use(cors())
+// CORS configuration
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
+}
+
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 app.use(express.json())
 
 // Non-streaming AI endpoint
