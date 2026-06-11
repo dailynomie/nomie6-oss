@@ -63,7 +63,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         apiKey,
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-3-5-sonnet-latest',
         max_tokens: profile.maxTokens,
         temperature: profile.temperature,
         system: profile.systemPrompt(context),
@@ -133,7 +133,7 @@ export async function streamQuery(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         apiKey,
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-3-5-sonnet-latest',
         max_tokens: profile.maxTokens,
         temperature: profile.temperature,
         system: profile.systemPrompt(context),
