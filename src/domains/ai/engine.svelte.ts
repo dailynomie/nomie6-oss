@@ -1,10 +1,11 @@
-import { buildContext, buildNarrativeContext } from './context-builder'
+import { buildContext, buildChatContext, buildNarrativeContext } from './context-builder'
 import { insightProfile } from './profiles/insight'
 import { dataProfile } from './profiles/data'
 import { adviceProfile } from './profiles/advice'
 import { journalProfile } from './profiles/journal'
 import { alertProfile } from './profiles/alert'
 import { narrativeProfile } from './profiles/narrative'
+import { chatProfile } from './profiles/chat'
 import type {
   AIRequest,
   AIResponse,
@@ -21,7 +22,8 @@ const profiles: Record<ProfileName, Profile> = {
   advice: adviceProfile,
   journal: journalProfile,
   alert: alertProfile,
-  narrative: narrativeProfile
+  narrative: narrativeProfile,
+  chat: chatProfile
 }
 
 export const aiState = $state({
@@ -51,14 +53,11 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   aiState.error = null
 
   try {
-    console.log('🚀 Starting query:', { profile: req.profile, hasApiKey: !!apiKey })
-
-    // Narrative profile uses different context building
+    // Use different context building for different profiles
     let context: any
     let systemPrompt: string
 
     if (req.profile === 'narrative') {
-      console.log('📖 Building narrative context...')
       const narrativeData = await buildNarrativeContext(req.contextHints)
       // Build a simplified context object for narrative
       context = {
@@ -68,24 +67,22 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
         narrative_entries: narrativeData.entries_by_date
       }
       systemPrompt = `${profile.systemPrompt(context)}\n\nJournal entries to analyze:\n${JSON.stringify(narrativeData.entries_by_date, null, 2)}`
+    } else if (req.profile === 'chat') {
+      context = await buildChatContext(req.contextHints)
+      systemPrompt = profile.systemPrompt(context)
     } else {
-      console.log('📊 Building context...')
       context = await buildContext(req.contextHints)
       systemPrompt = profile.systemPrompt(context)
     }
 
-    console.log('🔑 Creating Anthropic client...')
     const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 
-    console.log('📤 Sending message to Claude...')
     const response = await client.messages.create({
       model: 'claude-opus-4-8',
       max_tokens: profile.maxTokens,
       system: systemPrompt,
       messages: [{ role: 'user', content: req.prompt }]
     })
-
-    console.log('✅ Response received:', { contentType: response.content[0].type })
 
     const raw = response.content[0].type === 'text' ? response.content[0].text : ''
     const content = profile.parseResponse(raw) as T
@@ -101,7 +98,6 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
     return result
   } catch (e) {
     const msg = (e as Error).message
-    console.error('❌ Query error:', msg, e)
     aiState.error = msg
     throw e
   } finally {
@@ -111,7 +107,8 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
 
 export async function streamQuery(
   req: AIRequest,
-  onChunk: (text: string) => void
+  onChunk: (text: string) => void,
+  conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>
 ): Promise<void> {
   const profile = profiles[req.profile]
 
@@ -133,35 +130,33 @@ export async function streamQuery(
   aiState.error = null
 
   try {
-    console.log('🚀 Starting stream query:', { profile: req.profile, hasApiKey: !!apiKey })
-
-    const context = await buildContext(req.contextHints)
-    console.log('📊 Context built:', { summary: context.summary?.substring(0, 100) })
+    // Use richer context for chat profile
+    const context = req.profile === 'chat'
+      ? await buildChatContext(req.contextHints)
+      : await buildContext(req.contextHints)
 
     const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
-    console.log('🔑 Anthropic client created')
+
+    // Build messages array with conversation history
+    const messages = [
+      ...(conversationHistory || []),
+      { role: 'user' as const, content: req.prompt }
+    ]
 
     const stream = client.messages.stream({
       model: 'claude-opus-4-8',
       max_tokens: profile.maxTokens,
       system: profile.systemPrompt(context),
-      messages: [{ role: 'user', content: req.prompt }]
+      messages
     })
-
-    console.log('📡 Stream started')
-    let chunkCount = 0
 
     for await (const chunk of stream) {
       if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-        chunkCount++
         onChunk(chunk.delta.text)
       }
     }
-
-    console.log('✅ Stream complete, chunks received:', chunkCount)
   } catch (e) {
     const msg = (e as Error).message
-    console.error('❌ Stream error:', msg, e)
     aiState.error = msg
     throw e
   } finally {

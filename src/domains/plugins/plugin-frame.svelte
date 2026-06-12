@@ -18,9 +18,36 @@
   const { plugin, openAction = 'onUIOpened', widgetindexparam = '', lid } = $props<Props>()
 
   let registered: boolean = $state(false)
-
   let ready: boolean = $state(false)
   let mounted: boolean = $state(false)
+
+  // Determine actual theme when in auto mode
+  function getActualTheme(): string {
+    if ($Prefs.theme === 'auto') {
+      // Check system preference
+      if (typeof window !== 'undefined' && window.matchMedia) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      }
+      return 'light' // fallback
+    }
+    return $Prefs.theme
+  }
+
+  let actualTheme = $state(getActualTheme())
+
+  // Update theme when system preference changes or Prefs change
+  $effect(() => {
+    actualTheme = getActualTheme()
+    // Also listen to system theme changes
+    if (typeof window !== 'undefined' && window.matchMedia && $Prefs.theme === 'auto') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      const handler = () => {
+        actualTheme = getActualTheme()
+      }
+      mediaQuery.addEventListener('change', handler)
+      return () => mediaQuery.removeEventListener('change', handler)
+    }
+  })
 
   $effect(() => {
     if (registered && !ready && mounted) {
@@ -52,7 +79,7 @@
                 useMetric: $Prefs.useMetric,
                 useLocation: $Prefs.alwaysLocate,
                 weekStarts: $Prefs.weekStarts,
-                theme: $Prefs.theme,
+                theme: actualTheme,
                 language: $Prefs.language
               },
             },

@@ -17,10 +17,29 @@
   let inputText = $state('')
   let scrollContainer: HTMLElement | null = null
 
-  $effect(() => {
+  function scrollToBottom() {
     if (scrollContainer) {
+      // Multiple timing attempts to ensure scroll happens
       scrollContainer.scrollTop = scrollContainer.scrollHeight
+
+      requestAnimationFrame(() => {
+        if (scrollContainer) {
+          scrollContainer.scrollTop = scrollContainer.scrollHeight
+        }
+      })
+
+      setTimeout(() => {
+        if (scrollContainer) {
+          scrollContainer.scrollTop = scrollContainer.scrollHeight
+        }
+      }, 50)
     }
+  }
+
+  $effect(() => {
+    // Trigger on messages length change
+    messages.length
+    scrollToBottom()
   })
 
   async function sendMessage() {
@@ -49,23 +68,35 @@
 
     try {
       let fullResponse = ''
+      const messageIndex = messages.length - 1
+
+      // Build conversation history from previous messages (excluding the current loading message)
+      const conversationHistory = messages.slice(0, -1).map(msg => ({
+        role: msg.role as 'user' | 'assistant',
+        content: msg.content
+      }))
+
       await streamQuery(
         {
-          profile: 'insight',
+          profile: 'chat',
           prompt: userMessage.content
         },
         (chunk) => {
           fullResponse += chunk
-          assistantMessage.content = fullResponse
-          assistantMessage.loading = false
-          // Force reactivity by reassigning the array
-          messages = [...messages]
-        }
+          // Update the message in the array directly and reassign to trigger reactivity
+          messages[messageIndex].content = fullResponse
+          messages[messageIndex].loading = false
+          messages = messages
+          // Scroll on every chunk
+          scrollToBottom()
+        },
+        conversationHistory
       )
     } catch (err) {
-      assistantMessage.content = `Error: ${(err as Error).message}`
-      assistantMessage.loading = false
-      messages = [...messages]
+      const messageIndex = messages.length - 1
+      messages[messageIndex].content = `Error: ${(err as Error).message}`
+      messages[messageIndex].loading = false
+      messages = messages
     }
   }
 
@@ -77,15 +108,24 @@
   }
 </script>
 
-<div class="flex flex-col h-full">
+<div class="flex flex-col h-full relative">
+  <!-- Twinkling stars background -->
+  <div class="stars-bg" aria-hidden="true">
+    <span class="star" style="width:5px;height:5px;top:10%;left:10%;animation-delay:0s"></span>
+    <span class="star" style="width:4px;height:4px;top:20%;left:85%;animation-delay:0.5s"></span>
+    <span class="star" style="width:6px;height:6px;top:70%;left:20%;animation-delay:1s"></span>
+    <span class="star" style="width:4px;height:4px;top:50%;left:80%;animation-delay:1.5s"></span>
+    <span class="star" style="width:5px;height:5px;top:30%;left:50%;animation-delay:2s"></span>
+  </div>
+
   <!-- Messages Container -->
-  <div bind:this={scrollContainer} class="flex-1 overflow-y-auto p-4 space-y-4">
+  <div bind:this={scrollContainer} class="flex-1 overflow-y-auto p-4 space-y-4 relative z-10">
     {#if messages.length === 0}
-      <div class="flex items-center justify-center h-full text-gray-500 dark:text-gray-400 text-center">
+      <div class="flex items-center justify-center h-full text-center">
         <div>
-          <p class="text-2xl mb-2">💬</p>
-          <p class="font-semibold">Start a conversation</p>
-          <p class="text-sm">Ask Claude about your tracking data, goals, and insights</p>
+          <p class="text-5xl mb-6">💬</p>
+          <p class="font-bold text-2xl" style="color: #0a4f80; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);">Start a conversation</p>
+          <p class="text-base mt-3 font-semibold" style="color: #ffffff; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);">Ask Claude about your tracking data, goals, and insights</p>
         </div>
       </div>
     {/if}
@@ -93,11 +133,12 @@
     {#each messages as message (message.id)}
       <div class={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
         <div
-          class={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg break-words ${
+          class={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg break-words backdrop-blur-sm border ${
             message.role === 'user'
-              ? 'bg-blue-500 text-white rounded-br-none'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-bl-none'
+              ? 'bg-blue-500 text-white rounded-br-none border-blue-400'
+              : 'bg-white/80 dark:bg-white/10 text-gray-900 dark:text-white rounded-bl-none border-white/30'
           }`}
+          style="backdrop-filter: blur(10px);"
         >
           {#if message.loading}
             <div class="flex items-center gap-2">
@@ -106,7 +147,7 @@
           {:else}
             <p class="text-sm leading-relaxed">{message.content}</p>
           {/if}
-          <p class={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'}`}>
+          <p class={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-700 dark:text-gray-300'}`}>
             {dayjs(message.timestamp).format('HH:mm')}
           </p>
         </div>
@@ -115,7 +156,7 @@
   </div>
 
   <!-- Input Container -->
-  <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-4">
+  <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-4 relative z-20 bg-white dark:bg-gray-900">
     <div class="flex gap-2 items-end">
       <textarea
         bind:value={inputText}
@@ -128,9 +169,10 @@
       <button
         on:click={sendMessage}
         disabled={!inputText.trim() || aiState.loading}
-        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+        class="ai-send-btn flex-shrink-0"
+        title={aiState.loading ? 'Waiting for response...' : 'Send message'}
       >
-        {aiState.loading ? '⏳' : '📤'}
+        <span class="send-icon">{aiState.loading ? '⏳' : '✉️'}</span>
       </button>
     </div>
     {#if aiState.error}
@@ -142,5 +184,73 @@
 <style>
   textarea {
     max-height: 120px;
+  }
+
+  .stars-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    animation: twinkle 2.5s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% {
+      opacity: 0.2;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.2);
+    }
+  }
+
+  .ai-send-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      135deg,
+      #2aa8e0 0%,
+      #1480b8 50%,
+      #0a4f80 100%
+    );
+    box-shadow: 0 4px 12px rgba(10, 79, 128, 0.4);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-send-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(10, 79, 128, 0.6);
+  }
+
+  .ai-send-btn:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  .ai-send-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .send-icon {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

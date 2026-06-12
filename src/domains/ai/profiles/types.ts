@@ -1,4 +1,4 @@
-export type ProfileName = 'insight' | 'data' | 'advice' | 'journal' | 'alert' | 'narrative'
+export type ProfileName = 'insight' | 'data' | 'advice' | 'journal' | 'alert' | 'narrative' | 'chat'
 
 export interface AIRequest {
   profile: ProfileName
@@ -36,6 +36,7 @@ export interface UserContext {
     recent: (string | number)[]
     correlations?: string[]
   }>
+  notes?: string
 }
 
 export interface ChartDataset {

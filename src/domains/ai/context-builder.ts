@@ -43,6 +43,99 @@ export async function buildContext(hints?: ContextHints): Promise<UserContext> {
   }
 }
 
+export async function buildChatContext(hints?: ContextHints): Promise<UserContext> {
+  try {
+    const dateRange = hints?.dateRange || {
+      from: dayjs().subtract(14, 'days').format('YYYY-MM-DD'),
+      to: dayjs().format('YYYY-MM-DD')
+    }
+
+    const trackableStore = get(TrackableStore)
+    const trackables = trackableStore.trackables || {}
+
+    // Query logs with full date range
+    const logs = await LedgerStore.query({
+      start: dayjs(dateRange.from),
+      end: dayjs(dateRange.to)
+    })
+
+    // Build daily metrics with dates for better temporal understanding
+    const dailyMetrics: Record<string, Record<string, any>> = {}
+
+    logs.forEach((log: any) => {
+      if (!log.note) return
+      const logDate = dayjs(log.end).format('YYYY-MM-DD')
+      if (!dailyMetrics[logDate]) dailyMetrics[logDate] = {}
+
+      const tokens = tokenizeLite(log.note)
+      tokens.forEach((token: any) => {
+        if (token.type !== 'tracker' && token.type !== 'person') return
+
+        const key = `${token.prefix}${token.id}`
+        if (!dailyMetrics[logDate][key]) {
+          dailyMetrics[logDate][key] = { values: [], count: 0 }
+        }
+        dailyMetrics[logDate][key].values.push(token.value || 1)
+        dailyMetrics[logDate][key].count++
+      })
+    })
+
+    // Aggregate by applying tracker math rules
+    const enrichedMetrics: Record<string, any> = {}
+    Object.entries(dailyMetrics).forEach(([date, dayData]) => {
+      Object.entries(dayData).forEach(([key, data]: [string, any]) => {
+        if (!enrichedMetrics[key]) enrichedMetrics[key] = []
+
+        const tracker = Object.values(trackables).find((t: any) => {
+          return `${t.type === 'tracker' ? '#' : '@'}${t.tag}` === key
+        }) as any
+
+        let aggregated = data.values[0]
+        if (tracker?.math === 'sum') {
+          aggregated = data.values.reduce((a: number, b: number) => a + b, 0)
+        } else if (tracker?.math === 'mean' || tracker?.math === 'average') {
+          aggregated = data.values.reduce((a: number, b: number) => a + b, 0) / data.values.length
+        }
+
+        enrichedMetrics[key].push({ date, value: aggregated, count: data.count })
+      })
+    })
+
+    // Also collect actual note content for journal analysis
+    const notesByDate: Record<string, string[]> = {}
+    logs.forEach((log: any) => {
+      if (!log.note) return
+      const logDate = dayjs(log.end).format('YYYY-MM-DD')
+      if (!notesByDate[logDate]) notesByDate[logDate] = []
+      notesByDate[logDate].push(log.note)
+    })
+
+    // Format notes for display
+    const notesContent = Object.entries(notesByDate)
+      .map(([date, notes]) => `${date}: ${notes.join(' | ')}`)
+      .join('\n')
+
+    const goals = await fetchGoals()
+    const people = await fetchPeople(hints?.dateRange)
+    const summary = buildSummary(enrichedMetrics, goals, people)
+
+    return {
+      recentMetrics: enrichedMetrics,
+      goals,
+      summary,
+      people,
+      notes: notesContent
+    }
+  } catch (err) {
+    console.error('Error building chat context:', err)
+    return {
+      recentMetrics: {},
+      goals: [],
+      summary: 'Unable to load user data at this time.'
+    }
+  }
+}
+
 async function fetchMetrics(
   keys?: string[],
   range?: { from: string; to: string }
