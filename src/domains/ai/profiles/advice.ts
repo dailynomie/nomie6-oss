@@ -12,13 +12,17 @@ User summary: ${ctx.summary}
 Active Goals (${ctx.goals.length}):
 ${ctx.goals.length > 0 ? ctx.goals.map((g, i) => `${i + 1}. ${g}`).join('\n') : 'No active goals'}
 
-Tracked metrics: ${JSON.stringify(ctx.recentMetrics, null, 2)}
-${ctx.people ? `\nSocial interactions: ${JSON.stringify(ctx.people, null, 2)}` : ''}
+Tracked Metrics (last 30 days):
+Note: Values are aggregated per tracker type - some are summed (totals), some are averaged.
+${JSON.stringify(ctx.recentMetrics, null, 2)}
+${ctx.people ? `\nSocial Interactions:\n${JSON.stringify(ctx.people, null, 2)}` : ''}
 
 IMPORTANT: At least 2-3 of your recommendations MUST directly address goal progress and achievement.
 For daily goals, focus on today's/this week's performance.
 For weekly goals, analyze patterns across the week.
 For monthly goals, assess overall progress toward targets.
+
+When referencing metrics, note whether they are summed (totals) or averaged values - this affects how you interpret them.
 
 Return ONLY a JSON array of 3-5 advice items. Each item must have this exact structure:
 [

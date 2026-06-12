@@ -81,10 +81,13 @@ async function fetchMetrics(
         const trackable = trackables[key]
         if (trackable && tokensByKey[key]) {
           const values = tokensByKey[key]
+          const aggregated = aggregateValues(values, trackable as any)
           metrics[key] = {
             label: (trackable as any).label,
             count: values.length,
-            recent: values.slice(-5)
+            recent: values.slice(-5),
+            aggregated: aggregated.value,
+            aggregationType: aggregated.type
           }
         }
       }
@@ -94,10 +97,13 @@ async function fetchMetrics(
       for (const [key, trackable] of trackableEntries) {
         if (tokensByKey[key]) {
           const values = tokensByKey[key]
+          const aggregated = aggregateValues(values, trackable as any)
           metrics[key] = {
             label: (trackable as any)?.label || key,
             count: values.length,
-            recent: values.slice(-3)
+            recent: values.slice(-3),
+            aggregated: aggregated.value,
+            aggregationType: aggregated.type
           }
         }
       }
@@ -141,6 +147,41 @@ async function fetchGoals(): Promise<string[]> {
     console.error('Error fetching goals:', err)
     return []
   }
+}
+
+function aggregateValues(values: any[], tracker: any): { value: number; type: string } {
+  if (!values || values.length === 0) {
+    return { value: 0, type: 'empty' }
+  }
+
+  // Filter out zeros if tracker specifies to ignore them
+  let processValues = values
+  if (tracker?.ignore_zeros) {
+    processValues = values.filter((v) => v !== 0 && v !== '0')
+  }
+
+  if (processValues.length === 0) {
+    return { value: 0, type: 'empty' }
+  }
+
+  // Convert to numbers
+  const numValues = processValues.map((v) => {
+    const num = typeof v === 'string' ? parseFloat(v) : v
+    return isNaN(num) ? 0 : num
+  })
+
+  // Aggregate based on tracker's math property
+  const mathType = tracker?.math || 'sum'
+
+  if (mathType === 'mean' || mathType === 'average') {
+    const sum = numValues.reduce((a, b) => a + b, 0)
+    const average = sum / numValues.length
+    return { value: Math.round(average * 100) / 100, type: 'average' }
+  }
+
+  // Default to sum
+  const sum = numValues.reduce((a, b) => a + b, 0)
+  return { value: Math.round(sum * 100) / 100, type: 'sum' }
 }
 
 function getComparisonLabel(comparison?: string): string {
