@@ -4,7 +4,6 @@
   import { streamQuery, aiState } from './engine.svelte'
   import type { AIResponse } from './profiles/types'
   import dayjs from 'dayjs'
-  import NomieWords from '/public/images/nomie-words.svg?component'
 
   interface ChatMessage {
     id: string
@@ -128,9 +127,7 @@
           <p class="font-bold text-2xl" style="color: #0a4f80; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);">Start a conversation</p>
           <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap px-4" style="color: #ffffff; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);">
             <span>Ask</span>
-            <div style="height: 24px; display: flex; align-items: center;">
-              <NomieWords style="height: 100%; width: auto;" />
-            </div>
+            <img src="/images/nomie-words.svg" alt="Nomie" style="height: 24px; width: auto;" />
             <span>about your tracking data, goals, and insights</span>
           </div>
         </div>
