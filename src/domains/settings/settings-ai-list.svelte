@@ -26,7 +26,8 @@
 
   const services = [
     { label: 'Claude', value: 'claude' as AIServiceType },
-    { label: 'ChatGPT', value: 'chatgpt' as AIServiceType },
+    // ChatGPT support coming soon
+    // { label: 'ChatGPT', value: 'chatgpt' as AIServiceType },
   ]
 
   const getServiceInfo = (service: AIServiceType) => {
@@ -34,11 +35,6 @@
       return {
         docs: 'Get your API key from console.anthropic.com',
         icon: '🧠',
-      }
-    } else if (service === 'chatgpt') {
-      return {
-        docs: 'Get your API key from platform.openai.com',
-        icon: '🤖',
       }
     }
     return { docs: '', icon: '🔑' }
