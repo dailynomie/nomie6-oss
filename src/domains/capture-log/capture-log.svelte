@@ -65,6 +65,8 @@
 
   import TimeSelect from '../../components/time-select/time-select.svelte'
   import CaptureAddonMenuController from './capture-addon-menu-controller.svelte'
+  import NomieAiButton from '../../components/aibutton/NomieAiButton.svelte'
+  import { navigate } from '../../vendor/svelte-navigator'
 
   // Consts
 
@@ -323,10 +325,14 @@
   }
 
   const { className } = $props()
+
+  function goToAiInsights() {
+    navigate('/test-ai')
+  }
 </script>
 
 <div class="capture-wrapper {className} relative" id="note-capture">
-  <!-- 
+  <!--
     AUTO COMPLETE RESULTS
   -->
   <Container>
@@ -336,7 +342,18 @@
         {$LedgerStoreSaving ? 'saving' : ''}"
     />
 
-    <div class="capture-log" class:negative={$ActiveLogStore.score < 0} class:positive={$ActiveLogStore.score > 0}>
+    <div class="flex gap-3 items-start">
+      <!-- AI Insights Button -->
+      <div class="flex-shrink-0 pt-2">
+        <NomieAiButton
+          size="44px"
+          label="AI Insights"
+          onclick={goToAiInsights}
+        />
+      </div>
+
+      <!-- Note Capture Area -->
+      <div class="capture-log flex-1" class:negative={$ActiveLogStore.score < 0} class:positive={$ActiveLogStore.score > 0}>
       <div class="p-0 relative">
         {#if !isPopulated}
           <div class="absolute right-1 top-1 flex items-center ">
@@ -465,6 +482,7 @@
           {/if}
         </div>
       </div>
+    </div>
     </div>
   </Container>
   {#if isFocused || isPopulated}
