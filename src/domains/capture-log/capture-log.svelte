@@ -67,6 +67,8 @@
   import CaptureAddonMenuController from './capture-addon-menu-controller.svelte'
   import NomieAiButton from '../../components/aibutton/NomieAiButton.svelte'
   import { navigate } from '../../vendor/svelte-navigator'
+  import { openModal } from '../../components/backdrop/BackdropStore2'
+  import AIChatModal from '../ai/ai-chat-modal.svelte'
 
   // Consts
 
@@ -327,7 +329,13 @@
   const { className } = $props()
 
   function goToAiInsights() {
-    navigate('/test-ai')
+    openModal({
+      id: 'ai-chat-modal',
+      position: 'fullscreen',
+      component: AIChatModal,
+      componentProps: { id: 'ai-chat-modal' },
+      tappable: true
+    })
   }
 </script>
 
@@ -357,11 +365,13 @@
             >
               <IonIcon icon={BulbSolid} size={22} />
             </MenuInline>
-            <NomieAiButton
-              size="36px"
-              label="AI Insights"
-              onclick={goToAiInsights}
-            />
+            {#if $Prefs.ai?.enabled}
+              <NomieAiButton
+                size="36px"
+                label="AI Insights"
+                onclick={goToAiInsights}
+              />
+            {/if}
           </div>
         {/if}
 
