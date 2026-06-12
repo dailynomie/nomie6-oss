@@ -127,7 +127,7 @@
           <p class="font-bold text-2xl" style="color: #0a4f80; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);">Start a conversation</p>
           <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap px-4" style="color: #ffffff; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);">
             <span>Ask</span>
-            <img src="/images/nomie-words.svg" alt="Nomie" style="height: 24px; width: auto; filter: brightness(0) invert(1);" />
+            <img src="/images/nomie-words.svg" alt="Nomie" style="height: 18px; width: auto; filter: brightness(0) invert(1); vertical-align: middle; display: inline-block;" />
             <span>about your tracking data, goals, and insights</span>
           </div>
         </div>
