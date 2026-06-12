@@ -48,6 +48,17 @@
     config.apiKey = $Prefs.ai?.services?.[config.selectedService]?.apiKey || ''
   })
 
+  // Save enabled state immediately when toggled
+  $effect(() => {
+    Prefs.update((p) => {
+      if (!p.ai) {
+        p.ai = { enabled: false, selectedService: 'claude', services: {} }
+      }
+      p.ai.enabled = config.enabled
+      return p
+    })
+  })
+
   const saveConfig = async () => {
     isSaving = true
     try {
