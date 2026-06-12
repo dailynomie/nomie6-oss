@@ -156,6 +156,7 @@
     filter: brightness(0) invert(1);
     vertical-align: middle;
     display: inline-block;
+    margin-top: -3px;
   }
 
   /* Medium screens and up: center the title */
