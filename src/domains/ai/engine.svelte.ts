@@ -1,9 +1,10 @@
-import { buildContext } from './context-builder'
+import { buildContext, buildNarrativeContext } from './context-builder'
 import { insightProfile } from './profiles/insight'
 import { dataProfile } from './profiles/data'
 import { adviceProfile } from './profiles/advice'
 import { journalProfile } from './profiles/journal'
 import { alertProfile } from './profiles/alert'
+import { narrativeProfile } from './profiles/narrative'
 import type {
   AIRequest,
   AIResponse,
@@ -19,7 +20,8 @@ const profiles: Record<ProfileName, Profile> = {
   data: dataProfile,
   advice: adviceProfile,
   journal: journalProfile,
-  alert: alertProfile
+  alert: alertProfile,
+  narrative: narrativeProfile
 }
 
 export const aiState = $state({
@@ -49,9 +51,24 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   aiState.error = null
 
   try {
-    const context = await buildContext(req.contextHints)
+    // Narrative profile uses different context building
+    let context: any
+    let systemPrompt: string
 
-    const systemPrompt = profile.systemPrompt(context)
+    if (req.profile === 'narrative') {
+      const narrativeData = await buildNarrativeContext(req.contextHints)
+      // Build a simplified context object for narrative
+      context = {
+        summary: narrativeData.summary,
+        goals: [],
+        recentMetrics: {},
+        narrative_entries: narrativeData.entries_by_date
+      }
+      systemPrompt = `${profile.systemPrompt(context)}\n\nJournal entries to analyze:\n${JSON.stringify(narrativeData.entries_by_date, null, 2)}`
+    } else {
+      context = await buildContext(req.contextHints)
+      systemPrompt = profile.systemPrompt(context)
+    }
 
     const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 

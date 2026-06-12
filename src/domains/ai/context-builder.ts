@@ -13,6 +13,13 @@ interface ContextHints {
   component?: string
 }
 
+export interface NarrativeContextData {
+  entries_by_date: Record<string, { notes: string[]; count: number }>
+  total_entries: number
+  date_range: { from: string; to: string }
+  summary: string
+}
+
 export async function buildContext(hints?: ContextHints): Promise<UserContext> {
   try {
     const metrics = await fetchMetrics(hints?.metrics, hints?.dateRange)
@@ -193,6 +200,69 @@ function getComparisonLabel(comparison?: string): string {
     'eq': 'exactly'
   }
   return labels[comparison || ''] || 'target'
+}
+
+export async function buildNarrativeContext(hints?: ContextHints): Promise<NarrativeContextData> {
+  try {
+    const from = hints?.dateRange?.from ? dayjs(hints.dateRange.from) : dayjs().subtract(30, 'days')
+    const to = hints?.dateRange?.to ? dayjs(hints.dateRange.to) : dayjs()
+
+    // Query logs from ledger
+    const logs = await LedgerStore.query({
+      start: from,
+      end: to
+    })
+
+    // Group notes by date, excluding purely metric notes
+    const entries_by_date: Record<string, { notes: string[]; count: number }> = {}
+    let total_entries = 0
+
+    logs.forEach((log: any) => {
+      if (!log.note) return
+
+      // Extract the note text, filtering out pure tracker notation
+      const noteText = log.note.trim()
+
+      // Skip if it's just tracker entries with no actual text content
+      const hasTextContent = /[a-zA-Z]{3,}/.test(noteText) // At least 3 consecutive letters
+      if (!hasTextContent) return
+
+      const dateKey = dayjs(log.end).format('YYYY-MM-DD')
+      if (!entries_by_date[dateKey]) {
+        entries_by_date[dateKey] = { notes: [], count: 0 }
+      }
+
+      entries_by_date[dateKey].notes.push(noteText)
+      entries_by_date[dateKey].count++
+      total_entries++
+    })
+
+    // Create summary
+    const dates = Object.keys(entries_by_date).length
+    const avgEntriesPerDay = dates > 0 ? Math.round((total_entries / dates) * 100) / 100 : 0
+    const summary = `${total_entries} journal entries over ${dates} days (avg ${avgEntriesPerDay}/day)`
+
+    return {
+      entries_by_date,
+      total_entries,
+      date_range: {
+        from: from.format('YYYY-MM-DD'),
+        to: to.format('YYYY-MM-DD')
+      },
+      summary
+    }
+  } catch (err) {
+    console.error('Error building narrative context:', err)
+    return {
+      entries_by_date: {},
+      total_entries: 0,
+      date_range: {
+        from: dayjs().subtract(30, 'days').format('YYYY-MM-DD'),
+        to: dayjs().format('YYYY-MM-DD')
+      },
+      summary: 'Unable to load journal entries'
+    }
+  }
 }
 
 async function fetchPeople(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {

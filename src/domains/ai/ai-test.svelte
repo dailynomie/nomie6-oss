@@ -9,6 +9,7 @@
     JournalPrompt,
     AlertItem
   } from './profiles/types'
+  import type { NarrativeAnalysis } from './profiles/narrative'
   import NLayout from '../layout/layout.svelte'
   import NBackButton from '../../components/back-button/back-button.svelte'
   import { LedgerStore } from '../ledger/LedgerStore'
@@ -172,6 +173,19 @@
       responseText = `Error: ${(err as Error).message}`
     }
   }
+
+  async function testNarrative() {
+    responseText = 'Loading...'
+    try {
+      const res = await query<NarrativeAnalysis>({
+        profile: 'narrative',
+        prompt: 'Analyze my journal entries and notes from the last 30 days'
+      })
+      responseText = JSON.stringify(res.content, null, 2)
+    } catch (err) {
+      responseText = `Error: ${(err as Error).message}`
+    }
+  }
 </script>
 
 <NLayout pageTitle="AI Integration Test" showTabs={false}>
@@ -296,6 +310,14 @@
         >
           {aiState.loading ? 'Loading...' : '⚠️ Alert'}
         </button>
+
+        <button
+          onclick={testNarrative}
+          disabled={aiState.loading}
+          class="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 disabled:bg-gray-400 text-sm"
+        >
+          {aiState.loading ? 'Loading...' : '📖 Narrative'}
+        </button>
       </div>
     </div>
 
@@ -320,6 +342,7 @@
         <li>📊 <strong>Data:</strong> Chart datasets</li>
         <li>📝 <strong>Journal:</strong> Reflection prompts</li>
         <li>⚠️ <strong>Alert:</strong> Anomaly detection</li>
+        <li>📖 <strong>Narrative:</strong> Journal content analysis (themes, sentiment, patterns)</li>
       </ul>
     </div>
   </div>

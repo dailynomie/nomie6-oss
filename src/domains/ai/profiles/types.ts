@@ -1,4 +1,4 @@
-export type ProfileName = 'insight' | 'data' | 'advice' | 'journal' | 'alert'
+export type ProfileName = 'insight' | 'data' | 'advice' | 'journal' | 'alert' | 'narrative'
 
 export interface AIRequest {
   profile: ProfileName
