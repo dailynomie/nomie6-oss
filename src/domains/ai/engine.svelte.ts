@@ -13,7 +13,6 @@ import type {
 } from './profiles/types'
 import { Prefs } from '../preferences/Preferences'
 import { get } from 'svelte/store'
-import Anthropic from '@anthropic-ai/sdk'
 
 const profiles: Record<ProfileName, Profile> = {
   insight: insightProfile,
@@ -70,16 +69,28 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
       systemPrompt = profile.systemPrompt(context)
     }
 
-    const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
-
-    const response = await client.messages.create({
-      model: 'claude-opus-4-8',
-      max_tokens: profile.maxTokens,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: req.prompt }]
+    // Use proxy API to avoid CORS issues
+    const response = await fetch('/api/ai', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-8',
+        max_tokens: profile.maxTokens,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: req.prompt }],
+        apiKey
+      })
     })
 
-    const raw = response.content[0].type === 'text' ? response.content[0].text : ''
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'API request failed')
+    }
+
+    const data = await response.json()
+    const raw = data.content[0].type === 'text' ? data.content[0].text : ''
     const content = profile.parseResponse(raw) as T
 
     const result: AIResponse<T> = {
@@ -125,19 +136,54 @@ export async function streamQuery(
 
   try {
     const context = await buildContext(req.contextHints)
+    const systemPrompt = profile.systemPrompt(context)
 
-    const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
-
-    const stream = client.messages.stream({
-      model: 'claude-opus-4-8',
-      max_tokens: profile.maxTokens,
-      system: profile.systemPrompt(context),
-      messages: [{ role: 'user', content: req.prompt }]
+    // Use proxy API for streaming to avoid CORS issues
+    const response = await fetch('/api/ai/stream', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-8',
+        max_tokens: profile.maxTokens,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: req.prompt }],
+        apiKey
+      })
     })
 
-    for await (const chunk of stream) {
-      if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-        onChunk(chunk.delta.text)
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'API request failed')
+    }
+
+    const reader = response.body?.getReader()
+    if (!reader) throw new Error('Stream not available')
+
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines[lines.length - 1]
+
+      for (let i = 0; i < lines.length - 1; i++) {
+        const line = lines[i]
+        if (line.startsWith('data: ')) {
+          try {
+            const data = JSON.parse(line.slice(6))
+            if (data.type === 'content_block_delta' && data.delta?.type === 'text_delta') {
+              onChunk(data.delta.text)
+            }
+          } catch (e) {
+            // Skip parsing errors
+          }
+        }
       }
     }
   } catch (e) {
