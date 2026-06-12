@@ -1,8 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { query, streamQuery, aiState } from './engine.svelte'
-  import { buildContext } from './context-builder'
+  import { streamQuery, aiState } from './engine.svelte'
   import type { AIResponse } from './profiles/types'
   import dayjs from 'dayjs'
 
@@ -17,17 +16,6 @@
   let messages = $state<ChatMessage[]>([])
   let inputText = $state('')
   let scrollContainer: HTMLElement | null = null
-  let conversationContext = $state('')
-
-  $effect(async () => {
-    const context = await buildContext({
-      dateRange: {
-        from: dayjs().subtract(30, 'days').format('YYYY-MM-DD'),
-        to: dayjs().format('YYYY-MM-DD')
-      }
-    })
-    conversationContext = context.summary
-  })
 
   $effect(() => {
     if (scrollContainer) {
@@ -64,8 +52,7 @@
       await streamQuery(
         {
           profile: 'insight',
-          prompt: userMessage.content,
-          contextHints: { conversationContext }
+          prompt: userMessage.content
         },
         (chunk) => {
           fullResponse += chunk
