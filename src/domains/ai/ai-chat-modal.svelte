@@ -42,7 +42,7 @@
         Close
       </Button>
     </div>
-    <div style="position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 1.3rem; font-weight: 700; color: #0a4f80; white-space: nowrap; text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);">
+    <div class="header-title">
       💬 Chat with Nomie
     </div>
     <div style="flex-shrink: 0; width: 60px;" />
@@ -130,6 +130,29 @@
     50% {
       opacity: 1;
       transform: scale(1.3);
+    }
+  }
+
+  .header-title {
+    z-index: 20;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0a4f80;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+    /* Small screens: align right */
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Medium screens and up: center the title */
+  @media (min-width: 768px) {
+    .header-title {
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
     }
   }
 </style>
