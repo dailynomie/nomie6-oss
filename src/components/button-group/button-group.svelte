@@ -15,6 +15,7 @@
     badge?: string
     notify?: boolean
     hide?: boolean
+    disabled?: boolean
     click?: Function
   }
 
@@ -39,10 +40,12 @@
         <button
           type="menu"
           title={button.label}
+          disabled={button.disabled}
           class="btn-group-btn btn-{index} {button.active || (value && value == button.value)
             ? 'bg-primary-gradient active'
-            : 'text-solid-1'}"
+            : 'text-solid-1'} {button.disabled ? 'opacity-50 cursor-not-allowed' : ''}"
           on:click={() => {
+            if (button.disabled) return
             if (button.click) button.click()
             if (!button.click && button.value) {
               value = button.value
