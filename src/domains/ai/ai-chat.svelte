@@ -125,7 +125,7 @@
         <div>
           <p class="text-5xl mb-6">💬</p>
           <p class="font-bold text-2xl" style="color: #0a4f80; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);">Start a conversation</p>
-          <p class="text-base mt-3 font-semibold" style="color: #ffffff; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);">Ask Claude about your tracking data, goals, and insights</p>
+          <p class="text-base mt-3 font-semibold" style="color: #ffffff; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);">Ask Nomie about your tracking data, goals, and insights</p>
         </div>
       </div>
     {/if}
