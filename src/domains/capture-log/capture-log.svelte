@@ -345,7 +345,12 @@
     <div class="capture-log" class:negative={$ActiveLogStore.score < 0} class:positive={$ActiveLogStore.score > 0}>
       <div class="p-0 relative">
         {#if !isPopulated}
-          <div class="absolute right-1 top-1 flex items-center gap-1 ">
+          <div class="absolute right-2 top-1 flex items-center gap-2 ">
+            <NomieAiButton
+              size="36px"
+              label="AI Insights"
+              onclick={goToAiInsights}
+            />
             <MenuInline
               compact
               buttonStyle="width:40px !important;"
@@ -357,13 +362,6 @@
             >
               <IonIcon icon={BulbSolid} size={22} />
             </MenuInline>
-            <div style="transform: scale(0.6); transform-origin: top right;">
-              <NomieAiButton
-                size="44px"
-                label="AI Insights"
-                onclick={goToAiInsights}
-              />
-            </div>
           </div>
         {/if}
 

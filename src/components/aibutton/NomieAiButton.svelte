@@ -52,8 +52,8 @@
     </span>
   </span>
 
-  <!-- Hover label -->
-  <span class="ai-label" aria-hidden="true">{label}</span>
+  <!-- Hover label - hidden -->
+  <!-- <span class="ai-label" aria-hidden="true">{label}</span> -->
 </button>
 
 <style>
@@ -75,9 +75,6 @@
     padding: 0;
     outline: none;
     -webkit-tap-highlight-color: transparent;
-
-    /* Reserve space for the hover label below */
-    margin-bottom: 28px;
   }
 
   /* ─── 3D Sphere ──────────────────────────────────────────────────── */
