@@ -58,13 +58,14 @@
           fullResponse += chunk
           assistantMessage.content = fullResponse
           assistantMessage.loading = false
-          messages = messages
+          // Force reactivity by reassigning the array
+          messages = [...messages]
         }
       )
     } catch (err) {
       assistantMessage.content = `Error: ${(err as Error).message}`
       assistantMessage.loading = false
-      messages = messages
+      messages = [...messages]
     }
   }
 
