@@ -26,8 +26,7 @@
 
   const services = [
     { label: 'Claude', value: 'claude' as AIServiceType },
-    // ChatGPT support coming soon
-    // { label: 'ChatGPT', value: 'chatgpt' as AIServiceType },
+    { label: 'ChatGPT (Coming Soon)', value: 'chatgpt' as AIServiceType, disabled: true },
   ]
 
   const getServiceInfo = (service: AIServiceType) => {
@@ -35,6 +34,11 @@
       return {
         docs: 'Get your API key from console.anthropic.com',
         icon: '🧠',
+      }
+    } else if (service === 'chatgpt') {
+      return {
+        docs: 'ChatGPT support coming soon',
+        icon: '🤖',
       }
     }
     return { docs: '', icon: '🔑' }
@@ -147,6 +151,7 @@
           buttons={services.map((s) => ({
             label: s.label,
             value: s.value,
+            disabled: s.disabled || false,
           }))}
         />
       </div>
