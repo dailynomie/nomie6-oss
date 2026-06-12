@@ -43,7 +43,8 @@
       </Button>
     </div>
     <div class="header-title">
-      💬 Chat with Nomie
+      💬 Chat with
+      <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo" />
     </div>
     <div style="flex-shrink: 0; width: 60px;" />
   </div>
@@ -144,6 +145,17 @@
     right: 16px;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .header-nomie-logo {
+    height: 22px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    vertical-align: middle;
+    display: inline-block;
   }
 
   /* Medium screens and up: center the title */
