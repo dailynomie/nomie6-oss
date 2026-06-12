@@ -43,7 +43,7 @@
       </Button>
     </div>
     <div style="position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 1.3rem; font-weight: 700; color: #0a4f80; white-space: nowrap; text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);">
-      💬 AI Chat
+      💬 Chat with Nomie
     </div>
     <div style="flex-shrink: 0; width: 60px;" />
   </div>
