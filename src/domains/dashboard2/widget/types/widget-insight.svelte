@@ -77,11 +77,11 @@
       console.log('[Insight Widget] Fetching insight with prompt:', promptText)
 
       // Get logs for the timeframe
-      const timeConfig = widget.timeConfig
-      console.log('[Insight Widget] Time config:', timeConfig)
+      const timeframe = widget.timeframe
+      console.log('[Insight Widget] Timeframe:', timeframe)
       const logs = await LedgerStore.query({
-        start: timeConfig.start.format('YYYY-MM-DD'),
-        end: timeConfig.end.format('YYYY-MM-DD'),
+        start: timeframe.start.format('YYYY-MM-DD'),
+        end: timeframe.end.format('YYYY-MM-DD'),
       })
 
       console.log('[Insight Widget] Found logs:', logs?.length)
