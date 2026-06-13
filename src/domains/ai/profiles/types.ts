@@ -44,6 +44,13 @@ export interface UserContext {
     count: number
     recent: (string | number)[]
   }>
+  locations?: Array<{
+    name?: string
+    lat?: number
+    lng?: number
+    count: number
+    lastUsed: string
+  }>
   notes?: string
 }
 

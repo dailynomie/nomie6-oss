@@ -27,7 +27,8 @@ export async function buildContext(hints?: ContextHints): Promise<UserContext> {
     const people = await fetchPeople(hints?.dateRange)
     const contexts = await fetchContexts(hints?.dateRange)
     const pointers = await fetchPointers(hints?.dateRange)
-    const summary = buildSummary(metrics, goals, people, contexts, pointers)
+    const locations = await fetchLocations(hints?.dateRange)
+    const summary = buildSummary(metrics, goals, people, contexts, pointers, locations)
 
     return {
       recentMetrics: metrics,
@@ -35,7 +36,8 @@ export async function buildContext(hints?: ContextHints): Promise<UserContext> {
       summary,
       people,
       contexts,
-      pointers
+      pointers,
+      locations
     }
   } catch (err) {
     console.error('Error building AI context:', err)
@@ -123,7 +125,8 @@ export async function buildChatContext(hints?: ContextHints): Promise<UserContex
     const people = await fetchPeople(hints?.dateRange)
     const contexts = await fetchContexts(hints?.dateRange)
     const pointers = await fetchPointers(hints?.dateRange)
-    const summary = buildSummary(enrichedMetrics, goals, people, contexts, pointers)
+    const locations = await fetchLocations(hints?.dateRange)
+    const summary = buildSummary(enrichedMetrics, goals, people, contexts, pointers, locations)
 
     return {
       recentMetrics: enrichedMetrics,
@@ -132,6 +135,7 @@ export async function buildChatContext(hints?: ContextHints): Promise<UserContex
       people,
       contexts,
       pointers,
+      locations,
       notes: notesContent
     }
   } catch (err) {
@@ -490,7 +494,49 @@ async function fetchPointers(range?: { from: string; to: string }): Promise<Reco
   }
 }
 
-function buildSummary(metrics: Record<string, unknown>, goals: string[], people?: Record<string, any>, contexts?: Record<string, any>, pointers?: Record<string, any>): string {
+async function fetchLocations(range?: { from: string; to: string }): Promise<Array<any> | undefined> {
+  try {
+    const logs = await LedgerStore.query({
+      start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
+      end: range?.to ? dayjs(range.to) : dayjs()
+    })
+
+    const locationsMap: Record<string, any> = {}
+
+    logs.forEach((log: any) => {
+      // Include logs that have location coordinates or location name
+      if (!log.lat && !log.lng && !log.location) return
+
+      // Use coordinates as key if available, otherwise use location name
+      const key = log.lat && log.lng ? `${log.lat.toFixed(4)},${log.lng.toFixed(4)}` : log.location || 'unknown'
+
+      if (!locationsMap[key]) {
+        locationsMap[key] = {
+          name: log.location || undefined,
+          lat: log.lat || undefined,
+          lng: log.lng || undefined,
+          count: 0,
+          lastUsed: dayjs(log.end).format('YYYY-MM-DD')
+        }
+      }
+
+      locationsMap[key].count++
+      locationsMap[key].lastUsed = dayjs(log.end).format('YYYY-MM-DD')
+    })
+
+    // Sort by frequency and return top locations
+    const locations = Object.values(locationsMap)
+      .sort((a: any, b: any) => b.count - a.count)
+      .slice(0, 10) // Top 10 locations
+
+    return locations.length > 0 ? locations : undefined
+  } catch (err) {
+    console.error('Error fetching locations:', err)
+    return undefined
+  }
+}
+
+function buildSummary(metrics: Record<string, unknown>, goals: string[], people?: Record<string, any>, contexts?: Record<string, any>, pointers?: Record<string, any>, locations?: Array<any>): string {
   const metricNames = Object.keys(metrics)
     .filter(k => k.startsWith('#'))
     .map(k => k.substring(1))
@@ -498,6 +544,7 @@ function buildSummary(metrics: Record<string, unknown>, goals: string[], people?
   const personNames = people ? Object.keys(people).map(k => k.substring(1)).join(', ') : ''
   const contextNames = contexts ? Object.keys(contexts).map(k => k.substring(1)).join(', ') : ''
   const pointerNames = pointers ? Object.keys(pointers).map(k => k.substring(1)).join(', ') : ''
+  const locationNames = locations ? locations.map(l => l.name || `${l.lat?.toFixed(2)},${l.lng?.toFixed(2)}`).join(', ') : ''
   const activeGoals = goals.slice(0, 3).join('; ')
 
   let summary = ''
@@ -518,11 +565,15 @@ function buildSummary(metrics: Record<string, unknown>, goals: string[], people?
     summary += `Pointers/Topics: ${pointerNames}. `
   }
 
+  if (locationNames) {
+    summary += `Primary locations: ${locationNames}. `
+  }
+
   if (activeGoals) {
     summary += `Active goals: ${activeGoals}.`
   }
 
-  if (!metricNames && !personNames && !contextNames && !pointerNames) {
+  if (!metricNames && !personNames && !contextNames && !pointerNames && !locationNames) {
     summary = 'No tracking data available yet.'
   }
 
