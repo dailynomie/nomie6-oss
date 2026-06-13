@@ -34,13 +34,22 @@
   import ListItemLog from '../../components/list-item-log/list-item-log.svelte'
 import ListItemSingleTrackable from '../../components/list-item-log/list-item-single-trackable.svelte';
 
-  let starterDate: Date // capture the initial date to start  but let user change
-  let activeDate: Dayjs
-  let trackableUsage: TrackableUsage
+  let starterDate = $state<Date>(undefined)
+  let activeDate = $state<Dayjs>(undefined)
+  let trackableUsage = $state<TrackableUsage>(undefined)
   let dateFormats = getDateFormats()
+  let loading = $state(true)
+  let lastUsageData = $state<TrackableLastUsedType>(undefined)
 
-  let loading = true
-  let lastUsageData: TrackableLastUsedType
+  const { id, props } = $props()
+
+  // Initialize with props.date when component mounts
+  $effect(() => {
+    if (props?.date && !starterDate) {
+      starterDate = props.date
+      loading = true
+    }
+  })
 
   const dateTapped = async (date: Date) => {
     let datejs = dayjs(date)
@@ -66,8 +75,6 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
   const close = () => {
     closeModal(id)
   }
-
-  const { id, props } = $props()
 </script>
 
 <BackdropModal className="calendar-view-modal">
