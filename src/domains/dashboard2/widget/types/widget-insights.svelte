@@ -134,6 +134,12 @@
         const response = await query({
           profile: 'insight',
           prompt: promptText,
+          contextHints: {
+            dateRange: {
+              from: timeframe.start.format('YYYY-MM-DD'),
+              to: timeframe.end.format('YYYY-MM-DD'),
+            },
+          },
         })
         insightContent = response.content as string
       }
