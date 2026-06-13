@@ -29,22 +29,27 @@
   import { openTrackableEditor } from '../../trackable/trackable-editor/TrackableEditorStore'
   import { Trackable } from '../../trackable/Trackable.class'
 
-  let workingLibTracker: LibraryTrackerType
-  let showDom: boolean = false
-  let trackers: Array<TrackerClass> = []
+  const { id } = $props()
 
-  let lastHash = ''
-  $: if (objectHash($LibraryManagerStore.libraryTracker) !== lastHash) {
-    lastHash = objectHash($LibraryManagerStore.libraryTracker)
-    workingLibTracker = Object.assign({}, $LibraryManagerStore.libraryTracker)
-    trackers = [...trackers, ...workingLibTracker.trackers.map((t) => new TrackerClass(t))]
+  let workingLibTracker = $state<LibraryTrackerType>()
+  let showDom = $state(false)
+  let trackers = $state<Array<TrackerClass>>([])
+  let lastHash = $state('')
 
-    setTimeout(() => {
-      showDom = true
-    }, 100)
-  }
+  $effect(() => {
+    if (objectHash($LibraryManagerStore.libraryTracker) !== lastHash) {
+      lastHash = objectHash($LibraryManagerStore.libraryTracker)
+      workingLibTracker = Object.assign({}, $LibraryManagerStore.libraryTracker)
+      trackers = [...trackers, ...workingLibTracker.trackers.map((t) => new TrackerClass(t))]
 
-  $: canSave = workingLibTracker && trackers?.length > 0 && workingLibTracker.title && workingLibTracker.tags
+      const timer = setTimeout(() => {
+        showDom = true
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  })
+
+  const canSave = $derived(workingLibTracker && trackers?.length > 0 && workingLibTracker.title && workingLibTracker.tags)
 
   const selectTrackers = async () => {
     const trks = await selectTrackables('tracker')
@@ -83,8 +88,6 @@
   const close = () => {
     closeModal(id)
   }
-
-  const { id } = $props()
 </script>
 
 <Modal2 visible={showDom} id="library-tracker-editor" on:close={() => close()}>
