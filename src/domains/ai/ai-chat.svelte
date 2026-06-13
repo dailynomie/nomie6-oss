@@ -3,6 +3,7 @@
 <script lang="ts">
   import { streamQuery, aiState } from './engine.svelte'
   import type { AIResponse } from './profiles/types'
+  import { marked } from 'marked'
   import dayjs from 'dayjs'
 
   interface ChatMessage {
@@ -148,6 +149,10 @@
             <div class="flex items-center gap-2">
               <span class="animate-pulse">●●●</span>
             </div>
+          {:else if message.role === 'assistant'}
+            <div class="text-sm leading-relaxed markdown-content">
+              {@html marked.parse(message.content)}
+            </div>
           {:else}
             <p class="text-sm leading-relaxed">{message.content}</p>
           {/if}
@@ -256,5 +261,62 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  :global(.markdown-content p) {
+    margin: 0.4rem 0;
+  }
+
+  :global(.markdown-content strong) {
+    font-weight: 600;
+  }
+
+  :global(.markdown-content em) {
+    font-style: italic;
+  }
+
+  :global(.markdown-content ul),
+  :global(.markdown-content ol) {
+    margin: 0.4rem 0;
+    padding-left: 1.25rem;
+  }
+
+  :global(.markdown-content li) {
+    margin: 0.2rem 0;
+  }
+
+  :global(.markdown-content code) {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 2px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+
+  :global(.markdown-content pre) {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.75rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 0.4rem 0;
+  }
+
+  :global(.markdown-content pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  :global(.markdown-content h1),
+  :global(.markdown-content h2),
+  :global(.markdown-content h3) {
+    margin: 0.5rem 0 0.3rem 0;
+    font-weight: 600;
+  }
+
+  :global(.markdown-content blockquote) {
+    border-left: 3px solid rgba(0, 0, 0, 0.2);
+    padding-left: 0.75rem;
+    margin: 0.4rem 0;
+    opacity: 0.8;
   }
 </style>
