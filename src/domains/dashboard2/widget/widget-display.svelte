@@ -29,6 +29,7 @@
   import relativeTime from 'dayjs/plugin/relativeTime'
   import { saveDashboard, DashStore } from '../DashStore'
   import { triggerInsightClear } from './types/insightClearSignal'
+  import NomieAiButton from '../../../components/aibutton/NomieAiButton.svelte'
 
   dayjs.extend(relativeTime)
 
@@ -211,6 +212,11 @@
         <p style="font-size: 90%"><b>🏷 {titleCase(widget.pointer.id)}</b></p><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions}/>
       {:else if widget.type == 'plugin'}
         {label}
+      {:else if widget.type == 'insight'}
+        <div class="flex items-center gap-1.5">
+          <NomieAiButton size="18px" />
+          <span class="capitalize text-xs font-semibold pt-1">{widgetInstance.getTitle()}</span>
+        </div>
       {:else}
         <span class="capitalize text-xs font-semibold pt-1 pl-1">{widgetInstance.getTitle()}</span>
       {/if}

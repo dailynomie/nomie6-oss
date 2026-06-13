@@ -14,7 +14,6 @@
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
   import type { WidgetClass } from '../widget-class'
-  import NomieAiButton from '../../../../components/aibutton/NomieAiButton.svelte'
 
   dayjs.extend(relativeTime)
 
@@ -239,10 +238,6 @@
     </div>
   {:else if insight}
     <div class="px-2 h-full flex flex-col">
-      <div class="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200 dark:border-gray-700">
-        <NomieAiButton size="24px" />
-        <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Insight</h3>
-      </div>
       <div class="insight-container px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition border border-gray-300 dark:border-gray-600 rounded mb-2" onclick={openFullInsightModal}>
         <div class="text-xs leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
           {@html renderedInsight}
