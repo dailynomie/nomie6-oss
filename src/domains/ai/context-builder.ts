@@ -13,6 +13,46 @@ interface ContextHints {
   component?: string
 }
 
+interface CorrelationContext extends RichContext {
+  correlations?: Array<{
+    metric1: string
+    metric2: string
+    correlation: number
+    description: string
+  }>
+}
+
+interface TrendContext extends RichContext {
+  trends?: Array<{
+    metric: string
+    direction: 'up' | 'down' | 'flat'
+    momentum: number
+    lastValue: number
+  }>
+}
+
+interface GoalProgressContext extends RichContext {
+  goalProgress?: Array<{
+    goal: string
+    currentValue?: number
+    targetValue: number
+    percentComplete: number
+    daysRemaining?: number
+  }>
+}
+
+interface HealthContext extends RichContext {
+  healthMetrics?: Record<string, any>
+}
+
+interface PatternContext extends RichContext {
+  temporalPatterns?: {
+    byDayOfWeek?: Record<string, any>
+    byHourOfDay?: Record<string, any>
+    locations?: any
+  }
+}
+
 export interface NarrativeContextData {
   entries_by_date: Record<string, { notes: string[]; count: number }>
   total_entries: number
@@ -482,6 +522,188 @@ export async function buildLocationContext(hints?: ContextHints): Promise<Locati
     return {
       summary: 'Unable to load location context.'
     }
+  }
+}
+
+export async function buildCorrelationContext(hints?: ContextHints): Promise<CorrelationContext> {
+  try {
+    const richCtx = await buildChatContext(hints)
+
+    // Extract metrics and calculate simple correlations
+    const correlations: any[] = []
+    const metricKeys = Object.keys(richCtx.recentMetrics || {})
+
+    // Basic correlation detection (simplified - compares trends)
+    for (let i = 0; i < metricKeys.length; i++) {
+      for (let j = i + 1; j < metricKeys.length; j++) {
+        const m1 = richCtx.recentMetrics[metricKeys[i]] as any
+        const m2 = richCtx.recentMetrics[metricKeys[j]] as any
+
+        if (Array.isArray(m1) && Array.isArray(m2) && m1.length > 0 && m2.length > 0) {
+          // Simple trend correlation: both trending up/down or opposite
+          const trend1 = m1[m1.length - 1]?.value > m1[0]?.value ? 1 : -1
+          const trend2 = m2[m2.length - 1]?.value > m2[0]?.value ? 1 : -1
+          const corr = (trend1 === trend2) ? 0.5 : -0.5
+
+          if (Math.abs(corr) > 0.3) {
+            correlations.push({
+              metric1: metricKeys[i],
+              metric2: metricKeys[j],
+              correlation: corr,
+              description: trend1 === trend2 ? 'Both trending together' : 'Trending in opposite directions'
+            })
+          }
+        }
+      }
+    }
+
+    return {
+      ...richCtx,
+      correlations: correlations.slice(0, 5)
+    }
+  } catch (err) {
+    console.error('Error building correlation context:', err)
+    return await buildChatContext(hints)
+  }
+}
+
+export async function buildTrendContext(hints?: ContextHints): Promise<TrendContext> {
+  try {
+    const richCtx = await buildChatContext(hints)
+
+    const trends: any[] = []
+
+    Object.entries(richCtx.recentMetrics || {}).forEach(([key, data]: [string, any]) => {
+      if (Array.isArray(data) && data.length >= 2) {
+        const values = data.map((d: any) => d.value)
+        const lastValue = values[values.length - 1]
+        const prevValue = values[values.length - 2]
+        const avgValue = values.reduce((a: number, b: number) => a + b, 0) / values.length
+
+        const direction = lastValue > avgValue ? 'up' : lastValue < avgValue ? 'down' : 'flat'
+        const momentum = ((lastValue - prevValue) / (prevValue || 1)) * 100
+
+        trends.push({
+          metric: key,
+          direction,
+          momentum,
+          lastValue
+        })
+      }
+    })
+
+    return {
+      ...richCtx,
+      trends: trends.slice(0, 10)
+    }
+  } catch (err) {
+    console.error('Error building trend context:', err)
+    return await buildChatContext(hints)
+  }
+}
+
+export async function buildGoalProgressContext(hints?: ContextHints): Promise<GoalProgressContext> {
+  try {
+    const richCtx = await buildChatContext(hints)
+    const goalStore = get(GoalStore)
+
+    const goalProgress: any[] = []
+
+    if (Array.isArray(goalStore)) {
+      for (const goal of goalStore) {
+        const metricKey = `#${goal.tag}`
+        const metricData = richCtx.recentMetrics[metricKey] as any
+
+        if (metricData && metricData.aggregated !== undefined) {
+          const current = metricData.aggregated
+          const target = parseFloat(goal.target) || 0
+          const percentComplete = (current / target) * 100
+
+          goalProgress.push({
+            goal: `${goal.tag}: ${goal.comparison} ${goal.target}${goal.unit || ''}`,
+            currentValue: Math.round(current * 100) / 100,
+            targetValue: target,
+            percentComplete: Math.round(percentComplete),
+            daysRemaining: goal.duration === 'daily' ? 1 : 7
+          })
+        }
+      }
+    }
+
+    return {
+      ...richCtx,
+      goalProgress
+    }
+  } catch (err) {
+    console.error('Error building goal progress context:', err)
+    return await buildChatContext(hints)
+  }
+}
+
+export async function buildHealthContext(hints?: ContextHints): Promise<HealthContext> {
+  try {
+    const richCtx = await buildChatContext(hints)
+
+    // Filter for health-related metrics
+    const healthKeywords = ['sleep', 'heart', 'hrv', 'steps', 'exercise', 'workout', 'mood', 'energy', 'stress', 'anxiety']
+    const healthMetrics: Record<string, any> = {}
+
+    Object.entries(richCtx.recentMetrics || {}).forEach(([key, value]) => {
+      const keyLower = key.toLowerCase()
+      if (healthKeywords.some(h => keyLower.includes(h))) {
+        healthMetrics[key] = value
+      }
+    })
+
+    return {
+      ...richCtx,
+      recentMetrics: healthMetrics,
+      healthMetrics
+    }
+  } catch (err) {
+    console.error('Error building health context:', err)
+    return await buildChatContext(hints)
+  }
+}
+
+export async function buildPatternContext(hints?: ContextHints): Promise<PatternContext> {
+  try {
+    const richCtx = await buildChatContext(hints)
+    const dateRange = hints?.dateRange || {
+      from: dayjs().subtract(30, 'days').format('YYYY-MM-DD'),
+      to: dayjs().format('YYYY-MM-DD')
+    }
+
+    const logs = await LedgerStore.query({
+      start: dayjs(dateRange.from),
+      end: dayjs(dateRange.to)
+    })
+
+    // Analyze temporal patterns
+    const byDayOfWeek: Record<string, number> = {}
+    const byHourOfDay: Record<string, number> = {}
+
+    logs.forEach((log: any) => {
+      if (log.note) {
+        const logDay = dayjs(log.end).format('dddd')
+        const logHour = dayjs(log.end).format('HH')
+
+        byDayOfWeek[logDay] = (byDayOfWeek[logDay] || 0) + 1
+        byHourOfDay[logHour] = (byHourOfDay[logHour] || 0) + 1
+      }
+    })
+
+    return {
+      ...richCtx,
+      temporalPatterns: {
+        byDayOfWeek,
+        byHourOfDay,
+        locations: richCtx.locations?.slice(0, 5)
+      }
+    }
+  } catch (err) {
+    console.error('Error building pattern context:', err)
+    return await buildChatContext(hints)
   }
 }
 
