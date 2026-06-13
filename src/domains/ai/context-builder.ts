@@ -167,18 +167,6 @@ export async function buildChatContext(hints?: ContextHints): Promise<UserContex
     const contexts = await fetchContexts(hints?.dateRange)
     const pointers = await fetchPointers(hints?.dateRange)
     const locations = await fetchLocations(hints?.dateRange)
-
-    console.log('buildChatContext - Fetched data:', {
-      peopleCount: people ? Object.keys(people).length : 0,
-      contextsCount: contexts ? Object.keys(contexts).length : 0,
-      pointersCount: pointers ? Object.keys(pointers).length : 0,
-      locationsCount: locations ? locations.length : 0,
-      people,
-      contexts,
-      pointers,
-      locations
-    })
-
     const summary = buildSummary(enrichedMetrics, goals, people, contexts, pointers, locations)
 
     return {
@@ -763,7 +751,6 @@ async function fetchPeople(range?: { from: string; to: string }): Promise<Record
 }
 
 async function fetchContexts(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {
-  console.log('fetchContexts called with range:', range)
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
@@ -810,7 +797,6 @@ async function fetchContexts(range?: { from: string; to: string }): Promise<Reco
 }
 
 async function fetchPointers(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {
-  console.log('fetchPointers called with range:', range)
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
@@ -857,7 +843,6 @@ async function fetchPointers(range?: { from: string; to: string }): Promise<Reco
 }
 
 async function fetchLocations(range?: { from: string; to: string }): Promise<Array<any> | undefined> {
-  console.log('fetchLocations called with range:', range)
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
@@ -905,20 +890,6 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
       locationsMap[key].lastUsed = dayjs(log.end).format('YYYY-MM-DD')
     })
 
-    console.log(`Location data: Found ${logsWithLocation} logs with location info out of ${logs.length} total logs`)
-
-    if (logsWithLocation === 0 && logs.length > 0) {
-      console.log('Sample logs to debug location issue:', logs.slice(0, 3).map((l: any) => ({
-        lat: l.lat,
-        lng: l.lng,
-        location: l.location,
-        note: l.note?.substring(0, 50)
-      })))
-
-      // Check if any logs have non-null lat/lng
-      const logsWithAnyCoords = logs.filter((l: any) => l.lat !== null && l.lat !== undefined || l.lng !== null && l.lng !== undefined)
-      console.log(`Logs with any coordinates: ${logsWithAnyCoords.length}`)
-    }
 
     // Sort by frequency and return top locations
     const locations = Object.values(locationsMap)
