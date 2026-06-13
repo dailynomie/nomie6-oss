@@ -41,6 +41,15 @@ export const chatProfile: Profile = {
         .join('\n')
       : 'None tracked'
 
+    // Debug logging
+    console.log('=== CHAT CONTEXT DEBUG ===')
+    console.log('Context object:', context)
+    console.log('Locations array:', context.locations)
+    console.log('Locations formatted:', locationsList)
+    console.log('Contexts:', context.contexts)
+    console.log('Pointers:', context.pointers)
+    console.log('========================')
+
     return `You are a helpful AI assistant analyzing the user's comprehensive tracking data including metrics, locations, contexts, and journal entries.
 Provide thoughtful, detailed responses (2-3 paragraphs is fine). Be friendly, encouraging, and insightful.
 Reference specific metrics, patterns, locations, contexts, and journal entries to support your analysis.
