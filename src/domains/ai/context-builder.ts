@@ -841,7 +841,12 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
     const locationsMap: Record<string, any> = {}
     let logsWithLocation = 0
 
-    logs.forEach((log: any) => {
+    logs.forEach((log: any, index: number) => {
+      // Log first few entries to debug
+      if (index < 3) {
+        console.log(`Log ${index}:`, { lat: log.lat, lng: log.lng, location: log.location })
+      }
+
       // Include logs that have location coordinates or location name
       if (!log.lat && !log.lng && !log.location) return
 
