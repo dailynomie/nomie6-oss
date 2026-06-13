@@ -30,14 +30,15 @@ export const chatProfile: Profile = {
         .join(', ')
       : 'None tracked'
 
-    // Format locations
+    // Format locations with coordinates for Claude to interpret
     const locationsList = context.locations
       ? context.locations
         .map((loc: any) => {
-          const name = loc.name || `${loc.lat?.toFixed(2)},${loc.lng?.toFixed(2)}`
-          return `${name} (${loc.count} times, last: ${loc.lastUsed})`
+          const name = loc.name ? `${loc.name}` : `[Coordinates: ${loc.lat?.toFixed(4)}, ${loc.lng?.toFixed(4)}]`
+          const coords = loc.lat && loc.lng ? ` (lat: ${loc.lat?.toFixed(4)}, lng: ${loc.lng?.toFixed(4)})` : ''
+          return `${name}${coords} - visited ${loc.count} times, last on ${loc.lastUsed}`
         })
-        .join(', ')
+        .join('\n')
       : 'None tracked'
 
     return `You are a helpful AI assistant analyzing the user's comprehensive tracking data including metrics, locations, contexts, and journal entries.
@@ -73,7 +74,17 @@ Goals: ${context.goals.map((g) => `- ${g}`).join('\n') || 'None set'}
 
 People: ${Object.keys(context.people || {}).join(', ') || 'None tracked'}
 
-Spatial & Contextual Awareness: Use the location data (coordinates and names), contexts (environments), and pointers (topics) to understand WHERE and WHY the user was tracking. This provides richer insights into behavior patterns.
+Spatial & Contextual Awareness:
+- Use the location data (coordinates and names) to understand WHERE the user was tracking
+- If a location has coordinates like [lat: 52.3676, lng: 4.9041], you can interpret this as geographic coordinates and identify the location
+- Use contexts (environments) and pointers (topics) to understand WHY the user was tracking
+- This provides richer insights into behavior patterns and correlations between location and health/productivity metrics
+
+Coordinate Interpretation: When you see latitude/longitude coordinates, you have the knowledge to:
+- Identify the country, city, or region
+- Recognize if it's a common location type (home, workplace, gym, etc.)
+- Suggest why certain metrics vary by location
+- Make location-specific health or behavior recommendations
 
 Provide analysis that helps the user understand patterns and connections between their metrics, locations, contexts, and behavior.`
   },
