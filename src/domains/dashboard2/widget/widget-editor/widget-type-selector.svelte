@@ -67,7 +67,7 @@ import type { WidgetClass } from '../widget-class';
           : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
       >
         {#if widgetType.id === 'insight'}
-          <NomieAiButton size="32px" />
+          <NomieAiButton size="40px" />
         {:else if widgetType.icon}
           <IonIcon icon={widgetType.icon} size={40} />
         {:else if widgetType.emoji}
