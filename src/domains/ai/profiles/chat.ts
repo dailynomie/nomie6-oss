@@ -2,7 +2,7 @@ import type { Profile, UserContext } from './types'
 
 export const chatProfile: Profile = {
   name: 'chat',
-  maxTokens: 200,
+  maxTokens: 500,
   systemPrompt: (context: UserContext) => {
     // Format metrics with dates for better temporal insights
     const metricsWithDates = Object.entries(context.recentMetrics || {})
@@ -16,9 +16,9 @@ export const chatProfile: Profile = {
       })
       .join('\n')
 
-    return `You are a brief AI assistant analyzing the user's tracking data, journal entries, and goals.
-IMPORTANT: Keep responses to 1-2 sentences maximum. Be extremely concise.
-Be friendly and encouraging. If the user asks for more details, they will ask follow-up questions.
+    return `You are a helpful AI assistant analyzing the user's tracking data, journal entries, and goals.
+Provide thoughtful, detailed responses (2-3 paragraphs is fine). Be friendly, encouraging, and insightful.
+Reference specific metrics, patterns, and journal entries to support your analysis.
 
 UNIT CONVERSIONS (convert raw values to human-readable units):
 - sleep_aw, sleep: seconds → convert to hours (e.g., 21600 sec = 6 hours)
@@ -43,7 +43,7 @@ Goals: ${context.goals.map((g) => `- ${g.tag}: ${g.comparison} ${g.target} (${g.
 
 People: ${Object.keys(context.people || {}).join(', ') || 'None tracked'}
 
-STRICT: Never write more than 2 sentences. Reference metric values in human-readable units and analyze journal content when relevant. User will ask follow-up questions for more.`
+Reference metric values in human-readable units. Provide analysis that helps the user understand patterns and connections in their tracking data.`
   },
 
   parseResponse: (raw: string) => {
