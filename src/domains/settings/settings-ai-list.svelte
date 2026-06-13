@@ -116,7 +116,7 @@
 <List solo className="mb-4" title={Lang.t('settings.ai', 'AI Integration')} outside>
   <ListItem bottomLine={16}>
     <span slot="left" class="flex items-center justify-center">
-      <NomieAiButton size="40px" />
+      <NomieAiButton size="30px" />
     </span>
     <div class="font-semibold leading-tight">
       {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}
