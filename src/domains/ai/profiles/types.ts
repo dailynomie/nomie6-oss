@@ -91,6 +91,7 @@ export interface LocationContext {
     lng?: number
     count: number
     lastUsed: string
+    recentDates?: string[]
   }>
   summary: string
 }

@@ -875,6 +875,7 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
 
       // Use coordinates as key for grouping
       const key = `${log.lat.toFixed(4)},${log.lng.toFixed(4)}`
+      const logDate = dayjs(log.end).format('YYYY-MM-DD')
 
       if (!locationsMap[key]) {
         locationsMap[key] = {
@@ -882,12 +883,17 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
           lat: log.lat,
           lng: log.lng,
           count: 0,
-          lastUsed: dayjs(log.end).format('YYYY-MM-DD')
+          lastUsed: logDate,
+          dates: [] // Track all dates
         }
       }
 
       locationsMap[key].count++
-      locationsMap[key].lastUsed = dayjs(log.end).format('YYYY-MM-DD')
+      locationsMap[key].lastUsed = logDate
+      // Keep last 7 unique dates
+      if (!locationsMap[key].dates.includes(logDate)) {
+        locationsMap[key].dates.push(logDate)
+      }
     })
 
 
@@ -895,6 +901,14 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
     const locations = Object.values(locationsMap)
       .sort((a: any, b: any) => b.count - a.count)
       .slice(0, 10) // Top 10 locations
+      .map((loc: any) => ({
+        name: loc.name,
+        lat: loc.lat,
+        lng: loc.lng,
+        count: loc.count,
+        lastUsed: loc.lastUsed,
+        recentDates: loc.dates.slice(-7).reverse() // Last 7 dates, most recent first
+      }))
 
     return locations.length > 0 ? locations : undefined
   } catch (err) {

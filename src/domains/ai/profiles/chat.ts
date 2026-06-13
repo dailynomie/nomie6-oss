@@ -30,13 +30,14 @@ export const chatProfile: Profile = {
         .join(', ')
       : 'None tracked'
 
-    // Format locations with coordinates for Claude to interpret
+    // Format locations with coordinates and recent dates for Claude to interpret
     const locationsList = context.locations
       ? context.locations
         .map((loc: any) => {
           const name = loc.name ? `${loc.name}` : `[Coordinates: ${loc.lat?.toFixed(4)}, ${loc.lng?.toFixed(4)}]`
           const coords = loc.lat && loc.lng ? ` (lat: ${loc.lat?.toFixed(4)}, lng: ${loc.lng?.toFixed(4)})` : ''
-          return `${name}${coords} - visited ${loc.count} times, last on ${loc.lastUsed}`
+          const recentDates = loc.recentDates && loc.recentDates.length > 0 ? `, recent visits: ${loc.recentDates.join(', ')}` : ''
+          return `${name}${coords} - visited ${loc.count} times, last on ${loc.lastUsed}${recentDates}`
         })
         .join('\n')
       : 'None tracked'
