@@ -83,7 +83,7 @@
     <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Nomie Insights</h2>
     <div class="w-12" />
   </div>
-  <div class="p-6 max-h-96 overflow-y-auto border border-sky-400 dark:border-sky-500 m-4 rounded">
+  <div class="p-6 max-h-96 overflow-y-auto border border-primary-500 m-4 rounded">
     <div class="text-sm leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
       {@html renderedInsight}
     </div>
