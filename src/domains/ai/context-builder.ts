@@ -25,13 +25,17 @@ export async function buildContext(hints?: ContextHints): Promise<UserContext> {
     const metrics = await fetchMetrics(hints?.metrics, hints?.dateRange)
     const goals = await fetchGoals()
     const people = await fetchPeople(hints?.dateRange)
-    const summary = buildSummary(metrics, goals, people)
+    const contexts = await fetchContexts(hints?.dateRange)
+    const pointers = await fetchPointers(hints?.dateRange)
+    const summary = buildSummary(metrics, goals, people, contexts, pointers)
 
     return {
       recentMetrics: metrics,
       goals,
       summary,
-      people
+      people,
+      contexts,
+      pointers
     }
   } catch (err) {
     console.error('Error building AI context:', err)
@@ -117,13 +121,17 @@ export async function buildChatContext(hints?: ContextHints): Promise<UserContex
 
     const goals = await fetchGoals()
     const people = await fetchPeople(hints?.dateRange)
-    const summary = buildSummary(enrichedMetrics, goals, people)
+    const contexts = await fetchContexts(hints?.dateRange)
+    const pointers = await fetchPointers(hints?.dateRange)
+    const summary = buildSummary(enrichedMetrics, goals, people, contexts, pointers)
 
     return {
       recentMetrics: enrichedMetrics,
       goals,
       summary,
       people,
+      contexts,
+      pointers,
       notes: notesContent
     }
   } catch (err) {
@@ -400,12 +408,96 @@ async function fetchPeople(range?: { from: string; to: string }): Promise<Record
   }
 }
 
-function buildSummary(metrics: Record<string, unknown>, goals: string[], people?: Record<string, any>): string {
+async function fetchContexts(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {
+  try {
+    const logs = await LedgerStore.query({
+      start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
+      end: range?.to ? dayjs(range.to) : dayjs()
+    })
+
+    const contextsData: Record<string, any> = {}
+
+    logs.forEach((log: any) => {
+      if (!log.note) return
+      const tokens = tokenizeLite(log.note)
+
+      tokens.forEach((token: any) => {
+        if (token.type === 'context') {
+          const key = `+${token.id}`
+          if (!contextsData[key]) {
+            contextsData[key] = { values: [], dates: [] }
+          }
+          contextsData[key].values.push(token.value || 1)
+          contextsData[key].dates.push(new Date(log.end))
+        }
+      })
+    })
+
+    // Convert to final format
+    const result: Record<string, any> = {}
+    for (const [key, data] of Object.entries(contextsData)) {
+      result[key] = {
+        count: data.values.length,
+        recent: data.values.slice(-3)
+      }
+    }
+
+    return Object.keys(result).length > 0 ? result : undefined
+  } catch (err) {
+    console.error('Error fetching contexts:', err)
+    return undefined
+  }
+}
+
+async function fetchPointers(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {
+  try {
+    const logs = await LedgerStore.query({
+      start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
+      end: range?.to ? dayjs(range.to) : dayjs()
+    })
+
+    const pointersData: Record<string, any> = {}
+
+    logs.forEach((log: any) => {
+      if (!log.note) return
+      const tokens = tokenizeLite(log.note)
+
+      tokens.forEach((token: any) => {
+        if (token.type === 'pointer') {
+          const key = `^${token.id}`
+          if (!pointersData[key]) {
+            pointersData[key] = { values: [], dates: [] }
+          }
+          pointersData[key].values.push(token.value || 1)
+          pointersData[key].dates.push(new Date(log.end))
+        }
+      })
+    })
+
+    // Convert to final format
+    const result: Record<string, any> = {}
+    for (const [key, data] of Object.entries(pointersData)) {
+      result[key] = {
+        count: data.values.length,
+        recent: data.values.slice(-3)
+      }
+    }
+
+    return Object.keys(result).length > 0 ? result : undefined
+  } catch (err) {
+    console.error('Error fetching pointers:', err)
+    return undefined
+  }
+}
+
+function buildSummary(metrics: Record<string, unknown>, goals: string[], people?: Record<string, any>, contexts?: Record<string, any>, pointers?: Record<string, any>): string {
   const metricNames = Object.keys(metrics)
     .filter(k => k.startsWith('#'))
     .map(k => k.substring(1))
     .join(', ')
   const personNames = people ? Object.keys(people).map(k => k.substring(1)).join(', ') : ''
+  const contextNames = contexts ? Object.keys(contexts).map(k => k.substring(1)).join(', ') : ''
+  const pointerNames = pointers ? Object.keys(pointers).map(k => k.substring(1)).join(', ') : ''
   const activeGoals = goals.slice(0, 3).join('; ')
 
   let summary = ''
@@ -418,11 +510,19 @@ function buildSummary(metrics: Record<string, unknown>, goals: string[], people?
     summary += `Interactions with: ${personNames}. `
   }
 
+  if (contextNames) {
+    summary += `Contexts: ${contextNames}. `
+  }
+
+  if (pointerNames) {
+    summary += `Pointers/Topics: ${pointerNames}. `
+  }
+
   if (activeGoals) {
     summary += `Active goals: ${activeGoals}.`
   }
 
-  if (!metricNames && !personNames) {
+  if (!metricNames && !personNames && !contextNames && !pointerNames) {
     summary = 'No tracking data available yet.'
   }
 

@@ -36,6 +36,14 @@ export interface UserContext {
     recent: (string | number)[]
     correlations?: string[]
   }>
+  contexts?: Record<string, {
+    count: number
+    recent: (string | number)[]
+  }>
+  pointers?: Record<string, {
+    count: number
+    recent: (string | number)[]
+  }>
   notes?: string
 }
 
