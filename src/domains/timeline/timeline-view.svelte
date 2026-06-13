@@ -8,7 +8,7 @@
   import TrackablePill from '../trackable/trackable-pill.svelte'
 
   import { getDateFormats } from '../preferences/Preferences'
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, untrack } from 'svelte'
 
   import { showTrackablePopmenu } from '../board/boardActions'
 
@@ -43,12 +43,10 @@
   $effect(() => {
     if ($TrackableStore?.trackables && logs && logs.length > 0) {
       const newTimeline = logsToTimeline(logs, $TrackableStore.trackables)
-      // Only update if length changed or first/last item changed to prevent infinite loops
-      if (!timeline.length || newTimeline.length !== timeline.length ||
-          newTimeline[0]?.time?.valueOf() !== timeline[0]?.time?.valueOf() ||
-          newTimeline[newTimeline.length - 1]?.time?.valueOf() !== timeline[timeline.length - 1]?.time?.valueOf()) {
+      // Use untrack to prevent the assignment from triggering dependent effects
+      untrack(() => {
         timeline = newTimeline
-      }
+      })
     }
   })
 
