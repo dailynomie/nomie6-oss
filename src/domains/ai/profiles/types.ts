@@ -27,14 +27,14 @@ export interface Profile {
   parseResponse: (raw: string) => unknown
 }
 
-export interface UserContext {
+// Base context with all available data and details
+export interface RichContext {
   recentMetrics: Record<string, unknown>
   goals: string[]
   summary: string
   people?: Record<string, {
     count: number
     recent: (string | number)[]
-    correlations?: string[]
   }>
   contexts?: Record<string, {
     count: number
@@ -53,6 +53,50 @@ export interface UserContext {
   }>
   notes?: string
 }
+
+// Summary context - high-level overview only
+export interface SummaryContext {
+  summary: string
+  goals: string[]
+}
+
+// Metrics-focused context
+export interface MetricsContext {
+  recentMetrics: Record<string, unknown>
+  goals: string[]
+  summary: string
+}
+
+// Journal/Notes-focused context
+export interface JournalContext {
+  notes?: string
+  summary: string
+  goals: string[]
+}
+
+// People-focused context
+export interface PeopleContext {
+  people?: Record<string, {
+    count: number
+    recent: (string | number)[]
+  }>
+  summary: string
+}
+
+// Location-focused context
+export interface LocationContext {
+  locations?: Array<{
+    name?: string
+    lat?: number
+    lng?: number
+    count: number
+    lastUsed: string
+  }>
+  summary: string
+}
+
+// Backward compatibility
+export type UserContext = RichContext
 
 export interface ChartDataset {
   chartType: 'line' | 'bar' | 'scatter'

@@ -16,9 +16,33 @@ export const chatProfile: Profile = {
       })
       .join('\n')
 
-    return `You are a helpful AI assistant analyzing the user's tracking data, journal entries, and goals.
+    // Format contexts
+    const contextsList = context.contexts
+      ? Object.entries(context.contexts)
+        .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} times`)
+        .join(', ')
+      : 'None tracked'
+
+    // Format pointers
+    const pointersList = context.pointers
+      ? Object.entries(context.pointers)
+        .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} occurrences`)
+        .join(', ')
+      : 'None tracked'
+
+    // Format locations
+    const locationsList = context.locations
+      ? context.locations
+        .map((loc: any) => {
+          const name = loc.name || `${loc.lat?.toFixed(2)},${loc.lng?.toFixed(2)}`
+          return `${name} (${loc.count} times, last: ${loc.lastUsed})`
+        })
+        .join(', ')
+      : 'None tracked'
+
+    return `You are a helpful AI assistant analyzing the user's comprehensive tracking data including metrics, locations, contexts, and journal entries.
 Provide thoughtful, detailed responses (2-3 paragraphs is fine). Be friendly, encouraging, and insightful.
-Reference specific metrics, patterns, and journal entries to support your analysis.
+Reference specific metrics, patterns, locations, contexts, and journal entries to support your analysis.
 
 UNIT CONVERSIONS (convert raw values to human-readable units):
 - sleep_aw, sleep: seconds → convert to hours (e.g., 21600 sec = 6 hours)
@@ -36,14 +60,22 @@ User Summary: ${context.summary}
 Recent Metrics (last 7 days):
 ${metricsWithDates}
 
+Contexts (Situations/Environments): ${contextsList}
+
+Pointers (Topics/References): ${pointersList}
+
+Locations (Places/Coordinates): ${locationsList}
+
 Journal Notes (last 14 days):
 ${context.notes || 'No notes available'}
 
-Goals: ${context.goals.map((g) => `- ${g.tag}: ${g.comparison} ${g.target} (${g.duration})`).join('\n') || 'None set'}
+Goals: ${context.goals.map((g) => `- ${g}`).join('\n') || 'None set'}
 
 People: ${Object.keys(context.people || {}).join(', ') || 'None tracked'}
 
-Reference metric values in human-readable units. Provide analysis that helps the user understand patterns and connections in their tracking data.`
+Spatial & Contextual Awareness: Use the location data (coordinates and names), contexts (environments), and pointers (topics) to understand WHERE and WHY the user was tracking. This provides richer insights into behavior patterns.
+
+Provide analysis that helps the user understand patterns and connections between their metrics, locations, contexts, and behavior.`
   },
 
   parseResponse: (raw: string) => {

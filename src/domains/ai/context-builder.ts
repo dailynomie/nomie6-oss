@@ -1,4 +1,4 @@
-import type { UserContext } from './profiles/types'
+import type { UserContext, RichContext, SummaryContext, MetricsContext, JournalContext, PeopleContext, LocationContext } from './profiles/types'
 import { get } from 'svelte/store'
 import { LedgerStore } from '../ledger/LedgerStore'
 import { TrackableStore } from '../trackable/TrackableStore'
@@ -366,6 +366,121 @@ export async function buildNarrativeContext(hints?: ContextHints): Promise<Narra
         to: dayjs().format('YYYY-MM-DD')
       },
       summary: 'Unable to load journal entries'
+    }
+  }
+}
+
+// Specialized context builders for different use cases
+export async function buildSummaryContext(hints?: ContextHints): Promise<SummaryContext> {
+  try {
+    const goals = await fetchGoals()
+    const summary = buildSummary({}, goals)
+
+    return {
+      summary,
+      goals: goals.slice(0, 5)
+    }
+  } catch (err) {
+    console.error('Error building summary context:', err)
+    return {
+      summary: 'Unable to load summary.',
+      goals: []
+    }
+  }
+}
+
+export async function buildMetricsContext(hints?: ContextHints): Promise<MetricsContext> {
+  try {
+    const metrics = await fetchMetrics(hints?.metrics, hints?.dateRange)
+    const goals = await fetchGoals()
+    const summary = buildSummary(metrics, goals)
+
+    return {
+      recentMetrics: metrics,
+      goals,
+      summary
+    }
+  } catch (err) {
+    console.error('Error building metrics context:', err)
+    return {
+      recentMetrics: {},
+      goals: [],
+      summary: 'Unable to load metrics.'
+    }
+  }
+}
+
+export async function buildJournalContext(hints?: ContextHints): Promise<JournalContext> {
+  try {
+    const dateRange = hints?.dateRange || {
+      from: dayjs().subtract(14, 'days').format('YYYY-MM-DD'),
+      to: dayjs().format('YYYY-MM-DD')
+    }
+
+    const logs = await LedgerStore.query({
+      start: dayjs(dateRange.from),
+      end: dayjs(dateRange.to)
+    })
+
+    const notesByDate: Record<string, string[]> = {}
+    logs.forEach((log: any) => {
+      if (!log.note) return
+      const logDate = dayjs(log.end).format('YYYY-MM-DD')
+      if (!notesByDate[logDate]) notesByDate[logDate] = []
+      notesByDate[logDate].push(log.note)
+    })
+
+    const notesContent = Object.entries(notesByDate)
+      .map(([date, notes]) => `${date}: ${notes.join(' | ')}`)
+      .join('\n')
+
+    const goals = await fetchGoals()
+    const summary = buildSummary({}, goals)
+
+    return {
+      notes: notesContent || 'No notes available',
+      summary,
+      goals
+    }
+  } catch (err) {
+    console.error('Error building journal context:', err)
+    return {
+      summary: 'Unable to load journal context.',
+      goals: []
+    }
+  }
+}
+
+export async function buildPeopleContext(hints?: ContextHints): Promise<PeopleContext> {
+  try {
+    const people = await fetchPeople(hints?.dateRange)
+    const summary = buildSummary({}, [], people)
+
+    return {
+      people,
+      summary
+    }
+  } catch (err) {
+    console.error('Error building people context:', err)
+    return {
+      summary: 'Unable to load people context.'
+    }
+  }
+}
+
+export async function buildLocationContext(hints?: ContextHints): Promise<LocationContext> {
+  try {
+    const locations = await fetchLocations(hints?.dateRange)
+    const summary = buildSummary({}, [], undefined, undefined, undefined, locations)
+
+    return {
+      locations,
+      summary
+    }
+  } catch (err) {
+    console.error('Error building location context:', err)
+    return {
+      summary: 'Unable to load location context.'
     }
   }
 }
