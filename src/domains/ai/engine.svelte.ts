@@ -105,7 +105,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
         narrative_entries: narrativeData.entries_by_date
       }
       systemPrompt = `${profile.systemPrompt(context)}\n\nJournal entries to analyze:\n${JSON.stringify(narrativeData.entries_by_date, null, 2)}`
-    } else if (req.profile === 'chat') {
+    } else if (req.profile === 'chat' || req.profile === 'insight') {
       context = await buildChatContext(req.contextHints)
       systemPrompt = profile.systemPrompt(context)
     } else {
@@ -175,8 +175,8 @@ export async function streamQuery(
       contextHints.dateRange = getDateRangeFromTimeframe(defaultTimeframe)
     }
 
-    // Use richer context for chat profile
-    const context = req.profile === 'chat'
+    // Use richer context for chat and insight profiles
+    const context = req.profile === 'chat' || req.profile === 'insight'
       ? await buildChatContext(contextHints)
       : await buildContext(contextHints)
 
