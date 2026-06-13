@@ -839,10 +839,13 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
     })
 
     const locationsMap: Record<string, any> = {}
+    let logsWithLocation = 0
 
     logs.forEach((log: any) => {
       // Include logs that have location coordinates or location name
       if (!log.lat && !log.lng && !log.location) return
+
+      logsWithLocation++
 
       // Use coordinates as key if available, otherwise use location name
       const key = log.lat && log.lng ? `${log.lat.toFixed(4)},${log.lng.toFixed(4)}` : log.location || 'unknown'
@@ -860,6 +863,8 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
       locationsMap[key].count++
       locationsMap[key].lastUsed = dayjs(log.end).format('YYYY-MM-DD')
     })
+
+    console.log(`Location data: Found ${logsWithLocation} logs with location info out of ${logs.length} total logs`)
 
     // Sort by frequency and return top locations
     const locations = Object.values(locationsMap)
