@@ -4,6 +4,7 @@ import { LedgerStore } from '../ledger/LedgerStore'
 import { TrackableStore } from '../trackable/TrackableStore'
 import { UsageStore } from '../usage/UsageStore'
 import { GoalStore } from '../goals/GoalStore'
+import { LocationStore, findNearestLocation } from '../locations/LocationStore'
 import dayjs from 'dayjs'
 import { tokenizeLite } from '../../modules/tokenizer/lite'
 
@@ -841,25 +842,35 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
     const locationsMap: Record<string, any> = {}
     let logsWithLocation = 0
 
-    logs.forEach((log: any, index: number) => {
-      // Log first few entries to debug
-      if (index < 3) {
-        console.log(`Log ${index}:`, { lat: log.lat, lng: log.lng, location: log.location })
-      }
+    // Get saved locations from LocationStore for name resolution
+    const savedLocations = get(LocationStore)
 
-      // Include logs that have location coordinates or location name
-      if (!log.lat && !log.lng && !log.location) return
+    logs.forEach((log: any, index: number) => {
+      // Include logs that have location coordinates (lat/lng must be numbers)
+      if ((log.lat === null || log.lat === undefined) || (log.lng === null || log.lng === undefined)) {
+        return
+      }
 
       logsWithLocation++
 
-      // Use coordinates as key if available, otherwise use location name
-      const key = log.lat && log.lng ? `${log.lat.toFixed(4)},${log.lng.toFixed(4)}` : log.location || 'unknown'
+      // Try to resolve location name from saved locations
+      let locationName = log.location || undefined
+
+      if (!locationName && log.lat && log.lng) {
+        const nearestLocation = findNearestLocation({ lat: log.lat, lng: log.lng }, savedLocations)
+        if (nearestLocation) {
+          locationName = nearestLocation.name
+        }
+      }
+
+      // Use coordinates as key for grouping
+      const key = `${log.lat.toFixed(4)},${log.lng.toFixed(4)}`
 
       if (!locationsMap[key]) {
         locationsMap[key] = {
-          name: log.location || undefined,
-          lat: log.lat || undefined,
-          lng: log.lng || undefined,
+          name: locationName,
+          lat: log.lat,
+          lng: log.lng,
           count: 0,
           lastUsed: dayjs(log.end).format('YYYY-MM-DD')
         }
