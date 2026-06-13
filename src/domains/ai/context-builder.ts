@@ -763,6 +763,7 @@ async function fetchPeople(range?: { from: string; to: string }): Promise<Record
 }
 
 async function fetchContexts(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {
+  console.log('fetchContexts called with range:', range)
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
@@ -804,6 +805,7 @@ async function fetchContexts(range?: { from: string; to: string }): Promise<Reco
 }
 
 async function fetchPointers(range?: { from: string; to: string }): Promise<Record<string, any> | undefined> {
+  console.log('fetchPointers called with range:', range)
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
@@ -845,6 +847,7 @@ async function fetchPointers(range?: { from: string; to: string }): Promise<Reco
 }
 
 async function fetchLocations(range?: { from: string; to: string }): Promise<Array<any> | undefined> {
+  console.log('fetchLocations called with range:', range)
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
