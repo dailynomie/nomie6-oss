@@ -11,17 +11,34 @@
 
   dayjs.extend(relativeTime)
 
-  interface Props {
-    widget: WidgetClass
-  }
+  const { widget = $bindable() } = $props()
 
-  const { widget } = $props<Props>()
+  // Set to true to use mock/dummy responses instead of real Claude API
+  // Useful for testing without spending credits
+  const USE_MOCK_MODE = true
 
   let insight = $state('')
   let loading = $state(false)
   let error = $state<string | null>(null)
   let lastFetchDate = $state<string | null>(null)
   let promptLabel = $state('')
+
+  const mockResponses: Record<string, string> = {
+    patterns: 'Based on your tracking data, I notice three key patterns: (1) Your productivity peaks on Tuesday and Wednesday mornings, (2) Your mood is notably higher on days when you exercise, (3) You tend to log entries more consistently in the evening. These patterns suggest optimizing your schedule around your natural peak times.',
+    progress: 'You\'re making solid progress towards your goals! This week you completed 85% of your daily targets, up from 72% last week. Your consistency has improved by 18% over the last month. Focus on maintaining momentum during weekends when adherence typically drops.',
+    insights: 'Your data reveals interesting insights: (1) You have a 23% higher completion rate for goals set in the morning vs evening, (2) Your average metric values show 15% improvement over the last 30 days, (3) External factors like weather appear to influence your outdoor activity tracking. Leverage these insights for better planning.',
+    recommendations: 'Here are 3 actionable recommendations: (1) Schedule important tasks during your identified peak performance hours (Tuesday-Wednesday morning), (2) Plan exercise sessions right before important work blocks since they boost productivity, (3) Set up weekend reminders since compliance drops by 12% on Saturdays and Sundays.',
+    trends: 'Your trends over the past 30 days show: (1) Steady upward trajectory in goal completion (from 65% to 85%), (2) More consistent tracking with fewer gaps between entries, (3) Slight seasonal pattern emerging - certain activities peak on specific days. This positive momentum suggests your systems are working well.',
+    wellbeing: 'Your overall wellbeing assessment is positive! Key indicators show: (1) Sleep quality and mood are correlated positively, (2) Your stress levels have decreased by 22% since you started tracking, (3) Social interactions appear to be a strong predictor of daily satisfaction. Prioritize these wellbeing drivers.',
+    productivity: 'Your productivity trends are encouraging: (1) Morning focus sessions yield 40% more output than afternoon sessions, (2) You\'re most productive after rest days, (3) Task switching costs you approximately 25 minutes of productive time. Batch similar tasks together for better flow.',
+    health: 'Health-related insights from your data: (1) Your exercise frequency correlates with better sleep quality, (2) You show consistent hydration patterns, (3) Your recovery metrics improve significantly on rest days. Maintaining this exercise routine is your strongest health lever.',
+    mood: 'Mood pattern analysis shows: (1) Your mood is 30% higher on days with social interaction, (2) Morning mood fluctuates more than evening mood, (3) Certain activities consistently elevate your mood - prioritize these in your weekly planning. Your emotional patterns are quite stable overall.',
+    correlation: 'Strong correlations detected: (1) Exercise ↔ Sleep Quality (r=0.78), (2) Social Time ↔ Mood (r=0.72), (3) Stress Level ↔ Productivity (r=-0.65 inverse). These relationships suggest focusing on exercise and social connection will have cascading positive effects on other areas.',
+  }
+
+  function getMockResponse(promptKey: string): string {
+    return mockResponses[promptKey] || mockResponses.insights
+  }
 
   async function shouldFetchInsight(): Promise<boolean> {
     const today = dayjs().format('YYYY-MM-DD')
@@ -40,11 +57,13 @@
   async function fetchInsight() {
     if (!$Prefs.ai?.enabled) {
       error = 'AI is not enabled. Enable it in Settings.'
+      console.log('[Insight Widget]', error)
       return
     }
 
     if (!widget.data?.promptValue) {
       error = 'No prompt configured for this insight widget.'
+      console.log('[Insight Widget]', error)
       return
     }
 
@@ -55,27 +74,42 @@
       // Get the prompt text
       const promptText = getPromptText(widget.data.promptValue)
       promptLabel = getPromptLabel(widget.data.promptValue)
+      console.log('[Insight Widget] Fetching insight with prompt:', promptText)
 
       // Get logs for the timeframe
       const timeConfig = widget.timeConfig
+      console.log('[Insight Widget] Time config:', timeConfig)
       const logs = await LedgerStore.query({
         start: timeConfig.start.format('YYYY-MM-DD'),
         end: timeConfig.end.format('YYYY-MM-DD'),
       })
 
+      console.log('[Insight Widget] Found logs:', logs?.length)
       if (!logs || logs.length === 0) {
         error = 'No data available for the selected timeframe.'
+        console.log('[Insight Widget]', error)
         loading = false
         return
       }
 
-      // Query AI for insight
-      const response = await query({
-        profile: 'insight',
-        prompt: promptText,
-      })
+      // Query AI for insight (or use mock if in test mode)
+      let insightContent: string
+      if (USE_MOCK_MODE) {
+        console.log('[Insight Widget] USING MOCK MODE - not calling Claude API')
+        await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate network delay
+        insightContent = getMockResponse(widget.data.promptValue)
+        console.log('[Insight Widget] Got mock response')
+      } else {
+        console.log('[Insight Widget] Querying Claude...')
+        const response = await query({
+          profile: 'insight',
+          prompt: promptText,
+        })
+        console.log('[Insight Widget] Got response:', response)
+        insightContent = response.content as string
+      }
 
-      insight = response.content as string
+      insight = insightContent
       const today = dayjs().format('YYYY-MM-DD')
 
       // Update widget data with cache
@@ -86,8 +120,10 @@
 
       lastFetchDate = today
       loading = false
+      console.log('[Insight Widget] Cached insight successfully')
     } catch (e) {
       error = (e as Error).message || 'Failed to generate insight'
+      console.error('[Insight Widget] Error:', e)
       loading = false
     }
   }
