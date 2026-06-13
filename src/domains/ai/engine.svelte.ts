@@ -15,6 +15,8 @@ import type {
 import { Prefs } from '../preferences/Preferences'
 import { get } from 'svelte/store'
 import Anthropic from '@anthropic-ai/sdk'
+import dayjs from 'dayjs'
+import { timeFrames } from '../dashboard2/widget/widget-timeframe'
 
 const profiles: Record<ProfileName, Profile> = {
   insight: insightProfile,
@@ -24,6 +26,42 @@ const profiles: Record<ProfileName, Profile> = {
   alert: alertProfile,
   narrative: narrativeProfile,
   chat: chatProfile
+}
+
+function getDateRangeFromTimeframe(timeframeId: string): { from: string; to: string } {
+  const timeframe = timeFrames.find(tf => tf.id === timeframeId)
+  if (!timeframe) {
+    return {
+      from: dayjs().subtract(30, 'days').format('YYYY-MM-DD'),
+      to: dayjs().format('YYYY-MM-DD')
+    }
+  }
+
+  let start = dayjs()
+  let end = dayjs()
+
+  if (timeframe.start) {
+    if (timeframe.start.subtract) {
+      start = start.subtract(timeframe.start.subtract[0], timeframe.start.subtract[1] as any)
+    }
+    if (timeframe.start.startOf) {
+      start = start.startOf(timeframe.start.startOf as any)
+    }
+  }
+
+  if (timeframe.end) {
+    if (timeframe.end.subtract) {
+      end = end.subtract(timeframe.end.subtract[0], timeframe.end.subtract[1] as any)
+    }
+    if (timeframe.end.endOf) {
+      end = end.endOf(timeframe.end.endOf as any)
+    }
+  }
+
+  return {
+    from: start.format('YYYY-MM-DD'),
+    to: end.format('YYYY-MM-DD')
+  }
 }
 
 export const aiState = $state({
@@ -130,10 +168,17 @@ export async function streamQuery(
   aiState.error = null
 
   try {
+    // Apply default timeframe if not specified in contextHints
+    const contextHints = req.contextHints || {}
+    if (!contextHints.dateRange) {
+      const defaultTimeframe = prefs.ai?.defaultTimeframe || 'last-30'
+      contextHints.dateRange = getDateRangeFromTimeframe(defaultTimeframe)
+    }
+
     // Use richer context for chat profile
     const context = req.profile === 'chat'
-      ? await buildChatContext(req.contextHints)
-      : await buildContext(req.contextHints)
+      ? await buildChatContext(contextHints)
+      : await buildContext(contextHints)
 
     const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 

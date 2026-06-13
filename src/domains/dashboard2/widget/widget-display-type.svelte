@@ -15,7 +15,7 @@
   import WidgetPointer from './types/widget-pointer.svelte'
   import WidgetTodos from './types/widget-todos.svelte';
   import WidgetPlugin from './types/widget-plugin.svelte';
-  import WidgetInsight from './types/widget-insight.svelte';
+  import WidgetInsight from './types/widget-insights.svelte';
 
   import type { WidgetClass } from './widget-class'
   import type { Trackable } from '../../trackable/Trackable.class'

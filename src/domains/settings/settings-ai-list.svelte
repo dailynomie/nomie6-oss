@@ -14,11 +14,13 @@
   import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
   import { showToast } from '../../components/toast/ToastStore'
   import type { AIServiceType } from '../preferences/Preferences'
+  import { timeFrames } from '../dashboard2/widget/widget-timeframe'
 
   let config = $state({
     enabled: $Prefs.ai?.enabled || false,
     selectedService: ($Prefs.ai?.selectedService || 'claude') as AIServiceType,
     apiKey: '',
+    defaultTimeframe: $Prefs.ai?.defaultTimeframe || 'last-30',
   })
 
   let isSaving = $state(false)
@@ -81,6 +83,7 @@
 
         p.ai.enabled = config.enabled
         p.ai.selectedService = config.selectedService
+        p.ai.defaultTimeframe = config.defaultTimeframe
 
         if (!p.ai.services[config.selectedService]) {
           p.ai.services[config.selectedService] = {}
@@ -174,6 +177,23 @@
             Clear Key
           </Button>
         {/if}
+      </div>
+    </ListItem>
+
+    <Divider left={32} />
+
+    <ListItem bottomLine={16}>
+      <div class="w-full py-3">
+        <label class="block text-sm font-semibold mb-3">Default Data Timeframe</label>
+        <p class="text-xs text-gray-500 mb-3">Used for AI features that don't have their own timeframe</p>
+        <select
+          bind:value={config.defaultTimeframe}
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm"
+        >
+          {#each timeFrames as timeframe}
+            <option value={timeframe.id}>{timeframe.label}</option>
+          {/each}
+        </select>
       </div>
     </ListItem>
 
