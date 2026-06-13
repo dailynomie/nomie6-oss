@@ -132,8 +132,8 @@
     return options
   }
 
-  let filterMenu: Array<PopMenuButton> = $state(showFilterMenu())
-  let mounted: boolean = $state(true)
+  let filterMenu = $derived(showFilterMenu())
+  let mounted = $state(true)
 
   $effect(() => {
     if ($TimelineOptionsStore.filters) {
@@ -141,7 +141,6 @@
       if (JSON.stringify(newFilters) !== JSON.stringify(filters)) {
         filters = newFilters
       }
-      filterMenu = showFilterMenu()
     }
   })
 </script>
