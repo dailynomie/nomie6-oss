@@ -13,6 +13,8 @@
 
   const { widget = $bindable() } = $props()
 
+  console.log('[Insight Widget] Component loaded, widget:', widget)
+
   // Set to true to use mock/dummy responses instead of real Claude API
   // Useful for testing without spending credits
   const USE_MOCK_MODE = true
@@ -55,7 +57,8 @@
   }
 
   async function fetchInsight() {
-    if (!$Prefs.ai?.enabled) {
+    // Skip AI enabled check in mock mode
+    if (!USE_MOCK_MODE && !$Prefs.ai?.enabled) {
       error = 'AI is not enabled. Enable it in Settings.'
       console.log('[Insight Widget]', error)
       return
@@ -129,12 +132,24 @@
   }
 
   $effect(() => {
-    if (widget && $Prefs.ai?.enabled) {
+    console.log('[Insight Widget] Effect running')
+    console.log('[Insight Widget]   Prefs:', $Prefs)
+    console.log('[Insight Widget]   Prefs.ai:', $Prefs.ai)
+    console.log('[Insight Widget]   ai.enabled:', $Prefs.ai?.enabled)
+    console.log('[Insight Widget]   widget:', !!widget)
+    console.log('[Insight Widget]   promptValue:', widget?.data?.promptValue)
+
+    // For testing, we'll proceed even if AI isn't technically "enabled"
+    // because we're using mock mode
+    if (widget && widget?.data?.promptValue) {
       shouldFetchInsight().then((shouldFetch) => {
+        console.log('[Insight Widget] Should fetch:', shouldFetch)
         if (shouldFetch) {
           fetchInsight()
         }
       })
+    } else {
+      console.log('[Insight Widget] Missing widget or promptValue, skipping fetch')
     }
   })
 </script>
