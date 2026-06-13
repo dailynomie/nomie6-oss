@@ -24,7 +24,13 @@
   import { Interact } from '../../../store/interact'
   import { Lang } from '../../../store/lang'
   import { showToast } from '../../../components/toast/ToastStore'
-  import { PluginStore } from "../../plugins/PluginStore";
+  import { PluginStore } from "../../plugins/PluginStore"
+  import dayjs from 'dayjs'
+  import relativeTime from 'dayjs/plugin/relativeTime'
+  import { saveDashboard, DashStore } from '../DashStore'
+  import { triggerInsightClear } from './types/insightClearSignal'
+
+  dayjs.extend(relativeTime)
 
   const dispatch = createEventDispatcher()
   const id = nid()
@@ -155,7 +161,33 @@
       }
     }
   })
-  
+
+  function getInsightRefreshTime(): string {
+    if (!widget.data?.cachedDate) return 'N/A'
+    const today = dayjs().format('YYYY-MM-DD')
+    if (widget.data.cachedDate === today) {
+      const tomorrow = dayjs().add(1, 'day').startOf('day')
+      const hoursUntilRefresh = tomorrow.diff(dayjs(), 'hour')
+      return `${hoursUntilRefresh}h`
+    }
+    return 'Soon'
+  }
+
+  function clearInsightCache() {
+    if (widget?.data) {
+      widget.data.cachedInsight = undefined
+      widget.data.cachedDate = undefined
+      widget.data.cachedAt = undefined
+      // Trigger the insight widget to refetch
+      triggerInsightClear()
+      updateTrigger = updateTrigger + 1
+      const currentDashboard = $DashStore.activeDashboard
+      if (currentDashboard) {
+        saveDashboard(currentDashboard)
+      }
+    }
+  }
+
 
 </script>
 
@@ -228,10 +260,22 @@
           <rect x="3" width="10" height="10" fill="#868686" fill-opacity="0.31"/>
           <rect x="3.5" y="0.5" width="9" height="9" stroke="white" stroke-opacity="0.34"/>
           </svg>
-          
+
         </button>
       {/if}
       <div class="filler pointer-events-none" />
+      {#if widget.type === 'insight' && widget.data?.cachedDate}
+        <div class="flex items-center gap-1">
+          <span class="text-xs text-gray-600 dark:text-gray-400">Will refresh in {getInsightRefreshTime()}</span>
+          <button
+            class="text-xs px-1"
+            on:click={clearInsightCache}
+            title="Clear cache and fetch fresh insight"
+          >
+            ↻
+          </button>
+        </div>
+      {/if}
     </footer>
   </div>
 {:else}

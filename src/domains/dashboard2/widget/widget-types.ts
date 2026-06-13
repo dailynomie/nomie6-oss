@@ -161,7 +161,7 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: TextOutline,
   },
   {
-    label: 'AI Insight',
+    label: 'Nomie Insights',
     id: 'insight',
     requires: ['timeframe'],
     optional: [],

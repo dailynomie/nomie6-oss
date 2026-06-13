@@ -4,7 +4,13 @@
   import { query } from '../../../ai/engine.svelte'
   import { Prefs } from '../../../preferences/Preferences'
   import { LedgerStore } from '../../../ledger/LedgerStore'
+  import { saveDashboard, DashStore } from '../../DashStore'
   import { getPromptText, getPromptLabel } from './widget-insight-prompts'
+  import { openModal } from '../../../../components/backdrop/BackdropStore2'
+  import InsightModal from './widget-insight-modal.svelte'
+  import { insightModalData } from './insightModalStore'
+  import { insightClearSignal } from './insightClearSignal'
+  import { marked } from 'marked'
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
   import type { WidgetClass } from '../widget-class'
@@ -13,17 +19,36 @@
 
   const { widget = $bindable() } = $props()
 
-  console.log('[Insight Widget] Component loaded, widget:', widget)
+  function openFullInsightModal() {
+    const modalId = `insight-modal-${widget?.id}`
+
+    // Update store with current values and modal ID
+    insightModalData.set({
+      id: modalId,
+      insight,
+      promptLabel,
+      lastFetchDate,
+    })
+
+    openModal({
+      id: modalId,
+      component: InsightModal,
+    })
+  }
+
 
   // Set to true to use mock/dummy responses instead of real Claude API
   // Useful for testing without spending credits
-  const USE_MOCK_MODE = true
+  const USE_MOCK_MODE = false
 
   let insight = $state('')
   let loading = $state(false)
   let error = $state<string | null>(null)
   let lastFetchDate = $state<string | null>(null)
   let promptLabel = $state('')
+
+  let renderedInsight = $derived(insight ? marked.parse(insight) : '')
+  let cacheState = $derived(`${widget.data?.cachedDate}${widget.data?.cachedInsight}`)
 
   const mockResponses: Record<string, string> = {
     patterns: 'Based on your tracking data, I notice three key patterns: (1) Your productivity peaks on Tuesday and Wednesday mornings, (2) Your mood is notably higher on days when you exercise, (3) You tend to log entries more consistently in the evening. These patterns suggest optimizing your schedule around your natural peak times.',
@@ -47,6 +72,7 @@
 
     // If cached insight exists and is from today, use it
     if (widget.data?.cachedInsight && widget.data?.cachedDate === today) {
+      console.log('[Insight Widget] Using cached insight from', widget.data.cachedDate)
       insight = widget.data.cachedInsight
       lastFetchDate = widget.data.cachedDate
       promptLabel = getPromptLabel(widget.data?.promptValue || 'Custom Prompt')
@@ -60,13 +86,21 @@
     // Skip AI enabled check in mock mode
     if (!USE_MOCK_MODE && !$Prefs.ai?.enabled) {
       error = 'AI is not enabled. Enable it in Settings.'
-      console.log('[Insight Widget]', error)
       return
+    }
+
+    // Check if API key is configured
+    if (!USE_MOCK_MODE) {
+      const selectedService = $Prefs.ai?.selectedService || 'claude'
+      const apiKey = $Prefs.ai?.services?.[selectedService]?.apiKey
+      if (!apiKey) {
+        error = 'Claude API key not configured. Add it in Settings > AI Integration.'
+        return
+      }
     }
 
     if (!widget.data?.promptValue) {
       error = 'No prompt configured for this insight widget.'
-      console.log('[Insight Widget]', error)
       return
     }
 
@@ -77,20 +111,16 @@
       // Get the prompt text
       const promptText = getPromptText(widget.data.promptValue)
       promptLabel = getPromptLabel(widget.data.promptValue)
-      console.log('[Insight Widget] Fetching insight with prompt:', promptText)
 
       // Get logs for the timeframe
       const timeframe = widget.timeframe
-      console.log('[Insight Widget] Timeframe:', timeframe)
       const logs = await LedgerStore.query({
         start: timeframe.start.format('YYYY-MM-DD'),
         end: timeframe.end.format('YYYY-MM-DD'),
       })
 
-      console.log('[Insight Widget] Found logs:', logs?.length)
       if (!logs || logs.length === 0) {
         error = 'No data available for the selected timeframe.'
-        console.log('[Insight Widget]', error)
         loading = false
         return
       }
@@ -98,17 +128,13 @@
       // Query AI for insight (or use mock if in test mode)
       let insightContent: string
       if (USE_MOCK_MODE) {
-        console.log('[Insight Widget] USING MOCK MODE - not calling Claude API')
         await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate network delay
         insightContent = getMockResponse(widget.data.promptValue)
-        console.log('[Insight Widget] Got mock response')
       } else {
-        console.log('[Insight Widget] Querying Claude...')
         const response = await query({
           profile: 'insight',
           prompt: promptText,
         })
-        console.log('[Insight Widget] Got response:', response)
         insightContent = response.content as string
       }
 
@@ -123,89 +149,167 @@
 
       lastFetchDate = today
       loading = false
-      console.log('[Insight Widget] Cached insight successfully')
+
+      // Save dashboard to persist cache
+      const currentDashboard = $DashStore.activeDashboard
+      if (currentDashboard) {
+        saveDashboard(currentDashboard)
+      }
     } catch (e) {
-      error = (e as Error).message || 'Failed to generate insight'
+      const errorMessage = (e as Error).message || 'Failed to generate insight'
+
+      // Check for credit/quota errors from Claude API
+      if (
+        errorMessage.toLowerCase().includes('credit') ||
+        errorMessage.toLowerCase().includes('quota') ||
+        errorMessage.toLowerCase().includes('insufficient') ||
+        errorMessage.toLowerCase().includes('rate limit')
+      ) {
+        error = 'Out of Claude credits. Add credits to claude.com to continue.'
+      } else {
+        error = errorMessage
+      }
+
       console.error('[Insight Widget] Error:', e)
       loading = false
     }
   }
 
-  $effect(() => {
-    console.log('[Insight Widget] Effect running')
-    console.log('[Insight Widget]   Prefs:', $Prefs)
-    console.log('[Insight Widget]   Prefs.ai:', $Prefs.ai)
-    console.log('[Insight Widget]   ai.enabled:', $Prefs.ai?.enabled)
-    console.log('[Insight Widget]   widget:', !!widget)
-    console.log('[Insight Widget]   promptValue:', widget?.data?.promptValue)
+  function getRefreshTime(): string {
+    if (!lastFetchDate) return 'N/A'
+    const today = dayjs().format('YYYY-MM-DD')
+    if (lastFetchDate === today) {
+      const tomorrow = dayjs().add(1, 'day').startOf('day')
+      const hoursUntilRefresh = tomorrow.diff(dayjs(), 'hour')
+      return `${hoursUntilRefresh}h`
+    }
+    return 'Soon'
+  }
 
-    // For testing, we'll proceed even if AI isn't technically "enabled"
-    // because we're using mock mode
+  function clearCache() {
+    if (widget?.data) {
+      widget.data.cachedInsight = undefined
+      widget.data.cachedDate = undefined
+      widget.data.cachedAt = undefined
+      insight = ''
+      lastFetchDate = null
+
+      // Save dashboard to persist cache deletion
+      const currentDashboard = $DashStore.activeDashboard
+      if (currentDashboard) {
+        saveDashboard(currentDashboard)
+      }
+    }
+  }
+
+  $effect(() => {
     if (widget && widget?.data?.promptValue) {
+      // Use cacheState and insightClearSignal to trigger effect when cache is cleared
+      const _ = cacheState
+      const __ = $insightClearSignal
       shouldFetchInsight().then((shouldFetch) => {
-        console.log('[Insight Widget] Should fetch:', shouldFetch)
         if (shouldFetch) {
           fetchInsight()
         }
       })
-    } else {
-      console.log('[Insight Widget] Missing widget or promptValue, skipping fetch')
     }
   })
 </script>
 
-<div class="insight-widget flex flex-col h-full justify-between">
+<div class="flex flex-col h-full justify-between">
   {#if loading}
     <div class="flex items-center justify-center h-full">
       <div class="text-center">
         <div class="spinner mb-2"></div>
-        <p class="text-xs text-gray-500">Generating insight...</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Generating insight...</p>
       </div>
     </div>
   {:else if error}
     <div class="flex items-center justify-center h-full">
       <div class="text-center px-4">
-        <p class="text-xs text-red-500 font-semibold">{error}</p>
+        <p class="text-xs text-red-600 dark:text-red-400 font-semibold">{error}</p>
       </div>
     </div>
   {:else if insight}
-    <div class="flex flex-col h-full">
-      <div class="flex-1 overflow-y-auto px-2 py-2">
-        <p class="text-sm leading-relaxed text-gray-900 dark:text-gray-100">
-          {insight}
-        </p>
-      </div>
-      {#if lastFetchDate}
-        <div class="text-xs text-gray-500 text-right px-2 py-1 border-t border-gray-200 dark:border-gray-700">
-          {promptLabel} • {dayjs(lastFetchDate).fromNow()}
+    <div class="px-2 h-full flex flex-col">
+      <div class="insight-container px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition border border-gray-300 dark:border-gray-600 rounded mb-2" onclick={openFullInsightModal}>
+        <div class="text-xs leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
+          {@html renderedInsight}
         </div>
-      {/if}
+      </div>
     </div>
   {:else}
     <div class="flex items-center justify-center h-full">
-      <p class="text-xs text-gray-500">No insight available</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400">No insight available</p>
     </div>
   {/if}
 </div>
 
-<style lang="postcss">
-  .insight-widget {
-    font-size: 14px;
-  }
-
+<style lang="postcss" global>
   .spinner {
     display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(99, 102, 241, 0.2);
-    border-top-color: rgb(99, 102, 241);
+    width: 20px;
+    height: 20px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #3b82f6;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .spinner {
+      border-color: #374151;
+      border-top-color: #60a5fa;
+    }
   }
 
   @keyframes spin {
     to {
       transform: rotate(360deg);
     }
+  }
+
+  .insight-container {
+    height: 120px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .markdown-content {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .markdown-content p {
+    margin: 0;
+    display: inline;
+  }
+
+  .markdown-content strong {
+    font-weight: 600;
+  }
+
+  .markdown-content em {
+    font-style: italic;
+  }
+
+  .markdown-content ul,
+  .markdown-content ol {
+    margin: 0;
+    padding: 0;
+    display: inline;
+  }
+
+  .markdown-content li {
+    display: inline;
+  }
+
+  .markdown-content li::before {
+    content: ' • ';
+  }
+
+  .markdown-content li:last-child::after {
+    content: '';
   }
 </style>

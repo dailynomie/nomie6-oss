@@ -152,7 +152,23 @@ export class WidgetClass {
     } else if(def) {
       return def;
     } else if(this.type) {
-      return this.type
+      // Map of widget type IDs to display labels
+      const typeLabels: Record<string, string> = {
+        'insight': 'Nomie Insights',
+        'barchart': 'Bar Chart',
+        'linechart': 'Line Chart',
+        'value': 'Display Value',
+        'note': 'Latest Note',
+        'min-max': 'Min / Max',
+        'map': 'Map',
+        'todos': 'Todos',
+        'habit': 'Habits',
+        'pointer': 'Pointers',
+        'focus': 'Mind, Body, Spirit',
+        'positivity': 'Positivity Chart',
+        'last-used': 'Last Used',
+      }
+      return typeLabels[this.type] || this.type
     }
     return 'unknown'
   }
