@@ -27,13 +27,13 @@
 
   import Badge from '../../components/badge/badge.svelte'
 
-  let officialPlugins = []
+  let officialPlugins = $state([])
   onMount(async () => {
     officialPlugins = []
   })
 
-  let editMode: boolean = false
-  let hasLocked: boolean = false
+  let editMode = $state(false)
+  let hasLocked = $state(false)
 
   const toggleEditMode = () => {
     editMode = !editMode
@@ -64,7 +64,7 @@
     return ''
   }
 
-  let pluginUrl: undefined | string
+  let pluginUrl = $state<undefined | string>(undefined)
   const installPlugin = (url?: string) => {
     // pluginUrl = url
     openPluginInstaller(url)

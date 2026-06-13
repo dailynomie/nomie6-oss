@@ -17,8 +17,8 @@
   import ToolbarGrid from '../toolbar/toolbar-grid.svelte'
   import { composeEmail } from '../../utils/text/text'
 
-  let loading: boolean = true
-  let content: string
+  let loading = $state(true)
+  let content = $state<string>(undefined)
 
   const getContent = async () => {
     loading = true

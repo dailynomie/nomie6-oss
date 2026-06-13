@@ -6,8 +6,8 @@
 
   import math from '../../utils/math/math'
 
-  let diff: number = 0
-  let display: string = ``
+  let diff = $state<number>(0)
+  let display = $state<string>("")
 
   async function main() {
     diff = log1.endDayjs().startOf('day').diff(log2.endDayjs().startOf('day'), 'day')

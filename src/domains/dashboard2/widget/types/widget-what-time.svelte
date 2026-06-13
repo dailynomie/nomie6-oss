@@ -13,7 +13,7 @@
   // // export let trackable: Trackable
   // export let usage: TrackableUsage
 
-  let times = []
+  let times = $state([])
 
   async function init() {
     times = TrackerLogsToTime(widget.token.id, widget.logs)

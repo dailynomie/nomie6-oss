@@ -1,5 +1,5 @@
 <script context="module">
-    let Plotly;
+    let Plotly = $state(undefined);
 
     export function initPlotly(module) {
         Plotly = module;

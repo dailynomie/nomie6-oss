@@ -65,13 +65,13 @@
     let compactRows = $state(true);
     let rowGroupBefore = $state(true);
     let colGroupBefore = $state(false); 
-    let rendererName = "Table";
-    let aggregatorName = "Count";
-    let hiddenAttributes = [];
-    let hiddenFromAggregators = [];
-    let hiddenFromDragDrop = [];
-    let unusedOrientationCutoff = 85;
-    let menuLimit = 500;
+    let rendererName = $state("Table");
+    let aggregatorName = $state("Count");
+    let hiddenAttributes = $state([]);
+    let hiddenFromAggregators = $state([]);
+    let hiddenFromDragDrop = $state([]);
+    let unusedOrientationCutoff = $state(85);
+    let menuLimit = $state(500);
     
     let tempdata = $state([]);
     let data = $state([]);

@@ -48,8 +48,8 @@
 
   let startingDate = $state<Date>(new Date())
   let date = $derived(dayjs(startingDate))
+  let topItem = $state<TimelineItemType>(undefined)
   let displayDate = $state(dayjs())
-  let topItem: TimelineItemType
   let inPast = $state(false)
 
   const dateFormats = getDateFormats()

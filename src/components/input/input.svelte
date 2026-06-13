@@ -9,8 +9,7 @@ import is from '../../utils/is/is';
   let { label = null, placeholder = null, inputmode = undefined, value = $bindable(), type = 'text', help = null, className = '', id = '', style = '', inputStyle = '', inputClass = '', pattern = '', width = '', disabled = undefined, solo = undefined, listItem = undefined, compact = undefined, rows = 2, accept = 'png,jpeg,jpg,csv', name = undefined, autocomplete = undefined, autocorrect = undefined, autocapitalize = undefined, autofocus = undefined } = $props<{ label?: any; placeholder?: any; inputmode?: any; value?: any; type?: string; help?: any; className?: string; id?: string; style?: string; inputStyle?: string; inputClass?: string; pattern?: string; width?: string; disabled?: any; solo?: any; listItem?: any; compact?: any; rows?: number; accept?: string; name?: any; autocomplete?: any; autocorrect?: any; autocapitalize?: any; autofocus?: any }>()
 
   let focused = $state(false)
-
-  let _elInput: any
+  let _elInput = $state<any>(undefined)
 
   function doFocus() {
     _elInput?.focus()

@@ -13,12 +13,11 @@
   import Panel from '../panel/panel.svelte'
 
 
-  let variantsVisible = false
-
-  let variants
-  let currentEmoji
-  let searchText
-  let recentEmojis = JSON.parse(localStorage.getItem('recent-emojis')) || []
+  let variantsVisible = $state(false)
+  let variants = $state(undefined)
+  let currentEmoji = $state(undefined)
+  let searchText = $state(undefined)
+  let recentEmojis = $state(JSON.parse(localStorage.getItem('recent-emojis')) || [])
 
   const dispatch = createEventDispatcher()
 
@@ -92,8 +91,8 @@
     })
   }
 
-  let selectedIndex = 1
-  let selectedCategory = 'People'
+  let selectedIndex = $state(1)
+  let selectedCategory = $state('People')
 
   const { maxRecents, autoClose } = $props()
 </script>

@@ -10,7 +10,7 @@
     const { valueFilter, name, attrValues, menuLimit, updateValuesInFilter } = $props()
 
     let open = $state(false);
-    let fontsize = Math.round(14 /(1400/window.innerWidth));
+    let fontsize = $state(Math.round(14 /(1400/window.innerWidth)));
     if (fontsize < 12) {fontsize=12}
 
     let cssVarStyles = $derived.by(() => {

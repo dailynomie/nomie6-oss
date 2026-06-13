@@ -64,8 +64,8 @@
   const location = undefined
   let { style = undefined } = $props()
 
-  let appTitle = null
-  let showSearch = false
+  let appTitle = $state(null)
+  let showSearch = $state(false)
 
   const dateFormats = getDateFormats()
 
@@ -85,7 +85,7 @@
   /// Watchers for when we're in edit mode
   // and when we have selected more than one.
 
-  let isToday = true
+  let isToday = $state(true)
   let view = $state<OTDViewOption>('all')
 
   let activeDate

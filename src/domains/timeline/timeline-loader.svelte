@@ -186,7 +186,7 @@
   let onLogSaved: Function
   let onLogUpdate: Function
   let onLogsDeleted: Function
-  let firstKnownDate: Dayjs
+  let firstKnownDate = $state<Dayjs>(undefined)
 
   onMount(async () => {
     // Device.scrollToTop()

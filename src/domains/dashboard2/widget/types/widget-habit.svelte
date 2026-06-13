@@ -9,13 +9,13 @@
   const { widget = $bindable(), usage = $bindable(), trackable = $bindable(undefined), logs = $bindable(undefined) } = $props()
   // export let trackable: Trackable
 
-  let datacheck = false
-  let habitlabel1 = ""
-  let habitlabel2 = ""
-  let param1 = ""
-  let param2 =""
-  let percentage1 = ""
-  let percentage2 = ""
+  let datacheck = $state(false)
+  let habitlabel1 = $state("")
+  let habitlabel2 = $state("")
+  let param1 = $state("")
+  let param2 = $state("")
+  let percentage1 = $state("")
+  let percentage2 = $state("")
 
   if (usage) {
     datacheck = true;

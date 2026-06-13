@@ -11,7 +11,7 @@
   import { tokenToTrackable } from '../../modules/tokenizer/tokenToTrackable'
   import { TrackableStore } from '../trackable/TrackableStore'
 
-  let results: Array<NLog> = []
+  let results = $state<Array<NLog>>([])
 
   const { term } = $props()
 </script>

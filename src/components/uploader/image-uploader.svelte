@@ -12,8 +12,8 @@
 
   const dispatch = createEventDispatcher()
 
-  let canvas: HTMLCanvasElement
-  let input: HTMLInputElement
+  let canvas = $state<HTMLCanvasElement>(undefined)
+  let input = $state<HTMLInputElement>(undefined)
 
 
 
@@ -41,7 +41,7 @@
     }
     img.src = URL.createObjectURL(e.target.files[0])
   }
-  let mounted = false
+  let mounted = $state(false)
   onMount(() => {
     mounted = true
   })

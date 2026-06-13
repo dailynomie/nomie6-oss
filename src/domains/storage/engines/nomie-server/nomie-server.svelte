@@ -9,15 +9,15 @@
   import { wait } from '../../../../utils/tick/tick'
   import { Interact } from '../../../../store/interact'
 
-  let server: any = {
+  let server = $state<any>({
     url: null,
     token: null,
-  }
-  let error: string | undefined
-  let connecting = false
-  let isConnected = false
-  let storedUrl = ''
-  let storedToken = ''
+  })
+  let error = $state<string | undefined>(undefined)
+  let connecting = $state(false)
+  let isConnected = $state(false)
+  let storedUrl = $state('')
+  let storedToken = $state('')
 
   onMount(() => {
     // Check if already connected

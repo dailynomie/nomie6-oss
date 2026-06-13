@@ -16,7 +16,7 @@
   const dispatch = createEventDispatcher()
   let { date = $bindable(), time = $bindable(), className, style, size } = $props()
 
-  let inputEle: HTMLInputElement
+  let inputEle = $state<HTMLInputElement>(undefined)
   let localDate = $state<any>(dayjs(new Date()).format('YYYY-MM-DDTHH:mm'))
   let lastTime = $state(time)
   const dtlFormat = 'YYYY-MM-DDTHH:mm'

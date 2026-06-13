@@ -14,7 +14,7 @@
   import IonIcon from '../icon/ion-icon.svelte'
 
   // declare var window: any;
-  let showLogs: boolean = false
+  let showLogs = $state(false)
 </script>
 
 {#if $OfflineQueue.logs && $OfflineQueue.logs.length}

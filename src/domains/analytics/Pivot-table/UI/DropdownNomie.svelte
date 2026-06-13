@@ -11,13 +11,13 @@
 
     let open = $state(false);
     const toggle = () => (open = !open);
-    let fontsize = Math.round(14 /(1400/window.innerWidth));
+    let fontsize = $state(Math.round(14 /(1400/window.innerWidth)));
     if (fontsize < 10) {fontsize=10}
-    let leftcolumnsize = Math.round(200 /(1400/window.innerWidth));
+    let leftcolumnsize = $state(Math.round(200 /(1400/window.innerWidth)));
     if (leftcolumnsize < 65) {leftcolumnsize=65}
 
     let theme = $Prefs.theme;
-    let cssVarStyles = "";
+    let cssVarStyles = $state("");
     if (theme == 'dark') {
     let ddicon= '#a2b1c6';
     let ddcurrent = 'black'
