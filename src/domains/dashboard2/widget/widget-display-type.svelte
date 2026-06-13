@@ -60,35 +60,35 @@
 </script>
 {#if widget}
   {#if ['barchart', 'linechart'].indexOf(widget.type) > -1 && usage}
-  <WidgetBarChart bind:trackable bind:widget bind:usage />
+  <WidgetBarChart {trackable} {widget} {usage} />
   {:else if widget.type == 'value'}
-  <WidgetValue bind:widget bind:trackable bind:usage />
+  <WidgetValue {widget} {trackable} {usage} />
   {:else if widget.type == 'note' && usage}
-  <WidgetNote bind:widget bind:trackable bind:usage />
+  <WidgetNote {widget} {trackable} {usage} />
   {:else if widget.type == 'what-time'}
-  <WidgetWhatTime bind:widget bind:trackable bind:usage />
+  <WidgetWhatTime {widget} {trackable} {usage} />
   {:else if widget.type == 'last-used'}
-  <WidgetLastUsed bind:widget bind:trackable bind:usage />
+  <WidgetLastUsed {widget} {trackable} {usage} />
   {:else if widget.type == 'focus'}
-  <WidgetFocus bind:widget bind:logs />
+  <WidgetFocus {widget} {logs} />
   {:else if widget.type == 'positivity'}
-  <WidgetPositivityPie bind:widget bind:trackable bind:logs bind:usage />
+  <WidgetPositivityPie {widget} {trackable} {logs} {usage} />
   {:else if widget.type == 'min-max' && usage}
-  <WidgetMinMax bind:widget bind:trackable bind:usage />
+  <WidgetMinMax {widget} {trackable} {usage} />
   {:else if widget.type == 'map' && usage}
-  <WidgetMap bind:widget bind:trackable bind:usage />
+  <WidgetMap {widget} {trackable} {usage} />
   {:else if widget.type == 'streak' && usage}
-  <WidgetStreak bind:widget bind:trackable bind:usage />
+  <WidgetStreak {widget} {trackable} {usage} />
   {:else if widget.type == 'todos' && logs.length}
-  <WidgetTodos bind:widget {logs} />
+  <WidgetTodos {widget} {logs} />
   {:else if widget.type == 'plugin'}
-  <WidgetPlugin bind:widget />
+  <WidgetPlugin {widget} />
   {:else if widget.type == 'insight'}
-  <WidgetInsight bind:widget />
+  <WidgetInsight {widget} />
   {:else if widget.type == 'habit'}
-  <WidgetHabit bind:widget bind:trackable bind:usage />
+  <WidgetHabit {widget} {trackable} {usage} />
   {:else if widget.type == 'pointer'}
-  <WidgetPointer bind:widget bind:trackable bind:usage bind:logs />
+  <WidgetPointer {widget} {trackable} {usage} {logs} />
   {:else}
   <div class="value -mt-2 text-xs text-gray-300 flex w-full justify-center items-center h-full dark:text-gray-500">
     Not enough data
