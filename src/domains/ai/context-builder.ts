@@ -797,6 +797,11 @@ async function fetchContexts(range?: { from: string; to: string }): Promise<Reco
       }
     }
 
+    console.log(`Context data: Found ${Object.keys(result).length} unique contexts in ${logs.length} logs`)
+    if (Object.keys(result).length > 0) {
+      console.log('Contexts found:', result)
+    }
+
     return Object.keys(result).length > 0 ? result : undefined
   } catch (err) {
     console.error('Error fetching contexts:', err)
@@ -837,6 +842,11 @@ async function fetchPointers(range?: { from: string; to: string }): Promise<Reco
         count: data.values.length,
         recent: data.values.slice(-3)
       }
+    }
+
+    console.log(`Pointer data: Found ${Object.keys(result).length} unique pointers in ${logs.length} logs`)
+    if (Object.keys(result).length > 0) {
+      console.log('Pointers found:', result)
     }
 
     return Object.keys(result).length > 0 ? result : undefined
