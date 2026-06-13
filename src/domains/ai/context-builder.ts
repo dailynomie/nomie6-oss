@@ -862,7 +862,7 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
 
     logs.forEach((log: any, index: number) => {
       // Include logs that have location coordinates (lat/lng must be numbers)
-      if ((log.lat === null || log.lat === undefined) || (log.lng === null || log.lng === undefined)) {
+      if (typeof log.lat !== 'number' || typeof log.lng !== 'number') {
         return
       }
 
