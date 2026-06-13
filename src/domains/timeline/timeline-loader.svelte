@@ -43,7 +43,7 @@
     context: false,
   }
 
-  let { filters = $bindable(baseFilters), daysToLoad = 30, startingDate = $bindable(new Date()) } = $props<{ filters?: TimelineFilterProps, daysToLoad?: number, startingDate?: Date }>()
+  let { filters = baseFilters, daysToLoad = 30, startingDate = $bindable(new Date()) } = $props<{ filters?: TimelineFilterProps, daysToLoad?: number, startingDate?: Date }>()
 
   const maxEmptyCalls = 15 // Number of calls that come back empty before we stop looking
 

@@ -198,7 +198,7 @@
         displayDate = dayjs(topItem.logs[0].end)
       }
     }}
-    bind:filters
+    {filters}
   />
   <div class="h-14" />
 </Layout>
