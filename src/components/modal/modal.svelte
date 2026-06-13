@@ -14,29 +14,33 @@
 
 
 
+  const { padding, title, allowClose, fullscreen, flexBody, show, className, type, bodyClass, closeOnBackgroundTap, ariaLabel, level } = $props()
+
   const has_header = !!$$slots.header
   const has_raw_header = !!$$slots['raw-header']
   const has_footer = !!$$slots.footer
 
-  let domVisible = false
-  let showModal = false
+  let domVisible = $state(false)
+  let showModal = $state(false)
 
   // Stagger showing and dom showing for CSS effects
-  $: if (show) {
-    // document.body.classList.add("no-scroll");
-    showModal = true
-    setTimeout(() => {
-      domVisible = true
-    }, 100)
-  }
-
-  $: if (show == false) {
-    // document.body.classList.remove("no-scroll");
-    domVisible = false
-    setTimeout(() => {
-      showModal = false
-    }, 400)
-  }
+  $effect(() => {
+    if (show) {
+      // document.body.classList.add("no-scroll");
+      showModal = true
+      const timer = setTimeout(() => {
+        domVisible = true
+      }, 100)
+      return () => clearTimeout(timer)
+    } else if (show === false) {
+      // document.body.classList.remove("no-scroll");
+      domVisible = false
+      const timer = setTimeout(() => {
+        showModal = false
+      }, 400)
+      return () => clearTimeout(timer)
+    }
+  })
 
   function backgroundTap() {
     if (closeOnBackgroundTap == true) {
@@ -47,8 +51,6 @@
   onDestroy(() => {
     // document.body.classList.remove("no-scroll");
   })
-
-  const { padding, title, allowClose, fullscreen, flexBody, show, className, type, bodyClass, closeOnBackgroundTap, ariaLabel, level } = $props()
 </script>
 
 <div

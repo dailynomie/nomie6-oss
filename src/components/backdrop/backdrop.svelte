@@ -11,12 +11,13 @@
   // import { pan } from "svelte-hammer";
 
   const dispatch = createEventDispatcher()
+  const { visible, stopPropagation, tappable, opacity, className, position, id } = $props()
 
-  let activeId: string
-
-  let indexLevel: number = 0
-  let scale: number = 100
-  let translateY: number = 0
+  let activeId = $state(undefined)
+  let indexLevel = $state(0)
+  let scale = $state(100)
+  let translateY = $state(0)
+  let windowChangeListener = $state(false)
 
   function remove() {
     BackdropStore.remove(activeId)
@@ -36,33 +37,31 @@
     }
   }
 
-  let windowChangeListener: boolean = false
-
-  $: if (visible && !activeId) {
-    activeId = id
-    BackdropStore.add(id)
-    if (!windowChangeListener) {
-      window.addEventListener('popstate', windowPathChanged)
-      windowChangeListener = true
-    }
-  } else if (!visible && activeId) {
-    remove()
-  } else if (!visible && !activeId) {
-    window.removeEventListener('popstate', windowPathChanged)
-    windowChangeListener = false
-  }
-
   const windowPathChanged = () => {
     remove()
   }
 
-  $: {
+  $effect(() => {
+    if (visible && !activeId) {
+      activeId = id
+      BackdropStore.add(id)
+      if (!windowChangeListener) {
+        window.addEventListener('popstate', windowPathChanged)
+        windowChangeListener = true
+      }
+    } else if (!visible && activeId) {
+      remove()
+    } else if (!visible && !activeId) {
+      window.removeEventListener('popstate', windowPathChanged)
+      windowChangeListener = false
+    }
+  })
+
+  $effect(() => {
     indexLevel = $BackdropStore.findIndex((b) => b == id)
     scale = (98 - (indexLevel + 2)) / 100
     translateY = -20 / scale
-  }
-
-  const { visible, stopPropagation, tappable, opacity, className, position, id } = $props()
+  })
 </script>
 
 {#if activeId}

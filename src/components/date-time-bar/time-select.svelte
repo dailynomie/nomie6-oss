@@ -7,14 +7,14 @@
   import { Prefs } from '../../domains/preferences/Preferences'
 
   const dispatch = createEventDispatcher()
+  const { value, className, style } = $props()
 
+  let lastValue = $state(undefined) // Value to hold last reaction
+  let hour = $state(undefined) // local hour
+  let minute = $state(undefined) // local minute
+  let ampm = $state(undefined) // local ampm
 
-  let lastValue // Value to hold last reaction
-  let hour // local hour
-  let minute // local minute
-  let ampm // local ampm
-
-  $: is24Hour = $Prefs.use24hour
+  const is24Hour = $derived($Prefs.use24hour)
 
   // 24 Hour Array
   let hours24 = Array(24)
@@ -36,16 +36,18 @@
     })
 
   // Reactively Set Hours
-  $: hours = is24Hour ? hours24 : hours12
+  const hours = $derived(is24Hour ? hours24 : hours12)
 
-  $: if (value && value.format('hh:mm a') !== dayjs(lastValue || '2010-01-01T01:01:01').format('hh:mm a')) {
-    lastValue = value
-    hour = parseInt(value.format('HH'))
-    // hour12 = ((hour + 11) % 12) + 1
-    minute = parseInt(value.format('mm'))
-    ampm = value.format('a')
-    // lastAMPM = ampm
-  }
+  $effect(() => {
+    if (value && value.format('hh:mm a') !== dayjs(lastValue || '2010-01-01T01:01:01').format('hh:mm a')) {
+      lastValue = value
+      hour = parseInt(value.format('HH'))
+      // hour12 = ((hour + 11) % 12) + 1
+      minute = parseInt(value.format('mm'))
+      ampm = value.format('a')
+      // lastAMPM = ampm
+    }
+  })
 
   function onChange(evt) {
     let ogDate = dayjs(value)
@@ -64,8 +66,6 @@
     const updatedDate = ogDate.set('hour', newHour).set('minute', minute).set('day', ogDay)
     dispatch('change', updatedDate)
   }
-
-  const { value, className, style } = $props()
 </script>
 
 {#if value}

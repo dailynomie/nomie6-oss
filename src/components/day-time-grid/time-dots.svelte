@@ -5,27 +5,32 @@
   import type { Trackable } from '../../domains/trackable/Trackable.class'
   import type { TrackableUsage } from '../../domains/usage/trackable-usage.class'
 
-  let timeMap: any = {}
-  let units: Array<any> = []
-  $: if (usage.dates && usage.dates.length) {
-    timeMap = {}
-    usage.dates.forEach((date: Date) => {
-      let key = dayjs(date).format(format)
-      timeMap[key] = timeMap[key] || { key, count: 1 }
-    })
-    units = Object.keys(timeMap)
-  }
-
-  $: if (usage.hours && usage.hours.length) {
-    timeMap = {}
-    usage.hours.forEach((hour: number) => {
-      const unit = dayjs().hour(hour).format(format)
-      timeMap[`${unit}`] = timeMap[`${unit}`] || { hour: unit, count: 1 }
-    })
-    units = Object.keys(timeMap)
-  }
-
   const { usage, trackable, size, base, format, className, style } = $props()
+
+  let timeMap = $state({})
+  let units = $state<Array<any>>([])
+
+  $effect(() => {
+    if (usage.dates && usage.dates.length) {
+      timeMap = {}
+      usage.dates.forEach((date: Date) => {
+        let key = dayjs(date).format(format)
+        timeMap[key] = timeMap[key] || { key, count: 1 }
+      })
+      units = Object.keys(timeMap)
+    }
+  })
+
+  $effect(() => {
+    if (usage.hours && usage.hours.length) {
+      timeMap = {}
+      usage.hours.forEach((hour: number) => {
+        const unit = dayjs().hour(hour).format(format)
+        timeMap[`${unit}`] = timeMap[`${unit}`] || { hour: unit, count: 1 }
+      })
+      units = Object.keys(timeMap)
+    }
+  })
 </script>
 
 <div
