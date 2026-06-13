@@ -61,13 +61,19 @@
 
 <NvirtualList
   on:topItem={(evt) => {
-    topItem = evt.detail
+    untrack(() => {
+      topItem = evt.detail
+    })
     dispatch('scrollItem', evt.detail)
   }}
   items={timeline}
   let:item
-  bind:start={listStartIndex}
-  bind:end={listEndIndex}
+  on:update={(evt) => {
+    untrack(() => {
+      listStartIndex = evt.detail.start
+      listEndIndex = evt.detail.end
+    })
+  }}
 >
   <Container size="md">
     <header class="text-center px-6 items-center mt-6 mb-2 font-bold text-gray-900 dark:text-gray-100">
