@@ -2,7 +2,7 @@ import type { Profile, UserContext } from './types'
 
 export const chatProfile: Profile = {
   name: 'chat',
-  maxTokens: 500,
+  maxTokens: 1000,
   systemPrompt: (context: UserContext) => {
     // Format metrics with dates for better temporal insights
     const metricsWithDates = Object.entries(context.recentMetrics || {})
