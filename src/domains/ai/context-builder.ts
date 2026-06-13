@@ -894,6 +894,19 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
 
     console.log(`Location data: Found ${logsWithLocation} logs with location info out of ${logs.length} total logs`)
 
+    if (logsWithLocation === 0 && logs.length > 0) {
+      console.log('Sample logs to debug location issue:', logs.slice(0, 3).map((l: any) => ({
+        lat: l.lat,
+        lng: l.lng,
+        location: l.location,
+        note: l.note?.substring(0, 50)
+      })))
+
+      // Check if any logs have non-null lat/lng
+      const logsWithAnyCoords = logs.filter((l: any) => l.lat !== null && l.lat !== undefined || l.lng !== null && l.lng !== undefined)
+      console.log(`Logs with any coordinates: ${logsWithAnyCoords.length}`)
+    }
+
     // Sort by frequency and return top locations
     const locations = Object.values(locationsMap)
       .sort((a: any, b: any) => b.count - a.count)
