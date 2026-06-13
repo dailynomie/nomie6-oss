@@ -17,10 +17,11 @@
     color?: string
   }
 
-  let localScores: Array<ScoreType> = []
-  $: {
+  const { scores, barClass, className, style, total, expanded } = $props()
+
+  const localScores = $derived.by(() => {
     const percentages = math.percentile(scores.map((s) => s.score))
-    localScores = scores.map((s, index) => {
+    return scores.map((s, index) => {
       return {
         score: percentages[index],
         label: s.label,
@@ -28,9 +29,7 @@
         color: s.color,
       }
     })
-  }
-
-  const { scores, barClass, className, style, total, expanded } = $props()
+  })
 </script>
 
 <button {style} on:click={() => (expanded = !expanded)} class="scorebar {className} {expanded ? 'expanded' : ''}">

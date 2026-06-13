@@ -8,6 +8,7 @@
   let box: HTMLElement
 
   const dispatch = createEventDispatcher()
+  const { className, style, width, height } = $props()
 
   const refresh = () => {
     if (box) {
@@ -19,15 +20,15 @@
     }
   }
 
-  $: if ($Device.width) {
-    refresh()
-  }
+  $effect(() => {
+    if ($Device.width) {
+      refresh()
+    }
+  })
 
   onMount(() => {
     refresh()
   })
-
-  const { className, style, width, height } = $props()
 </script>
 
 <div bind:this={box} class="width-box {className}" {style}><slot {width} {height} /></div>

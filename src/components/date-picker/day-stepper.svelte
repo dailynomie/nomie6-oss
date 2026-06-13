@@ -9,15 +9,19 @@
   import { ChevronBackOutline, ChevronForwardOutline } from '../icon/nicons'
 
   const dispatch = createEventDispatcher()
-  let theDate = new Date()
 
   const dayMonth = $Prefs.use24hour ? 'DD/MM' : 'MM/DD'
+  const { date } = $props()
 
-  $: if (date && date !== theDate.getTime()) {
-    theDate = new Date(date)
-  } else if (!date && theDate.getTime()) {
-    theDate = new Date()
-  }
+  let theDate = $state(new Date())
+
+  $effect(() => {
+    if (date && date !== theDate.getTime()) {
+      theDate = new Date(date)
+    } else if (!date && theDate.getTime()) {
+      theDate = new Date()
+    }
+  })
 
   const addDate = () => {
     theDate = dayjs(theDate).add(1, 'day').toDate()
@@ -29,8 +33,6 @@
     date = theDate.getTime()
     dispatch('click', date)
   }
-
-  const { date } = $props()
 </script>
 
 <div class="flex items-center text-xs space-x- date-stepper" aria-label="Control the Date">

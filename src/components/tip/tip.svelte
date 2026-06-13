@@ -13,19 +13,21 @@
 
   let hiddenTips = Storage.local.get('hidden-tips') || []
 
-  let id = null
-  let show = false
+  let id = $state(null)
+  let show = $state(false)
 
   const state = {
     activeTip: 0,
   }
 
-  $: if (tips) {
-    id = nid(JSON.stringify(tips))
-    show = hiddenTips.indexOf(id) == -1
-  } else {
-    show = false
-  }
+  $effect(() => {
+    if (tips) {
+      id = nid(JSON.stringify(tips))
+      show = hiddenTips.indexOf(id) == -1
+    } else {
+      show = false
+    }
+  })
 
   async function hideTips() {
     hiddenTips.push(id)

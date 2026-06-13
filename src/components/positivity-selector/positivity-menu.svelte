@@ -9,10 +9,10 @@
   import { CloseOutline } from '../icon/nicons'
 
 
-  let selected: any
-  let showMenu: boolean = false
-  $: selected = getEmojiFromScore(score)
+  let showMenu: boolean = $state(false)
   let triggerButton
+
+  const selected = $derived(getEmojiFromScore(score))
 
   let id: string = `ps-${Math.random()}`
 

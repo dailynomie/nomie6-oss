@@ -1,0 +1,765 @@
+<h1
+id="nomie-ai-integration-engine---architecture-implementation-guide">Nomie
+AI Integration Engine - Architecture &amp; Implementation Guide</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The Nomie AI Integration Engine is a sophisticated, modular system
+that enriches user tracking data with artificial intelligence
+capabilities. It provides Claude with comprehensive context about user
+activities, locations, goals, and social interactions, enabling
+intelligent analysis and personalized recommendations. This document
+serves as a technical reference for understanding the architecture and
+integrating new AI-powered features.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#architecture-overview">Architecture Overview</a></li>
+<li><a href="#core-components">Core Components</a></li>
+<li><a href="#context-system">Context System</a></li>
+<li><a href="#ai-profiles">AI Profiles</a></li>
+<li><a href="#data-flow">Data Flow</a></li>
+<li><a href="#integration-guide-for-new-components">Integration Guide
+for New Components</a></li>
+<li><a href="#advanced-topics">Advanced Topics</a></li>
+</ol>
+<hr />
+<h2 id="architecture-overview">Architecture Overview</h2>
+<h3 id="design-philosophy">Design Philosophy</h3>
+<p>The AI integration engine follows these core principles:</p>
+<ul>
+<li><strong>Modular Design</strong>: Each piece of functionality is
+independent and can be extended or replaced</li>
+<li><strong>Data Enrichment</strong>: Raw tracking data is transformed
+into rich context that Claude can understand</li>
+<li><strong>Profile-Based Routing</strong>: Different AI profiles
+specialize in different analysis types</li>
+<li><strong>Type Safety</strong>: Full TypeScript typing ensures
+correctness across the system</li>
+<li><strong>Lazy Loading</strong>: Context is built only when needed to
+minimize performance impact</li>
+</ul>
+<h3 id="system-layers">System Layers</h3>
+<pre><code>┌─────────────────────────────────────────────┐
+│        UI Components (Chat, Insights)       │
+├─────────────────────────────────────────────┤
+│        AI Request Handler (engine.svelte.ts) │
+├─────────────────────────────────────────────┤
+│     Context Builders (context-builder.ts)    │
+├─────────────────────────────────────────────┤
+│  Data Sources (Ledger, Locations, Goals)    │
+└─────────────────────────────────────────────┘</code></pre>
+<p>The system is organized in three main directories within the AI
+domain:</p>
+<ul>
+<li><strong><code>src/domains/ai/</code></strong> - Core AI engine and
+profiles</li>
+<li><strong><code>src/domains/ai/profiles/</code></strong> - AI profile
+definitions</li>
+<li><strong><code>src/domains/ai/context-builder.ts</code></strong> -
+Context generation system</li>
+</ul>
+<hr />
+<h2 id="core-components">Core Components</h2>
+<h3 id="ai-engine-engine.svelte.ts">1. AI Engine
+(<code>engine.svelte.ts</code>)</h3>
+<p><strong>Purpose</strong>: Central orchestrator for all AI
+requests</p>
+<p><strong>Key Functions</strong>: - <code>query()</code> - Single-shot
+AI requests with streaming support - <code>streamQuery()</code> -
+Real-time streaming responses for chat -
+<code>getDateRangeFromTimeframe()</code> - Converts timeframe IDs to
+date ranges</p>
+<p><strong>How It Works</strong>:</p>
+<p>When a component requests AI assistance, the engine:</p>
+<ol type="1">
+<li>Receives an <code>AIRequest</code> with profile name, prompt, and
+optional context hints</li>
+<li>Looks up the requested profile configuration</li>
+<li>Calls the appropriate context builder based on profile type</li>
+<li>Generates the system prompt with enriched context</li>
+<li>Sends the request to Claude API</li>
+<li>Returns the response (or streams it for real-time features)</li>
+</ol>
+<p><strong>Key Implementation Detail</strong>: The engine applies the
+“default timeframe” setting from preferences when no explicit date range
+is provided. This ensures consistent data windows across all AI features
+unless overridden by specific components.</p>
+<h3 id="context-builder-context-builder.ts">2. Context Builder
+(<code>context-builder.ts</code>)</h3>
+<p><strong>Purpose</strong>: Transforms raw user data into AI-readable
+context</p>
+<p><strong>Core Concept</strong>: The context builder implements a
+multi-profile context system where different AI use cases receive
+tailored data subsets.</p>
+<p><strong>Main Functions</strong>:</p>
+<ul>
+<li><code>buildContext()</code> - Legacy context (metrics only, rarely
+used)</li>
+<li><code>buildChatContext()</code> - Rich context with all data types
+(used by Chat and Insight)</li>
+<li><code>buildSummaryContext()</code> - High-level overview (used for
+quick summaries)</li>
+<li><code>buildMetricsContext()</code> - Metrics-focused (used for goal
+tracking)</li>
+<li><code>buildJournalContext()</code> - Journal entries and reflection
+(used for narrative analysis)</li>
+<li><code>buildPeopleContext()</code> - Social interaction analysis</li>
+<li><code>buildLocationContext()</code> - Geographic patterns</li>
+<li><code>buildCorrelationContext()</code> - Metric relationships and
+trends</li>
+<li><code>buildTrendContext()</code> - Momentum and direction
+analysis</li>
+<li><code>buildGoalProgressContext()</code> - Progress toward specific
+goals</li>
+<li><code>buildHealthContext()</code> - Health metrics filtered for
+health-focused analysis</li>
+<li><code>buildPatternContext()</code> - Temporal patterns (day-of-week,
+hour-of-day)</li>
+</ul>
+<p><strong>Data Extraction Flow</strong>:</p>
+<p>Each context builder follows a consistent pattern:</p>
+<ol type="1">
+<li>Query logs from LedgerStore for the specified date range</li>
+<li>Tokenize log notes to extract trackables, people, contexts,
+pointers</li>
+<li>Aggregate data based on tracker math rules (sum, average, etc.)</li>
+<li>Enrich with metadata (people counts, location names, goal
+progress)</li>
+<li>Sort and rank by relevance (frequency, recency)</li>
+<li>Return structured context object</li>
+</ol>
+<h3 id="data-source-fetchers">3. Data Source Fetchers</h3>
+<p><strong>Location Resolution</strong>: - Fetches logs with GPS
+coordinates - Resolves coordinates to saved location names using
+LocationStore - Includes temporal information (last visit date, recent
+visit dates) - Returns top 10 most-visited locations</p>
+<p><strong>Context &amp; Pointer Extraction</strong>: - Tokenizes note
+text looking for <code>+context</code> and <code>^pointer</code>
+patterns - Groups by identifier and counts occurrences - Tracks
+frequency and recent values - Returns unique contexts and pointers found
+in logs</p>
+<p><strong>Person Interaction Tracking</strong>: - Extracts
+<code>@person</code> mentions from notes - Counts interactions per
+person - Provides recent interaction values - Enables social pattern
+analysis</p>
+<p><strong>Metric Aggregation</strong>: - Extracts <code>#tracker</code>
+values from notes - Applies tracker-specific math rules - Groups by date
+for temporal analysis - Provides aggregated and recent values</p>
+<hr />
+<h2 id="context-system">Context System</h2>
+<h3 id="understanding-context-types">Understanding Context Types</h3>
+<p>The context system provides specialized data views for different AI
+use cases:</p>
+<h4 id="richcontext">RichContext</h4>
+<p>The most comprehensive context type, containing all available data: -
+Complete metrics with temporal information - All goals - People
+interactions - Locations with coordinates and visit dates - Contexts and
+pointers - Journal notes - User summary</p>
+<p><strong>Used by</strong>: Chat, Insight profiles</p>
+<h4 id="summarycontext">SummaryContext</h4>
+<p>High-level overview for quick assessments: - User summary only - Top
+3-5 goals - No detailed data</p>
+<p><strong>Used by</strong>: Quick status checks, summary generation</p>
+<h4 id="metricscontext">MetricsContext</h4>
+<p>Focused on quantitative data: - All metrics with aggregation info -
+Goals (related to metrics) - User summary</p>
+<p><strong>Used by</strong>: Goal tracking, Advice profile</p>
+<h4 id="journalcontext">JournalContext</h4>
+<p>Focused on qualitative data: - Journal notes organized by date -
+Related goals - User summary</p>
+<p><strong>Used by</strong>: Narrative analysis, Journal reflection
+prompts</p>
+<h4 id="healthcontext">HealthContext</h4>
+<p>Filtered metrics for health analysis: - Only health-related metrics
+(sleep, heart rate, exercise, mood, energy, stress) - Goals filtered to
+health goals - User summary</p>
+<p><strong>Used by</strong>: Health-focused analysis, wellness
+recommendations</p>
+<h4 id="locationcontext">LocationContext</h4>
+<p>Spatial and temporal patterns: - Locations with visit history -
+Day-of-week patterns - Hour-of-day patterns - User summary</p>
+<p><strong>Used by</strong>: Location-based insights, spatial behavior
+analysis</p>
+<h4 id="correlationcontext">CorrelationContext</h4>
+<p>Relationship analysis: - Derived correlations between metrics -
+Trends and momentum - Ranked by correlation strength - Full rich context
+as foundation</p>
+<p><strong>Used by</strong>: Pattern discovery, behavioral insights</p>
+<h4 id="trendcontext">TrendContext</h4>
+<p>Temporal momentum analysis: - Direction (up/down/flat) for each
+metric - Momentum percentage change - Last value and average comparison
+- Ranked by significance</p>
+<p><strong>Used by</strong>: Trend forecasting, momentum-based
+recommendations</p>
+<h4 id="goalprogresscontext">GoalProgressContext</h4>
+<p>Goal achievement tracking: - Progress toward each goal (percentage
+complete) - Current vs. target values - Estimated days to completion -
+Full rich context as foundation</p>
+<p><strong>Used by</strong>: Goal coaching, achievement predictions</p>
+<h4 id="patterncontext">PatternContext</h4>
+<p>Behavioral and temporal patterns: - Day-of-week visit patterns -
+Hour-of-day activity patterns - Location patterns - Frequency
+distributions</p>
+<p><strong>Used by</strong>: Habit formation, schedule optimization</p>
+<h3 id="context-hints">Context Hints</h3>
+<p>Components can control context building through context hints:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Pass specific date range</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>contextHints<span class="op">:</span> {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">dateRange</span><span class="op">:</span> {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">from</span><span class="op">:</span> <span class="st">&quot;2026-06-01&quot;</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">to</span><span class="op">:</span> <span class="st">&quot;2026-06-10&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Request specific metrics only</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>contextHints<span class="op">:</span> {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">metrics</span><span class="op">:</span> [<span class="st">&quot;#sleep_aw&quot;</span><span class="op">,</span> <span class="st">&quot;#steps_aw&quot;</span><span class="op">,</span> <span class="st">&quot;#mood&quot;</span>]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>If no hints are provided, sensible defaults apply: - <strong>Date
+Range</strong>: Default timeframe from settings (typically last 30 days)
+- <strong>Metrics</strong>: All tracked metrics in the period</p>
+<hr />
+<h2 id="ai-profiles">AI Profiles</h2>
+<h3 id="what-is-a-profile">What is a Profile?</h3>
+<p>A profile is a specialized configuration that tells Claude how to
+behave for a specific use case. It defines:</p>
+<ul>
+<li><strong>System Prompt Template</strong>: Instructions for Claude’s
+role and behavior</li>
+<li><strong>Context Type</strong>: Which context builder to use</li>
+<li><strong>Max Tokens</strong>: Response length limit</li>
+<li><strong>Response Parser</strong>: Function to parse Claude’s
+response into a usable format</li>
+<li><strong>Temperature</strong>: Creativity level (0.0 = deterministic,
+1.0 = creative)</li>
+</ul>
+<h3 id="current-profiles">Current Profiles</h3>
+<h4 id="chat-profile-srcdomainsaiprofileschat.ts">Chat Profile
+(<code>src/domains/ai/profiles/chat.ts</code>)</h4>
+<ul>
+<li><strong>Purpose</strong>: Conversational analysis of tracking
+data</li>
+<li><strong>Context</strong>: RichContext (complete data)</li>
+<li><strong>Tone</strong>: Friendly, encouraging, analytical</li>
+<li><strong>Features</strong>:
+<ul>
+<li>Understands location coordinates and can interpret them
+geographically</li>
+<li>References specific metrics, patterns, and journal entries</li>
+<li>Makes location-aware correlations</li>
+<li>Provides detailed multi-paragraph responses</li>
+</ul></li>
+<li><strong>Temperature</strong>: 0.7 (balanced creativity and
+accuracy)</li>
+<li><strong>Max Tokens</strong>: 1000</li>
+</ul>
+<h4 id="insight-profile-srcdomainsaiprofilesinsight.ts">Insight Profile
+(<code>src/domains/ai/profiles/insight.ts</code>)</h4>
+<ul>
+<li><strong>Purpose</strong>: Automated insight generation for dashboard
+widget</li>
+<li><strong>Context</strong>: RichContext (complete data for deep
+analysis)</li>
+<li><strong>Tone</strong>: Data-driven, specific, actionable</li>
+<li><strong>Features</strong>:
+<ul>
+<li>Identifies trends and correlations</li>
+<li>References actual metric values and social interactions</li>
+<li>Considers location context and temporal patterns</li>
+<li>Focuses on patterns not obvious from raw data</li>
+</ul></li>
+<li><strong>Temperature</strong>: 0.7</li>
+<li><strong>Max Tokens</strong>: 1000</li>
+</ul>
+<h4 id="advice-profile-srcdomainsaiprofilesadvice.ts">Advice Profile
+(<code>src/domains/ai/profiles/advice.ts</code>)</h4>
+<ul>
+<li><strong>Purpose</strong>: Goal-focused recommendations</li>
+<li><strong>Context</strong>: MetricsContext (metrics-focused)</li>
+<li><strong>Tone</strong>: Coaching, goal-oriented, practical</li>
+<li><strong>Features</strong>:
+<ul>
+<li>At least 2-3 recommendations must directly address goal
+achievement</li>
+<li>Analyzes progress toward specific goals</li>
+<li>Provides actionable, measurable advice</li>
+<li>References actual metric values</li>
+<li>Suggests behavioral context changes when appropriate</li>
+</ul></li>
+<li><strong>Response Format</strong>: JSON array of advice items with
+priority levels</li>
+<li><strong>Temperature</strong>: 0.4 (focused, deterministic)</li>
+<li><strong>Max Tokens</strong>: 1200</li>
+</ul>
+<h4 id="journal-profile-srcdomainsaiprofilesjournal.ts">Journal Profile
+(<code>src/domains/ai/profiles/journal.ts</code>)</h4>
+<ul>
+<li><strong>Purpose</strong>: Reflection and journaling prompts</li>
+<li><strong>Context</strong>: JournalContext + LocationContext
+(qualitative + spatial)</li>
+<li><strong>Tone</strong>: Thoughtful, introspective, personalized</li>
+<li><strong>Features</strong>:
+<ul>
+<li>Generates 1 opening question + 2-3 follow-up questions</li>
+<li>Tailored to user’s specific data and locations</li>
+<li>References social interactions and contextual environments</li>
+<li>Asks about goal progress and experiences</li>
+<li>Includes mood scale label for emotional reflection</li>
+</ul></li>
+<li><strong>Response Format</strong>: JSON object with opening_question,
+follow_up_questions, mood_scale_label</li>
+<li><strong>Temperature</strong>: 0.5 (balanced reflective tone)</li>
+<li><strong>Max Tokens</strong>: 800</li>
+</ul>
+<h4 id="data-profile-srcdomainsaiprofilesdata.ts">Data Profile
+(<code>src/domains/ai/profiles/data.ts</code>)</h4>
+<ul>
+<li><strong>Purpose</strong>: Data summarization and interpretation</li>
+<li><strong>Context</strong>: MetricsContext</li>
+<li><strong>Tone</strong>: Analytical, precise, data-focused</li>
+</ul>
+<h4 id="narrative-profile-srcdomainsaiprofilesnarrative.ts">Narrative
+Profile (<code>src/domains/ai/profiles/narrative.ts</code>)</h4>
+<ul>
+<li><strong>Purpose</strong>: Story-based analysis of journal
+entries</li>
+<li><strong>Context</strong>: Custom narrative context</li>
+<li><strong>Tone</strong>: Storytelling, thematic analysis</li>
+</ul>
+<h4 id="alert-profile-srcdomainsaiprofilesalert.ts">Alert Profile
+(<code>src/domains/ai/profiles/alert.ts</code>)</h4>
+<ul>
+<li><strong>Purpose</strong>: Anomaly and alert generation</li>
+<li><strong>Response Format</strong>: JSON array of alert items</li>
+</ul>
+<h3 id="creating-a-new-profile">Creating a New Profile</h3>
+<p>To add a new AI profile:</p>
+<ol type="1">
+<li>Create a new file in <code>src/domains/ai/profiles/</code> named
+<code>myprofile.ts</code></li>
+<li>Define the profile object with name, temperature, maxTokens,
+systemPrompt, and parseResponse</li>
+<li>Add the profile to the profiles registry in
+<code>engine.svelte.ts</code></li>
+<li>Update the ProfileName type in <code>types.ts</code> to include your
+new profile</li>
+<li>Create a corresponding context builder if needed (or reuse an
+existing one)</li>
+</ol>
+<p><strong>Example Template</strong>:</p>
+<p>A new profile would follow this structure: - Import the Profile type
+- Create a system prompt that explains Claude’s role - Format data from
+the context object into readable text - Define how Claude should format
+its response - Export the profile object</p>
+<hr />
+<h2 id="data-flow">Data Flow</h2>
+<h3 id="request-to-response-flow">Request to Response Flow</h3>
+<pre><code>Component (Chat, Insight Widget, etc.)
+    ↓
+AIRequest {profile, prompt, contextHints?}
+    ↓
+engine.streamQuery() or engine.query()
+    ↓
+Look up Profile configuration
+    ↓
+Call context builder (e.g., buildChatContext)
+    ↓
+Fetch data sources:
+  - LedgerStore (logs)
+  - LocationStore (saved locations)
+  - TrackableStore (metric definitions)
+  - GoalStore (user goals)
+    ↓
+Transform raw data into structured context
+  - Tokenize notes
+  - Aggregate metrics
+  - Resolve locations
+  - Count interactions
+    ↓
+Build system prompt using context
+    ↓
+Send to Claude API
+    ↓
+Parse response using profile&#39;s parseResponse function
+    ↓
+Return to component
+    ↓
+Component displays or caches result</code></pre>
+<h3 id="location-resolution-flow">Location Resolution Flow</h3>
+<pre><code>Log with coordinates (lat: 52.1181, lng: 4.4459)
+    ↓
+findNearestLocation() using LocationStore
+    ↓
+Check saved locations for nearest match (within 0.1 nautical miles)
+    ↓
+Found: &quot;Thuis&quot; (Home)
+    ↓
+Include in location context with:
+  - Name: &quot;Thuis&quot;
+  - Coordinates: lat/lng
+  - Visit count
+  - Last visit date
+  - Recent visit dates (last 7)
+    ↓
+Claude receives: &quot;Thuis (lat: 52.1181, lng: 4.4459) - visited 367 times, recent visits: 2026-04-08, 2026-03-28, ...&quot;</code></pre>
+<h3 id="data-enrichment-pipeline">Data Enrichment Pipeline</h3>
+<p>Each data type goes through a consistent enrichment process:</p>
+<ol type="1">
+<li><strong>Extraction</strong>: Query logs and extract relevant
+tokens/data</li>
+<li><strong>Filtering</strong>: Remove nulls, empty values, irrelevant
+entries</li>
+<li><strong>Aggregation</strong>: Group by key (metric, person,
+location, etc.)</li>
+<li><strong>Calculation</strong>: Apply math rules, compute
+statistics</li>
+<li><strong>Ranking</strong>: Sort by frequency, recency, or
+relevance</li>
+<li><strong>Truncation</strong>: Keep top N items for performance</li>
+<li><strong>Formatting</strong>: Convert to human-readable strings for
+Claude</li>
+</ol>
+<hr />
+<h2 id="integration-guide-for-new-components">Integration Guide for New
+Components</h2>
+<h3 id="adding-ai-to-a-new-feature">Adding AI to a New Feature</h3>
+<h4 id="step-1-choose-your-context-type">Step 1: Choose Your Context
+Type</h4>
+<p>Decide what data Claude needs:</p>
+<ul>
+<li><strong>RichContext</strong>: Complex analysis needing full data
+(chat, insights, complex recommendations)</li>
+<li><strong>MetricsContext</strong>: Goal and metric-focused (advice,
+goal tracking)</li>
+<li><strong>JournalContext</strong>: Reflection and narrative
+(journaling, story generation)</li>
+<li><strong>HealthContext</strong>: Health-specific analysis (health
+coaching, wellness)</li>
+<li><strong>LocationContext</strong>: Spatial patterns (location-based
+recommendations)</li>
+<li><strong>CorrelationContext</strong>: Finding relationships (pattern
+discovery)</li>
+<li><strong>TrendContext</strong>: Momentum analysis (trend
+forecasting)</li>
+<li><strong>GoalProgressContext</strong>: Goal achievement (progress
+tracking)</li>
+<li><strong>PatternContext</strong>: Temporal patterns (schedule
+optimization, habit formation)</li>
+</ul>
+<h4 id="step-2-choose-or-create-a-profile">Step 2: Choose or Create a
+Profile</h4>
+<p>Determine if an existing profile matches your needs or create a new
+one.</p>
+<p><strong>Use existing if</strong>: - Chat-like conversational analysis
+→ use Chat profile - Goal-focused advice → use Advice profile -
+Reflection and journaling → use Journal profile</p>
+<p><strong>Create new if</strong>: - Specialized role for Claude (e.g.,
+“you are a nutritionist”) - Specific response format (JSON structure,
+specific fields) - Different tone or focus area</p>
+<h4 id="step-3-create-your-component">Step 3: Create Your Component</h4>
+<p>In your component (e.g., a new dashboard widget or modal):</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Import the query function</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { query } <span class="im">from</span> <span class="st">&#39;../../domains/ai/engine.svelte&#39;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">// In your component script:</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> insightText <span class="op">=</span> <span class="fu">$state</span>(<span class="st">&#39;&#39;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> loading <span class="op">=</span> <span class="fu">$state</span>(<span class="kw">false</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> error <span class="op">=</span> <span class="fu">$state</span>(<span class="kw">null</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">generateInsight</span>() {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  loading <span class="op">=</span> <span class="kw">true</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  error <span class="op">=</span> <span class="kw">null</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Make the AI request</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">query</span>({</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">profile</span><span class="op">:</span> <span class="st">&#39;insight&#39;</span><span class="op">,</span>  <span class="co">// or your custom profile</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">prompt</span><span class="op">:</span> userPrompt<span class="op">,</span>  <span class="co">// the user&#39;s question or request</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">contextHints</span><span class="op">:</span> {</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">dateRange</span><span class="op">:</span> {</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>          <span class="dt">from</span><span class="op">:</span> startDate<span class="op">,</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>          <span class="dt">to</span><span class="op">:</span> endDate</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    insightText <span class="op">=</span> response<span class="op">.</span><span class="at">content</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (err) {</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> err<span class="op">.</span><span class="at">message</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">finally</span> {</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    loading <span class="op">=</span> <span class="kw">false</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="step-4-handle-real-time-responses-optional">Step 4: Handle
+Real-time Responses (Optional)</h4>
+<p>For streaming/chat-like experiences:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { streamQuery } <span class="im">from</span> <span class="st">&#39;../../domains/ai/engine.svelte&#39;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">streamResponse</span>(userMessage) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> fullResponse <span class="op">=</span> <span class="st">&#39;&#39;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="fu">streamQuery</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">profile</span><span class="op">:</span> <span class="st">&#39;chat&#39;</span><span class="op">,</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">prompt</span><span class="op">:</span> userMessage<span class="op">,</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">contextHints</span><span class="op">:</span> { <span class="co">/* optional */</span> }</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      (chunk) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Called for each streamed text chunk</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        fullResponse <span class="op">+=</span> chunk</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Update UI reactively</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        currentMessage <span class="op">=</span> fullResponse</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (err) {</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">handleError</span>(err)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="step-5-consider-caching">Step 5: Consider Caching</h4>
+<p>For expensive computations (insights, analysis):</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Store in widget.data for persistence</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cached <span class="op">=</span> widget<span class="op">.</span><span class="at">data</span><span class="op">?.</span><span class="at">cachedInsight</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cacheDate <span class="op">=</span> widget<span class="op">.</span><span class="at">data</span><span class="op">?.</span><span class="at">cachedDate</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> today <span class="op">=</span> <span class="fu">dayjs</span>()<span class="op">.</span><span class="fu">format</span>(<span class="st">&#39;YYYY-MM-DD&#39;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (cached <span class="op">&amp;&amp;</span> cacheDate <span class="op">===</span> today) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Use cached result</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  insightText <span class="op">=</span> cached</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Fetch fresh data</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">query</span>(<span class="co">/* ... */</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Cache the result</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  widget<span class="op">.</span><span class="at">data</span><span class="op">.</span><span class="at">cachedInsight</span> <span class="op">=</span> response<span class="op">.</span><span class="at">content</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  widget<span class="op">.</span><span class="at">data</span><span class="op">.</span><span class="at">cachedDate</span> <span class="op">=</span> today</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> <span class="fu">saveWidget</span>(widget)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h4 id="step-6-control-context-hints">Step 6: Control Context Hints</h4>
+<p>Pass context hints to customize the data provided:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Limit to specific metrics</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>contextHints<span class="op">:</span> {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">metrics</span><span class="op">:</span> [<span class="st">&#39;#sleep_aw&#39;</span><span class="op">,</span> <span class="st">&#39;#exercise&#39;</span><span class="op">,</span> <span class="st">&#39;#mood&#39;</span>]<span class="op">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">dateRange</span><span class="op">:</span> { <span class="dt">from</span><span class="op">:</span> <span class="st">&#39;2026-06-01&#39;</span><span class="op">,</span> <span class="dt">to</span><span class="op">:</span> <span class="st">&#39;2026-06-10&#39;</span> }</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Use custom date range</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>contextHints<span class="op">:</span> {</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">dateRange</span><span class="op">:</span> {</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">from</span><span class="op">:</span> <span class="fu">dayjs</span>()<span class="op">.</span><span class="fu">subtract</span>(<span class="dv">7</span><span class="op">,</span> <span class="st">&#39;days&#39;</span>)<span class="op">.</span><span class="fu">format</span>(<span class="st">&#39;YYYY-MM-DD&#39;</span>)<span class="op">,</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">to</span><span class="op">:</span> <span class="fu">dayjs</span>()<span class="op">.</span><span class="fu">format</span>(<span class="st">&#39;YYYY-MM-DD&#39;</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">// No hints: uses all data and default timeframe</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">// (e.g., last 30 days from settings)</span></span></code></pre></div>
+<h3 id="example-building-a-health-coach-widget">Example: Building a
+Health Coach Widget</h3>
+<p>A practical example of adding AI to a new widget:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>script lang<span class="op">=</span><span class="st">&quot;ts&quot;</span><span class="op">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> { query } <span class="im">from</span> <span class="st">&#39;../../../domains/ai/engine.svelte&#39;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> { widget } <span class="im">from</span> <span class="st">&#39;../widget-class&#39;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> advice <span class="op">=</span> <span class="fu">$state</span>(<span class="st">&#39;&#39;</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> loading <span class="op">=</span> <span class="fu">$state</span>(<span class="kw">false</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="kw">function</span> <span class="fu">generateHealthAdvice</span>() {</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    loading <span class="op">=</span> <span class="kw">true</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">query</span>({</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">profile</span><span class="op">:</span> <span class="st">&#39;advice&#39;</span><span class="op">,</span>  <span class="co">// Goal-focused advice</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">prompt</span><span class="op">:</span> <span class="st">&#39;Based on my health metrics, what should I prioritize this week?&#39;</span><span class="op">,</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">contextHints</span><span class="op">:</span> {</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Limit to health metrics</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>          <span class="dt">metrics</span><span class="op">:</span> [<span class="st">&#39;#sleep_aw&#39;</span><span class="op">,</span> <span class="st">&#39;#exercise&#39;</span><span class="op">,</span> <span class="st">&#39;#heart_rate&#39;</span><span class="op">,</span> <span class="st">&#39;#steps_aw&#39;</span>]<span class="op">,</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Last 7 days for trend analysis</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>          <span class="dt">dateRange</span><span class="op">:</span> {</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>            <span class="dt">from</span><span class="op">:</span> <span class="fu">dayjs</span>()<span class="op">.</span><span class="fu">subtract</span>(<span class="dv">7</span><span class="op">,</span> <span class="st">&#39;days&#39;</span>)<span class="op">.</span><span class="fu">format</span>(<span class="st">&#39;YYYY-MM-DD&#39;</span>)<span class="op">,</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>            <span class="dt">to</span><span class="op">:</span> <span class="fu">dayjs</span>()<span class="op">.</span><span class="fu">format</span>(<span class="st">&#39;YYYY-MM-DD&#39;</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>      })</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>      advice <span class="op">=</span> response<span class="op">.</span><span class="at">content</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">finally</span> {</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>      loading <span class="op">=</span> <span class="kw">false</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;/</span>script<span class="op">&gt;</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>div <span class="kw">class</span><span class="op">=</span><span class="st">&quot;health-coach&quot;</span><span class="op">&gt;</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span>button on<span class="op">:</span>click<span class="op">=</span>{generateHealthAdvice} disabled<span class="op">=</span>{loading}<span class="op">&gt;</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    {loading <span class="op">?</span> <span class="st">&#39;Generating...&#39;</span> <span class="op">:</span> <span class="st">&#39;Get Health Advice&#39;</span>}</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;/</span>button<span class="op">&gt;</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  {#if advice}</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>div <span class="kw">class</span><span class="op">=</span><span class="st">&quot;advice-box&quot;</span><span class="op">&gt;</span>{advice}<span class="op">&lt;/</span>div<span class="op">&gt;</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  {<span class="ss">/if}</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="ss">&lt;/div</span><span class="op">&gt;</span></span></code></pre></div>
+<p>Claude would receive HealthContext with only health-related metrics
+and generate targeted advice about sleep, exercise, and cardiovascular
+health.</p>
+<hr />
+<h2 id="advanced-topics">Advanced Topics</h2>
+<h3 id="performance-optimization">Performance Optimization</h3>
+<h4 id="lazy-context-building">Lazy Context Building</h4>
+<p>Contexts are built on-demand, not precomputed: - Chat requests
+trigger buildChatContext - Insight widgets trigger buildChatContext -
+Goal trackers trigger GoalProgressContext</p>
+<p>This minimizes API calls and ensures data freshness.</p>
+<h4 id="date-range-management">Date Range Management</h4>
+<p>The system automatically applies the “default timeframe” from user
+preferences when not specified. This: - Ensures consistent data windows
+across features - Allows users to control AI context window globally -
+Reduces redundant data fetching</p>
+<p><strong>Default timeframe location</strong>:
+<code>src/domains/preferences/Preferences.ts</code> in the
+<code>AIConfig</code> type</p>
+<h4 id="caching-strategy">Caching Strategy</h4>
+<p>Two-level caching pattern:</p>
+<ol type="1">
+<li><strong>Widget-level caching</strong>: Store results in
+<code>widget.data</code> with cache date</li>
+<li><strong>Session caching</strong>: Keep recent responses in component
+state</li>
+</ol>
+<p>For expensive operations (long-running analyses), check cache before
+fetching.</p>
+<h3 id="extending-context-builders">Extending Context Builders</h3>
+<p>To create a specialized context builder:</p>
+<ol type="1">
+<li>Define the return type interface in <code>types.ts</code></li>
+<li>Create the builder function following the pattern of existing
+builders</li>
+<li>Include data fetching, transformation, and ranking</li>
+<li>Export the function from <code>context-builder.ts</code></li>
+<li>Use in profiles via the Profile’s context type selection</li>
+</ol>
+<h3 id="error-handling">Error Handling</h3>
+<p>The system handles errors gracefully:</p>
+<ul>
+<li><strong>API Errors</strong>: Caught in query/streamQuery, passed to
+component via error state</li>
+<li><strong>Data Fetch Errors</strong>: Logged to console, return
+empty/undefined for that data type</li>
+<li><strong>Parsing Errors</strong>: Profile parseResponse can throw;
+catch in component</li>
+</ul>
+<p>Components should always handle the error state:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (error) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="vs">`Unable to generate response: </span><span class="sc">${</span>error<span class="sc">}</span><span class="vs">`</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="monitoring-and-debugging">Monitoring and Debugging</h3>
+<p>Key signals to monitor:</p>
+<ul>
+<li><strong>Loading state</strong>: Indicates AI request in flight</li>
+<li><strong>Error messages</strong>: Clarify what went wrong</li>
+<li><strong>Response latency</strong>: API calls typically take 2-5
+seconds</li>
+<li><strong>Context size</strong>: Larger contexts take longer to
+process</li>
+</ul>
+<p>For debugging: 1. Check the context object shape in component state
+2. Verify profile configuration matches intended behavior 3. Validate
+context hints are correct (especially date ranges) 4. Check console for
+fetch errors or parsing failures</p>
+<hr />
+<h2 id="summary-the-big-picture">Summary: The Big Picture</h2>
+<p>The Nomie AI Integration Engine transforms raw tracking data into
+intelligent insights through a pipeline of:</p>
+<ol type="1">
+<li><strong>Data Fetching</strong>: Queries logs, locations, goals, and
+interactions</li>
+<li><strong>Context Building</strong>: Organizes data into specialized
+formats for different use cases</li>
+<li><strong>Profile Selection</strong>: Routes to Claude with
+appropriate system prompts</li>
+<li><strong>Response Processing</strong>: Parses Claude’s output for
+component use</li>
+<li><strong>Caching</strong>: Stores expensive computations for
+performance</li>
+</ol>
+<p>New components can integrate by: 1. Choosing a context type 2.
+Selecting or creating a profile 3. Calling <code>query()</code> or
+<code>streamQuery()</code> with appropriate hints 4. Handling the
+response and error states 5. Optionally caching results</p>
+<p>The architecture balances flexibility (many context types and
+profiles) with simplicity (consistent request/response patterns across
+all components).</p>
+<hr />
+<h2 id="file-reference-guide">File Reference Guide</h2>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/domains/ai/engine.svelte.ts</code></td>
+<td>Core request handler and orchestrator</td>
+</tr>
+<tr>
+<td><code>src/domains/ai/context-builder.ts</code></td>
+<td>Context building functions for all data types</td>
+</tr>
+<tr>
+<td><code>src/domains/ai/profiles/types.ts</code></td>
+<td>TypeScript type definitions</td>
+</tr>
+<tr>
+<td><code>src/domains/ai/profiles/chat.ts</code></td>
+<td>Chat profile configuration</td>
+</tr>
+<tr>
+<td><code>src/domains/ai/profiles/advice.ts</code></td>
+<td>Advice/coaching profile</td>
+</tr>
+<tr>
+<td><code>src/domains/ai/profiles/insight.ts</code></td>
+<td>Insight generation profile</td>
+</tr>
+<tr>
+<td><code>src/domains/ai/profiles/journal.ts</code></td>
+<td>Journal reflection profile</td>
+</tr>
+<tr>
+<td><code>src/domains/preferences/Preferences.ts</code></td>
+<td>Settings including default timeframe</td>
+</tr>
+<tr>
+<td><code>src/domains/locations/LocationStore.ts</code></td>
+<td>Saved locations and resolution</td>
+</tr>
+<tr>
+<td><code>src/domains/ledger/LedgerStore.ts</code></td>
+<td>Log data source</td>
+</tr>
+<tr>
+<td><code>src/domains/goals/GoalStore.ts</code></td>
+<td>User goals</td>
+</tr>
+<tr>
+<td><code>src/domains/dashboard2/widget/types/*.svelte</code></td>
+<td>Example widget implementations</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>The AI Integration Engine provides a robust, extensible foundation
+for adding intelligence throughout Nomie. By understanding the context
+system, profiles, and integration patterns, developers can quickly add
+AI-powered features that understand the complete context of a user’s
+tracking data.</p>

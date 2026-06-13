@@ -3,21 +3,24 @@
 <script lang="ts">
   import dayjs from 'dayjs'
 
-  let type: string = 'string'
-  $: if (variable) {
-    if (variable instanceof Array) {
-      type = 'array'
-    }
-    if (variable instanceof Date) {
-      type = 'date'
-    } else if (typeof variable === 'object') {
-      type = 'object'
-    } else {
-      type = typeof variable
-    }
-  }
-
   const { variable } = $props()
+
+  let type = $state('string')
+
+  $effect(() => {
+    if (variable) {
+      if (variable instanceof Array) {
+        type = 'array'
+      }
+      if (variable instanceof Date) {
+        type = 'date'
+      } else if (typeof variable === 'object') {
+        type = 'object'
+      } else {
+        type = typeof variable
+      }
+    }
+  })
 </script>
 
 <div class="nd-object my-px text-xs  bg-gray-500 bg-opacity-20 border-gray-400 py-1 px-2 rounded-md {type}">

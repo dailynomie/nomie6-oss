@@ -7,12 +7,15 @@
   import Scorebar from './scorebar.svelte'
   import { TrackerStore } from '../../domains/tracker/TrackerStore'
 
-  let positivity: IPositivityResults
-  $: if (logs) {
-    positivity = positivityFromLogs(logs, $TrackerStore)
-  }
-
   const { logs, className } = $props()
+
+  let positivity = $state(undefined)
+
+  $effect(() => {
+    if (logs) {
+      positivity = positivityFromLogs(logs, $TrackerStore)
+    }
+  })
 </script>
 
 {#if positivity.positive || positivity.negative}

@@ -22,23 +22,26 @@
   const chartId = `chart-${nid()}`
 
   // let showChart = false
-  let _canvas
-  let theChart
-  let lastPoints = []
+  let _canvas = $state()
+  let theChart = $state()
+  let lastPoints = $state([])
 
+  $effect(() => {
+    if (points && theChart && points.map((p) => p.y).join() !== lastPoints) {
+      lastPoints = points.map((p) => p.y).join()
+      loadData()
+    }
+  })
 
-  $: if (points && theChart && points.map((p) => p.y).join() !== lastPoints) {
-    lastPoints = points.map((p) => p.y).join()
-    loadData()
-  }
-
-  $: if ($Interact.stats.focused && points) {
-    selected = points.find((p) => {
-      return p.date.format('YYYY-MM-DD') === $Interact.stats.focused.date.format('YYYY-MM-DD')
-    })
-  } else if (points && points.length) {
-    selected = undefined
-  }
+  $effect(() => {
+    if ($Interact.stats.focused && points) {
+      selected = points.find((p) => {
+        return p.date.format('YYYY-MM-DD') === $Interact.stats.focused.date.format('YYYY-MM-DD')
+      })
+    } else if (points && points.length) {
+      selected = undefined
+    }
+  })
 
   function loadData() {
     const lineStyle = {

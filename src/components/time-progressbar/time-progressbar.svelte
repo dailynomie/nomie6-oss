@@ -6,12 +6,15 @@
   import { getDateFormats } from '../../domains/preferences/Preferences'
 
   const dateFormats = getDateFormats()
-  let activeDate: Dayjs = dayjs()
-  $: if (date) {
-    activeDate = dayjs(date)
-  }
-
   const { date, timeClass } = $props()
+
+  let activeDate = $state(dayjs())
+
+  $effect(() => {
+    if (date) {
+      activeDate = dayjs(date)
+    }
+  })
 </script>
 
 <div class="time-progressbar" aria-label="Progress of time - current position {activeDate}">

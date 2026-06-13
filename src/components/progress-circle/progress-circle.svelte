@@ -3,7 +3,9 @@
 <script lang="ts">
   // https://github.com/stephane-vanraes/svelte-progresscircle/edit/master/src/index.svelte
 
-  $: progressPath = () => {
+  const { value, max, size, color, backgroundColor, showValue, className, style } = $props()
+
+  const progressPath = $derived.by(() => {
     if (value <= 0) {
       return ''
     } else if (value >= max) {
@@ -23,9 +25,7 @@
 
       return path
     }
-  }
-
-  const { value, max, size, color, backgroundColor, showValue, className, style } = $props()
+  })
 </script>
 
 <div
