@@ -26,18 +26,19 @@
 
 import RelatedView from './related-view.svelte'
 
-  let trackable: Trackable
+  const { id } = $props()
 
-  $: if ($RelatedStore) {
-    trackable = $RelatedStore.trackable
-  }
+  let trackable = $state<Trackable>()
 
-  
-    const close = () => {
+  $effect(() => {
+    if ($RelatedStore) {
+      trackable = $RelatedStore.trackable
+    }
+  })
+
+  const close = () => {
     closeModal(id)
   }
-
-  const { id } = $props()
 </script>
 
 <BackdropModal>

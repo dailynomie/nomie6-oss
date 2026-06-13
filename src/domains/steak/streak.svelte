@@ -18,19 +18,12 @@
   import { strToTrackable } from '../trackable/trackable-utils'
   import { TrackableStore } from '../trackable/TrackableStore'
 
-  let calendarLogs: Array<CalendarLog>
-  let mockTracker: TrackerClass
-  let lastTerm: string
-  let lastElement: Trackable
+  const { term, selectedDate, view, trackable, className, showDetail } = $props()
 
-  $: if (term && lastTerm !== term && !trackable) {
-    lastTerm = term
-    trackable = strToTrackable(term, $TrackableStore.trackables)
-    main()
-  } else if (trackable && lastElement !== trackable) {
-    lastElement = trackable
-    main()
-  }
+  let calendarLogs = $state<Array<CalendarLog>>([])
+  let mockTracker = $state<TrackerClass>()
+  let lastTerm = $state<string>()
+  let lastElement = $state<Trackable>()
 
   async function main() {
     if (trackable) {
@@ -41,7 +34,16 @@
     }
   }
 
-  const { term, selectedDate, view, trackable, className, showDetail } = $props()
+  $effect(() => {
+    if (term && lastTerm !== term && !trackable) {
+      lastTerm = term
+      trackable = strToTrackable(term, $TrackableStore.trackables)
+      main()
+    } else if (trackable && lastElement !== trackable) {
+      lastElement = trackable
+      main()
+    }
+  })
 </script>
 
 <div class="n-streak n-streak-{view} {className}">

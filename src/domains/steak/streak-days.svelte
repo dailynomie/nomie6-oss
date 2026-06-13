@@ -10,25 +10,26 @@
   import appConfig from '../../config/appConfig'
   import type NLog from '../nomie-log/nomie-log'
 
-
-  let loopOver: Array<any> = []
-
-  $: if (days || date) {
-    loopOver = Array(days)
-      .fill(0)
-      .map((d, i) => {
-        let loopDate = date.subtract(i, 'day')
-        return {
-          date: loopDate,
-          used: logs.find((nlog: NLog) => nlog.endDayjs().format('YYYY-MM-DD') === loopDate.format('YYYY-MM-DD'))
-            ? true
-            : false,
-        }
-      })
-      .reverse()
-  }
-
   const { logs, date, days, color, size } = $props()
+
+  let loopOver = $state<Array<any>>([])
+
+  $effect(() => {
+    if (days || date) {
+      loopOver = Array(days)
+        .fill(0)
+        .map((d, i) => {
+          let loopDate = date.subtract(i, 'day')
+          return {
+            date: loopDate,
+            used: logs.find((nlog: NLog) => nlog.endDayjs().format('YYYY-MM-DD') === loopDate.format('YYYY-MM-DD'))
+              ? true
+              : false,
+          }
+        })
+        .reverse()
+    }
+  })
 </script>
 
 <div class="streak-days">
