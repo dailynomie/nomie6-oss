@@ -11,7 +11,7 @@
   import Button from '../../components/button/button.svelte'
   import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
+  import { ChevronDownOutline, ChevronUpOutline, SparklesOutline } from '../../components/icon/nicons'
   import { showToast } from '../../components/toast/ToastStore'
   import type { AIServiceType } from '../preferences/Preferences'
   import { timeFrames } from '../dashboard2/widget/widget-timeframe'
@@ -31,19 +31,13 @@
     { label: 'ChatGPT (Coming Soon)', value: 'chatgpt' as AIServiceType, disabled: true },
   ]
 
-  const getServiceInfo = (service: AIServiceType) => {
+  const getServiceDocs = (service: AIServiceType) => {
     if (service === 'claude') {
-      return {
-        docs: 'Get your API key from console.anthropic.com',
-        icon: '🧠',
-      }
+      return 'Get your API key from console.anthropic.com'
     } else if (service === 'chatgpt') {
-      return {
-        docs: 'ChatGPT support coming soon',
-        icon: '🤖',
-      }
+      return 'ChatGPT support coming soon'
     }
-    return { docs: '', icon: '🔑' }
+    return ''
   }
 
   $effect(() => {
@@ -120,7 +114,9 @@
 
 <List solo className="mb-4" title={Lang.t('settings.ai', 'AI Integration')} outside>
   <ListItem bottomLine={16}>
-    <span slot="left">{getServiceInfo(config.selectedService).icon}</span>
+    <span slot="left" class="flex items-center justify-center">
+      <IonIcon icon={SparklesOutline} size={24} />
+    </span>
     <div class="font-semibold leading-tight">
       {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}
     </div>
@@ -165,7 +161,7 @@
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
         <label class="block text-sm font-semibold mb-2">API Key</label>
-        <p class="text-xs text-gray-500 mb-3">{getServiceInfo(config.selectedService).docs}</p>
+        <p class="text-xs text-gray-500 mb-3">{getServiceDocs(config.selectedService)}</p>
         <Input
           type="password"
           placeholder="Enter your API key"
