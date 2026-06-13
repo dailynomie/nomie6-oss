@@ -11,7 +11,8 @@
   import Button from '../../components/button/button.svelte'
   import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { ChevronDownOutline, ChevronUpOutline, SparklesOutline } from '../../components/icon/nicons'
+  import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
+  import NomieAiButton from '../../components/aibutton/NomieAiButton.svelte'
   import { showToast } from '../../components/toast/ToastStore'
   import type { AIServiceType } from '../preferences/Preferences'
   import { timeFrames } from '../dashboard2/widget/widget-timeframe'
@@ -115,7 +116,7 @@
 <List solo className="mb-4" title={Lang.t('settings.ai', 'AI Integration')} outside>
   <ListItem bottomLine={16}>
     <span slot="left" class="flex items-center justify-center">
-      <IonIcon icon={SparklesOutline} size={24} />
+      <NomieAiButton size="40px" />
     </span>
     <div class="font-semibold leading-tight">
       {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}
