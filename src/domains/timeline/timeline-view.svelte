@@ -42,7 +42,13 @@
 
   $effect(() => {
     if ($TrackableStore?.trackables && logs && logs.length > 0) {
-      timeline = logsToTimeline(logs, $TrackableStore.trackables)
+      const newTimeline = logsToTimeline(logs, $TrackableStore.trackables)
+      // Only update if length changed or first/last item changed to prevent infinite loops
+      if (!timeline.length || newTimeline.length !== timeline.length ||
+          newTimeline[0]?.time?.valueOf() !== timeline[0]?.time?.valueOf() ||
+          newTimeline[newTimeline.length - 1]?.time?.valueOf() !== timeline[timeline.length - 1]?.time?.valueOf()) {
+        timeline = newTimeline
+      }
     }
   })
 
