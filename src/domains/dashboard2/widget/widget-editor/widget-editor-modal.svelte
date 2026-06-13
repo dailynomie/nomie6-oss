@@ -396,6 +396,68 @@
     </List>
     {/if}
 
+    <!-- AI Insight Widget Configuration -->
+    {#if activeType?.id == 'insight'}
+      <List solo className="mt-4">
+        <!-- Prompt Type Selection -->
+        <ListItem>
+          Prompt Type
+          <ButtonGroup
+            bind:value={editingWidget.data.promptType}
+            buttons={[
+              { value: 'predefined', label: 'Predefined' },
+              { value: 'custom', label: 'Custom' },
+            ]}
+            slot="right"
+          />
+        </ListItem>
+
+        <Divider left={18} />
+
+        <!-- Predefined Prompts Dropdown -->
+        {#if editingWidget.data.promptType === 'predefined'}
+          <Input listItem bind:value={editingWidget.data.promptValue} type="select" label="Select Prompt">
+            <div
+              slot="left"
+              class="{!editingWidget.data.promptValue
+                ? 'pl-2 pt-3 w-full'
+                : ''} text-black dark:text-white pointer-events-none absolute"
+            >
+              {#if !editingWidget.data.promptValue}
+                {Lang.t('dashboard.select-prompt', 'Select a prompt')}
+              {/if}
+            </div>
+            <option>Select</option>
+            <option value="patterns">Patterns</option>
+            <option value="progress">Progress</option>
+            <option value="insights">Insights</option>
+            <option value="recommendations">Recommendations</option>
+            <option value="trends">Trends</option>
+            <option value="wellbeing">Wellbeing</option>
+            <option value="productivity">Productivity</option>
+            <option value="health">Health</option>
+            <option value="mood">Mood & Emotions</option>
+            <option value="correlation">Correlations</option>
+          </Input>
+        {/if}
+
+        <!-- Custom Prompt Textarea -->
+        {#if editingWidget.data.promptType === 'custom'}
+          <Divider left={18} />
+          <Input
+            listItem
+            placeholder="Enter your custom prompt"
+            type="textarea"
+            rows={4}
+            bind:value={editingWidget.data.promptValue}
+          />
+          <div class="text-gray-500 leading-tight px-4 text-sm pb-4">
+            Describe what insight you'd like Claude to provide based on your tracking data
+          </div>
+        {/if}
+      </List>
+    {/if}
+
     <!-- Start Conditional Styling -->
     {#if activeType && [...activeType.requires, ...activeType.optional].indexOf('cond-style') > -1}
       <List solo className="mt-4">

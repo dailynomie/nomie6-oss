@@ -160,4 +160,12 @@ export const widgetTypes: Array<IWidgetType> = [
     image: '/images/widget-types/just-text.svg',
     icon: TextOutline,
   },
+  {
+    label: 'AI Insight',
+    id: 'insight',
+    requires: ['timeframe'],
+    optional: [],
+    icon: SparklesOutline,
+    emoji: '💡',
+  },
 ]
