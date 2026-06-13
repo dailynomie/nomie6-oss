@@ -167,6 +167,18 @@ export async function buildChatContext(hints?: ContextHints): Promise<UserContex
     const contexts = await fetchContexts(hints?.dateRange)
     const pointers = await fetchPointers(hints?.dateRange)
     const locations = await fetchLocations(hints?.dateRange)
+
+    console.log('buildChatContext - Fetched data:', {
+      peopleCount: people ? Object.keys(people).length : 0,
+      contextsCount: contexts ? Object.keys(contexts).length : 0,
+      pointersCount: pointers ? Object.keys(pointers).length : 0,
+      locationsCount: locations ? locations.length : 0,
+      people,
+      contexts,
+      pointers,
+      locations
+    })
+
     const summary = buildSummary(enrichedMetrics, goals, people, contexts, pointers, locations)
 
     return {
