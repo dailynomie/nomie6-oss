@@ -129,3 +129,9 @@ export interface JournalPrompt {
   follow_up_questions: string[]
   mood_scale_label: string
 }
+
+export interface DualInsightResponse {
+  summary: string      // 3-4 lines for widget display
+  extended: string     // ~1000 tokens for modal
+  raw: string         // Full unparsed response
+}

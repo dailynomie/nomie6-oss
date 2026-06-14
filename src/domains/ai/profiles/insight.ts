@@ -1,9 +1,9 @@
-import type { Profile, UserContext } from './types'
+import type { Profile, UserContext, DualInsightResponse } from './types'
 
 export const insightProfile: Profile = {
   name: 'insight',
   temperature: 0.7,
-  maxTokens: 1000,
+  maxTokens: 1200,
   systemPrompt: (ctx: UserContext) => {
     const contextsList = ctx.contexts
       ? Object.entries(ctx.contexts)
@@ -44,9 +44,42 @@ ${ctx.notes ? `Recent journal entries:\n${ctx.notes}\n` : ''}
 Provide thoughtful, data-driven insights about the user's habits, patterns, and well-being.
 Reference specific metrics, locations, contexts, social interactions, and journal entries.
 Identify trends, correlations, and actionable patterns. Consider WHERE and WHEN the user tracks.
+
+IMPORTANT: Format your response with TWO SECTIONS using the headers below:
+
+## SUMMARY
+Provide 3-4 concise lines highlighting the top 1-2 surprising patterns only.
+Keep sentences short and punchy. Use specific numbers without decimals.
+Focus on what's most interesting or actionable. NO elaboration.
+
+## EXTENDED
+Provide comprehensive 800-1000 token analysis of all patterns, correlations, and implications.
+Use full paragraphs with precise metrics, statistical significance, and trend directions.
+Include context about temporal patterns, relationships between metrics, and actionable insights.
+This section should go into detail while the SUMMARY is reserved for key highlights only.
+
+Ensure both sections use markdown formatting for easy processing.
     `
   },
-  parseResponse(raw: string): string {
-    return raw
+  parseResponse(raw: string): DualInsightResponse | string {
+    // Check if response contains dual-level format
+    const summaryMatch = raw.match(/##\s*SUMMARY\s*\n([\s\S]*?)(?=##\s*EXTENDED|\Z)/i)
+    const extendedMatch = raw.match(/##\s*EXTENDED\s*\n([\s\S]*?)$/i)
+
+    if (summaryMatch && extendedMatch) {
+      // Parse as dual format
+      return {
+        summary: summaryMatch[1].trim(),
+        extended: extendedMatch[1].trim(),
+        raw
+      }
+    }
+
+    // Fallback: return entire response as summary (backward compatible)
+    return {
+      summary: raw,
+      extended: raw,
+      raw
+    }
   }
 }

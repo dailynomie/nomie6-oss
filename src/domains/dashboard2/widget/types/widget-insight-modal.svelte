@@ -12,9 +12,10 @@
 
   let modalId = $derived($insightModalData.id)
   let insight = $derived($insightModalData.insight)
+  let insightExtended = $derived($insightModalData.insightExtended || $insightModalData.insight)
   let promptLabel = $derived($insightModalData.promptLabel)
   let lastFetchDate = $derived($insightModalData.lastFetchDate)
-  let renderedInsight = $derived(insight ? marked.parse(insight) : '')
+  let renderedInsight = $derived(insightExtended ? marked.parse(insightExtended) : '')
 
   function getRefreshTime(): string {
     if (!lastFetchDate) return 'N/A'

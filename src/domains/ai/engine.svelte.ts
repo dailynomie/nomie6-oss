@@ -118,7 +118,13 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
     const response = await client.messages.create({
       model: 'claude-opus-4-8',
       max_tokens: profile.maxTokens,
-      system: systemPrompt,
+      system: [
+        {
+          type: 'text',
+          text: systemPrompt,
+          cache_control: { type: 'ephemeral' }
+        }
+      ],
       messages: [{ role: 'user', content: req.prompt }]
     })
 
@@ -191,7 +197,13 @@ export async function streamQuery(
     const stream = client.messages.stream({
       model: 'claude-opus-4-8',
       max_tokens: profile.maxTokens,
-      system: profile.systemPrompt(context),
+      system: [
+        {
+          type: 'text',
+          text: profile.systemPrompt(context),
+          cache_control: { type: 'ephemeral' }
+        }
+      ],
       messages
     })
 

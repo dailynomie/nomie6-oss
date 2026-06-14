@@ -1,14 +1,83 @@
 export const INSIGHT_PROMPTS = {
-  patterns: 'Identify the TOP patterns in my tracking data for this period. Provide 3-4 sentences with specific details.',
-  progress: 'Summarize my progress towards my goals this period in 3-4 sentences with concrete examples.',
-  insights: 'Provide key insights about my tracked metrics this period. Keep to 3-4 sentences with specifics.',
-  recommendations: 'Give 2-3 actionable recommendations based on my data. Provide 3-4 sentences total.',
-  trends: 'Analyze the main trends in my tracking data for this period in 3-4 sentences.',
-  wellbeing: 'Assess my overall wellbeing based on the data in 3-4 sentences with details.',
-  productivity: 'Comment on my productivity trends this period in 3-4 sentences.',
-  health: 'Provide key health insights from my tracking data in 3-4 sentences.',
-  mood: 'Analyze the mood patterns in my journal entries in 3-4 sentences.',
-  correlation: 'Identify key correlations between metrics this period in 3-4 sentences.',
+  patterns: `Identify the TOP patterns in my tracking data for this period.
+
+## SUMMARY
+3-4 concise lines with specific details. Just the highlights.
+
+## EXTENDED
+Comprehensive analysis of all patterns found, with trends, timing, and actionable insights (800-1000 tokens).`,
+
+  progress: `Summarize my progress towards my goals this period.
+
+## SUMMARY
+3-4 lines with concrete examples and percentage improvements.
+
+## EXTENDED
+Detailed progress analysis with trend analysis, barrier identification, and specific recommendations (800-1000 tokens).`,
+
+  insights: `Provide key insights about my tracked metrics this period.
+
+## SUMMARY
+3-4 punchy lines highlighting the most interesting metrics findings.
+
+## EXTENDED
+Comprehensive metric analysis with correlations, outliers, and deeper context (800-1000 tokens).`,
+
+  recommendations: `Give actionable recommendations based on my data.
+
+## SUMMARY
+3-4 lines with top 2-3 prioritized recommendations.
+
+## EXTENDED
+Detailed recommendations with reasoning, expected outcomes, and implementation guidance (800-1000 tokens).`,
+
+  trends: `Analyze the main trends in my tracking data for this period.
+
+## SUMMARY
+3-4 lines with the most significant trends and their direction.
+
+## EXTENDED
+Comprehensive trend analysis with historical context, acceleration, and predictive insights (800-1000 tokens).`,
+
+  wellbeing: `Assess my overall wellbeing based on the data.
+
+## SUMMARY
+3-4 lines covering key wellbeing indicators and overall assessment.
+
+## EXTENDED
+Detailed wellbeing analysis including correlations, risk factors, and optimization opportunities (800-1000 tokens).`,
+
+  productivity: `Comment on my productivity trends this period.
+
+## SUMMARY
+3-4 lines with peak productivity windows and main trends.
+
+## EXTENDED
+In-depth productivity analysis with pattern identification, blockers, and optimization strategies (800-1000 tokens).`,
+
+  health: `Provide key health insights from my tracking data.
+
+## SUMMARY
+3-4 lines highlighting the most important health findings.
+
+## EXTENDED
+Comprehensive health analysis with lifestyle correlations and evidence-based recommendations (800-1000 tokens).`,
+
+  mood: `Analyze the mood patterns in my journal entries.
+
+## SUMMARY
+3-4 lines with main mood patterns and key triggers.
+
+## EXTENDED
+Detailed mood analysis including emotional patterns, triggers, protective factors, and insights (800-1000 tokens).`,
+
+  correlation: `Identify key correlations between metrics this period.
+
+## SUMMARY
+3-4 lines with the strongest 2-3 correlations found.
+
+## EXTENDED
+Comprehensive correlation analysis with strength assessment and practical implications (800-1000 tokens).`,
 }
 
 export type PromptKey = keyof typeof INSIGHT_PROMPTS
