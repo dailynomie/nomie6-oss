@@ -23,7 +23,7 @@ export interface Profile {
   name: ProfileName
   temperature: number
   maxTokens: number
-  systemPrompt: (context: UserContext) => string
+  systemPrompt: (context: UserContext, prompt?: string) => string
   parseResponse: (raw: string) => unknown
 }
 

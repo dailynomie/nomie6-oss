@@ -104,13 +104,13 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
         recentMetrics: {},
         narrative_entries: narrativeData.entries_by_date
       }
-      systemPrompt = `${profile.systemPrompt(context)}\n\nJournal entries to analyze:\n${JSON.stringify(narrativeData.entries_by_date, null, 2)}`
+      systemPrompt = `${profile.systemPrompt(context, req.prompt)}\n\nJournal entries to analyze:\n${JSON.stringify(narrativeData.entries_by_date, null, 2)}`
     } else if (req.profile === 'chat' || req.profile === 'insight') {
       context = await buildChatContext(req.contextHints)
-      systemPrompt = profile.systemPrompt(context)
+      systemPrompt = profile.systemPrompt(context, req.prompt)
     } else {
       context = await buildContext(req.contextHints)
-      systemPrompt = profile.systemPrompt(context)
+      systemPrompt = profile.systemPrompt(context, req.prompt)
     }
 
     const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
@@ -200,7 +200,7 @@ export async function streamQuery(
       system: [
         {
           type: 'text',
-          text: profile.systemPrompt(context),
+          text: profile.systemPrompt(context, req.prompt),
           cache_control: { type: 'ephemeral' }
         }
       ],

@@ -1,10 +1,17 @@
 import type { Profile, UserContext, DualInsightResponse } from './types'
 
+function hasDetailKeywords(text?: string): boolean {
+  if (!text) return false
+  const keywords = ['in depth', 'in-depth', 'extensive', 'full report', 'detailed', 'comprehensive analysis', 'thorough']
+  const lowerText = text.toLowerCase()
+  return keywords.some(keyword => lowerText.includes(keyword))
+}
+
 export const insightProfile: Profile = {
   name: 'insight',
   temperature: 0.7,
   maxTokens: 1200,
-  systemPrompt: (ctx: UserContext) => {
+  systemPrompt: (ctx: UserContext, prompt?: string) => {
     const contextsList = ctx.contexts
       ? Object.entries(ctx.contexts)
         .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} times`)
@@ -25,6 +32,14 @@ export const insightProfile: Profile = {
         .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count}x`)
         .join(', ')
       : ''
+
+    const isDetailRequest = hasDetailKeywords(prompt)
+    const extendedTokenGuidance = isDetailRequest
+      ? '800-1000 token comprehensive analysis'
+      : '400-500 token focused analysis'
+    const extendedTokenDescription = isDetailRequest
+      ? 'of all patterns, correlations, and implications'
+      : 'focusing on the top 2-3 most significant patterns'
 
     return `
 You are a data analyst and personal insights coach for Nomie.
@@ -53,7 +68,7 @@ Keep sentences short and punchy. Use specific numbers without decimals.
 Focus on what's most interesting or actionable. NO elaboration.
 
 ## EXTENDED
-Provide comprehensive 800-1000 token analysis of all patterns, correlations, and implications.
+Provide ${extendedTokenGuidance} ${extendedTokenDescription}.
 Use full paragraphs with precise metrics, statistical significance, and trend directions.
 Include context about temporal patterns, relationships between metrics, and actionable insights.
 This section should go into detail while the SUMMARY is reserved for key highlights only.
