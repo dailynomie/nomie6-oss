@@ -1,6 +1,30 @@
 {
   "features": [
     {
+      "version": "7.0.1",
+      "title": "Nomie Insight Widget - AI-powered analytics on your dashboard"
+    },
+    {
+      "version": "7.0.1",
+      "title": "AI Chat Component - Ask Claude about your tracking data, goals, and patterns"
+    },
+    {
+      "version": "7.0.1",
+      "title": "Smart Response Length - AI adapts: brief by default, full detail on request"
+    },
+    {
+      "version": "7.0.1",
+      "title": "Enhanced Insight Modal - Larger viewing area with optimized typography"
+    },
+    {
+      "version": "7.0.1",
+      "title": "AI Configuration Management - Clear setup and guided API key management"
+    },
+    {
+      "version": "7.0.1",
+      "title": "Dual-Axis Charting - Compare two trackers in line and bar charts with secondary axis"
+    },
+    {
       "version": "6.7.4-dn",
       "title": "Introducing pointers"
     },
@@ -271,6 +295,26 @@
     }
   ],
   "fixes": [
+    {
+      "version": "7.0.1",
+      "title": "AI State Validation - Insight widget and chat properly disable when AI is not configured"
+    },
+    {
+      "version": "7.0.1",
+      "title": "Input Auto-focus in Chat - Chat input automatically focuses after receiving a response"
+    },
+    {
+      "version": "7.0.1",
+      "title": "Insight Widget Caching - Fixed caching behavior with daily refresh for optimal performance"
+    },
+    {
+      "version": "7.0.1",
+      "title": "Plugin Theme Synchronization - Fixed plugins not respecting the auto theme setting"
+    },
+    {
+      "version": "7.0.1",
+      "title": "Chart Rendering - Improved rendering and responsiveness of line and bar charts with dual-axis"
+    },
     {
       "version": "6.7.4.2-dn",
       "title": "Prepared for Nomie Server"
