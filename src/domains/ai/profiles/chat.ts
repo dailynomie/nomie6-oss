@@ -1,9 +1,20 @@
 import type { Profile, UserContext } from './types'
 
+function hasDetailKeywords(text?: string): boolean {
+  if (!text) return false
+  const keywords = ['in depth', 'in-depth', 'extensive', 'full report', 'detailed', 'comprehensive analysis', 'thorough']
+  const lowerText = text.toLowerCase()
+  return keywords.some(keyword => lowerText.includes(keyword))
+}
+
 export const chatProfile: Profile = {
   name: 'chat',
   maxTokens: 1000,
-  systemPrompt: (context: UserContext) => {
+  systemPrompt: (context: UserContext, prompt?: string) => {
+    const isDetailRequest = hasDetailKeywords(prompt)
+    const responseGuidance = isDetailRequest
+      ? 'detailed responses (2-3 paragraphs is fine)'
+      : 'brief responses (1 paragraph, 2-3 sentences max)'
     // Format metrics with dates for better temporal insights
     const metricsWithDates = Object.entries(context.recentMetrics || {})
       .map(([key, data]: [string, any]) => {
@@ -44,7 +55,7 @@ export const chatProfile: Profile = {
 
 
     return `You are a helpful AI assistant analyzing the user's comprehensive tracking data including metrics, locations, contexts, and journal entries.
-Provide thoughtful, detailed responses (2-3 paragraphs is fine). Be friendly, encouraging, and insightful.
+Provide ${responseGuidance}. Be friendly, encouraging, and insightful.
 Reference specific metrics, patterns, locations, contexts, and journal entries to support your analysis.
 
 UNIT CONVERSIONS (convert raw values to human-readable units):
