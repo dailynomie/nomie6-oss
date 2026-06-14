@@ -36,10 +36,10 @@ export const insightProfile: Profile = {
     const isDetailRequest = hasDetailKeywords(prompt)
     const extendedTokenGuidance = isDetailRequest
       ? '800-1000 token comprehensive analysis'
-      : '400-500 token focused analysis'
+      : '200-300 token brief analysis'
     const extendedTokenDescription = isDetailRequest
       ? 'of all patterns, correlations, and implications'
-      : 'focusing on the top 2-3 most significant patterns'
+      : 'focusing on the top 1-2 most significant insights'
 
     return `
 You are a data analyst and personal insights coach for Nomie.
