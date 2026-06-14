@@ -4,11 +4,27 @@
   import BackdropModal from '../../../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../../../components/backdrop/BackdropStore2'
   import { insightModalData } from './insightModalStore'
+  import { Prefs } from '../../../preferences/Preferences'
   import { marked } from 'marked'
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
 
   dayjs.extend(relativeTime)
+
+  // Font size mapping from preference to rem values
+  const fontSizeMap: Record<string, number> = {
+    xs: 0.75,    // 12px
+    sm: 0.875,   // 14px
+    md: 1,       // 16px (base)
+    lg: 1.125,   // 18px
+    xl: 1.25     // 20px
+  }
+
+  function calculateInsightFontSize(prefFontSize: string): string {
+    const baseSize = fontSizeMap[prefFontSize] || 1
+    const enlargedSize = baseSize * 1.25 // 25% bigger
+    return `${enlargedSize}rem`
+  }
 
   let modalId = $derived($insightModalData.id)
   let insight = $derived($insightModalData.insight)
@@ -16,6 +32,7 @@
   let promptLabel = $derived($insightModalData.promptLabel)
   let lastFetchDate = $derived($insightModalData.lastFetchDate)
   let renderedInsight = $derived(insightExtended ? marked.parse(insightExtended) : '')
+  let insightFontSize = $derived(calculateInsightFontSize($Prefs.fontSize || 'md'))
 
   function getRefreshTime(): string {
     if (!lastFetchDate) return 'N/A'
@@ -73,7 +90,7 @@
   }
 </style>
 
-<BackdropModal mainClass="bg-white dark:bg-gray-900">
+<BackdropModal mainClass="bg-white dark:bg-gray-900 flex flex-col">
   <div slot="header" class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
     <button
       onclick={close}
@@ -84,9 +101,11 @@
     <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Nomie Insights</h2>
     <div class="w-12" />
   </div>
-  <div class="p-6 max-h-96 overflow-y-auto border border-primary-300 m-4 rounded">
-    <div class="text-sm leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
-      {@html renderedInsight}
+  <div class="flex-1 flex flex-col p-6 overflow-hidden">
+    <div class="flex-1 overflow-y-auto border border-primary-300 rounded p-4" style="font-size: {insightFontSize}">
+      <div class="leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
+        {@html renderedInsight}
+      </div>
     </div>
     {#if lastFetchDate}
       <p class="text-xs text-gray-600 dark:text-gray-400 mt-4">
