@@ -477,11 +477,6 @@ Correlation analysis reveals three major relationship clusters with predictive a
   .markdown-content {
     flex: 1;
     min-height: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .markdown-content p {
