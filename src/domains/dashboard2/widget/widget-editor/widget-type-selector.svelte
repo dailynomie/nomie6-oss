@@ -7,10 +7,17 @@
 
   import { getWidgetTypes, type IWidgetType, widgetTypes } from '../widget-types'
   import { PluginStore } from '../../../plugins/PluginStore'
+  import { Prefs } from '../../../preferences/Preferences'
 
   import Avatar from '../../../../components/avatar/avatar.svelte'
 import type { WidgetClass } from '../widget-class';
   const { widget = $bindable(), onWidgetTypeChange, updateTrigger = 0 } = $props();
+
+  function isAiConfigured(): boolean {
+    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[
+      $Prefs.ai?.selectedService || 'claude'
+    ]?.apiKey)
+  }
 
   let mounted = $state(false)
   $effect(() => {
@@ -54,9 +61,12 @@ import type { WidgetClass } from '../widget-class';
   wrapperClass="snap-scroll-x flex   space-x-4 px-4 widget-type-selector py-2 "
 >
   {#each allWidgetTypes as widgetType}
+    {@const isInsightDisabled = widgetType.id === 'insight' && !isAiConfigured()}
     <button
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl"
-      aria-label={`${widgetType.label} widget`}
+      disabled={isInsightDisabled}
+      class="flex flex-col self-start focus:outline-none p-1 rounded-xl {isInsightDisabled ? 'opacity-50 cursor-not-allowed' : ''}"
+      aria-label={`${widgetType.label} widget${isInsightDisabled ? ' (requires AI configuration)' : ''}`}
+      title={isInsightDisabled ? 'Enable AI in settings and add your API key to use this widget' : ''}
       on:click={() => {
         select(widgetType)
       }}
@@ -64,7 +74,7 @@ import type { WidgetClass } from '../widget-class';
       <div
         class="{widget.type === widgetType.id
           ? 'active-type scale-110'
-          : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+          : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl {isInsightDisabled ? 'opacity-60' : ''}"
       >
         {#if widgetType.id === 'insight'}
           <NomieAiButton size="40px" />
