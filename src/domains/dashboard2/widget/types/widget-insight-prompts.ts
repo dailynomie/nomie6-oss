@@ -10,7 +10,7 @@ Comprehensive analysis of all patterns found, with trends, timing, and actionabl
   progress: `Summarize my progress towards my goals this period.
 
 ## SUMMARY
-3-4 lines with concrete examples and percentage improvements.
+Exactly 3 lines with concrete examples and percentage improvements.
 
 ## EXTENDED
 Detailed progress analysis with trend analysis, barrier identification, and specific recommendations (800-1000 tokens).`,
@@ -18,7 +18,7 @@ Detailed progress analysis with trend analysis, barrier identification, and spec
   insights: `Provide key insights about my tracked metrics this period.
 
 ## SUMMARY
-3-4 punchy lines highlighting the most interesting metrics findings.
+Exactly 3 lines highlighting the most interesting metrics findings.
 
 ## EXTENDED
 Comprehensive metric analysis with correlations, outliers, and deeper context (800-1000 tokens).`,
@@ -26,7 +26,7 @@ Comprehensive metric analysis with correlations, outliers, and deeper context (8
   recommendations: `Give actionable recommendations based on my data.
 
 ## SUMMARY
-3-4 lines with top 2-3 prioritized recommendations.
+Exactly 3 lines with top 2-3 prioritized recommendations.
 
 ## EXTENDED
 Detailed recommendations with reasoning, expected outcomes, and implementation guidance (800-1000 tokens).`,
@@ -34,7 +34,7 @@ Detailed recommendations with reasoning, expected outcomes, and implementation g
   trends: `Analyze the main trends in my tracking data for this period.
 
 ## SUMMARY
-3-4 lines with the most significant trends and their direction.
+Exactly 3 lines with the most significant trends and their direction.
 
 ## EXTENDED
 Comprehensive trend analysis with historical context, acceleration, and predictive insights (800-1000 tokens).`,
@@ -42,7 +42,7 @@ Comprehensive trend analysis with historical context, acceleration, and predicti
   wellbeing: `Assess my overall wellbeing based on the data.
 
 ## SUMMARY
-3-4 lines covering key wellbeing indicators and overall assessment.
+Exactly 3 lines covering key wellbeing indicators and overall assessment.
 
 ## EXTENDED
 Detailed wellbeing analysis including correlations, risk factors, and optimization opportunities (800-1000 tokens).`,
@@ -50,7 +50,7 @@ Detailed wellbeing analysis including correlations, risk factors, and optimizati
   productivity: `Comment on my productivity trends this period.
 
 ## SUMMARY
-3-4 lines with peak productivity windows and main trends.
+Exactly 3 lines with peak productivity windows and main trends.
 
 ## EXTENDED
 In-depth productivity analysis with pattern identification, blockers, and optimization strategies (800-1000 tokens).`,
@@ -58,7 +58,7 @@ In-depth productivity analysis with pattern identification, blockers, and optimi
   health: `Provide key health insights from my tracking data.
 
 ## SUMMARY
-3-4 lines highlighting the most important health findings.
+Exactly 3 lines highlighting the most important health findings.
 
 ## EXTENDED
 Comprehensive health analysis with lifestyle correlations and evidence-based recommendations (800-1000 tokens).`,
@@ -66,7 +66,7 @@ Comprehensive health analysis with lifestyle correlations and evidence-based rec
   mood: `Analyze the mood patterns in my journal entries.
 
 ## SUMMARY
-3-4 lines with main mood patterns and key triggers.
+Exactly 3 lines with main mood patterns and key triggers.
 
 ## EXTENDED
 Detailed mood analysis including emotional patterns, triggers, protective factors, and insights (800-1000 tokens).`,
@@ -74,7 +74,7 @@ Detailed mood analysis including emotional patterns, triggers, protective factor
   correlation: `Identify key correlations between metrics this period.
 
 ## SUMMARY
-3-4 lines with the strongest 2-3 correlations found.
+Exactly 3 lines with the strongest 2-3 correlations found.
 
 ## EXTENDED
 Comprehensive correlation analysis with strength assessment and practical implications (800-1000 tokens).`,
