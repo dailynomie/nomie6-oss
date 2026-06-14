@@ -20,7 +20,14 @@ import type { DualInsightResponse } from '../../../ai/profiles/types'
 
   const { widget = $bindable() } = $props()
 
+  function isAiEnabled(): boolean {
+    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[
+      $Prefs.ai?.selectedService || 'claude'
+    ]?.apiKey)
+  }
+
   function openFullInsightModal() {
+    if (!isAiEnabled()) return
     const modalId = `insight-modal-${widget?.id}`
 
     // Update store with current values and modal ID
@@ -414,8 +421,15 @@ Correlation analysis reveals three major relationship clusters with predictive a
   })
 </script>
 
-<div class="flex flex-col h-full justify-between">
-  {#if loading}
+<div class="flex flex-col h-full justify-between {!isAiEnabled() ? 'opacity-50' : ''}">
+  {#if !isAiEnabled()}
+    <div class="flex items-center justify-center h-full">
+      <div class="text-center px-4">
+        <p class="text-xs text-gray-500 dark:text-gray-400">AI is disabled</p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Enable in settings to use insights</p>
+      </div>
+    </div>
+  {:else if loading}
     <div class="flex items-center justify-center h-full">
       <div class="text-center">
         <div class="spinner mb-2"></div>
