@@ -17,6 +17,7 @@
   let messages = $state<ChatMessage[]>([])
   let inputText = $state('')
   let scrollContainer: HTMLElement | null = null
+  let inputField: HTMLTextAreaElement | null = null
 
   function scrollToBottom() {
     if (scrollContainer) {
@@ -41,6 +42,13 @@
     // Trigger on messages length change
     messages.length
     scrollToBottom()
+  })
+
+  $effect(() => {
+    // Focus input field when response is complete (not loading)
+    if (!aiState.loading && inputField) {
+      inputField.focus()
+    }
   })
 
   async function sendMessage() {
@@ -168,6 +176,7 @@
   <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-4 relative z-20 bg-white dark:bg-gray-900">
     <div class="flex gap-2 items-end">
       <textarea
+        bind:this={inputField}
         bind:value={inputText}
         on:keydown={handleKeydown}
         placeholder="Ask about your tracking data..."
