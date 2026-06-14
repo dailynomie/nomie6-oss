@@ -48,7 +48,7 @@ Identify trends, correlations, and actionable patterns. Consider WHERE and WHEN 
 IMPORTANT: Format your response with TWO SECTIONS using the headers below:
 
 ## SUMMARY
-Provide 3-4 concise lines highlighting the top 1-2 surprising patterns only.
+Provide exactly 3 lines highlighting the top 1-2 surprising patterns only.
 Keep sentences short and punchy. Use specific numbers without decimals.
 Focus on what's most interesting or actionable. NO elaboration.
 

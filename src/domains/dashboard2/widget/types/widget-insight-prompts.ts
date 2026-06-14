@@ -2,7 +2,7 @@ export const INSIGHT_PROMPTS = {
   patterns: `Identify the TOP patterns in my tracking data for this period.
 
 ## SUMMARY
-3-4 concise lines with specific details. Just the highlights.
+Exactly 3 lines with specific details. Just the highlights.
 
 ## EXTENDED
 Comprehensive analysis of all patterns found, with trends, timing, and actionable insights (800-1000 tokens).`,
