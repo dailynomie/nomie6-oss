@@ -113,8 +113,11 @@
       if (value) {
         const updatedTokens = trackables.map((t, index) => {
           if (t.tag == trackable.tag) {
-            t.value = value.value
-            t.tracker.default = value.value
+            // Create new Trackable instance to trigger Svelte 5 reactivity
+            return new Trackable({
+              ...t,
+              value: value.value,
+            })
           }
           return t
         })
