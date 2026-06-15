@@ -8,44 +8,23 @@
 
   const { min, max, value, tracker, step } = $props()
 
-  let tempValue = $state(Number(value) || parseFloat(tracker.min) || 0)
-  let values = $state([tempValue])
-  let lastDispatchedValue = $state(tempValue)
+  let values = $state([Number(value) || parseFloat(tracker.min) || 0])
 
   const dispatch = createEventDispatcher()
 
   $effect(() => {
     const newValue = Number(value) || parseFloat(tracker.min) || 0
-    if (tempValue !== newValue) {
-      tempValue = newValue
+    if (values[0] !== newValue) {
       values = [newValue]
     }
   })
 
-  $effect(() => {
-    if (values && values[0] !== undefined) {
-      const newValue = values[0]
-      if (newValue !== tempValue) {
-        tempValue = newValue
-      }
+  onMount(() => {
+    // Trigger initial change event
+    if (values[0]) {
+      dispatch('change', parseInt(values[0]))
     }
   })
-
-  $effect(() => {
-    if (tempValue !== lastDispatchedValue) {
-      lastDispatchedValue = tempValue
-      dispatch('input', tempValue)
-    }
-  })
-
-  async function main() {
-    // Trigger the change so the parent catches it.
-    if (tempValue) {
-      dispatch('change', parseInt(tempValue))
-    }
-  }
-
-  onMount(main)
 </script>
 
 <div class="tracker-input-slider relative">
@@ -64,8 +43,11 @@
 
     <RangeSlider
       bind:values={values}
-      on:change={(evt) => {
-        dispatch('change', parseInt(tempValue))
+      on:input={() => {
+        dispatch('input', values[0])
+      }}
+      on:change={() => {
+        dispatch('change', parseInt(values[0]))
       }}
       style="--range-slider:{tracker.color};"
       springValues={{
@@ -86,11 +68,11 @@
     <div class="value dark:bg-gray-700 bg-gray-300 px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
       {#if tracker && tracker.uom !== 'num'}
         <LetterTicker
-          text={`${tracker.displayValue(tempValue)}`}
+          text={`${tracker.displayValue(values[0])}`}
           className=" font-bold text-gray-800 dark:text-white"
         />
       {:else if tracker}
-        <LetterTicker text={`${tempValue}`} className="font-bold text-gray-800 dark:text-white" />
+        <LetterTicker text={`${values[0]}`} className="font-bold text-gray-800 dark:text-white" />
       {/if}
     </div>
   </div>
