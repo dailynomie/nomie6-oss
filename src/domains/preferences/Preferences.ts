@@ -100,13 +100,22 @@ export const enabledBetaFeatures = async (): Promise<void> => {
   showToast({ message: 'Beta Features Enabled', type: 'success' })
 }
 
+// Media query listener for tracking OS theme changes
+let mediaQueryListenerCleanup: (() => void) | null = null
+
 /**
  * Sets the Theme of the Browser
  * Does this by applying .mode-dark .mode-light to the Body
- * It will also check for auto
+ * It will also check for auto and listen for OS theme changes
  * @param theme
  */
 export const setDocumentTheme = (theme: ThemeTypes) => {
+  // Clean up any existing listener
+  if (mediaQueryListenerCleanup) {
+    mediaQueryListenerCleanup()
+    mediaQueryListenerCleanup = null
+  }
+
   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
   let themeToSet = theme
   if (theme === 'auto') {
@@ -115,6 +124,35 @@ export const setDocumentTheme = (theme: ThemeTypes) => {
   document.documentElement.className = ''
   document.documentElement.classList.add(`mode-${themeToSet}`)
   document.documentElement.classList.add(`${themeToSet}`)
+
+  // If theme is set to 'auto', listen for OS theme changes
+  if (theme === 'auto') {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+    // Modern browsers: use addEventListener
+    const handleThemeChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      const newDarkMode = e.matches
+      const newTheme = newDarkMode ? 'dark' : 'light'
+      document.documentElement.className = ''
+      document.documentElement.classList.add(`mode-${newTheme}`)
+      document.documentElement.classList.add(`${newTheme}`)
+    }
+
+    // Try to use addEventListener (modern approach)
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleThemeChange)
+      mediaQueryListenerCleanup = () => {
+        mediaQuery.removeEventListener('change', handleThemeChange)
+      }
+    }
+    // Fallback for older browsers
+    else if (mediaQuery.addListener) {
+      mediaQuery.addListener(handleThemeChange)
+      mediaQueryListenerCleanup = () => {
+        mediaQuery.removeListener(handleThemeChange)
+      }
+    }
+  }
 }
 
 export const getDateFormats = (): {
