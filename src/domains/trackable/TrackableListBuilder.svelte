@@ -30,12 +30,10 @@
   let lastValueHash: any = $state(undefined)
   $effect(() => {
     if (value && value !== lastValueHash) {
-      console.log('[TrackableListBuilder] value prop changed:', value)
       lastValueHash = value
       trackables = tokenizeLite(`${value || ''}`).map((token) => {
         return tokenToTrackable(token, $AllTrackables)
       })
-      console.log('[TrackableListBuilder] Parsed trackables from value:', trackables.map(t => ({tag: t.tag, value: t.value})))
     }
   })
 
@@ -74,16 +72,13 @@
       })
       .join(' ')
 
-    console.log('[TrackableListBuilder] trackablesToNote generated:', note)
     return note
   }
 
   // Updating the value of the trackable list builder.
   function update() {
     const newValue = trackablesToNote()
-    console.log('[TrackableListBuilder] update() setting value to:', newValue)
     value = newValue
-    console.log('[TrackableListBuilder] value prop is now:', value)
   }
 
   // Removing a trackable from the trackables array.
@@ -109,7 +104,6 @@
 
   // Updating the default value of a tracker.
   const updateDefault = async (trackable: Trackable) => {
-    console.log('[TrackableListBuilder] updateDefault called for:', trackable.tag, 'current value:', trackable.value)
     if (trackable.tracker) {
       const value = await getTrackerInputAsString({
         tracker: trackable.tracker,
@@ -117,30 +111,21 @@
         allowSave: false,
       })
 
-      console.log('[TrackableListBuilder] Modal returned:', value)
       if (value) {
-        console.log('[TrackableListBuilder] Creating new trackables array with updated value for', trackable.tag)
         const updatedTokens = trackables.map((t, index) => {
           if (t.tag == trackable.tag) {
-            console.log('[TrackableListBuilder] Found matching trackable:', t.tag, 'old value:', t.value, 'new value:', value.value)
             // Create new Trackable instance to trigger Svelte 5 reactivity
             const newTrackable = new Trackable({
               ...t,
               value: value.value,
             })
-            console.log('[TrackableListBuilder] Created new Trackable:', newTrackable.tag, 'with value:', newTrackable.value)
             return newTrackable
           }
           return t
         })
 
-        console.log('[TrackableListBuilder] Updated trackables array, before assignment:', trackables.map(t => ({tag: t.tag, value: t.value})))
         trackables = updatedTokens
-        const detailed = trackables.map((t, i) => ({index: i, tag: t.tag, value: t.value, id: t.id}))
-        console.log('[TrackableListBuilder] After assignment, trackables detailed:', detailed)
-        console.log('[TrackableListBuilder] First trackable after update:', {tag: trackables[0].tag, value: trackables[0].value, id: trackables[0].id})
         update()
-        console.log('[TrackableListBuilder] After update(), value prop:', value)
       }
     }
   }
@@ -203,7 +188,7 @@
         {item.label}
         <div slot="right" class="flex items-center space-x-2">
           {#if item.type == 'tracker' && item.tracker}
-            <Badge on:click={() => { console.log('[Badge click] item.value:', item.value); updateDefault(item) }} pad value={item.formatValue(item.value)} />
+            <Badge on:click={() => updateDefault(item)} pad value={item.formatValue(item.value)} />
           {/if}
           <div class="trackable-drag-handle cursor-move">
             <IonIcon icon={MenuOutline} className="text-gray-500" />
