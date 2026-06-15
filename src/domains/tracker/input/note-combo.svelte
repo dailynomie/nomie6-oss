@@ -9,7 +9,7 @@
   import ToggleSwitch from '../../../components/toggle-switch/toggle-switch.svelte'
   import ManualTime from '../../../components/counter/manual-time.svelte'
   import { TrackableStore } from '../../trackable/TrackableStore'
-  import type { Trackable } from '../../trackable/Trackable.class'
+  import { Trackable } from '../../trackable/Trackable.class'
   import TrackableAvatar from '../../../components/avatar/trackable-avatar.svelte'
   import type TrackerClass from '../../../modules/tracker/TrackerClass'
   // import InputSlider from '../../../components/input-slider/input-slider.svelte'
@@ -116,7 +116,8 @@
                 max={parseFloat(`${trackable.tracker.max}`) || 100}
                 on:input={(evt) => {
                   const index = trackables.indexOf(trackable)
-                  trackables[index] = { ...trackable, value: evt.detail }
+                  const updated = new Trackable({ ...trackable, value: evt.detail })
+                  trackables[index] = updated
                   trackables = trackables
                   fireChange()
                 }}
