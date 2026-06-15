@@ -111,7 +111,7 @@
               <InputSlider2
                 {trackable}
                 step={trackable.tracker.step || 1}
-                value={isTruthy(trackable.tracker.default) ? trackable.tracker.default : trackable.value}
+                value={trackable.value}
                 min={parseFloat(`${trackable.tracker.min}`) || 0}
                 max={parseFloat(`${trackable.tracker.max}`) || 100}
                 on:input={(evt) => {
