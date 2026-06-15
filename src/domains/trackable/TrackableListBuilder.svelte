@@ -76,15 +76,12 @@
   }
 
   // Updating the value of the trackable list builder.
-  async function update() {
+  function update() {
     value = trackablesToNote()
-    ready = false
-    await wait(10)
-    ready = true
   }
 
   // Removing a trackable from the trackables array.
-  async function remove(trackable: Trackable) {
+  function remove(trackable: Trackable) {
     trackables = trackables.filter((d: Trackable) => {
       return d.tag !== trackable.tag
     })
@@ -163,6 +160,7 @@
       key="id"
       direction="y"
       sortable={true}
+      handleClass="trackable-drag-handle"
       {className}
       items={trackables}
       on:update={(evt) => {
@@ -187,10 +185,18 @@
           {#if item.type == 'tracker' && item.tracker}
             <Badge on:click={() => updateDefault(item)} pad value={item.formatValue(item.tracker.default)} />
           {/if}
-          <IonIcon icon={MenuOutline} className="text-gray-500" />
+          <div class="trackable-drag-handle cursor-move">
+            <IonIcon icon={MenuOutline} className="text-gray-500" />
+          </div>
         </div>
       </ListItem>
       <Divider inset />
     </SortableList2>
   {/if}
 </div>
+
+<style lang="postcss">
+  :global(.trackable-list-builder-bound .sl2-grid .item) {
+    @apply h-auto;
+  }
+</style>

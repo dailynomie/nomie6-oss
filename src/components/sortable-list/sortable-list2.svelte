@@ -19,7 +19,17 @@
   let ready = $state(false)
   let lastItemCount = $state<number>(undefined)
 
-  const { items = $bindable(), sortable, direction, className, containerClass, handleClass, key, id, enabled } = $props()
+  const {
+    items = $bindable(),
+    sortable,
+    direction = 'xy',
+    className = '',
+    containerClass = '',
+    handleClass = undefined,
+    key,
+    id = `sl2-${nid()}`,
+    enabled = true
+  } = $props()
 
   $effect(() => {
     if (items && items.length) {

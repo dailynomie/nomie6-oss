@@ -9,6 +9,8 @@
   const { min, max, value, tracker, step } = $props()
 
   let tempValue = $state(Number(value) || parseFloat(tracker.min) || 0)
+  let values = $state([tempValue])
+  let lastDispatchedValue = $state(tempValue)
 
   const dispatch = createEventDispatcher()
 
@@ -16,6 +18,23 @@
     const newValue = Number(value) || parseFloat(tracker.min) || 0
     if (tempValue !== newValue) {
       tempValue = newValue
+      values = [newValue]
+    }
+  })
+
+  $effect(() => {
+    if (values && values[0] !== undefined) {
+      const newValue = values[0]
+      if (newValue !== tempValue) {
+        tempValue = newValue
+      }
+    }
+  })
+
+  $effect(() => {
+    if (tempValue !== lastDispatchedValue) {
+      lastDispatchedValue = tempValue
+      dispatch('input', tempValue)
     }
   })
 
@@ -44,9 +63,9 @@
     {/if}
 
     <RangeSlider
-      bind:value={tempValue}
+      bind:values={values}
       on:change={(evt) => {
-        dispatch('change', tempValue)
+        dispatch('change', parseInt(tempValue))
       }}
       style="--range-slider:{tracker.color};"
       springValues={{
@@ -65,7 +84,6 @@
       pips
     />
     <div class="value dark:bg-gray-700 bg-gray-300 px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
-      <div style="color: red; font-size: 8px;">Debug: {tempValue}</div>
       {#if tracker && tracker.uom !== 'num'}
         <LetterTicker
           text={`${tracker.displayValue(tempValue)}`}
