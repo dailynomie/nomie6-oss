@@ -136,7 +136,9 @@
 
         console.log('[TrackableListBuilder] Updated trackables array, before assignment:', trackables.map(t => ({tag: t.tag, value: t.value})))
         trackables = updatedTokens
-        console.log('[TrackableListBuilder] After assignment, trackables:', trackables.map(t => ({tag: t.tag, value: t.value})))
+        const detailed = trackables.map((t, i) => ({index: i, tag: t.tag, value: t.value, id: t.id}))
+        console.log('[TrackableListBuilder] After assignment, trackables detailed:', detailed)
+        console.log('[TrackableListBuilder] First trackable after update:', {tag: trackables[0].tag, value: trackables[0].value, id: trackables[0].id})
         update()
         console.log('[TrackableListBuilder] After update(), value prop:', value)
       }
@@ -201,7 +203,7 @@
         {item.label}
         <div slot="right" class="flex items-center space-x-2">
           {#if item.type == 'tracker' && item.tracker}
-            <Badge on:click={() => updateDefault(item)} pad value={item.formatValue(item.tracker.default)} />
+            <Badge on:click={() => { console.log('[Badge click] item.value:', item.value); updateDefault(item) }} pad value={item.formatValue(item.value)} />
           {/if}
           <div class="trackable-drag-handle cursor-move">
             <IonIcon icon={MenuOutline} className="text-gray-500" />
