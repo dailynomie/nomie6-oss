@@ -31,6 +31,15 @@ import type { WidgetClass } from '../widget-class';
     }
   })
 
+  const isWidgetTypeActive = (widgetType: IWidgetType): boolean => {
+    // For regular widgets, just check the type
+    if (widgetType.id !== 'plugin') {
+      return widget.type === widgetType.id
+    }
+    // For plugin widgets, check both type AND plugin ID
+    return widget.type === 'plugin' && widget.data?.pluginId === widgetType.data?.pluginId
+  }
+
   const select = (selectedType: IWidgetType) => {
     // Mutate directly - parent will handle reassignment for reactivity
     widget.type = selectedType.id
@@ -72,7 +81,7 @@ import type { WidgetClass } from '../widget-class';
       }}
     >
       <div
-        class="{widget.type === widgetType.id
+        class="{isWidgetTypeActive(widgetType)
           ? 'active-type scale-110'
           : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl {isInsightDisabled ? 'opacity-60' : ''}"
       >
