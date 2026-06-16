@@ -87,11 +87,13 @@
   <!-- Show setup modal on top if not yet enabled -->
   {#if showSetupModal && plugin && !plugin.setupComplete}
     <div class="modal-overlay">
-      <PluginSetupModal
-        {plugin}
-        on:confirm={handleSetupConfirm}
-        on:cancel={handleSetupCancel}
-      />
+      <div class="modal-content">
+        <PluginSetupModal
+          {plugin}
+          on:confirm={handleSetupConfirm}
+          on:cancel={handleSetupCancel}
+        />
+      </div>
     </div>
   {/if}
 </Layout>
@@ -117,5 +119,9 @@
     .modal-overlay {
       left: 14rem; /* sidebar width (56 * 0.25rem) */
     }
+  }
+
+  .modal-content {
+    @apply w-[90%] max-w-2xl;
   }
 </style>
