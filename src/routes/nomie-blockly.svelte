@@ -86,11 +86,13 @@
 
   <!-- Show setup modal on top if not yet enabled -->
   {#if showSetupModal && plugin && !plugin.setupComplete}
-    <PluginSetupModal
-      {plugin}
-      on:confirm={handleSetupConfirm}
-      on:cancel={handleSetupCancel}
-    />
+    <div class="modal-overlay">
+      <PluginSetupModal
+        {plugin}
+        on:confirm={handleSetupConfirm}
+        on:cancel={handleSetupCancel}
+      />
+    </div>
   {/if}
 </Layout>
 
@@ -101,5 +103,9 @@
 
   .plugin-container {
     @apply w-full h-full overflow-hidden;
+  }
+
+  .modal-overlay {
+    @apply fixed inset-0 z-50;
   }
 </style>
