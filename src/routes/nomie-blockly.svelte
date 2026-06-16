@@ -6,6 +6,8 @@
   import PluginSetupModal from '../domains/plugins/blockly/plugin-setup-modal.svelte'
   import type { PluginClass } from '../domains/plugins/plugin-helpers'
   import Layout from '../domains/layout/layout.svelte'
+  import { navigate } from '../vendor/svelte-navigator'
+  import { Prefs } from '../domains/preferences/Preferences'
 
   let showSetupModal = $state(true)
   let plugin: PluginClass | undefined = $state(undefined)
@@ -64,9 +66,9 @@
   }
 
   const handleSetupCancel = () => {
-    // User cancels - don't show again this session but keep showing on page revisits
-    // until they confirm
-    showSetupModal = false
+    // User cancels - navigate to default page
+    const defaultPage = $Prefs.startPage === 'track' ? '/track' : `/${$Prefs.startPage || 'track'}`
+    navigate(defaultPage)
   }
 </script>
 
