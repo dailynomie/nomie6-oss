@@ -107,6 +107,8 @@
 
   .modal-overlay {
     @apply fixed top-0 bottom-0 z-50 flex items-center justify-center;
+    @apply bg-gray-700 bg-opacity-50;
+    @apply backdrop-filter backdrop-saturate-150 backdrop-blur-sm;
     left: 0;
     right: 0;
   }
