@@ -122,6 +122,6 @@
   }
 
   .modal-content {
-    @apply w-[90%] max-w-2xl;
+    @apply w-11/12 max-w-2xl;
   }
 </style>
