@@ -9,6 +9,7 @@ import { PluginClass } from "./plugin-helpers";
 import PluginInstallerModal from "./plugin-installer-modal.svelte";
 import pluginModalSvelte from "./plugin-modal.svelte";
 import pluginsModalSvelte from "./plugins-modal.svelte";
+import { createBlocklyPlugin } from "./buildin-plugins";
 
 
 export type PluginAction = {
@@ -135,4 +136,14 @@ export const broadcastPluginMessage = (message: PluginMessageType, pluginId?: st
     })
   }
 
+}
+
+export const initializeBuildinPlugins = () => {
+  const blocklyPlugin = createBlocklyPlugin()
+  const allPlugins = PluginStore.rawState()
+  const existing = allPlugins.find((p) => p.id === 'nomie-blockly')
+
+  if (!existing) {
+    PluginStore.upsert(blocklyPlugin)
+  }
 }

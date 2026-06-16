@@ -116,6 +116,13 @@
       icon: QRCode,
       activeIcon: QRCodeSolid,
     },
+    {
+      id: 'blockly',
+      path: '/nomie-blockly',
+      title: 'Nomie Blockly',
+      icon: CubeOutline,
+      activeIcon: CubeSolid,
+    },
     // {
     //   id: 'awards',
     //   path: '/awards',

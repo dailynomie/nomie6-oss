@@ -57,7 +57,7 @@
   import { trackLaunch } from './domains/preferences/LaunchCount'
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
   import PointerLoader from './domains/pointers/pointer-loader.svelte'
-  import { PluginStore } from './domains/plugins/PluginStore'
+  import { PluginStore, initializeBuildinPlugins } from './domains/plugins/PluginStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
 
@@ -216,6 +216,7 @@
 
     // Initialize the Plugins
     PluginStore.init({})
+    initializeBuildinPlugins()
     pluginsInitizlied = true
 
     LedgerStore.hook('onLogSaved', (res) => {

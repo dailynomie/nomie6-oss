@@ -45,6 +45,10 @@
   }
 
   const deletePlugin = async (plugin: PluginClass) => {
+    if (plugin.buildin) {
+      Interact.error('This plugin cannot be removed')
+      return
+    }
     const confirmed = await Interact.confirm(`Uninstall ${plugin.name} from Nomie?`)
     if (confirmed) {
       try {
@@ -157,7 +161,7 @@
                   value={plugin.active}
                 />
               {/if}
-              {#if editMode}
+              {#if editMode && !plugin.buildin}
                 <Button on:click={() => deletePlugin(plugin)} icon
                   ><IonIcon className="text-red-500" icon={TrashOutline} /></Button
                 >

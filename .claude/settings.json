@@ -3,7 +3,8 @@
     "allow": [
       "Read(//Users/ronalddelange/Library/Mobile\\\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss/src/domains/setup/**)",
       "Read(//Users/ronalddelange/Library/Mobile\\\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss/src/domains/preferences/**)",
-      "Read(//Users/ronalddelange/Library/Mobile\\\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss/src/components/backdrop/**)"
+      "Read(//Users/ronalddelange/Library/Mobile\\\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss/src/components/backdrop/**)",
+      "WebFetch(domain:dailynomie.github.io)"
     ],
     "additionalDirectories": [
       "/tmp",
