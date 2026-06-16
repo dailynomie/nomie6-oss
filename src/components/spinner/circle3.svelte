@@ -3,7 +3,7 @@
 <script lang="ts">
 
 
-  const { size = 60, unit = 'px', ballTopLeft = '#3b82f6', ballTopRight = '#8b5cf6', ballBottomLeft = '#ec4899', ballBottomRight = '#06b6d4', style = '', duration = '1s' } = $props()
+  const { size = 60, unit = 'px', ballTopLeft = '#0068ab', ballTopRight = '#00A4E4', ballBottomLeft = '#2cbdff', ballBottomRight = '#0083d4', style = '', duration = '1s' } = $props()
 </script>
 
 <div
