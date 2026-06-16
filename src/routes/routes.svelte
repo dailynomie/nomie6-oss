@@ -27,7 +27,7 @@
   import Export from './export.svelte'
   import Setup from './setup.svelte'
   import TestAi from './test-ai.svelte'
-  import BlocklyPage from '../domains/plugins/blockly/blockly-page.svelte'
+  import NomieBlockly from './nomie-blockly.svelte'
 </script>
 
 <Router>
@@ -60,7 +60,7 @@
     <AfterNomie />
   </Route>
   <Route path="/nomie-blockly">
-    <BlocklyPage />
+    <NomieBlockly />
   </Route>
   <Route path="/timeline">
     <Timeline />

@@ -1,11 +1,11 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { PluginStore } from '../PluginStore'
-  import PluginFrame from '../plugin-frame.svelte'
-  import PluginSetupModal from './plugin-setup-modal.svelte'
-  import type { PluginClass } from '../plugin-helpers'
-  import Layout from '../../layout/layout.svelte'
+  import { PluginStore } from '../domains/plugins/PluginStore'
+  import PluginFrame from '../domains/plugins/plugin-frame.svelte'
+  import PluginSetupModal from '../domains/plugins/blockly/plugin-setup-modal.svelte'
+  import type { PluginClass } from '../domains/plugins/plugin-helpers'
+  import Layout from '../domains/layout/layout.svelte'
 
   let showSetupModal = $state(true)
   let plugin: PluginClass | undefined = $state(undefined)
