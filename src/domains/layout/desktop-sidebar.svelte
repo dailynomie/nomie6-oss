@@ -109,13 +109,13 @@
       icon: CubeOutline,
       activeIcon: CubeSolid,
     },
-    {
-      id: 'afternomie',
-      path: '/afternomie',
-      title: Lang.t('tabs.afternomie', 'AfterNomie'),
-      icon: QRCode,
-      activeIcon: QRCodeSolid,
-    },
+    // {
+    //   id: 'afternomie',
+    //   path: '/afternomie',
+    //   title: Lang.t('tabs.afternomie', 'AfterNomie'),
+    //   icon: QRCode,
+    //   activeIcon: QRCodeSolid,
+    // },
     {
       id: 'blockly',
       path: '/nomie-blockly',
