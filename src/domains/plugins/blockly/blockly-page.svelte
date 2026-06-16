@@ -9,6 +9,7 @@
 
   let showSetupModal = $state(true)
   let plugin: PluginClass | undefined = $state(undefined)
+  let wrapperElement: HTMLDivElement | undefined = $state(undefined)
 
   // Subscribe to PluginStore and update plugin reference
   let unsubscribe: any
@@ -23,6 +24,27 @@
       }
     })
   }
+
+  // Adjust height to account for footer position
+  $effect(() => {
+    if (wrapperElement && typeof window !== 'undefined') {
+      const updateHeight = () => {
+        const footer = document.querySelector('footer.layout-footer')
+        if (footer && wrapperElement) {
+          const footerRect = footer.getBoundingClientRect()
+          const wrapperRect = wrapperElement.getBoundingClientRect()
+          // Set height to reach just above the footer
+          const newHeight = footerRect.top - wrapperRect.top
+          wrapperElement.style.height = `${Math.max(newHeight, 400)}px`
+        }
+      }
+
+      // Update immediately and on resize
+      updateHeight()
+      window.addEventListener('resize', updateHeight)
+      return () => window.removeEventListener('resize', updateHeight)
+    }
+  })
 
   const handleSetupConfirm = async () => {
     if (plugin) {
@@ -43,12 +65,14 @@
 <Layout pageTitle="Nomie Blockly">
   <!-- Always render the plugin in the background -->
   {#if plugin}
-    <div class="plugin-container">
-      <PluginFrame
-        lid="blockly"
-        openAction="onUIOpened"
-        {plugin}
-      />
+    <div class="plugin-wrapper" bind:this={wrapperElement}>
+      <div class="plugin-container">
+        <PluginFrame
+          lid="blockly"
+          openAction="onUIOpened"
+          {plugin}
+        />
+      </div>
     </div>
   {/if}
 
@@ -63,9 +87,11 @@
 </Layout>
 
 <style lang="postcss">
-  .plugin-container {
+  .plugin-wrapper {
     @apply w-full overflow-hidden;
-    height: calc(100vh - 200px);
-    min-height: 600px;
+  }
+
+  .plugin-container {
+    @apply w-full h-full overflow-hidden;
   }
 </style>
