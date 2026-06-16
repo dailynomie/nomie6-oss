@@ -5,30 +5,31 @@
   import PluginFrame from '../plugin-frame.svelte'
   import PluginSetupModal from './plugin-setup-modal.svelte'
   import type { PluginClass } from '../plugin-helpers'
+  import Layout from '../../layout/layout.svelte'
 
   let showSetupModal = $state(true)
   let plugin: PluginClass | undefined = $state(undefined)
 
-  // Get plugin from store and determine if setup is needed
-  $effect(() => {
-    const allPlugins = PluginStore.rawState()
-    plugin = allPlugins.find(p => p.id === 'nomie-blockly') as PluginClass | undefined
+  // Subscribe to PluginStore and update plugin reference
+  let unsubscribe: any
+  if (typeof window !== 'undefined') {
+    unsubscribe = PluginStore.subscribe((plugins) => {
+      const blockly = plugins.find(p => p.id === 'nomie-blockly') as PluginClass | undefined
+      plugin = blockly
 
-    // Show setup modal only if plugin exists and setup not complete
-    if (plugin && !plugin.setupComplete) {
-      showSetupModal = true
-    } else {
-      showSetupModal = false
-    }
-  })
+      // Hide modal when setup is complete
+      if (blockly?.setupComplete) {
+        showSetupModal = false
+      }
+    })
+  }
 
-  const handleSetupConfirm = () => {
+  const handleSetupConfirm = async () => {
     if (plugin) {
-      // Mark setup as complete
+      // Mark setup as complete and save to store
       plugin.setupComplete = true
-      // Update in store (triggers persistence to plugins.json)
-      PluginStore.upsert(plugin)
-      showSetupModal = false
+      // The subscription callback will update showSetupModal when store changes
+      await PluginStore.upsert(plugin)
     }
   }
 
@@ -39,16 +40,9 @@
   }
 </script>
 
-<div class="blockly-page">
-  {#if showSetupModal && plugin}
-    <PluginSetupModal
-      {plugin}
-      on:confirm={handleSetupConfirm}
-      on:cancel={handleSetupCancel}
-    />
-  {/if}
-
-  {#if plugin && plugin.setupComplete}
+<Layout pageTitle="Nomie Blockly">
+  <!-- Always render the plugin in the background -->
+  {#if plugin}
     <div class="plugin-container">
       <PluginFrame
         lid="blockly"
@@ -57,19 +51,21 @@
       />
     </div>
   {/if}
-</div>
+
+  <!-- Show setup modal on top if not yet enabled -->
+  {#if showSetupModal && plugin && !plugin.setupComplete}
+    <PluginSetupModal
+      {plugin}
+      on:confirm={handleSetupConfirm}
+      on:cancel={handleSetupCancel}
+    />
+  {/if}
+</Layout>
 
 <style lang="postcss">
-  .blockly-page {
-    @apply w-screen h-screen overflow-hidden;
-    background: var(--color-bg-primary);
-  }
-
   .plugin-container {
-    @apply w-full h-full;
-  }
-
-  :global(.blockly-page iframe) {
-    @apply w-full h-full border-0;
+    @apply w-full overflow-hidden;
+    height: calc(100vh - 200px);
+    min-height: 600px;
   }
 </style>
