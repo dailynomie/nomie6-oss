@@ -14,13 +14,21 @@
   // Subscribe to PluginStore and update plugin reference
   let unsubscribe: any
   if (typeof window !== 'undefined') {
+    // First check immediately without waiting for subscription
+    const currentPlugins = PluginStore.rawState()
+    const blocklyImmediate = currentPlugins.find(p => p.id === 'nomie-blockly') as PluginClass | undefined
+    if (blocklyImmediate) {
+      plugin = blocklyImmediate
+      showSetupModal = !blocklyImmediate.setupComplete
+    }
+
     unsubscribe = PluginStore.subscribe((plugins) => {
       const blockly = plugins.find(p => p.id === 'nomie-blockly') as PluginClass | undefined
-      plugin = blockly
 
-      // Hide modal when setup is complete
-      if (blockly?.setupComplete) {
-        showSetupModal = false
+      // Update when plugin is found
+      if (blockly) {
+        plugin = blockly
+        showSetupModal = !blockly.setupComplete
       }
     })
   }

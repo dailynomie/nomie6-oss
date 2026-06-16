@@ -214,8 +214,8 @@
   onMount(async () => {
     await boot()
 
-    // Initialize the Plugins
-    PluginStore.init({})
+    // Initialize the Plugins - must await to load from storage before adding buildin plugins
+    await PluginStore.init({})
     initializeBuildinPlugins()
     pluginsInitizlied = true
 
