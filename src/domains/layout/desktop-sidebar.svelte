@@ -120,8 +120,8 @@
       id: 'blockly',
       path: '/nomie-blockly',
       title: 'Nomie Blockly',
-      icon: CubeOutline,
-      activeIcon: CubeSolid,
+      icon: QRCode,
+      activeIcon: QRCodeSolid,
     },
     // {
     //   id: 'awards',
