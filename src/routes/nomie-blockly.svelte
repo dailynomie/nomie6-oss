@@ -106,6 +106,14 @@
   }
 
   .modal-overlay {
-    @apply fixed inset-0 z-50;
+    @apply fixed top-0 bottom-0 z-50 flex items-center justify-center;
+    left: 0;
+    right: 0;
+  }
+
+  @screen xl {
+    .modal-overlay {
+      left: 14rem; /* sidebar width (56 * 0.25rem) */
+    }
   }
 </style>
