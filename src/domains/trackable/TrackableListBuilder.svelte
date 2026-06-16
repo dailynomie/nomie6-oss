@@ -21,7 +21,7 @@
   import SortableList2 from '../../components/sortable-list/sortable-list2.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
 
-  let { value = $bindable(), className = '' } = $props<{ value?: string, className?: string }>()
+  let { value = $bindable(), className = '', onValueChange } = $props<{ value?: string, className?: string, onValueChange?: (newValue: string) => void }>()
 
   let trackables: Array<Trackable> = $state([])
   let manualAdd: string = $state('')
@@ -79,6 +79,10 @@
   function update() {
     const newValue = trackablesToNote()
     value = newValue
+    // Also notify parent through callback to ensure update is received
+    if (onValueChange) {
+      onValueChange(newValue)
+    }
   }
 
   // Removing a trackable from the trackables array.

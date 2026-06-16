@@ -56,13 +56,14 @@
   import TrackableListBuilder from '../../TrackableListBuilder.svelte'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
-  let tracker: TrackerClass = $state(trackable.tracker)
   let updateTrigger: number = $state(0)
+  let tracker: TrackerClass = $state(trackable.tracker)
   let lastTrackerRef = $state<TrackerClass | undefined>(undefined)
 
-  // Sync parent's tracker changes to child
+  // Sync when tracker reference changes or when updateTrigger changes
   $effect(() => {
-    if (trackable && trackable.tracker !== lastTrackerRef) {
+    updateTrigger // depend on trigger to detect external changes
+    if (trackable?.tracker !== lastTrackerRef) {
       tracker = trackable.tracker
       lastTrackerRef = trackable.tracker
     }
@@ -72,13 +73,6 @@
   $effect(() => {
     if (tracker && tracker.type === 'note' && tracker.note === undefined) {
       tracker.note = ''
-    }
-  })
-
-  // Sync tracker changes back to parent trackable
-  $effect(() => {
-    if (tracker && trackable && tracker !== lastTrackerRef) {
-      trackable.tracker = tracker
     }
   })
 
@@ -369,7 +363,16 @@
 
   {#if tracker.type == 'note'}
     <List solo>
-      <TrackableListBuilder bind:value={tracker.note} />
+      <TrackableListBuilder
+        value={tracker.note}
+        onValueChange={(newValue) => {
+          if (trackable?.tracker) {
+            trackable.tracker.note = newValue
+            // Increment trigger to force parent effect to re-run and detect the change
+            updateTrigger++
+          }
+        }}
+      />
       <!-- <ListItem
             transparent
             description={Lang.t(
