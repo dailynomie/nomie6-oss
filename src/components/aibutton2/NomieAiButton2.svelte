@@ -1,4 +1,6 @@
-<script>
+<svelte:options runes={true} />
+
+<script lang="ts">
   /**
    * NomieAiButton — AI insights button with animated ripple rings
    *
