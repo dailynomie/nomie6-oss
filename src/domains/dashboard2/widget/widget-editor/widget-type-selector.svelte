@@ -3,7 +3,7 @@
 <script lang="ts">
   import HScroller from '../../../../components/h-scroller/h-scroller.svelte'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
-  import NomieAiButton from '../../../../components/aibutton/NomieAiButton.svelte'
+  import NomieAiButton from '../../../../components/aibutton2/NomieAiButton2.svelte'
 
   import { getWidgetTypes, type IWidgetType, widgetTypes } from '../widget-types'
   import { PluginStore } from '../../../plugins/PluginStore'

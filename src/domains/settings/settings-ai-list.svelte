@@ -12,7 +12,7 @@
   import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
-  import NomieAiButton from '../../components/aibutton/NomieAiButton.svelte'
+  import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
   import { showToast } from '../../components/toast/ToastStore'
   import type { AIServiceType } from '../preferences/Preferences'
   import { timeFrames } from '../dashboard2/widget/widget-timeframe'

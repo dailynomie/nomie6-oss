@@ -29,7 +29,7 @@
   import relativeTime from 'dayjs/plugin/relativeTime'
   import { saveDashboard, DashStore } from '../DashStore'
   import { triggerInsightClear } from './types/insightClearSignal'
-  import NomieAiButton from '../../../components/aibutton/NomieAiButton.svelte'
+  import NomieAiButton from '../../../components/aibutton2/NomieAiButton2.svelte'
 
   dayjs.extend(relativeTime)
 

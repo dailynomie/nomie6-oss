@@ -65,7 +65,7 @@
 
   import TimeSelect from '../../components/time-select/time-select.svelte'
   import CaptureAddonMenuController from './capture-addon-menu-controller.svelte'
-  import NomieAiButton from '../../components/aibutton/NomieAiButton.svelte'
+  import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
   import { navigate } from '../../vendor/svelte-navigator'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import AIChatModal from '../ai/ai-chat-modal.svelte'
