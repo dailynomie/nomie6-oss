@@ -366,11 +366,13 @@
               <IonIcon icon={BulbSolid} size={22} />
             </MenuInline>
             {#if $Prefs.ai?.enabled}
-              <NomieAiButton
-                size="36px"
-                label="AI Insights"
-                onclick={goToAiInsights}
-              />
+              <div class="-ml-3">
+                <NomieAiButton
+                  size="36px"
+                  label="AI Insights"
+                  onclick={goToAiInsights}
+                />
+              </div>
             {/if}
           </div>
         {/if}
