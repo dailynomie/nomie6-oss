@@ -153,7 +153,7 @@
 >
   <div class="my-4" style="padding: 24px 16px; overflow: hidden;">
     {#if loggedIn}
-      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} alt="app-logo" style="width: 120%; height: auto; margin: 0 auto; display: block; margin-left: -10%;" />
+      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} alt="app-logo" style="width: 200%; height: auto; margin: 0 auto; display: block; margin-left: -50%;" />
       <!-- <Logo size={22} className="-mt-2" /> -->
     {/if}
   </div>
