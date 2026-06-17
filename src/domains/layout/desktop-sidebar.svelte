@@ -48,6 +48,17 @@
 
   $effect(() => {
     isDarkMode = document.documentElement.classList.contains('mode-dark')
+
+    const observer = new MutationObserver(() => {
+      isDarkMode = document.documentElement.classList.contains('mode-dark')
+    })
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    })
+
+    return () => observer.disconnect()
   })
 
   type NavType = {
