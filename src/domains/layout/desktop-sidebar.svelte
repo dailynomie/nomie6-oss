@@ -286,4 +286,8 @@
     @apply flex flex-col;
     @apply h-screen;
   }
+
+  .desktop-sidebar > div:first-child img {
+    max-width: none;
+  }
 </style>
