@@ -353,7 +353,7 @@
     <div class="capture-log" class:negative={$ActiveLogStore.score < 0} class:positive={$ActiveLogStore.score > 0}>
       <div class="p-0 relative">
         {#if !isPopulated}
-          <div class="absolute right-1 top-1 flex items-center gap-1 ">
+          <div class="absolute right-1 -top-2 flex items-center gap-0 ">
             <MenuInline
               compact
               buttonStyle="width:40px !important;"
