@@ -151,9 +151,9 @@
   aria-hidden="false"
   title="Nomie Navigation"
 >
-  <div class="p-4 flex justify-start items-center space-x-3 my-4">
+  <div class="my-4" style="padding: 24px 16px;">
     {#if loggedIn}
-      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} class="w-full h-auto" alt="app-logo" />
+      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} alt="app-logo" style="width: 100%; height: auto; max-width: 180px; margin: 0 auto; display: block;" />
       <!-- <Logo size={22} className="-mt-2" /> -->
     {/if}
   </div>
