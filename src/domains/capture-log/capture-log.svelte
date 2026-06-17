@@ -356,7 +356,7 @@
           <div class="absolute right-1 -top-1 flex items-center gap-0 ">
             <MenuInline
               compact
-              buttonStyle="width:40px !important;"
+              buttonStyle="width:40px !important;{!$Prefs.ai?.enabled ? 'position: relative; top: 5px;' : ''}"
               y="top"
               x="right"
               id="prompt-button"
