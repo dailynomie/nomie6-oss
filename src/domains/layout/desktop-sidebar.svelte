@@ -153,7 +153,7 @@
 >
   <div class="p-4 flex justify-start items-center space-x-3 my-4">
     {#if loggedIn}
-      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} class="h-12 w-12" alt="app-logo" />
+      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} class="w-full h-auto" alt="app-logo" />
       <!-- <Logo size={22} className="-mt-2" /> -->
     {/if}
   </div>
