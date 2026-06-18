@@ -39,7 +39,7 @@
     if (service === 'claude') {
       return 'Get your API key from console.anthropic.com'
     } else if (service === 'openrouter') {
-      return 'Get your API key from openrouter.ai - supports Claude, GPT-4, Llama, and more'
+      return 'Get your API key from openrouter.ai - Free models only (20 requests/min limit). Rate-limited but no cost'
     } else if (service === 'chatgpt') {
       return 'ChatGPT support coming soon'
     }

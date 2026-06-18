@@ -75,57 +75,79 @@ OpenRouter provides access to many models. Here's what you should know:
 
 ### Current Nomie Default
 
-Nomie is configured with **`openai/gpt-3.5-turbo`** by default because:
-- ✅ Lowest cost
-- ✅ Very fast (good for real-time features)
-- ✅ Reliable and stable
-- ✅ Suitable for insight generation and chat
+Nomie is configured with **`openrouter/auto`** - OpenRouter's free model auto-routing because:
+- ✅ **Completely free** - No charges for API usage
+- ✅ **Auto-selection** - OpenRouter picks the best available free model for your request
+- ✅ **No setup** - Just provide your free OpenRouter API key and go
+- ⚠️ **Rate limits** - 20 requests/minute (suitable for typical Nomie usage)
+- ⚠️ **Quality variation** - Uses community/open-source models instead of Claude/GPT-4
 
-### How to Change Models
+### Available Free Models
 
-To use a different model:
+OpenRouter's auto-routing automatically selects from models like:
+- **Meta Llama 3 8B** - Open-source, good general performance
+- **Mistral 7B** - Fast, popular open-source model
+- **Nous Research Hermes** - Specialized variants
+- And other community models (list changes as availability varies)
 
-1. Go to **Nomie Settings → AI Integration**
-2. Your API key is stored and working
-3. Contact support or check OpenRouter documentation for available models
-4. Models can be configured via environment variables (see Advanced Configuration below)
+You don't need to specify which one - OpenRouter automatically routes to the best available option based on current load and availability.
+
+### Changing Models (Advanced)
+
+If you want to use a specific free model or paid models:
+
+1. The model selection is currently fixed to use free auto-routing
+2. To change: Edit `src/domains/ai/services/openrouter.ts` and update the default `model` parameter
+3. Available models can be found at [openrouter.ai/models](https://openrouter.ai/models)
+4. Models can also be configured via environment variables (see Advanced Configuration below)
 
 ---
 
 ## Pricing
 
-### How OpenRouter Pricing Works
+### Nomie Uses Free Models
 
-OpenRouter uses **pay-as-you-go** pricing:
-- You pay for each API call based on tokens used
-- No monthly subscription required
-- Competitive rates (often lower than direct API providers)
-- Transparent pricing displayed before use
+Nomie is configured to use **OpenRouter's free models only**, which means:
 
-### Estimated Costs for Nomie
+- **Zero Cost** - No charges for using the AI features
+- **No Rate Limits on Pricing** - You won't incur unexpected charges
+- **API Rate Limits** - Subject to OpenRouter's fair-use limits (typically 20 requests/minute)
 
-**For typical Nomie usage:**
+### How Free Models Work
 
-| Feature | Model | Avg Cost | Frequency |
-|---------|-------|----------|-----------|
-| Insight Widget | GPT-3.5 Turbo | $0.001-0.005 | 1-2x per day |
-| AI Chat | GPT-3.5 Turbo | $0.002-0.010 | Per question |
-| Daily Usage | GPT-3.5 Turbo | ~$0.10-0.30 | Full day |
-| Monthly | GPT-3.5 Turbo | ~$3-10 | 30 days |
+OpenRouter's `openrouter/auto` endpoint:
+- Automatically routes to the best available free model
+- Uses community-maintained open-source models (Llama, Mistral, etc.)
+- Quality is good for general use but less advanced than Claude/GPT-4
+- No payment method required
 
-### Cost Optimization Tips
+### Free vs Paid Trade-offs
 
-1. **Use GPT-3.5 Turbo** (default) for maximum savings
-2. **Set reasonable context limits** - less data = fewer tokens = lower cost
-3. **Cache your API responses** - Nomie caches insights per day automatically
-4. **Monitor usage** - Check OpenRouter dashboard for spending patterns
+| Aspect | Free Models | Paid (Claude/GPT-4) |
+|--------|-------------|-------------------|
+| **Cost** | $0 | $0.001-0.01+ per request |
+| **Quality** | Good | Excellent |
+| **Speed** | Good | Very fast |
+| **Requests/min** | ~20 (fair-use) | Higher with paid plans |
+| **Best for** | Typical insights, chat | Complex analysis, high volume |
+
+### When to Upgrade
+
+Consider switching to paid models if:
+- You hit the 20 requests/minute limit frequently
+- You need higher quality responses
+- You want faster processing
+- You're using Nomie heavily throughout the day
+
+To upgrade: Go to Settings → AI Integration → select Claude instead of OpenRouter
 
 ### Free Trial
 
-OpenRouter typically provides free credits for new accounts. Check your account dashboard for:
-- Free trial period
-- Available credits
-- Usage statistics
+OpenRouter doesn't require payment for free models, so no trial needed. Just:
+1. Create an OpenRouter account at [openrouter.ai](https://openrouter.ai)
+2. Get your free API key
+3. Add it to Nomie
+4. Start using!
 
 ---
 
@@ -250,22 +272,41 @@ Nomie makes it easy to switch providers:
 
 ## FAQ
 
+### Nomie uses free models - what does that mean?
+Nomie is configured to use OpenRouter's `openrouter/auto` which automatically selects from free, open-source models (Llama, Mistral, etc.). You get unlimited API calls with no cost, subject to rate limits (~20 requests/min).
+
+### What are the limitations of free models?
+- ⚠️ Rate limits: ~20 requests/minute (fair-use)
+- ⚠️ Quality: Good but not as advanced as Claude/GPT-4
+- ⚠️ Speed: Good but slightly slower than premium models
+- ✅ Cost: $0
+
+### Can I switch to paid models?
+Yes! Go to Settings → AI Integration:
+1. Switch from OpenRouter to Claude (requires Claude API key)
+2. Or stay on OpenRouter but edit code to use `openai/gpt-3.5-turbo` or other paid models
+3. Or keep OpenRouter free but use a specific free model
+
+See "Changing Models (Advanced)" in the setup guide for details.
+
+### What if I hit the rate limit?
+You'll get an error message like "Rate limited". Wait a minute and try again. The limit resets regularly.
+
+If you frequently hit limits, consider:
+- Reducing AI feature usage slightly
+- Switching to paid Claude option
+- Batching requests when possible
+
 ### Can I use both Claude and OpenRouter?
 Yes! You can configure API keys for both. Switch between them anytime in Settings → AI Integration.
 
-### What if OpenRouter is down?
-Switch to Claude in Settings → AI Integration. Or wait for OpenRouter to come back online.
+### Can I change which free model OpenRouter uses?
+OpenRouter's `openrouter/auto` automatically selects the best available free model. You don't choose which one - it's automatic.
 
-### Can I use free tier of OpenRouter?
-OpenRouter doesn't offer a free tier, but they often provide free trial credits for new accounts.
+If you want a specific model, edit `src/domains/ai/services/openrouter.ts` and change the `model` parameter to one from [openrouter.ai/models](https://openrouter.ai/models).
 
-### How many tokens does an insight use?
-- Summary insight: ~500-1000 tokens
-- Extended insight: ~1000-1500 tokens
-- Typical cost per insight: $0.001-0.005 with GPT-3.5 Turbo
-
-### Can I change the model OpenRouter uses?
-Currently, Nomie uses a default model. To use different models, contact support or check for future configuration options.
+### Do I need to pay for an OpenRouter account?
+No! You can create a free account and use free models indefinitely. No payment method required.
 
 ### Is my data shared with OpenRouter?
 - Your API key: Only for authentication

@@ -31,7 +31,7 @@ export async function queryOpenRouter(
   } = {}
 ): Promise<string> {
   const {
-    model = 'openai/gpt-3.5-turbo', // Default to GPT-3.5 Turbo for cost efficiency
+    model = 'openrouter/auto', // Use OpenRouter's free model auto-selection
     maxTokens = 1024,
     temperature = 0.7
   } = options
@@ -84,7 +84,7 @@ export async function streamOpenRouter(
   } = {}
 ): Promise<void> {
   const {
-    model = 'openai/gpt-3.5-turbo',
+    model = 'openrouter/auto', // Use OpenRouter's free model auto-selection
     maxTokens = 1024,
     temperature = 0.7
   } = options
