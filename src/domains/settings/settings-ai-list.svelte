@@ -16,6 +16,7 @@
   import { showToast } from '../../components/toast/ToastStore'
   import type { AIServiceType } from '../preferences/Preferences'
   import { timeFrames } from '../dashboard2/widget/widget-timeframe'
+  import { encryptValue, decryptValue } from '../../modules/crypto/crypto-storage'
 
   let config = $state({
     enabled: $Prefs.ai?.enabled || false,
@@ -26,6 +27,7 @@
 
   let isSaving = $state(false)
   let isExpanded = $state(false)
+  let isEncrypted = $state(false)
 
   const services = [
     { label: 'Claude', value: 'claude' as AIServiceType },
@@ -42,7 +44,9 @@
   }
 
   $effect(() => {
-    config.apiKey = $Prefs.ai?.services?.[config.selectedService]?.apiKey || ''
+    const service = $Prefs.ai?.services?.[config.selectedService]
+    config.apiKey = service?.apiKey || ''
+    isEncrypted = service?.encrypted || false
   })
 
   // Save enabled state immediately when toggled
@@ -68,6 +72,28 @@
         return
       }
 
+      let apiKeyToSave = config.apiKey
+      let shouldEncrypt = false
+
+      // If a PIN is set and API key is new (not already encrypted), encrypt it
+      if ($Prefs.usePin && config.apiKey && !isEncrypted) {
+        try {
+          apiKeyToSave = await encryptValue(config.apiKey, $Prefs.usePin)
+          shouldEncrypt = true
+          showToast({
+            message: 'API key will be encrypted with your PIN',
+            type: 'info',
+          })
+        } catch (error) {
+          showToast({
+            message: 'Failed to encrypt API key: ' + (error as Error).message,
+            type: 'error',
+          })
+          isSaving = false
+          return
+        }
+      }
+
       Prefs.update((p) => {
         if (!p.ai) {
           p.ai = { enabled: false, selectedService: 'claude', services: {} }
@@ -83,7 +109,10 @@
         if (!p.ai.services[config.selectedService]) {
           p.ai.services[config.selectedService] = {}
         }
-        p.ai.services[config.selectedService].apiKey = config.apiKey
+        p.ai.services[config.selectedService].apiKey = apiKeyToSave
+        if (shouldEncrypt) {
+          p.ai.services[config.selectedService].encrypted = true
+        }
 
         return p
       })
@@ -99,9 +128,11 @@
 
   const clearApiKey = () => {
     config.apiKey = ''
+    isEncrypted = false
     Prefs.update((p) => {
       if (p.ai?.services?.[config.selectedService]) {
         p.ai.services[config.selectedService].apiKey = ''
+        p.ai.services[config.selectedService].encrypted = false
       }
       return p
     })
@@ -163,6 +194,19 @@
       <div class="w-full py-3">
         <label class="block text-sm font-semibold mb-2">API Key</label>
         <p class="text-xs text-gray-500 mb-3">{getServiceDocs(config.selectedService)}</p>
+        {#if config.apiKey}
+          {#if isEncrypted}
+            <div class="flex items-center gap-2 mb-3 p-2 bg-green-100 dark:bg-green-900 rounded text-green-800 dark:text-green-200 text-xs">
+              <span>✓</span>
+              <span>API key is encrypted with your PIN</span>
+            </div>
+          {:else if $Prefs.usePin}
+            <div class="flex items-center gap-2 mb-3 p-2 bg-yellow-100 dark:bg-yellow-900 rounded text-yellow-800 dark:text-yellow-200 text-xs">
+              <span>⚠</span>
+              <span>API key will be encrypted on next save</span>
+            </div>
+          {/if}
+        {/if}
         <Input
           type="password"
           placeholder="Enter your API key"

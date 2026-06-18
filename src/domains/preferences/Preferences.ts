@@ -10,6 +10,7 @@ export type AIServiceType = 'claude' | 'chatgpt'
 
 export type AIServiceConfig = {
   apiKey?: string
+  encrypted?: boolean
 }
 
 export type AIConfig = {

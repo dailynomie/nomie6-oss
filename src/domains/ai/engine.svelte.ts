@@ -17,6 +17,7 @@ import { get } from 'svelte/store'
 import Anthropic from '@anthropic-ai/sdk'
 import dayjs from 'dayjs'
 import { timeFrames } from '../dashboard2/widget/widget-timeframe'
+import { decryptValue } from '../../modules/crypto/crypto-storage'
 
 const profiles: Record<ProfileName, Profile> = {
   insight: insightProfile,
@@ -78,13 +79,22 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   }
 
   const prefs = get(Prefs)
-  const apiKey =
-    prefs.ai?.services?.[prefs.ai?.selectedService || 'claude']?.apiKey
+  const service = prefs.ai?.services?.[prefs.ai?.selectedService || 'claude']
+  let apiKey = service?.apiKey
 
   if (!apiKey) {
     throw new Error(
       'AI is not configured. Please enable AI in Settings and add your API key.'
     )
+  }
+
+  // Decrypt if encrypted
+  if (service?.encrypted && prefs.usePin) {
+    try {
+      apiKey = await decryptValue(apiKey, prefs.usePin)
+    } catch (error) {
+      throw new Error('Failed to decrypt API key. Please check your PIN.')
+    }
   }
 
   aiState.loading = true
@@ -161,13 +171,22 @@ export async function streamQuery(
   }
 
   const prefs = get(Prefs)
-  const apiKey =
-    prefs.ai?.services?.[prefs.ai?.selectedService || 'claude']?.apiKey
+  const service = prefs.ai?.services?.[prefs.ai?.selectedService || 'claude']
+  let apiKey = service?.apiKey
 
   if (!apiKey) {
     throw new Error(
       'AI is not configured. Please enable AI in Settings and add your API key.'
     )
+  }
+
+  // Decrypt if encrypted
+  if (service?.encrypted && prefs.usePin) {
+    try {
+      apiKey = await decryptValue(apiKey, prefs.usePin)
+    } catch (error) {
+      throw new Error('Failed to decrypt API key. Please check your PIN.')
+    }
   }
 
   aiState.loading = true
