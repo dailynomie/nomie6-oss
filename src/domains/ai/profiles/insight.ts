@@ -10,7 +10,7 @@ function hasDetailKeywords(text?: string): boolean {
 export const insightProfile: Profile = {
   name: 'insight',
   temperature: 0.7,
-  maxTokens: 1200,
+  maxTokens: 2000,
   systemPrompt: (ctx: UserContext, prompt?: string) => {
     const contextsList = ctx.contexts
       ? Object.entries(ctx.contexts)

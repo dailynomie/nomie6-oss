@@ -84,13 +84,19 @@ export async function queryOpenRouter(
 
     const data: OpenRouterResponse = await response.json()
 
-    if (!data.choices?.[0]?.message?.content) {
+    const responseContent = data.choices?.[0]?.message?.content
+    
+    if (!responseContent) {
+      const finishReason = data.choices?.[0]?.finish_reason
+      if (finishReason === 'length') {
+        throw new Error('OpenRouter response was cut off due to token limit. The response is too large for the free model. Try using fewer days or simplify your request.')
+      }
       console.error('OpenRouter response:', JSON.stringify(data, null, 2))
-      throw new Error(`Invalid response from OpenRouter API: ${JSON.stringify(data)}`)
+      throw new Error(`Invalid response from OpenRouter API: no content generated (finish_reason: ${finishReason})`)
     }
 
     return {
-      content: data.choices[0].message.content,
+      content: responseContent,
       model: data.model
     }
   } catch (error) {
