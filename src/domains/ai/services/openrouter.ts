@@ -48,7 +48,7 @@ export async function queryOpenRouter(
   } = {}
 ): Promise<string> {
   const {
-    model = 'openrouter/auto', // Use OpenRouter's free model auto-selection
+    model = 'meta-llama/llama-3-8b-instruct', // Free model: Llama 3 8B (does not require paid credits)
     maxTokens = 1024,
     temperature = 0.7
   } = options
@@ -101,7 +101,7 @@ export async function streamOpenRouter(
   } = {}
 ): Promise<void> {
   const {
-    model = 'openrouter/auto', // Use OpenRouter's free model auto-selection
+    model = 'meta-llama/llama-3-8b-instruct', // Free model: Llama 3 8B (does not require paid credits)
     maxTokens = 1024,
     temperature = 0.7
   } = options

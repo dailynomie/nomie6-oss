@@ -75,31 +75,37 @@ OpenRouter provides access to many models. Here's what you should know:
 
 ### Current Nomie Default
 
-Nomie is configured with **`openrouter/auto`** - OpenRouter's free model auto-routing because:
-- ✅ **Completely free** - No charges for API usage
-- ✅ **Auto-selection** - OpenRouter picks the best available free model for your request
-- ✅ **No setup** - Just provide your free OpenRouter API key and go
-- ⚠️ **Rate limits** - 20 requests/minute (suitable for typical Nomie usage)
-- ⚠️ **Quality variation** - Uses community/open-source models instead of Claude/GPT-4
+Nomie is configured with **`meta-llama/llama-3-8b-instruct`** - A free, open-source model because:
+- ✅ **Completely free** - No charges, works with free tier accounts
+- ✅ **No paid credits required** - Unlike `openrouter/auto` which requires paid subscription
+- ✅ **Good quality** - Meta's Llama 3 8B is reliable for general tasks
+- ⚠️ **Rate limits** - ~20 requests/minute (fair use, suitable for Nomie)
+- ⚠️ **Performance** - Smaller than Claude, good for personal analytics use cases
+
+**Important:** Earlier versions used `openrouter/auto` which incorrectly required paid credits. This has been fixed to use the free model instead.
 
 ### Available Free Models
 
-OpenRouter's auto-routing automatically selects from models like:
-- **Meta Llama 3 8B** - Open-source, good general performance
-- **Mistral 7B** - Fast, popular open-source model
-- **Nous Research Hermes** - Specialized variants
-- And other community models (list changes as availability varies)
+You can manually switch to other free models if desired:
+- **`meta-llama/llama-3-8b-instruct`** ⭐ **Currently used (default)**
+- **`mistralai/mistral-7b-instruct`** - Mistral's free alternative
+- Other community models (check availability at [openrouter.ai/models](https://openrouter.ai/models))
 
-You don't need to specify which one - OpenRouter automatically routes to the best available option based on current load and availability.
+**Paid Models** (require OpenRouter credits, won't work with free accounts):
+- `openrouter/auto` - Premium auto-routing (requires payment)
+- `openai/gpt-3.5-turbo`, `openai/gpt-4` - OpenAI models
+- `anthropic/claude-3.5-sonnet`, `anthropic/claude-3-opus` - Claude models
 
 ### Changing Models (Advanced)
 
-If you want to use a specific free model or paid models:
+To use a different model:
 
-1. The model selection is currently fixed to use free auto-routing
-2. To change: Edit `src/domains/ai/services/openrouter.ts` and update the default `model` parameter
-3. Available models can be found at [openrouter.ai/models](https://openrouter.ai/models)
-4. Models can also be configured via environment variables (see Advanced Configuration below)
+1. Edit `src/domains/ai/services/openrouter.ts`
+2. Change the default `model` parameter in both `queryOpenRouter()` and `streamOpenRouter()` functions
+3. Use any free model identifier from [openrouter.ai/models](https://openrouter.ai/models)
+4. Rebuild and restart the app
+
+Example: Change `meta-llama/llama-3-8b-instruct` to `mistralai/mistral-7b-instruct`
 
 ---
 
@@ -115,11 +121,12 @@ Nomie is configured to use **OpenRouter's free models only**, which means:
 
 ### How Free Models Work
 
-OpenRouter's `openrouter/auto` endpoint:
-- Automatically routes to the best available free model
-- Uses community-maintained open-source models (Llama, Mistral, etc.)
-- Quality is good for general use but less advanced than Claude/GPT-4
-- No payment method required
+Nomie uses `meta-llama/llama-3-8b-instruct`:
+- Open-source model by Meta
+- Good quality for personal analytics and general use
+- Less advanced than Claude/GPT-4 but perfectly suitable for Nomie
+- Completely free - no charges incurred
+- Requires OpenRouter account setup (to prevent abuse) but no payment needed
 
 ### Free vs Paid Trade-offs
 
