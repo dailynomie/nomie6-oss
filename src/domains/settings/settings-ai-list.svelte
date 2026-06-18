@@ -170,6 +170,26 @@
     </div>
   </ListItem>
 
+  {#if config.enabled && !$Prefs.usePin}
+    <ListItem bottomLine={16}>
+      <div class="w-full py-3 p-3 bg-red-50 dark:bg-red-950 rounded-lg border border-red-200 dark:border-red-800">
+        <div class="flex gap-2">
+          <span class="flex-shrink-0 text-lg">⚠️</span>
+          <div class="flex-grow min-w-0">
+            <p class="text-sm font-semibold text-red-900 dark:text-red-100 mb-1">
+              API Key Not Encrypted
+            </p>
+            <p class="text-xs text-red-800 dark:text-red-200 leading-tight">
+              Your API key is stored in plaintext. It's strongly recommended to enable a PIN in
+              <span class="font-semibold">More Settings → Security → Use PIN</span>
+              to encrypt your API key for better security.
+            </p>
+          </div>
+        </div>
+      </div>
+    </ListItem>
+  {/if}
+
   {#if config.enabled && isExpanded}
     <Divider left={32} />
 
