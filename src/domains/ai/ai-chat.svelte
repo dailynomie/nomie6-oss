@@ -231,10 +231,10 @@
       </div>
     {/if}
 
-    <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-      Provider: <span class="font-semibold">{providerInfo.provider}</span>
+    <div class="mt-1 text-right text-gray-400 dark:text-gray-500" style="font-size: 0.625rem;">
+      {providerInfo.provider}
       {#if providerInfo.model}
-        • Model: <span class="font-mono text-gray-600 dark:text-gray-300">{providerInfo.model}</span>
+        • <span class="font-mono">{providerInfo.model}</span>
       {/if}
     </div>
   </div>
