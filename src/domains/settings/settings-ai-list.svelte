@@ -31,12 +31,15 @@
 
   const services = [
     { label: 'Claude', value: 'claude' as AIServiceType },
+    { label: 'OpenRouter', value: 'openrouter' as AIServiceType },
     { label: 'ChatGPT (Coming Soon)', value: 'chatgpt' as AIServiceType, disabled: true },
   ]
 
   const getServiceDocs = (service: AIServiceType) => {
     if (service === 'claude') {
       return 'Get your API key from console.anthropic.com'
+    } else if (service === 'openrouter') {
+      return 'Get your API key from openrouter.ai - supports Claude, GPT-4, Llama, and more'
     } else if (service === 'chatgpt') {
       return 'ChatGPT support coming soon'
     }

@@ -6,7 +6,7 @@ import { showToast } from '../../components/toast/ToastStore'
 
 export type ThemeTypes = 'dark' | 'light' | 'auto'
 export type PrefsWeekStartTypes = 'sunday' | 'monday'
-export type AIServiceType = 'claude' | 'chatgpt'
+export type AIServiceType = 'claude' | 'openrouter' | 'chatgpt'
 
 export type AIServiceConfig = {
   apiKey?: string
@@ -76,6 +76,7 @@ const InitialState: PreferencesStateType = sideStorage.get('state') || {
     selectedService: 'claude',
     services: {
       claude: { apiKey: undefined },
+      openrouter: { apiKey: undefined },
       chatgpt: { apiKey: undefined },
     },
   },

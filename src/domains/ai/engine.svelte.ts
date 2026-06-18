@@ -18,6 +18,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import dayjs from 'dayjs'
 import { timeFrames } from '../dashboard2/widget/widget-timeframe'
 import { decryptValue } from '../../modules/crypto/crypto-storage'
+import { queryOpenRouter, streamOpenRouter } from './services/openrouter'
 
 const profiles: Record<ProfileName, Profile> = {
   insight: insightProfile,
@@ -79,7 +80,8 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   }
 
   const prefs = get(Prefs)
-  const service = prefs.ai?.services?.[prefs.ai?.selectedService || 'claude']
+  const selectedService = prefs.ai?.selectedService || 'claude'
+  const service = prefs.ai?.services?.[selectedService]
   let apiKey = service?.apiKey
 
   if (!apiKey) {
@@ -107,7 +109,6 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
 
     if (req.profile === 'narrative') {
       const narrativeData = await buildNarrativeContext(req.contextHints)
-      // Build a simplified context object for narrative
       context = {
         summary: narrativeData.summary,
         goals: [],
@@ -123,22 +124,34 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
       systemPrompt = profile.systemPrompt(context, req.prompt)
     }
 
-    const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
+    let raw: string
 
-    const response = await client.messages.create({
-      model: 'claude-opus-4-8',
-      max_tokens: profile.maxTokens,
-      system: [
-        {
-          type: 'text',
-          text: systemPrompt,
-          cache_control: { type: 'ephemeral' }
-        }
-      ],
-      messages: [{ role: 'user', content: req.prompt }]
-    })
+    if (selectedService === 'openrouter') {
+      // Use OpenRouter
+      raw = await queryOpenRouter(apiKey, [
+        { role: 'user', content: systemPrompt + '\n\n' + req.prompt }
+      ], {
+        maxTokens: profile.maxTokens,
+        temperature: profile.temperature
+      })
+    } else {
+      // Use Claude (default)
+      const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
+      const response = await client.messages.create({
+        model: 'claude-opus-4-8',
+        max_tokens: profile.maxTokens,
+        system: [
+          {
+            type: 'text',
+            text: systemPrompt,
+            cache_control: { type: 'ephemeral' }
+          }
+        ],
+        messages: [{ role: 'user', content: req.prompt }]
+      })
+      raw = response.content[0].type === 'text' ? response.content[0].text : ''
+    }
 
-    const raw = response.content[0].type === 'text' ? response.content[0].text : ''
     const content = profile.parseResponse(raw) as T
 
     const result: AIResponse<T> = {
@@ -171,7 +184,8 @@ export async function streamQuery(
   }
 
   const prefs = get(Prefs)
-  const service = prefs.ai?.services?.[prefs.ai?.selectedService || 'claude']
+  const selectedService = prefs.ai?.selectedService || 'claude'
+  const service = prefs.ai?.services?.[selectedService]
   let apiKey = service?.apiKey
 
   if (!apiKey) {
@@ -205,30 +219,52 @@ export async function streamQuery(
       ? await buildChatContext(contextHints)
       : await buildContext(contextHints)
 
-    const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
+    const systemPrompt = profile.systemPrompt(context, req.prompt)
 
-    // Build messages array with conversation history
-    const messages = [
-      ...(conversationHistory || []),
-      { role: 'user' as const, content: req.prompt }
-    ]
+    if (selectedService === 'openrouter') {
+      // Use OpenRouter streaming
+      const messages = [
+        ...(conversationHistory || []),
+        { role: 'user' as const, content: req.prompt }
+      ]
 
-    const stream = client.messages.stream({
-      model: 'claude-opus-4-8',
-      max_tokens: profile.maxTokens,
-      system: [
-        {
-          type: 'text',
-          text: profile.systemPrompt(context, req.prompt),
-          cache_control: { type: 'ephemeral' }
+      // Add system message to the beginning if not in conversation history
+      const withSystem = [
+        { role: 'user' as const, content: systemPrompt },
+        ...messages
+      ]
+
+      await streamOpenRouter(apiKey, withSystem, onChunk, {
+        maxTokens: profile.maxTokens,
+        temperature: profile.temperature
+      })
+    } else {
+      // Use Claude streaming
+      const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
+
+      // Build messages array with conversation history
+      const messages = [
+        ...(conversationHistory || []),
+        { role: 'user' as const, content: req.prompt }
+      ]
+
+      const stream = client.messages.stream({
+        model: 'claude-opus-4-8',
+        max_tokens: profile.maxTokens,
+        system: [
+          {
+            type: 'text',
+            text: systemPrompt,
+            cache_control: { type: 'ephemeral' }
+          }
+        ],
+        messages
+      })
+
+      for await (const chunk of stream) {
+        if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+          onChunk(chunk.delta.text)
         }
-      ],
-      messages
-    })
-
-    for await (const chunk of stream) {
-      if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-        onChunk(chunk.delta.text)
       }
     }
   } catch (e) {
