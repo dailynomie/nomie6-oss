@@ -75,37 +75,46 @@ OpenRouter provides access to many models. Here's what you should know:
 
 ### Current Nomie Default
 
-Nomie is configured with **`meta-llama/llama-3-8b-instruct`** - A free, open-source model because:
-- ✅ **Completely free** - No charges, works with free tier accounts
-- ✅ **No paid credits required** - Unlike `openrouter/auto` which requires paid subscription
-- ✅ **Good quality** - Meta's Llama 3 8B is reliable for general tasks
-- ⚠️ **Rate limits** - ~20 requests/minute (fair use, suitable for Nomie)
-- ⚠️ **Performance** - Smaller than Claude, good for personal analytics use cases
+Nomie is configured with **`openrouter/free`** - OpenRouter's official free tier endpoint:
+- ✅ **Officially free** - Designed for free tier users
+- ✅ **Auto-selects** - Picks the best available free model automatically
+- ⚠️ **Rate limit** - 50 requests per day
+- ⚠️ **To unlock 1000 req/day** - Purchase $10+ in credits (even if unused, just unlocks the tier)
 
-**Important:** Earlier versions used `openrouter/auto` which incorrectly required paid credits. This has been fixed to use the free model instead.
+**How it works:**
+1. OpenRouter has two access tiers for free models:
+   - **Free tier (default)**: 50 requests/day, no payment needed
+   - **Free models (unlocked)**: 1000 requests/day, requires $10+ purchase (which upgrades your account)
+2. Even though you add a payment method, you stay on the 50 req/day tier until you make a $10 purchase
+3. Purchase doesn't need to be used - just buying $10 in credits unlocks the higher limit
 
 ### Available Free Models
 
-You can manually switch to other free models if desired:
-- **`meta-llama/llama-3-8b-instruct`** ⭐ **Currently used (default)**
-- **`mistralai/mistral-7b-instruct`** - Mistral's free alternative
-- Other community models (check availability at [openrouter.ai/models](https://openrouter.ai/models))
+OpenRouter provides several free models you can use:
 
-**Paid Models** (require OpenRouter credits, won't work with free accounts):
-- `openrouter/auto` - Premium auto-routing (requires payment)
-- `openai/gpt-3.5-turbo`, `openai/gpt-4` - OpenAI models
-- `anthropic/claude-3.5-sonnet`, `anthropic/claude-3-opus` - Claude models
+**Using the Free Router (Nomie default):**
+- **`openrouter/free`** ⭐ **Currently used** - Auto-selects best available free model
+
+**Specific Free Models** (with `:free` suffix):
+- `google/gemini-2.0-flash-exp:free` - Google's Gemini Flash
+- Other models with `:free` suffix (check [openrouter.ai/models](https://openrouter.ai/models))
+
+**These require payment** (won't work with free tier):
+- Any model without `:free` suffix
+- `openrouter/auto` - Premium auto-routing
+- Claude, GPT-4, other commercial models
 
 ### Changing Models (Advanced)
 
-To use a different model:
+To use a specific free model instead of `openrouter/free`:
 
-1. Edit `src/domains/ai/services/openrouter.ts`
-2. Change the default `model` parameter in both `queryOpenRouter()` and `streamOpenRouter()` functions
-3. Use any free model identifier from [openrouter.ai/models](https://openrouter.ai/models)
-4. Rebuild and restart the app
+1. Go to [openrouter.ai/models](https://openrouter.ai/models)
+2. Find a model ending in `:free`
+3. Edit `src/domains/ai/services/openrouter.ts`
+4. Change `openrouter/free` to your chosen model ID
+5. Rebuild and restart Nomie
 
-Example: Change `meta-llama/llama-3-8b-instruct` to `mistralai/mistral-7b-instruct`
+Example: Change to `google/gemini-2.0-flash-exp:free`
 
 ---
 
@@ -121,12 +130,16 @@ Nomie is configured to use **OpenRouter's free models only**, which means:
 
 ### How Free Models Work
 
-Nomie uses `meta-llama/llama-3-8b-instruct`:
-- Open-source model by Meta
-- Good quality for personal analytics and general use
-- Less advanced than Claude/GPT-4 but perfectly suitable for Nomie
-- Completely free - no charges incurred
-- Requires OpenRouter account setup (to prevent abuse) but no payment needed
+Nomie uses OpenRouter's `openrouter/free` endpoint:
+- **Official free tier** - Designed for zero-cost usage
+- **Auto-selection** - Automatically picks best available free model (Gemini, Llama, etc.)
+- **Good enough quality** - Works well for personal analytics
+- **Rate-limited** - 50 requests per day (perfect for daily Nomie insights)
+- **To get 1000 req/day** - Purchase $10+ in credits on OpenRouter (unlocks higher tier)
+
+The key difference:
+- Add payment method → Get access to free tier (50 req/day)
+- Purchase $10+ credits → Unlock higher limit (1000 req/day)
 
 ### Free vs Paid Trade-offs
 
@@ -148,23 +161,33 @@ Consider switching to paid models if:
 
 To upgrade: Go to Settings → AI Integration → select Claude instead of OpenRouter
 
-### Free Trial & Account Setup
+### Free Tier Setup (50 requests/day)
 
-OpenRouter free models are completely free, but your account needs to be set up:
+To use OpenRouter's free tier:
 
-1. Create an OpenRouter account at [openrouter.ai](https://openrouter.ai)
+1. Create account at [openrouter.ai](https://openrouter.ai)
 2. Go to **Account → Credits** and add a payment method
-   - ✅ **You won't be charged** for free models
-   - 🔒 This just unlocks your account to prevent abuse
+   - This unlocks access to the free tier (50 req/day)
+   - You won't be charged for free models
 3. Get your API key from **Account → API Keys**
-4. Add it to Nomie Settings → AI Integration
-5. Start using!
+4. Add to Nomie: Settings → AI Integration → OpenRouter
+5. Start using (50 requests per day limit)
+
+### Unlocking Higher Limit (1000 requests/day)
+
+If you need more than 50 requests/day:
+
+1. Go to [openrouter.ai/settings/credits](https://openrouter.ai/settings/credits)
+2. Purchase **$10 or more** in credits
+   - This upgrades you to 1000 requests/day
+   - Free models still won't charge (credits used only if you switch to paid models)
+3. Your limit updates immediately
+4. Nomie continues to use free models with new limit
 
 **If you see "Insufficient credits" error:**
-- Go to [openrouter.ai/settings/credits](https://openrouter.ai/settings/credits)
-- Ensure you have a payment method on file
-- Check that you're on the correct OpenRouter account
-- Try again in Nomie
+- You're on the free tier (50 req/day) - this means it's working!
+- If you need more requests, purchase $10+ to unlock 1000 req/day
+- Check that your API key is for the correct OpenRouter account
 
 ---
 
