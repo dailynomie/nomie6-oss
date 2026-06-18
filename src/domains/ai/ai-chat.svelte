@@ -5,6 +5,7 @@
   import type { AIResponse } from './profiles/types'
   import { marked } from 'marked'
   import dayjs from 'dayjs'
+  import { Prefs } from '../preferences/Preferences'
 
   interface ChatMessage {
     id: string
