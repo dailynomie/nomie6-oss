@@ -10,6 +10,7 @@ interface OpenRouterMessage {
 
 interface OpenRouterResponse {
   id: string
+  model: string
   choices: Array<{
     message: {
       content: string
@@ -19,6 +20,11 @@ interface OpenRouterResponse {
     prompt_tokens: number
     completion_tokens: number
   }
+}
+
+interface QueryResult {
+  content: string
+  model: string
 }
 
 function getOpenRouterErrorMessage(status: number, errorData: any): string {
@@ -82,7 +88,10 @@ export async function queryOpenRouter(
       throw new Error('Invalid response from OpenRouter API')
     }
 
-    return data.choices[0].message.content
+    return {
+      content: data.choices[0].message.content,
+      model: data.model
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     console.error('OpenRouter API call failed:', message)
@@ -98,7 +107,8 @@ export async function streamOpenRouter(
     model?: string
     maxTokens?: number
     temperature?: number
-  } = {}
+  } = {},
+  onModel?: (model: string) => void
 ): Promise<void> {
   const {
     model = 'openrouter/free', // OpenRouter free tier - auto-selects best available free model
@@ -153,6 +163,11 @@ export async function streamOpenRouter(
         if (trimmed.startsWith('data: ')) {
           try {
             const json = JSON.parse(trimmed.slice(6))
+            // Extract model info from first response
+            if (onModel && json.model) {
+              onModel(json.model)
+              onModel = undefined // Only call once
+            }
             const chunk = json.choices?.[0]?.delta?.content
             if (chunk) {
               onChunk(chunk)

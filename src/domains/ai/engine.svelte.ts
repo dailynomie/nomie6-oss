@@ -69,7 +69,8 @@ function getDateRangeFromTimeframe(timeframeId: string): { from: string; to: str
 export const aiState = $state({
   loading: false,
   error: null as string | null,
-  lastResponse: null as AIResponse | null
+  lastResponse: null as AIResponse | null,
+  actualModel: null as string | null
 })
 
 export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> {
@@ -136,6 +137,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
       })
     } else {
       // Use Claude (default)
+      aiState.actualModel = null
       const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
       const response = await client.messages.create({
         model: 'claude-opus-4-8',
@@ -237,6 +239,8 @@ export async function streamQuery(
       await streamOpenRouter(apiKey, withSystem, onChunk, {
         maxTokens: profile.maxTokens,
         temperature: profile.temperature
+      }, (model) => {
+        aiState.actualModel = model
       })
     } else {
       // Use Claude streaming

@@ -32,7 +32,8 @@
       model = 'claude-opus-4-8'
     } else if (selectedService === 'openrouter') {
       provider = 'OpenRouter'
-      model = 'openrouter/free'
+      // Use actual model from response if available, otherwise show endpoint
+      model = aiState.actualModel || 'openrouter/free'
     }
     
     return { provider, model }
