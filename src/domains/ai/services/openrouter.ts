@@ -85,7 +85,8 @@ export async function queryOpenRouter(
     const data: OpenRouterResponse = await response.json()
 
     if (!data.choices?.[0]?.message?.content) {
-      throw new Error('Invalid response from OpenRouter API')
+      console.error('OpenRouter response:', JSON.stringify(data, null, 2))
+      throw new Error(`Invalid response from OpenRouter API: ${JSON.stringify(data)}`)
     }
 
     return {
