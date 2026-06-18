@@ -4,13 +4,28 @@
  * Requires a password/PIN for encryption/decryption
  */
 
+// Check if Web Crypto API is available
+function getCryptoSubtle(): SubtleCrypto {
+  if (!globalThis.crypto?.subtle) {
+    throw new Error(
+      'Web Crypto API is not available. This may be because:\n' +
+      '1. The app is not running on HTTPS or localhost\n' +
+      '2. Your browser does not support Web Crypto API\n' +
+      '3. The browser context is sandboxed\n\n' +
+      'Please ensure you are using a modern browser and HTTPS/localhost.'
+    )
+  }
+  return globalThis.crypto.subtle
+}
+
 export async function encryptValue(value: string, password: string): Promise<string> {
   try {
+    const subtle = getCryptoSubtle()
     const encoder = new TextEncoder()
     const data = encoder.encode(value)
 
     // Derive key from password using PBKDF2
-    const passwordKey = await crypto.subtle.importKey(
+    const passwordKey = await subtle.importKey(
       'raw',
       encoder.encode(password),
       'PBKDF2',
@@ -18,7 +33,7 @@ export async function encryptValue(value: string, password: string): Promise<str
       ['deriveBits']
     )
 
-    const derivedKey = await crypto.subtle.deriveBits(
+    const derivedKey = await subtle.deriveBits(
       {
         name: 'PBKDF2',
         salt: encoder.encode('nomie-crypto-salt'),
@@ -29,7 +44,7 @@ export async function encryptValue(value: string, password: string): Promise<str
       256
     )
 
-    const key = await crypto.subtle.importKey(
+    const key = await subtle.importKey(
       'raw',
       derivedKey,
       'AES-GCM',
@@ -38,10 +53,10 @@ export async function encryptValue(value: string, password: string): Promise<str
     )
 
     // Generate random IV
-    const iv = crypto.getRandomValues(new Uint8Array(12))
+    const iv = globalThis.crypto.getRandomValues(new Uint8Array(12))
 
     // Encrypt data
-    const encrypted = await crypto.subtle.encrypt(
+    const encrypted = await subtle.encrypt(
       { name: 'AES-GCM', iv },
       key,
       data
@@ -55,13 +70,15 @@ export async function encryptValue(value: string, password: string): Promise<str
     // Return as base64 for storage
     return btoa(String.fromCharCode(...combined))
   } catch (error) {
-    console.error('Encryption failed:', error)
-    throw new Error('Failed to encrypt value')
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Encryption failed:', message)
+    throw new Error(`Failed to encrypt value: ${message}`)
   }
 }
 
 export async function decryptValue(encrypted: string, password: string): Promise<string> {
   try {
+    const subtle = getCryptoSubtle()
     const encoder = new TextEncoder()
 
     // Decode from base64
@@ -76,7 +93,7 @@ export async function decryptValue(encrypted: string, password: string): Promise
     const encryptedData = combined.slice(12)
 
     // Derive key from password
-    const passwordKey = await crypto.subtle.importKey(
+    const passwordKey = await subtle.importKey(
       'raw',
       encoder.encode(password),
       'PBKDF2',
@@ -84,7 +101,7 @@ export async function decryptValue(encrypted: string, password: string): Promise
       ['deriveBits']
     )
 
-    const derivedKey = await crypto.subtle.deriveBits(
+    const derivedKey = await subtle.deriveBits(
       {
         name: 'PBKDF2',
         salt: encoder.encode('nomie-crypto-salt'),
@@ -95,7 +112,7 @@ export async function decryptValue(encrypted: string, password: string): Promise
       256
     )
 
-    const key = await crypto.subtle.importKey(
+    const key = await subtle.importKey(
       'raw',
       derivedKey,
       'AES-GCM',
@@ -104,7 +121,7 @@ export async function decryptValue(encrypted: string, password: string): Promise
     )
 
     // Decrypt data
-    const decrypted = await crypto.subtle.decrypt(
+    const decrypted = await subtle.decrypt(
       { name: 'AES-GCM', iv },
       key,
       encryptedData
@@ -112,7 +129,8 @@ export async function decryptValue(encrypted: string, password: string): Promise
 
     return new TextDecoder().decode(decrypted)
   } catch (error) {
-    console.error('Decryption failed:', error)
-    throw new Error('Failed to decrypt value. Incorrect PIN or corrupted data.')
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Decryption failed:', message)
+    throw new Error(`Failed to decrypt value. Incorrect PIN or corrupted data: ${message}`)
   }
 }
