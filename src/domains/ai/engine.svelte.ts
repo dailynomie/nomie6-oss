@@ -129,12 +129,14 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
 
     if (selectedService === 'openrouter') {
       // Use OpenRouter
-      raw = await queryOpenRouter(apiKey, [
+      const result = await queryOpenRouter(apiKey, [
         { role: 'user', content: systemPrompt + '\n\n' + req.prompt }
       ], {
         maxTokens: profile.maxTokens,
         temperature: profile.temperature
       })
+      raw = result.content
+      aiState.actualModel = result.model
     } else {
       // Use Claude (default)
       aiState.actualModel = null
