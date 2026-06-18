@@ -19,6 +19,24 @@
   let scrollContainer: HTMLElement | null = null
   let inputField: HTMLTextAreaElement | null = null
 
+  let providerInfo = $derived.by(() => {
+    const selectedService = $Prefs.ai?.selectedService || 'claude'
+    const service = $Prefs.ai?.services?.[selectedService]
+    
+    let provider = ''
+    let model = ''
+    
+    if (selectedService === 'claude') {
+      provider = 'Claude'
+      model = 'claude-opus-4-8'
+    } else if (selectedService === 'openrouter') {
+      provider = 'OpenRouter'
+      model = 'openrouter/free'
+    }
+    
+    return { provider, model }
+  })
+
   function scrollToBottom() {
     if (scrollContainer) {
       // Multiple timing attempts to ensure scroll happens
@@ -211,6 +229,13 @@
         </p>
       </div>
     {/if}
+
+    <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+      Provider: <span class="font-semibold">{providerInfo.provider}</span>
+      {#if providerInfo.model}
+        • Model: <span class="font-mono text-gray-600 dark:text-gray-300">{providerInfo.model}</span>
+      {/if}
+    </div>
   </div>
 </div>
 
