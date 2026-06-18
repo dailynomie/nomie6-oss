@@ -33,6 +33,8 @@
   let lastFetchDate = $derived($insightModalData.lastFetchDate)
   let renderedInsight = $derived(insightExtended ? marked.parse(insightExtended) : '')
   let insightFontSize = $derived(calculateInsightFontSize($Prefs.fontSize || 'md'))
+  let aiProvider = $derived($insightModalData.aiProvider || 'claude')
+  let aiModel = $derived($insightModalData.aiModel || 'claude-opus-4-8')
 
   function getRefreshTime(): string {
     if (!lastFetchDate) return 'N/A'
@@ -107,11 +109,19 @@
         {@html renderedInsight}
       </div>
     </div>
-    {#if lastFetchDate}
-      <p class="text-xs text-gray-600 dark:text-gray-400 mt-4">
-        Will refresh in {getRefreshTime()}
+    <div class="mt-4 space-y-2">
+      {#if lastFetchDate}
+        <p class="text-xs text-gray-600 dark:text-gray-400">
+          Will refresh in {getRefreshTime()}
+        </p>
+      {/if}
+      <p class="text-xs text-gray-500 dark:text-gray-500" style="font-size: 0.625rem;">
+        Generated with {aiProvider}
+        {#if aiModel}
+          • <span class="font-mono">{aiModel}</span>
+        {/if}
       </p>
-    {/if}
+    </div>
   </div>
 </BackdropModal>
 

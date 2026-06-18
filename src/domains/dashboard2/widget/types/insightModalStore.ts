@@ -7,4 +7,6 @@ export const insightModalData = writable({
   insightExtended: '',   // Modal full version
   promptLabel: '',
   lastFetchDate: null as string | null,
+  aiProvider: 'claude' as string,
+  aiModel: 'claude-opus-4-8' as string,
 })

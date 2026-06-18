@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { query } from '../../../ai/engine.svelte'
+  import { query, aiState } from '../../../ai/engine.svelte'
   import { Prefs } from '../../../preferences/Preferences'
   import { LedgerStore } from '../../../ledger/LedgerStore'
   import { saveDashboard, DashStore } from '../../DashStore'
@@ -30,7 +30,7 @@ import type { DualInsightResponse } from '../../../ai/profiles/types'
     if (!isAiEnabled()) return
     const modalId = `insight-modal-${widget?.id}`
 
-    // Update store with current values and modal ID
+    // Update store with current values, modal ID, and AI provider/model info
     insightModalData.set({
       id: modalId,
       insight: insightSummary,
@@ -38,6 +38,8 @@ import type { DualInsightResponse } from '../../../ai/profiles/types'
       insightExtended,
       promptLabel,
       lastFetchDate,
+      aiProvider: widget.data?.aiProvider || $Prefs.ai?.selectedService || 'claude',
+      aiModel: widget.data?.aiModel || aiState.actualModel || 'claude-opus-4-8',
     })
 
     openModal({
@@ -341,12 +343,14 @@ Correlation analysis reveals three major relationship clusters with predictive a
       insightExtended = extended
       const today = dayjs().format('YYYY-MM-DD')
 
-      // Update widget data with dual-level cache
+      // Update widget data with dual-level cache (include provider/model info)
       widget.data = widget.data || {}
       widget.data.insightSummary = summary
       widget.data.insightExtended = extended
       widget.data.cachedDate = today
       widget.data.cachedAt = Date.now()
+      widget.data.aiProvider = $Prefs.ai?.selectedService || 'claude'
+      widget.data.aiModel = aiState.actualModel || 'claude-opus-4-8'
 
       lastFetchDate = today
       loading = false
