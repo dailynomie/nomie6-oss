@@ -141,13 +141,23 @@ Consider switching to paid models if:
 
 To upgrade: Go to Settings → AI Integration → select Claude instead of OpenRouter
 
-### Free Trial
+### Free Trial & Account Setup
 
-OpenRouter doesn't require payment for free models, so no trial needed. Just:
+OpenRouter free models are completely free, but your account needs to be set up:
+
 1. Create an OpenRouter account at [openrouter.ai](https://openrouter.ai)
-2. Get your free API key
-3. Add it to Nomie
-4. Start using!
+2. Go to **Account → Credits** and add a payment method
+   - ✅ **You won't be charged** for free models
+   - 🔒 This just unlocks your account to prevent abuse
+3. Get your API key from **Account → API Keys**
+4. Add it to Nomie Settings → AI Integration
+5. Start using!
+
+**If you see "Insufficient credits" error:**
+- Go to [openrouter.ai/settings/credits](https://openrouter.ai/settings/credits)
+- Ensure you have a payment method on file
+- Check that you're on the correct OpenRouter account
+- Try again in Nomie
 
 ---
 

@@ -21,6 +21,23 @@ interface OpenRouterResponse {
   }
 }
 
+function getOpenRouterErrorMessage(status: number, errorData: any): string {
+  const baseMessage = errorData?.error?.message || 'Unknown error from OpenRouter'
+
+  switch (status) {
+    case 402:
+      return `OpenRouter account setup needed: ${baseMessage}. Your account doesn't have credits enabled yet. Go to openrouter.ai/settings/credits and add a payment method (free models won't charge - this just unlocks your account). Then try again.`
+    case 401:
+      return `OpenRouter authentication failed: Invalid or expired API key. Check your API key in Settings > AI Integration.`
+    case 429:
+      return `OpenRouter rate limited: Too many requests (20 requests/min limit). Wait a moment and try again.`
+    case 500:
+      return `OpenRouter server error: The service is temporarily unavailable. Try again in a moment.`
+    default:
+      return `OpenRouter API error (${status}): ${baseMessage}`
+  }
+}
+
 export async function queryOpenRouter(
   apiKey: string,
   messages: OpenRouterMessage[],
@@ -55,8 +72,8 @@ export async function queryOpenRouter(
 
     if (!response.ok) {
       const errorData = await response.json()
-      const errorMessage = errorData?.error?.message || 'Unknown error from OpenRouter'
-      throw new Error(`OpenRouter API error (${response.status}): ${errorMessage}`)
+      const errorMessage = getOpenRouterErrorMessage(response.status, errorData)
+      throw new Error(errorMessage)
     }
 
     const data: OpenRouterResponse = await response.json()
@@ -69,7 +86,7 @@ export async function queryOpenRouter(
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     console.error('OpenRouter API call failed:', message)
-    throw new Error(`Failed to query OpenRouter: ${message}`)
+    throw new Error(message)
   }
 }
 
@@ -109,8 +126,8 @@ export async function streamOpenRouter(
 
     if (!response.ok) {
       const errorData = await response.json()
-      const errorMessage = errorData?.error?.message || 'Unknown error from OpenRouter'
-      throw new Error(`OpenRouter API error (${response.status}): ${errorMessage}`)
+      const errorMessage = getOpenRouterErrorMessage(response.status, errorData)
+      throw new Error(errorMessage)
     }
 
     if (!response.body) {
@@ -162,6 +179,6 @@ export async function streamOpenRouter(
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     console.error('OpenRouter streaming failed:', message)
-    throw new Error(`Failed to stream from OpenRouter: ${message}`)
+    throw new Error(message)
   }
 }

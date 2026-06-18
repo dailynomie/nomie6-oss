@@ -358,20 +358,34 @@ Correlation analysis reveals three major relationship clusters with predictive a
       }
     } catch (e) {
       const errorMessage = (e as Error).message || 'Failed to generate insight'
+      console.error('[Insight Widget] Error:', e)
 
-      // Check for credit/quota errors from Claude API
-      if (
+      // Check for OpenRouter-specific errors (already formatted in openrouter.ts)
+      if (errorMessage.includes('openrouter.ai/settings/credits')) {
+        error = errorMessage
+      } else if (errorMessage.toLowerCase().includes('openrouter')) {
+        error = errorMessage
+      }
+      // Check for Claude API credit/quota errors
+      else if (
         errorMessage.toLowerCase().includes('credit') ||
         errorMessage.toLowerCase().includes('quota') ||
-        errorMessage.toLowerCase().includes('insufficient') ||
-        errorMessage.toLowerCase().includes('rate limit')
+        errorMessage.toLowerCase().includes('insufficient')
       ) {
         error = 'Out of Claude credits. Add credits to claude.com to continue.'
+      }
+      // Check for rate limiting
+      else if (errorMessage.toLowerCase().includes('rate limit')) {
+        const selectedService = $Prefs.ai?.selectedService || 'claude'
+        if (selectedService === 'openrouter') {
+          error = 'OpenRouter rate limit exceeded (20 requests/min). Wait a moment and try again.'
+        } else {
+          error = 'Rate limited. Wait a moment and try again.'
+        }
       } else {
         error = errorMessage
       }
 
-      console.error('[Insight Widget] Error:', e)
       loading = false
     }
   }

@@ -103,7 +103,15 @@
       )
     } catch (err) {
       const messageIndex = messages.length - 1
-      messages[messageIndex].content = `Error: ${(err as Error).message}`
+      const errorMsg = (err as Error).message
+
+      // Format error message for OpenRouter account setup
+      if (errorMsg.includes('openrouter.ai/settings/credits')) {
+        messages[messageIndex].content = `⚠️ **Account Setup Required**\n\n${errorMsg}`
+      } else {
+        messages[messageIndex].content = `❌ Error: ${errorMsg}`
+      }
+
       messages[messageIndex].loading = false
       messages = messages
     }
@@ -194,7 +202,14 @@
       </button>
     </div>
     {#if aiState.error}
-      <p class="text-red-500 dark:text-red-400 text-xs mt-2">{aiState.error}</p>
+      <div class="mt-3 p-3 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800">
+        <p class="text-red-700 dark:text-red-300 text-sm leading-tight whitespace-pre-wrap">
+          {#if aiState.error.includes('openrouter.ai/settings/credits')}
+            <span class="font-semibold block mb-1">🔗 OpenRouter Setup Needed</span>
+          {/if}
+          {aiState.error}
+        </p>
+      </div>
     {/if}
   </div>
 </div>
