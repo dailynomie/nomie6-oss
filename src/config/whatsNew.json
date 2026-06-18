@@ -2,6 +2,9 @@
   "features": [
     {
       "version": "6.8.0-dn",
+      "title": "API Key encryption using PIN option"
+    },{
+      "version": "6.8.0-dn",
       "title": "Nomie Insight Widget - AI-powered analytics on your dashboard"
     },
     {
