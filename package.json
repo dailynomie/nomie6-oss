@@ -114,7 +114,7 @@
     "cypress": "^4.2.0"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.104.1",
+    "@anthropic-ai/sdk": "^0.105.0",
     "@composi/gestures": "^1.0.9",
     "@sveltejs/svelte-virtual-list": "^3.0.1",
     "@tailwindcss/line-clamp": "^0.2.2",
