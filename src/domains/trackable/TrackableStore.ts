@@ -198,9 +198,7 @@ export const saveTrackable = async ({
       if (!tracker.tag) throw new Error('Tracker missing data')
       complete = await saveTrackersToStorage([trackable])
     } else if (trackable.type === 'person') {
-      console.log('Saving person:', { username: trackable.person.username, color: trackable.person.color })
       complete = await PeopleStore.upsert(trackable.person)
-      console.log('Person upsert complete:', complete)
     } else if (trackable.type === 'context') {
       complete = await ContextStore.upsert(trackable.ctx)
     } else if (trackable.type === 'pointer') {
