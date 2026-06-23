@@ -184,8 +184,11 @@
     let maxvalue = 0;
     let minvalue = undefined;
 
-    for (var usage of usages) {
-      for (var value of usage.values) {
+    // Use only the primary tracker's (first tracker's) scale for context positioning
+    // This ensures context aligns correctly with the tracker's visual scale in dual-axis mode
+    const primaryUsage = usages[0]
+    if (primaryUsage) {
+      for (var value of primaryUsage.values) {
        if (value > maxvalue) { maxvalue = value}
        if (minvalue == undefined || value < minvalue) {minvalue = value}
     }
