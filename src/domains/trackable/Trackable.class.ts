@@ -55,9 +55,6 @@ export class Trackable {
 
   constructor(starter: TrackableType) {
     this.type = starter.type
-    if (starter.type === 'context' && (starter.context === 'test2' || starter.ctx?.tag === 'test2')) {
-      console.log(`🔨 Trackable constructor for test2:`, { hasCtx: !!starter.ctx, ctxColor: starter.ctx?.color, context: starter.context })
-    }
     if (starter.type == 'tracker') {
       this.tracker = starter.tracker instanceof TrackerClass ? starter.tracker : new TrackerClass(starter.tracker)
       this.id = starter.id || `#${(this.tracker || {}).tag}`
