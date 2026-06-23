@@ -55,6 +55,9 @@ export class Trackable {
 
   constructor(starter: TrackableType) {
     this.type = starter.type
+    if (starter.type === 'context' && (starter.context === 'test2' || starter.ctx?.tag === 'test2')) {
+      console.log(`🔨 Trackable constructor for test2:`, { hasCtx: !!starter.ctx, ctxColor: starter.ctx?.color, context: starter.context })
+    }
     if (starter.type == 'tracker') {
       this.tracker = starter.tracker instanceof TrackerClass ? starter.tracker : new TrackerClass(starter.tracker)
       this.id = starter.id || `#${(this.tracker || {}).tag}`
@@ -68,7 +71,8 @@ export class Trackable {
     } else if (starter.type === 'context') {
       this.context = starter.context
       this.id = starter.id
-      this.ctx = new ContextClass(starter.ctx || this.context)
+      // If ctx is already a ContextClass instance, preserve it; otherwise create from data
+      this.ctx = starter.ctx instanceof ContextClass ? starter.ctx : new ContextClass(starter.ctx || this.context)
     } else if (starter.type === 'pointer') {
       this.pointer = starter.pointer
       this.id = starter.id
