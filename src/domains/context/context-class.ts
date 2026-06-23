@@ -30,6 +30,9 @@ export class ContextClass {
       this.avatar = starter.avatar
       this.emoji = starter.emoji
       this.color = starter.color
+      if (starter.tag && starter.color) {
+        console.log(`🏗️ ContextClass constructor: tag=${starter.tag}, color=${starter.color}`)
+      }
     }
   }
 

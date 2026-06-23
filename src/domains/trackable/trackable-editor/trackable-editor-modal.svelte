@@ -73,6 +73,7 @@
       } else if (workingTrackable.type === 'context') {
         editingLabel = workingTrackable.ctx?.label || ''
         label = 'Context Label'
+        console.log('📝 Context editor opened:', { tag: workingTrackable.ctx?.tag, color: workingTrackable.ctx?.color })
       } else if (workingTrackable.type === 'person') {
         editingLabel = workingTrackable.person?.displayName || ''
         label = `Person's Name`
