@@ -14,7 +14,7 @@ import NPaths from '../../paths'
 // Vendors
 import Storage from '../../domains/storage/storage'
 import array_utils from '../../utils/array/array_utils'
-import { createArrayStore } from '../../store/ArrayStore'
+import { createKVStore } from '../../store/KVStore'
 import dayjs from 'dayjs'
 // Svelte
 import { writable } from 'svelte/store'
@@ -45,10 +45,10 @@ const searchForContext = async () => {
 
 
 
-export const ContextStore = createArrayStore(NPaths.storage.context(), {
+export const ContextStore = createKVStore(NPaths.storage.context(), {
   key: 'tag',
   label: 'Context',
-  itemInitializer: (item) => {
+  itemInitializer: (item: any) => {
     return new ContextClass(item)
   },
   itemSerializer: (item: ContextClass) => {

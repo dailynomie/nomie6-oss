@@ -80,8 +80,8 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
 
   const people: IPeople = finished[0] || {}
   const trackers: ITrackers = finished[1] || {}
-  const ctxs: Array<ContextClass> = finished[2] || []
-  const ptrs: Array<PointerClass> = finished[3] || []
+  const ctxs: any = finished[2] || {}
+  const ptrs: any = finished[3] || {}
 
   // Convert into Arrays of the Real Things
   Object.keys(people || {}).map((username) => {
@@ -99,19 +99,29 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
     }
   })
 
-  if (ctxs.length) {
-    ctxs.forEach((ctx: ContextClass) => {
+  // Handle contexts (now KVStore, returns object)
+  Object.keys(ctxs || {}).map((tag) => {
+    const ctx = ctxs[tag]
+    if (ctx) {
       const trackable = ctx.toTrackable()
-      
       MasterTrackables[trackable.tag] = trackable
-    })
-  }
+    }
+  })
 
-  if (ptrs.length) {
+  // Handle pointers (PointerStore is still ArrayStore)
+  if (Array.isArray(ptrs) && ptrs.length) {
     ptrs.forEach((ptr: PointerClass) => {
       const trackable = ptr.toTrackable()
-      
       MasterTrackables[trackable.tag] = trackable
+    })
+  } else if (ptrs && typeof ptrs === 'object') {
+    // In case PointerStore is also changed to KVStore in future
+    Object.keys(ptrs).map((tag) => {
+      const ptr = ptrs[tag]
+      if (ptr) {
+        const trackable = ptr.toTrackable()
+        MasterTrackables[trackable.tag] = trackable
+      }
     })
   }
 
