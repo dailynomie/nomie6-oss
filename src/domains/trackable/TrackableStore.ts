@@ -83,6 +83,10 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   let ctxs: any = finished[2] || {}
   const ptrs: any = finished[3] || {}
 
+  if (ctxs.test2) {
+    console.log(`🔍 Raw ContextStore.init() returned for test2:`, ctxs.test2)
+  }
+
   // Handle migration: if contexts are stored as array (old ArrayStore format), convert to object
   if (Array.isArray(ctxs)) {
     const migratedCtxs: any = {}
@@ -119,6 +123,9 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   Object.keys(ctxs || {}).map((tag) => {
     const ctx = ctxs[tag]
     if (ctx) {
+      if (ctx.tag === 'test2') {
+        console.log(`📂 Loaded context from storage:`, { tag: ctx.tag, color: ctx.color, isInstance: ctx.toTrackable ? 'yes' : 'no' })
+      }
       const trackable = ctx.toTrackable()
       MasterTrackables[trackable.tag] = trackable
     }
