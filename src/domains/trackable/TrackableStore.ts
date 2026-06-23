@@ -2,7 +2,7 @@ import type { IPeople, ITrackers } from '../../modules/import/import'
 import { addTrackablesToBoard, getActiveBoardHeavy } from '../board/UniboardStore'
 import { derived, writable } from 'svelte/store'
 
-import type { ContextClass } from '../context/context-class'
+import { ContextClass } from '../context/context-class'
 import type { PointerClass } from '../pointers/pointer-class'
 import { ContextStore } from '../context/context-store'
 import { PointerStore } from '../pointers/pointer-store'
@@ -80,8 +80,24 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
 
   const people: IPeople = finished[0] || {}
   const trackers: ITrackers = finished[1] || {}
-  const ctxs: any = finished[2] || {}
+  let ctxs: any = finished[2] || {}
   const ptrs: any = finished[3] || {}
+
+  // Handle migration: if contexts are stored as array (old ArrayStore format), convert to object
+  if (Array.isArray(ctxs)) {
+    const migratedCtxs: any = {}
+    ctxs.forEach((ctx: any) => {
+      if (ctx && ctx.tag) {
+        const ctxObj = new ContextClass(ctx)
+        migratedCtxs[ctx.tag] = ctxObj
+      }
+    })
+    ctxs = migratedCtxs
+    // Persist the migrated data by upserting back to ContextStore
+    await Promise.all(Object.entries(migratedCtxs).map(([tag, ctx]) =>
+      ContextStore.upsert(ctx.asObject)
+    ))
+  }
 
   // Convert into Arrays of the Real Things
   Object.keys(people || {}).map((username) => {
@@ -182,9 +198,12 @@ export const saveTrackable = async ({
       if (!tracker.tag) throw new Error('Tracker missing data')
       complete = await saveTrackersToStorage([trackable])
     } else if (trackable.type === 'person') {
+      console.log('Saving person:', { username: trackable.person.username, color: trackable.person.color })
       complete = await PeopleStore.upsert(trackable.person)
+      console.log('Person upsert complete:', complete)
     } else if (trackable.type === 'context') {
-      complete = await ContextStore.upsert(trackable.ctx)
+      // Serialize to plain object to avoid losing properties during itemInitializer
+      complete = await ContextStore.upsert(trackable.ctx.asObject)
     } else if (trackable.type === 'pointer') {
       complete = await PointerStore.upsert(trackable.ptr)
     }
