@@ -307,7 +307,7 @@
                 })
               } else if (workingTrackable?.type === 'context') {
                 if (!workingTrackable.ctx) {
-                  workingTrackable.ctx = { label: editingLabel }
+                  workingTrackable.ctx = { tag: newTag, label: editingLabel }
                 } else {
                   workingTrackable.ctx.label = editingLabel
                 }

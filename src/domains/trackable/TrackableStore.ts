@@ -202,8 +202,7 @@ export const saveTrackable = async ({
       complete = await PeopleStore.upsert(trackable.person)
       console.log('Person upsert complete:', complete)
     } else if (trackable.type === 'context') {
-      // Serialize to plain object to avoid losing properties during itemInitializer
-      complete = await ContextStore.upsert(trackable.ctx.asObject)
+      complete = await ContextStore.upsert(trackable.ctx)
     } else if (trackable.type === 'pointer') {
       complete = await PointerStore.upsert(trackable.ptr)
     }
