@@ -21,6 +21,7 @@
   import ArrowBack from '../../../n-icons/ArrowBack.svelte'
   import { wait } from '../../../utils/tick/tick'
   import { getTrackableVisuals } from '../trackable-utils'
+  import { base } from '../../../modules/colors/colors'
   import type { Trackable } from '../Trackable.class'
 
   const { id, trackable, onComplete } = $props<{ id: string, trackable: Trackable, onComplete: Function }>()
@@ -153,6 +154,7 @@
   {:else if emojiOrColor === 'color'}
     <ColorPicker
       grid={true}
+      colors={base}
       value={color}
       on:color={(evt) => {
         color = evt.detail

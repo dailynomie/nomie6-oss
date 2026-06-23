@@ -272,6 +272,8 @@
               if (visuals.color) workingTrackable.color = visuals.color
               if (visuals.emoji) workingTrackable.emoji = visuals.emoji
               if (visuals.avatar) workingTrackable.avatar = visuals.avatar
+              // Trigger reactivity by creating new reference
+              workingTrackable = Object.assign(Object.create(Object.getPrototypeOf(workingTrackable)), workingTrackable)
             }
           }}
         >
