@@ -240,7 +240,7 @@ import is from '../../utils/is/is';
           bind:this={_elInput}
           {disabled}
           {id}
-          type="text"
+          {type}
           {inputmode}
           style={inputStyle}
           class={inputClass}

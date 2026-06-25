@@ -15,29 +15,44 @@
   let canvas = $state<HTMLCanvasElement>(undefined)
   let input = $state<HTMLInputElement>(undefined)
 
-
-
-  let output: string
+  let output: string = $state('')
 
   const select = () => {
     input.click()
   }
 
   function handleFiles(e) {
-    let ctx = canvas.getContext('2d')
+    if (!e.target.files || !e.target.files[0]) return
+
     var img = new Image()
+    img.onerror = () => {
+      console.error('Failed to load image')
+    }
     img.onload = function () {
-      const iw = img.width
-      const ih = img.height
-      const scale = Math.min(maxW / iw, maxH / ih)
-      const iwScaled = iw * scale
-      const ihScaled = ih * scale
-      canvas.width = iwScaled
-      canvas.height = ihScaled
-      ctx.drawImage(img, 0, 0, iwScaled, ihScaled)
-      output = canvas.toDataURL('image/webp', 0.2)
-      console.log(output, output.length);
-      dispatch('image', output)
+      try {
+        const iw = img.width
+        const ih = img.height
+        const scale = Math.min(maxW / iw, maxH / ih)
+        const iwScaled = Math.max(1, iw * scale)
+        const ihScaled = Math.max(1, ih * scale)
+        canvas.width = iwScaled
+        canvas.height = ihScaled
+        let ctx = canvas.getContext('2d')
+        if (!ctx) {
+          console.error('Could not get canvas context')
+          return
+        }
+        ctx.drawImage(img, 0, 0, iwScaled, ihScaled)
+        output = canvas.toDataURL('image/webp', 0.2)
+        if (!output || output.length < 50) {
+          console.error('Invalid data URL generated')
+          return
+        }
+        console.log('Image loaded, data URL length:', output.length);
+        dispatch('image', output)
+      } catch (err) {
+        console.error('Error processing image:', err)
+      }
     }
     img.src = URL.createObjectURL(e.target.files[0])
   }
@@ -50,7 +65,7 @@
     mounted = false
   })
 
-  const { className, label, maxW, maxH } = $props()
+  const { className, label, maxW = 512, maxH = 512 } = $props()
 </script>
 
 {#if mounted}

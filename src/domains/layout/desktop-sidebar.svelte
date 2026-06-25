@@ -162,9 +162,9 @@
   aria-hidden="false"
   title="Nomie Navigation"
 >
-  <div class="my-4" style="overflow: hidden;">
+  <div class="logo-container">
     {#if loggedIn}
-      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} alt="app-logo" style="width: 150%; height: auto; display: block; margin-left: -25%;" />
+      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} alt="app-logo" class="nomie-logo" />
       <!-- <Logo size={22} className="-mt-2" /> -->
     {/if}
   </div>
@@ -298,7 +298,24 @@
     @apply h-screen;
   }
 
-  .desktop-sidebar > div:first-child img {
-    max-width: none;
+  .logo-container {
+    @apply mt-2 mb-1;
+    /* Responsive height that maintains aspect ratio */
+    height: auto;
+    min-height: 5.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    /* Ensure logo always has priority and doesn't get crushed */
+  }
+
+  .nomie-logo {
+    max-width: 100%;
+    max-height: 5.25rem;
+    height: auto;
+    width: auto;
+    display: block;
+    object-fit: contain;
   }
 </style>
