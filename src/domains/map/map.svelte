@@ -104,7 +104,7 @@
           requestAnimationFrame(() => {
             const rect = mapElement.getBoundingClientRect()
             if (rect.width > 0 && rect.height > 0) {
-              MAP = L.map(mapElement).setView([locations[0].lat, locations[0].lng], 10)
+              MAP = L.map(mapElement).setView([locations[0].lat, locations[0].lng], 8)
               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
                 maxZoom: 19,
@@ -161,7 +161,7 @@
               lng: location.longitude,
               name: 'Unnamed',
             })
-            MAP.setView(L.latLng(location.latitude, location.longitude), 10)
+            MAP.setView(L.latLng(location.latitude, location.longitude), 8)
           })
           .catch((e) => {})
       } catch (e) {
