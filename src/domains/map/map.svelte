@@ -114,6 +114,14 @@
               locations.forEach((loc) => {
                 L.marker([loc.lat, loc.lng]).addTo(MAP).bindPopup(loc.name || 'Location')
               })
+
+              // Fit map to show all locations
+              if (locations.length > 1) {
+                const bounds = L.latLngBounds(
+                  locations.map((loc) => [loc.lat, loc.lng])
+                )
+                MAP.fitBounds(bounds, { padding: [50, 50] })
+              }
             }
           })
         }
