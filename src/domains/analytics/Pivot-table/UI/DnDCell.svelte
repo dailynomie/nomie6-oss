@@ -13,6 +13,8 @@
         filter: ".pvtFilterBox",
         preventOnFilter: false,
         animation: 0,
+        fallback: false,
+        forceFallback: false,
     };
 
     function getAttrValues(x: string) {
