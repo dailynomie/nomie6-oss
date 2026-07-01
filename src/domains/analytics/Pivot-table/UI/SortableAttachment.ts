@@ -36,6 +36,9 @@ export default function (node: HTMLElement, params: SortableActionParams) {
                 await tick();
                 await tick();
 
+                // Additional small delay for browser layout and paint cycles
+                await new Promise(resolve => setTimeout(resolve, 50));
+
                 ev.item.remove();
 
                 // Only restore position if item stayed in the same container (reordering)
