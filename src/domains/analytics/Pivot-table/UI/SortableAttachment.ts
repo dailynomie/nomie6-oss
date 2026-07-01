@@ -25,24 +25,21 @@ export default function (node: HTMLElement, params: SortableActionParams) {
 
         const sortable = Sortable.create(node, {
             ...options,
-            onStart({ item }) {
-                const oldIndex = Array.prototype.indexOf.call(item.parentNode?.childNodes, item);
-                (item as HTMLElement).dataset.oldIndex = String(oldIndex);
-            },
-            onUpdate: (ev) => notify(ev.to),
-            onAdd: (ev) => notify(ev.to),
-            onRemove: (ev) => notify(ev.from),
-            onEnd: (ev) => {
-                // sortablejs doesn't work perfectly with Svelte5
-                // https://github.com/sveltejs/svelte/issues/11826#issuecomment-2141791882
-
-                // cancel the UI update so Svelte will take care of it
+            onUpdate: (ev) => {
+                // Reordering within same list - remove to prevent duplicate
                 ev.item.remove();
-
-                // Only restore position if item stayed in same container (reordering within same list)
-                if (ev.from === ev.to && ev.oldIndex !== undefined) {
-                    ev.from.insertBefore(ev.item, ev.from.childNodes[Number((ev.item as HTMLElement).dataset.oldIndex!)]);
-                }
+                notify(ev.to);
+            },
+            onAdd: async (ev) => {
+                // Item added from another list - remove element then notify
+                // This prevents duplicate since Svelte will re-render it
+                await tick();
+                ev.item.remove();
+                notify(ev.to);
+            },
+            onRemove: (ev) => {
+                // Item removed to another list - just notify state
+                notify(ev.from);
             },
         });
 

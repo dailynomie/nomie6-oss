@@ -157,7 +157,8 @@ table.pvtTable tbody tr td {
 
 
 .pvtRows {
-    height: 35px;
+    height: auto;
+    min-height: 80px;
 }
 
 .pvtAxisContainer li {
@@ -205,6 +206,26 @@ table.pvtTable tbody tr td {
 }
 .pvtVertList {
     vertical-align: top;
+}
+.pvtRows > div {
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    pointer-events: auto;
+    background: transparent;
+}
+
+.sortable-drop-spacer {
+    display: none;
+}
+
+.pvtRows .sortable-drop-spacer {
+    display: block;
+}
+
+.pvtRows li {
+    display: block !important;
 }
 
 .pvtFilteredAttribute {

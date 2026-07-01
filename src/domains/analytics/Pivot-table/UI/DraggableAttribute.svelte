@@ -34,7 +34,7 @@
 </script>
 
 
-<li data-id={name} style="padding:2px">
+<li data-id={name} draggable="true" style="padding:2px;cursor:move">
     <span class={`pvtAttr ${is_empty(valueFilter) ? "" : "pvtFilteredAttribute"}`} style="font-size:{fontsize}px;{cssVarStyles}">
         {name}
         <span class="pvtTriangle" on:click={toggleOpen} on:keypress={toggleOpen}>
