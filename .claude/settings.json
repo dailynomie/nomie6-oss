@@ -10,7 +10,8 @@
     "additionalDirectories": [
       "/tmp",
       "/private/tmp",
-      "/Users/ronalddelange/Library/Mobile\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss"
+      "/Users/ronalddelange/Library/Mobile\\ Documents/com~apple~CloudDocs/DailyNomie/Development/nomie6-oss",
+      "/Users/ronalddelange/Library/Mobile Documents/com~apple~CloudDocs/DailyNomie/blog-screenshots"
     ]
   }
 }
