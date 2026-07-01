@@ -5,7 +5,7 @@
     import DraggableAttribute from "./DraggableAttribute.svelte";
     import { getSort } from "../Utilities";
 
-    const { items, onChange, valueFilter, attrValues, sorters, menuLimit, onUpdate, key = undefined } = $props()
+    const { items, onChange, valueFilter, attrValues, sorters, menuLimit, onUpdate } = $props()
 
     const options = {
         group: "shared",
@@ -27,7 +27,7 @@
     }
 </script>
 
-<Sortable {items} {key} let:item={name} on:change={(ev) => onChange(ev.detail)} {options}>
+<Sortable {items} let:item={name} on:change={(ev) => onChange(ev.detail)} {options}>
     <DraggableAttribute
         attrValues={getAttrValues(name)}
         {name}
