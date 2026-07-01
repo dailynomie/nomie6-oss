@@ -264,6 +264,8 @@
     let minimum = 0;
     if (startWithZero) { minimum =0}
     else {minimum = minvalue}
+    // Use context color if available, fallback to a default blue color
+    const contextColor = context.trackable.ctx.color || '#04A6F9';
     contextannotation.annotations[context.trackable.ctx.label] = {
           drawTime: 'beforeDatasetsDraw',
           type: 'box',
@@ -271,8 +273,8 @@
           xMax: xend,
           yMin: minimum*0.78,
           yMax: maxvalue*1.1,
-          backgroundColor: context.trackable.ctx.color+'70',
-          borderColor: context.trackable.ctx.color+'80',
+          backgroundColor: contextColor+'70',
+          borderColor: contextColor+'80',
           borderRadius: 5,
         }
     contextannotation.annotations['label_'+context.trackable.ctx.label] = {
