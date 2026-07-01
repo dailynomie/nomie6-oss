@@ -28,7 +28,12 @@ export default function (node: HTMLElement, params: SortableActionParams) {
                 // sortablejs doesn't work perfectly with Svelte5
                 // https://github.com/sveltejs/svelte/issues/11826#issuecomment-2141791882
 
-                // Wait for Svelte to process state updates before removing the element
+                // Wait for all cascading updates to complete:
+                // 1. State update from onChange
+                // 2. $derived computations (colAttrs, rowAttrs, unusedAttrs)
+                // 3. Component re-render
+                // Multiple ticks ensure all synchronous updates are flushed
+                await tick();
                 await tick();
 
                 ev.item.remove();
