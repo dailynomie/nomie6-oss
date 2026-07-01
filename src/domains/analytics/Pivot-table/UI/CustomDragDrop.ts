@@ -121,11 +121,16 @@ export default function (node: HTMLElement, params: DragDropParams) {
             dataTransfer.effectAllowed = 'move';
             dataTransfer.setData('text/plain', item.dataset.id || '');
 
-            // Create a simple drag image
+            // Create a simple drag image with high visibility
             const dragImage = item.cloneNode(true) as HTMLElement;
-            dragImage.style.opacity = '0.7';
+            dragImage.style.opacity = '1';
             dragImage.style.position = 'absolute';
             dragImage.style.top = '-9999px';
+            dragImage.style.backgroundColor = '#fff';
+            dragImage.style.border = '2px solid #04A6F9';
+            dragImage.style.borderRadius = '4px';
+            dragImage.style.padding = '4px 8px';
+            dragImage.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
             document.body.appendChild(dragImage);
             dataTransfer.setDragImage(dragImage, 0, 0);
 

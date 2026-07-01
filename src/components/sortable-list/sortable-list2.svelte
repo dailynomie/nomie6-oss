@@ -114,7 +114,7 @@
       // Drag & Drop
       dragEnabled: enabled,
       dragContainer: null,
-      dragHandle: handleClass,
+      dragHandle: handleClass ? `.${handleClass}` : null,
       dragStartPredicate: {
         distance: 0,
         delay: 0,
