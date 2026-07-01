@@ -1,4 +1,5 @@
 import Sortable from 'sortablejs';
+import { tick } from 'svelte';
 
 interface SortableActionParams {
     options?: any;
@@ -23,19 +24,19 @@ export default function (node: HTMLElement, params: SortableActionParams) {
             onUpdate: (ev) => notify(ev.to),
             onAdd: (ev) => notify(ev.to),
             onRemove: (ev) => notify(ev.from),
-            onEnd: (ev) => {
+            onEnd: async (ev) => {
                 // sortablejs doesn't work perfectly with Svelte5
                 // https://github.com/sveltejs/svelte/issues/11826#issuecomment-2141791882
 
-                // Delay removal so Svelte can re-render the new state first, avoiding visual flicker
-                requestAnimationFrame(() => {
-                    ev.item.remove();
+                // Wait for Svelte to process state updates before removing the element
+                await tick();
 
-                    // Only restore position if item stayed in the same container (reordering)
-                    if (ev.from === ev.to && ev.oldIndex !== undefined) {
-                        ev.from.insertBefore(ev.item, ev.from.childNodes[Number((ev.item as HTMLElement).dataset.oldIndex!)]);
-                    }
-                });
+                ev.item.remove();
+
+                // Only restore position if item stayed in the same container (reordering)
+                if (ev.from === ev.to && ev.oldIndex !== undefined) {
+                    ev.from.insertBefore(ev.item, ev.from.childNodes[Number((ev.item as HTMLElement).dataset.oldIndex!)]);
+                }
             },
         });
 
