@@ -27,13 +27,15 @@ export default function (node: HTMLElement, params: SortableActionParams) {
                 // sortablejs doesn't work perfectly with Svelte5
                 // https://github.com/sveltejs/svelte/issues/11826#issuecomment-2141791882
 
-                // cancel the UI update so Svelte will take care of it
-                ev.item.remove();
+                // Delay removal so Svelte can re-render the new state first, avoiding visual flicker
+                requestAnimationFrame(() => {
+                    ev.item.remove();
 
-                // Only restore position if item stayed in the same container (reordering)
-                if (ev.from === ev.to && ev.oldIndex !== undefined) {
-                    ev.from.insertBefore(ev.item, ev.from.childNodes[Number((ev.item as HTMLElement).dataset.oldIndex!)]);
-                }
+                    // Only restore position if item stayed in the same container (reordering)
+                    if (ev.from === ev.to && ev.oldIndex !== undefined) {
+                        ev.from.insertBefore(ev.item, ev.from.childNodes[Number((ev.item as HTMLElement).dataset.oldIndex!)]);
+                    }
+                });
             },
         });
 
