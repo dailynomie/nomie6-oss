@@ -14,7 +14,15 @@ export default function (node: HTMLElement, params: SortableActionParams) {
         onchange(val);
     };
 
+    // Handle dragover to accept drops
+    const handleDragOver = (e: DragEvent) => {
+        e.preventDefault();
+        e.dataTransfer!.dropEffect = 'move';
+    };
+
     if (node) {
+        node.addEventListener('dragover', handleDragOver);
+
         const sortable = Sortable.create(node, {
             ...options,
             onStart({ item }) {
@@ -24,24 +32,14 @@ export default function (node: HTMLElement, params: SortableActionParams) {
             onUpdate: (ev) => notify(ev.to),
             onAdd: (ev) => notify(ev.to),
             onRemove: (ev) => notify(ev.from),
-            onEnd: async (ev) => {
+            onEnd: (ev) => {
                 // sortablejs doesn't work perfectly with Svelte5
                 // https://github.com/sveltejs/svelte/issues/11826#issuecomment-2141791882
 
-                // Wait for all cascading updates to complete:
-                // 1. State update from onChange
-                // 2. $derived computations (colAttrs, rowAttrs, unusedAttrs)
-                // 3. Component re-render
-                // Multiple ticks ensure all synchronous updates are flushed
-                await tick();
-                await tick();
-
-                // Additional small delay for browser layout and paint cycles
-                await new Promise(resolve => setTimeout(resolve, 50));
-
+                // cancel the UI update so Svelte will take care of it
                 ev.item.remove();
 
-                // Only restore position if item stayed in the same container (reordering)
+                // Only restore position if item stayed in same container (reordering within same list)
                 if (ev.from === ev.to && ev.oldIndex !== undefined) {
                     ev.from.insertBefore(ev.item, ev.from.childNodes[Number((ev.item as HTMLElement).dataset.oldIndex!)]);
                 }
@@ -51,6 +49,7 @@ export default function (node: HTMLElement, params: SortableActionParams) {
         return {
             destroy() {
                 sortable?.destroy();
+                node.removeEventListener('dragover', handleDragOver);
             },
         };
     }

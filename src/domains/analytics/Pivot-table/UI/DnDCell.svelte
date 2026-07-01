@@ -12,6 +12,7 @@
         ghostClass: "pvtPlaceholder",
         filter: ".pvtFilterBox",
         preventOnFilter: false,
+        animation: 0,
     };
 
     function getAttrValues(x: string) {
