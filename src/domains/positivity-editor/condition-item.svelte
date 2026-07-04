@@ -92,6 +92,7 @@
       <slot name="right" />
     </div>
   </header>
+  {#if workingCondition}
   <main class="condition-group px-8 w-full">
     <select aria-label="Compare to What?" bind:value={workingCondition.if} class="condition-select">
       {#each ConditionIfs as cif}
@@ -148,6 +149,7 @@
       {/each}
     </select>
   </main>
+  {/if}
 </div>
 
 <style lang="postcss" global>

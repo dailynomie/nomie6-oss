@@ -58,10 +58,11 @@
 
   const methods = {
     async change() {
-      await wait(10)
+      await wait(50)
       dispatch('trackerChange', tracker)
 
       if (tracker.score == 'custom' && !tracker.score_calc) {
+        await wait(10)
         openScoreEditor({
           trackable: tracker.toTrackable(),
           show: true,
@@ -131,7 +132,7 @@
         type="select"
         bind:value={tracker.score}
         placeholder="Select a Positivity"
-        on:input={methods.change}
+        on:change={methods.change}
         label={Lang.t('tracker.positivity', 'Positivity')}
       >
         <div slot="left" class="pt-3 text-black dark:text-white">

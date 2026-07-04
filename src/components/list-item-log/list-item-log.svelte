@@ -31,6 +31,7 @@
   // consts
 
   let displayLog = $state<NLog>(undefined)
+  let displayScore = $state<number | undefined>(undefined)
   // let editMode:boolean = true;
 
   let lastLog = $state<string | undefined>(undefined)
@@ -49,6 +50,29 @@
       lastLog = objectHash(log)
       // Setup the display log
       displayLog = new NLog(log)
+
+      // Convert trackables to ITrackers format (map keyed by tag)
+      const knownTrackers = {}
+      if ($TrackableStore.trackables) {
+        // Handle both object and array formats
+        const trackablesArray = Array.isArray($TrackableStore.trackables)
+          ? $TrackableStore.trackables
+          : Object.values($TrackableStore.trackables)
+
+        trackablesArray.forEach((trackable: any) => {
+          if (trackable && trackable.type === 'tracker' && trackable.tracker) {
+            // Store by tag without # prefix
+            const cleanTag = trackable.tag ? trackable.tag.replace(/^#/, '') : trackable.tag
+            if (cleanTag) {
+              knownTrackers[cleanTag] = trackable.tracker
+            }
+          }
+        })
+      }
+
+      // Recalculate score using custom conditions
+      const calculated = displayLog.calculateScore(knownTrackers)
+      displayScore = calculated
 
       // Format the log Elements
       logElements = log.elements
@@ -69,7 +93,6 @@
     const results: any = await selectPositivityPopmenu(log.score)
     if (results && is.truthy(results.score)) {
       log.score = results.score
-      console.log({ score: log.score })
       await onLogNoteChange(log.note, log)
     }
   }
@@ -115,7 +138,7 @@
   <div id="log-{displayLog._id}" class:pinned={displayLog.pinned} class="note-bubble space-y-2 bubble {className}">
     <div class="flex items-center justify-between text-xs  space-x-3 -mt-2">
       <button on:click={() => changePositivity(log)} class="text-base text-gray-600 dark:text-gray-400"
-        >{getEmojiFromScore(log.score).emoji}</button
+        >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
       >
       <div class="text-gray-500 stiff line-clamp-1">
         {#if fullDate}

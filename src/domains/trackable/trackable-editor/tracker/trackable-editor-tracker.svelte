@@ -59,6 +59,7 @@
   let updateTrigger: number = $state(0)
   let tracker: TrackerClass = $state(trackable.tracker)
   let lastTrackerRef = $state<TrackerClass | undefined>(undefined)
+  let focusList: Array<string> = $state([])
 
   // Sync when tracker reference changes or when updateTrigger changes
   $effect(() => {
@@ -66,6 +67,14 @@
     if (trackable?.tracker !== lastTrackerRef) {
       tracker = trackable.tracker
       lastTrackerRef = trackable.tracker
+      focusList = [...(tracker?.focus || [])]
+    }
+  })
+
+  // Initialize focus list from tracker
+  $effect(() => {
+    if (tracker) {
+      focusList = [...(tracker.focus || [])]
     }
   })
 
@@ -595,16 +604,18 @@
         <div class="grid p-2 grid-cols-3 gap-2">
           {#each focusTypes as focus}
             <button
+              type="button"
               on:click={() => {
-                let foundIndex = tracker.focus.indexOf(focus.id)
+                let foundIndex = focusList.indexOf(focus.id)
                 if (foundIndex > -1) {
-                  tracker.focus = tracker.focus.filter((f) => f !== focus.id)
+                  focusList = focusList.filter((f) => f !== focus.id)
                 } else {
-                  tracker.focus.push(focus.id)
+                  focusList = [...focusList, focus.id]
                 }
-                tracker.focus = tracker.focus
+                tracker.focus = focusList
+                updateTrigger++
               }}
-              class=" flex text-center justify-center py-1 px-2 rounded-md items-center {tracker.focus.indexOf(
+              class=" flex text-center justify-center py-1 px-2 rounded-md items-center {focusList.indexOf(
                 focus.id
               ) > -1
                 ? 'ring-2 ring-primary-500 dark:text-white font-bold'

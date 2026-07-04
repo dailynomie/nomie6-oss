@@ -73,17 +73,15 @@
   }
 
   const addCondition = () => {
-    
     let calc: any = {
       is: 'eq',
       sc: 1,
       v: 0,
       if: 'value',
+      key: nid(),
     }
-    calc.key = nid();
-    // calc.key = md5(JSON.stringify(calc))
-    workingCalc.push(calc)
-    workingCalc = workingCalc
+    // Create a plain object to avoid Proxy wrapping
+    workingCalc = [...workingCalc, JSON.parse(JSON.stringify(calc))]
     refresh()
   }
 
