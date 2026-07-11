@@ -14,6 +14,37 @@ import { MasterTrackables, saveTrackable } from '../trackable/TrackableStore'
 
 import { smartMerge } from './smart-merge'
 import { TemplateToImport } from './storage-export.helper'
+
+/**
+ * Normalize context.json or pointers.json from backup format to storage format
+ * Backups might have these as arrays, but storage format needs them as key-value objects
+ */
+const normalizeKVFile = (path: string, content: any): any => {
+  // Only process context.json and pointers.json
+  if (path !== 'context.json' && path !== 'pointers.json') {
+    return content
+  }
+
+  // If already an object (key-value), return as-is
+  if (content && typeof content === 'object' && !Array.isArray(content)) {
+    return content
+  }
+
+  // If it's an array, convert to key-value object using 'tag' as key
+  if (Array.isArray(content)) {
+    const result: { [key: string]: any } = {}
+    content.forEach((item) => {
+      if (item && item.tag) {
+        result[item.tag] = item
+      }
+    })
+    return result
+  }
+
+  // Return as-is if it's neither array nor object
+  return content
+}
+
 type exportPropsType = {
   onChange: Function
   onComplete: Function
@@ -146,6 +177,9 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
         try {
           let path = cfiles[c].path
           let content = cfiles[c].content
+
+          // Normalize context.json and pointers.json from array to key-value format
+          content = normalizeKVFile(path, content)
 
           /**
            * If the Existing Exists, and it's not a string
