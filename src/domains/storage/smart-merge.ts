@@ -10,10 +10,10 @@ export const smartMerge = (v1:any, v2:any) => {
 }
 
 export const mergeArray = (v1:Array<any>,v2:Array<any>) => {
-  const KEYS = ['_id','key','id'];
+  const KEYS = ['_id','key','id','tag'];
   let id = "id";
   if(v1.length || v2.length) {
-  
+
     let baseItem = v1[0] || v2[0];
     KEYS.forEach((idType)=>{
       if(baseItem.hasOwnProperty(idType)) {

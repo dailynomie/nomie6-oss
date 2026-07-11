@@ -61,6 +61,32 @@ function getLogs(fileData: any): Array<NLog> {
   })
 }
 
+function getContexts(fileData: any): Array<any> {
+  // Handle both array and object formats for context data
+  const contextData = fileData.context || []
+
+  // If it's an object (key-value), convert to array
+  if (!Array.isArray(contextData)) {
+    return Object.values(contextData)
+  }
+
+  // If it's already an array, return as-is
+  return contextData
+}
+
+function getPointers(fileData: any): Array<any> {
+  // Handle both array and object formats for pointer data
+  const pointerData = fileData.pointers || []
+
+  // If it's an object (key-value), convert to array
+  if (!Array.isArray(pointerData)) {
+    return Object.values(pointerData)
+  }
+
+  // If it's already an array, return as-is
+  return pointerData
+}
+
 export function N5ImportNormalizer(importer: any): INormalizedImport {
   const dashboards = getDashboards(importer)
 
@@ -69,8 +95,8 @@ export function N5ImportNormalizer(importer: any): INormalizedImport {
     boards: getBoards(importer),
     logs: getLogs(importer),
     people: getPeople(importer),
-    context: importer.context || [],
-    pointers: importer.pointers || [],
+    context: getContexts(importer),
+    pointers: getPointers(importer),
     locations: (importer.locations || []).map((loc) => {
       return new Location(loc)
     }),

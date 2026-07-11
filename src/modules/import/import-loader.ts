@@ -150,27 +150,45 @@ export default class ImportLoader {
   }
 
   public async importContext() {
-    // let contexts: Array<ContextClass> = await ContextStore.rawState()
     let importCTX = this.normalized.context || []
-    const contexts = importCTX.map((c) => new ContextClass(c))
+    // Convert array to key-value object using 'tag' as key
+    const contextMap: { [key: string]: ContextClass } = {}
+
+    importCTX.forEach((c) => {
+      const contextClass = new ContextClass(c)
+      if (contextClass.tag) {
+        contextMap[contextClass.tag] = contextClass
+      }
+    })
 
     try {
-      await ContextStore.upsertMany(contexts)
+      if (Object.keys(contextMap).length > 0) {
+        await ContextStore.upsertMany(contextMap)
+      }
     } catch (e) {
-      console.error(e)
+      console.error('Error importing contexts:', e)
     }
     return this
   }
 
   public async importPointers() {
-    
     let importPTR = this.normalized.pointers || []
-    const pointers = importPTR.map((c) => new PointerClass(c))
+    // Convert array to key-value object using 'tag' as key
+    const pointerMap: { [key: string]: PointerClass } = {}
+
+    importPTR.forEach((p) => {
+      const pointerClass = new PointerClass(p)
+      if (pointerClass.tag) {
+        pointerMap[pointerClass.tag] = pointerClass
+      }
+    })
 
     try {
-      await PointerStore.upsertMany(pointers)
+      if (Object.keys(pointerMap).length > 0) {
+        await PointerStore.upsertMany(pointerMap)
+      }
     } catch (e) {
-      console.error(e)
+      console.error('Error importing pointers:', e)
     }
     return this
   }
