@@ -16,12 +16,13 @@ import { smartMerge } from './smart-merge'
 import { TemplateToImport } from './storage-export.helper'
 
 /**
- * Normalize context.json or pointers.json from backup format to storage format
- * Backups might have these as arrays, but storage format needs them as key-value objects
+ * Normalize context.json from backup format to storage format
+ * Backups might have context as arrays, but context storage needs key-value objects (KVStore format)
+ * Note: pointers.json should remain as arrays since PointerStore uses ArrayStore format
  */
-const normalizeKVFile = (path: string, content: any): any => {
-  // Only process context.json and pointers.json
-  if (path !== 'context.json' && path !== 'pointers.json') {
+const normalizeContextFile = (path: string, content: any): any => {
+  // Only process context.json
+  if (path !== 'context.json') {
     return content
   }
 
@@ -178,8 +179,9 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
           let path = cfiles[c].path
           let content = cfiles[c].content
 
-          // Normalize context.json and pointers.json from array to key-value format
-          content = normalizeKVFile(path, content)
+          // Normalize context.json from array to key-value format (KVStore)
+          // Pointers.json is left as-is since PointerStore uses ArrayStore format
+          content = normalizeContextFile(path, content)
 
           /**
            * If the Existing Exists, and it's not a string

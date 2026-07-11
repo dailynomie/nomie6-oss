@@ -173,19 +173,12 @@ export default class ImportLoader {
 
   public async importPointers() {
     let importPTR = this.normalized.pointers || []
-    // Convert array to key-value object using 'tag' as key
-    const pointerMap: { [key: string]: PointerClass } = {}
-
-    importPTR.forEach((p) => {
-      const pointerClass = new PointerClass(p)
-      if (pointerClass.tag) {
-        pointerMap[pointerClass.tag] = pointerClass
-      }
-    })
+    // PointerStore uses ArrayStore, so keep as array, not object
+    const pointers = importPTR.map((p) => new PointerClass(p))
 
     try {
-      if (Object.keys(pointerMap).length > 0) {
-        await PointerStore.upsertMany(pointerMap)
+      if (pointers.length > 0) {
+        await PointerStore.upsertMany(pointers)
       }
     } catch (e) {
       console.error('Error importing pointers:', e)
