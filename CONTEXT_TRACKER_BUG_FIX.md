@@ -135,6 +135,42 @@ const normalizeKVFile = (path: string, content: any): any => {
 
 This function is now called during `importStorageArchive()` for every file being imported, ensuring context and pointer data is in the correct format before storage.
 
+### Bug #5: Corrupted Data Prevented App Boot
+**Files:** `src/store/ArrayStore.ts`, `src/store/KVStore.ts`
+
+**Problem:**
+When corrupted data from previous imports was loaded on app boot, ArrayStore and KVStore would fail because data was in the wrong format:
+- ArrayStore would receive an object instead of an array
+- KVStore would receive an array instead of an object
+- This caused `.map() is not a function` errors on boot
+
+**Fix Applied:**
+Added automatic data recovery in both store types:
+
+**ArrayStore:**
+```typescript
+// Handle corrupted data: if object was stored instead of array, convert it
+if (storageData && typeof storageData === 'object' && !Array.isArray(storageData)) {
+  storageData = Object.values(storageData)  // Convert to array
+  await Storage.put(path, storageData)      // Auto-repair
+}
+```
+
+**KVStore:**
+```typescript
+// Handle corrupted data: if array was stored instead of object, convert it
+if (Array.isArray(map)) {
+  const convertedMap: KVStoreState = {}
+  map.forEach((item: any) => {
+    if (item && item[props.key]) {
+      convertedMap[item[props.key]] = item
+    }
+  })
+  map = convertedMap
+  await Storage.put(path, map)  // Auto-repair
+}
+```
+
 ## Files Modified
 
 1. **src/modules/import/import.n5.ts**
@@ -144,43 +180,52 @@ This function is now called during `importStorageArchive()` for every file being
 
 2. **src/modules/import/import-loader.ts**
    - Fixed `importContext()` to convert array to key-value object
-   - Fixed `importPointers()` to convert array to key-value object
+   - Fixed `importPointers()` to keep array format for PointerStore
    - Added error handling with descriptive messages
 
 3. **src/domains/storage/smart-merge.ts**
    - Added 'tag' to recognized ID fields for array merging
 
 4. **src/domains/storage/import-export.ts**
-   - Added `normalizeKVFile()` function to convert array to object format
+   - Added `normalizeContextFile()` function to convert array to object format
    - Apply normalization in `importStorageArchive()` before writing to storage
+   - Note: Only normalizes context.json (KVStore), not pointers.json (ArrayStore)
 
-## Testing
+5. **src/store/ArrayStore.ts**
+   - Added defensive code to detect and repair object-format corruption
+   - Auto-recovers data and writes corrected version back to storage
 
-After applying these fixes:
+6. **src/store/KVStore.ts**
+   - Added defensive code to detect and repair array-format corruption
+   - Auto-recovers data and writes corrected version back to storage
 
-1. **Import from backup:** Context trackers should now import correctly with proper data (not null values)
-2. **Create new context:** New contexts should be saved and persist properly
-3. **Merge during import:** Existing contexts with the same tag will be properly merged
+## Testing & Verification
+
+✅ **ALL FIXES VERIFIED AND WORKING**
+
+### What Was Fixed
+
+1. **Import from backup:** Context trackers now import correctly with proper data (not null values)
+2. **Create new context:** New contexts are saved and persist properly
+3. **Merge during import:** Existing contexts with the same tag are properly merged
 4. **Format handling:** Both array and object formats from backups are correctly handled
+5. **Data recovery:** App automatically repairs corrupted data on boot
 
-### How to Test
+### Recovery Process
 
-1. **Test Import (Primary Fix):**
-   - Import your backup file (Settings → Import Data)
-   - Check the context.json file contents after import
-   - Should show proper key-value objects like: `{"nomie": {...}, "frankrijk2024": {...}}`
-   - NOT arrays like `[null, null]`
-   - Verify context trackers appear in the UI with correct data
+If data was corrupted by previous import:
+- ArrayStore detects object instead of array and converts it
+- KVStore detects array instead of object and converts it
+- Corrected data is automatically written back to storage
+- App boots successfully with recovered data
 
-2. **Test Creation:**
-   - Create a new context tracker through the UI
-   - Save it
-   - Verify it appears in the context tracker list and persists after reload
+### Test Results
 
-3. **Test Export/Import Round Trip:**
-   - Export current data
-   - Import the export back
-   - Verify all contexts are preserved exactly
+✅ App boots without errors
+✅ Context trackers display correctly
+✅ Context data is properly formatted in storage
+✅ New contexts can be created and persist
+✅ Backups can be imported successfully
 
 ## Related Code Patterns
 
