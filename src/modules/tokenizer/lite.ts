@@ -1,7 +1,8 @@
 import time from '../time/time'
-import { Parser } from 'expr-eval'
+import Mexp from 'math-expression-evaluator'
 
 const prefixes: any = { context: '+', person: '@', tracker: '#', pointer: '^' }
+let mexp: any
 
 export type TokenTypes = 'person' | 'link' | 'generic' | 'tracker' | 'context' | 'pointer' | 'place' | 'line-break'
 export interface Token {
@@ -50,8 +51,9 @@ function parseStringValue(valueStr: string): ParsedStringValue {
   if (valueStr.match(/\+|-|\/|\*|Mod|\(|\)/)) {
     valueStr = valueStr.replace(/[a-z]+/gi, '')
     try {
+      if (!mexp) mexp = new Mexp()
       return {
-        value: Parser.evaluate(valueStr),
+        value: mexp.eval(valueStr),
         uom,
       }
     } catch (e) {
