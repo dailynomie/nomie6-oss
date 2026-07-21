@@ -46,6 +46,13 @@
   import L from 'leaflet'
   import * as esri_geo from 'esri-leaflet-geocoder'
 
+  // Configure Leaflet default icon paths for PWA compatibility
+  L.Icon.Default.mergeOptions({
+    iconUrl: new URL('leaflet/dist/images/marker-icon.png', import.meta.url).href,
+    iconRetinaUrl: new URL('leaflet/dist/images/marker-icon-2x.png', import.meta.url).href,
+    shadowUrl: new URL('leaflet/dist/images/marker-shadow.png', import.meta.url).href,
+  })
+
   // consts
   const dispatch = createEventDispatcher()
   const id = `map-${Math.random().toString().replace('.', '')}`
