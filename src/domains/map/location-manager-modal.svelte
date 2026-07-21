@@ -59,7 +59,9 @@
   const { id, onSelect } = $props()
 
   $effect(() => {
-    state.locations = $LocationStore
+    if ($LocationStore) {
+      state.locations = $LocationStore
+    }
   })
 
   // function goto(location) {
@@ -289,8 +291,8 @@
     </div>
   </header>
 
-  <main class="pt-4 pb-4">
-    <section class="flex flex-col h-full relative h-50vh">
+  <main class="pt-4 pb-4 flex-grow overflow-y-auto">
+    <section class="flex flex-col h-full relative">
       {#if showMap}
         <div style="height:225px;" class="flex-grow-0 flex-shrink-0 relative">
           <!-- MAP -->
@@ -339,7 +341,7 @@
                 direction="y"
                 enabled={state.mode == 'edit'}
                 bind:items={state.locations}
-                handleClass=".menu"
+                handleClass="menu"
                 on:update={sorted}
                 let:item
               >

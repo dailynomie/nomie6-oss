@@ -115,7 +115,9 @@
     </Grid>
   </Container>
 {:else if view === 'context'}
-  <ContextChart size="auto" date={startDate} />
+  <Container className="p-2 py-4">
+    <ContextChart size="auto" date={startDate} />
+  </Container>
 {:else if view === 'all'}
   {#if !logs.length}
     <slot name="empty" />
@@ -148,7 +150,7 @@
   {#if !people.length}
     <Empty title={Lang.t('on-this-day.no-people', 'No People on this Day')} icon={People} />
   {:else}
-    <Container>
+    <Container className="p-2 py-4 space-y-4">
       {#each people as person}
         <ListItem
           bottomLine={68}
@@ -168,7 +170,7 @@
   {#if !context.length}
     <Empty title={Lang.t('on-this-day.no-context', 'No Context on this Day')} emoji="🤷‍♂️" />
   {:else}
-    <Container>
+    <Container className="p-2 py-4">
       <div class="mt-3 n-grid">
         {#each context as contex}
           <Button
@@ -196,7 +198,7 @@
   {#if !pointers.length}
     <Empty title={Lang.t('on-this-day.no-pointers', 'No Pointers on this Day')} emoji="🤷‍♂️" />
   {:else}
-    <Container>
+    <Container className="p-2 py-4">
       <div class="mt-3 n-grid">
         {#each pointers as pointer}
           <Button
@@ -221,9 +223,11 @@
     </Container>
   {/if}
 {:else if view === 'locations'}
-  {#key logs}
-    <Map records={logs} className="h-full h-75vh" />
-  {/key}
+  <Container className="p-2 py-4">
+    {#key logs}
+      <Map records={logs} className="h-full h-75vh" />
+    {/key}
+  </Container>
 {/if}
 
 {#if startDate.toDateString() === new Date().toDateString()}

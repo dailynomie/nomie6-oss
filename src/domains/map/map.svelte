@@ -96,15 +96,21 @@
       if (methods) {
         await methods.init()
         methods.renderMap()
-      } else if (_el && locations && locations.length > 0) {
+      } else if (_el && (locations.length > 0 || picker)) {
         // Default map initialization when methods not provided
+        // Initialize for: (1) locations to display, (2) picker mode to select location
         const mapElement = _el.querySelector('.n-map')
         if (mapElement && !MAP) {
           // Use requestAnimationFrame to ensure element is laid out before Leaflet initializes
           requestAnimationFrame(() => {
             const rect = mapElement.getBoundingClientRect()
             if (rect.width > 0 && rect.height > 0) {
-              MAP = L.map(mapElement).setView([locations[0].lat, locations[0].lng], 8)
+              // Default view: first location, or center of map for picker mode
+              const centerLat = locations.length > 0 ? locations[0].lat : 20
+              const centerLng = locations.length > 0 ? locations[0].lng : 0
+              const zoom = locations.length > 0 ? 8 : 2
+
+              MAP = L.map(mapElement).setView([centerLat, centerLng], zoom)
               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
                 maxZoom: 19,
