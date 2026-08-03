@@ -38,8 +38,7 @@
     if (result.isValid && tracker) {
       // Check for circular dependencies
       const trackerMap = new Map(Object.entries($TrackableStore.trackables))
-      const detector = new CircularDependencyDetector()
-      const cycleCheck = detector.detect(trackerMap)
+      const cycleCheck = CircularDependencyDetector.detect(trackerMap)
 
       if (cycleCheck.hasCycle) {
         const affectedTags = result.trackerDependencies.filter(tag => cycleCheck.affectedTrackers.includes(tag))
