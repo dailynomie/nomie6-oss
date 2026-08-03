@@ -17,7 +17,6 @@
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { CircleOutline, CheckmarkCircle } from '../../../components/icon/nicons'
   import { encodeRegex } from '../../../utils/regex'
-  import TrackableAvatar from '../../../components/avatar/trackable-avatar.svelte'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 
@@ -197,11 +196,13 @@
                 }}
                 className="w-full flex items-center gap-2 px-2 py-2 rounded hover:bg-primary-100 dark:hover:bg-primary-900/30 transition text-left"
               >
-                {#if suggestion.trackable}
-                  <TrackableAvatar trackable={suggestion.trackable} size="sm" />
-                {/if}
                 <div class="flex-1 min-w-0">
-                  <Text size="sm" className="font-medium truncate">#{suggestion.tag}</Text>
+                  <div className="flex items-center gap-1">
+                    {#if suggestion.trackable?.emoji}
+                      <span className="text-lg">{suggestion.trackable.emoji}</span>
+                    {/if}
+                    <Text size="sm" className="font-medium truncate">#{suggestion.tag.replace(/^#+/, '')}</Text>
+                  </div>
                   <Text size="xs" className="text-gray-600 dark:text-gray-400 truncate">{suggestion.label}</Text>
                 </div>
               </button>
