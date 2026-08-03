@@ -16,6 +16,7 @@
   import Divider from '../../../components/divider/divider.svelte'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { CircleOutline, CheckmarkCircle } from '../../../components/icon/nicons'
+  import AutoComplete from '../../../components/auto-complete/auto-complete.svelte'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 
@@ -153,6 +154,21 @@
           {parsed.error}
         </div>
       {/if}
+
+      <!-- Autocomplete suggestions -->
+      <AutoComplete
+        input={formulaInput}
+        scroller
+        on:select={(evt) => {
+          // Replace the last partial tracker reference with the complete one
+          const lastHashIndex = formulaInput.lastIndexOf('#')
+          if (lastHashIndex !== -1) {
+            const beforeHash = formulaInput.substring(0, lastHashIndex)
+            const selectedTag = evt.detail.trackable.tag
+            formulaInput = `${beforeHash}#${selectedTag}`
+          }
+        }}
+      />
     </List>
 
     <!-- Tracker Dependencies -->
