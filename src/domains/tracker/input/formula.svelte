@@ -27,7 +27,7 @@
   // Get tracker values for evaluation
   const getTrackerValues = () => {
     const values: { [tag: string]: number } = {}
-    const trackerMap = new Map($TrackableStore.trackables)
+    const trackerMap = new Map(Object.entries($TrackableStore.trackables))
 
     if (tracker.trackerDependencies) {
       for (const tag of tracker.trackerDependencies) {
@@ -86,7 +86,7 @@
 
   // Get available tracker details
   const getDependencyDetails = () => {
-    const trackerMap = new Map($TrackableStore.trackables)
+    const trackerMap = new Map(Object.entries($TrackableStore.trackables))
     const details: Array<{ tag: string; label: string; value: number }> = []
 
     if (tracker.trackerDependencies) {

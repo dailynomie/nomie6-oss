@@ -37,7 +37,7 @@
     const result = FormulaParser.parse(formulaInput)
     if (result.isValid && tracker) {
       // Check for circular dependencies
-      const trackerMap = new Map($TrackableStore.trackables)
+      const trackerMap = new Map(Object.entries($TrackableStore.trackables))
       const detector = new CircularDependencyDetector()
       const cycleCheck = detector.detect(trackerMap)
 
