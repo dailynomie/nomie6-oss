@@ -181,8 +181,8 @@
       <!-- Autocomplete suggestions for tracker references -->
       {#if autocompleteSuggestions.length > 0}
         <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-          <Text size="xs" className="text-gray-600 dark:text-gray-400 px-2 py-1 mb-2">Suggestions:</Text>
-          <div class="space-y-2">
+          <Text size="xs" className="text-gray-600 dark:text-gray-400 px-2 py-1 mb-3">Suggestions:</Text>
+          <div class="space-y-3">
             {#each autocompleteSuggestions as suggestion}
               <button
                 on:click={() => {
