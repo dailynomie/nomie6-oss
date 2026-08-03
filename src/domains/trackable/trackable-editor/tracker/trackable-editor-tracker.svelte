@@ -54,6 +54,7 @@
   import type TrackerClass from '../../../../modules/tracker/TrackerClass'
   import PositivityEditor from '../../positivity-editor/positivity-editor.svelte'
   import TrackableListBuilder from '../../TrackableListBuilder.svelte'
+  import FormulaEditorSection from '../../../tracker/editor/formula-editor-section.svelte'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
   let updateTrigger: number = $state(0)
@@ -392,7 +393,11 @@
     </List>
   {/if}
 
-  {#if tracker.type !== 'timer' && tracker.type !== 'note' && tracker.type !== 'picker' && tracker.type !== 'habit'}
+  {#if tracker.type == 'formula'}
+    <FormulaEditorSection {trackable} />
+  {/if}
+
+  {#if tracker.type !== 'timer' && tracker.type !== 'note' && tracker.type !== 'picker' && tracker.type !== 'habit' && tracker.type !== 'formula'}
     <List solo>
       <NInput
         listItem

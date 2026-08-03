@@ -67,6 +67,12 @@ const types: TrackerTypesConfig = {
     label: Lang.t('tracker.type.note', 'Combo'),
     description: Lang.t('tracker.type.note_description', 'Track multiple trackers at a time'),
   },
+  formula: {
+    id: 'formula',
+    emoji: '🧮',
+    label: Lang.t('tracker.type.formula', 'Formula'),
+    description: Lang.t('tracker.type.formula_description', 'Calculate values from other trackers using math expressions'),
+  },
 }
 
 export function getTypeDetails(type: string): TrackerTypeConfig | undefined {
