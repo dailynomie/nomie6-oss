@@ -187,7 +187,9 @@
                 const lastHashIndex = formulaInput.lastIndexOf('#')
                 if (lastHashIndex !== -1) {
                   const beforeHash = formulaInput.substring(0, lastHashIndex)
-                  formulaInput = `${beforeHash}#${suggestion.tag} `
+                  // Strip any leading # from the tag to avoid ##
+                  const tagWithoutHash = suggestion.tag.replace(/^#+/, '')
+                  formulaInput = `${beforeHash}#${tagWithoutHash} `
                 }
               }}
               className="w-full text-left px-2 py-1 rounded hover:bg-primary-100 dark:hover:bg-primary-900/30 transition"
