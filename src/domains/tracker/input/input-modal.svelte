@@ -22,6 +22,7 @@
   import PickerInput from './picker.svelte'
   import NTimer from './timer.svelte'
   import HabitInput from './habit.svelte'
+  import FormulaInput from './formula.svelte'
 
   import NCalculator from '../../../components/calculator/calculator.svelte'
 
@@ -254,8 +255,17 @@
           on:change={(value) => {
             data.value = value.detail
           }}
-          
+
         />
+          {:else if tracker.type === 'formula'}
+            <FormulaInput
+              {tracker}
+              onUseValue={(value) => {
+                data.value = value
+                // Immediately save formula calculated values
+                methods.onSave()
+              }}
+            />
           {:else}
             <div id="keypad-holder">
               <NCalculator
