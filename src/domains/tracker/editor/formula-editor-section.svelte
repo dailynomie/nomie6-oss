@@ -82,7 +82,7 @@
     })
   })
 
-  // Get available tracker options
+  // Get available tracker options (used for autocomplete suggestions)
   const availableTrackers = $derived.by(() => {
     return Object.entries($TrackableStore.trackables)
       .filter(([_, trackable]) => trackable?.type === 'tracker' && trackable?.tag && trackable?.label)
@@ -219,23 +219,6 @@
           <Text size="sm" className="text-gray-600 dark:text-gray-400">{dependencyText}</Text>
         </div>
       </ListItem>
-
-      {#if availableTrackers.length > 0}
-        <Divider left={16} />
-        <div class="px-4 py-2">
-          <Text size="xs" className="text-gray-500 mb-2">Available trackers:</Text>
-          <div class="flex flex-wrap gap-2">
-            {#each availableTrackers as { tag, label }}
-              <button
-                on:click={() => (formulaInput += ` #${tag}`)}
-                className="px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-200 rounded hover:bg-primary-200 dark:hover:bg-primary-800"
-              >
-                #{tag}
-              </button>
-            {/each}
-          </div>
-        </div>
-      {/if}
     </List>
 
     <!-- Manual Variables -->
