@@ -16,7 +16,7 @@
   import Divider from '../../../components/divider/divider.svelte'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { CircleOutline, CheckmarkCircle } from '../../../components/icon/nicons'
-  import AutoComplete from '../../../components/auto-complete/auto-complete.svelte'
+  import { encodeRegex } from '../../../utils/regex'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 
@@ -93,6 +93,25 @@
       .sort((a, b) => a.label.localeCompare(b.label))
   })
 
+  // Get autocomplete suggestions for current input
+  const autocompleteSuggestions = $derived.by(() => {
+    const lastHashIndex = formulaInput.lastIndexOf('#')
+    if (lastHashIndex === -1) return []
+
+    // Extract text after the last #
+    const afterHash = formulaInput.substring(lastHashIndex + 1)
+
+    // Don't show suggestions if there's a space after # (formula continues)
+    if (afterHash.includes(' ')) return []
+
+    // Search for matching trackers
+    const searchTerm = afterHash.toLowerCase()
+    return availableTrackers.filter(t =>
+      t.tag.toLowerCase().includes(searchTerm) ||
+      t.label.toLowerCase().includes(searchTerm)
+    ).slice(0, 5) // Limit to 5 suggestions
+  })
+
   // Format tracker dependencies for display
   const dependencyText = $derived(
     parsed.trackerDependencies.length > 0
@@ -155,20 +174,27 @@
         </div>
       {/if}
 
-      <!-- Autocomplete suggestions -->
-      <AutoComplete
-        input={formulaInput}
-        scroller
-        on:select={(evt) => {
-          // Replace the last partial tracker reference with the complete one
-          const lastHashIndex = formulaInput.lastIndexOf('#')
-          if (lastHashIndex !== -1) {
-            const beforeHash = formulaInput.substring(0, lastHashIndex)
-            const selectedTag = evt.detail.trackable.tag
-            formulaInput = `${beforeHash}#${selectedTag}`
-          }
-        }}
-      />
+      <!-- Autocomplete suggestions for tracker references -->
+      {#if autocompleteSuggestions.length > 0}
+        <div class="px-4 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-1">
+          <Text size="xs" className="text-gray-600 dark:text-gray-400 px-2 py-1">Suggestions:</Text>
+          {#each autocompleteSuggestions as suggestion}
+            <button
+              on:click={() => {
+                const lastHashIndex = formulaInput.lastIndexOf('#')
+                if (lastHashIndex !== -1) {
+                  const beforeHash = formulaInput.substring(0, lastHashIndex)
+                  formulaInput = `${beforeHash}#${suggestion.tag} `
+                }
+              }}
+              className="w-full text-left px-2 py-1 rounded hover:bg-primary-100 dark:hover:bg-primary-900/30 transition"
+            >
+              <Text size="sm" className="font-medium">#{suggestion.tag}</Text>
+              <Text size="xs" className="text-gray-600 dark:text-gray-400">{suggestion.label}</Text>
+            </button>
+          {/each}
+        </div>
+      {/if}
     </List>
 
     <!-- Tracker Dependencies -->
