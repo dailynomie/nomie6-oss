@@ -17,6 +17,7 @@
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { CircleOutline, CheckmarkCircle } from '../../../components/icon/nicons'
   import { encodeRegex } from '../../../utils/regex'
+  import TrackableAvatar from '../../../components/avatar/trackable-avatar.svelte'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 
@@ -89,6 +90,7 @@
       .map(([_, trackable]) => ({
         tag: trackable.tag,
         label: trackable.label,
+        trackable: trackable,
       }))
       .sort((a, b) => a.label.localeCompare(b.label))
   })
@@ -179,25 +181,32 @@
 
       <!-- Autocomplete suggestions for tracker references -->
       {#if autocompleteSuggestions.length > 0}
-        <div class="px-4 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-1">
-          <Text size="xs" className="text-gray-600 dark:text-gray-400 px-2 py-1">Suggestions:</Text>
-          {#each autocompleteSuggestions as suggestion}
-            <button
-              on:click={() => {
-                const lastHashIndex = formulaInput.lastIndexOf('#')
-                if (lastHashIndex !== -1) {
-                  const beforeHash = formulaInput.substring(0, lastHashIndex)
-                  // Strip any leading # from the tag to avoid ##
-                  const tagWithoutHash = suggestion.tag.replace(/^#+/, '')
-                  formulaInput = `${beforeHash}#${tagWithoutHash} `
-                }
-              }}
-              className="w-full text-left px-2 py-1 rounded hover:bg-primary-100 dark:hover:bg-primary-900/30 transition"
-            >
-              <Text size="sm" className="font-medium">#{suggestion.tag}</Text>
-              <Text size="xs" className="text-gray-600 dark:text-gray-400">{suggestion.label}</Text>
-            </button>
-          {/each}
+        <div class="px-4 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+          <Text size="xs" className="text-gray-600 dark:text-gray-400 px-2 py-1 mb-1">Suggestions:</Text>
+          <div class="space-y-1">
+            {#each autocompleteSuggestions as suggestion}
+              <button
+                on:click={() => {
+                  const lastHashIndex = formulaInput.lastIndexOf('#')
+                  if (lastHashIndex !== -1) {
+                    const beforeHash = formulaInput.substring(0, lastHashIndex)
+                    // Strip any leading # from the tag to avoid ##
+                    const tagWithoutHash = suggestion.tag.replace(/^#+/, '')
+                    formulaInput = `${beforeHash}#${tagWithoutHash} `
+                  }
+                }}
+                className="w-full flex items-center gap-2 px-2 py-2 rounded hover:bg-primary-100 dark:hover:bg-primary-900/30 transition text-left"
+              >
+                {#if suggestion.trackable}
+                  <TrackableAvatar trackable={suggestion.trackable} size="sm" />
+                {/if}
+                <div class="flex-1 min-w-0">
+                  <Text size="sm" className="font-medium truncate">#{suggestion.tag}</Text>
+                  <Text size="xs" className="text-gray-600 dark:text-gray-400 truncate">{suggestion.label}</Text>
+                </div>
+              </button>
+            {/each}
+          </div>
         </div>
       {/if}
     </List>
