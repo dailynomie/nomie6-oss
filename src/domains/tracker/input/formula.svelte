@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { untrack } from 'svelte'
   import type TrackerClass from '../../../modules/tracker/TrackerClass'
   import { FormulaEvaluator, CircularDependencyDetector } from '../../../modules/formula'
   import { TrackableStore } from '../../trackable/TrackableStore'
@@ -59,28 +60,30 @@
   // Calculate formula value
   $effect(() => {
     if (tracker.formula && tracker.trackerDependencies) {
-      const trackerValues = getTrackerValues()
+      untrack(() => {
+        const trackerValues = getTrackerValues()
 
-      const manualVars: { [key: string]: number } = {}
-      if (tracker.manualVariables) {
-        for (const varName of tracker.manualVariables) {
-          const val = parseFloat(manualValues[varName] || '0')
-          manualVars[varName] = isNaN(val) ? 0 : val
+        const manualVars: { [key: string]: number } = {}
+        if (tracker.manualVariables) {
+          for (const varName of tracker.manualVariables) {
+            const val = parseFloat(manualValues[varName] || '0')
+            manualVars[varName] = isNaN(val) ? 0 : val
+          }
         }
-      }
 
-      const result = FormulaEvaluator.evaluate(tracker.formula, {
-        trackerValues,
-        manualVariables: manualVars,
+        const result = FormulaEvaluator.evaluate(tracker.formula, {
+          trackerValues,
+          manualVariables: manualVars,
+        })
+
+        if (result.isValid && result.value !== null) {
+          calculatedValue = result.value
+          evaluationError = null
+        } else {
+          calculatedValue = null
+          evaluationError = result.error || 'Calculation failed'
+        }
       })
-
-      if (result.isValid && result.value !== null) {
-        calculatedValue = result.value
-        evaluationError = null
-      } else {
-        calculatedValue = null
-        evaluationError = result.error || 'Calculation failed'
-      }
     }
   })
 
