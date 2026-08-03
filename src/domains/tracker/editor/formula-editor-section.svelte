@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { untrack } from 'svelte'
   import type { Trackable } from '../../trackable/Trackable.class'
   import type TrackerClass from '../../../modules/tracker/TrackerClass'
   import { FormulaParser, FormulaEvaluator, CircularDependencyDetector } from '../../../modules/formula'
@@ -64,15 +65,20 @@
     }
   })
 
-  // Update tracker when formula changes
+  // Update tracker properties on formula change
   $effect(() => {
-    if (tracker && parsed.isValid) {
-      tracker.formula = formulaInput
-      tracker.trackerDependencies = parsed.trackerDependencies
-      tracker.manualVariables = parsed.manualVariables
-      // Force parent to detect change
-      updateTrigger++
-    }
+    // Depend on formulaInput and parsed to trigger updates
+    formulaInput
+    parsed
+
+    untrack(() => {
+      if (tracker && parsed.isValid) {
+        // Update tracker properties without creating reactive dependency
+        tracker.formula = formulaInput
+        tracker.trackerDependencies = parsed.trackerDependencies
+        tracker.manualVariables = parsed.manualVariables
+      }
+    })
   })
 
   // Get available tracker options
