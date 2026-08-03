@@ -212,7 +212,14 @@
         title={Lang.t('tracker.allow_manual_input', 'Allow Manual Input')}
         description={Lang.t('tracker.allow_manual_input_description', 'Let users provide manual variable values during tracking')}
       >
-        <NToggle slot="right" bind:value={tracker.allowManualInput} />
+        <NToggle
+          slot="right"
+          value={tracker.allowManualInput || false}
+          on:change={(e) => {
+            tracker.allowManualInput = e.detail
+            updateTrigger++
+          }}
+        />
       </ListItem>
 
       <Divider left={16} />
@@ -221,7 +228,14 @@
         title={Lang.t('tracker.retrospective_calculation', 'Auto-Calculate Historical')}
         description={Lang.t('tracker.retrospective_calculation_description', 'Automatically calculate values for past dates when formula changes')}
       >
-        <NToggle slot="right" bind:value={tracker.retrospectiveCalculation} />
+        <NToggle
+          slot="right"
+          value={tracker.retrospectiveCalculation || false}
+          on:change={(e) => {
+            tracker.retrospectiveCalculation = e.detail
+            updateTrigger++
+          }}
+        />
       </ListItem>
     </List>
 
