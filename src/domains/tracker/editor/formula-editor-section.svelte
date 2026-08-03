@@ -180,9 +180,9 @@
 
       <!-- Autocomplete suggestions for tracker references -->
       {#if autocompleteSuggestions.length > 0}
-        <div class="px-4 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-          <Text size="xs" className="text-gray-600 dark:text-gray-400 px-2 py-1 mb-1">Suggestions:</Text>
-          <div class="space-y-1">
+        <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+          <Text size="xs" className="text-gray-600 dark:text-gray-400 px-2 py-1 mb-2">Suggestions:</Text>
+          <div class="space-y-2">
             {#each autocompleteSuggestions as suggestion}
               <button
                 on:click={() => {
@@ -194,16 +194,16 @@
                     formulaInput = `${beforeHash}#${tagWithoutHash} `
                   }
                 }}
-                className="w-full flex items-center gap-2 px-2 py-2 rounded hover:bg-primary-100 dark:hover:bg-primary-900/30 transition text-left"
+                className="w-full block px-3 py-2 rounded bg-white dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition text-left border border-gray-200 dark:border-gray-700"
               >
-                <div class="flex-1 min-w-0">
-                  <div className="flex items-center gap-1">
-                    {#if suggestion.trackable?.emoji}
-                      <span className="text-lg">{suggestion.trackable.emoji}</span>
-                    {/if}
-                    <Text size="sm" className="font-medium truncate">#{suggestion.tag.replace(/^#+/, '')}</Text>
+                <div class="flex items-center gap-2">
+                  {#if suggestion.trackable?.emoji}
+                    <span class="text-xl flex-shrink-0">{suggestion.trackable.emoji}</span>
+                  {/if}
+                  <div class="flex-1 min-w-0">
+                    <Text size="sm" class="font-medium">#{suggestion.tag.replace(/^#+/, '')}</Text>
+                    <Text size="xs" class="text-gray-600 dark:text-gray-400">{suggestion.label}</Text>
                   </div>
-                  <Text size="xs" className="text-gray-600 dark:text-gray-400 truncate">{suggestion.label}</Text>
                 </div>
               </button>
             {/each}
