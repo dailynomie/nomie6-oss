@@ -111,7 +111,7 @@
 
     let t = (options.type || type) == 'line' ? 'line' : 'bar'
     let swz = options.startWithZero === undefined || options.startWithZero === false ? false : true
-    let iz = options.igoreZero === undefined || options.ignoreZero === false ? false : true
+    let iz = options.ignoreZero === undefined || options.ignoreZero === false ? false : true
     let st = options.stats || 'none'
     let incl = options.include || undefined
     let showcontext = options.showContext
