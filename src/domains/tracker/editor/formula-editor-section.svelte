@@ -85,8 +85,8 @@
   // Get available tracker options
   const availableTrackers = $derived.by(() => {
     return Object.entries($TrackableStore.trackables)
-      .filter(([_, trackable]) => trackable.type === 'tracker')
-      .map(([tag, trackable]) => ({
+      .filter(([_, trackable]) => trackable?.type === 'tracker' && trackable?.tag && trackable?.label)
+      .map(([_, trackable]) => ({
         tag: trackable.tag,
         label: trackable.label,
       }))
@@ -106,10 +106,13 @@
 
     // Search for matching trackers
     const searchTerm = afterHash.toLowerCase()
-    return availableTrackers.filter(t =>
-      t.tag.toLowerCase().includes(searchTerm) ||
-      t.label.toLowerCase().includes(searchTerm)
-    ).slice(0, 5) // Limit to 5 suggestions
+    return availableTrackers
+      .filter(t => t?.tag && t?.label) // Guard against undefined tag/label
+      .filter(t =>
+        t.tag.toLowerCase().includes(searchTerm) ||
+        t.label.toLowerCase().includes(searchTerm)
+      )
+      .slice(0, 5) // Limit to 5 suggestions
   })
 
   // Format tracker dependencies for display
