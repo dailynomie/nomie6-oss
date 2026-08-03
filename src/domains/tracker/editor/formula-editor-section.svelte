@@ -103,7 +103,7 @@
   const testEvaluation = $derived.by(() => {
     if (!parsed.isValid || !tracker) return null
 
-    const trackerMap = new Map($TrackableStore.trackables)
+    const trackerMap = new Map(Object.entries($TrackableStore.trackables))
     const context = {
       trackerValues: Object.fromEntries(
         parsed.trackerDependencies.map(tag => {
