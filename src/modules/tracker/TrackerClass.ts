@@ -8,7 +8,7 @@ import type { ICondition } from '../scoring/score-tracker'
 import type { Token } from '../tokenizer/lite'
 import type { IFocusUnit } from '../../domains/focus/focus-utils'
 
-export type ITrackerType = 'tick' | 'habit' | 'value' | 'range' | 'picker' | 'note' | 'timer'
+export type ITrackerType = 'tick' | 'habit' | 'value' | 'range' | 'picker' | 'note' | 'timer' | 'formula'
 export type ITrackerMath = 'sum' | 'mean'
 
 export function toTag(str: string) {
@@ -53,6 +53,14 @@ export type ITracker = {
   picks?: Array<string> // Picks for a Picker type of tracker
   focus?: Array<IFocusUnit>
   habitChoice?: Array<string> // i.e, yes/no or done/failed etc
+  // Formula tracker properties
+  formula?: string // Mathematical formula: "#calories - manual_deficit"
+  trackerDependencies?: string[] // Tracker tags used in formula
+  manualVariables?: string[] // Manual variables in formula
+  allowManualInput?: boolean // Allow user to provide manual values
+  retrospectiveCalculation?: boolean // Auto-calculate historical dates
+  calculatedValues?: { [date: string]: number } // Cache of calculated values
+  lastCalculatedDate?: string // Last date formula was calculated
 }
 
 export default class TrackerClass {
@@ -85,6 +93,14 @@ export default class TrackerClass {
   public habitChoice?: Array<string> // i.e, yes/no or done/failed etc
   public _dirty?: boolean
   public focus?: Array<IFocusUnit>
+  // Formula tracker properties
+  public formula?: string // Mathematical formula
+  public trackerDependencies?: string[] // Tracker tags used in formula
+  public manualVariables?: string[] // Manual variables in formula
+  public allowManualInput?: boolean // Allow user to provide manual values
+  public retrospectiveCalculation?: boolean // Auto-calculate historical dates
+  public calculatedValues?: { [date: string]: number } // Cache of calculated values
+  public lastCalculatedDate?: string // Last date formula was calculated
 
   constructor(starter) {
     // Starter is generic object with params
@@ -151,6 +167,17 @@ export default class TrackerClass {
 
     this.picks = starter.picks || undefined
     this.habitChoice = starter.habitChoice || ["Done","Failed"]
+
+    // Formula tracker properties
+    if (this.type === 'formula') {
+      this.formula = starter.formula
+      this.trackerDependencies = starter.trackerDependencies || []
+      this.manualVariables = starter.manualVariables || []
+      this.allowManualInput = starter.allowManualInput === true ? true : false
+      this.retrospectiveCalculation = starter.retrospectiveCalculation === true ? true : false
+      this.calculatedValues = starter.calculatedValues || {}
+      this.lastCalculatedDate = starter.lastCalculatedDate
+    }
 
     if (starter.label) {
       this.label = starter.label
