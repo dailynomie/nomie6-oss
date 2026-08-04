@@ -61,6 +61,7 @@
   let tracker: TrackerClass = $state(trackable.tracker)
   let lastTrackerRef = $state<TrackerClass | undefined>(undefined)
   let focusList: Array<string> = $state([])
+  let formulaEditor: any = $state()
 
   // Sync when tracker reference changes or when updateTrigger changes
   $effect(() => {
@@ -229,6 +230,16 @@
       })
     },
   }
+
+  /**
+   * Check if formula changed and prompt for recalculation
+   * Called by parent (modal) before saving
+   */
+  export async function checkFormulaRecalculation() {
+    if (tracker.type === 'formula' && formulaEditor) {
+      await formulaEditor.checkAndPromptForRecalculation()
+    }
+  }
 </script>
 
 {#key updateTrigger}
@@ -394,7 +405,7 @@
   {/if}
 
   {#if tracker.type == 'formula'}
-    <FormulaEditorSection {trackable} />
+    <FormulaEditorSection bind:this={formulaEditor} {trackable} />
   {/if}
 
   {#if tracker.type !== 'timer' && tracker.type !== 'note' && tracker.type !== 'picker' && tracker.type !== 'habit' && tracker.type !== 'formula'}
@@ -509,7 +520,7 @@
           </ListItem>
         {/if} -->
 
-    {#if advanced && ['note', 'picker'].indexOf(tracker.type) === -1 && tracker.type != 'habit'}
+    {#if advanced && ['note', 'picker', 'habit', 'formula'].indexOf(tracker.type) === -1}
       <NInput
         listItem
         className="tracker-default mb-3 error"

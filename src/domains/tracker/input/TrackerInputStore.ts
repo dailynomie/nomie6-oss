@@ -10,7 +10,11 @@ import is from '../../../utils/is/is'
 import { objectHash } from '../../../modules/object-hash/object-hash'
 import { openModal } from '../../../components/backdrop/BackdropStore2'
 import { saveLog } from '../../ledger/LedgerStore'
-import { writable } from 'svelte/store'
+import { writable, get } from 'svelte/store'
+import { FormulaEvaluator } from '../../../modules/formula'
+import { TrackableStore } from '../../trackable/TrackableStore'
+import { TodayStore } from '../../usage/today/TodayStore'
+import { UsageLast } from '../../usage/UsageStore'
 
 export type TrackerInputProps = {
   tracker?: TrackerClass
@@ -246,11 +250,43 @@ export const getTrackerInputAsString = async (props: TrackerInputProps): Promise
       // resolve(undefined)
     }
 
-    // We don't need to have a UI for the "tick types"
+    // We don't need to have a UI for the "tick types" or formula trackers with one_tap
     if (props.tracker.type === 'tick') {
       response = {
         tracker: props.tracker,
         value: props.tracker.default,
+      }
+    } else if (props.tracker.type === 'formula' && props.tracker.one_tap) {
+      // For formula trackers with one_tap, calculate and save immediately
+      // Use TodayStore with fallback to last tracked value if not tracked today
+      const todayStoreData = get(TodayStore)
+      const lastUsedData = get(UsageLast)
+
+      const context = {
+        trackerValues: Object.fromEntries(
+          (props.tracker.trackerDependencies || []).map(tag => {
+            // TodayStore.usage keys include the # prefix
+            const todayUsage = todayStoreData.usage[`#${tag}`]
+            let value = todayUsage?.total
+
+            // If not in today's usage, fall back to last tracked value
+            if (value === undefined || value === 0) {
+              const lastUsed = lastUsedData[tag]
+              value = lastUsed?.v || 0
+            }
+
+            return [tag, value]
+          })
+        ),
+        manualVariables: Object.fromEntries(
+          (props.tracker.manualVariables || []).map(v => [v, 0])
+        ),
+      }
+      const result = FormulaEvaluator.evaluate(props.tracker.formula || '', context)
+      response = {
+        tracker: props.tracker,
+        value: result.isValid ? result.value : 0,
+        action: 'save',
       }
     } else {
       response = await openTrackerInputModal({

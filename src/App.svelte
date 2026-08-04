@@ -53,6 +53,7 @@
   import { GoalStore, loadGoalsForToday } from './domains/goals/GoalStore'
   import { LedgerStore } from './domains/ledger/LedgerStore'
   import { loadToday } from './domains/usage/today/TodayStore'
+  import { runDailyRetrospectiveCalculation } from './domains/tracker/formula-retrospective-scheduler'
 
   import { trackLaunch } from './domains/preferences/LaunchCount'
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
@@ -213,6 +214,11 @@
 
   onMount(async () => {
     await boot()
+
+    // Run automatic retrospective calculation for formula trackers
+    // testingMode = true: shows popup asking to run even if already ran today
+    // TODO: Remove testingMode = true once retrospective calculation is working properly
+    await runDailyRetrospectiveCalculation(true)
 
     // Initialize the Plugins - must await to load from storage before adding buildin plugins
     await PluginStore.init({})

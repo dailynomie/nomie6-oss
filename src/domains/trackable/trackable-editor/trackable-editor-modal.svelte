@@ -58,6 +58,7 @@
   let editingLabel: string = $state('')
 
   let saving: boolean = $state(false)
+  let trackerEditor: any = $state()
   let workingTrackableVersion: number = $state(0)
 
   $effect(() => {
@@ -155,6 +156,12 @@
     }
 
     saving = true
+
+    // Check if formula changed and prompt for recalculation
+    if (trackerEditor) {
+      await trackerEditor.checkFormulaRecalculation()
+    }
+
     if (saveByPass) {
       saveByPass(workingTrackable)
       close()
@@ -374,7 +381,7 @@
         <TrackableEditorPerson bind:trackable={workingTrackable} />
       {/if}
       {#if workingTrackable.type == 'tracker'}
-        <TrackableEditorTracker bind:trackable={workingTrackable} />
+        <TrackableEditorTracker bind:this={trackerEditor} bind:trackable={workingTrackable} />
       {/if}
     </section>
   {/if}

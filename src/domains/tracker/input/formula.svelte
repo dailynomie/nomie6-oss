@@ -59,22 +59,22 @@
   {#if tracker.formula}
     <!-- Formula Display -->
     <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4">
-      <Text size="xs" className="text-blue-900 dark:text-blue-200 mb-2">Formula</Text>
-      <Text bold className="text-blue-900 dark:text-blue-200 font-mono break-words">{tracker.formula}</Text>
+      <Text size="xs" class="text-blue-900 dark:text-blue-200 mb-2">Formula</Text>
+      <Text bold class="text-blue-900 dark:text-blue-200 font-mono break-words">{tracker.formula}</Text>
     </div>
 
     <!-- Tracker Dependencies -->
     {#if tracker.trackerDependencies && tracker.trackerDependencies.length > 0}
       <List solo>
-        <ListItem title="Tracker Values" className="py-2">
+        <ListItem title="Tracker Values" class="py-2">
           <div class="w-full space-y-2 mt-2">
             {#each getDependencyDetails() as { tag, label, value }}
               <div class="flex justify-between items-center px-2 py-2 bg-gray-100 dark:bg-gray-700/50 rounded">
                 <div>
-                  <Text size="sm" className="font-medium">#{tag}</Text>
-                  <Text size="xs" className="text-gray-600 dark:text-gray-400">{label}</Text>
+                  <Text size="sm" class="font-medium">#{tag}</Text>
+                  <Text size="xs" class="text-gray-600 dark:text-gray-400">{label}</Text>
                 </div>
-                <Text bold className="text-primary-600 dark:text-primary-400">{value}</Text>
+                <Text bold class="text-primary-600 dark:text-primary-400">{value}</Text>
               </div>
             {/each}
           </div>
@@ -85,10 +85,10 @@
     <!-- Manual Variables Info -->
     {#if tracker.manualVariables && tracker.manualVariables.length > 0}
       <List solo>
-        <ListItem title="Manual Variables" className="py-2">
+        <ListItem title="Manual Variables" class="py-2">
           <div class="w-full space-y-2 mt-2">
             {#each tracker.manualVariables as varName}
-              <Text size="sm" className="text-gray-600 dark:text-gray-400">{varName}</Text>
+              <Text size="sm" class="text-gray-600 dark:text-gray-400">{varName}</Text>
             {/each}
           </div>
         </ListItem>
@@ -96,13 +96,13 @@
     {/if}
 
     <div class="text-center py-4 px-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-      <Text size="sm" className="text-gray-600 dark:text-gray-400">
+      <Text size="sm" class="text-gray-600 dark:text-gray-400">
         Formula calculation will be performed automatically in the next phase.
       </Text>
     </div>
   {:else}
-    <div className="h-full flex items-center justify-center">
-      <Text className="text-gray-600 dark:text-gray-400">
+    <div class="h-full flex items-center justify-center">
+      <Text class="text-gray-600 dark:text-gray-400">
         Formula not configured
       </Text>
     </div>

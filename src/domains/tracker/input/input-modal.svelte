@@ -46,6 +46,11 @@
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
   import type { TrackerInputResponseType } from './tracker-input-utils'
+  import Text from '../../../components/text/text.svelte'
+  import { FormulaEvaluator } from '../../../modules/formula'
+  import { TrackableStore } from '../../trackable/TrackableStore'
+  import { TodayStore } from '../../usage/today/TodayStore'
+  import { UsageLast } from '../../usage/UsageStore'
 
   // Props
 
@@ -136,12 +141,36 @@
     // Interact.editTracker(tracker);
   }
 
-  const initialize = () => {
+  const initialize = async () => {
     tracker = payload.tracker
 
     // If the value changes, and no data.value exists.
     if (value && data.value !== undefined) {
       data.value = value
+    } else if (tracker.type === 'formula') {
+      // Calculate formula value using TodayStore with fallback to last tracked value
+      const context = {
+        trackerValues: Object.fromEntries(
+          (tracker.trackerDependencies || []).map(tag => {
+            // TodayStore.usage keys include the # prefix
+            const todayUsage = $TodayStore.usage[`#${tag}`]
+            let value = todayUsage?.total
+
+            // If not in today's usage, fall back to last tracked value
+            if (value === undefined || value === 0) {
+              const lastUsed = $UsageLast[tag]
+              value = lastUsed?.v || 0
+            }
+
+            return [tag, value]
+          })
+        ),
+        manualVariables: Object.fromEntries(
+          (tracker.manualVariables || []).map(v => [v, 0])
+        ),
+      }
+      const result = FormulaEvaluator.evaluate(tracker.formula || '', context)
+      data.value = result.isValid ? result.value : 0
     } else {
       data.value = tracker.default || 0
     }
@@ -257,10 +286,16 @@
 
         />
           {:else if tracker.type === 'formula'}
-            <div class="flex items-center justify-center h-full">
-              <Text className="text-gray-600 dark:text-gray-400">
-                Formula trackers are calculated automatically
-              </Text>
+            <div class="flex flex-col items-center justify-center h-full space-y-4 p-4 formula-display">
+              <div class="text-center">
+                <div class="formula-sublabel">Calculated Value</div>
+                <div class="text-4xl font-bold text-primary-600 dark:text-primary-400">
+                  {data.value !== null && data.value !== undefined ? data.value : '0'}
+                </div>
+              </div>
+              <div class="formula-info">
+                Formula: <code class="formula-code">{tracker.formula}</code>
+              </div>
             </div>
           {:else}
             <div id="keypad-holder">
@@ -341,5 +376,39 @@
   .action-button:focus {
     @apply scale-95;
     @apply ring-2 ring-primary-600;
+  }
+
+  .formula-display .formula-sublabel {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #374151);
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.dark) .formula-display .formula-sublabel {
+    color: #f0f0f0;
+  }
+
+  .formula-display .formula-info {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #374151);
+  }
+
+  :global(.dark) .formula-display .formula-info {
+    color: #f0f0f0;
+  }
+
+  .formula-display .formula-code {
+    font-family: monospace;
+    font-size: 0.75rem;
+    background-color: var(--bg-secondary, #f3f4f6);
+    color: var(--text-primary, #1f2937);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    margin-left: 0.25rem;
+  }
+
+  :global(.dark) .formula-display .formula-code {
+    background-color: #374151;
+    color: #ffffff;
   }
 </style>

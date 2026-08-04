@@ -177,6 +177,9 @@ export default class TrackerClass {
       this.retrospectiveCalculation = starter.retrospectiveCalculation === true ? true : false
       this.calculatedValues = starter.calculatedValues || {}
       this.lastCalculatedDate = starter.lastCalculatedDate
+      // Set defaults for UOM and math if not provided
+      this.uom = starter.uom || 'num'
+      this.math = starter.math || 'sum'
     }
 
     if (starter.label) {
