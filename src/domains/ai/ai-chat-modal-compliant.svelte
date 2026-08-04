@@ -38,7 +38,7 @@
         slot="left"
         clear
         on:click={closeChat}
-        className="text-white dark:text-gray-100 relative z-10 flex-shrink-0 -ml-2"
+        className="text-white dark:text-gray-100 relative z-10 flex-shrink-0 -ml-4"
       >
         Close
       </Button>
