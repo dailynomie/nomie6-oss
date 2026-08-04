@@ -23,7 +23,7 @@
   className="ai-chat-modal-compliant modal-fullscreen"
   mainClass="ai-chat-main flex flex-col"
 >
-  <header slot="header" class="ai-chat-header-compliant">
+  <header slot="header" class="ai-chat-header-compliant px-4">
     <!-- Twinkling stars background -->
     <div class="stars-background" aria-hidden="true">
       <span class="star" style="width:6px;height:6px;top:15%;left:10%;animation-delay:0s"></span>
@@ -37,21 +37,20 @@
       <Button
         slot="left"
         clear
-        icon
         on:click={closeChat}
-        className="text-white dark:text-gray-100 relative z-10"
+        className="text-white dark:text-gray-100 relative z-10 flex-shrink-0"
       >
         Close
       </Button>
 
-      <div slot="main" class="flex items-center justify-center gap-2 relative z-10">
+      <div slot="main" class="flex items-center justify-center gap-2 relative z-10 min-w-0">
         <Text bold size="md" className="text-white dark:text-gray-100">
           💬 Chat with
         </Text>
-        <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo" />
+        <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo flex-shrink-0" />
       </div>
 
-      <div slot="right" />
+      <div slot="right" class="flex-shrink-0 w-12" />
     </ToolbarGrid>
   </header>
 
