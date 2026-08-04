@@ -34,7 +34,9 @@
 <BackdropModal {id}>
   <header slot="header">
     <ToolbarGrid>
-      <span class="animate line-clamp-1 up text-md ntitle">Recalculate Historical Values</span>
+      <Text bold size="md" className="text-gray-900 dark:text-white line-clamp-1">
+        Recalculate Historical Values
+      </Text>
     </ToolbarGrid>
   </header>
 
@@ -69,7 +71,7 @@
   </main>
 
   <footer slot="footer" class="flex gap-2 justify-end p-4">
-    <Button on:click={handleCancel} clear>
+    <Button on:click={handleCancel} clear className="text-gray-700 dark:text-gray-200">
       Skip
     </Button>
     <Button on:click={handleConfirm} primary>
