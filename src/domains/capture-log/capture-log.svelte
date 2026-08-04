@@ -68,7 +68,7 @@
   import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
   import { navigate } from '../../vendor/svelte-navigator'
   import { openModal } from '../../components/backdrop/BackdropStore2'
-  import AIChatModal from '../ai/ai-chat-modal.svelte'
+  import AIChatModal from '../ai/ai-chat-modal-compliant.svelte'
 
   // Consts
 
