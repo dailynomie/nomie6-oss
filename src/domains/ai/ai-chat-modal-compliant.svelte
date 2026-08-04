@@ -23,7 +23,7 @@
   className="ai-chat-modal-compliant modal-fullscreen"
   mainClass="ai-chat-main flex flex-col"
 >
-  <header slot="header" class="ai-chat-header-compliant px-4">
+  <header slot="header" class="ai-chat-header-compliant">
     <!-- Twinkling stars background -->
     <div class="stars-background" aria-hidden="true">
       <span class="star" style="width:6px;height:6px;top:15%;left:10%;animation-delay:0s"></span>
@@ -38,7 +38,7 @@
         slot="left"
         clear
         on:click={closeChat}
-        className="text-white dark:text-gray-100 relative z-10 flex-shrink-0 -ml-12"
+        className="text-white dark:text-gray-100 relative z-10 flex-shrink-0 -ml-6"
       >
         Close
       </Button>
