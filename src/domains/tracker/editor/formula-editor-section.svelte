@@ -472,9 +472,6 @@
           <code>#tag</code> or <code>#{'{tag}'}</code> - Tracker reference
         </Text>
         <Text size="xs" className="text-blue-800 dark:text-gray-100">
-          <code>sum(), count(), avg(), min(), max(), last()</code> - Array functions
-        </Text>
-        <Text size="xs" className="text-blue-800 dark:text-gray-100">
           <code>+, -, *, /, ^, ()</code> - Operators and parentheses
         </Text>
       </div>
