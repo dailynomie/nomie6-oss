@@ -42,9 +42,6 @@ export async function getFormulaValueForDate(
         return [tag, value]
       })
     ),
-    manualVariables: Object.fromEntries(
-      (tracker.manualVariables || []).map(v => [v, 0])
-    ),
   }
 
   const result = FormulaEvaluator.evaluate(tracker.formula, context)

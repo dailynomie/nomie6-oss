@@ -63,7 +63,6 @@ export async function calculateFormulaForDate(
   // Evaluate formula with dependency values
   const context = {
     trackerValues: Object.fromEntries(usages.map((u) => [u.tag, u.value])),
-    manualVariables: Object.fromEntries((tracker.manualVariables || []).map((v) => [v, 0])),
   }
 
   const result = FormulaEvaluator.evaluate(tracker.formula, context)

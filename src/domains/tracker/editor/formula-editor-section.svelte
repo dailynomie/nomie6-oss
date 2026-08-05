@@ -97,7 +97,6 @@
         // Update tracker properties without creating reactive dependency
         tracker.formula = formulaInput
         tracker.trackerDependencies = parsed.trackerDependencies
-        tracker.manualVariables = parsed.manualVariables
       }
     })
   })
@@ -262,12 +261,6 @@
       : 'None detected'
   )
 
-  const variableText = $derived(
-    parsed.manualVariables.length > 0
-      ? parsed.manualVariables.join(', ')
-      : 'None'
-  )
-
   // Test formula evaluation
   const testEvaluation = $derived.by(() => {
     if (!parsed.isValid || !tracker) return null
@@ -291,9 +284,6 @@
           return [tag, value]
         })
       ),
-      manualVariables: Object.fromEntries(
-        parsed.manualVariables.map(v => [v, 0])
-      ),
     }
 
     return FormulaEvaluator.evaluate(formulaInput, context)
@@ -305,7 +295,7 @@
     <!-- Formula Input -->
     <List solo>
       <FormulaInput
-        placeholder="e.g., #calories - manual_deficit"
+        placeholder="e.g., #calories * 2"
         label={Lang.t('tracker.formula', 'Formula')}
         bind:value={formulaInput}
         isValid={parsed.isValid}
@@ -359,23 +349,6 @@
         </div>
       </ListItem>
     </List>
-
-    <!-- Manual Variables -->
-    {#if parsed.manualVariables.length > 0}
-      <List solo>
-        <ListItem title={Lang.t('tracker.manual_variables', 'Manual Variables')} class="py-2">
-          <div slot="right" class="text-right">
-            <Text size="sm" class="text-gray-600 dark:text-gray-400">{variableText}</Text>
-          </div>
-        </ListItem>
-        <Divider left={16} />
-        <div class="px-4 py-2">
-          <Text size="xs" class="text-gray-500">
-            These will be provided during input or calculation.
-          </Text>
-        </div>
-      </List>
-    {/if}
 
     <!-- Test Evaluation -->
     {#if parsed.isValid && testEvaluation}
@@ -446,21 +419,6 @@
         />
       </ListItem>
 
-      <Divider left={16} />
-
-      <ListItem
-        title={Lang.t('tracker.allow_manual_input', 'Allow Manual Input')}
-        description={Lang.t('tracker.allow_manual_input_description', 'Let users provide manual variable values during tracking')}
-      >
-        <NToggle
-          slot="right"
-          value={tracker.allowManualInput || false}
-          on:change={(e) => {
-            tracker.allowManualInput = e.detail
-            updateTrigger++
-          }}
-        />
-      </ListItem>
 
       <Divider left={16} />
 
@@ -512,9 +470,6 @@
       <div class="space-y-1">
         <Text size="xs" className="text-blue-800 dark:text-gray-100">
           <code>#tag</code> or <code>#{'{tag}'}</code> - Tracker reference
-        </Text>
-        <Text size="xs" className="text-blue-800 dark:text-gray-100">
-          <code>manual_var</code> - Manual variable
         </Text>
         <Text size="xs" className="text-blue-800 dark:text-gray-100">
           <code>sum(), count(), avg(), min(), max(), last()</code> - Array functions
