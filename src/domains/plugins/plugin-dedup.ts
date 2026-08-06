@@ -19,23 +19,83 @@ export type DedupResult = {
 /**
  * Remove duplicates from an array by comparing JSON serialization
  */
-const deduplicateArray = (arr: any[]): any[] => {
+const deduplicateArray = (arr: any[]): { cleaned: any[]; removed: number } => {
   const seen = new Set<string>()
   const unique: any[] = []
+  let removedCount = 0
 
   arr.forEach((item) => {
     const key = JSON.stringify(item)
     if (!seen.has(key)) {
       seen.add(key)
       unique.push(item)
+    } else {
+      removedCount++
     }
   })
 
-  return unique
+  return { cleaned: unique, removed: removedCount }
 }
 
 /**
- * Scan JSON files for duplicate entries within the file content
+ * Recursively scan and deduplicate JSON structure at all levels
+ * Finds duplicate objects/arrays within the same parent
+ */
+const recursiveDedup = (data: any): { cleaned: any; duplicatesFound: number } => {
+  let duplicatesFound = 0
+
+  // If it's an array at this level, deduplicate it
+  if (Array.isArray(data)) {
+    const result = deduplicateArray(data)
+    duplicatesFound += result.removed
+
+    // Recursively process each item in the array
+    const processedArray = result.cleaned.map((item) => {
+      const recursive = recursiveDedup(item)
+      duplicatesFound += recursive.duplicatesFound
+      return recursive.cleaned
+    })
+
+    return { cleaned: processedArray, duplicatesFound }
+  }
+
+  // If it's an object, recursively process each property
+  if (data && typeof data === 'object' && !Array.isArray(data)) {
+    const cleaned: Record<string, any> = {}
+
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const value = data[key]
+
+        // If this property is an array, deduplicate it
+        if (Array.isArray(value)) {
+          const result = deduplicateArray(value)
+          duplicatesFound += result.removed
+
+          // Recursively process array items
+          cleaned[key] = result.cleaned.map((item) => {
+            const recursive = recursiveDedup(item)
+            duplicatesFound += recursive.duplicatesFound
+            return recursive.cleaned
+          })
+        } else {
+          // Recursively process the value
+          const recursive = recursiveDedup(value)
+          duplicatesFound += recursive.duplicatesFound
+          cleaned[key] = recursive.cleaned
+        }
+      }
+    }
+
+    return { cleaned, duplicatesFound }
+  }
+
+  // Primitive value, return as-is
+  return { cleaned: data, duplicatesFound }
+}
+
+/**
+ * Scan JSON files for duplicate entries at any level of the JSON structure
  * This is a read-only operation that only reports what would be cleaned
  */
 export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
@@ -50,52 +110,53 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
       hasDuplicates: false,
     }
 
-    // Check plugins.json for duplicates
-    if (pluginsData && Array.isArray(pluginsData)) {
-      result.totalPluginsInMainList = pluginsData.length
+    // Check plugins.json for duplicates (recursively at all levels)
+    if (pluginsData) {
+      if (Array.isArray(pluginsData)) {
+        result.totalPluginsInMainList = pluginsData.length
+      }
 
-      const uniquePlugins = deduplicateArray(pluginsData)
-      const duplicatesInMain = pluginsData.length - uniquePlugins.length
+      const dedup = recursiveDedup(pluginsData)
 
-      if (duplicatesInMain > 0) {
+      if (dedup.duplicatesFound > 0) {
         result.pluginsWithDuplicates.push({
           pluginId: 'plugins.json',
           pluginName: 'Main Plugin List',
-          duplicatesFound: duplicatesInMain,
+          duplicatesFound: dedup.duplicatesFound,
           fileLocation: NPaths.storage.plugins(),
         })
-        result.totalDuplicateEntries += duplicatesInMain
+        result.totalDuplicateEntries += dedup.duplicatesFound
         result.hasDuplicates = true
       }
 
       // Now check individual plugin prefs files for duplicates
-      for (const plugin of uniquePlugins) {
-        const pluginId = plugin.id
-        const pluginName = plugin.name
-        const prefsPath = `${appConfig.data_root}/plugins/${pluginId}/prefs.json`
+      if (Array.isArray(pluginsData)) {
+        for (const plugin of pluginsData) {
+          const pluginId = plugin.id
+          const pluginName = plugin.name
+          const prefsPath = `${appConfig.data_root}/plugins/${pluginId}/prefs.json`
 
-        try {
-          const prefsData = await Storage.get(prefsPath)
+          try {
+            const prefsData = await Storage.get(prefsPath)
 
-          // Check if prefs is an array with duplicates
-          if (prefsData && Array.isArray(prefsData)) {
-            const uniquePrefs = deduplicateArray(prefsData)
-            const duplicatesInPrefs = prefsData.length - uniquePrefs.length
+            if (prefsData) {
+              const dedup = recursiveDedup(prefsData)
 
-            if (duplicatesInPrefs > 0) {
-              result.pluginsWithDuplicates.push({
-                pluginId,
-                pluginName,
-                duplicatesFound: duplicatesInPrefs,
-                fileLocation: prefsPath,
-              })
-              result.totalDuplicateEntries += duplicatesInPrefs
-              result.hasDuplicates = true
+              if (dedup.duplicatesFound > 0) {
+                result.pluginsWithDuplicates.push({
+                  pluginId,
+                  pluginName,
+                  duplicatesFound: dedup.duplicatesFound,
+                  fileLocation: prefsPath,
+                })
+                result.totalDuplicateEntries += dedup.duplicatesFound
+                result.hasDuplicates = true
+              }
             }
+          } catch (e) {
+            // Plugin prefs file doesn't exist or can't be read, which is fine
+            // Some plugins may not have prefs
           }
-        } catch (e) {
-          // Plugin prefs file doesn't exist or can't be read, which is fine
-          // Some plugins may not have prefs
         }
       }
     }
@@ -119,18 +180,18 @@ export const cleanupPluginDuplicates = async (): Promise<DedupResult> => {
       return scanResult
     }
 
-    // Clean up plugins.json - remove duplicate entries
+    // Clean up plugins.json - remove duplicates at all levels
     const pluginsData = await Storage.get(NPaths.storage.plugins())
-    if (pluginsData && Array.isArray(pluginsData)) {
-      const cleanedPlugins = deduplicateArray(pluginsData)
-      await Storage.put(NPaths.storage.plugins(), cleanedPlugins)
+    if (pluginsData) {
+      const dedup = recursiveDedup(pluginsData)
+      await Storage.put(NPaths.storage.plugins(), dedup.cleaned)
     }
 
     // Re-read cleaned plugins data for processing prefs
     const cleanedPluginsData = await Storage.get(NPaths.storage.plugins())
 
     // Clean up individual plugin prefs files
-    if (cleanedPluginsData && Array.isArray(cleanedPluginsData)) {
+    if (Array.isArray(cleanedPluginsData)) {
       for (const plugin of cleanedPluginsData) {
         const pluginId = plugin.id
         const prefsPath = `${appConfig.data_root}/plugins/${pluginId}/prefs.json`
@@ -138,11 +199,11 @@ export const cleanupPluginDuplicates = async (): Promise<DedupResult> => {
         try {
           const prefsData = await Storage.get(prefsPath)
 
-          if (prefsData && Array.isArray(prefsData)) {
-            const cleanedPrefs = deduplicateArray(prefsData)
+          if (prefsData) {
+            const dedup = recursiveDedup(prefsData)
             // Only save if there were duplicates
-            if (cleanedPrefs.length < prefsData.length) {
-              await Storage.put(prefsPath, cleanedPrefs)
+            if (dedup.duplicatesFound > 0) {
+              await Storage.put(prefsPath, dedup.cleaned)
             }
           }
         } catch (e) {
@@ -153,7 +214,7 @@ export const cleanupPluginDuplicates = async (): Promise<DedupResult> => {
 
     // Return clean scan result
     return {
-      totalPluginsInMainList: cleanedPluginsData ? cleanedPluginsData.length : 0,
+      totalPluginsInMainList: Array.isArray(cleanedPluginsData) ? cleanedPluginsData.length : 0,
       pluginsWithDuplicates: [],
       totalDuplicateEntries: 0,
       hasDuplicates: false,
