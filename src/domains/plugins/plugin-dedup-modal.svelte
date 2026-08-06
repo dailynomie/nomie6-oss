@@ -86,10 +86,12 @@
   <main class="filler space-y-4 p-4">
     {#if !hasScanned}
       <div class="info-box p-4 rounded-lg">
-        <Text bold className="text-gray-800 dark:text-gray-100 mb-2">CouchDB Conflict Resolution</Text>
+        <Text bold className="text-gray-800 dark:text-gray-100 mb-2">Clean Duplicate Entries</Text>
         <Text className="text-gray-700 dark:text-gray-200" size="sm">
-          This tool scans for duplicate plugin entries and CouchDB conflict revisions that occur during sync operations.
-          Conflicts are hidden document revisions that consume storage but aren't visible in the file browser.
+          This tool scans JSON plugin files for duplicate entries and removes them, just like manually editing and deduplicating via the file browser.
+        </Text>
+        <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
+          Scans: plugins.json and each plugin's prefs.json file.
         </Text>
         <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
           No data will be modified until you confirm cleanup.
@@ -120,28 +122,23 @@
         </div>
 
         <div class="mt-4">
-          <Text bold className="text-gray-900 dark:text-white mb-2">Plugins with Duplicates:</Text>
+          <Text bold className="text-gray-900 dark:text-white mb-2">Files with Duplicates:</Text>
           <List transparent>
             {#each scanResult.pluginsWithDuplicates as dup (dup.pluginId)}
-              <ListItem>
+              <ListItem bottomLine={16}>
                 <div slot="left" class="text-lg">{dup.pluginId}</div>
                 <div class="flex-grow">
                   <Text bold className="text-gray-900 dark:text-white">
                     {dup.pluginName}
                   </Text>
                   <Text size="sm" className="text-gray-600 dark:text-gray-400">
-                    {dup.count} {dup.count === 1 ? 'copy' : 'copies'} found (CouchDB conflict revisions)
+                    {dup.duplicatesFound} duplicate {dup.duplicatesFound === 1 ? 'entry' : 'entries'}
+                  </Text>
+                  <Text size="xs" className="text-gray-500 dark:text-gray-500 mt-1">
+                    {dup.fileLocation}
                   </Text>
                 </div>
               </ListItem>
-
-              {#each dup.occurrences as occ (occ.revisionInfo)}
-                <ListItem
-                  className="pl-8"
-                  description={occ.revisionInfo}
-                  title={occ.location}
-                />
-              {/each}
             {/each}
           </List>
         </div>
