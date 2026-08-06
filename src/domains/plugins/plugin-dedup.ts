@@ -19,15 +19,38 @@ export type DedupResult = {
 }
 
 /**
- * Remove duplicates from an array by comparing JSON serialization
+ * Remove duplicates from an array by identifier field or exact match
+ * Checks for common identifier fields (id, label, name, widgetid, etc.)
+ * If array items have one of these fields, deduplicates by that field (keeps first occurrence)
+ * Otherwise deduplicates by exact JSON match
  */
 const deduplicateArray = (arr: any[]): { cleaned: any[]; removed: number } => {
   const seen = new Set<string>()
   const unique: any[] = []
   let removedCount = 0
 
+  // Common identifier fields to check in order of priority
+  const identifierFields = ['id', 'widgetid', 'label', 'name', 'key', 'uuid']
+
   arr.forEach((item) => {
-    const key = JSON.stringify(item)
+    let key: string
+
+    if (item && typeof item === 'object') {
+      // Try to find an identifier field in the item
+      const identifierField = identifierFields.find((field) => item[field] !== undefined)
+
+      if (identifierField) {
+        // Use the identifier field value as the key
+        key = String(item[identifierField])
+      } else {
+        // No identifier field found, use exact JSON match
+        key = JSON.stringify(item)
+      }
+    } else {
+      // Primitive value, use exact match
+      key = JSON.stringify(item)
+    }
+
     if (!seen.has(key)) {
       seen.add(key)
       unique.push(item)
