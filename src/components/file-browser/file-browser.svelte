@@ -227,9 +227,16 @@
   }
 
   async function download(file) {
-    let filename = browserPath[browserPath.length - 1]
-    let content = await Storage.get(browserPath.join('/'))
-    Downloader.json(filename, content)
+    // If viewing a file, download it with its actual filename
+    if (browserFile) {
+      let filename = browserFile
+      let filePath = browserPath.length ? `${browserPath.join('/')}/${browserFile}` : browserFile
+      let content = await Storage.get(filePath)
+      Downloader.json(filename, content)
+    } else {
+      // If in a directory, download the directory contents (not supported, show error)
+      Interact.alert('Error', 'Cannot download directories, only files.')
+    }
   }
 
   function isFile(name) {
