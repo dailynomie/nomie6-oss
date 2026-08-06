@@ -75,9 +75,9 @@
   <header slot="header">
     <ToolbarGrid>
       <Button slot="left" clear icon on:click={handleClose}>
-        <IonIcon icon={CloseOutline} />
+        <IonIcon icon={CloseOutline} className="text-gray-700 dark:text-gray-300" />
       </Button>
-      <Text bold slot="center" className="text-gray-900 dark:text-white">
+      <Text bold slot="main" className="text-gray-900 dark:text-white">
         Clean Plugin Database
       </Text>
     </ToolbarGrid>

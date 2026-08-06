@@ -176,13 +176,13 @@
         <div class="flex gap-2">
           <span class="flex-shrink-0 text-lg">⚠️</span>
           <div class="flex-grow min-w-0">
-            <p class="text-sm font-semibold text-red-900 dark:text-red-100 mb-1">
-              API Key Not Encrypted
+            <p class="text-sm font-semibold text-red-900 mb-1">
+              API Key Encryption Available
             </p>
-            <p class="text-xs text-red-800 dark:text-red-200 leading-tight">
-              Your API key is stored in plaintext. It's strongly recommended to enable a PIN in
+            <p class="text-xs text-red-800 leading-tight">
+              Your Nomie data always stays local on your device, which provides strong security. You can add an additional layer of protection by enabling a PIN in
               <span class="font-semibold">More Settings → Security → Use PIN</span>
-              to encrypt your API key for better security.
+              to encrypt your API key.
             </p>
           </div>
         </div>
