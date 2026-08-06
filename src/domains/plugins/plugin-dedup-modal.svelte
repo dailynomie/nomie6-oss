@@ -28,10 +28,13 @@
   let hasScanned = $state(false)
   let lastCleanupLog = $state<CleanupLogEntry | null>(null)
 
-  // Load cleanup log when modal opens
-  $effect(() => {
+  // Load cleanup log when modal opens or when component mounts
+  const loadCleanupLog = () => {
     lastCleanupLog = getLastCleanupLog()
-  })
+  }
+
+  // Initial load
+  loadCleanupLog()
 
   const handleScan = async () => {
     isScanning = true
@@ -61,7 +64,7 @@
       const result = await cleanupPluginDuplicates()
       Interact.stopBlocker()
       saveCleanupLog(result, 'manual')
-      lastCleanupLog = getLastCleanupLog()
+      loadCleanupLog()
       showToast({ message: 'Plugin database cleaned successfully' })
       scanResult = null
       hasScanned = false

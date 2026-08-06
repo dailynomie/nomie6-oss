@@ -100,11 +100,16 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
           totalRogueFolders: result.totalRogueFolders,
           totalPluginsInMainList: result.totalPluginsInMainList,
         })
+        await cleanupConfirmed()
+        saveCleanupLog(result, 'scheduled')
         if (result.hasDuplicates) {
-          await cleanupConfirmed()
-          saveCleanupLog(result, 'scheduled')
           showToast({
             message: `Plugin database cleaned (${result.totalDuplicateEntries} duplicates, ${result.totalRogueFolders} rogue folders)`,
+            type: 'success',
+          })
+        } else {
+          showToast({
+            message: 'Plugin database scan complete - no issues found',
             type: 'success',
           })
         }
@@ -129,11 +134,16 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
           totalRogueFolders: result.totalRogueFolders,
           totalPluginsInMainList: result.totalPluginsInMainList,
         })
+        await cleanupConfirmed()
+        saveCleanupLog(result, 'scheduled')
         if (result.hasDuplicates) {
-          await cleanupConfirmed()
-          saveCleanupLog(result, 'scheduled')
           showToast({
             message: `Plugin database cleaned (${result.totalDuplicateEntries} duplicates, ${result.totalRogueFolders} rogue folders)`,
+            type: 'success',
+          })
+        } else {
+          showToast({
+            message: 'Plugin database scan complete - no issues found',
             type: 'success',
           })
         }
