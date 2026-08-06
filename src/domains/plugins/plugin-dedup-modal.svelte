@@ -16,6 +16,9 @@
 
   import type { DedupResult } from './plugin-dedup'
   import { scanForPluginDuplicates, cleanupPluginDuplicates } from './plugin-dedup'
+  import type { CleanupLogEntry } from './PluginCleanupStore'
+  import { getLastCleanupLog, saveCleanupLog } from './PluginCleanupStore'
+  import dayjs from 'dayjs'
 
   const id = 'plugin-dedup-modal'
 
@@ -23,6 +26,12 @@
   let isLoading = $state(false)
   let scanResult: DedupResult | null = $state(null)
   let hasScanned = $state(false)
+  let lastCleanupLog = $state<CleanupLogEntry | null>(null)
+
+  // Load cleanup log when modal opens
+  $effect(() => {
+    lastCleanupLog = getLastCleanupLog()
+  })
 
   const handleScan = async () => {
     isScanning = true
@@ -49,8 +58,10 @@
     isLoading = true
     try {
       Interact.blocker('Cleaning plugin database...')
-      await cleanupPluginDuplicates()
+      const result = await cleanupPluginDuplicates()
       Interact.stopBlocker()
+      saveCleanupLog(result, 'manual')
+      lastCleanupLog = getLastCleanupLog()
       showToast({ message: 'Plugin database cleaned successfully' })
       scanResult = null
       hasScanned = false
@@ -97,6 +108,18 @@
           No changes are made until you confirm. You can always scan again to verify the results.
         </Text>
       </div>
+
+      {#if lastCleanupLog}
+        <div class="last-cleanup-box p-3 rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800">
+          <Text bold size="sm" className="text-blue-900 dark:text-blue-100 mb-1">Last Cleanup</Text>
+          <Text size="xs" className="text-blue-800 dark:text-blue-200">
+            {dayjs(lastCleanupLog.date).format('MMM D, YYYY [at] h:mm A')} ({lastCleanupLog.type})
+          </Text>
+          <Text size="xs" className="text-blue-700 dark:text-blue-300 mt-1">
+            Found {lastCleanupLog.duplicatesFound} duplicate{lastCleanupLog.duplicatesFound === 1 ? '' : 's'} and {lastCleanupLog.rogueFoldersFound} rogue folder{lastCleanupLog.rogueFoldersFound === 1 ? '' : 's'}
+          </Text>
+        </div>
+      {/if}
 
       <Button
         primary
@@ -211,6 +234,14 @@
   }
 
   :global(.dark .info-box) {
+    background-color: #0c2940;
+  }
+
+  :global(.last-cleanup-box) {
+    background-color: #eff6ff;
+  }
+
+  :global(.dark .last-cleanup-box) {
     background-color: #0c2940;
   }
 
