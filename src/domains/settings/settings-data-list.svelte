@@ -29,6 +29,8 @@
 
   import BackupListItems from '../../components/backup-message/backup-list-items.svelte'
   import NomieServer from '../storage/engines/nomie-server/nomie-server.svelte'
+  import { openModal } from '../../components/backdrop/BackdropStore2'
+  import PluginDedupModal from '../plugins/plugin-dedup-modal.svelte'
 
   // let fileInputF
   // let showImporter = false
@@ -47,6 +49,14 @@
       Interact.stopBlocker()
       showToast({ message: 'Update Complete' })
     }
+  }
+
+  const openPluginDedupModal = () => {
+    openModal({
+      id: 'plugin-dedup-modal',
+      component: PluginDedupModal,
+      componentProps: {}
+    })
   }
 
   const showStorageOptions = () => {
@@ -139,6 +149,14 @@
     clickable
     title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
     on:click={updateLastUsedDates}
+  />
+
+  <ListItem
+    detail
+    clickable
+    title="Clean Plugin Database"
+    description="Find and remove duplicate plugin settings"
+    on:click={openPluginDedupModal}
   />
 </List>
 <!-- <p class="list-note -mt-2 mb-2">
