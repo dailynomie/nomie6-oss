@@ -86,15 +86,15 @@
   <main class="filler space-y-4 p-4">
     {#if !hasScanned}
       <div class="info-box p-4 rounded-lg">
-        <Text bold className="text-gray-800 dark:text-gray-100 mb-2">Clean Duplicate Entries</Text>
+        <Text bold className="text-gray-800 dark:text-gray-100 mb-2">What This Does</Text>
         <Text className="text-gray-700 dark:text-gray-200" size="sm">
-          This tool scans JSON plugin files for duplicate entries and removes them, just like manually editing and deduplicating via the file browser.
+          Plugins are created by different developers and may store data differently. Over time, duplicate entries can accumulate in your plugin database—especially if you've synced data across devices.
         </Text>
         <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
-          Scans: plugins.json and each plugin's prefs.json file.
+          This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their functionality are never affected—only the background storage is tidied up.
         </Text>
         <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
-          No data will be modified until you confirm cleanup.
+          No changes are made until you confirm. You can always scan again to verify the results.
         </Text>
       </div>
 
