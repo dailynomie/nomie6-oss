@@ -32,6 +32,7 @@
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import PluginDedupModal from '../plugins/plugin-dedup-modal.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
+  import { autoCleanupPlugins } from '../plugins/PluginCleanupStore'
 
   // let fileInputF
   // let showImporter = false
@@ -61,12 +62,25 @@
   }
 
   let pluginCleanupDays = $state($Prefs.pluginCleanupDays || -1)
+  let previousCleanupDays = $state(-1)
 
   $effect(() => {
     if ($Prefs.pluginCleanupDays !== undefined) {
       pluginCleanupDays = $Prefs.pluginCleanupDays
     }
   })
+
+  const handleCleanupScheduleChange = async (newDays: number) => {
+    const wasDisabled = previousCleanupDays === -1
+    const isNowEnabled = newDays !== -1
+
+    if (wasDisabled && isNowEnabled) {
+      console.log('[Settings] Cleanup enabled - running initial scan')
+      await autoCleanupPlugins()
+    }
+
+    previousCleanupDays = newDays
+  }
 
   let cleanupOptions = $derived([
     {
@@ -211,6 +225,7 @@
         value={selectedCleanupLabel}
         on:change={(evt) => {
           $Prefs.pluginCleanupDays = evt.detail.key
+          handleCleanupScheduleChange(evt.detail.key)
         }}
         options={cleanupOptions}
       />
