@@ -2,17 +2,19 @@ import Storage from '../../domains/storage/storage'
 import NPaths from '../../paths'
 import appConfig from '../../config/appConfig'
 
-export type PluginDuplicate = {
+export type PluginIssue = {
   pluginId: string
   pluginName: string
-  duplicatesFound: number
+  issueType: 'duplicates-in-file' | 'rogue-folder'
+  duplicatesFound?: number
   fileLocation: string
 }
 
 export type DedupResult = {
   totalPluginsInMainList: number
-  pluginsWithDuplicates: Array<PluginDuplicate>
+  pluginIssues: Array<PluginIssue>
   totalDuplicateEntries: number
+  totalRogueFolders: number
   hasDuplicates: boolean
 }
 
@@ -95,7 +97,7 @@ const recursiveDedup = (data: any): { cleaned: any; duplicatesFound: number } =>
 }
 
 /**
- * Scan JSON files for duplicate entries at any level of the JSON structure
+ * Scan JSON files for duplicate entries and detect rogue plugin folders
  * This is a read-only operation that only reports what would be cleaned
  */
 export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
@@ -105,23 +107,35 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
 
     const result: DedupResult = {
       totalPluginsInMainList: 0,
-      pluginsWithDuplicates: [],
+      pluginIssues: [],
       totalDuplicateEntries: 0,
+      totalRogueFolders: 0,
       hasDuplicates: false,
     }
+
+    // Collect valid plugin IDs from plugins.json
+    const validPluginIds = new Set<string>()
 
     // Check plugins.json for duplicates (recursively at all levels)
     if (pluginsData) {
       if (Array.isArray(pluginsData)) {
         result.totalPluginsInMainList = pluginsData.length
+
+        // Collect valid plugin IDs
+        pluginsData.forEach((plugin) => {
+          if (plugin.id) {
+            validPluginIds.add(plugin.id)
+          }
+        })
       }
 
       const dedup = recursiveDedup(pluginsData)
 
       if (dedup.duplicatesFound > 0) {
-        result.pluginsWithDuplicates.push({
+        result.pluginIssues.push({
           pluginId: 'plugins.json',
           pluginName: 'Main Plugin List',
+          issueType: 'duplicates-in-file',
           duplicatesFound: dedup.duplicatesFound,
           fileLocation: NPaths.storage.plugins(),
         })
@@ -143,9 +157,10 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
               const dedup = recursiveDedup(prefsData)
 
               if (dedup.duplicatesFound > 0) {
-                result.pluginsWithDuplicates.push({
+                result.pluginIssues.push({
                   pluginId,
                   pluginName,
+                  issueType: 'duplicates-in-file',
                   duplicatesFound: dedup.duplicatesFound,
                   fileLocation: prefsPath,
                 })
@@ -161,6 +176,40 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
       }
     }
 
+    // Now scan for rogue plugin folders (folders not in plugins.json)
+    try {
+      const pluginsPath = `${appConfig.data_root}/plugins`
+      const allFiles = await Storage.list()
+
+      // Extract plugin folder IDs from the file list
+      const pluginFolderPattern = new RegExp(`^${appConfig.data_root}/plugins/([^/]+)/`)
+      const foundPluginIds = new Set<string>()
+
+      allFiles.forEach((file) => {
+        const match = file.match(pluginFolderPattern)
+        if (match) {
+          foundPluginIds.add(match[1])
+        }
+      })
+
+      // Find rogue folders (exist on disk but not in plugins.json)
+      foundPluginIds.forEach((folderId) => {
+        if (!validPluginIds.has(folderId)) {
+          result.pluginIssues.push({
+            pluginId: folderId,
+            pluginName: `Rogue Plugin Folder`,
+            issueType: 'rogue-folder',
+            fileLocation: `${appConfig.data_root}/plugins/${folderId}/`,
+          })
+          result.totalRogueFolders++
+          result.hasDuplicates = true
+        }
+      })
+    } catch (e) {
+      console.error('Error scanning for rogue plugin folders:', e)
+      // Continue anyway, rogue folder detection is optional
+    }
+
     return result
   } catch (e) {
     console.error('Error scanning for plugin duplicates:', e)
@@ -169,7 +218,7 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
 }
 
 /**
- * Remove duplicate entries from JSON files (DESTRUCTIVE - actually modifies storage)
+ * Remove duplicate entries from JSON files and delete rogue plugin folders (DESTRUCTIVE)
  * Only call after user confirmation
  */
 export const cleanupPluginDuplicates = async (): Promise<DedupResult> => {
@@ -190,8 +239,16 @@ export const cleanupPluginDuplicates = async (): Promise<DedupResult> => {
     // Re-read cleaned plugins data for processing prefs
     const cleanedPluginsData = await Storage.get(NPaths.storage.plugins())
 
-    // Clean up individual plugin prefs files
+    // Collect valid plugin IDs from cleaned plugins.json
+    const validPluginIds = new Set<string>()
     if (Array.isArray(cleanedPluginsData)) {
+      cleanedPluginsData.forEach((plugin) => {
+        if (plugin.id) {
+          validPluginIds.add(plugin.id)
+        }
+      })
+
+      // Clean up individual plugin prefs files
       for (const plugin of cleanedPluginsData) {
         const pluginId = plugin.id
         const prefsPath = `${appConfig.data_root}/plugins/${pluginId}/prefs.json`
@@ -212,11 +269,40 @@ export const cleanupPluginDuplicates = async (): Promise<DedupResult> => {
       }
     }
 
+    // Delete rogue plugin folders
+    try {
+      const allFiles = await Storage.list()
+      const pluginFolderPattern = new RegExp(`^${appConfig.data_root}/plugins/([^/]+)/`)
+
+      for (const file of allFiles) {
+        const match = file.match(pluginFolderPattern)
+        if (match) {
+          const folderId = match[1]
+          if (!validPluginIds.has(folderId)) {
+            // This is a rogue folder, delete all files in it
+            try {
+              // Delete each file in the rogue folder
+              const filesToDelete = allFiles.filter((f) => f.startsWith(`${appConfig.data_root}/plugins/${folderId}/`))
+              for (const fileToDelete of filesToDelete) {
+                await Storage.delete(fileToDelete)
+              }
+            } catch (e) {
+              console.error(`Error deleting rogue plugin folder ${folderId}:`, e)
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Error cleaning up rogue plugin folders:', e)
+      // Continue anyway
+    }
+
     // Return clean scan result
     return {
       totalPluginsInMainList: Array.isArray(cleanedPluginsData) ? cleanedPluginsData.length : 0,
-      pluginsWithDuplicates: [],
+      pluginIssues: [],
       totalDuplicateEntries: 0,
+      totalRogueFolders: 0,
       hasDuplicates: false,
     }
   } catch (e) {

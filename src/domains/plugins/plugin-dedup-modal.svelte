@@ -113,29 +113,45 @@
           </div>
           <div class="flex-grow">
             <Text bold className="text-orange-900 dark:text-orange-100">
-              {scanResult.totalDuplicateEntries} Duplicate {scanResult.totalDuplicateEntries === 1 ? 'Entry' : 'Entries'} Found
+              {scanResult.totalDuplicateEntries + scanResult.totalRogueFolders} Issue{scanResult.totalDuplicateEntries + scanResult.totalRogueFolders === 1 ? '' : 's'} Found
             </Text>
             <Text size="sm" className="text-orange-800 dark:text-orange-200">
-              {scanResult.pluginsWithDuplicates.length} {scanResult.pluginsWithDuplicates.length === 1 ? 'plugin has' : 'plugins have'} duplicate data
+              {#if scanResult.totalDuplicateEntries > 0}
+                {scanResult.totalDuplicateEntries} duplicate {scanResult.totalDuplicateEntries === 1 ? 'entry' : 'entries'}
+              {/if}
+              {#if scanResult.totalRogueFolders > 0}
+                {#if scanResult.totalDuplicateEntries > 0} • {/if}
+                {scanResult.totalRogueFolders} rogue folder{scanResult.totalRogueFolders === 1 ? '' : 's'}
+              {/if}
             </Text>
           </div>
         </div>
 
         <div class="mt-4">
-          <Text bold className="text-gray-900 dark:text-white mb-2">Files with Duplicates:</Text>
+          <Text bold className="text-gray-900 dark:text-white mb-2">Issues Found:</Text>
           <List transparent>
-            {#each scanResult.pluginsWithDuplicates as dup (dup.pluginId)}
+            {#each scanResult.pluginIssues as issue (issue.pluginId + issue.issueType)}
               <ListItem bottomLine={16}>
-                <div slot="left" class="text-lg">{dup.pluginId}</div>
+                <div slot="left" class="text-lg">
+                  {#if issue.issueType === 'duplicates-in-file'}
+                    ⚠️
+                  {:else if issue.issueType === 'rogue-folder'}
+                    🗑️
+                  {/if}
+                </div>
                 <div class="flex-grow">
                   <Text bold className="text-gray-900 dark:text-white">
-                    {dup.pluginName}
+                    {issue.pluginName}
                   </Text>
                   <Text size="sm" className="text-gray-600 dark:text-gray-400">
-                    {dup.duplicatesFound} duplicate {dup.duplicatesFound === 1 ? 'entry' : 'entries'}
+                    {#if issue.issueType === 'duplicates-in-file'}
+                      {issue.duplicatesFound} duplicate {issue.duplicatesFound === 1 ? 'entry' : 'entries'}
+                    {:else if issue.issueType === 'rogue-folder'}
+                      Orphaned plugin folder (not in plugins.json)
+                    {/if}
                   </Text>
                   <Text size="xs" className="text-gray-500 dark:text-gray-500 mt-1">
-                    {dup.fileLocation}
+                    {issue.fileLocation}
                   </Text>
                 </div>
               </ListItem>
@@ -168,10 +184,10 @@
           </div>
           <div class="flex-grow">
             <Text bold className="text-green-900 dark:text-green-100">
-              No Duplicates Found
+              No Issues Found
             </Text>
             <Text size="sm" className="text-green-800 dark:text-green-200">
-              Your plugin database is clean ({scanResult.totalPluginsInMainList} {scanResult.totalPluginsInMainList === 1 ? 'plugin' : 'plugins'})
+              Your plugin database is clean ({scanResult.totalPluginsInMainList} {scanResult.totalPluginsInMainList === 1 ? 'plugin' : 'plugins'}) with no duplicates or rogue folders
             </Text>
           </div>
         </div>
