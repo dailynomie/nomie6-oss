@@ -39,6 +39,8 @@ export type PreferencesStateType = {
   compactTrackers?: boolean
   hideBackupMessage?: boolean
   backupDays: number
+  pluginCleanupDays?: number
+  lastPluginCleanup?: string
   hideMessages?: boolean
   allowFileEdit?: boolean
   lastBackup?: string
@@ -67,6 +69,8 @@ const InitialState: PreferencesStateType = sideStorage.get('state') || {
   compactTrackers: false,
   lastBackup: undefined,
   backupDays: 7,
+  pluginCleanupDays: -1,
+  lastPluginCleanup: undefined,
   hideBackupMessage: false,
   hideMessages: false,
   allowFileEdit: false,

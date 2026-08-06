@@ -58,6 +58,7 @@
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
   import PointerLoader from './domains/pointers/pointer-loader.svelte'
   import { PluginStore, initializeBuildinPlugins } from './domains/plugins/PluginStore'
+  import { autoCleanupPlugins } from './domains/plugins/PluginCleanupStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
 
@@ -218,6 +219,9 @@
     await PluginStore.init({})
     initializeBuildinPlugins()
     pluginsInitizlied = true
+
+    // Run auto-cleanup if scheduled
+    autoCleanupPlugins()
 
     LedgerStore.hook('onLogSaved', (res) => {
       setTimeout(() => {

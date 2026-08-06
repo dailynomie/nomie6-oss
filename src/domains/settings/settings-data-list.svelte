@@ -31,6 +31,7 @@
   import NomieServer from '../storage/engines/nomie-server/nomie-server.svelte'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import PluginDedupModal from '../plugins/plugin-dedup-modal.svelte'
+  import SelectPop from '../../select-pop/select-pop.svelte'
 
   // let fileInputF
   // let showImporter = false
@@ -58,6 +59,49 @@
       componentProps: {}
     })
   }
+
+  let pluginCleanupDays = $state($Prefs.pluginCleanupDays || -1)
+
+  $effect(() => {
+    if ($Prefs.pluginCleanupDays !== undefined) {
+      pluginCleanupDays = $Prefs.pluginCleanupDays
+    }
+  })
+
+  let cleanupOptions = $derived([
+    {
+      key: -1,
+      value: 'Never',
+      selected: `${pluginCleanupDays}` == '-1',
+    },
+    {
+      key: 1,
+      value: 'Daily',
+      selected: `${pluginCleanupDays}` == '1',
+    },
+    {
+      key: 3,
+      value: 'Every Few Days',
+      selected: `${pluginCleanupDays}` == '3',
+    },
+    {
+      key: 7,
+      value: 'Weekly',
+      selected: `${pluginCleanupDays}` == '7',
+    },
+    {
+      key: 14,
+      value: 'Every Other Week',
+      selected: `${pluginCleanupDays}` == '14',
+    },
+    {
+      key: 30,
+      value: 'Monthly',
+      selected: `${pluginCleanupDays}` == '30',
+    },
+  ])
+
+  let selectedCleanupLabel = $derived((cleanupOptions.find((s) => s.selected) || {}).value)
 
   const showStorageOptions = () => {
     useStorageSelectMenu({
@@ -152,12 +196,26 @@
   />
 
   <ListItem
+    bottomLine={16}
     detail
     clickable
     title="Clean Plugin Database"
     description="Find and remove duplicate plugin settings"
     on:click={openPluginDedupModal}
   />
+
+  <ListItem title="Auto-Cleanup Schedule">
+    <div slot="right">
+      <SelectPop
+        id="plugin-cleanup-schedule"
+        value={selectedCleanupLabel}
+        on:change={(evt) => {
+          $Prefs.pluginCleanupDays = evt.detail.key
+        }}
+        options={cleanupOptions}
+      />
+    </div>
+  </ListItem>
 </List>
 <!-- <p class="list-note -mt-2 mb-2">
   {Lang.t(
