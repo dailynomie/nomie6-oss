@@ -8,6 +8,7 @@ export type PluginDuplicate = {
   count: number
   occurrences: Array<{
     location: string
+    revisionInfo: string
     data: any
   }>
 }
@@ -20,7 +21,53 @@ export type DedupResult = {
 }
 
 /**
- * Scan for duplicate plugin entries in both plugins.json and individual plugin prefs
+ * Get all revisions of a document in PouchDB (including conflict revisions)
+ * This is needed because sync conflicts create hidden revision branches
+ */
+const getAllRevisions = async (docId: string): Promise<any[]> => {
+  try {
+    const engine = Storage.getEngine()
+
+    // Check if this is PouchDB - only PouchDB has direct db access
+    if (engine.db && engine.db.allDocs) {
+      const result = await engine.db.allDocs({
+        keys: [docId],
+        include_docs: true,
+        conflicts: true,
+      })
+
+      if (result.rows && result.rows.length > 0) {
+        const row = result.rows[0]
+        if (row.doc && row.doc._conflicts) {
+          // This document has conflicts - return all revisions
+          const revisions = [row.doc]
+
+          for (const conflictRev of row.doc._conflicts) {
+            try {
+              const conflictDoc = await engine.db.get(docId, { rev: conflictRev })
+              revisions.push(conflictDoc)
+            } catch (e) {
+              // Could not fetch conflict revision
+            }
+          }
+
+          return revisions
+        } else if (row.doc) {
+          // No conflicts, just return the document
+          return [row.doc]
+        }
+      }
+    }
+
+    return []
+  } catch (e) {
+    console.error('Error getting revisions:', e)
+    return []
+  }
+}
+
+/**
+ * Scan for duplicate plugin entries including CouchDB conflict revisions
  * This is a read-only operation that only reports what would be cleaned
  */
 export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
@@ -28,63 +75,45 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
     // Read the main plugins.json file
     const pluginsData = await Storage.get(NPaths.storage.plugins())
 
-    if (!pluginsData || !Array.isArray(pluginsData)) {
-      return {
-        totalPluginsInMainList: 0,
-        pluginsWithDuplicates: [],
-        totalDuplicateEntries: 0,
-        hasDuplicates: false,
-      }
-    }
-
     const result: DedupResult = {
-      totalPluginsInMainList: pluginsData.length,
+      totalPluginsInMainList: 0,
       pluginsWithDuplicates: [],
       totalDuplicateEntries: 0,
       hasDuplicates: false,
     }
 
-    // Group plugins by ID to find duplicates in main list
-    const pluginsByIdInMain: Record<string, any[]> = {}
-    pluginsData.forEach((plugin) => {
-      const id = plugin.id || plugin.name
-      if (!pluginsByIdInMain[id]) {
-        pluginsByIdInMain[id] = []
-      }
-      pluginsByIdInMain[id].push({
-        location: 'plugins.json',
-        data: plugin,
+    // Check for CouchDB conflict revisions in plugins.json
+    const pluginsRevisions = await getAllRevisions(NPaths.storage.plugins())
+
+    if (pluginsRevisions.length > 1) {
+      result.pluginsWithDuplicates.push({
+        pluginId: 'plugins.json',
+        pluginName: 'Main Plugin List',
+        count: pluginsRevisions.length,
+        occurrences: pluginsRevisions.map((rev, idx) => ({
+          location: `${NPaths.storage.plugins()} [revision ${idx + 1}]`,
+          revisionInfo: `${rev._rev}`,
+          data: rev.data || null,
+        })),
       })
-    })
+      result.totalDuplicateEntries += pluginsRevisions.length - 1
+      result.hasDuplicates = true
+    }
 
-    // Check for duplicates in main file
-    Object.entries(pluginsByIdInMain).forEach(([pluginId, occurrences]) => {
-      if (occurrences.length > 1) {
-        const pluginName = occurrences[0].data.name || pluginId
-        result.pluginsWithDuplicates.push({
-          pluginId,
-          pluginName,
-          count: occurrences.length,
-          occurrences,
-        })
-        result.totalDuplicateEntries += occurrences.length - 1 // Count extras
-        result.hasDuplicates = true
-      }
-    })
+    if (pluginsData && Array.isArray(pluginsData)) {
+      result.totalPluginsInMainList = pluginsData.length
 
-    // Now check individual plugin prefs files
-    // These are typically stored at: {data_root}/plugins/{pluginId}/prefs.json
-    for (const plugin of pluginsData) {
-      const pluginId = plugin.id
-      const pluginName = plugin.name
-      const prefsPath = `${appConfig.data_root}/plugins/${pluginId}/prefs.json`
+      // Now check individual plugin prefs files for conflict revisions
+      for (const plugin of pluginsData) {
+        const pluginId = plugin.id
+        const pluginName = plugin.name
+        const prefsPath = `${appConfig.data_root}/plugins/${pluginId}/prefs.json`
 
-      try {
-        const prefsData = await Storage.get(prefsPath)
+        try {
+          // Get all revisions including conflicts
+          const prefsRevisions = await getAllRevisions(prefsPath)
 
-        if (prefsData) {
-          // Check if prefs is an array (indicating duplicates due to sync conflicts)
-          if (Array.isArray(prefsData) && prefsData.length > 1) {
+          if (prefsRevisions.length > 1) {
             // Find or create duplicate entry
             let duplicateEntry = result.pluginsWithDuplicates.find(
               (d) => d.pluginId === pluginId
@@ -101,21 +130,21 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
               result.hasDuplicates = true
             }
 
-            // Add prefs occurrences
-            prefsData.forEach((pref) => {
+            // Add prefs revisions
+            prefsRevisions.forEach((rev, idx) => {
               duplicateEntry!.occurrences.push({
-                location: prefsPath,
-                data: pref,
+                location: `${prefsPath} [revision ${idx + 1}]`,
+                revisionInfo: `${rev._rev}`,
+                data: rev.data || null,
               })
             })
 
-            duplicateEntry.count = duplicateEntry.occurrences.length
-            result.totalDuplicateEntries += prefsData.length - 1
+            duplicateEntry.count = prefsRevisions.length
+            result.totalDuplicateEntries += prefsRevisions.length - 1
           }
+        } catch (e) {
+          // Plugin prefs file doesn't exist or can't be read, which is fine
         }
-      } catch (e) {
-        // Plugin prefs file doesn't exist or can't be read, which is fine
-        // Some plugins may not have prefs
       }
     }
 
@@ -127,54 +156,69 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
 }
 
 /**
- * Remove duplicate plugin entries (DESTRUCTIVE - actually modifies storage)
+ * Remove duplicate plugin entries and CouchDB conflict revisions (DESTRUCTIVE)
  * Only call after user confirmation
  */
 export const cleanupPluginDuplicates = async (): Promise<DedupResult> => {
   try {
+    const engine = Storage.getEngine()
+
+    if (!engine.db) {
+      throw new Error('This cleanup operation only works with PouchDB storage')
+    }
+
     const scanResult = await scanForPluginDuplicates()
 
     if (!scanResult.hasDuplicates) {
       return scanResult
     }
 
-    // Clean up main plugins.json - keep only first occurrence of each ID
-    const pluginsData = await Storage.get(NPaths.storage.plugins())
-    const seen = new Set<string>()
-    const cleaned = pluginsData.filter((plugin) => {
-      const id = plugin.id || plugin.name
-      if (seen.has(id)) {
-        return false // Skip duplicates
-      }
-      seen.add(id)
-      return true
-    })
-
-    // Save cleaned plugins list
-    await Storage.put(NPaths.storage.plugins(), cleaned)
-
-    // Clean up individual plugin prefs files
-    for (const plugin of cleaned) {
-      const pluginId = plugin.id
-      const prefsPath = `${appConfig.data_root}/plugins/${pluginId}/prefs.json`
-
-      try {
-        const prefsData = await Storage.get(prefsPath)
-
-        if (Array.isArray(prefsData) && prefsData.length > 1) {
-          // Keep only the first (most recent) entry
-          // CouchDB/PouchDB typically puts the most recent first
-          const cleaned = prefsData[0]
-          await Storage.put(prefsPath, cleaned)
+    // Clean up plugins.json conflicts
+    const pluginsDoc = await engine.db.get(NPaths.storage.plugins())
+    if (pluginsDoc._conflicts) {
+      // Remove all conflict revisions
+      for (const conflictRev of pluginsDoc._conflicts) {
+        try {
+          const conflictDoc = await engine.db.get(NPaths.storage.plugins(), { rev: conflictRev })
+          await engine.db.remove(conflictDoc)
+        } catch (e) {
+          console.error('Error removing conflict revision:', e)
         }
-      } catch (e) {
-        // Prefs file doesn't exist or can't be read - skip
+      }
+    }
+
+    // Re-read cleaned plugins data
+    const pluginsData = await Storage.get(NPaths.storage.plugins())
+
+    // Clean up individual plugin prefs conflicts
+    if (pluginsData && Array.isArray(pluginsData)) {
+      for (const plugin of pluginsData) {
+        const pluginId = plugin.id
+        const prefsPath = `${appConfig.data_root}/plugins/${pluginId}/prefs.json`
+
+        try {
+          const prefsDoc = await engine.db.get(prefsPath)
+
+          if (prefsDoc._conflicts) {
+            // Remove all conflict revisions, keep the winning revision
+            for (const conflictRev of prefsDoc._conflicts) {
+              try {
+                const conflictDoc = await engine.db.get(prefsPath, { rev: conflictRev })
+                await engine.db.remove(conflictDoc)
+              } catch (e) {
+                console.error('Error removing conflict revision:', e)
+              }
+            }
+          }
+        } catch (e) {
+          // Prefs file doesn't exist or can't be read - skip
+        }
       }
     }
 
     // Return clean scan result
     return {
-      totalPluginsInMainList: cleaned.length,
+      totalPluginsInMainList: pluginsData ? pluginsData.length : 0,
       pluginsWithDuplicates: [],
       totalDuplicateEntries: 0,
       hasDuplicates: false,

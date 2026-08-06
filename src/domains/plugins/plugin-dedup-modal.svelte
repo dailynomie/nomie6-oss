@@ -86,9 +86,13 @@
   <main class="filler space-y-4 p-4">
     {#if !hasScanned}
       <div class="info-box p-4 rounded-lg">
+        <Text bold className="text-gray-800 dark:text-gray-100 mb-2">CouchDB Conflict Resolution</Text>
         <Text className="text-gray-700 dark:text-gray-200" size="sm">
-          This tool scans your plugin storage for duplicate entries that can occur due to sync conflicts in CouchDB.
-          No data will be modified until you choose to clean.
+          This tool scans for duplicate plugin entries and CouchDB conflict revisions that occur during sync operations.
+          Conflicts are hidden document revisions that consume storage but aren't visible in the file browser.
+        </Text>
+        <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
+          No data will be modified until you confirm cleanup.
         </Text>
       </div>
 
@@ -119,17 +123,25 @@
           <Text bold className="text-gray-900 dark:text-white mb-2">Plugins with Duplicates:</Text>
           <List transparent>
             {#each scanResult.pluginsWithDuplicates as dup (dup.pluginId)}
-              <ListItem bottomLine={16}>
+              <ListItem>
                 <div slot="left" class="text-lg">{dup.pluginId}</div>
                 <div class="flex-grow">
                   <Text bold className="text-gray-900 dark:text-white">
                     {dup.pluginName}
                   </Text>
                   <Text size="sm" className="text-gray-600 dark:text-gray-400">
-                    {dup.count} copies found
+                    {dup.count} {dup.count === 1 ? 'copy' : 'copies'} found (CouchDB conflict revisions)
                   </Text>
                 </div>
               </ListItem>
+
+              {#each dup.occurrences as occ (occ.revisionInfo)}
+                <ListItem
+                  className="pl-8"
+                  description={occ.revisionInfo}
+                  title={occ.location}
+                />
+              {/each}
             {/each}
           </List>
         </div>
