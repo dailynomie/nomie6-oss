@@ -204,7 +204,7 @@
     on:click={openPluginDedupModal}
   />
 
-  <ListItem title="Auto-Cleanup Schedule">
+  <ListItem title="Auto-PluginDB-Cleanup Schedule">
     <div slot="right">
       <SelectPop
         id="plugin-cleanup-schedule"
