@@ -15,6 +15,7 @@
   import { ContextStore } from '../context/context-store'
   import { PointerStore } from '../pointers/pointer-store'
   import { LocationStore } from '../locations/LocationStore'
+  import { PluginStore } from '../plugins/PluginStore'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
 
@@ -25,6 +26,7 @@
     pointers: 0,
     reminders: 0,
     locations: 0,
+    plugins: 0,
     total: 0,
   })
 
@@ -35,6 +37,7 @@
     counts.people = Object.keys($PeopleStore).length
     counts.total = Object.keys($TrackableStore).length
     counts.locations = $LocationStore.length
+    counts.plugins = $PluginStore.length
     counts.reminders = $PointerStore.filter((pointer) => {
       return pointer.reminder == true
     }).length
@@ -114,6 +117,9 @@
   </ListItem>
   <ListItem bottomLine={16} title="Locations">
     <div slot="right">{counts.locations}</div>
+  </ListItem>
+  <ListItem title="Plugins">
+    <div slot="right">{counts.plugins}</div>
   </ListItem>
 </List>
 
