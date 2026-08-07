@@ -6,6 +6,8 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import Text from '../../components/text/text.svelte'
   import Button from '../../components/button/button.svelte'
+  import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { CloseOutline } from '../../components/icon/nicons'
   import AIChat from './ai-chat.svelte'
 
   interface Props {
@@ -41,7 +43,7 @@
         on:click={closeChat}
         className="text-white dark:text-gray-100 relative z-10"
       >
-        Close
+        <IonIcon icon={CloseOutline} className="text-white dark:text-gray-100" size={24} />
       </Button>
 
       <div slot="main" class="flex items-center justify-center gap-2 relative z-10">
