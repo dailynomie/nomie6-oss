@@ -33,6 +33,7 @@
   import PluginDedupModal from '../plugins/plugin-dedup-modal.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
   import { autoCleanupPlugins } from '../plugins/PluginCleanupStore'
+  import Button from '../../components/button/button.svelte'
 
   // let fileInputF
   // let showImporter = false
@@ -80,6 +81,11 @@
     }
 
     previousCleanupDays = newDays
+  }
+
+  const testAutoCleanup = async () => {
+    console.log('[Settings] Testing auto-cleanup manually')
+    await autoCleanupPlugins()
   }
 
   let cleanupOptions = $derived([
@@ -230,6 +236,12 @@
         options={cleanupOptions}
       />
     </div>
+  </ListItem>
+
+  <ListItem>
+    <Button size="sm" clear on:click={testAutoCleanup}>
+      🧪 Test Auto-Cleanup (Debug)
+    </Button>
   </ListItem>
 </List>
 <!-- <p class="list-note -mt-2 mb-2">
