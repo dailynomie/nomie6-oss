@@ -1,7 +1,7 @@
 import { derived, writable } from 'svelte/store'
 import dayjs from 'dayjs'
 import { Prefs } from '../preferences/Preferences'
-import { cleanupPluginDuplicates, type DedupResult } from './plugin-dedup'
+import { cleanupPluginDuplicates, scanForPluginDuplicates, type DedupResult } from './plugin-dedup'
 import { showToast } from '../../components/toast/ToastStore'
 
 const CLEANUP_STORAGE_KEY = 'last-plugin-cleanup-date'
@@ -93,21 +93,27 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
       // First cleanup, run it
       console.log('[PluginCleanup] No previous cleanup found - running initial cleanup')
       try {
-        const result = await cleanupPluginDuplicates()
-        console.log('[PluginCleanup] Initial cleanup completed:', {
-          hasDuplicates: result.hasDuplicates,
-          totalDuplicateEntries: result.totalDuplicateEntries,
-          totalRogueFolders: result.totalRogueFolders,
-          totalPluginsInMainList: result.totalPluginsInMainList,
+        // Scan first to see what needs cleaning
+        const scanResult = await scanForPluginDuplicates()
+        console.log('[PluginCleanup] Initial scan results:', {
+          hasDuplicates: scanResult.hasDuplicates,
+          totalDuplicateEntries: scanResult.totalDuplicateEntries,
+          totalRogueFolders: scanResult.totalRogueFolders,
+          totalPluginsInMainList: scanResult.totalPluginsInMainList,
         })
+
+        // Now perform cleanup
+        const cleanupResult = await cleanupPluginDuplicates()
+        console.log('[PluginCleanup] Initial cleanup completed')
+
         // Always update last cleanup timestamp, even if no issues found
         await cleanupConfirmed()
 
-        // Only log and notify if duplicates were actually cleaned
-        if (result.hasDuplicates) {
-          saveCleanupLog(result, 'scheduled')
+        // Only log and notify if duplicates were actually found and cleaned
+        if (scanResult.hasDuplicates) {
+          saveCleanupLog(scanResult, 'scheduled')
           showToast({
-            message: `Plugin database cleaned (${result.totalDuplicateEntries} duplicates, ${result.totalRogueFolders} rogue folders)`,
+            message: `Plugin database cleaned (${scanResult.totalDuplicateEntries} duplicates, ${scanResult.totalRogueFolders} rogue folders)`,
             type: 'success',
           })
         }
@@ -125,21 +131,27 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
     if (daysSinceCleanup >= prefs.pluginCleanupDays) {
       console.log(`[PluginCleanup] Interval elapsed (${daysSinceCleanup} >= ${prefs.pluginCleanupDays}) - running cleanup`)
       try {
-        const result = await cleanupPluginDuplicates()
-        console.log('[PluginCleanup] Cleanup completed:', {
-          hasDuplicates: result.hasDuplicates,
-          totalDuplicateEntries: result.totalDuplicateEntries,
-          totalRogueFolders: result.totalRogueFolders,
-          totalPluginsInMainList: result.totalPluginsInMainList,
+        // Scan first to see what needs cleaning
+        const scanResult = await scanForPluginDuplicates()
+        console.log('[PluginCleanup] Scan results:', {
+          hasDuplicates: scanResult.hasDuplicates,
+          totalDuplicateEntries: scanResult.totalDuplicateEntries,
+          totalRogueFolders: scanResult.totalRogueFolders,
+          totalPluginsInMainList: scanResult.totalPluginsInMainList,
         })
+
+        // Now perform cleanup
+        const cleanupResult = await cleanupPluginDuplicates()
+        console.log('[PluginCleanup] Cleanup completed')
+
         // Always update last cleanup timestamp, even if no issues found
         await cleanupConfirmed()
 
-        // Only log and notify if duplicates were actually cleaned
-        if (result.hasDuplicates) {
-          saveCleanupLog(result, 'scheduled')
+        // Only log and notify if duplicates were actually found and cleaned
+        if (scanResult.hasDuplicates) {
+          saveCleanupLog(scanResult, 'scheduled')
           showToast({
-            message: `Plugin database cleaned (${result.totalDuplicateEntries} duplicates, ${result.totalRogueFolders} rogue folders)`,
+            message: `Plugin database cleaned (${scanResult.totalDuplicateEntries} duplicates, ${scanResult.totalRogueFolders} rogue folders)`,
             type: 'success',
           })
         }
