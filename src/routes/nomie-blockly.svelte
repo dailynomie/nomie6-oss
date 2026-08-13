@@ -8,6 +8,8 @@
   import Layout from '../domains/layout/layout.svelte'
   import { navigate } from '../vendor/svelte-navigator'
   import { Prefs } from '../domains/preferences/Preferences'
+  import { showToast } from '../components/toast/ToastStore'
+  import { onMount } from 'svelte'
 
   let showSetupModal = $state(true)
   let plugin: PluginClass | undefined = $state(undefined)
@@ -70,6 +72,23 @@
     const defaultPage = $Prefs.startPage === 'track' ? '/track' : `/${$Prefs.startPage || 'track'}`
     navigate(defaultPage)
   }
+
+  // Check for duplicate Blockly plugins on page load
+  onMount(() => {
+    const blocklyPlugins = $PluginStore.filter(p =>
+      p.id.toLowerCase().includes('blockly') &&
+      p.id !== 'nomie-blockly' &&
+      p.active
+    )
+
+    if (blocklyPlugins.length > 0) {
+      showToast({
+        message: `⚠️ You have ${blocklyPlugins.length} other Blockly plugin${blocklyPlugins.length > 1 ? 's' : ''} installed. Consider disabling it to avoid conflicts.`,
+        type: 'warning',
+        duration: 3000,
+      })
+    }
+  })
 </script>
 
 <Layout pageTitle="Nomie Blockly">
