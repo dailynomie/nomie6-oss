@@ -2,6 +2,9 @@
   "features": [
     {
       "version": "6.8.0-dn",
+      "title": "Warning added when multiple Blockly plugins are installed"
+    },{
+      "version": "6.8.0-dn",
       "title": "Blockly added as standard integration instead of seperate plugin"
     },{
       "version": "6.8.0-dn",
