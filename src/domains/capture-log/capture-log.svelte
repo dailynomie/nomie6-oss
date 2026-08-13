@@ -87,12 +87,20 @@
       const newMenu: Array<PopMenuButton> = untrack(() => {
         return [
           ...getPromptMenu(),
+          {
+            title: 'Integrated Blockly',
+            emoji: '📦',
+            divider: true,
+            click() {
+              navigate('/nomie-blockly')
+            },
+          },
           ...$PluginStore
             .filter((p) => p.addToCaptureMenu && p.active)
             .map((p, index) => ({
               title: p.name,
               disabled: p.locked,
-              divider: index === 0,
+              divider: false,
               emoji: p.emoji,
               click() {
                 openPluginModal(p)
