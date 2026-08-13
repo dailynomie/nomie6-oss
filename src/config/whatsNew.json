@@ -1,27 +1,27 @@
 {
   "features": [
     {
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Warning added when multiple Blockly plugins are installed"
     },{
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Blockly added as standard integration instead of seperate plugin"
     },{
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Plugin Database Cleanup function added"
     },{
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "API Key encryption using PIN option"
     },{
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Nomie Insight Widget - AI-powered analytics on your dashboard"
     },
     {
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "AI Chat Component - Ask Claude about your tracking data, goals, and patterns"
     },
     {
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Dual-Axis Charting - Compare two trackers in line and bar charts with secondary axis"
     },
     {
@@ -296,26 +296,26 @@
   ],
   "fixes": [
     {
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Ignore zero in dashboard chart fixed"
     },{
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "AI State Validation - Insight widget and chat properly disable when AI is not configured"
     },
     {
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Input Auto-focus in Chat - Chat input automatically focuses after receiving a response"
     },
     {
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Insight Widget Caching - Fixed caching behavior with daily refresh for optimal performance"
     },
     {
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Plugin Theme Synchronization - Fixed plugins not respecting the auto theme setting"
     },
     {
-      "version": "6.8.0-dn",
+      "version": "dn6.8.0v20260813",
       "title": "Chart Rendering - Improved rendering and responsiveness of line and bar charts with dual-axis"
     },
     {
