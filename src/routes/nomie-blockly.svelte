@@ -76,7 +76,7 @@
   // Check for duplicate Blockly plugins on page load
   onMount(() => {
     const blocklyPlugins = $PluginStore.filter(p =>
-      p.id.toLowerCase().includes('blockly') &&
+      p.name.toLowerCase().includes('blockly') &&
       p.id !== 'nomie-blockly' &&
       p.active
     )
