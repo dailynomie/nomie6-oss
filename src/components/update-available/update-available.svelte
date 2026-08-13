@@ -57,18 +57,20 @@
       </div>
 
       <div class="flex items-center justify-end space-x-4">
-        <button
-          disabled={$isCheckingForUpdates}
-          class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600 disabled:opacity-50"
-          title="Check for updates manually"
-          on:click={handleManualCheck}
-        >
-          {#if $isCheckingForUpdates}
-            Checking...
-          {:else}
-            Check Now
-          {/if}
-        </button>
+        {#if $offlineReady}
+          <button
+            disabled={$isCheckingForUpdates}
+            class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600 disabled:opacity-50"
+            title="Check for updates manually"
+            on:click={handleManualCheck}
+          >
+            {#if $isCheckingForUpdates}
+              Checking...
+            {:else}
+              Check Now
+            {/if}
+          </button>
+        {/if}
 
         <button
           class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600"
