@@ -2,6 +2,12 @@
   "features": [
     {
       "version": "6.8.0-dn",
+      "title": "Blockly added as standard integration instead of seperate plugin"
+    },{
+      "version": "6.8.0-dn",
+      "title": "Plugin Database Cleanup function added"
+    },{
+      "version": "6.8.0-dn",
       "title": "API Key encryption using PIN option"
     },{
       "version": "6.8.0-dn",
@@ -287,6 +293,9 @@
   ],
   "fixes": [
     {
+      "version": "6.8.0-dn",
+      "title": "Ignore zero in dashboard chart fixed"
+    },{
       "version": "6.8.0-dn",
       "title": "AI State Validation - Insight widget and chat properly disable when AI is not configured"
     },
