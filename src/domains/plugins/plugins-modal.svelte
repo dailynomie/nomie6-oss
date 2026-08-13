@@ -24,7 +24,6 @@
   import type { PluginClass } from './plugin-helpers'
   import PluginInstaller from './plugin-installer.svelte'
   import { closePluginsModal, openPluginInstaller, PluginStore } from './PluginStore'
-  import { navigate } from '../../vendor/svelte-navigator'
 
   import Badge from '../../components/badge/badge.svelte'
 
@@ -135,21 +134,6 @@
             </Button>
           {/if}
         </div>
-
-        <ListItem
-          clickable
-          bottomLine={15}
-          on:click={() => {
-            closePluginsModal()
-            navigate('/nomie-blockly')
-          }}
-        >
-          <div class="flex space-x-2 items-center">
-            <Avatar size={20} emoji="📦" />
-            <Title>Integrated Blockly</Title>
-          </div>
-        </ListItem>
-
         {#each $PluginStore as plugin}
           <ListItem bottomLine={15} disabled={plugin.locked}>
             <div class="flex space-x-2 items-center">
