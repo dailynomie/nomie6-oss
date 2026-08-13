@@ -85,7 +85,7 @@
       showToast({
         message: `⚠️ You have ${blocklyPlugins.length} other Blockly plugin${blocklyPlugins.length > 1 ? 's' : ''} installed. Consider disabling it to avoid conflicts.`,
         type: 'warning',
-        duration: 3000,
+        duration: 8000,
       })
     }
   })
