@@ -505,13 +505,19 @@
         title: `${location.name} (${latStr}, ${lngStr})`,
         id: locationId,
         click() {
+          const locationData: ILocation = {
+            id: location.id,
+            hash: location.hash,
+            name: location.name,
+            lat: location.lat,
+            lng: location.lng,
+          }
           const existingIndex = template.locations.findIndex((l) => getLocationIdentifier(l) === locationId)
           if (existingIndex > -1) {
-            template.locations[existingIndex] = location
+            template.locations[existingIndex] = locationData
           } else {
-            template.locations.push(location)
+            template.locations = [...template.locations, locationData]
           }
-          template.locations = template.locations
         },
       }
     })
@@ -530,16 +536,24 @@
       title: `✓ Add All Locations (${locations.length})`,
       id: 'add-all',
       click() {
+        const newLocations = [...template.locations]
         locations.forEach((location) => {
+          const locationData: ILocation = {
+            id: location.id,
+            hash: location.hash,
+            name: location.name,
+            lat: location.lat,
+            lng: location.lng,
+          }
           const locationId = getLocationIdentifier(location)
-          const existingIndex = template.locations.findIndex((l) => getLocationIdentifier(l) === locationId)
+          const existingIndex = newLocations.findIndex((l) => getLocationIdentifier(l) === locationId)
           if (existingIndex > -1) {
-            template.locations[existingIndex] = location
+            newLocations[existingIndex] = locationData
           } else {
-            template.locations.push(location)
+            newLocations.push(locationData)
           }
         })
-        template.locations = template.locations
+        template.locations = newLocations
       },
     })
 
