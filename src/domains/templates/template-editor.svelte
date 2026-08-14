@@ -717,7 +717,7 @@
         <span class="text-gray-500">No Locations</span>
       </Empty>
     {:else}
-      {#each locationList as location, index (location.id)}
+      {#each locationList as location, index}
         {@const lat = typeof location.lat === 'number' ? location.lat : parseFloat(location.lat as any)}
         {@const lng = typeof location.lng === 'number' ? location.lng : parseFloat(location.lng as any)}
         {@const latStr = isNaN(lat) ? '?' : lat.toFixed(2)}
