@@ -57,8 +57,12 @@
     originalTemplate.pivots = template.pivots
   })
 
-  const strToTrackable = (str: string): Trackable => {
-    return tokenToTrackable(strToToken(str), $TrackableStore.trackables)
+  const strToTrackable = (str: string): Trackable | undefined => {
+    const token = strToToken(str)
+    if (!token) {
+      return undefined
+    }
+    return tokenToTrackable(token, $TrackableStore.trackables)
   }
 
   const addTrackableFromTag = (str) => {
