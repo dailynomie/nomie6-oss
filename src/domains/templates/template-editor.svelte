@@ -491,8 +491,13 @@
 
   const openLocationImporter = (locations: Array<ILocation>) => {
     const buttons = locations.map((location: ILocation) => {
+      const lat = typeof location.lat === 'number' ? location.lat : parseFloat(location.lat as any)
+      const lng = typeof location.lng === 'number' ? location.lng : parseFloat(location.lng as any)
+      const latStr = isNaN(lat) ? '?' : lat.toFixed(2)
+      const lngStr = isNaN(lng) ? '?' : lng.toFixed(2)
+
       return {
-        title: `${location.name} (${location.lat.toFixed(2)}, ${location.lng.toFixed(2)})`,
+        title: `${location.name} (${latStr}, ${lngStr})`,
         id: location.id || location.hash,
         click() {
           let index = template.locations.findIndex((l) => l.id === location.id)
@@ -712,10 +717,14 @@
       </Empty>
     {:else}
       {#each template.locations as location, index}
+        {@const lat = typeof location.lat === 'number' ? location.lat : parseFloat(location.lat as any)}
+        {@const lng = typeof location.lng === 'number' ? location.lng : parseFloat(location.lng as any)}
+        {@const latStr = isNaN(lat) ? '?' : lat.toFixed(2)}
+        {@const lngStr = isNaN(lng) ? '?' : lng.toFixed(2)}
         <ListItem>
           <div class="ntitle text-sm">
             <span>{location.name}</span>
-            <span class="text-gray-500 text-xs">({location.lat.toFixed(2)}, {location.lng.toFixed(2)})</span>
+            <span class="text-gray-500 text-xs">({latStr}, {lngStr})</span>
           </div>
         </ListItem>
       {/each}
