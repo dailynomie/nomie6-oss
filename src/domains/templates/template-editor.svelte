@@ -311,11 +311,32 @@
     // })
   }
 
-  const openGoalImporter = (goals: Array<GoalClass>) => {
-    const buttons = goals.map((goal: GoalClass) => {
+  const groupGoalsByDuration = (goals: Array<GoalClass>) => {
+    return {
+      day: goals.filter(g => g.duration === 'day'),
+      week: goals.filter(g => g.duration === 'week'),
+      month: goals.filter(g => g.duration === 'month'),
+      year: goals.filter(g => g.duration === 'year'),
+    }
+  }
+
+  const getDurationLabel = (duration: string): string => {
+    const labels: { [key: string]: string } = {
+      day: 'Daily',
+      week: 'Weekly',
+      month: 'Monthly',
+      year: 'Yearly',
+    }
+    return labels[duration] || duration
+  }
+
+  const openGoalsByDurationImporter = (goals: Array<GoalClass>, duration: string) => {
+    const goalsForDuration = goals.filter(g => g.duration === duration)
+
+    const buttons = goalsForDuration.map((goal: GoalClass) => {
       return {
         title: `${goal.tag} ${goal.comparison} ${goal.target}`,
-        id: goal.tag,
+        id: goal.id,
         click() {
           let index = template.goals.findIndex((g) => g.id === goal.id)
           if (index > -1) {
@@ -328,10 +349,69 @@
         },
       }
     })
-    
+
+    if (buttons.length === 0) {
+      openPopMenu({
+        id: 'import-goal-empty',
+        title: `No ${getDurationLabel(duration)} Goals`,
+        buttons: [{ title: 'Go Back', id: 'back', click() { openGoalImporter($GoalStore) } }],
+      })
+      return
+    }
+
+    // Add back button
+    buttons.unshift({
+      title: '← Back to Duration Selection',
+      id: 'back',
+      click() {
+        openGoalImporter($GoalStore)
+      },
+    })
+
+    openPopMenu({
+      id: 'import-goal-by-duration',
+      title: `${getDurationLabel(duration)} Goals`,
+      buttons: buttons,
+    })
+  }
+
+  const openGoalImporter = (goals: Array<GoalClass>) => {
+    const grouped = groupGoalsByDuration(goals)
+
+    const buttons = [
+      {
+        title: `Daily Goals (${grouped.day.length})`,
+        id: 'day',
+        click() {
+          openGoalsByDurationImporter(goals, 'day')
+        },
+      },
+      {
+        title: `Weekly Goals (${grouped.week.length})`,
+        id: 'week',
+        click() {
+          openGoalsByDurationImporter(goals, 'week')
+        },
+      },
+      {
+        title: `Monthly Goals (${grouped.month.length})`,
+        id: 'month',
+        click() {
+          openGoalsByDurationImporter(goals, 'month')
+        },
+      },
+      ...(grouped.year.length > 0 ? [{
+        title: `Yearly Goals (${grouped.year.length})`,
+        id: 'year',
+        click() {
+          openGoalsByDurationImporter(goals, 'year')
+        },
+      }] : []),
+    ]
+
     openPopMenu({
       id: 'import-goal',
-      title: 'Which goal would you like to import?',
+      title: 'Select Goal Period',
       buttons: buttons,
     })
   }
@@ -473,15 +553,62 @@
         <span class="text-gray-500">No Goals</span>
       </Empty>
     {:else}
-      {#each template.goals as goal, index}
-        <ListItem>
-          <div class="ntitle">
-            <span>{goal.tag}</span>
-            <span>{goal.comparison}</span>
-            <span>{goal.target}</span>
-          </div>
-        </ListItem>
-      {/each}
+      {#if groupGoalsByDuration(template.goals).day.length > 0}
+        <div class="goal-section">
+          <h3 class="goal-period-label">Daily Goals</h3>
+          {#each groupGoalsByDuration(template.goals).day as goal}
+            <ListItem>
+              <div class="ntitle text-sm">
+                <span>{goal.tag}</span>
+                <span>{goal.comparison}</span>
+                <span>{goal.target}</span>
+              </div>
+            </ListItem>
+          {/each}
+        </div>
+      {/if}
+      {#if groupGoalsByDuration(template.goals).week.length > 0}
+        <div class="goal-section">
+          <h3 class="goal-period-label">Weekly Goals</h3>
+          {#each groupGoalsByDuration(template.goals).week as goal}
+            <ListItem>
+              <div class="ntitle text-sm">
+                <span>{goal.tag}</span>
+                <span>{goal.comparison}</span>
+                <span>{goal.target}</span>
+              </div>
+            </ListItem>
+          {/each}
+        </div>
+      {/if}
+      {#if groupGoalsByDuration(template.goals).month.length > 0}
+        <div class="goal-section">
+          <h3 class="goal-period-label">Monthly Goals</h3>
+          {#each groupGoalsByDuration(template.goals).month as goal}
+            <ListItem>
+              <div class="ntitle text-sm">
+                <span>{goal.tag}</span>
+                <span>{goal.comparison}</span>
+                <span>{goal.target}</span>
+              </div>
+            </ListItem>
+          {/each}
+        </div>
+      {/if}
+      {#if groupGoalsByDuration(template.goals).year.length > 0}
+        <div class="goal-section">
+          <h3 class="goal-period-label">Yearly Goals</h3>
+          {#each groupGoalsByDuration(template.goals).year as goal}
+            <ListItem>
+              <div class="ntitle text-sm">
+                <span>{goal.tag}</span>
+                <span>{goal.comparison}</span>
+                <span>{goal.target}</span>
+              </div>
+            </ListItem>
+          {/each}
+        </div>
+      {/if}
     {/if}
   </List>
   <List solo outside title="Pivots">
@@ -523,5 +650,15 @@
   }
   .pill .label {
     @apply font-medium;
+  }
+
+  .goal-section {
+    @apply pt-2;
+  }
+
+  .goal-period-label {
+    @apply text-xs font-semibold text-gray-600 dark:text-gray-400;
+    @apply px-4 py-2 uppercase tracking-wide;
+    @apply bg-gray-50 dark:bg-gray-900;
   }
 </style>
