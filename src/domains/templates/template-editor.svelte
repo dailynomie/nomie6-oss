@@ -34,6 +34,8 @@
   import type { GoalClass } from '../goals/goal-class'
   import { PivotStore } from '../analytics/PivotStore'
   import type { PivotClass } from '../analytics/pivot-class'
+  import { LocationStore } from '../locations/LocationStore'
+  import type { ILocation } from '../locations/LocationClass'
   // import download from '../../modules/download/download'
   // import { strToTagSafe } from '../trackable/trackable-utils'
 
@@ -55,6 +57,7 @@
     originalTemplate.dashboards = template.dashboards
     originalTemplate.goals = template.goals
     originalTemplate.pivots = template.pivots
+    originalTemplate.locations = template.locations
   })
 
   const strToTrackable = (str: string): Trackable | undefined => {
@@ -483,7 +486,61 @@
 
   const addPivot = async () => {
     openPivotImporter($PivotStore)
-    
+
+  }
+
+  const openLocationImporter = (locations: Array<ILocation>) => {
+    const buttons = locations.map((location: ILocation) => {
+      return {
+        title: `${location.name} (${location.lat.toFixed(2)}, ${location.lng.toFixed(2)})`,
+        id: location.id || location.hash,
+        click() {
+          let index = template.locations.findIndex((l) => l.id === location.id)
+          if (index > -1) {
+            template.locations[index] = location
+          } else {
+            template.locations.push(location)
+          }
+          template.locations = template.locations
+        },
+      }
+    })
+
+    if (buttons.length === 0) {
+      openPopMenu({
+        id: 'import-location-empty',
+        title: 'No Saved Locations',
+        buttons: [{ title: 'Go Back', id: 'back', click() { } }],
+      })
+      return
+    }
+
+    // Add "Add All" button
+    buttons.unshift({
+      title: `✓ Add All Locations (${locations.length})`,
+      id: 'add-all',
+      click() {
+        locations.forEach((location) => {
+          let index = template.locations.findIndex((l) => l.id === location.id)
+          if (index > -1) {
+            template.locations[index] = location
+          } else {
+            template.locations.push(location)
+          }
+        })
+        template.locations = template.locations
+      },
+    })
+
+    openPopMenu({
+      id: 'import-location',
+      title: 'Saved Locations',
+      buttons: buttons,
+    })
+  }
+
+  const addLocation = async () => {
+    openLocationImporter($LocationStore)
   }
 
   const addTrackableOptions = () => {
@@ -642,6 +699,23 @@
         <ListItem>
           <div class="ntitle">
             <span>{pivot.emoji}{pivot.tag}</span>
+          </div>
+        </ListItem>
+      {/each}
+    {/if}
+  </List>
+  <List solo outside title="Locations">
+    <Button size="sm" on:click={() => addLocation()} primary clear slot="header-right">+ Add</Button>
+    {#if !template.locations.length}
+      <Empty small>
+        <span class="text-gray-500">No Locations</span>
+      </Empty>
+    {:else}
+      {#each template.locations as location, index}
+        <ListItem>
+          <div class="ntitle text-sm">
+            <span>{location.name}</span>
+            <span class="text-gray-500 text-xs">({location.lat.toFixed(2)}, {location.lng.toFixed(2)})</span>
           </div>
         </ListItem>
       {/each}

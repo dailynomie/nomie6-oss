@@ -11,6 +11,7 @@ import type { PivotClass } from "../analytics/pivot-class"
 import type { StorageBackupType } from "../storage/storage-export.helper"
 import type { Trackable } from "../trackable/Trackable.class"
 import { UOMClass } from "../uom/uom.class"
+import type { ILocation } from "../locations/LocationClass"
 
 
 
@@ -25,10 +26,11 @@ export type TemplateType = {
   pivots: Array<PivotClass>
   boards: Array<UniboardType>
   dashboards: Array<DashboardClass>
+  locations: Array<ILocation>
 }
 
 /* `Template` is a class that represents a template for a user's data */
-export class Template { 
+export class Template {
   type: string = 'template';
   id: string
   name: string
@@ -40,6 +42,7 @@ export class Template {
   pivots: Array<PivotClass>
   boards: Array<UniboardType>
   dashboards: Array<DashboardClass>
+  locations: Array<ILocation>
   constructor(starter?:TemplateType) {
     let base:any = starter || {};
     this.id = base.id || nid();
@@ -52,6 +55,7 @@ export class Template {
     this.pivots = base.pivots ? base.pivots : [];
     this.boards = base.boards ? base.boards : [];
     this.dashboards = base.dashboards ? base.dashboards : [];
+    this.locations = base.locations ? base.locations : [];
   }
 
   get asObject() {

@@ -8,6 +8,7 @@ import type { PointerType } from "../pointers/pointer-class"
 import type { DashboardClass } from "../dashboard2/dashboard-class"
 import type { GoalType } from "../goals/goal-class"
 import type { PivotType } from "../analytics/pivot-class"
+import type { ILocation } from "../locations/LocationClass"
 import { convertTrackerValue, Template } from "../templates/templates-utils"
 
 export type StorageBackupType = {
@@ -22,7 +23,8 @@ export type StorageBackupType = {
     "trackers.json"?: ITrackers,
     "people.json"?: IPeople,
     "context.json"?: Array<ContextType>,
-    "pointers.json"?: Array<PointerType>
+    "pointers.json"?: Array<PointerType>,
+    "locations.json"?: Array<ILocation>
   }
 }
 
@@ -43,7 +45,8 @@ export const TemplateToImport = (template:Template, useMetric:boolean = false):S
       "goals.json": template.goals,
       "pivots.json": template.pivots,
       "dashboards.json": template.dashboards,
-      "boards.json": template.boards
+      "boards.json": template.boards,
+      "locations.json": template.locations
     }
   }
 }
