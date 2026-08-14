@@ -63,7 +63,9 @@
 
   const addTrackableFromTag = (str) => {
     const trackable = strToTrackable(str)
-    addTrackableToTemplate(trackable)
+    if (trackable) {
+      addTrackableToTemplate(trackable)
+    }
   }
 
   const templateTrackablesToMap = (): ITrackables => {
@@ -84,10 +86,15 @@
   const addTokenToTemplate = (token: Token) => {
     const allKnown = { ...$TrackableStore.trackables, ...templateTrackablesToMap() }
     const trackable = tokenToTrackable(token, allKnown)
-    addTrackableToTemplate(trackable)
+    if (trackable) {
+      addTrackableToTemplate(trackable)
+    }
   }
 
-  const addTrackableToTemplate = (trackable: Trackable) => {
+  const addTrackableToTemplate = (trackable: Trackable | undefined) => {
+    if (!trackable) {
+      return
+    }
     if (!template.trackables.find((t) => t.id == trackable.id)) {
       template = { ...template, trackables: [...template.trackables, trackable] }
 
@@ -97,7 +104,9 @@
 
         tokens.forEach((token: Token) => {
           const includedTrackable = tokenToTrackable(token, $TrackableStore.trackables)
-          addTrackableToTemplate(includedTrackable)
+          if (includedTrackable) {
+            addTrackableToTemplate(includedTrackable)
+          }
         })
       }
     }
