@@ -711,12 +711,13 @@
   </List>
   <List solo outside title="Locations">
     <Button size="sm" on:click={() => addLocation()} primary clear slot="header-right">+ Add</Button>
-    {#if !template.locations.length}
+    {@const locationList = template.locations}
+    {#if !locationList.length}
       <Empty small>
         <span class="text-gray-500">No Locations</span>
       </Empty>
     {:else}
-      {#each template.locations as location, index}
+      {#each locationList as location, index (location.id)}
         {@const lat = typeof location.lat === 'number' ? location.lat : parseFloat(location.lat as any)}
         {@const lng = typeof location.lng === 'number' ? location.lng : parseFloat(location.lng as any)}
         {@const latStr = isNaN(lat) ? '?' : lat.toFixed(2)}
