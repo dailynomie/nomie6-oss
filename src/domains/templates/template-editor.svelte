@@ -252,7 +252,9 @@
       return widget.token
     })
     tokens.forEach((token) => {
-      addTokenToTemplate(token)
+      if (token) {
+        addTokenToTemplate(token)
+      }
     })
   }
 
