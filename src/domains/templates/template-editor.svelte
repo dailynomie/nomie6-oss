@@ -359,6 +359,26 @@
       return
     }
 
+    // Add "Add All" button
+    buttons.unshift({
+      title: `✓ Add All ${getDurationLabel(duration)} Goals (${goalsForDuration.length})`,
+      id: 'add-all',
+      click() {
+        // Add all goals for this duration
+        goalsForDuration.forEach((goal) => {
+          let index = template.goals.findIndex((g) => g.id === goal.id)
+          if (index > -1) {
+            template.goals[index] = goal
+          } else {
+            template.goals.push(goal)
+          }
+          // Add goal's trackable
+          addTrackableFromTag(goal.tag)
+        })
+        template.goals = template.goals
+      },
+    })
+
     // Add back button
     buttons.unshift({
       title: '← Back to Duration Selection',
