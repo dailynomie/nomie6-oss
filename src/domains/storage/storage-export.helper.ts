@@ -38,8 +38,8 @@ export const TemplateToImport = (template:Template, useMetric:boolean = false):S
     files: {
       "trackers.json": trackers,
       "people.json": people,
-      "context.json": template.trackables.filter(t=>t.type == 'context').map(t=>t),
-      "pointers.json": template.trackables.filter(t=>t.type == 'pointer').map(t=>t),
+      "context.json": template.trackables.filter(t=>t.type == 'context').map(t=>t.ctx),
+      "pointers.json": template.trackables.filter(t=>t.type == 'pointer').map(t=>t.ptr),
       "goals.json": template.goals,
       "pivots.json": template.pivots,
       "dashboards.json": template.dashboards,
