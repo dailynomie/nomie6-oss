@@ -516,8 +516,9 @@
           if (existingIndex > -1) {
             template.locations[existingIndex] = locationData
           } else {
-            template.locations = [...template.locations, locationData]
+            template.locations.push(locationData)
           }
+          template.locations = template.locations
         },
       }
     })
