@@ -48,8 +48,11 @@
   $effect(() => {
     // Sync local changes back to the bindable prop
     // This updates the parent component with changes made in this editor
+    originalTemplate.name = template.name
+    originalTemplate.description = template.description
     originalTemplate.trackables = template.trackables
     originalTemplate.boards = template.boards
+    originalTemplate.dashboards = template.dashboards
     originalTemplate.goals = template.goals
     originalTemplate.pivots = template.pivots
   })
