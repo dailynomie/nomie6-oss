@@ -489,34 +489,22 @@
 
   }
 
-  const getLocationIdentifier = (location: ILocation): string => {
-    return location.id || location.hash || location.name
-  }
-
   const openLocationImporter = (locations: Array<ILocation>) => {
     const buttons = locations.map((location: ILocation) => {
       const lat = typeof location.lat === 'number' ? location.lat : parseFloat(location.lat as any)
       const lng = typeof location.lng === 'number' ? location.lng : parseFloat(location.lng as any)
       const latStr = isNaN(lat) ? '?' : lat.toFixed(2)
       const lngStr = isNaN(lng) ? '?' : lng.toFixed(2)
-      const locationId = getLocationIdentifier(location)
 
       return {
         title: `${location.name} (${latStr}, ${lngStr})`,
-        id: locationId,
+        id: location.id || location.hash,
         click() {
-          const locationData: ILocation = {
-            id: location.id,
-            hash: location.hash,
-            name: location.name,
-            lat: location.lat,
-            lng: location.lng,
-          }
-          const existingIndex = template.locations.findIndex((l) => getLocationIdentifier(l) === locationId)
-          if (existingIndex > -1) {
-            template.locations[existingIndex] = locationData
+          let index = template.locations.findIndex((l) => l.id === location.id)
+          if (index > -1) {
+            template.locations[index] = location
           } else {
-            template.locations.push(locationData)
+            template.locations.push(location)
           }
           template.locations = template.locations
         },
@@ -537,24 +525,15 @@
       title: `✓ Add All Locations (${locations.length})`,
       id: 'add-all',
       click() {
-        const newLocations = [...template.locations]
         locations.forEach((location) => {
-          const locationData: ILocation = {
-            id: location.id,
-            hash: location.hash,
-            name: location.name,
-            lat: location.lat,
-            lng: location.lng,
-          }
-          const locationId = getLocationIdentifier(location)
-          const existingIndex = newLocations.findIndex((l) => getLocationIdentifier(l) === locationId)
-          if (existingIndex > -1) {
-            newLocations[existingIndex] = locationData
+          let index = template.locations.findIndex((l) => l.id === location.id)
+          if (index > -1) {
+            template.locations[index] = location
           } else {
-            newLocations.push(locationData)
+            template.locations.push(location)
           }
         })
-        template.locations = newLocations
+        template.locations = template.locations
       },
     })
 
