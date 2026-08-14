@@ -502,11 +502,12 @@
         click() {
           let index = template.locations.findIndex((l) => l.id === location.id)
           if (index > -1) {
-            template.locations[index] = location
+            const updatedLocations = [...template.locations]
+            updatedLocations[index] = location
+            template = { ...template, locations: updatedLocations }
           } else {
-            template.locations.push(location)
+            template = { ...template, locations: [...template.locations, location] }
           }
-          template.locations = template.locations
         },
       }
     })
@@ -525,15 +526,16 @@
       title: `✓ Add All Locations (${locations.length})`,
       id: 'add-all',
       click() {
+        const updatedLocations = [...template.locations]
         locations.forEach((location) => {
-          let index = template.locations.findIndex((l) => l.id === location.id)
+          let index = updatedLocations.findIndex((l) => l.id === location.id)
           if (index > -1) {
-            template.locations[index] = location
+            updatedLocations[index] = location
           } else {
-            template.locations.push(location)
+            updatedLocations.push(location)
           }
         })
-        template.locations = template.locations
+        template = { ...template, locations: updatedLocations }
       },
     })
 
