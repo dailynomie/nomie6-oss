@@ -13,7 +13,7 @@
   import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
   
   import type { DashboardClass } from '../dashboard2/dashboard-class'
-  import DashboardListItem from '../dashboard2/dashboard-list-item.svelte'
+  import { WidgetClass } from '../dashboard2/widget/widget-class'
   import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
   import { selectTrackables } from '../trackable/trackable-selector/TrackableSelectorStore'
   import { Trackable } from '../trackable/Trackable.class'
@@ -176,11 +176,12 @@
     if (template.pivots.some((pivot) => {
       if (!pivot?.options) return false
       const { rows = [], cols = [], vals = [] } = pivot.options
-      return (
-        rows.includes(trackableTag) ||
-        cols.includes(trackableTag) ||
-        vals.includes(trackableTag)
-      )
+      const allTags = [...rows, ...cols, ...vals]
+      // Strip emoji from pivot tags for comparison
+      return allTags.some((tag) => {
+        const cleanTag = tag.replace(/^[^\p{L}\p{N}]+/u, '').trim()
+        return cleanTag === trackableTag
+      })
     })) {
       reasons.push('a pivot')
     }
@@ -210,6 +211,41 @@
     }))
 
     // Reassign template to trigger reactivity
+    template = { ...template }
+  }
+
+  const removeTab = (boardId: string) => {
+    template.boards = template.boards.filter((b) => b.id !== boardId)
+    template = { ...template }
+  }
+
+  const removeDashboard = (dashboardId: string) => {
+    template.dashboards = template.dashboards.filter((d) => d.id !== dashboardId)
+    template = { ...template }
+  }
+
+  const removeGoal = (goalId: string) => {
+    template.goals = template.goals.filter((g) => g.id !== goalId)
+    template = { ...template }
+  }
+
+  const removeGoalsByDuration = (duration: string) => {
+    template.goals = template.goals.filter((g) => g.duration !== duration)
+    template = { ...template }
+  }
+
+  const removeLocation = (locationId: string) => {
+    template.locations = template.locations.filter((l) => l.id !== locationId)
+    template = { ...template }
+  }
+
+  const removePlugin = (pluginId: string) => {
+    template.plugins = template.plugins.filter((p) => p.id !== pluginId)
+    template = { ...template }
+  }
+
+  const removePivot = (pivotId: string) => {
+    template.pivots = template.pivots.filter((pv) => pv.id !== pivotId)
     template = { ...template }
   }
 
@@ -593,16 +629,42 @@
             const { rows = [], cols = [], vals = [] } = pivot.options
             const tagsToAdd = new Set([...rows, ...cols, ...vals])
             const trackableStoreValue = get(TrackableStore)
+            const trackablesToAdd = []
 
             for (const tag of tagsToAdd) {
+              // Strip emoji prefix from tag (pivot tags have emoji prefixes)
+              const cleanTag = tag.replace(/^[^\p{L}\p{N}]+/u, '').trim()
+              console.log('Original tag:', tag, '-> Clean tag:', cleanTag)
+
               // Check if trackable already in template
-              if (!template.trackables.some(t => getTrackableTag(t) === tag)) {
-                // Look up trackable from store and add it
-                const storeTrackable = trackableStoreValue.trackables?.[tag]
+              const alreadyExists = template.trackables.some(t => {
+                const tTag = getTrackableTag(t)
+                return tTag === cleanTag || tTag?.replace(/^[#@]/, '') === cleanTag
+              })
+
+              console.log('Already exists in template?', alreadyExists)
+
+              if (!alreadyExists) {
+                // Try to find trackable in store with different prefixes
+                console.log('Trying keys:', cleanTag, `#${cleanTag}`, `@${cleanTag}`)
+                let storeTrackable = trackableStoreValue.trackables?.[cleanTag]
+                console.log('Try 1 (no prefix):', !!storeTrackable)
+                if (!storeTrackable) storeTrackable = trackableStoreValue.trackables?.[`#${cleanTag}`]
+                console.log('Try 2 (# prefix):', !!storeTrackable)
+                if (!storeTrackable) storeTrackable = trackableStoreValue.trackables?.[`@${cleanTag}`]
+                console.log('Try 3 (@ prefix):', !!storeTrackable)
+
                 if (storeTrackable) {
-                  template.trackables.push(storeTrackable)
+                  console.log('Found! Adding:', storeTrackable)
+                  trackablesToAdd.push(storeTrackable)
                 }
               }
+            }
+
+            // Reassign template with new trackables array to trigger reactivity
+            if (trackablesToAdd.length > 0) {
+              template = { ...template, trackables: [...template.trackables, ...trackablesToAdd] }
+              return
             }
           }
 
@@ -811,8 +873,17 @@
     {:else}
       {#each template.boards as board, index}
         <ListItem>
-          <div>
-            <h2 class="ntitle">{board.label}</h2>
+          <div class="relative pr-20">
+            <div class="mb-2">
+              <h2 class="ntitle">{board.label}</h2>
+            </div>
+            <button
+              on:click={() => removeTab(board.id)}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove this tab"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
             <div class="py-1 flex flex-wrap">
               {#each array_utils.unique(board.elements) as element, eindex}
                 <button class="pill sm">{element}</button>
@@ -831,7 +902,31 @@
       </Empty>
     {:else}
       {#each template.dashboards as dashboard, index}
-        <DashboardListItem {dashboard} />
+        <ListItem>
+          <div class="relative pr-12 w-full">
+            <div class="mb-2">
+              <h2 class="ntitle">{dashboard.label}</h2>
+            </div>
+            <button
+              on:click={() => removeDashboard(dashboard.id)}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove this dashboard"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
+            <div class="widgets -ml-1 text-xs p-1 rounded-md flex flex-wrap">
+              {#if dashboard.widgets.length}
+                {#each dashboard.widgets as widget}
+                  <button class="pill sm space-x- flex">
+                    <strong>{new WidgetClass(widget).getTitle()}</strong>
+                    <span>{widget.type}</span>
+                    <span>{new WidgetClass(widget).getLabel().replace('days','')}</span>
+                  </button>
+                {/each}
+              {/if}
+            </div>
+          </div>
+        </ListItem>
       {/each}
     {/if}
   </List>
@@ -843,56 +938,128 @@
       </Empty>
     {:else}
       {#if groupGoalsByDuration(template.goals).day.length > 0}
-        <div class="goal-section">
-          <h3 class="goal-period-label">Daily Goals</h3>
+        <div class="goal-section pr-5">
+          <div class="relative">
+            <h3 class="goal-period-label">Daily Goals</h3>
+            <button
+              on:click={() => removeGoalsByDuration('day')}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove all daily goals"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
+          </div>
           {#each groupGoalsByDuration(template.goals).day as goal}
             <ListItem>
-              <div class="ntitle text-sm">
-                <span>{goal.tag}</span>
-                <span>{goal.comparison}</span>
-                <span>{goal.target}</span>
+              <div class="relative pr-12 w-full">
+                <div class="ntitle text-sm">
+                  <span>{goal.tag}</span>
+                  <span>{goal.comparison}</span>
+                  <span>{goal.target}</span>
+                </div>
+                <button
+                  on:click={() => removeGoal(goal.id)}
+                  class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+                  title="Remove this goal"
+                >
+                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                </button>
               </div>
             </ListItem>
           {/each}
         </div>
       {/if}
       {#if groupGoalsByDuration(template.goals).week.length > 0}
-        <div class="goal-section">
-          <h3 class="goal-period-label">Weekly Goals</h3>
+        <div class="goal-section pr-5">
+          <div class="relative">
+            <h3 class="goal-period-label">Weekly Goals</h3>
+            <button
+              on:click={() => removeGoalsByDuration('week')}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove all weekly goals"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
+          </div>
           {#each groupGoalsByDuration(template.goals).week as goal}
             <ListItem>
-              <div class="ntitle text-sm">
-                <span>{goal.tag}</span>
-                <span>{goal.comparison}</span>
-                <span>{goal.target}</span>
+              <div class="relative pr-12 w-full">
+                <div class="ntitle text-sm">
+                  <span>{goal.tag}</span>
+                  <span>{goal.comparison}</span>
+                  <span>{goal.target}</span>
+                </div>
+                <button
+                  on:click={() => removeGoal(goal.id)}
+                  class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+                  title="Remove this goal"
+                >
+                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                </button>
               </div>
             </ListItem>
           {/each}
         </div>
       {/if}
       {#if groupGoalsByDuration(template.goals).month.length > 0}
-        <div class="goal-section">
-          <h3 class="goal-period-label">Monthly Goals</h3>
+        <div class="goal-section pr-5">
+          <div class="relative">
+            <h3 class="goal-period-label">Monthly Goals</h3>
+            <button
+              on:click={() => removeGoalsByDuration('month')}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove all monthly goals"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
+          </div>
           {#each groupGoalsByDuration(template.goals).month as goal}
             <ListItem>
-              <div class="ntitle text-sm">
-                <span>{goal.tag}</span>
-                <span>{goal.comparison}</span>
-                <span>{goal.target}</span>
+              <div class="relative pr-12 w-full">
+                <div class="ntitle text-sm">
+                  <span>{goal.tag}</span>
+                  <span>{goal.comparison}</span>
+                  <span>{goal.target}</span>
+                </div>
+                <button
+                  on:click={() => removeGoal(goal.id)}
+                  class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+                  title="Remove this goal"
+                >
+                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                </button>
               </div>
             </ListItem>
           {/each}
         </div>
       {/if}
       {#if groupGoalsByDuration(template.goals).year.length > 0}
-        <div class="goal-section">
-          <h3 class="goal-period-label">Yearly Goals</h3>
+        <div class="goal-section pr-5">
+          <div class="relative">
+            <h3 class="goal-period-label">Yearly Goals</h3>
+            <button
+              on:click={() => removeGoalsByDuration('year')}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove all yearly goals"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
+          </div>
           {#each groupGoalsByDuration(template.goals).year as goal}
             <ListItem>
-              <div class="ntitle text-sm">
-                <span>{goal.tag}</span>
-                <span>{goal.comparison}</span>
-                <span>{goal.target}</span>
+              <div class="relative pr-12 w-full">
+                <div class="ntitle text-sm">
+                  <span>{goal.tag}</span>
+                  <span>{goal.comparison}</span>
+                  <span>{goal.target}</span>
+                </div>
+                <button
+                  on:click={() => removeGoal(goal.id)}
+                  class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+                  title="Remove this goal"
+                >
+                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                </button>
               </div>
             </ListItem>
           {/each}
@@ -909,8 +1076,17 @@
     {:else}
       {#each template.pivots as pivot, index}
         <ListItem>
-          <div class="ntitle">
-            <span>{pivot.emoji}{pivot.tag}</span>
+          <div class="relative pr-12 w-full">
+            <div class="ntitle">
+              <span>{pivot.emoji}{pivot.tag}</span>
+            </div>
+            <button
+              on:click={() => removePivot(pivot.id)}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove this pivot"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
           </div>
         </ListItem>
       {/each}
@@ -930,9 +1106,18 @@
         {@const latStr = isNaN(lat) ? '?' : lat.toFixed(2)}
         {@const lngStr = isNaN(lng) ? '?' : lng.toFixed(2)}
         <ListItem>
-          <div class="ntitle text-sm">
-            <span>{location.name}</span>
-            <span class="text-gray-500 text-xs">({latStr}, {lngStr})</span>
+          <div class="relative pr-12 w-full">
+            <div class="ntitle text-sm">
+              <span>{location.name}</span>
+              <span class="text-gray-500 text-xs">({latStr}, {lngStr})</span>
+            </div>
+            <button
+              on:click={() => removeLocation(location.id)}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove this location"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
           </div>
         </ListItem>
       {/each}
@@ -947,9 +1132,18 @@
     {:else}
       {#each template.plugins as plugin, index}
         <ListItem>
-          <div class="ntitle text-sm">
-            <span>{plugin.emoji || '🔌'} {plugin.name}</span>
-            <span class="text-gray-500 text-xs">{plugin.version}</span>
+          <div class="relative pr-12 w-full">
+            <div class="ntitle text-sm">
+              <span>{plugin.emoji || '🔌'} {plugin.name}</span>
+              <span class="text-gray-500 text-xs">{plugin.version}</span>
+            </div>
+            <button
+              on:click={() => removePlugin(plugin.id)}
+              class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
+              title="Remove this plugin"
+            >
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+            </button>
           </div>
         </ListItem>
       {/each}
