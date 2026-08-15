@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import { strToTokens } from './../../modules/tokenizer/lite'
+  import { get } from 'svelte/store'
   import { CombinedBoards } from './../board/UniboardStore'
   
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
@@ -169,6 +170,19 @@
 
     if (usedByDashboard) {
       reasons.push('a dashboard widget')
+    }
+
+    // Check if used by any pivot (rows, cols, or vals)
+    if (template.pivots.some((pivot) => {
+      if (!pivot?.options) return false
+      const { rows = [], cols = [], vals = [] } = pivot.options
+      return (
+        rows.includes(trackableTag) ||
+        cols.includes(trackableTag) ||
+        vals.includes(trackableTag)
+      )
+    })) {
+      reasons.push('a pivot')
     }
 
     // Note: Trackables used in tabs are removable since they're automatically cleaned up from tabs when removed
@@ -573,12 +587,31 @@
           } else {
             template.pivots.push(pivot)
           }
+
+          // Add trackables used in pivot (rows, cols, vals) to template if not already present
+          if (pivot.options) {
+            const { rows = [], cols = [], vals = [] } = pivot.options
+            const tagsToAdd = new Set([...rows, ...cols, ...vals])
+            const trackableStoreValue = get(TrackableStore)
+
+            for (const tag of tagsToAdd) {
+              // Check if trackable already in template
+              if (!template.trackables.some(t => getTrackableTag(t) === tag)) {
+                // Look up trackable from store and add it
+                const storeTrackable = trackableStoreValue.trackables?.[tag]
+                if (storeTrackable) {
+                  template.trackables.push(storeTrackable)
+                }
+              }
+            }
+          }
+
           // Reassign template to trigger reactivity for trackable removal reasons
           template = { ...template }
         },
       }
     })
-    
+
     openPopMenu({
       id: 'import-pivot',
       title: 'Which pivot would you like to import?',
