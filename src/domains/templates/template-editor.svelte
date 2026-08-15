@@ -36,10 +36,15 @@
   import type { PivotClass } from '../analytics/pivot-class'
   import { LocationStore } from '../locations/LocationStore'
   import type { ILocation } from '../locations/LocationClass'
+  import { PluginStore } from '../plugins/PluginStore'
+  import type { PluginType } from '../plugins/plugin-helpers'
+  import LockClosedSolid from '../../n-icons/LockClosedSolid.svelte'
+  import TrashOutline from '../../n-icons/TrashOutline.svelte'
+  import IonIcon from '../../components/icon/ion-icon.svelte'
   // import download from '../../modules/download/download'
   // import { strToTagSafe } from '../trackable/trackable-utils'
 
-  const { template: originalTemplate = $bindable() } = $props<{ template: Template }>()
+  const { template: originalTemplate = $bindable(), onNameChange } = $props<{ template: Template, onNameChange?: (name: string) => void }>()
 
   let template = $state(originalTemplate)
 
@@ -58,6 +63,7 @@
     originalTemplate.goals = template.goals
     originalTemplate.pivots = template.pivots
     originalTemplate.locations = template.locations
+    originalTemplate.plugins = template.plugins
   })
 
   const strToTrackable = (str: string): Trackable | undefined => {
@@ -123,6 +129,76 @@
     initializeDashStore()
   })
 
+  const getTrackableTag = (trackable: Trackable): string | undefined => {
+    if (trackable.type === 'tracker') return trackable.tracker?.tag
+    if (trackable.type === 'context') return trackable.ctx?.tag
+    if (trackable.type === 'person') return trackable.person?.username || trackable.person?.displayName
+    if (trackable.type === 'pointer') return trackable.ptr?.tag
+    return trackable.tag
+  }
+
+  const getTrackableRemovalReason = (trackable: Trackable): string | null => {
+    const reasons: string[] = []
+    const trackableTag = getTrackableTag(trackable)
+
+    if (!trackableTag) return null
+
+    // Check if used by any goal (strip # prefix from goal tag for comparison)
+    if (template.goals.some((goal) => {
+      const goalTag = goal?.tag?.replace(/^#/, '') || ''
+      return goalTag === trackableTag
+    })) {
+      reasons.push('a goal')
+    }
+
+    // Check if used by any dashboard widget
+    let usedByDashboard = false
+    for (const dashboard of template.dashboards) {
+      if (!dashboard?.widgets) continue
+      for (const widget of dashboard.widgets) {
+        if (!widget) continue
+        if (widget.tokens && Array.isArray(widget.tokens)) {
+          if (widget.tokens.some((t) => t && t.id === trackableTag)) {
+            usedByDashboard = true
+            break
+          }
+        }
+      }
+      if (usedByDashboard) break
+    }
+
+    if (usedByDashboard) {
+      reasons.push('a dashboard widget')
+    }
+
+    // Note: Trackables used in tabs are removable since they're automatically cleaned up from tabs when removed
+
+    if (reasons.length === 0) {
+      return null
+    }
+
+    // Format reasons: "Used by a goal and a dashboard widget"
+    if (reasons.length === 1) {
+      return `Used by ${reasons[0]}`
+    }
+
+    return `Used by ${reasons.join(' and ')}`
+  }
+
+  const removeTrackable = (trackable: Trackable) => {
+    // Remove from trackables array
+    template.trackables = template.trackables.filter((t) => t.id !== trackable.id)
+
+    // Remove from boards/tabs
+    template.boards = template.boards.map((board) => ({
+      ...board,
+      elements: board.elements.filter((tag) => tag !== trackable.tag),
+    }))
+
+    // Reassign template to trigger reactivity
+    template = { ...template }
+  }
+
   const getTrackerOptions = (trackable: Trackable) => {
     const buttons = [
       {
@@ -137,14 +213,6 @@
               return t
             })
           })
-        },
-      },
-      {
-        id: 'remove',
-        title: 'Remove from Template',
-        click() {
-          template.trackables = template.trackables.filter((t) => t.id != trackable.id)
-          template.trackables = template.trackables
         },
       },
     ]
@@ -167,6 +235,8 @@
             board.elements = array_utils.unique(board.elements) as Array<string>
             template.boards.push(board)
           }
+          // Reassign template to trigger reactivity for trackable removal reasons
+          template = { ...template }
         },
       }
     })
@@ -251,9 +321,20 @@
   ]
 
   const addRequiredTrackablesFromDashboard = (dashboard: DashboardClass) => {
-    const tokens = dashboard.widgets.map((widget) => {
-      return widget.token
+    const tokens: Array<Token> = []
+
+    // Extract single tokens from widgets
+    dashboard.widgets.forEach((widget) => {
+      if (widget.token) {
+        tokens.push(widget.token)
+      }
+      // Also extract array of tokens if present
+      if (widget.tokens && Array.isArray(widget.tokens)) {
+        tokens.push(...widget.tokens)
+      }
     })
+
+    // Add all extracted tokens to template
     tokens.forEach((token) => {
       if (token) {
         addTokenToTemplate(token)
@@ -261,8 +342,24 @@
     })
   }
 
+  const extractPluginIdsFromDashboard = (dashboard: DashboardClass): Array<string> => {
+    return dashboard.widgets
+      .filter((widget) => widget.type === 'plugin' && widget.data?.pluginId)
+      .map((widget) => widget.data.pluginId)
+  }
+
+  const addRequiredPluginsFromDashboard = (dashboard: DashboardClass) => {
+    const pluginIds = extractPluginIdsFromDashboard(dashboard)
+    pluginIds.forEach((pluginId) => {
+      const plugin = $PluginStore.find((p) => p.id === pluginId)
+      if (plugin && !template.plugins.find((p) => p.id === pluginId)) {
+        template = { ...template, plugins: [...template.plugins, plugin] }
+      }
+    })
+  }
+
   const openDashboardImporter = (dashboards: Array<DashboardClass>) => {
-    
+
     const boardButtons = dashboards.map((dashboard: DashboardClass) => {
       return {
         id: dashboard.id,
@@ -275,7 +372,9 @@
             template.dashboards.push(dashboard)
           }
           addRequiredTrackablesFromDashboard(dashboard)
-          template.dashboards = template.dashboards
+          addRequiredPluginsFromDashboard(dashboard)
+          // Reassign entire template to trigger reactivity for trackable removal reasons
+          template = { ...template }
         },
       }
     })
@@ -347,8 +446,9 @@
           } else {
             template.goals.push(goal)
           }
-          template.goals = template.goals
           addTrackableFromTag(goal.tag)
+          // Reassign template to trigger reactivity for trackable removal reasons
+          template = { ...template }
         },
       }
     })
@@ -378,7 +478,8 @@
           // Add goal's trackable
           addTrackableFromTag(goal.tag)
         })
-        template.goals = template.goals
+        // Reassign template to trigger reactivity for trackable removal reasons
+        template = { ...template }
       },
     })
 
@@ -472,7 +573,8 @@
           } else {
             template.pivots.push(pivot)
           }
-          template.pivots = template.pivots
+          // Reassign template to trigger reactivity for trackable removal reasons
+          template = { ...template }
         },
       }
     })
@@ -550,6 +652,55 @@
     openLocationImporter($LocationStore)
   }
 
+  const openPluginImporter = (plugins: Array<PluginType>) => {
+    const filteredPlugins = plugins.filter((plugin) => !plugin.buildin)
+
+    const buttons = filteredPlugins.map((plugin: PluginType) => {
+      return {
+        title: `${plugin.emoji || '🔌'} ${plugin.name}`,
+        id: plugin.id,
+        click() {
+          let index = template.plugins.findIndex((p) => p.id === plugin.id)
+          if (index > -1) {
+            const updatedPlugins = [...template.plugins]
+            updatedPlugins[index] = plugin
+            template = { ...template, plugins: updatedPlugins }
+          } else {
+            template = { ...template, plugins: [...template.plugins, plugin] }
+          }
+        },
+      }
+    })
+
+    // Add "Add All" button
+    buttons.unshift({
+      title: `✓ Add All Plugins (${filteredPlugins.length})`,
+      id: 'add-all',
+      click() {
+        const updatedPlugins = [...template.plugins]
+        filteredPlugins.forEach((plugin) => {
+          let index = updatedPlugins.findIndex((p) => p.id === plugin.id)
+          if (index > -1) {
+            updatedPlugins[index] = plugin
+          } else {
+            updatedPlugins.push(plugin)
+          }
+        })
+        template = { ...template, plugins: updatedPlugins }
+      },
+    })
+
+    openPopMenu({
+      id: 'import-plugin',
+      title: 'Saved Plugins',
+      buttons: buttons,
+    })
+  }
+
+  const addPlugin = async () => {
+    openPluginImporter($PluginStore)
+  }
+
   const addTrackableOptions = () => {
     openPopMenu({
       id: 'add-trackable',
@@ -563,7 +714,7 @@
     Create a sharable Nomie configuration
   </p>
   <List solo>
-    <Input listItem type="text" placeholder="Template Name" bind:value={template.name} />
+    <Input listItem type="text" placeholder="Template Name" bind:value={template.name} on:input={() => onNameChange?.(template.name)} />
     <Input listItem type="textarea" placeholder="Description" bind:value={template.description} />
   </List>
   <List solo outside title="Trackables">
@@ -573,28 +724,49 @@
         <span class="text-gray-500">No Trackables</span>
       </Empty>
     {:else}
-      <div class="pill-holder px-1 flex flex-wrap py-2">
-        {#each template.trackables as trackable}
-          <button
-            on:click={() => {
-              getTrackerOptions(trackable)
-            }}
-            class="pill"
-            on:click={() => {}}
-          >
-            <TrackableAvatar {trackable} size={20} />
-            {#if trackable.type == 'tracker'}
-            <span class="label">{trackable.tracker.label}</span>
-            {:else if trackable.type == 'person'}
-            <span class="label">{trackable.person.displayName}</span>
-            {:else if trackable.type == 'context'}
-            <span class="label">{trackable.ctx.label}</span>
-            {:else if trackable.type == 'pointer'}
-            <span class="label">{trackable.ptr.label}</span>
+      {#key template.goals.length + template.dashboards.length + template.pivots.length + template.locations.length + template.plugins.length}
+        <div class="pill-holder px-1 flex flex-wrap py-2">
+          {#each template.trackables as trackable (trackable.id)}
+            {@const removalReason = getTrackableRemovalReason(trackable)}
+          <div class="pill-wrapper relative" data-trackable-id={trackable.id}>
+            <button
+              on:click={() => {
+                getTrackerOptions(trackable)
+              }}
+              class="pill"
+            >
+              <TrackableAvatar {trackable} size={20} />
+              {#if trackable.type == 'tracker'}
+              <span class="label">{trackable.tracker.label}</span>
+              {:else if trackable.type == 'person'}
+              <span class="label">{trackable.person.displayName}</span>
+              {:else if trackable.type == 'context'}
+              <span class="label">{trackable.ctx.label}</span>
+              {:else if trackable.type == 'pointer'}
+              <span class="label">{trackable.ptr.label}</span>
+              {/if}
+            </button>
+            {#if removalReason}
+              <div class="icon-badge lock-badge cursor-help group" title={removalReason}>
+                <IonIcon icon={LockClosedSolid} size={10} className="text-white" />
+                <div class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">
+                  {removalReason}
+                </div>
+              </div>
+            {:else}
+            {:else}
+              <button
+                on:click={() => removeTrackable(trackable)}
+                class="icon-badge trash-badge hover:brightness-110"
+                title="Remove trackable"
+              >
+                <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              </button>
             {/if}
-          </button>
+          </div>
         {/each}
       </div>
+      {/key}
     {/if}
   </List>
   <List solo outside title="Tabs">
@@ -733,6 +905,23 @@
       {/each}
     {/if}
   </List>
+  <List solo outside title="Plugins">
+    <Button size="sm" on:click={() => addPlugin()} primary clear slot="header-right">+ Add</Button>
+    {#if !template.plugins.length}
+      <Empty small>
+        <span class="text-gray-500">No Plugins</span>
+      </Empty>
+    {:else}
+      {#each template.plugins as plugin, index}
+        <ListItem>
+          <div class="ntitle text-sm">
+            <span>{plugin.emoji || '🔌'} {plugin.name}</span>
+            <span class="text-gray-500 text-xs">{plugin.version}</span>
+          </div>
+        </ListItem>
+      {/each}
+    {/if}
+  </List>
 {:else}
   No template found
 {/if}
@@ -766,5 +955,26 @@
     @apply text-xs font-semibold text-gray-600 dark:text-gray-400;
     @apply px-4 py-2 uppercase tracking-wide;
     @apply bg-gray-50 dark:bg-gray-900;
+  }
+
+  .pill-wrapper {
+    @apply m-1;
+  }
+
+  .pill-wrapper .group:hover > div {
+    @apply block;
+  }
+
+  .icon-badge {
+    @apply absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center;
+    border-radius: 50%;
+  }
+
+  .lock-badge {
+    @apply bg-gray-600 dark:bg-gray-500;
+  }
+
+  .trash-badge {
+    @apply bg-red-500;
   }
 </style>

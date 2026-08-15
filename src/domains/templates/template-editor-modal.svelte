@@ -17,9 +17,10 @@
   }
 
   const save = async () => {
-   
     await TemplateStore.upsert(template)
+    await TemplateStore.init()
     showToast({ message: 'Template saved' })
+    close()
   }
 
   const remove = async () => {
@@ -29,15 +30,23 @@
  }
 
   let { id, template = $bindable() } = $props()
+
+  let templateVersion = $state(0)
+
+  let isValidName = $derived.by(() => {
+    // Access version to track changes
+    templateVersion
+    return template.name && template.name.trim().length > 0
+  })
 </script>
 
 <BackdropModal className="h-full" mainClass="bg-gray-100 dark:bg-gray-800">
   <ToolbarGrid slot="header">
     <Button slot="left" primary clear on:click={() => close()}>Close</Button>
     <Title>{template.name || 'Create a Template'}</Title>
-    <Button slot="right" primary clear on:click={() => save()}>Save</Button>
+    <Button slot="right" primary clear on:click={() => save()} disabled={!isValidName}>Save</Button>
   </ToolbarGrid>
   <main class="lg:p-6 p-4">
-    <TemplateEditor bind:template />
+    <TemplateEditor bind:template onNameChange={() => (templateVersion++)} />
   </main>
 </BackdropModal>

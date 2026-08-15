@@ -12,6 +12,7 @@ import type { StorageBackupType } from "../storage/storage-export.helper"
 import type { Trackable } from "../trackable/Trackable.class"
 import { UOMClass } from "../uom/uom.class"
 import type { ILocation } from "../locations/LocationClass"
+import type { PluginType } from "../plugins/plugin-helpers"
 
 
 
@@ -27,6 +28,7 @@ export type TemplateType = {
   boards: Array<UniboardType>
   dashboards: Array<DashboardClass>
   locations: Array<ILocation>
+  plugins: Array<PluginType>
 }
 
 /* `Template` is a class that represents a template for a user's data */
@@ -43,6 +45,7 @@ export class Template {
   boards: Array<UniboardType>
   dashboards: Array<DashboardClass>
   locations: Array<ILocation>
+  plugins: Array<PluginType>
   constructor(starter?:TemplateType) {
     let base:any = starter || {};
     this.id = base.id || nid();
@@ -56,6 +59,7 @@ export class Template {
     this.boards = base.boards ? base.boards : [];
     this.dashboards = base.dashboards ? base.dashboards : [];
     this.locations = base.locations ? base.locations : [];
+    this.plugins = base.plugins ? base.plugins : [];
   }
 
   get asObject() {
