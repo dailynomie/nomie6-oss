@@ -10,7 +10,7 @@ import { onMount } from 'svelte';
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
   import DownloadOutline from '../../n-icons/DownloadOutline.svelte'
   import RemoveOutline from '../../n-icons/RemoveCircleOutline.svelte'
-  import PlayOutline from '../../n-icons/PlayOutline.svelte'
+  import PlayBackCircle from '../../n-icons/PlayBackCircle.svelte'
   import { strToTagSafe } from '../trackable/trackable-utils'
   import { openTemplateEditor, TemplateStore, useTemplate } from './templates-svelte-helpers'
   import type { Template } from './templates-utils'
@@ -53,7 +53,7 @@ import { onMount } from 'svelte';
           useTemplate(template, 'template-manager')
         }}
         icon
-        primary><IonIcon icon={PlayOutline} /></Button
+        primary><IonIcon icon={PlayBackCircle} /></Button
       >
       <Button
         on:click={() => {
