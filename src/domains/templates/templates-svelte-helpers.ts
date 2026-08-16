@@ -16,6 +16,7 @@ import { initUniboardStore } from '../board/UniboardStore'
 import { LocationStore } from '../locations/LocationStore'
 import { GoalStore } from '../goals/GoalStore'
 import { PivotStore } from '../analytics/PivotStore'
+import { PluginStore } from '../plugins/PluginStore'
 import is from '../../utils/is/is'
 import { navigate } from '../../vendor/svelte-navigator'
 
@@ -151,5 +152,6 @@ export const useTemplate = async (template: Template, closeModalId: string = 'te
     LocationStore.init();
     GoalStore.init();
     PivotStore.init();
+    PluginStore.init();
   }
 }
