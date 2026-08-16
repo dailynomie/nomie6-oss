@@ -131,14 +131,15 @@ export const closeTemplateEditor = () => {
  * It takes a template object, asks the user if they want to install it, and if they do, it converts
  * the template to an importable archive, imports it, and closes the modal
  * @param {Template} template - Template - this is the template object that is passed to the function.
+ * @param {string} closeModalId - Optional modal ID to close after import (defaults to 'template-preview')
  */
-export const useTemplate = async (template: Template) => {
+export const useTemplate = async (template: Template, closeModalId: string = 'template-preview') => {
   const confirmed = await Interact.confirm(`Install the ${template.name} template?`)
   if (confirmed) {
     const backup: any = TemplateToImport(template, getRawPrefs().useMetric)
     await importStorageArchive(backup, { silent: true })
     showToast({ message: `${template.name} installed` })
-    closeModal('template-preview')
+    closeModal(closeModalId)
     let trackables = await InitTrackableStore();
     initializeDashStore();
     initUniboardStore(trackables);

@@ -10,8 +10,9 @@ import { onMount } from 'svelte';
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
   import DownloadOutline from '../../n-icons/DownloadOutline.svelte'
   import RemoveOutline from '../../n-icons/RemoveCircleOutline.svelte'
+  import PlayOutline from '../../n-icons/PlayOutline.svelte'
   import { strToTagSafe } from '../trackable/trackable-utils'
-  import { openTemplateEditor, TemplateStore } from './templates-svelte-helpers'
+  import { openTemplateEditor, TemplateStore, useTemplate } from './templates-svelte-helpers'
   import type { Template } from './templates-utils'
   import { showToast } from '../../components/toast/ToastStore'
 
@@ -47,6 +48,13 @@ import { onMount } from 'svelte';
       </p>
     </main>
     <div slot="right" class="flex items-center space-x-2">
+      <Button
+        on:click={() => {
+          useTemplate(template, 'template-manager')
+        }}
+        icon
+        primary><IonIcon icon={PlayOutline} /></Button
+      >
       <Button
         on:click={() => {
           openTemplateEditor(template)
