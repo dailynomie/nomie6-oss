@@ -2,6 +2,7 @@ import { closeModal, openModal } from '../../components/backdrop/BackdropStore2'
 import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import { Template } from './templates-utils'
+import { Trackable } from '../trackable/Trackable.class'
 import TemplateEditorModal from './template-editor-modal.svelte'
 import TemplateManagerModal from './template-manager-modal.svelte'
 import { Interact } from '../../store/interact'
@@ -87,6 +88,12 @@ export const openTemplateRef = async (url: string) => {
     const call = await fetch(url)
     const payload = await call.json()
     if (payload && payload.type == 'template') {
+      // Convert trackables to Trackable instances for proper reactivity
+      if (payload.trackables && Array.isArray(payload.trackables)) {
+        payload.trackables = payload.trackables.map((t: any) =>
+          t instanceof Trackable ? t : new Trackable(t)
+        )
+      }
       const template = new Template(payload)
       return openTemplatePreview(template)
     } else {
