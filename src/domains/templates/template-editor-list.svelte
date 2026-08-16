@@ -10,7 +10,7 @@ import { onMount } from 'svelte';
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
   import DownloadOutline from '../../n-icons/DownloadOutline.svelte'
   import RemoveOutline from '../../n-icons/RemoveCircleOutline.svelte'
-  import PlayBackCircle from '../../n-icons/PlayBackCircle.svelte'
+  import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte'
   import { strToTagSafe } from '../trackable/trackable-utils'
   import { openTemplateEditor, TemplateStore, useTemplate } from './templates-svelte-helpers'
   import type { Template } from './templates-utils'
@@ -50,13 +50,6 @@ import { onMount } from 'svelte';
     <div slot="right" class="flex items-center space-x-2">
       <Button
         on:click={() => {
-          useTemplate(template, 'template-manager')
-        }}
-        icon
-        primary><IonIcon icon={PlayBackCircle} /></Button
-      >
-      <Button
-        on:click={() => {
           openTemplateEditor(template)
         }}
         icon
@@ -75,6 +68,13 @@ import { onMount } from 'svelte';
         }}
         icon
         primary><IonIcon icon={RemoveOutline} /></Button
+      >
+      <Button
+        on:click={() => {
+          useTemplate(template, 'template-manager')
+        }}
+        icon
+        primary><IonIcon icon={CheckmarkCircleOutline} /></Button
       >
     </div>
   </ListItem>

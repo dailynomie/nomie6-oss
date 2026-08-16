@@ -13,6 +13,9 @@ import { getRawPrefs } from '../preferences/Preferences'
 import { InitTrackableStore, TrackableStore } from '../trackable/TrackableStore'
 import { initializeDashStore } from '../dashboard2/DashStore'
 import { initUniboardStore } from '../board/UniboardStore'
+import { LocationStore } from '../locations/LocationStore'
+import { GoalStore } from '../goals/GoalStore'
+import { PivotStore } from '../analytics/PivotStore'
 import is from '../../utils/is/is'
 import { navigate } from '../../vendor/svelte-navigator'
 
@@ -140,8 +143,13 @@ export const useTemplate = async (template: Template, closeModalId: string = 'te
     await importStorageArchive(backup, { silent: true })
     showToast({ message: `${template.name} installed` })
     closeModal(closeModalId)
+
+    // Reinitialize all stores to load newly imported data
     let trackables = await InitTrackableStore();
     initializeDashStore();
     initUniboardStore(trackables);
+    LocationStore.init();
+    GoalStore.init();
+    PivotStore.init();
   }
 }
