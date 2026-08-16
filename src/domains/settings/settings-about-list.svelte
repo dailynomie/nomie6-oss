@@ -32,7 +32,7 @@
 
   $effect(() => {
     counts.trackers = Object.keys($TrackerStore).length
-    counts.context = $ContextStore.length
+    counts.context = Object.keys($ContextStore).length
     counts.pointers = $PointerStore.length
     counts.people = Object.keys($PeopleStore).length
     counts.total = Object.keys($TrackableStore).length
