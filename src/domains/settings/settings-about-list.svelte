@@ -17,6 +17,7 @@
   import { LocationStore } from '../locations/LocationStore'
   import { PluginStore } from '../plugins/PluginStore'
   import { TemplateStore } from '../templates/templates-svelte-helpers'
+  import { AwardStore } from '../awards/AwardsStore'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
 
@@ -29,6 +30,7 @@
     locations: 0,
     plugins: 0,
     templates: 0,
+    awards: 0,
     total: 0,
   })
 
@@ -41,6 +43,7 @@
     counts.locations = $LocationStore.length
     counts.plugins = $PluginStore.length
     counts.templates = $TemplateStore.length
+    counts.awards = $AwardStore.awards.length
     counts.reminders = $PointerStore.filter((pointer) => {
       return pointer.reminder == true
     }).length
@@ -123,6 +126,9 @@
   </ListItem>
   <ListItem bottomLine={16} title="Templates">
     <div slot="right">{counts.templates}</div>
+  </ListItem>
+  <ListItem bottomLine={16} title="Awards">
+    <div slot="right">{counts.awards}</div>
   </ListItem>
   <ListItem title="Plugins">
     <div slot="right">{counts.plugins}</div>
