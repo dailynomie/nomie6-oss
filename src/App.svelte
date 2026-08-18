@@ -58,8 +58,9 @@
   import { PluginStore } from './domains/plugins/PluginStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
+  import { showMigrationNotice } from './domains/migration/migration-notice'
 
-  
+
   // initiailze gestures
   gestures()
 
@@ -208,6 +209,9 @@
 
   onMount(async () => {
     await boot()
+
+    // Show migration notice if it's time
+    showMigrationNotice()
 
     // Initialize the Plugins
     PluginStore.init({})

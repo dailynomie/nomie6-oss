@@ -29,7 +29,8 @@ export const createArrayStore = (path: string, props: DocStorePropTypes) => {
     // If any data passed, save it for later
     data = _data
     // Get the Map From Storage
-    const items = ((await Storage.get(path)) || []).map((item: any) => {
+    const stored = await Storage.get(path)
+    const items = (Array.isArray(stored) ? stored : []).map((item: any) => {
       if (props.itemInitializer) return props.itemInitializer(item)
       return item
     })

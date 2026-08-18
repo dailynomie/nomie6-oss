@@ -1,6 +1,10 @@
 {
   "features": [
     {
+      "version": "6.7.4.2-dn",
+      "title": "Version update notifications"
+    },
+    {
       "version": "6.7.4-dn",
       "title": "Introducing pointers"
     },
@@ -271,6 +275,10 @@
     }
   ],
   "fixes": [
+    {
+      "version": "6.7.4.2-dn",
+      "title": "Fixed ArrayStore initialization to handle non-array storage values"
+    },
     {
       "version": "6.7.4.2-dn",
       "title": "Prepared for Nomie Server"
