@@ -4,6 +4,7 @@ public/bundle.*
 artifacts
 plugins/*
 public/vendors/*
+bin/
 # Local Netlify folder
 .netlify
 
