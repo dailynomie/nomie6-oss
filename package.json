@@ -17,11 +17,11 @@
   },
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 5001",
-    "vbuild": "vite build",
+    "vbuild": "node --max-old-space-size=4096 ./node_modules/vite/bin/vite.js build",
     "vserve": "vite preview --host 0.0.0.0 --port 5000",
     "serve": "vite serve",
     "generate-whatsnew": "node build-tools/generate-whats-new.js && git add . && git commit -m 'build: whats new'",
-    "generate-zip": "npm run vbuild && node build-tools/generate-zip.js",
+    "generate-zip": "npm run vbuild && node --max-old-space-size=4096 build-tools/generate-zip.js",
     "commit": "git cz",
     "pre:run": "node build-tools/move-resources.js && node build-tools/bundle-vendors.js",
     "autobuild": "rollup -c -w",
