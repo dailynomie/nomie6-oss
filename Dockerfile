@@ -2,7 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /usr/app
 COPY ./package.json ./package-lock.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 COPY ./ /usr/app
 RUN NODE_OPTIONS=--max-old-space-size=8192 npm run vbuild
 
