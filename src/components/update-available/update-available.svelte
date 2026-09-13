@@ -16,9 +16,30 @@
     },
   })
 
+  import { onMount } from 'svelte'
+
   let isBackingUp = false
-  // TEST MODE: Reactive variable to test update notification on every startup
-  let testMode = localStorage.getItem('nomie-update-test-mode') === 'true'
+  // TEST MODE: Check localStorage on every mount and reactively
+  let testMode = false
+
+  onMount(() => {
+    // Check on mount
+    testMode = localStorage.getItem('nomie-update-test-mode') === 'true'
+    console.log('🧪 Component mounted, testMode from localStorage:', testMode)
+
+    // Watch for storage changes
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'nomie-update-test-mode') {
+        testMode = localStorage.getItem('nomie-update-test-mode') === 'true'
+        console.log('🧪 Storage changed, testMode now:', testMode)
+      }
+    }
+    window.addEventListener('storage', handleStorageChange)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+    }
+  })
 
   // Debug logging
   $: {
