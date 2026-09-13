@@ -19,6 +19,7 @@
   import { onMount } from 'svelte'
 
   let isBackingUp = false
+  let backdropZIndex = 8999
   // TEST MODE: Check localStorage on every mount and reactively
   let testMode = false
 
@@ -65,6 +66,7 @@
 
   async function backupAndUpdate() {
     isBackingUp = true
+    backdropZIndex = 100 // Lower z-index so backup modal can be on top
     try {
       const backupSuccess = await generateBackup()
       if (backupSuccess) {
@@ -75,11 +77,13 @@
         }, 1000)
       } else {
         isBackingUp = false
+        backdropZIndex = 8999 // Restore z-index if backup cancelled
       }
     } catch (error) {
       console.error('Backup error:', error)
       showToast({ message: '❌ Backup failed. Please try again.', type: 'error' })
       isBackingUp = false
+      backdropZIndex = 8999 // Restore z-index on error
     }
   }
 
@@ -94,7 +98,7 @@
 {/if}
 
 {#if toast}
-  <div class="install-backdrop" style="z-index:8999">
+  <div class="install-backdrop" style="z-index:{backdropZIndex}">
     <div class="pwa-toast" role="alert">
       <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-black message">
         {#if $offlineReady}
