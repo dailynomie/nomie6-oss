@@ -1,6 +1,10 @@
 {
   "features": [
     {
+      "version": "6.7.4.2a-dn",
+      "title": "Backup before update feature added"
+    },
+    {
       "version": "6.7.4.2-dn",
       "title": "Version update notifications"
     },
