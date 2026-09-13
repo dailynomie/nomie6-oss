@@ -17,10 +17,23 @@
   })
 
   let isBackingUp = false
+  // TEST MODE: Set to true to test update notification on every startup
+  const TEST_MODE = localStorage.getItem('nomie-update-test-mode') === 'true'
 
   function close() {
     offlineReady.set(false)
     needRefresh.set(false)
+  }
+
+  function toggleTestMode() {
+    const isEnabled = localStorage.getItem('nomie-update-test-mode') === 'true'
+    if (isEnabled) {
+      localStorage.removeItem('nomie-update-test-mode')
+      alert('✅ Test mode disabled. Reload the app.')
+    } else {
+      localStorage.setItem('nomie-update-test-mode', 'true')
+      alert('✅ Test mode enabled. Reload the app to see the update notification.')
+    }
   }
 
   async function backupAndUpdate() {
@@ -43,8 +56,8 @@
     }
   }
 
-  $: toast = $needRefresh
-  // let toast = true
+  // TEST MODE: Show notification on every startup when enabled
+  $: toast = TEST_MODE || $needRefresh
 </script>
 
 {#if toast}
@@ -53,18 +66,31 @@
       <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-black message">
         {#if $offlineReady}
           <span>App ready to work offline</span>
-        {:else if $needRefresh}
+        {:else if $needRefresh || TEST_MODE}
           <h1 class="mb-2 text-2xl font-bold text-black">🎉 Update Available</h1>
           <p>A new version of Nomie is ready to use.</p>
+          {#if TEST_MODE}
+            <p class="mt-2 text-xs text-gray-600 italic">🧪 TEST MODE - Click toggle button to disable</p>
+          {/if}
         {/if}
       </div>
 
       <div class="flex items-center justify-end space-x-4">
+        {#if TEST_MODE}
+          <button
+            aria-label="Toggle test mode"
+            on:click={toggleTestMode}
+            class="px-4 py-2 text-xs font-bold bg-yellow-200 text-yellow-800 shadow-sm rounded-xl"
+          >
+            🧪 Disable Test
+          </button>
+        {/if}
+
         <button class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600" on:click={close}>
           Later
         </button>
 
-        {#if $needRefresh}
+        {#if $needRefresh || TEST_MODE}
           <button
             aria-label="Backup before updating"
             on:click={backupAndUpdate}
