@@ -1,5 +1,7 @@
 <script lang="ts">
   import { useRegisterSW } from 'virtual:pwa-register/svelte'
+  import { generateBackup } from '../../domains/backup/BackupStore'
+  import { showToast } from '../toast/ToastStore'
 
   const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
     onRegistered(swr: ServiceWorkerRegistration) {
@@ -14,17 +16,42 @@
     },
   })
 
+  let isBackingUp = false
+  let backdropZIndex = 8999
+
   function close() {
     offlineReady.set(false)
     needRefresh.set(false)
   }
 
+  async function backupAndUpdate() {
+    isBackingUp = true
+    backdropZIndex = 100 // Lower z-index so backup modal can be on top
+    try {
+      const backupSuccess = await generateBackup()
+      if (backupSuccess) {
+        showToast({ message: '✅ Backup complete! Updating app...', type: 'success' })
+        // Wait a moment for the toast to show, then update
+        setTimeout(() => {
+          updateServiceWorker(true)
+        }, 1000)
+      } else {
+        isBackingUp = false
+        backdropZIndex = 8999 // Restore z-index if backup cancelled
+      }
+    } catch (error) {
+      console.error('Backup error:', error)
+      showToast({ message: '❌ Backup failed. Please try again.', type: 'error' })
+      isBackingUp = false
+      backdropZIndex = 8999 // Restore z-index on error
+    }
+  }
+
   $: toast = $needRefresh
-  // let toast = true
 </script>
 
 {#if toast}
-  <div class="install-backdrop" style="z-index:8999">
+  <div class="install-backdrop" style="z-index:{backdropZIndex}">
     <div class="pwa-toast" role="alert">
       <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-black message">
         {#if $offlineReady}
@@ -41,6 +68,14 @@
         </button>
 
         {#if $needRefresh}
+          <button
+            aria-label="Backup before updating"
+            on:click={backupAndUpdate}
+            disabled={isBackingUp}
+            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-green-600 disabled:opacity-50"
+          >
+            {isBackingUp ? '💾 Backing up...' : '💾 Backup First'}
+          </button>
           <button
             aria-label="Update the App"
             on:click={() => updateServiceWorker(true)}
