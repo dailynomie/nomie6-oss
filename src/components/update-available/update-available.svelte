@@ -20,6 +20,11 @@
   // TEST MODE: Reactive variable to test update notification on every startup
   let testMode = localStorage.getItem('nomie-update-test-mode') === 'true'
 
+  // Debug logging
+  $: {
+    console.log('🔍 Update Available Component - testMode:', testMode, 'needRefresh:', $needRefresh, 'offlineReady:', $offlineReady)
+  }
+
   function close() {
     offlineReady.set(false)
     needRefresh.set(false)
@@ -61,6 +66,12 @@
   // TEST MODE: Show notification on every startup when enabled
   $: toast = testMode || $needRefresh
 </script>
+
+{#if testMode}
+  <div style="position: fixed; top: 10px; left: 10px; background: yellow; color: black; padding: 10px; z-index: 9999; border-radius: 5px; font-weight: bold;">
+    🧪 TEST MODE ON - toast={toast}
+  </div>
+{/if}
 
 {#if toast}
   <div class="install-backdrop" style="z-index:8999">
