@@ -16,52 +16,12 @@
     },
   })
 
-  import { onMount } from 'svelte'
-
   let isBackingUp = false
   let backdropZIndex = 8999
-  // TEST MODE: Check localStorage on every mount and reactively
-  let testMode = false
-
-  onMount(() => {
-    // Check on mount - also check window for direct setting
-    const storageValue = localStorage.getItem('nomie-update-test-mode')
-    const windowValue = (window as any).nomieTestMode
-    testMode = storageValue === 'true' || windowValue === true
-    console.log('🧪 Component mounted')
-    console.log('  - localStorage nomie-update-test-mode:', storageValue)
-    console.log('  - window.nomieTestMode:', windowValue)
-    console.log('  - testMode result:', testMode)
-
-    // Watch for storage changes
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'nomie-update-test-mode') {
-        testMode = localStorage.getItem('nomie-update-test-mode') === 'true'
-        console.log('🧪 Storage changed, testMode now:', testMode)
-      }
-    }
-    window.addEventListener('storage', handleStorageChange)
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange)
-    }
-  })
-
-  // Debug logging
-  $: {
-    console.log('🔍 Update Available Component - testMode:', testMode, 'needRefresh:', $needRefresh, 'offlineReady:', $offlineReady)
-  }
 
   function close() {
     offlineReady.set(false)
     needRefresh.set(false)
-  }
-
-  function toggleTestMode() {
-    testMode = !testMode
-    localStorage.setItem('nomie-update-test-mode', testMode ? 'true' : 'false')
-    (window as any).nomieTestMode = testMode
-    console.log('🧪 Test mode toggled to:', testMode)
   }
 
   async function backupAndUpdate() {
@@ -87,15 +47,8 @@
     }
   }
 
-  // TEST MODE: Show notification on every startup when enabled
-  $: toast = testMode || $needRefresh
+  $: toast = $needRefresh
 </script>
-
-{#if testMode}
-  <div style="position: fixed; top: 10px; left: 10px; background: yellow; color: black; padding: 10px; z-index: 9999; border-radius: 5px; font-weight: bold;">
-    🧪 TEST MODE ON - toast={toast}
-  </div>
-{/if}
 
 {#if toast}
   <div class="install-backdrop" style="z-index:{backdropZIndex}">
@@ -103,31 +56,18 @@
       <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-black message">
         {#if $offlineReady}
           <span>App ready to work offline</span>
-        {:else if $needRefresh || testMode}
+        {:else if $needRefresh}
           <h1 class="mb-2 text-2xl font-bold text-black">🎉 Update Available</h1>
           <p>A new version of Nomie is ready to use.</p>
-          {#if testMode}
-            <p class="mt-2 text-xs text-gray-600 italic">🧪 TEST MODE - Click toggle button to disable</p>
-          {/if}
         {/if}
       </div>
 
       <div class="flex items-center justify-end space-x-4">
-        {#if testMode}
-          <button
-            aria-label="Toggle test mode"
-            on:click={toggleTestMode}
-            class="px-4 py-2 text-xs font-bold bg-yellow-200 text-yellow-800 shadow-sm rounded-xl"
-          >
-            🧪 Disable Test
-          </button>
-        {/if}
-
         <button class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600" on:click={close}>
           Later
         </button>
 
-        {#if $needRefresh || testMode}
+        {#if $needRefresh}
           <button
             aria-label="Backup before updating"
             on:click={backupAndUpdate}
