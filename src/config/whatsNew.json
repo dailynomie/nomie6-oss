@@ -1,6 +1,10 @@
 {
   "features": [
     {
+      "version": "6.7.4.2a-dn",
+      "title": "Added backup option in update dialogue"
+    },
+    {
       "version": "6.7.4.2-dn",
       "title": "Version update notifications"
     },
