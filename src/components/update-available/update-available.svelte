@@ -23,9 +23,14 @@
   let testMode = false
 
   onMount(() => {
-    // Check on mount
-    testMode = localStorage.getItem('nomie-update-test-mode') === 'true'
-    console.log('🧪 Component mounted, testMode from localStorage:', testMode)
+    // Check on mount - also check window for direct setting
+    const storageValue = localStorage.getItem('nomie-update-test-mode')
+    const windowValue = (window as any).nomieTestMode
+    testMode = storageValue === 'true' || windowValue === true
+    console.log('🧪 Component mounted')
+    console.log('  - localStorage nomie-update-test-mode:', storageValue)
+    console.log('  - window.nomieTestMode:', windowValue)
+    console.log('  - testMode result:', testMode)
 
     // Watch for storage changes
     const handleStorageChange = (e: StorageEvent) => {
@@ -52,16 +57,10 @@
   }
 
   function toggleTestMode() {
-    const isEnabled = localStorage.getItem('nomie-update-test-mode') === 'true'
-    if (isEnabled) {
-      localStorage.removeItem('nomie-update-test-mode')
-      testMode = false
-      console.log('🧪 Test mode disabled')
-    } else {
-      localStorage.setItem('nomie-update-test-mode', 'true')
-      testMode = true
-      console.log('🧪 Test mode enabled')
-    }
+    testMode = !testMode
+    localStorage.setItem('nomie-update-test-mode', testMode ? 'true' : 'false')
+    (window as any).nomieTestMode = testMode
+    console.log('🧪 Test mode toggled to:', testMode)
   }
 
   async function backupAndUpdate() {
