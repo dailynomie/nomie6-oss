@@ -1,5 +1,7 @@
 <script lang="ts">
   import { useRegisterSW } from 'virtual:pwa-register/svelte'
+  import { generateBackup } from '../../domains/backup/BackupStore'
+  import { showToast } from '../toast/ToastStore'
 
   const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
     onRegistered(swr: ServiceWorkerRegistration) {
@@ -14,9 +16,31 @@
     },
   })
 
+  let isBackingUp = false
+
   function close() {
     offlineReady.set(false)
     needRefresh.set(false)
+  }
+
+  async function backupAndUpdate() {
+    isBackingUp = true
+    try {
+      const backupSuccess = await generateBackup()
+      if (backupSuccess) {
+        showToast({ message: '✅ Backup complete! Updating app...', type: 'success' })
+        // Wait a moment for the toast to show, then update
+        setTimeout(() => {
+          updateServiceWorker(true)
+        }, 1000)
+      } else {
+        isBackingUp = false
+      }
+    } catch (error) {
+      console.error('Backup error:', error)
+      showToast({ message: '❌ Backup failed. Please try again.', type: 'error' })
+      isBackingUp = false
+    }
   }
 
   $: toast = $needRefresh
@@ -41,6 +65,14 @@
         </button>
 
         {#if $needRefresh}
+          <button
+            aria-label="Backup before updating"
+            on:click={backupAndUpdate}
+            disabled={isBackingUp}
+            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-green-600 disabled:opacity-50"
+          >
+            {isBackingUp ? '💾 Backing up...' : '💾 Backup First'}
+          </button>
           <button
             aria-label="Update the App"
             on:click={() => updateServiceWorker(true)}
