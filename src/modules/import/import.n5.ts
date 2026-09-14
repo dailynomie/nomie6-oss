@@ -101,6 +101,8 @@ export function N5ImportNormalizer(importer: any): INormalizedImport {
       return new Location(loc)
     }),
     dashboards: dashboards,
+    goals: importer.goals || [],
+    pivots: importer.pivots || [],
   }
 
   return final
