@@ -68,6 +68,17 @@
         try {
           importLoader.openPayload(fileData)
           version = importLoader.importer.version
+
+          // Normalize fileData to always have nomie property for template
+          if (!fileData.nomie && fileData.version) {
+            fileData = {
+              ...fileData,
+              nomie: {
+                number: fileData.version,
+                created: fileData.created,
+              }
+            }
+          }
         } catch (e) {
           console.error(e.message)
           Interact.alert('Error', e.message)
