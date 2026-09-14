@@ -46,6 +46,7 @@
     dashboards: { running: false, done: false },
     context: { running: false, done: false },
     pointers: { running: false, done: false },
+    plugins: { running: false, done: false },
     all: { running: false, done: false },
   })
 
@@ -222,6 +223,15 @@
         'locations',
         async () => {
           return await importLoader.importLocations()
+        },
+        confirmation
+      )
+    },
+    async importPlugins(confirmation: boolean = false) {
+      return await methods.run(
+        'plugins',
+        async () => {
+          return await importLoader.importPlugins()
         },
         confirmation
       )
@@ -517,6 +527,24 @@
         <div slot="right" class="text-gray-500 pr-4">No Data</div>
       </ListItem>
     {/if}
+
+      <!-- Plugins -->
+      {#if (importLoader.normalized.plugins || []).length > 0}
+        <ImporterItem
+          emoji="🔌"
+          title="Plugins"
+          count={(importLoader.normalized.plugins || []).length.toLocaleString()}
+          bind:status={importing.plugins}
+          on:import={() => {
+            methods.importPlugins(true)
+          }}
+        />
+      {:else}
+        <ListItem bottomLine={48} title="Plugins">
+          <div slot="left">🔌</div>
+          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+        </ListItem>
+      {/if}
 
       <!-- Dashboards -->
       {#if (importLoader.normalized.dashboards || []).length > 0}
