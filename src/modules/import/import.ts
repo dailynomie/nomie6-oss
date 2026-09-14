@@ -29,6 +29,7 @@ export type INormalizedImport = {
   goals?: Array<GoalClass>
   pivots?: Array<PivotClass>
   logs?: Array<NLog>
+  plugins?: Array<any>
 }
 
 // TODO: replace this with the util version

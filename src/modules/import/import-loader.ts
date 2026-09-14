@@ -20,6 +20,8 @@ import math from '../../utils/math/math'
 import { saveBoardsToStorageAndUpdate } from '../../domains/board/UniboardStore'
 import { GoalStore } from '../../domains/goals/GoalStore'
 import { PivotStore } from '../../domains/analytics/PivotStore'
+import Storage from '../../domains/storage/storage'
+import NPaths from '../../paths'
 
 type IImportTypes = 'dashboards' | 'locations' | 'people' | 'trackers' | 'logs' | 'context' | 'pointers'
 export interface IImportStatus {
@@ -78,6 +80,8 @@ export default class ImportLoader {
       await this.importGoals()
       func({ importing: 'pivots' })
       await this.importPivots()
+      func({ importing: 'plugins' })
+      await this.importPlugins()
       func({ importing: 'logs' })
       await this.importLogs(func)
       return true
@@ -215,6 +219,13 @@ export default class ImportLoader {
         const merged = dedupArray([...existing, ...this.normalized.pivots], 'id')
         return merged
       })
+    }
+    return this
+  }
+
+  public async importPlugins() {
+    if (this.normalized.plugins && this.normalized.plugins.length > 0) {
+      await Storage.put(NPaths.storage.plugins(), this.normalized.plugins)
     }
     return this
   }

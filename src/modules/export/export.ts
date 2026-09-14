@@ -46,6 +46,7 @@ export interface IBackupItems {
   dashboards: Array<DashboardClass>
   context: Array<ContextClass>
   pointers: Array<PointerClass>
+  plugins?: Array<any>
 }
 
 export default class Export {
@@ -74,6 +75,7 @@ export default class Export {
       dashboards: options.dashboards || [],
       context: options.context || [],
       pointers: options.pointers || [],
+      plugins: options.plugins || [],
     }
   }
 
@@ -107,6 +109,10 @@ export default class Export {
       this.fireChange('Locations...')
       let locations = await LocationStore.rawState()
       this.backup.locations = locations || []
+
+      this.fireChange('Plugins...')
+      let plugins = await Storage.get(NPaths.storage.plugins())
+      this.backup.plugins = plugins || []
 
       // Get Trackers
       this.fireChange('Trackers...')

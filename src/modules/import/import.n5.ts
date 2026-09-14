@@ -103,6 +103,7 @@ export function N5ImportNormalizer(importer: any): INormalizedImport {
     dashboards: dashboards,
     goals: importer.goals || [],
     pivots: importer.pivots || [],
+    plugins: importer.plugins || [],
   }
 
   return final
