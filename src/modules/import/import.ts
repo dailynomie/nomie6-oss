@@ -85,7 +85,10 @@ export default class Importer {
       // Support both old format (nomie.number) and new format (version)
       let versionString = normalizedPayload?.nomie?.number || importPayload?.version
       console.log('versionString:', versionString)
-      this.version = parseInt(versionString?.split('.')[0])
+
+      // Extract major version number (handles both "6.7.4..." and "dn6.8.0v..." formats)
+      let majorVersionMatch = versionString?.match(/\d+/)
+      this.version = majorVersionMatch ? parseInt(majorVersionMatch[0]) : NaN
       console.log('Parsed version:', this.version)
 
       if (!this.version) {
