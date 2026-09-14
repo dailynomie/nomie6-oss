@@ -46,6 +46,7 @@
     dashboards: { running: false, done: false },
     context: { running: false, done: false },
     pointers: { running: false, done: false },
+    plugins: { running: false, done: false },
     all: { running: false, done: false },
   })
 
@@ -62,11 +63,23 @@
     // Initialze once we have data.
     init() {
       initialized = true
-      if (fileData.hasOwnProperty('nomie')) {
+      // Support both old format (with 'nomie') and new format (with 'files')
+      if (fileData.hasOwnProperty('nomie') || (fileData.files && fileData.version)) {
         // const importer = new Importer(fileData);
         try {
           importLoader.openPayload(fileData)
           version = importLoader.importer.version
+
+          // Normalize fileData to always have nomie property for template
+          if (!fileData.nomie && fileData.version) {
+            fileData = {
+              ...fileData,
+              nomie: {
+                number: fileData.version,
+                created: fileData.created,
+              }
+            }
+          }
         } catch (e) {
           console.error(e.message)
           Interact.alert('Error', e.message)
@@ -214,6 +227,15 @@
         confirmation
       )
     },
+    async importPlugins(confirmation: boolean = false) {
+      return await methods.run(
+        'plugins',
+        async () => {
+          return await importLoader.importPlugins()
+        },
+        confirmation
+      )
+    },
     // Confirm Import All
     async importAll() {
       let confirmed = await Interact.confirm('Confirm', 'Are you sure? Importing cannot be undone.')
@@ -335,7 +357,7 @@
       />
     {:else if fileData}
       <NItem className="item-divider compact bg-faded">
-        From Nomie {fileData.nomie.number}
+        From Nomie {fileData?.nomie?.number || fileData?.version || 'Unknown'}
       </NItem>
 
       {#if (importLoader.normalized.logs || []).length > 0}
@@ -505,6 +527,24 @@
         <div slot="right" class="text-gray-500 pr-4">No Data</div>
       </ListItem>
     {/if}
+
+      <!-- Plugins -->
+      {#if (importLoader.normalized.plugins || []).length > 0}
+        <ImporterItem
+          emoji="🔌"
+          title="Plugins"
+          count={(importLoader.normalized.plugins || []).length.toLocaleString()}
+          bind:status={importing.plugins}
+          on:import={() => {
+            methods.importPlugins(true)
+          }}
+        />
+      {:else}
+        <ListItem bottomLine={48} title="Plugins">
+          <div slot="left">🔌</div>
+          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+        </ListItem>
+      {/if}
 
       <!-- Dashboards -->
       {#if (importLoader.normalized.dashboards || []).length > 0}

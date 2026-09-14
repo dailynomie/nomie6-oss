@@ -4,7 +4,7 @@ import { Interact } from '../../store/interact'
 import { Lang } from '../../store/lang'
 import dayjs from 'dayjs'
 
-import { exportStorage } from '../storage/import-export'
+import Export from '../../modules/export/export'
 
 const STORAGE_KEY = 'last-backup-date'
 export const BackupStore = writable<undefined | string>(localStorage.getItem(STORAGE_KEY))
@@ -30,7 +30,8 @@ export const generateBackup = async (): Promise<boolean> => {
     `${Lang.t('settings.export-confirm', 'This might take a while if you have a lot of data.')}`
   )
   if (confirmed) {
-    await exportStorage()
+    const exporter = new Export()
+    await exporter.start()
     backupConfirmed()
 
     return true
