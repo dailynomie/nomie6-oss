@@ -347,7 +347,7 @@
       />
     {:else if fileData}
       <NItem className="item-divider compact bg-faded">
-        From Nomie {fileData.nomie.number}
+        From Nomie {fileData?.nomie?.number || fileData?.version || 'Unknown'}
       </NItem>
 
       {#if (importLoader.normalized.logs || []).length > 0}
