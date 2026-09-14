@@ -62,7 +62,8 @@
     // Initialze once we have data.
     init() {
       initialized = true
-      if (fileData.hasOwnProperty('nomie')) {
+      // Support both old format (with 'nomie') and new format (with 'files')
+      if (fileData.hasOwnProperty('nomie') || (fileData.files && fileData.version)) {
         // const importer = new Importer(fileData);
         try {
           importLoader.openPayload(fileData)

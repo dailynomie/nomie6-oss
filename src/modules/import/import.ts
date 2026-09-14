@@ -42,24 +42,53 @@ export function dashCase(str: string): string {
   )
 }
 
+// Convert new backup format (with files) to old format expected by normalizers
+function convertNewFormatToOldFormat(payload: any): any {
+  if (payload.files && payload.version) {
+    const converted: any = {
+      nomie: {
+        number: payload.version,
+        created: payload.created,
+        startDate: payload.startDate,
+        endDate: payload.endDate,
+      }
+    }
+
+    if (payload.files) {
+      Object.keys(payload.files).forEach((path) => {
+        const key = path.replace('.json', '')
+        converted[key] = payload.files[path]
+      })
+    }
+
+    return converted
+  }
+  return payload
+}
+
 export default class Importer {
   original: any
   version: number
   normalized: INormalizedImport
   constructor(importPayload: any) {
     this.original = importPayload
-    this.version = parseInt(importPayload?.nomie?.number?.split('.')[0])
+
+    const normalizedPayload = convertNewFormatToOldFormat(importPayload)
+
+    // Support both old format (nomie.number) and new format (version)
+    let versionString = normalizedPayload?.nomie?.number || importPayload?.version
+    this.version = parseInt(versionString?.split('.')[0])
 
     if (!this.version) {
       throw new Error('Invalid Nomie Backup file')
     } else if (this.version >= 4) {
-      this.normalized = N5ImportNormalizer(importPayload)
+      this.normalized = N5ImportNormalizer(normalizedPayload)
     } else if (this.version == 3) {
-      this.normalized = N3ImportNormalizer(importPayload)
+      this.normalized = N3ImportNormalizer(normalizedPayload)
     } else if (this.version == 2) {
-      this.normalized = N2ImportNormalizer(importPayload)
+      this.normalized = N2ImportNormalizer(normalizedPayload)
     } else if (this.version == 1) {
-      this.normalized = N1ImportNormalizer(importPayload)
+      this.normalized = N1ImportNormalizer(normalizedPayload)
     }
   }
 }
