@@ -44,7 +44,10 @@ export function dashCase(str: string): string {
 
 // Convert new backup format (with files) to old format expected by normalizers
 function convertNewFormatToOldFormat(payload: any): any {
+  console.log('convertNewFormatToOldFormat - payload:', { hasFiles: !!payload.files, hasVersion: !!payload.version, version: payload.version })
+
   if (payload.files && payload.version) {
+    console.log('Converting new backup format to old format')
     const converted: any = {
       nomie: {
         number: payload.version,
@@ -61,8 +64,10 @@ function convertNewFormatToOldFormat(payload: any): any {
       })
     }
 
+    console.log('Converted payload keys:', Object.keys(converted))
     return converted
   }
+  console.log('Returning original payload (not new format)')
   return payload
 }
 
@@ -71,24 +76,34 @@ export default class Importer {
   version: number
   normalized: INormalizedImport
   constructor(importPayload: any) {
-    this.original = importPayload
+    try {
+      this.original = importPayload
 
-    const normalizedPayload = convertNewFormatToOldFormat(importPayload)
+      const normalizedPayload = convertNewFormatToOldFormat(importPayload)
+      console.log('normalizedPayload received in Importer constructor')
 
-    // Support both old format (nomie.number) and new format (version)
-    let versionString = normalizedPayload?.nomie?.number || importPayload?.version
-    this.version = parseInt(versionString?.split('.')[0])
+      // Support both old format (nomie.number) and new format (version)
+      let versionString = normalizedPayload?.nomie?.number || importPayload?.version
+      console.log('versionString:', versionString)
+      this.version = parseInt(versionString?.split('.')[0])
+      console.log('Parsed version:', this.version)
 
-    if (!this.version) {
-      throw new Error('Invalid Nomie Backup file')
-    } else if (this.version >= 4) {
-      this.normalized = N5ImportNormalizer(normalizedPayload)
-    } else if (this.version == 3) {
-      this.normalized = N3ImportNormalizer(normalizedPayload)
-    } else if (this.version == 2) {
-      this.normalized = N2ImportNormalizer(normalizedPayload)
-    } else if (this.version == 1) {
-      this.normalized = N1ImportNormalizer(normalizedPayload)
+      if (!this.version) {
+        throw new Error('Invalid Nomie Backup file - could not extract version')
+      } else if (this.version >= 4) {
+        console.log('Using N5ImportNormalizer for version', this.version)
+        this.normalized = N5ImportNormalizer(normalizedPayload)
+      } else if (this.version == 3) {
+        this.normalized = N3ImportNormalizer(normalizedPayload)
+      } else if (this.version == 2) {
+        this.normalized = N2ImportNormalizer(normalizedPayload)
+      } else if (this.version == 1) {
+        this.normalized = N1ImportNormalizer(normalizedPayload)
+      }
+      console.log('Importer initialized successfully')
+    } catch (e) {
+      console.error('Importer constructor error:', e)
+      throw e
     }
   }
 }
