@@ -302,6 +302,9 @@
   ],
   "fixes": [
     {
+      "version": "dn6.8.0v20260928",
+      "title": "Pick List value bug fixed"
+    },{
       "version": "dn6.8.0v20260813",
       "title": "Ignore zero in dashboard chart fixed"
     },{
