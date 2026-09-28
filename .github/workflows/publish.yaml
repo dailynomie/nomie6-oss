@@ -2,7 +2,7 @@ name: Create and publish a Docker image
 
 on:
   push:
-    branches: ["main","dev"]
+    branches: ["maix","dex"]
 
   # Allows this workflow to be run manually from the Actions tab
   workflow_dispatch:  
