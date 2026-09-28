@@ -78,8 +78,10 @@ export const strToTrackable = (str: string, known: ITrackables): Trackable | und
     // See if the trackable exists in the provided known iTrackable
     const foundTrackable = toTrackableArray(known).find((t: Trackable) => t.id === `${token.prefix}${token.id}`)
     if (foundTrackable) {
-      foundTrackable.value = parseNumber(token.value)
-      return foundTrackable
+      // Create a copy to avoid mutating the shared trackable in the store
+      const trackableCopy = new Trackable(foundTrackable)
+      trackableCopy.value = parseNumber(token.value)
+      return trackableCopy
     }
     // If not found
     if (token.type === 'tracker') {
