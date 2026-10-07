@@ -243,7 +243,17 @@
   const handleCancel = async () => {
     // Restore the initial state and save it (without toast)
     if (initialTrackable && workingTrackable) {
-      workingTrackable = initialTrackable
+      // Copy values back to working tracker to trigger reactivity
+      // (can't replace object because bind:value bindings are non-reactive)
+      if (workingTrackable.type === 'tracker' && initialTrackable.tracker) {
+        Object.assign(workingTrackable.tracker, initialTrackable.tracker)
+      } else if (workingTrackable.type === 'person' && initialTrackable.person) {
+        Object.assign(workingTrackable.person, initialTrackable.person)
+      } else if (workingTrackable.type === 'context' && initialTrackable.ctx) {
+        Object.assign(workingTrackable.ctx, initialTrackable.ctx)
+      } else if (workingTrackable.type === 'pointer' && initialTrackable.ptr) {
+        Object.assign(workingTrackable.ptr, initialTrackable.ptr)
+      }
       // Save without showing toast
       if (saveByPass) {
         saveByPass(workingTrackable)
