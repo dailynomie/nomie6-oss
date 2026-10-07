@@ -56,18 +56,20 @@ export class Trackable {
   constructor(starter: TrackableType) {
     this.type = starter.type
     if (starter.type == 'tracker') {
-      // Always create a new TrackerClass to avoid mutating the original
-      this.tracker = new TrackerClass(starter.tracker)
+      this.tracker = starter.tracker instanceof TrackerClass ? starter.tracker : new TrackerClass(starter.tracker)
       this.id = starter.id || `#${(this.tracker || {}).tag}`
     } else if (starter.type === 'person') {
-      // Always create a new Person to avoid mutating the original
-      this.person = starter.person ? new Person(starter.person) : undefined
+      this.person = starter.person
+        ? starter.person instanceof Person
+          ? starter.person
+          : new Person(starter.person)
+        : undefined
       this.id = starter.id || `@(this.person || {}).username`
     } else if (starter.type === 'context') {
       this.context = starter.context
       this.id = starter.id
-      // Always create a new ContextClass to avoid mutating the original
-      this.ctx = new ContextClass(starter.ctx || this.context)
+      // If ctx is already a ContextClass instance, preserve it; otherwise create from data
+      this.ctx = starter.ctx instanceof ContextClass ? starter.ctx : new ContextClass(starter.ctx || this.context)
     } else if (starter.type === 'pointer') {
       this.pointer = starter.pointer
       this.id = starter.id
