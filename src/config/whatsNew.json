@@ -302,10 +302,10 @@
   ],
   "fixes": [
     {
-      "version": "dn6.8.0v202601007",
+      "version": "dn6.8.0v20261007",
       "title": "People import fixed"
     },{
-      "version": "dn6.8.0v202601007",
+      "version": "dn6.8.0v20261007",
       "title": "Tracker renaming fixed"
     },{
       "version": "dn6.8.0v20260928",
