@@ -152,6 +152,7 @@
    * Save the Working Trackable
    */
   const save = async () => {
+
     if (!workingTrackable.id) workingTrackable.id = `${workingTrackable.prefix}${workingTag}`
     if (!ogTag) {
       workingTrackable.tag = workingTag
@@ -166,9 +167,23 @@
         trackable: workingTrackable,
         known: $TrackableStore.trackables,
       })
+
+      if (saved && trackable) {
+        // Copy the saved values back to the original trackable so parent components see updates
+        if (workingTrackable.type === 'tracker' && workingTrackable.tracker && trackable.tracker) {
+          Object.assign(trackable.tracker, workingTrackable.tracker)
+        } else if (workingTrackable.type === 'person' && workingTrackable.person && trackable.person) {
+          Object.assign(trackable.person, workingTrackable.person)
+        } else if (workingTrackable.type === 'context' && workingTrackable.ctx && trackable.ctx) {
+          Object.assign(trackable.ctx, workingTrackable.ctx)
+        } else if (workingTrackable.type === 'pointer' && workingTrackable.ptr && trackable.ptr) {
+          Object.assign(trackable.ptr, workingTrackable.ptr)
+        }
+      }
+
       // Toast the Place!
       close()
-      InitTrackableStore()
+      await InitTrackableStore()
 
       saving = false
       if (saved) {

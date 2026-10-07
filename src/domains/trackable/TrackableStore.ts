@@ -181,6 +181,14 @@ export const saveTrackable = async ({
   saveToActiveBoard = true,
 }: SaveTrackableProps) => {
   try {
+    console.log('[saveTrackable] Saving trackable:', {
+      type: trackable.type,
+      label: trackable.label,
+      tag: trackable.tag,
+      minLabel: trackable.tracker?.minLabel,
+      maxLabel: trackable.tracker?.maxLabel,
+    })
+
     // if (permissions.canWrite && permissions.trackables <= Object.keys(known).length) {
     //   // Maxed out. lets see if it already exists
     //   if (!known[trackable.tag]) {
@@ -250,17 +258,6 @@ export const deleteTrackableFromNomie = async (trackable: Trackable, prompt: boo
  */
 export const saveTrackersToStorage = async (trackables: Array<Trackable>): Promise<boolean> => {
   try {
-    // const existing: ITrackers = (await Storage.get(NPaths.storage.trackers())) || {}
-    // const trackers: ITrackers = {}
-    // trackables
-    //   .filter((t) => t.type === 'tracker')
-    //   .map((t) => {
-    //     trackers[t.tracker.tag] = t.tracker
-    //     return t.tracker
-    //   })
-    // let merged: ITrackers = { ...existing, ...trackers }
-    // await Storage.put(NPaths.storage.trackers(), merged)
-
     const map: ITrackers = {}
     trackables
       .filter((t) => t.type === 'tracker')
@@ -270,7 +267,6 @@ export const saveTrackersToStorage = async (trackables: Array<Trackable>): Promi
 
     await TrackerStore.updateSync((state) => {
       let merged: ITrackers = { ...state, ...map }
-
       return merged
     })
 
