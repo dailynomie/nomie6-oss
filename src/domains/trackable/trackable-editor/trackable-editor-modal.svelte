@@ -67,6 +67,10 @@
       workingTrackable = new Trackable(trackable)
       // Store a copy of the initial state for Cancel to revert to
       initialTrackable = new Trackable(trackable)
+      console.log('Modal opened:', {
+        minLabel: workingTrackable.tracker?.minLabel,
+        initialMinLabel: initialTrackable.tracker?.minLabel
+      })
       workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
@@ -243,7 +247,14 @@
   const handleCancel = async () => {
     // Restore the initial state and save it (without toast)
     if (initialTrackable && workingTrackable) {
+      console.log('Cancel clicked:', {
+        currentMinLabel: workingTrackable.tracker?.minLabel,
+        restoringMinLabel: initialTrackable.tracker?.minLabel
+      })
       workingTrackable = initialTrackable
+      console.log('After restore:', {
+        minLabel: workingTrackable.tracker?.minLabel
+      })
       // Save without showing toast
       if (saveByPass) {
         saveByPass(workingTrackable)
