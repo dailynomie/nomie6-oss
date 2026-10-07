@@ -60,17 +60,10 @@
 
   let saving: boolean = $state(false)
   let workingTrackableVersion: number = $state(0)
-  let initialTrackable: Trackable | undefined = $state(undefined)
 
   $effect(() => {
     if (trackable && !workingTrackable) {
       workingTrackable = new Trackable(trackable)
-      // Store a copy of the initial state for Cancel to revert to
-      initialTrackable = new Trackable(trackable)
-      console.log('Modal opened:', {
-        minLabel: workingTrackable.tracker?.minLabel,
-        initialMinLabel: initialTrackable.tracker?.minLabel
-      })
       workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
@@ -245,32 +238,7 @@
   }
 
   const handleCancel = async () => {
-    // Restore the initial state and save it (without toast)
-    if (!initialTrackable || !workingTrackable) return
-
-    // Copy values back to working tracker to trigger reactivity
-    // (can't replace object because bind:value bindings are non-reactive)
-    if (workingTrackable.type === 'tracker' && workingTrackable.tracker && initialTrackable.tracker) {
-      Object.assign(workingTrackable.tracker, initialTrackable.tracker)
-    } else if (workingTrackable.type === 'person' && workingTrackable.person && initialTrackable.person) {
-      Object.assign(workingTrackable.person, initialTrackable.person)
-    } else if (workingTrackable.type === 'context' && workingTrackable.ctx && initialTrackable.ctx) {
-      Object.assign(workingTrackable.ctx, initialTrackable.ctx)
-    } else if (workingTrackable.type === 'pointer' && workingTrackable.ptr && initialTrackable.ptr) {
-      Object.assign(workingTrackable.ptr, initialTrackable.ptr)
-    }
-
-    // Save without showing toast
-    if (saveByPass) {
-      saveByPass(workingTrackable)
-    } else {
-      await saveTrackable({
-        trackable: workingTrackable,
-        known: $TrackableStore.trackables
-      })
-      await InitTrackableStore()
-    }
-
+    // Simply close without saving — workingTrackable is a temporary copy
     closeModal(id)
   }
 
