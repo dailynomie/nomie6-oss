@@ -80,6 +80,9 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
 
   const people: IPeople = finished[0] || {}
   const trackers: ITrackers = finished[1] || {}
+
+  console.log('[getTrackablesFromStorage] People from storage:', people)
+  console.log('[getTrackablesFromStorage] People count:', Object.keys(people).length)
   let ctxs: any = finished[2] || {}
   const ptrs: any = finished[3] || {}
 
@@ -100,11 +103,20 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   }
 
   // Convert into Arrays of the Real Things
+  console.log('[getTrackablesFromStorage] Converting people to trackables')
   Object.keys(people || {}).map((username) => {
+    console.log('[getTrackablesFromStorage] Processing person:', username)
+    console.log('[getTrackablesFromStorage] Person data:', people[username])
     const person = new Person(people[username])
+    console.log('[getTrackablesFromStorage] Person object created:', person)
     const trackable = person.toTrackable()
-    MasterTrackables[trackable.tag] = trackable
+    console.log('[getTrackablesFromStorage] Trackable from person:', trackable)
+    console.log('[getTrackablesFromStorage] Trackable tag:', trackable.tag)
+    if (trackable.tag) {
+      MasterTrackables[trackable.tag] = trackable
+    }
   })
+  console.log('[getTrackablesFromStorage] MasterTrackables after people:', Object.keys(MasterTrackables).filter(k => k.startsWith('@')))
 
   // Trackables to
   Object.keys(trackers || {}).map((tag) => {

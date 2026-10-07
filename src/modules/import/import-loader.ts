@@ -152,10 +152,25 @@ export default class ImportLoader {
   }
 
   public async importPeople() {
+    console.log('[importPeople] Starting import')
+    console.log('[importPeople] this.normalized:', this.normalized)
+    const newPeople = (this.normalized || { people: {} }).people
+    console.log('[importPeople] newPeople to import:', newPeople)
+    console.log('[importPeople] newPeople count:', Object.keys(newPeople || {}).length)
+
     const people = await PeopleStore.updateSync((state) => {
-      let newPeople = (this.normalized || { people: {} }).people
-      return { ...newPeople, ...state }
+      console.log('[importPeople] Current state:', state)
+      const merged = { ...newPeople, ...state }
+      console.log('[importPeople] Merged result:', merged)
+      console.log('[importPeople] Merged count:', Object.keys(merged).length)
+      return merged
     })
+    console.log('[importPeople] Final people result:', people)
+    console.log('[importPeople] Calling InitTrackableStore to refresh TrackableStore')
+    // Need to refresh TrackableStore so people appear as trackables
+    const { InitTrackableStore } = await import('../../domains/trackable/TrackableStore')
+    await InitTrackableStore()
+    console.log('[importPeople] TrackableStore refreshed')
     return people
   }
 

@@ -62,13 +62,19 @@
   const methods = {
     // Initialze once we have data.
     init() {
+      console.log('[importer.init] Initializing import')
+      console.log('[importer.init] fileData keys:', Object.keys(fileData || {}))
       initialized = true
       // Support both old format (with 'nomie') and new format (with 'files')
       if (fileData.hasOwnProperty('nomie') || (fileData.files && fileData.version)) {
         // const importer = new Importer(fileData);
         try {
+          console.log('[importer.init] Calling importLoader.openPayload')
           importLoader.openPayload(fileData)
+          console.log('[importer.init] openPayload completed')
+          console.log('[importer.init] importLoader.normalized:', importLoader.normalized)
           version = importLoader.importer.version
+          console.log('[importer.init] Version:', version)
 
           // Normalize fileData to always have nomie property for template
           if (!fileData.nomie && fileData.version) {
@@ -81,9 +87,11 @@
             }
           }
         } catch (e) {
-          console.error(e.message)
+          console.error('[importer.init] Error:', e.message)
           Interact.alert('Error', e.message)
         }
+      } else {
+        console.log('[importer.init] File data format not recognized')
       }
     },
     async finish() {
@@ -117,6 +125,7 @@
     // Confirm Import Trackers
 
     async run(type: string, func: Function, prompt: boolean = false) {
+      console.log(`[importer.run] Starting import for: ${type}`)
       importing[type].running = true
       try {
         let proceed = true
@@ -124,17 +133,21 @@
           proceed = await Interact.confirm(`Import ${type}?`, 'This action cannot be undone')
           await wait(200)
           if (proceed !== true) {
+            console.log(`[importer.run] ${type} import cancelled by user`)
             importing[type].running = false
             importing[type].done = false
           }
         }
         if (proceed) {
-          await func()
+          console.log(`[importer.run] Executing import function for ${type}`)
+          const result = await func()
+          console.log(`[importer.run] Import function completed for ${type}`, result)
           importing[type].running = false
           importing[type].done = true
+          console.log(`[importer.run] ${type} import completed successfully`)
         }
       } catch (e) {
-        console.error(type, e.message)
+        console.error(`[importer.run] Error importing ${type}:`, e)
         Interact.alert('Error', e.message)
         importing[type].running = false
         importing[type].done = false
@@ -402,7 +415,7 @@
       <!-- Importable Items -->
       {#if importLoader.normalized.pivots?.length > 0}
         <ImporterItem
-          emoji="🤪"
+          emoji="📈"
           title="Pivots"
           count={importLoader.normalized.pivots?.length.toLocaleString()}
           bind:status={importing.pivots}
@@ -419,7 +432,7 @@
       <!-- Importable Items -->
       {#if importLoader.normalized.goals?.length > 0}
         <ImporterItem
-          emoji="🤪"
+          emoji="🏆"
           title="Goals"
           count={importLoader.normalized.goals?.length.toLocaleString()}
           bind:status={importing.goals}
@@ -510,10 +523,10 @@
           <div slot="right" class="text-gray-500 pr-4">No Data</div>
         </ListItem>
       {/if}
-     <!-- Pointers --> 
+     <!-- Pointers -->
       {#if (importLoader.normalized.pointers || []).length > 0}
       <ImporterItem
-        emoji="💭"
+        emoji="📍"
         title={Lang.t('general.pointers', 'Pointers')}
         count={(importLoader.normalized.pointers || []).length.toLocaleString()}
         bind:status={importing.pointers}
@@ -523,7 +536,7 @@
       />
     {:else}
       <ListItem bottomLine={48} title={Lang.t('general.pointers', 'Pointers')}>
-        <div slot="left">💭</div>
+        <div slot="left">📍</div>
         <div slot="right" class="text-gray-500 pr-4">No Data</div>
       </ListItem>
     {/if}

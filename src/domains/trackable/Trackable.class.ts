@@ -63,10 +63,18 @@ export class Trackable {
     } else if (starter.type === 'person') {
       this.person = starter.person
         ? starter.person instanceof Person
-          ? new Person(starter.person.asObject)
+          ? new Person({
+              username: starter.person.username,
+              displayName: starter.person.displayName,
+              avatar: starter.person.avatar,
+              emoji: starter.person.emoji,
+              color: starter.person.color,
+              last: starter.person.last,
+              notes: starter.person.notes,
+            })
           : new Person(starter.person)
         : undefined
-      this.id = starter.id || `@(this.person || {}).username`
+      this.id = starter.id || `@${(this.person || {}).username}`
     } else if (starter.type === 'context') {
       this.context = starter.context
       this.id = starter.id
