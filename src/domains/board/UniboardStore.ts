@@ -189,8 +189,14 @@ const combineStoreBoards = ($Uniboard, $Prefs: PreferencesStateType): Array<Unib
 
   boards = [...boards, ...$Uniboard.boards]
 
+  // Extract and always put 'main' board first for predictable positioning
+  const mainBoard = boards.find((b) => b?.id === 'main')
+  const otherBoards = boards.filter((b) => b?.id !== 'main')
+
+  const finalBoards = mainBoard ? [mainBoard, ...otherBoards] : otherBoards
+
   return dedupArray(
-    boards.filter((t) => t),
+    finalBoards.filter((t) => t),
     'id'
   )
   // return $Uniboard.boards
