@@ -9,9 +9,34 @@
   import TrackableAvatar from '../avatar/trackable-avatar.svelte'
   import { createEventDispatcher } from 'svelte'
   import { closeModal } from '../backdrop/BackdropStore2'
+  import { TrackableStore } from '../../domains/trackable/TrackableStore'
 
 
   const { menu, id } = $props()
+
+  let displayTitle = $state(menu.trackable?.label || menu.title || '')
+
+  $effect(() => {
+    const tag = menu.trackable?.tag
+    if (!tag) return
+
+    const checkStore = () => {
+      let storeTrackable: any = undefined
+      const unsubscribe = TrackableStore.subscribe(($store) => {
+        storeTrackable = $store.trackables[tag]
+      })
+      unsubscribe()
+
+      if (storeTrackable?.label && storeTrackable.label !== displayTitle) {
+        displayTitle = storeTrackable.label
+      }
+    }
+
+    checkStore()
+    const interval = setInterval(checkStore, 500)
+
+    return () => clearInterval(interval)
+  })
 </script>
 
 <div class="pop-menu2-wrapper w-full max-w-md" style="min-width:320px;">
@@ -29,7 +54,7 @@
                 ? 'pb-1'
                 : 'mt-3'}"
             >
-              {menu.title}
+              {displayTitle}
             </h5>
           {/if}
           {#if menu.description}

@@ -151,11 +151,9 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
 export const InitTrackableStore = async (): Promise<ITrackables> => {
   const trackables = await getTrackablesFromStorage()
 
-  TrackableStore.update((s) => {
+  TrackableStore.update(() => {
     delete trackables['#']
-    s.trackables = trackables
-    s.ready = true
-    return s
+    return { trackables, ready: true }
   })
 
   return trackables

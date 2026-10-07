@@ -56,6 +56,7 @@
   let workingTag: string = $state('')
   let label: string = $state('Label')
   let editingLabel: string = $state('')
+  let initializedLabel: boolean = $state(false)
 
   let saving: boolean = $state(false)
   let workingTrackableVersion: number = $state(0)
@@ -87,13 +88,15 @@
         workingTrackable.emoji = randomEmoji()
         workingTrackable.color = randomColor()
       }
+
+      initializedLabel = true
     }
   })
 
   $effect(() => {
     // Only sync from trackable to editingLabel when first loading the trackable
-    // Don't constantly sync during editing, as that resets user input
-    if (workingTrackable && editingLabel === '') {
+    // Don't constantly sync during editing, as that prevents deleting to empty string
+    if (workingTrackable && !initializedLabel && editingLabel === '') {
       const currentLabel =
         workingTrackable.type === 'pointer' ? workingTrackable.ptr?.label :
         workingTrackable.type === 'context' ? workingTrackable.ctx?.label :
