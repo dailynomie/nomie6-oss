@@ -245,12 +245,15 @@
     if (initialTrackable && workingTrackable) {
       workingTrackable = initialTrackable
       // Save without showing toast
-      await saveTrackable({
-        trackable: workingTrackable,
-        known: $TrackableStore.trackables,
-        permissions: $Permissions,
-        prompt: false
-      })
+      if (saveByPass) {
+        saveByPass(workingTrackable)
+      } else {
+        await saveTrackable({
+          trackable: workingTrackable,
+          known: $TrackableStore.trackables
+        })
+        await InitTrackableStore()
+      }
     }
     closeModal(id)
   }
