@@ -64,13 +64,6 @@
   $effect(() => {
     if (trackable && !workingTrackable) {
       workingTrackable = new Trackable(trackable)
-      console.log('[Modal Open] Created workingTrackable:', {
-        minLabel: workingTrackable.tracker?.minLabel,
-        originalTrackerMinLabel: trackable.tracker?.minLabel,
-        sameReference: workingTrackable.tracker === trackable.tracker,
-        workingTrackableId: workingTrackable.tracker?.id,
-        originalTrackerId: trackable.tracker?.id,
-      })
       workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
@@ -159,10 +152,6 @@
    * Save the Working Trackable
    */
   const save = async () => {
-    console.log('[Save Button Clicked]', {
-      workingTrackableMinLabel: workingTrackable?.tracker?.minLabel,
-      willBePersisted: true,
-    })
     if (!workingTrackable.id) workingTrackable.id = `${workingTrackable.prefix}${workingTag}`
     if (!ogTag) {
       workingTrackable.tag = workingTag
@@ -250,11 +239,6 @@
 
   const handleCancel = async () => {
     // Simply close without saving — workingTrackable is a temporary copy
-    console.log('[Cancel Button Clicked]', {
-      workingTrackableMinLabel: workingTrackable?.tracker?.minLabel,
-      workingTrackableRef: workingTrackable?.tracker,
-      willBeDiscarded: true,
-    })
     closeModal(id)
     workingTrackable = undefined
   }
