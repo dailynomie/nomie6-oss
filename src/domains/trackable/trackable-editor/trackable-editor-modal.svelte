@@ -60,10 +60,13 @@
 
   let saving: boolean = $state(false)
   let workingTrackableVersion: number = $state(0)
+  let initialTrackable: Trackable | undefined = $state(undefined)
 
   $effect(() => {
     if (trackable && !workingTrackable) {
       workingTrackable = new Trackable(trackable)
+      // Store a copy of the initial state for Cancel to revert to
+      initialTrackable = new Trackable(trackable)
       workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
@@ -237,6 +240,21 @@
     }
   }
 
+  const handleCancel = async () => {
+    // Restore the initial state and save it (without toast)
+    if (initialTrackable && workingTrackable) {
+      workingTrackable = initialTrackable
+      // Save without showing toast
+      await saveTrackable({
+        trackable: workingTrackable,
+        known: $TrackableStore.trackables,
+        permissions: $Permissions,
+        prompt: false
+      })
+    }
+    closeModal(id)
+  }
+
   const close = async () => {
     closeModal(id)
   }
@@ -244,7 +262,7 @@
 
 <BackdropModal mainClass="bg-gray-200 dark:bg-gray-800">
   <ToolbarGrid slot="header" className="bg-gray-50 stiff dark:bg-black">
-    <Button slot="left" id="cancel-button" clear primary on:click={close}>{Lang.t('general.cancel', 'Cancel')}</Button>
+    <Button slot="left" id="cancel-button" clear primary on:click={handleCancel}>{Lang.t('general.cancel', 'Cancel')}</Button>
     <h2
       class="font-bold  text-sm flex-grow-0 line-clamp-1 text-black  dark:text-white capitalize flex items-center space-x-2"
     >
