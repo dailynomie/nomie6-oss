@@ -354,6 +354,13 @@
           on:focus={(e) => {
             e.detail.target.select()
           }}
+          on:input={() => {
+            console.log('[MinLabel Changed]', {
+              newValue: tracker.minLabel,
+              trackerRef: tracker,
+              trackerId: tracker.id,
+            })
+          }}
           bind:value={tracker.minLabel}
         />
         <NInput
