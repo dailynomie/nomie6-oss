@@ -14,13 +14,9 @@ export type ChartOptionsStoreState = {
 }
 
 export const saveChartOptions = (id: string, options: ChartOptions) => {
-  console.log('[ChartOptionsStore] saveChartOptions called for id:', id)
-  console.log('[ChartOptionsStore] options.include:', options.include)
   const existing = getChartOptions()
   existing[id] = options
-  const jsonData = JSON.stringify(existing)
-  console.log('[ChartOptionsStore] Saving to localStorage, full data:', jsonData)
-  localStorage.setItem('chart-options', jsonData)
+  localStorage.setItem('chart-options', JSON.stringify(existing))
 }
 
 export const getChartOption = (id: string): ChartOptions | undefined => {

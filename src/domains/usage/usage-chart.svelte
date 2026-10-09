@@ -22,6 +22,9 @@
   import type { Trackable } from '../trackable/Trackable.class'
   import { TrackableStore } from '../trackable/TrackableStore'
   import { saveChartOptions, getChartOption } from './ChartOptionsStore'
+  import type { WidgetClass } from '../dashboard2/widget/widget-class'
+  import { upsertWidget } from '../dashboard2/DashStore'
+  import { trackableToToken } from '../trackable/trackable-utils'
 
   import type { TrackableUsage } from './trackable-usage.class'
   import { openDateOptionPopMenu, openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
@@ -29,7 +32,7 @@
   import { getContextOn } from '../context/context-utils'
   import { Prefs } from '../preferences/Preferences'
 
-  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false, dualAxis = false } = $props<{
+  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false, dualAxis = false, widget } = $props<{
     usages?: Array<TrackableUsage>
     style?: string
     className?: string
@@ -41,6 +44,7 @@
     isstatsview?: boolean
     showcontext?: boolean
     dualAxis?: boolean
+    widget?: WidgetClass
   }>()
 
   let dateFormats = $state(getDateFormats())
@@ -96,10 +100,7 @@
     chartStats = stats
     includeAlso = include
     if (save) {
-      console.log('[usage-chart] saveChartOptions called with id:', id)
-      console.log('[usage-chart] saveChartOptions include:', include)
       saveChartOptions(id, { type, startWithZero, ignoreZero, stats, include, showContext})
-      console.log('[usage-chart] Chart options saved to storage')
     }
     await wait(60)
     await alsoInclude()
@@ -122,7 +123,6 @@
   }
 
   const alsoInclude = async (newtrackable: boolean = false) => {
-    console.log('[alsoInclude] Called with newtrackable:', newtrackable)
     if (!isstatsview){
     //remove current also included trackable
     for (var i = 0; i < usages.length; i++) {
@@ -136,7 +136,6 @@
     var selected:Trackable
     if (newtrackable == true) {
       selected = await selectTrackable()
-      console.log('[alsoInclude] Selected trackable:', selected)
       includeAlso = selected}
     else if (isstatsview == true){
       if (usages.length >1){
@@ -177,12 +176,16 @@
         usages.slice(0, -1)
       }
       else {usages.push(reverseUsage)}
-      console.log('[alsoInclude] usages array after adding 2nd tracker:', usages)
-      console.log('[alsoInclude] selected trackable id:', selected?.id)
+
+      // Update widget.secondToken to sync with CouchDB
+      if (widget && newtrackable == true) {
+        widget.secondToken = trackableToToken(selected)
+        await upsertWidget(widget)
+      }
+
       return usage
     }
     else {
-      console.log('[alsoInclude] No trackable selected')
       return null
     }
   }
