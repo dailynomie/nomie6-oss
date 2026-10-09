@@ -96,7 +96,10 @@
     chartStats = stats
     includeAlso = include
     if (save) {
+      console.log('[usage-chart] saveChartOptions called with id:', id)
+      console.log('[usage-chart] saveChartOptions include:', include)
       saveChartOptions(id, { type, startWithZero, ignoreZero, stats, include, showContext})
+      console.log('[usage-chart] Chart options saved to storage')
     }
     await wait(60)
     await alsoInclude()
@@ -119,19 +122,21 @@
   }
 
   const alsoInclude = async (newtrackable: boolean = false) => {
+    console.log('[alsoInclude] Called with newtrackable:', newtrackable)
     if (!isstatsview){
     //remove current also included trackable
-    for (var i = 0; i < usages.length; i++) { 
+    for (var i = 0; i < usages.length; i++) {
       if (usages.length >1) {
         usages.splice(_.findIndex(usages, function(item) {
         return item.trackable.id === "-alsoinclude-";
         }), 1);
       }
     }}
-    
+
     var selected:Trackable
     if (newtrackable == true) {
       selected = await selectTrackable()
+      console.log('[alsoInclude] Selected trackable:', selected)
       includeAlso = selected}
     else if (isstatsview == true){
       if (usages.length >1){
@@ -172,9 +177,12 @@
         usages.slice(0, -1)
       }
       else {usages.push(reverseUsage)}
+      console.log('[alsoInclude] usages array after adding 2nd tracker:', usages)
+      console.log('[alsoInclude] selected trackable id:', selected?.id)
       return usage
     }
     else {
+      console.log('[alsoInclude] No trackable selected')
       return null
     }
   }

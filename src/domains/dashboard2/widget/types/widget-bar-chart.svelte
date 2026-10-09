@@ -41,7 +41,9 @@
 
   // Load second tracker data if available
   $effect(async () => {
+    console.log('[widget-bar-chart] Checking widget.secondToken:', widget?.secondToken)
     if (widget && widget.secondToken) {
+      console.log('[widget-bar-chart] Loading second tracker from secondToken')
       try {
         const secondTrackable = tokenToTrackable(widget.secondToken, $TrackableStore.trackables)
         const secondUsageData = await queryToTrackableUsage(
@@ -71,6 +73,7 @@
         secondUsage = undefined
       }
     } else {
+      console.log('[widget-bar-chart] No secondToken found on widget')
       secondUsage = undefined
     }
   })
