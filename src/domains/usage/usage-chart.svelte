@@ -316,10 +316,13 @@ else {contextannotation.annotations ={}}
       chartStats = "none"
     }
     //remove current stats data if exist
-    if (usages.length >1) {
-        usages.splice(_.findIndex(usages, function(item) {
+    if (usages.length > 1) {
+        const statsIndex = _.findIndex(usages, function(item) {
         return item.trackable.id === "-statistics-";
-        }), 1);
+        })
+        if (statsIndex >= 0) {
+          usages.splice(statsIndex, 1);
+        }
     }
     //define new if applicable
     var statusage = usages.find(x=>x!==undefined);
@@ -662,8 +665,9 @@ else {contextannotation.annotations ={}}
     // Get usage by day and backfill it
     const datasets = usages.map((usage, index) => {
       const dataset = usageToDataset(usage)
-      // Map second dataset to right axis if in dual-axis mode
-      if (dualAxis && index === 1) {
+      // Map secondary tracker to right axis if in dual-axis mode
+      // Only put "-alsoinclude-" (secondary tracker) on y1, not statistics
+      if (dualAxis && usage.trackable?.id === '-alsoinclude-') {
         dataset.yAxisID = 'y1'
       } else {
         dataset.yAxisID = 'y'

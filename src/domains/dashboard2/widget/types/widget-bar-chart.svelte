@@ -75,7 +75,7 @@
       id={`usage-${nid(widget.id)}`}
       hideValues={widget.size == 'sm'}
       {usages}
-      dualAxis={usages.length > 1}
+      dualAxis={usages.some(u => u.trackable?.id === '-alsoinclude-')}
       {type}
       className="w-full"
       {widget}
