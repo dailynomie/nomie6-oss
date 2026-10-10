@@ -283,6 +283,42 @@ export default class ImportLoader {
       })
 
       console.log('[importPlugins] ✅ All plugins after import:', afterImport?.map((p: any) => ({ name: p.name, active: p.active })))
+
+      // Check for plugin prefs before and after import
+      console.log('[importPlugins] ⚠️ CHECKING PLUGIN PREFERENCES FOLDERS...')
+
+      console.log('[importPlugins] Prefs BEFORE import:')
+      for (const plugin of (existingPlugins || [])) {
+        try {
+          const prefsPath = `plugins/${plugin.id}/prefs.json`
+          const prefs = await Storage.get(prefsPath)
+          console.log(`  - "${plugin.name}" (${plugin.id}):`, prefs ? '✓ HAS PREFS' : '✗ NO PREFS')
+          if (prefs) {
+            console.log(`    Prefs content keys:`, Object.keys(prefs || {}))
+          }
+        } catch (e) {
+          console.log(`  - "${plugin.name}" (${plugin.id}): ✗ ERROR`)
+        }
+      }
+
+      console.log('[importPlugins] Prefs AFTER import:')
+      for (const plugin of (afterImport || [])) {
+        try {
+          const prefsPath = `plugins/${plugin.id}/prefs.json`
+          const prefs = await Storage.get(prefsPath)
+          console.log(`  - "${plugin.name}" (${plugin.id}):`, prefs ? '✓ HAS PREFS' : '✗ NO PREFS')
+          if (prefs) {
+            console.log(`    Prefs content keys:`, Object.keys(prefs || {}))
+          }
+        } catch (e) {
+          console.log(`  - "${plugin.name}" (${plugin.id}): ✗ ERROR`)
+        }
+      }
+
+      console.log('[importPlugins] ⚠️ ANALYSIS:')
+      console.log('[importPlugins] - Plugin definitions (plugins.json): ✓ IMPORTED')
+      console.log('[importPlugins] - Plugin preferences (plugins/*/prefs.json): ✗ NOT IMPORTED')
+      console.log('[importPlugins] - Plugin prefs will be recreated when plugins are opened after import')
     } else {
       console.log('[importPlugins] No plugins to import')
     }
