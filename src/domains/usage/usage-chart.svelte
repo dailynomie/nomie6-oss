@@ -21,7 +21,7 @@
 
   import type { Trackable } from '../trackable/Trackable.class'
   import { TrackableStore } from '../trackable/TrackableStore'
-  import { saveChartOptions, getChartOption } from './ChartOptionsStore'
+  import { saveChartOptions, getChartOption, ChartOptionsStore } from './ChartOptionsStore'
   import type { WidgetClass } from '../dashboard2/widget/widget-class'
 
   import type { TrackableUsage } from './trackable-usage.class'
@@ -61,8 +61,10 @@
     }
   })
 
-  $effect(() => {
-    initChartOptions()
+  $effect(async () => {
+    // Subscribe to ChartOptionsStore updates so we reload when options change on other devices
+    $ChartOptionsStore
+    await initChartOptions()
   })
 
   interface ContextMapWrapper {
@@ -98,7 +100,7 @@
     chartStats = stats
     includeAlso = include
     if (save) {
-      saveChartOptions(id, { type, startWithZero, ignoreZero, stats, include, showContext})
+      await saveChartOptions(id, { type, startWithZero, ignoreZero, stats, include, showContext})
     }
     await wait(60)
     await alsoInclude()
@@ -115,8 +117,17 @@
     let swz = options.startWithZero === undefined || options.startWithZero === false ? false : true
     let iz = options.ignoreZero === undefined || options.ignoreZero === false ? false : true
     let st = options.stats || 'none'
-    let incl = options.include || undefined
     let showcontext = options.showContext
+
+    // Convert trackable ID back to Trackable object
+    let incl = undefined
+    if (options.include && typeof options.include === 'string') {
+      incl = $TrackableStore.trackables[options.include]
+      if (incl) {
+        console.log('[UsageChart] Loaded include from synced options:', incl.id)
+      }
+    }
+
     setChartType(t, swz, iz,st, incl, showcontext, false)
   }
 

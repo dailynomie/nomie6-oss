@@ -7,7 +7,7 @@ type ChartOptions = {
   startWithZero: boolean
   ignoreZero:boolean
   stats: 'none' | "avg" | 'sma-7' | 'sma-15' | 'sma-30' | 'ema-7' | 'ema-15' | 'ema-30' | 'split-11' | 'split-12' | 'split-13' | 'cumm'
-  include: Trackable
+  include?: string  // Store as trackable ID (e.g., "#tracker-name") instead of Trackable object
   showContext: boolean
 }
 export type ChartOptionsStoreState = {
@@ -16,11 +16,20 @@ export type ChartOptionsStoreState = {
 
 let chartOptionsCache: ChartOptionsStoreState = {}
 
-export const saveChartOptions = async (id: string, options: ChartOptions) => {
-  chartOptionsCache[id] = options
+export const saveChartOptions = async (id: string, options: any) => {
+  // Convert Trackable object to its ID string for JSON serialization
+  const optionsToSave: ChartOptions = {
+    type: options.type,
+    startWithZero: options.startWithZero,
+    ignoreZero: options.ignoreZero,
+    stats: options.stats,
+    include: options.include?.id || options.include,  // Store trackable ID if it's an object, or use as-is if already a string
+    showContext: options.showContext,
+  }
+  chartOptionsCache[id] = optionsToSave
   // Save to CouchDB via Storage for multi-device sync
   await Storage.put('chart-options.json', chartOptionsCache)
-  console.log('[ChartOptionsStore] Saved chart options for chart:', id)
+  console.log('[ChartOptionsStore] Saved chart options for chart:', id, 'include:', optionsToSave.include)
 }
 
 export const getChartOption = (id: string): ChartOptions | undefined => {
