@@ -114,22 +114,24 @@ export default class Export {
       let plugins = await Storage.get(NPaths.storage.plugins())
       this.backup.plugins = plugins || []
 
-      console.log('[export] Exporting plugins')
-      console.log('[export] Plugins count:', this.backup.plugins?.length || 0)
-      console.log('[export] Plugin IDs:', this.backup.plugins?.map((p: any) => ({ id: p.id, name: p.name })))
-
-      // Check if plugin prefs are being exported
-      console.log('[export] ⚠️ IMPORTANT: Checking for plugin preferences folders...')
+      // Export plugin preferences for each plugin
+      this.backup.pluginPreferences = {}
       for (const plugin of (this.backup.plugins || [])) {
         try {
           const prefsPath = `plugins/${plugin.id}/prefs.json`
           const prefs = await Storage.get(prefsPath)
-          console.log(`[export] Plugin "${plugin.name}" (${plugin.id}) prefs:`, prefs ? 'EXISTS ✓' : 'MISSING ✗')
+          if (prefs) {
+            this.backup.pluginPreferences[plugin.id] = prefs
+          }
         } catch (e) {
-          console.log(`[export] Plugin "${plugin.name}" (${plugin.id}) prefs: ERROR`)
+          // Plugin may not have prefs, which is fine
         }
       }
-      console.log('[export] ⚠️ Note: Plugin preferences are NOT included in backup.plugins array')
+
+      console.log('[export] Exporting plugins and preferences')
+      console.log('[export] Plugins count:', this.backup.plugins?.length || 0)
+      console.log('[export] Plugins with prefs:', Object.keys(this.backup.pluginPreferences || {}).length)
+      console.log('[export] Plugin prefs included:', this.backup.pluginPreferences)
 
       // Get Trackers
       this.fireChange('Trackers...')

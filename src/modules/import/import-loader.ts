@@ -256,6 +256,22 @@ export default class ImportLoader {
 
       await Storage.put(NPaths.storage.plugins(), this.normalized.plugins)
 
+      // Import plugin preferences if available in backup
+      if (this.normalized.pluginPreferences && Object.keys(this.normalized.pluginPreferences).length > 0) {
+        console.log('[importPlugins] Importing plugin preferences...')
+        for (const pluginId of Object.keys(this.normalized.pluginPreferences)) {
+          try {
+            const prefsPath = `plugins/${pluginId}/prefs.json`
+            const prefs = this.normalized.pluginPreferences[pluginId]
+            await Storage.put(prefsPath, prefs)
+            console.log(`[importPlugins] Imported prefs for plugin: ${pluginId}`)
+          } catch (e) {
+            console.error(`[importPlugins] Error importing prefs for plugin ${pluginId}:`, e)
+          }
+        }
+        console.log('[importPlugins] Plugin preferences imported successfully')
+      }
+
       console.log('[importPlugins] ✅ Plugins written to storage')
       const afterImport = await Storage.get(NPaths.storage.plugins())
       console.log('[importPlugins] Plugins in storage after import:', afterImport?.length || 0)
