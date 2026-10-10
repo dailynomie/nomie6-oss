@@ -171,7 +171,7 @@ export default {
             "positivity": source.positivity,
             "trackable": {
                 "id": "-statistics-",
-                "label":source.trackable.label +" ("+statLabel+")",
+                "label":statLabel,
                 "type":source.trackable.type,
                 "color":"#50B0EF",
                 "tracker": {
