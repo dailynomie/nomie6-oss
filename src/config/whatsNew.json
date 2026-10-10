@@ -303,6 +303,15 @@
   "fixes": [
     {
       "version": "dn6.8.0v20261010",
+      "title": "Pivot preferences real time sync added"
+    },{
+      "version": "dn6.8.0v20261010",
+      "title": "Plugin preferences real time sync added"
+    },{
+      "version": "dn6.8.0v20261010",
+      "title": "Plugin import/export bug fixed"
+    },{
+      "version": "dn6.8.0v20261010",
       "title": "Couchdb double axe chart bug fixed"
     },{
       "version": "dn6.8.0v20261007",
