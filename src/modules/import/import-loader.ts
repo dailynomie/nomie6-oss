@@ -259,7 +259,30 @@ export default class ImportLoader {
       console.log('[importPlugins] ✅ Plugins written to storage')
       const afterImport = await Storage.get(NPaths.storage.plugins())
       console.log('[importPlugins] Plugins in storage after import:', afterImport?.length || 0)
-      console.log('[importPlugins] Verify "my balance" plugin exists:', afterImport?.find((p: any) => p.name?.includes('balance')))
+
+      // Find "My Balance" plugin before and after
+      const myBalanceBefore = existingPlugins?.find((p: any) => p.name === 'My Balance')
+      const myBalanceAfter = afterImport?.find((p: any) => p.name === 'My Balance')
+
+      console.log('[importPlugins] "My Balance" before import:', {
+        name: myBalanceBefore?.name,
+        active: myBalanceBefore?.active,
+        setupComplete: myBalanceBefore?.setupComplete,
+        addToCaptureMenu: myBalanceBefore?.addToCaptureMenu,
+        addToMoreMenu: myBalanceBefore?.addToMoreMenu,
+        addToWidgets: myBalanceBefore?.addToWidgets,
+      })
+
+      console.log('[importPlugins] "My Balance" after import:', {
+        name: myBalanceAfter?.name,
+        active: myBalanceAfter?.active,
+        setupComplete: myBalanceAfter?.setupComplete,
+        addToCaptureMenu: myBalanceAfter?.addToCaptureMenu,
+        addToMoreMenu: myBalanceAfter?.addToMoreMenu,
+        addToWidgets: myBalanceAfter?.addToWidgets,
+      })
+
+      console.log('[importPlugins] ✅ All plugins after import:', afterImport?.map((p: any) => ({ name: p.name, active: p.active })))
     } else {
       console.log('[importPlugins] No plugins to import')
     }
