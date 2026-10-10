@@ -303,6 +303,9 @@
   "fixes": [
     {
       "version": "dn6.8.0v20261011",
+      "title": "Real time sync bug for Pivots fixed"
+    },{
+      "version": "dn6.8.0v20261011",
       "title": "Chart Widget statistics view bug fixed"
     },{
       "version": "dn6.8.0v20261010",
