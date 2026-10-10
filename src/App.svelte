@@ -58,6 +58,7 @@
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
   import PointerLoader from './domains/pointers/pointer-loader.svelte'
   import { PluginStore, initializeBuildinPlugins, registerPluginPreferencesListeners } from './domains/plugins/PluginStore'
+  import { registerPivotListeners } from './domains/analytics/PivotStore'
   import { autoCleanupPlugins } from './domains/plugins/PluginCleanupStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
@@ -221,6 +222,9 @@
     // Register listeners for real-time plugin preference sync via CouchDB
     await registerPluginPreferencesListeners()
     pluginsInitizlied = true
+
+    // Register listeners for real-time pivot sync via CouchDB
+    await registerPivotListeners()
 
     // Run auto-cleanup if scheduled
     autoCleanupPlugins()
