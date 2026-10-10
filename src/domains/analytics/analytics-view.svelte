@@ -133,9 +133,17 @@
   }, 200)
 
     async function getConfiguration(){
+        console.log('[Pivot] getConfiguration() called - preparing to save', {
+            rows: rows,
+            cols: cols,
+            rowsDuplicates: rows?.filter((item, index) => rows.indexOf(item) !== index),
+            colsDuplicates: cols?.filter((item, index) => cols.indexOf(item) !== index),
+        });
         getConfig = true;
-        setTimeout(()=>{getConfig=false
-            },10)
+        setTimeout(()=>{
+            console.log('[Pivot] getConfiguration() complete, getConfig=false');
+            getConfig=false
+        },10)
     }
 
     async function getData(){
@@ -314,17 +322,33 @@
     }
 
     const savePivot = async () => {
+        console.log('[Pivot] savePivot() called');
         await getConfiguration();
         let newPivot = pivotconfig;
         newPivot.data = [];
         newPivot.options.data = [];
+        console.log('[Pivot] About to save pivot to store', {
+            pivotId: newPivot.id,
+            pivotTag: newPivot.tag,
+            rows: newPivot.options.rows,
+            cols: newPivot.options.cols,
+            rowsDuplicates: newPivot.options.rows?.filter((item, index) => newPivot.options.rows.indexOf(item) !== index),
+            colsDuplicates: newPivot.options.cols?.filter((item, index) => newPivot.options.cols.indexOf(item) !== index),
+        });
         Interact.blocker(`Saving ${newPivot.emoji}${newPivot.tag} pivot...`)
         await PivotStore.upsert(newPivot)
         Interact.stopBlocker()
+        console.log('[Pivot] savePivot() complete - pivot saved');
         showToast({ message: 'Pivot Saved' })
     }
 
     const selectPivot = (pvt) => {
+        console.log('[Pivot] selectPivot() called', {
+            pivotId: pvt.detail.id,
+            pivotTag: pvt.detail.tag,
+            rowsLoaded: pvt.detail.options?.rows,
+            colsLoaded: pvt.detail.options?.cols,
+        });
         let historyperiodchanged = true;
         let searchtermschanged = true;
         workingPivotId = pvt.detail.id;
@@ -351,6 +375,12 @@
             sorters = pvt.detail.options.sorters || sorters;
             valueFilter = pvt.detail.options.valueFilter || valueFilter;
             derivedAttributes = pvt.detail.options.derivedAttributes || derivedAttributes;
+            console.log('[Pivot] After loading configuration', {
+                rowsState: rows,
+                colsState: cols,
+                rowsDuplicates: rows?.filter((item, index) => rows.indexOf(item) !== index),
+                colsDuplicates: cols?.filter((item, index) => cols.indexOf(item) !== index),
+            });
         }
         getData();
     }
