@@ -30,6 +30,7 @@ export type INormalizedImport = {
   pivots?: Array<PivotClass>
   logs?: Array<NLog>
   plugins?: Array<any>
+  pluginPreferences?: { [key: string]: any }
 }
 
 // TODO: replace this with the util version

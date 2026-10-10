@@ -57,7 +57,7 @@
   import { trackLaunch } from './domains/preferences/LaunchCount'
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
   import PointerLoader from './domains/pointers/pointer-loader.svelte'
-  import { PluginStore, initializeBuildinPlugins } from './domains/plugins/PluginStore'
+  import { PluginStore, initializeBuildinPlugins, registerPluginPreferencesListeners } from './domains/plugins/PluginStore'
   import { autoCleanupPlugins } from './domains/plugins/PluginCleanupStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
@@ -218,6 +218,8 @@
     // Initialize the Plugins - must await to load from storage before adding buildin plugins
     await PluginStore.init({})
     initializeBuildinPlugins()
+    // Register listeners for real-time plugin preference sync via CouchDB
+    await registerPluginPreferencesListeners()
     pluginsInitizlied = true
 
     // Run auto-cleanup if scheduled
