@@ -62,7 +62,6 @@ export class WidgetClass {
   public description?: string
   public token?: Token
   public tokens?: Array<Token>
-  public secondToken?: Token
   public id?: string
   public includeAvg?: boolean = false
   public lastUsed?: any
@@ -110,7 +109,6 @@ export class WidgetClass {
 
     this.token = payload.token || payload.element
     this.tokens = payload.tokens?.length ? payload.tokens : [this.token]
-    this.secondToken = payload.secondToken
   }
 
   get timeframe(): { start: Dayjs; end: Dayjs; details: WidgetTimeFrame } {

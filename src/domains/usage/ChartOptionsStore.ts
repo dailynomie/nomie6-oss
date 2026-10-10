@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store'
 import type { Trackable } from '../trackable/Trackable.class'
+import Storage from '../storage/storage'
 
 type ChartOptions = {
   type: 'bar' | 'line'
@@ -13,23 +14,57 @@ export type ChartOptionsStoreState = {
   [key: string]: ChartOptions
 }
 
-export const saveChartOptions = (id: string, options: ChartOptions) => {
-  const existing = getChartOptions()
-  existing[id] = options
-  localStorage.setItem('chart-options', JSON.stringify(existing))
+let chartOptionsCache: ChartOptionsStoreState = {}
+
+export const saveChartOptions = async (id: string, options: ChartOptions) => {
+  chartOptionsCache[id] = options
+  // Save to CouchDB via Storage for multi-device sync
+  await Storage.put('chart-options.json', chartOptionsCache)
+  console.log('[ChartOptionsStore] Saved chart options for chart:', id)
 }
 
 export const getChartOption = (id: string): ChartOptions | undefined => {
-  return getChartOptions()[id]
+  return chartOptionsCache[id]
 }
 
 export const getChartOptions = (): ChartOptionsStoreState => {
+  return chartOptionsCache
+}
+
+/**
+ * Register change listener for chart options to enable real-time sync
+ * When chart options are updated on other devices via CouchDB,
+ * this function ensures the app detects and handles those changes.
+ */
+export const registerChartOptionsListener = async () => {
   try {
-    const base = localStorage.getItem('chart-options') || '{}'
-    return JSON.parse(base)
+    console.log('[ChartOptionsStore] Registering change listener for chart options')
+
+    // Register listener for chart option changes from CouchDB sync
+    Storage.get('chart-options.json', (changedOptions: ChartOptionsStoreState) => {
+      console.log('[ChartOptionsStore] Chart options update detected from CouchDB sync')
+      console.log('[ChartOptionsStore] Updated chart IDs:', Object.keys(changedOptions || {}))
+
+      // Update the cache with synced options
+      if (changedOptions) {
+        chartOptionsCache = changedOptions
+        ChartOptionsStore.set(chartOptionsCache)
+        console.log('[ChartOptionsStore] Chart options updated from CouchDB sync')
+      }
+    })
+
+    // Load initial options from Storage
+    const initialOptions = await Storage.get('chart-options.json')
+    if (initialOptions) {
+      chartOptionsCache = initialOptions
+      ChartOptionsStore.set(chartOptionsCache)
+      console.log('[ChartOptionsStore] Initial chart options loaded from storage:', Object.keys(initialOptions).length, 'charts')
+    }
+
+    console.log('[ChartOptionsStore] Chart options listener initialized')
   } catch (e) {
-    return {}
+    console.error('[ChartOptionsStore] Error registering chart options listener:', e)
   }
 }
 
-export const ChartOptionsStore = writable<ChartOptionsStoreState>(getChartOptions())
+export const ChartOptionsStore = writable<ChartOptionsStoreState>(chartOptionsCache)

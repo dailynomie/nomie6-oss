@@ -23,8 +23,6 @@
   import { TrackableStore } from '../trackable/TrackableStore'
   import { saveChartOptions, getChartOption } from './ChartOptionsStore'
   import type { WidgetClass } from '../dashboard2/widget/widget-class'
-  import { upsertWidget } from '../dashboard2/DashStore'
-  import { trackableToToken } from '../trackable/trackable-utils'
 
   import type { TrackableUsage } from './trackable-usage.class'
   import { openDateOptionPopMenu, openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
@@ -176,12 +174,6 @@
         usages.slice(0, -1)
       }
       else {usages.push(reverseUsage)}
-
-      // Update widget.secondToken to sync with CouchDB
-      if (widget && newtrackable == true) {
-        widget.secondToken = trackableToToken(selected)
-        await upsertWidget(widget)
-      }
 
       return usage
     }

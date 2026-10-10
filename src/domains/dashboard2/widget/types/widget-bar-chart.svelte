@@ -8,9 +8,6 @@
 
   import nid from '../../../../modules/nid/nid'
   import { Prefs } from '../../../preferences/Preferences'
-  import { queryToTrackableUsage } from '../../../ledger/LedgerStore'
-  import { tokenToTrackable } from '../../../../modules/tokenizer/tokenToTrackable'
-  import { TrackableStore } from '../../../trackable/TrackableStore'
   import { setIncludedTrackable } from './included-trackable-store'
 
   const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable() } = $props()
@@ -39,41 +36,6 @@
     }
   })
 
-  // Load second tracker data if available
-  $effect(async () => {
-    if (widget && widget.secondToken) {
-      try {
-        const secondTrackable = tokenToTrackable(widget.secondToken, $TrackableStore.trackables)
-        const secondUsageData = await queryToTrackableUsage(
-          secondTrackable,
-          {
-            start: widget.getStartDate($Prefs.weekStarts),
-            end: widget.getEndDate($Prefs.weekStarts),
-          },
-          $TrackableStore.trackables
-        )
-
-        if (secondUsageData) {
-          let rawUsage = secondUsageData
-          if (['last-365', 'this-year'].indexOf(widget.timeframe.details.id) > -1) {
-            secondUsage = rawUsage
-              .reverse()
-              .groupBy('week', 'YYYY-MM-D')
-              .backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
-          } else {
-            secondUsage = rawUsage
-              .reverse()
-              .byDay.backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
-          }
-        }
-      } catch (e) {
-        console.error('Error loading second tracker:', e)
-        secondUsage = undefined
-      }
-    } else {
-      secondUsage = undefined
-    }
-  })
 
   // Build usages array based on available data
   $effect(() => {
