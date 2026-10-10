@@ -230,8 +230,38 @@ export default class ImportLoader {
   }
 
   public async importPlugins() {
+    console.log('[importPlugins] Starting import')
+    console.log('[importPlugins] Plugins in backup:', this.normalized.plugins?.length || 0)
     if (this.normalized.plugins && this.normalized.plugins.length > 0) {
+      console.log('[importPlugins] Backup plugins:', this.normalized.plugins.map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        active: p.active,
+        setupComplete: p.setupComplete
+      })))
+
+      // Get existing plugins before replacement
+      const existingPlugins = await Storage.get(NPaths.storage.plugins())
+      console.log('[importPlugins] Existing plugins before import:', existingPlugins?.length || 0)
+      if (existingPlugins) {
+        console.log('[importPlugins] Existing plugins:', existingPlugins.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          active: p.active
+        })))
+      }
+
+      console.log('[importPlugins] ⚠️ IMPORTANT: Using Storage.put() which REPLACES all plugins')
+      console.log('[importPlugins] Any existing plugins not in the backup will be LOST!')
+
       await Storage.put(NPaths.storage.plugins(), this.normalized.plugins)
+
+      console.log('[importPlugins] ✅ Plugins written to storage')
+      const afterImport = await Storage.get(NPaths.storage.plugins())
+      console.log('[importPlugins] Plugins in storage after import:', afterImport?.length || 0)
+      console.log('[importPlugins] Verify "my balance" plugin exists:', afterImport?.find((p: any) => p.name?.includes('balance')))
+    } else {
+      console.log('[importPlugins] No plugins to import')
     }
     return this
   }
