@@ -58,7 +58,6 @@
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
   import PointerLoader from './domains/pointers/pointer-loader.svelte'
   import { PluginStore, initializeBuildinPlugins, registerPluginPreferencesListeners } from './domains/plugins/PluginStore'
-  import { registerPivotListeners } from './domains/analytics/PivotStore'
   import { registerChartOptionsListener } from './domains/usage/ChartOptionsStore'
   import { autoCleanupPlugins } from './domains/plugins/PluginCleanupStore'
   import Setup from './domains/setup/setup.svelte'
@@ -223,9 +222,6 @@
     // Register listeners for real-time plugin preference sync via CouchDB
     await registerPluginPreferencesListeners()
     pluginsInitizlied = true
-
-    // Register listeners for real-time pivot sync via CouchDB
-    await registerPivotListeners()
 
     // Register listeners for real-time chart options sync via CouchDB
     await registerChartOptionsListener()
