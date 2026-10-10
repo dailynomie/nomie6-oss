@@ -123,9 +123,6 @@
     let incl = undefined
     if (options.include && typeof options.include === 'string') {
       incl = $TrackableStore.trackables[options.include]
-      if (incl) {
-        console.log('[UsageChart] Loaded include from synced options:', incl.id)
-      }
     }
 
     setChartType(t, swz, iz,st, incl, showcontext, false)

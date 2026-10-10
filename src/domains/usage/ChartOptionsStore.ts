@@ -29,7 +29,6 @@ export const saveChartOptions = async (id: string, options: any) => {
   chartOptionsCache[id] = optionsToSave
   // Save to CouchDB via Storage for multi-device sync
   await Storage.put('chart-options.json', chartOptionsCache)
-  console.log('[ChartOptionsStore] Saved chart options for chart:', id, 'include:', optionsToSave.include)
 }
 
 export const getChartOption = (id: string): ChartOptions | undefined => {
@@ -47,18 +46,12 @@ export const getChartOptions = (): ChartOptionsStoreState => {
  */
 export const registerChartOptionsListener = async () => {
   try {
-    console.log('[ChartOptionsStore] Registering change listener for chart options')
-
     // Register listener for chart option changes from CouchDB sync
     Storage.get('chart-options.json', (changedOptions: ChartOptionsStoreState) => {
-      console.log('[ChartOptionsStore] Chart options update detected from CouchDB sync')
-      console.log('[ChartOptionsStore] Updated chart IDs:', Object.keys(changedOptions || {}))
-
       // Update the cache with synced options
       if (changedOptions) {
         chartOptionsCache = changedOptions
         ChartOptionsStore.set(chartOptionsCache)
-        console.log('[ChartOptionsStore] Chart options updated from CouchDB sync')
       }
     })
 
@@ -67,10 +60,7 @@ export const registerChartOptionsListener = async () => {
     if (initialOptions) {
       chartOptionsCache = initialOptions
       ChartOptionsStore.set(chartOptionsCache)
-      console.log('[ChartOptionsStore] Initial chart options loaded from storage:', Object.keys(initialOptions).length, 'charts')
     }
-
-    console.log('[ChartOptionsStore] Chart options listener initialized')
   } catch (e) {
     console.error('[ChartOptionsStore] Error registering chart options listener:', e)
   }
