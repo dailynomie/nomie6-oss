@@ -175,7 +175,8 @@ export default {
                 "type":source.trackable.type,
                 "color":"#50B0EF",
                 "tracker": {
-                    "color":"#50B0EF"
+                    "color":"#50B0EF",
+                    "emoji":"📊"
                 }
             }
         }
