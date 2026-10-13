@@ -92,10 +92,16 @@
       options: workingPivot.options,
     })
     newPivot.options.data = []
-    newPivot.options.valueFilter = filters;
+    newPivot.options.valueFilter = $state.snapshot(filters);
     Interact.blocker(`Saving ${workingPivot.tag} pivot...`)
-    await PivotStore.upsert(newPivot)
-    Interact.stopBlocker()
+    try {
+      await PivotStore.upsert(newPivot)
+    } catch (e) {
+      Interact.error(e.message)
+      return
+    } finally {
+      Interact.stopBlocker()
+    }
     showToast({ message: 'Pivot Saved' })
     close()
   }
