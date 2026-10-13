@@ -1,6 +1,9 @@
 {
   "features": [
     {
+      "version": "dn6.8.0v20261014",
+      "title": "What's New is grouped per version, with features and fixes expandable"
+    },{
       "version": "dn6.8.0v20260813",
       "title": "Added some additional counters in the settings page"
     },{
@@ -302,6 +305,15 @@
   ],
   "fixes": [
     {
+      "version": "dn6.8.0v20261014",
+      "title": "Adding a widget to the dashboard works when CouchDB sync is enabled"
+    },{
+      "version": "dn6.8.0v20261014",
+      "title": "Saving a pivot works when CouchDB sync is enabled"
+    },{
+      "version": "dn6.8.0v20261014",
+      "title": "App no longer restarts when a CouchDB read fails in Safari"
+    },{
       "version": "dn6.8.0v20261013",
       "title": "Tracker rename and delete bug fixed"
     },{
@@ -770,6 +782,11 @@
       "title": "allowing multiple note modals open at one time"
     }
   ],
-  "chores": [],
+  "chores": [
+    {
+      "version": "dn6.8.0v20261014",
+      "title": "Removed analytics tracking"
+    }
+  ],
   "build_date": "2022-09-21T14:06:29.915Z"
 }
