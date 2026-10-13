@@ -306,6 +306,9 @@
   "fixes": [
     {
       "version": "dn6.8.0v20261014",
+      "title": "Saving a new or edited pivot works when CouchDB sync is enabled"
+    },{
+      "version": "dn6.8.0v20261014",
       "title": "Adding a widget to the dashboard works when CouchDB sync is enabled"
     },{
       "version": "dn6.8.0v20261014",

@@ -324,7 +324,7 @@
     const savePivot = async () => {
         console.log('[Pivot] savePivot() called');
         await getConfiguration();
-        let newPivot = pivotconfig;
+        let newPivot = new PivotClass(JSON.parse(JSON.stringify(pivotconfig)));
         newPivot.data = [];
         newPivot.options.data = [];
         console.log('[Pivot] About to save pivot to store', {
@@ -336,8 +336,14 @@
             colsDuplicates: newPivot.options.cols?.filter((item, index) => newPivot.options.cols.indexOf(item) !== index),
         });
         Interact.blocker(`Saving ${newPivot.emoji}${newPivot.tag} pivot...`)
-        await PivotStore.upsert(newPivot)
-        Interact.stopBlocker()
+        try {
+            await PivotStore.upsert(newPivot)
+        } catch (e) {
+            Interact.error(e.message)
+            return
+        } finally {
+            Interact.stopBlocker()
+        }
         console.log('[Pivot] savePivot() complete - pivot saved');
         showToast({ message: 'Pivot Saved' })
     }
