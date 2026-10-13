@@ -5,10 +5,10 @@ import { derived, writable } from 'svelte/store'
 import { ContextClass } from '../context/context-class'
 import type { PointerClass } from '../pointers/pointer-class'
 import { ContextStore } from '../context/context-store'
-import { PointerStore } from '../pointers/pointer-store'
+import { PointerStore, repairPrefixedPointerTags } from '../pointers/pointer-store'
 import { Interact } from '../../store/interact'
 import { Lang } from '../../store/lang'
-import { PeopleStore } from '../people/PeopleStore'
+import { PeopleStore, normalizePersonKeys } from '../people/PeopleStore'
 import Person from '../people/Person.class'
 import type { Trackable } from './Trackable.class'
 import TrackerClass from '../../modules/tracker/TrackerClass'
@@ -78,10 +78,10 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   // Get Poeple Trackers Pointers and Context
   const finished: Array<any> = await Promise.all([PeopleStore.init(), TrackerStore.init(), ContextStore.init(), PointerStore.init()])
 
-  const people: IPeople = finished[0] || {}
+  const people: IPeople = await normalizePersonKeys(finished[0] || {})
   const trackers: ITrackers = await repairPrefixedTrackerKeys(finished[1] || {})
   let ctxs: any = finished[2] || {}
-  const ptrs: any = finished[3] || {}
+  const ptrs: any = await repairPrefixedPointerTags(finished[3] || [])
 
   // Handle migration: if contexts are stored as array (old ArrayStore format), convert to object
   if (Array.isArray(ctxs)) {

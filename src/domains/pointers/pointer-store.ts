@@ -57,6 +57,25 @@ export const PointerStore = createArrayStore(NPaths.storage.pointers(), {
   },
 })
 
+/**
+ * Repair Prefixed Tags
+ * The rename bug stored pointers with a '^' prefixed tag next to the original.
+ * Each one is moved onto its clean tag, the prefixed copy holds the latest edits.
+ */
+export const repairPrefixedPointerTags = async (pointers: Array<any>): Promise<Array<PointerClass>> => {
+  const isPrefixed = (p: any) => (p.tag || '').startsWith('^')
+  if (!pointers.some(isPrefixed)) return pointers
+  return await PointerStore.updateSync((s) => {
+    const merged = new Map<string, PointerClass>()
+    s.filter((p) => !isPrefixed(p)).forEach((p) => merged.set(p.tag, p))
+    s.filter(isPrefixed).forEach((p) => {
+      const clean = p.tag.replace(/^\^+/, '')
+      merged.set(clean, new PointerClass({ ...p, tag: clean }))
+    })
+    return [...merged.values()]
+  })
+}
+
 
 export const openPointersModal = () => {
   openModal({
