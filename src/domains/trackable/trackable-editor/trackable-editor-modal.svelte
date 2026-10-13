@@ -64,7 +64,7 @@
   $effect(() => {
     if (trackable && !workingTrackable) {
       workingTrackable = new Trackable(trackable)
-      workingTag = (workingTrackable.tag && removePrefix(workingTrackable.tag)) || strToTagSafe(workingTrackable.label)
+      workingTag = (workingTrackable.tag && removePrefix(workingTrackable.tag).replace(/^\^/, '')) || strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
       // Set editing label based on type
@@ -339,9 +339,11 @@
               } else if (workingTrackable?.type === 'person') {
                 if (!workingTrackable.person) {
                   workingTrackable.person = { displayName: editingLabel, username: editingLabel }
-                } else {
+                } else if (!ogTag) {
                   workingTrackable.person.displayName = editingLabel
                   workingTrackable.person.username = editingLabel
+                } else {
+                  workingTrackable.person.displayName = editingLabel
                 }
               } else if (workingTrackable?.type === 'tracker') {
                 if (!workingTrackable.tracker) {
