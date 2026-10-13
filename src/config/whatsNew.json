@@ -317,6 +317,9 @@
       "version": "dn6.8.0v20261013",
       "title": "Pivot columns drop area fixed"
     },{
+      "version": "dn6.8.0v20261013",
+      "title": "CouchDB sync toggle now switches off"
+    },{
       "version": "dn6.8.0v20261011",
       "title": "Real time sync bug for Pivots fixed"
     },{
