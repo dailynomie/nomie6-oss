@@ -12,7 +12,7 @@ import { PeopleStore } from '../people/PeopleStore'
 import Person from '../people/Person.class'
 import type { Trackable } from './Trackable.class'
 import TrackerClass from '../../modules/tracker/TrackerClass'
-import { TrackerStore } from '../tracker/TrackerStore'
+import { TrackerStore, repairPrefixedTrackerKeys } from '../tracker/TrackerStore'
 import { showToast } from '../../components/toast/ToastStore'
 import type { PermissionsState } from '../my-account/PermissionsStore'
 
@@ -79,7 +79,7 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   const finished: Array<any> = await Promise.all([PeopleStore.init(), TrackerStore.init(), ContextStore.init(), PointerStore.init()])
 
   const people: IPeople = finished[0] || {}
-  const trackers: ITrackers = finished[1] || {}
+  const trackers: ITrackers = await repairPrefixedTrackerKeys(finished[1] || {})
   let ctxs: any = finished[2] || {}
   const ptrs: any = finished[3] || {}
 

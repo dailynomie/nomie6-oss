@@ -64,7 +64,7 @@
   $effect(() => {
     if (trackable && !workingTrackable) {
       workingTrackable = new Trackable(trackable)
-      workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
+      workingTag = (workingTrackable.tag && removePrefix(workingTrackable.tag)) || strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
       // Set editing label based on type
@@ -372,7 +372,7 @@
                 class="flex items-center focus:outline-none focus:ring ring-primary-500 rounded-md"
               >
                 {#if ogTag && ogTag.length}
-                  <span class="opacity-50 ">Tag:</span> <span>{truncateText(ogTag, $Device.size == 'lg' ? 40 : 20)}</span>
+                  <span class="opacity-50 ">Tag:</span> <span>{truncateText(`${workingTrackable.prefix}${ogTag}`, $Device.size == 'lg' ? 40 : 20)}</span>
                   <IonIcon icon={LockClosedSolid} size={12} />
                 {:else if workingTag}
                   <span class="opacity-50">Tag:</span>
