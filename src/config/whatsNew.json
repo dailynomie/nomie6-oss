@@ -314,6 +314,9 @@
       "version": "dn6.8.0v20261013",
       "title": "Duplicate people and pointers from renames cleaned up on startup"
     },{
+      "version": "dn6.8.0v20261013",
+      "title": "Pivot columns drop area fixed"
+    },{
       "version": "dn6.8.0v20261011",
       "title": "Real time sync bug for Pivots fixed"
     },{
