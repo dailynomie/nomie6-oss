@@ -220,7 +220,8 @@ table.pvtTable tbody tr td {
     display: none;
 }
 
-.pvtRows .sortable-drop-spacer {
+.pvtRows .sortable-drop-spacer,
+.pvtCols .sortable-drop-spacer {
     display: block;
 }
 
