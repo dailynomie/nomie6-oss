@@ -42,7 +42,6 @@
   import MenuInline from '../../../components/menu/menu-inline.svelte'
 
   import { getPositivityButtons } from '../../board/boardActions'
-  import { trackEvent } from '../../usage/stat-ping'
 
   import { wait } from '../../../utils/tick/tick'
   import CaptureTextarea from '../../capture-log/capture-textarea.svelte'
@@ -162,7 +161,6 @@
 
   onMount(async () => {
     methods.init()
-    trackEvent('journal-editor')
     await wait(200)
     textarea?.focus()
   })

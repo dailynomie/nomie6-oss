@@ -9,7 +9,6 @@ import { wait } from '../../utils/tick/tick'
 import { deleteAllFromCache } from '../ledger/ledger-cache'
 
 import { getRawPrefs, Prefs, saveStorageType } from '../preferences/Preferences'
-import { trackEvent } from '../usage/stat-ping'
 
 type selectNewStorageProps = {
   current: 'local' | 'pouchdb' | string
@@ -71,7 +70,6 @@ export const useStorageSelectMenu = async (props: selectNewStorageProps) => {
       description: `${storageEngine.price} ${storageEngine.description}`,
       click() {
         if (prefs.storageType !== storageEngine.id) {
-          trackEvent(`switch-engine-${storageEngine.id}`)
           props.onSelect(storageEngine.id)
         }
       },

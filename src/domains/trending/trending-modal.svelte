@@ -21,7 +21,6 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
   import { queryToUsageMap } from '../ledger/LedgerStore'
   import { getDateFormats } from '../preferences/Preferences'
   import { TrackableStore } from '../trackable/TrackableStore'
-  import { trackEvent } from '../usage/stat-ping'
 
   import TrendingItem from './trending-item.svelte'
 
@@ -48,7 +47,6 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
   let title = $state('Loading...')
 
   const init = async () => {
-    trackEvent('trending-modal')
     loading = true
     const dateRange = getAroundThisTimeDateRanges($AroundThisTimeStore.date, $AroundThisTimeStore.focalPeriod)
     const usage = await queryToUsageMap(

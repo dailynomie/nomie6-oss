@@ -5,7 +5,6 @@ import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import { openModal } from '../../components/backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
-import { trackEvent } from '../usage/stat-ping'
 import Storage from '../storage/storage'
 
 export const PivotStore = createArrayStore(NPaths.storage.pivots(), {
@@ -40,7 +39,6 @@ let masterPivots: Array<PivotClass> = []
  * @param pivot
  */
 export const openPivotEditor = (pivot?: PivotClass) => {
-  trackEvent('open_pivot_editor');
   openModal({
     id: `pivot-${pivot.id}-editor`,
     position: 'fullscreen',
