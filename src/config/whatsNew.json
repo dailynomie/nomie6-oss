@@ -306,6 +306,9 @@
   "fixes": [
     {
       "version": "dn6.8.0v20261015",
+      "title": "Long notes fill the whole editor when edited"
+    },{
+      "version": "dn6.8.0v20261015",
       "title": "Tracker values picked in the note capture are added to the note"
     },{
       "version": "dn6.8.0v20261014",
