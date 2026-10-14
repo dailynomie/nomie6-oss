@@ -16,6 +16,11 @@
     textarea.focus();
   }
 
+  export const setValue = (text: string) => {
+    textarea.value = text;
+    value = text;
+  }
+
 	const tributeTriggered = (e)=>{
 		let payload:any = e.detail;
 		payload.cursor = {
