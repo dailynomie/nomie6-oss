@@ -306,6 +306,21 @@
   "fixes": [
     {
       "version": "dn6.8.0v20261017",
+      "title": "Restoring a backup keeps your current version of items that exist on both sides, unless you choose the backup's"
+    },{
+      "version": "dn6.8.0v20261017",
+      "title": "Older backup files (Nomie 4, 5 and Export format) ask the same restore question"
+    },{
+      "version": "dn6.8.0v20261017",
+      "title": "Installing a template only adds what is missing and reports when something fails"
+    },{
+      "version": "dn6.8.0v20261017",
+      "title": "Restoring a backup keeps plugins installed after the backup was made"
+    },{
+      "version": "dn6.8.0v20261017",
+      "title": "Backups report files they cannot read instead of leaving them out silently"
+    },{
+      "version": "dn6.8.0v20261017",
       "title": "Main board shows all trackers and is always the last tab"
     },{
       "version": "dn6.8.0v20261017",
