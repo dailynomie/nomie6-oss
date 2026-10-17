@@ -33,6 +33,7 @@ export default class ImportLoader {
   normalized: INormalizedImport
   raw: any
   changeListeners: Array<Function> = []
+  keepDevice: boolean = true
   importing: any = {}
   importer: Importer
 
@@ -92,31 +93,31 @@ export default class ImportLoader {
   }
 
   public async importTrackers(): Promise<any> {
+    const incoming = this.normalized.trackers || {}
     await TrackerStore.updateSync((state) => {
-      return { ...this.normalized.trackers, ...state }
+      return this.keepDevice ? { ...incoming, ...state } : { ...state, ...incoming }
     })
     return this
   }
 
   public async importDashboards() {
-    let existing = await getDashboards()
-    let final = dedupArray([...existing, ...this.normalized.dashboards], 'id')
-
+    const existing = await getDashboards()
+    const incoming = this.normalized.dashboards || []
+    const final = this.keepDevice ? dedupArray([...existing, ...incoming], 'id') : dedupArray([...incoming, ...existing], 'id')
     await saveDashboards(final)
     return this
   }
 
   public async importBoards() {
     const boards: Array<UniboardType> = (await getBoardsFromStorage()) || []
-    const newBoards: Array<UniboardType> = this.normalized.boards || [];
+    const newBoards: Array<UniboardType> = this.normalized.boards || []
 
-    const oldBoardsNotBeingReplaced = boards.filter((b) => {
-      return newBoards.find((nb) => nb.id == b.id) ? false : true
-    })
-    const updatedBoards = [...oldBoardsNotBeingReplaced, ...newBoards]
+    const updatedBoards = this.keepDevice
+      ? [...boards, ...newBoards.filter((nb) => !boards.find((b) => b.id == nb.id))]
+      : [...boards.filter((b) => !newBoards.find((nb) => nb.id == b.id)), ...newBoards]
     const allBoardIndex = updatedBoards.findIndex((b) => b.id == 'all' || b.id == '_all')
     if (allBoardIndex > -1) {
-      if(updatedBoards[allBoardIndex]) {
+      if (updatedBoards[allBoardIndex]) {
         updatedBoards[allBoardIndex].id = 'v5-all'
         updatedBoards[allBoardIndex].label = 'All'
       }
@@ -152,30 +153,31 @@ export default class ImportLoader {
   }
 
   public async importPeople() {
-    const newPeople = (this.normalized || { people: {} }).people
-
-    const people = await PeopleStore.updateSync((state) => {
-      const merged = { ...newPeople, ...state }
-      return merged
+    const newPeople = this.normalized.people || {}
+    await PeopleStore.updateSync((state) => {
+      return this.keepDevice ? { ...newPeople, ...state } : { ...state, ...newPeople }
     })
 
     // Need to refresh TrackableStore so people appear as trackables
     const { InitTrackableStore } = await import('../../domains/trackable/TrackableStore')
     await InitTrackableStore()
-    return people
+    return this
   }
 
   public async importContext() {
-    let importCTX = this.normalized.context || []
-    // Convert array to key-value object using 'tag' as key
     const contextMap: { [key: string]: ContextClass } = {}
-
-    importCTX.forEach((c) => {
+    ;(this.normalized.context || []).forEach((c) => {
       const contextClass = new ContextClass(c)
       if (contextClass.tag) {
         contextMap[contextClass.tag] = contextClass
       }
     })
+    if (this.keepDevice) {
+      const existing = ContextStore.rawState() || {}
+      Object.keys(contextMap).forEach((tag) => {
+        if (existing[tag]) delete contextMap[tag]
+      })
+    }
 
     try {
       if (Object.keys(contextMap).length > 0) {
@@ -188,9 +190,11 @@ export default class ImportLoader {
   }
 
   public async importPointers() {
-    let importPTR = this.normalized.pointers || []
-    // PointerStore uses ArrayStore, so keep as array, not object
-    const pointers = importPTR.map((p) => new PointerClass(p))
+    let pointers = (this.normalized.pointers || []).map((p) => new PointerClass(p))
+    if (this.keepDevice) {
+      const existingTags = new Set((PointerStore.rawState() || []).map((p: any) => p.tag))
+      pointers = pointers.filter((p) => !existingTags.has(p.tag))
+    }
 
     try {
       if (pointers.length > 0) {
@@ -203,7 +207,14 @@ export default class ImportLoader {
   }
 
   public async importLocations() {
-    await LocationStore.upsertMany(this.normalized.locations)
+    let locations: Array<any> = this.normalized.locations || []
+    if (this.keepDevice) {
+      const existingIds = new Set((LocationStore.rawState() || []).map((l: any) => l.id))
+      locations = locations.filter((l: any) => !existingIds.has(l.id))
+    }
+    if (locations.length > 0) {
+      await LocationStore.upsertMany(locations)
+    }
     return this
   }
 
@@ -211,8 +222,8 @@ export default class ImportLoader {
     if (this.normalized.goals && this.normalized.goals.length > 0) {
       await GoalStore.updateSync((state) => {
         const existing = state || []
-        const merged = dedupArray([...existing, ...this.normalized.goals], 'id')
-        return merged
+        const incoming = this.normalized.goals
+        return dedupArray(this.keepDevice ? [...existing, ...incoming] : [...incoming, ...existing], 'id')
       })
     }
     return this
@@ -222,8 +233,8 @@ export default class ImportLoader {
     if (this.normalized.pivots && this.normalized.pivots.length > 0) {
       await PivotStore.updateSync((state) => {
         const existing = state || []
-        const merged = dedupArray([...existing, ...this.normalized.pivots], 'id')
-        return merged
+        const incoming = this.normalized.pivots
+        return dedupArray(this.keepDevice ? [...existing, ...incoming] : [...incoming, ...existing], 'id')
       })
     }
     return this
@@ -232,20 +243,23 @@ export default class ImportLoader {
   public async importPlugins() {
     const backupPlugins: Array<any> = this.normalized.plugins || []
     if (backupPlugins.length > 0) {
-      // Keep the plugins already on this device, and add the ones that are only in the backup
       const existing: Array<any> = (await Storage.getStrict(NPaths.storage.plugins())) || []
-      const known = new Set(existing.map((p: any) => p.id))
-      const added = backupPlugins.filter((p: any) => !known.has(p.id))
-      if (added.length) {
-        await Storage.put(NPaths.storage.plugins(), [...existing, ...added])
+      let merged: Array<any>
+      if (this.keepDevice) {
+        const known = new Set(existing.map((p: any) => p.id))
+        merged = [...existing, ...backupPlugins.filter((p: any) => !known.has(p.id))]
+      } else {
+        const incomingIds = new Set(backupPlugins.map((p: any) => p.id))
+        merged = [...existing.filter((p: any) => !incomingIds.has(p.id)), ...backupPlugins]
       }
+      await Storage.put(NPaths.storage.plugins(), merged)
 
-      // Plugin settings are only restored where this device has none yet
+      // Plugin settings: with "keep this device" only where the device has none yet
       const preferences = this.normalized.pluginPreferences || {}
       for (const pluginId of Object.keys(preferences)) {
         try {
           const prefsPath = `plugins/${pluginId}/prefs.json`
-          if (!(await Storage.getStrict(prefsPath))) {
+          if (!this.keepDevice || !(await Storage.getStrict(prefsPath))) {
             await Storage.put(prefsPath, preferences[pluginId])
           }
         } catch (e) {
