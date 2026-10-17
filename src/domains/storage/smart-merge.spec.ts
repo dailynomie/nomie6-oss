@@ -94,6 +94,13 @@ describe('modules/smart-merge', function () {
     expect(merged).toEqual([{ id: 'x', a: 1, b: 2, c: 3 }])
   })
 
+  it('keeps identical items without an id as many times as the larger side has them', () => {
+    expect(smartMerge([{ name: 'a' }, { name: 'a' }], [])).toEqual([{ name: 'a' }, { name: 'a' }])
+    expect(smartMerge([{ name: 'a' }], [{ name: 'a' }, { name: 'a' }])).toEqual([{ name: 'a' }, { name: 'a' }])
+    const once = smartMerge([{ name: 'a' }, { name: 'a' }], [{ name: 'a' }, { name: 'a' }])
+    expect(smartMerge(once, [{ name: 'a' }, { name: 'a' }])).toEqual([{ name: 'a' }, { name: 'a' }])
+  })
+
   it('a null in the backup does not erase a value on this device', () => {
     const merged = smartMerge({ tracker: { label: 'Mood', color: '#f00' } }, { tracker: { label: 'Mood', color: null } })
     expect(merged.tracker.color).toBe('#f00')

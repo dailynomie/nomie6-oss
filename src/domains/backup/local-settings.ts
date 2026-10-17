@@ -13,7 +13,7 @@ import appConfig from '../../config/appConfig'
 export const PREFERENCES_KEY = `${appConfig.data_root}/localDB/preferences`
 
 // Settings that are safe to carry between devices
-export const LOCAL_SETTING_KEYS = [PREFERENCES_KEY, '/goal-status', 'timeline-settings', 'chart-options', 'fontSize', 'n4-lang']
+export const LOCAL_SETTING_KEYS = [PREFERENCES_KEY, '/goal-status', 'timeline-settings', 'fontSize', 'n4-lang']
 
 // Preference fields that are device specific or secret
 const DEVICE_ONLY_PREFS = ['usePin', 'storageType', 'lastBackup']

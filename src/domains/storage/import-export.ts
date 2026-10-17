@@ -156,7 +156,17 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
     showCSVImportModal(fileUpload);
 
   } else {
-    const archive: N6StorageExport | any = JSON.parse(fileUpload.data)
+    let archive: N6StorageExport | any
+    try {
+      archive = JSON.parse(fileUpload.data)
+    } catch (e) {
+      await Interact.alert('Not a valid file', 'This file is not valid JSON, so it cannot be imported.')
+      return false
+    }
+    if (!archive || typeof archive !== 'object') {
+      await Interact.alert('Not a valid file', 'This file does not contain a Nomie backup.')
+      return false
+    }
 
     /**
      * Is this a version 6 Archive, or the older format?
@@ -171,12 +181,13 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
       const tracker = new TrackerClass(archive.tracker)
       const confirmed = await Interact.confirm(`Install ${tracker.tag}?`)
       if (confirmed) {
-        saveTrackable({
+        const saved = await saveTrackable({
           trackable: tracker.toTrackable(),
           known: MasterTrackables,
           permissions: {},
           prompt: true,
         })
+        if (!saved) await Interact.alert(`${tracker.tag} could not be installed`)
         //tracker.toTrackable()
         // MasterTrackables, getRawPermissions(), true
       }

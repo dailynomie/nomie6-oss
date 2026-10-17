@@ -106,12 +106,23 @@ export const mergeArray = (v1: Array<any>, v2: Array<any>): Array<any> => {
 
   const id = idKeyOf([...existing, ...incoming])
 
+  const slotOf = (item: any): string => {
+    const itemId = id !== undefined && isPlainObject(item) ? item[id] : undefined
+    return itemId !== undefined && itemId !== null ? `id:${itemId}` : `value:${fingerprint(item)}`
+  }
+  const countSlots = (items: Array<any>): { [slot: string]: number } =>
+    items.reduce((counts: { [slot: string]: number }, item) => {
+      const slot = slotOf(item)
+      counts[slot] = (counts[slot] || 0) + 1
+      return counts
+    }, {})
+  const existingCounts = countSlots(existing)
+  const incomingCounts = countSlots(incoming)
+
   const order: Array<string> = []
   const groups: { [slot: string]: Array<any> } = {}
-
   ;[...existing, ...incoming].forEach((item) => {
-    const itemId = id !== undefined && isPlainObject(item) ? item[id] : undefined
-    const slot = itemId !== undefined && itemId !== null ? `id:${itemId}` : `value:${fingerprint(item)}`
+    const slot = slotOf(item)
     if (!groups[slot]) {
       groups[slot] = []
       order.push(slot)
@@ -119,9 +130,14 @@ export const mergeArray = (v1: Array<any>, v2: Array<any>): Array<any> => {
     groups[slot].push(item)
   })
 
-  return order.map((slot) => {
+  return order.flatMap((slot) => {
     const items = groups[slot]
-    if (items.length === 1 || slot.startsWith('value:')) return items[0]
-    return items.reduce((merged, item) => deepMerge(merged, item))
+    if (slot.startsWith('value:')) {
+      // Identical items without an id are kept as many times as the larger side has them
+      const copies = Math.max(existingCounts[slot] || 0, incomingCounts[slot] || 0)
+      return Array.from({ length: copies }, () => items[0])
+    }
+    if (items.length === 1) return [items[0]]
+    return [items.reduce((merged, item) => deepMerge(merged, item))]
   })
 }
