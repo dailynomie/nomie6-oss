@@ -253,6 +253,14 @@
     async importAll() {
       let confirmed = await Interact.confirm('Confirm', 'Are you sure? Importing cannot be undone.')
       if (confirmed === true) {
+        // Items that exist on this device and in the backup keep the device's version, unless the user picks the backup's
+        const useBackup = await Interact.confirm(
+          'Items already on this device',
+          "Some items exist on this device and in the backup. Keep this device's version (recommended), or use the version from the backup? Items only in the backup are always added.",
+          'Use backup version',
+          'Keep this device (recommended)'
+        )
+        importLoader.keepDevice = !useBackup
         await wait(300)
         importingAll = true
         importing.all.running = true

@@ -190,6 +190,16 @@ export const NomieServierStorage: IStorage = {
       return []
     }
   },
+  async getStrict(path) {
+    const call = await nsGet(`n6storage/${path}`)
+    if (call.status === 404) return null
+    if (!call.ok) throw new Error(`Failed to read ${path}: ${call.status} ${call.statusText}`)
+    const content = await call.json()
+    if (content && typeof content === 'object' && 'data' in content && Array.isArray(content.data)) {
+      return content.data
+    }
+    return content ?? null
+  },
   async list(path?: string) {
     const remotePath = path && path.length ? path : '/'
     const call = await nsPost(`n6storage/list`, JSON.stringify({ path: remotePath }))

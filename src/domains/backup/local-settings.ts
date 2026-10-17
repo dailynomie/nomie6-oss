@@ -13,7 +13,7 @@ import appConfig from '../../config/appConfig'
 export const PREFERENCES_KEY = `${appConfig.data_root}/localDB/preferences`
 
 // Settings that are safe to carry between devices
-export const LOCAL_SETTING_KEYS = [PREFERENCES_KEY, '/goal-status', 'timeline-settings', 'chart-options', 'fontSize', 'n4-lang']
+export const LOCAL_SETTING_KEYS = [PREFERENCES_KEY, '/goal-status', 'timeline-settings', 'fontSize', 'n4-lang']
 
 // Preference fields that are device specific or secret
 const DEVICE_ONLY_PREFS = ['usePin', 'storageType', 'lastBackup']
@@ -68,11 +68,16 @@ export const collectLocalSettings = (store: Storage = localStorage): LocalSettin
  * Write settings from a backup back into localStorage.
  * Preferences are merged so this device keeps its PIN, storage type and AI keys.
  */
-export const restoreLocalSettings = (settings: LocalSettings | undefined, store: Storage = localStorage): number => {
+export const restoreLocalSettings = (
+  settings: LocalSettings | undefined,
+  store: Storage = localStorage,
+  keepExisting: boolean = false
+): number => {
   if (!settings || typeof settings !== 'object') return 0
   let restored = 0
   Object.keys(settings).forEach((key) => {
     if (!LOCAL_SETTING_KEYS.includes(key)) return // ignore anything not on the allow-list
+    if (keepExisting && store.getItem(key) !== null) return // this device already has its own value
     const value = settings[key]
     if (typeof value !== 'string') return
     if (key === PREFERENCES_KEY) {

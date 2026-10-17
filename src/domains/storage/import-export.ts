@@ -11,7 +11,7 @@ import { wait } from '../../utils/tick/tick'
 import TrackerClass from '../../modules/tracker/TrackerClass'
 import { MasterTrackables, saveTrackable } from '../trackable/TrackableStore'
 
-import { smartMerge } from './smart-merge'
+import { addMissing, smartMerge } from './smart-merge'
 import { TemplateToImport } from './storage-export.helper'
 import { collectLocalSettings, restoreLocalSettings, type LocalSettings } from '../backup/local-settings'
 
@@ -91,8 +91,8 @@ export const buildStorageArchive = async (
     const path = Storage.convertPath(paths[i])
     if (onProgress) onProgress(path, math.percentage(paths.length, i))
     try {
-      const content = await Storage.get(path)
-      if (content) {
+      const content = await Storage.getStrict(path)
+      if (content !== null && content !== undefined) {
         files[path] = content
         if (isBookPath(path) && Array.isArray(content)) logs += content.length
       }
@@ -156,7 +156,17 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
     showCSVImportModal(fileUpload);
 
   } else {
-    const archive: N6StorageExport | any = JSON.parse(fileUpload.data)
+    let archive: N6StorageExport | any
+    try {
+      archive = JSON.parse(fileUpload.data)
+    } catch (e) {
+      await Interact.alert('Not a valid file', 'This file is not valid JSON, so it cannot be imported.')
+      return false
+    }
+    if (!archive || typeof archive !== 'object') {
+      await Interact.alert('Not a valid file', 'This file does not contain a Nomie backup.')
+      return false
+    }
 
     /**
      * Is this a version 6 Archive, or the older format?
@@ -171,12 +181,13 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
       const tracker = new TrackerClass(archive.tracker)
       const confirmed = await Interact.confirm(`Install ${tracker.tag}?`)
       if (confirmed) {
-        saveTrackable({
+        const saved = await saveTrackable({
           trackable: tracker.toTrackable(),
           known: MasterTrackables,
           permissions: {},
           prompt: true,
         })
+        if (!saved) await Interact.alert(`${tracker.tag} could not be installed`)
         //tracker.toTrackable()
         // MasterTrackables, getRawPermissions(), true
       }
@@ -192,6 +203,7 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
 
 type ImportProps = {
   silent?: boolean
+  addMissingOnly?: boolean // keep what is already on this device, only add what is missing (templates)
 }
 /**
  * Import a Storage Archive
@@ -205,7 +217,8 @@ type ImportProps = {
  */
 export const writeStorageArchive = async (
   archive: N6StorageExport,
-  onProgress?: (path: string, percent: number) => void
+  onProgress?: (path: string, percent: number) => void,
+  mode: 'merge' | 'add-missing' = 'merge'
 ): Promise<{ done: Array<string>; errors: Array<{ path: string; e: any }>; localSettings: number }> => {
   const files = Object.keys(archive.files).map((path) => ({ path, content: archive.files[path] }))
   const errors: Array<{ path: string; e: any }> = []
@@ -220,9 +233,9 @@ export const writeStorageArchive = async (
       const content = normalizeContextFile(path, file.content)
 
       // Merge with existing data when there is any; otherwise write as-is
-      const existing = await Storage.get(path)
+      const existing = await Storage.getStrict(path)
       if (existing && typeof existing !== 'string') {
-        await Storage.put(path, smartMerge(existing, content))
+        await Storage.put(path, mode === 'add-missing' ? addMissing(existing, content) : smartMerge(existing, content))
       } else {
         await Storage.put(path, content)
       }
@@ -234,7 +247,7 @@ export const writeStorageArchive = async (
 
   let localSettings = 0
   try {
-    localSettings = restoreLocalSettings(archive.local)
+    localSettings = restoreLocalSettings(archive.local, localStorage, mode === 'add-missing')
   } catch (e) {
     errors.push({ path: 'local settings', e })
   }
@@ -256,20 +269,32 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
     `This backup${created} contains ${fileCount} files and ${logCount.toLocaleString()} logs. It will be merged with the data on this device. This action cannot be undone.`
   )
   if (confirmed) {
-    const { errors } = await writeStorageArchive(archive, (path, percent) => Interact.blocker(path, percent))
+    // Items that exist on both sides keep this device's version, unless the user picks the backup's.
+    // Dismissing the question keeps this device's version too.
+    let mode: 'merge' | 'add-missing' = 'add-missing'
+    if (!props.addMissingOnly && !props.silent) {
+      const useBackup = await Interact.confirm(
+        'Items already on this device',
+        'Some items exist on this device and in the backup. Keep this device\'s version (recommended), or use the version from the backup? Items only in the backup are always added.',
+        'Use backup version',
+        'Keep this device (recommended)'
+      )
+      mode = useBackup ? 'merge' : 'add-missing'
+    }
+    const { errors } = await writeStorageArchive(archive, (path, percent) => Interact.blocker(path, percent), mode)
 
     Interact.stopBlocker()
 
     /**
      * Check if we have errors
      */
+    if (errors.length) console.error(errors)
     if (!props.silent) {
       if (!errors.length) {
         await Interact.alert(`Successfully restored ${fileCount} files`)
         window.location.reload()
         return true
       } else {
-        console.error(errors)
         await Interact.alert(
           'Restore incomplete',
           `${errors.length} of ${fileCount} files could not be restored: ${errors.map((e) => e.path).join(', ')}`
@@ -278,6 +303,6 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
         return false
       }
     }
-    return true
+    return !errors.length
   } // end if Confirmed
 }
