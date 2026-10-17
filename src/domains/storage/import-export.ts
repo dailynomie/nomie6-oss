@@ -277,13 +277,13 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
     /**
      * Check if we have errors
      */
+    if (errors.length) console.error(errors)
     if (!props.silent) {
       if (!errors.length) {
         await Interact.alert(`Successfully restored ${fileCount} files`)
         window.location.reload()
         return true
       } else {
-        console.error(errors)
         await Interact.alert(
           'Restore incomplete',
           `${errors.length} of ${fileCount} files could not be restored: ${errors.map((e) => e.path).join(', ')}`
@@ -292,6 +292,6 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
         return false
       }
     }
-    return true
+    return !errors.length
   } // end if Confirmed
 }

@@ -8,10 +8,38 @@ import mergeDeep from 'deepmerge'
  * so restoring or importing the same data twice is idempotent.
  */
 export const smartMerge = (v1: any, v2: any): any => {
+  const incoming = withoutNulls(v2)
+  if (v1 === undefined || v1 === null) return incoming
+  if (incoming === undefined || isEmptyPlaceholder(incoming)) return v1
+  if (isEmptyPlaceholder(v1) && Array.isArray(v1) !== Array.isArray(incoming)) return incoming
+  assertSameShape(v1, incoming)
   if (v1 instanceof Array) {
-    return mergeArray(v1, v2)
+    return mergeArray(v1, incoming)
   } else {
-    return deepMerge(v1, v2)
+    return deepMerge(v1, incoming)
+  }
+}
+
+// An empty list or object carries no data, whatever its type
+const isEmptyPlaceholder = (value: any): boolean =>
+  (Array.isArray(value) && value.length === 0) || (isPlainObject(value) && Object.keys(value).length === 0)
+
+// A null in a backup is "no value": it never erases a value that is on this device
+const withoutNulls = (value: any): any => {
+  if (Array.isArray(value)) return value.map(withoutNulls)
+  if (isPlainObject(value)) {
+    return Object.keys(value).reduce((clean: any, key) => {
+      if (value[key] !== null) clean[key] = withoutNulls(value[key])
+      return clean
+    }, {})
+  }
+  return value
+}
+
+// A list cannot be merged with an object. Refuse, so the file is reported instead of one side being dropped
+const assertSameShape = (v1: any, v2: any) => {
+  if (Array.isArray(v1) !== Array.isArray(v2)) {
+    throw new Error('Cannot merge a list with an object')
   }
 }
 
@@ -53,7 +81,12 @@ const idKeyOf = (items: Array<any>): string | undefined => {
  * Add only what is missing. Items that already exist (same id-like key) keep their
  * current version; new items are appended. Objects keep existing values and gain new keys.
  */
-export const addMissing = (existing: any, incoming: any): any => {
+export const addMissing = (existing: any, raw: any): any => {
+  const incoming = withoutNulls(raw)
+  if (existing === undefined || existing === null) return incoming
+  if (incoming === undefined || isEmptyPlaceholder(incoming)) return existing
+  if (isEmptyPlaceholder(existing) && Array.isArray(existing) !== Array.isArray(incoming)) return incoming
+  assertSameShape(existing, incoming)
   if (Array.isArray(existing) && Array.isArray(incoming)) {
     const id = idKeyOf([...existing, ...incoming])
     const keyOf = (item: any) => (id !== undefined && isPlainObject(item) && item[id] != null ? `id:${item[id]}` : fingerprint(item))

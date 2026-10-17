@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
  * so these tests exercise the real export, detection, merge and restore code.
  */
 
-const memory = vi.hoisted(() => ({ files: new Map<string, any>(), failing: new Set<string>() }))
+const memory = vi.hoisted(() => ({ files: new Map<string, any>(), failing: new Set<string>(), failingPut: new Set<string>() }))
 
 vi.mock('./storage', () => ({
   default: {
@@ -17,6 +17,7 @@ vi.mock('./storage', () => ({
       return memory.files.has(path) ? structuredClone(memory.files.get(path)) : null
     },
     put: async (path: string, content: any) => {
+      if (memory.failingPut.has(path)) throw new Error(`write failed: ${path}`)
       memory.files.set(path, structuredClone(content))
     },
     convertPath: (path: string) => path,
@@ -33,7 +34,7 @@ vi.mock('../import-export/ImporterStore', () => ({
 }))
 vi.mock('../trackable/TrackableStore', () => ({ MasterTrackables: {}, saveTrackable: vi.fn() }))
 
-import { buildStorageArchive, importStorage, isStorageArchive, writeStorageArchive } from './import-export'
+import { buildStorageArchive, importStorage, importStorageArchive, isStorageArchive, writeStorageArchive } from './import-export'
 import { PREFERENCES_KEY } from '../backup/local-settings'
 import Importer from '../../modules/import/import'
 import { selectFile } from '../../modules/download/download'
@@ -86,6 +87,7 @@ vi.stubGlobal('localStorage', local)
 const seedDevice = () => {
   memory.files.clear()
   memory.failing.clear()
+  memory.failingPut.clear()
   memory.files.set('trackers.json', { mood: { tag: 'mood', label: 'Mood', type: 'range' } })
   memory.files.set('boards.json', [{ id: 'b1', label: 'Health', elements: ['#mood', '#sleep'] }])
   memory.files.set('goals.json', [{ id: 'g1', tag: '#mood', period: 'week' }])
@@ -328,6 +330,23 @@ describe('restore keeps this device’s version of items that exist on both side
     await writeStorageArchive(backupFile, undefined, 'merge')
 
     expect(memory.files.get('boards.json')[0].elements).toEqual(['#mood', '#sleep'])
+  })
+})
+
+describe('template install reports failure', () => {
+  beforeEach(seedDevice)
+
+  it('returns false when a file cannot be saved, so the caller can say so', async () => {
+    memory.failingPut.add('goals.json')
+    const template = {
+      version: 'template',
+      files: {
+        'goals.json': [{ id: 'g5', tag: '#sleep' }],
+        'trackers.json': { sleep: { tag: 'sleep', label: 'Sleep', type: 'range' } },
+      },
+    }
+    const installed = await importStorageArchive(template as any, { silent: true, addMissingOnly: true })
+    expect(installed).toBe(false)
   })
 })
 

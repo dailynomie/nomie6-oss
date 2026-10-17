@@ -93,4 +93,23 @@ describe('modules/smart-merge', function () {
     const merged = smartMerge([{ id: 'x', a: 1 }], [{ id: 'x', b: 2 }, { id: 'x', c: 3 }])
     expect(merged).toEqual([{ id: 'x', a: 1, b: 2, c: 3 }])
   })
+
+  it('a null in the backup does not erase a value on this device', () => {
+    const merged = smartMerge({ tracker: { label: 'Mood', color: '#f00' } }, { tracker: { label: 'Mood', color: null } })
+    expect(merged.tracker.color).toBe('#f00')
+  })
+
+  it('refuses to merge a list with an object instead of dropping one side', () => {
+    expect(() => smartMerge([{ id: 'g1' }], { id: 'g2' } as any)).toThrow()
+    expect(() => smartMerge({ id: 'g1' }, [{ id: 'g2' }] as any)).toThrow()
+  })
+
+  it('an empty list or object from the backup changes nothing', () => {
+    expect(smartMerge([{ id: 'g1' }], [])).toEqual([{ id: 'g1' }])
+    expect(smartMerge({ mood: { tag: 'mood' } }, {})).toEqual({ mood: { tag: 'mood' } })
+  })
+
+  it('an empty placeholder on this device takes the backup value of the other type', () => {
+    expect(smartMerge({}, [{ id: 'g1' }] as any)).toEqual([{ id: 'g1' }])
+  })
 })
