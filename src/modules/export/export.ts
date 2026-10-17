@@ -155,7 +155,7 @@ export default class Export {
         'href',
         URL.createObjectURL(new Blob([JSON.stringify(this.backup)], { type: 'text/json' }))
       )
-      downloadButton.setAttribute('download', `nomie-${AppVersion}-${dayjs().format('YYYY-MM-DD-H:mm')}.json`)
+      downloadButton.setAttribute('download', `nomie-${AppVersion}-${dayjs().format('YYYY-MM-DD-HHmm')}.json`)
       downloadButton.click()
     } catch (e) {
       Interact.alert('Export Error', e.message)
@@ -209,8 +209,11 @@ export default class Export {
               loadNext()
             })
             .catch((e) => {
-              console.error(`Error importing ${bookPath}`)
+              console.error(`Error exporting ${bookPath}`, e)
               failures.push(bookPath)
+              // Keep going: without this the export never finished when one book failed
+              finished.push([])
+              loadNext()
             })
         } else {
           let events = flatten(finished)

@@ -32,7 +32,7 @@ export interface IImportStatus {
 export default class ImportLoader {
   normalized: INormalizedImport
   raw: any
-  changeListeners: Array<Function>
+  changeListeners: Array<Function> = []
   importing: any = {}
   importer: Importer
 
@@ -115,7 +115,7 @@ export default class ImportLoader {
     })
     const updatedBoards = [...oldBoardsNotBeingReplaced, ...newBoards]
     const allBoardIndex = updatedBoards.findIndex((b) => b.id == 'all' || b.id == '_all')
-    if (allBoardIndex) {
+    if (allBoardIndex > -1) {
       if(updatedBoards[allBoardIndex]) {
         updatedBoards[allBoardIndex].id = 'v5-all'
         updatedBoards[allBoardIndex].label = 'All'

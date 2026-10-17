@@ -60,10 +60,18 @@ function convertNewFormatToOldFormat(payload: any): any {
     }
 
     if (payload.files) {
+      const events: Array<any> = []
       Object.keys(payload.files).forEach((path) => {
+        // Logs are stored in weekly books (e.g. "data/books/2026-33"); the legacy
+        // importer expects them as one "events" list. Without this they were dropped.
+        if (/(^|\/)books\//.test(path)) {
+          if (Array.isArray(payload.files[path])) events.push(...payload.files[path])
+          return
+        }
         const key = path.replace('.json', '')
         converted[key] = payload.files[path]
       })
+      if (events.length) converted.events = events
     }
 
     console.log('Converted payload keys:', Object.keys(converted))
