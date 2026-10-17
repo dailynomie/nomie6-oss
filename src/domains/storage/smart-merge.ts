@@ -38,18 +38,40 @@ const deepMerge = (v1: any, v2: any): any => mergeDeep(v1, v2, { arrayMerge: (ta
  * - Everything else (primitives, objects without an id) is kept once, compared by value.
  * - Order: existing items first, then new incoming items.
  */
-export const mergeArray = (v1: Array<any>, v2: Array<any>): Array<any> => {
-  const existing = Array.isArray(v1) ? v1 : []
-  const incoming = Array.isArray(v2) ? v2 : []
-  if (!existing.length && !incoming.length) return []
-
-  const baseItem = [...existing, ...incoming].find(isPlainObject)
+const idKeyOf = (items: Array<any>): string | undefined => {
+  const baseItem = items.find(isPlainObject)
   let id: string | undefined
   if (baseItem) {
     KEYS.forEach((idType) => {
       if (Object.prototype.hasOwnProperty.call(baseItem, idType)) id = idType
     })
   }
+  return id
+}
+
+/**
+ * Add only what is missing. Items that already exist (same id-like key) keep their
+ * current version; new items are appended. Objects keep existing values and gain new keys.
+ */
+export const addMissing = (existing: any, incoming: any): any => {
+  if (Array.isArray(existing) && Array.isArray(incoming)) {
+    const id = idKeyOf([...existing, ...incoming])
+    const keyOf = (item: any) => (id !== undefined && isPlainObject(item) && item[id] != null ? `id:${item[id]}` : fingerprint(item))
+    const known = new Set(existing.map(keyOf))
+    return [...existing, ...incoming.filter((item) => !known.has(keyOf(item)))]
+  }
+  if (isPlainObject(existing) && isPlainObject(incoming)) {
+    return { ...incoming, ...existing }
+  }
+  return existing
+}
+
+export const mergeArray = (v1: Array<any>, v2: Array<any>): Array<any> => {
+  const existing = Array.isArray(v1) ? v1 : []
+  const incoming = Array.isArray(v2) ? v2 : []
+  if (!existing.length && !incoming.length) return []
+
+  const id = idKeyOf([...existing, ...incoming])
 
   const order: Array<string> = []
   const groups: { [slot: string]: Array<any> } = {}

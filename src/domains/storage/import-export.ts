@@ -11,7 +11,7 @@ import { wait } from '../../utils/tick/tick'
 import TrackerClass from '../../modules/tracker/TrackerClass'
 import { MasterTrackables, saveTrackable } from '../trackable/TrackableStore'
 
-import { smartMerge } from './smart-merge'
+import { addMissing, smartMerge } from './smart-merge'
 import { TemplateToImport } from './storage-export.helper'
 import { collectLocalSettings, restoreLocalSettings, type LocalSettings } from '../backup/local-settings'
 
@@ -192,6 +192,7 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
 
 type ImportProps = {
   silent?: boolean
+  addMissingOnly?: boolean // keep what is already on this device, only add what is missing (templates)
 }
 /**
  * Import a Storage Archive
@@ -205,7 +206,8 @@ type ImportProps = {
  */
 export const writeStorageArchive = async (
   archive: N6StorageExport,
-  onProgress?: (path: string, percent: number) => void
+  onProgress?: (path: string, percent: number) => void,
+  mode: 'merge' | 'add-missing' = 'merge'
 ): Promise<{ done: Array<string>; errors: Array<{ path: string; e: any }>; localSettings: number }> => {
   const files = Object.keys(archive.files).map((path) => ({ path, content: archive.files[path] }))
   const errors: Array<{ path: string; e: any }> = []
@@ -222,7 +224,7 @@ export const writeStorageArchive = async (
       // Merge with existing data when there is any; otherwise write as-is
       const existing = await Storage.getStrict(path)
       if (existing && typeof existing !== 'string') {
-        await Storage.put(path, smartMerge(existing, content))
+        await Storage.put(path, mode === 'add-missing' ? addMissing(existing, content) : smartMerge(existing, content))
       } else {
         await Storage.put(path, content)
       }
@@ -256,7 +258,11 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
     `This backup${created} contains ${fileCount} files and ${logCount.toLocaleString()} logs. It will be merged with the data on this device. This action cannot be undone.`
   )
   if (confirmed) {
-    const { errors } = await writeStorageArchive(archive, (path, percent) => Interact.blocker(path, percent))
+    const { errors } = await writeStorageArchive(
+      archive,
+      (path, percent) => Interact.blocker(path, percent),
+      props.addMissingOnly ? 'add-missing' : 'merge'
+    )
 
     Interact.stopBlocker()
 

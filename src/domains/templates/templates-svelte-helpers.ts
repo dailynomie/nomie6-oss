@@ -148,7 +148,7 @@ export const useTemplate = async (template: Template, closeModalId: string = 'te
   const confirmed = await Interact.confirm(`Install the ${template.name} template?`)
   if (confirmed) {
     const backup: any = TemplateToImport(template, getRawPrefs().useMetric)
-    await importStorageArchive(backup, { silent: true })
+    await importStorageArchive(backup, { silent: true, addMissingOnly: true })
     showToast({ message: `${template.name} installed` })
     closeModal(closeModalId)
 

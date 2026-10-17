@@ -256,6 +256,46 @@ describe('choosing the restore path for a selected file', () => {
   })
 })
 
+describe('template install adds only what is missing', () => {
+  beforeEach(seedDevice)
+
+  it('keeps existing trackers, boards and goals as they are and adds the new ones', async () => {
+    memory.files.set('trackers.json', { mood: { tag: 'mood', label: 'My mood', type: 'range', max: 10 } })
+    const template = {
+      version: 'template',
+      files: {
+        'trackers.json': {
+          mood: { tag: 'mood', label: 'Mood', type: 'range', max: 5 },
+          sleep: { tag: 'sleep', label: 'Sleep', type: 'range' },
+        },
+        'boards.json': [
+          { id: 'b1', label: 'Health', elements: ['#mood', '#walk'] },
+          { id: 'b2', label: 'New board', elements: ['#sleep'] },
+        ],
+        'goals.json': [
+          { id: 'g1', tag: '#mood', period: 'day' },
+          { id: 'g5', tag: '#sleep', period: 'day' },
+        ],
+      },
+    }
+
+    await writeStorageArchive(template as any, undefined, 'add-missing')
+
+    expect(memory.files.get('trackers.json')).toEqual({
+      mood: { tag: 'mood', label: 'My mood', type: 'range', max: 10 },
+      sleep: { tag: 'sleep', label: 'Sleep', type: 'range' },
+    })
+    expect(memory.files.get('boards.json')).toEqual([
+      { id: 'b1', label: 'Health', elements: ['#mood', '#sleep'] },
+      { id: 'b2', label: 'New board', elements: ['#sleep'] },
+    ])
+    expect(memory.files.get('goals.json')).toEqual([
+      { id: 'g1', tag: '#mood', period: 'week' },
+      { id: 'g5', tag: '#sleep', period: 'day' },
+    ])
+  })
+})
+
 describe('unreadable files', () => {
   beforeEach(seedDevice)
 
