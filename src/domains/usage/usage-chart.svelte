@@ -21,7 +21,8 @@
 
   import type { Trackable } from '../trackable/Trackable.class'
   import { TrackableStore } from '../trackable/TrackableStore'
-  import { saveChartOptions, getChartOption } from './ChartOptionsStore'
+  import { saveChartOptions, getChartOption, ChartOptionsStore } from './ChartOptionsStore'
+  import type { WidgetClass } from '../dashboard2/widget/widget-class'
 
   import type { TrackableUsage } from './trackable-usage.class'
   import { openDateOptionPopMenu, openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
@@ -29,7 +30,7 @@
   import { getContextOn } from '../context/context-utils'
   import { Prefs } from '../preferences/Preferences'
 
-  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false, dualAxis = false } = $props<{
+  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false, dualAxis = false, widget } = $props<{
     usages?: Array<TrackableUsage>
     style?: string
     className?: string
@@ -41,6 +42,7 @@
     isstatsview?: boolean
     showcontext?: boolean
     dualAxis?: boolean
+    widget?: WidgetClass
   }>()
 
   let dateFormats = $state(getDateFormats())
@@ -59,8 +61,10 @@
     }
   })
 
-  $effect(() => {
-    initChartOptions()
+  $effect(async () => {
+    // Subscribe to ChartOptionsStore updates so we reload when options change on other devices
+    $ChartOptionsStore
+    await initChartOptions()
   })
 
   interface ContextMapWrapper {
@@ -96,7 +100,7 @@
     chartStats = stats
     includeAlso = include
     if (save) {
-      saveChartOptions(id, { type, startWithZero, ignoreZero, stats, include, showContext})
+      await saveChartOptions(id, { type, startWithZero, ignoreZero, stats, include, showContext})
     }
     await wait(60)
     await alsoInclude()
@@ -113,22 +117,28 @@
     let swz = options.startWithZero === undefined || options.startWithZero === false ? false : true
     let iz = options.ignoreZero === undefined || options.ignoreZero === false ? false : true
     let st = options.stats || 'none'
-    let incl = options.include || undefined
     let showcontext = options.showContext
+
+    // Convert trackable ID back to Trackable object
+    let incl = undefined
+    if (options.include && typeof options.include === 'string') {
+      incl = $TrackableStore.trackables[options.include]
+    }
+
     setChartType(t, swz, iz,st, incl, showcontext, false)
   }
 
   const alsoInclude = async (newtrackable: boolean = false) => {
     if (!isstatsview){
     //remove current also included trackable
-    for (var i = 0; i < usages.length; i++) { 
+    for (var i = 0; i < usages.length; i++) {
       if (usages.length >1) {
         usages.splice(_.findIndex(usages, function(item) {
         return item.trackable.id === "-alsoinclude-";
         }), 1);
       }
     }}
-    
+
     var selected:Trackable
     if (newtrackable == true) {
       selected = await selectTrackable()
@@ -172,6 +182,7 @@
         usages.slice(0, -1)
       }
       else {usages.push(reverseUsage)}
+
       return usage
     }
     else {
@@ -302,10 +313,13 @@ else {contextannotation.annotations ={}}
       chartStats = "none"
     }
     //remove current stats data if exist
-    if (usages.length >1) {
-        usages.splice(_.findIndex(usages, function(item) {
+    if (usages.length > 1) {
+        const statsIndex = _.findIndex(usages, function(item) {
         return item.trackable.id === "-statistics-";
-        }), 1);
+        })
+        if (statsIndex >= 0) {
+          usages.splice(statsIndex, 1);
+        }
     }
     //define new if applicable
     var statusage = usages.find(x=>x!==undefined);
@@ -648,8 +662,9 @@ else {contextannotation.annotations ={}}
     // Get usage by day and backfill it
     const datasets = usages.map((usage, index) => {
       const dataset = usageToDataset(usage)
-      // Map second dataset to right axis if in dual-axis mode
-      if (dualAxis && index === 1) {
+      // Map secondary tracker to right axis if in dual-axis mode
+      // Only put "-alsoinclude-" (secondary tracker) on y1, not statistics
+      if (dualAxis && usage.trackable?.id === '-alsoinclude-') {
         dataset.yAxisID = 'y1'
       } else {
         dataset.yAxisID = 'y'

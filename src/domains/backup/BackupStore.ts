@@ -4,7 +4,8 @@ import { Interact } from '../../store/interact'
 import { Lang } from '../../store/lang'
 import dayjs from 'dayjs'
 
-import Export from '../../modules/export/export'
+// Nomie 6 storage archive: backs up every stored file, so new features are included automatically
+import { exportStorage } from '../storage/import-export'
 
 const STORAGE_KEY = 'last-backup-date'
 export const BackupStore = writable<undefined | string>(localStorage.getItem(STORAGE_KEY))
@@ -30,11 +31,10 @@ export const generateBackup = async (): Promise<boolean> => {
     `${Lang.t('settings.export-confirm', 'This might take a while if you have a lot of data.')}`
   )
   if (confirmed) {
-    const exporter = new Export()
-    await exporter.start()
-    backupConfirmed()
-
-    return true
+    const succeeded = await exportStorage()
+    // Only reset the backup reminder when the backup is complete
+    if (succeeded) backupConfirmed()
+    return succeeded
   }
   return false
 }

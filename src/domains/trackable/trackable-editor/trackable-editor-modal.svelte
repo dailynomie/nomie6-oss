@@ -56,6 +56,7 @@
   let workingTag: string = $state('')
   let label: string = $state('Label')
   let editingLabel: string = $state('')
+  let initializedLabel: boolean = $state(false)
 
   let saving: boolean = $state(false)
   let workingTrackableVersion: number = $state(0)
@@ -63,7 +64,7 @@
   $effect(() => {
     if (trackable && !workingTrackable) {
       workingTrackable = new Trackable(trackable)
-      workingTag = workingTrackable.tag || strToTagSafe(workingTrackable.label)
+      workingTag = (workingTrackable.tag && removePrefix(workingTrackable.tag).replace(/^\^/, '')) || strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
       // Set editing label based on type
@@ -87,13 +88,15 @@
         workingTrackable.emoji = randomEmoji()
         workingTrackable.color = randomColor()
       }
+
+      initializedLabel = true
     }
   })
 
   $effect(() => {
     // Only sync from trackable to editingLabel when first loading the trackable
-    // Don't constantly sync during editing, as that resets user input
-    if (workingTrackable && editingLabel === '') {
+    // Don't constantly sync during editing, as that prevents deleting to empty string
+    if (workingTrackable && !initializedLabel && editingLabel === '') {
       const currentLabel =
         workingTrackable.type === 'pointer' ? workingTrackable.ptr?.label :
         workingTrackable.type === 'context' ? workingTrackable.ctx?.label :
@@ -149,6 +152,7 @@
    * Save the Working Trackable
    */
   const save = async () => {
+
     if (!workingTrackable.id) workingTrackable.id = `${workingTrackable.prefix}${workingTag}`
     if (!ogTag) {
       workingTrackable.tag = workingTag
@@ -163,9 +167,23 @@
         trackable: workingTrackable,
         known: $TrackableStore.trackables,
       })
+
+      if (saved && trackable) {
+        // Copy the saved values back to the original trackable so parent components see updates
+        if (workingTrackable.type === 'tracker' && workingTrackable.tracker && trackable.tracker) {
+          Object.assign(trackable.tracker, workingTrackable.tracker)
+        } else if (workingTrackable.type === 'person' && workingTrackable.person && trackable.person) {
+          Object.assign(trackable.person, workingTrackable.person)
+        } else if (workingTrackable.type === 'context' && workingTrackable.ctx && trackable.ctx) {
+          Object.assign(trackable.ctx, workingTrackable.ctx)
+        } else if (workingTrackable.type === 'pointer' && workingTrackable.ptr && trackable.ptr) {
+          Object.assign(trackable.ptr, workingTrackable.ptr)
+        }
+      }
+
       // Toast the Place!
       close()
-      InitTrackableStore()
+      await InitTrackableStore()
 
       saving = false
       if (saved) {
@@ -234,14 +252,21 @@
     }
   }
 
+  const handleCancel = async () => {
+    // Simply close without saving — workingTrackable is a temporary copy
+    closeModal(id)
+    workingTrackable = undefined
+  }
+
   const close = async () => {
     closeModal(id)
+    workingTrackable = undefined
   }
 </script>
 
 <BackdropModal mainClass="bg-gray-200 dark:bg-gray-800">
   <ToolbarGrid slot="header" className="bg-gray-50 stiff dark:bg-black">
-    <Button slot="left" id="cancel-button" clear primary on:click={close}>{Lang.t('general.cancel', 'Cancel')}</Button>
+    <Button slot="left" id="cancel-button" clear primary on:click={handleCancel}>{Lang.t('general.cancel', 'Cancel')}</Button>
     <h2
       class="font-bold  text-sm flex-grow-0 line-clamp-1 text-black  dark:text-white capitalize flex items-center space-x-2"
     >
@@ -314,9 +339,11 @@
               } else if (workingTrackable?.type === 'person') {
                 if (!workingTrackable.person) {
                   workingTrackable.person = { displayName: editingLabel, username: editingLabel }
-                } else {
+                } else if (!ogTag) {
                   workingTrackable.person.displayName = editingLabel
                   workingTrackable.person.username = editingLabel
+                } else {
+                  workingTrackable.person.displayName = editingLabel
                 }
               } else if (workingTrackable?.type === 'tracker') {
                 if (!workingTrackable.tracker) {
@@ -347,7 +374,7 @@
                 class="flex items-center focus:outline-none focus:ring ring-primary-500 rounded-md"
               >
                 {#if ogTag && ogTag.length}
-                  <span class="opacity-50 ">Tag:</span> <span>{truncateText(ogTag, $Device.size == 'lg' ? 40 : 20)}</span>
+                  <span class="opacity-50 ">Tag:</span> <span>{truncateText(`${workingTrackable.prefix}${ogTag}`, $Device.size == 'lg' ? 40 : 20)}</span>
                   <IonIcon icon={LockClosedSolid} size={12} />
                 {:else if workingTag}
                   <span class="opacity-50">Tag:</span>

@@ -155,10 +155,12 @@
 
   const pluginGetTrackable = async (plugin: PluginType, payload: { id: string; tag: string; lid: string }) => {
     const trackable = tagToTrackable(payload.tag)
+    // Convert Proxy objects to plain objects for postMessage serialization
+    const plainTrackable = JSON.parse(JSON.stringify(trackable))
     broadcast(plugin, 'getTrackableReply', {
       id: payload.id,
       lid: payload.lid,
-      trackable: trackable,
+      trackable: plainTrackable,
     })
   }
 
@@ -295,12 +297,14 @@
       const type = payload.type
       const selected = await selectTrackables(type, payload.multiple == false ? false : true)
       if (selected) {
+        // Convert Proxy objects to plain objects for postMessage serialization
+        const plainSelected = JSON.parse(JSON.stringify(selected))
         broadcastPluginMessage(
           {
             action: 'trackablesSelected',
             data: {
               id: payload.id,
-              selected,
+              selected: plainSelected,
             },
           },
           plugin.id,
@@ -327,15 +331,17 @@
 
       const trackableUsage = await queryToTrackableUsage(trackable, dateRange, $TrackableStore.trackables)
       const usage: any = groupByDay ? trackableUsage.byDay : trackableUsage
-      usage.dates = usage.dates.map((djs) => djs.toDate()) 
+      usage.dates = usage.dates.map((djs) => djs.toDate())
 
       try {
+        // Convert Proxy objects to plain objects for postMessage serialization
+        const plainTrackable = JSON.parse(JSON.stringify(trackable))
         broadcastPluginMessage(
           {
             action: 'getTrackableUsageReply',
             data: {
               id: payload.id,
-              trackable: trackable,
+              trackable: plainTrackable,
               usage: usage,
             },
           },

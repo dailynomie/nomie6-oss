@@ -71,6 +71,7 @@
   }
 
   const save = async () => {
+    const plain = JSON.parse(JSON.stringify(workingPivot))
     let newPivot = new PivotClass({
       id: workingPivot.id,
       tag: name,
@@ -84,18 +85,24 @@
       colGroupBefore: workingPivot.colGroupBefore,
       rendererName: workingPivot.rendererName,
       aggregatorName: workingPivot.aggregatorName,
-      hiddenAttributes: workingPivot.hiddenAttributes,
-      hiddenFromAggregators: workingPivot.hiddenFromAggregators,
-      hiddenFromDragDrop: workingPivot.hiddenFromDragDrop,
+      hiddenAttributes: plain.hiddenAttributes,
+      hiddenFromAggregators: plain.hiddenFromAggregators,
+      hiddenFromDragDrop: plain.hiddenFromDragDrop,
       unusedOrientationCutoff: workingPivot.unusedOrientationCutoff,
       menuLimit: workingPivot.menuLimit,
-      options: workingPivot.options,
+      options: plain.options,
     })
     newPivot.options.data = []
-    newPivot.options.valueFilter = filters;
+    newPivot.options.valueFilter = $state.snapshot(filters);
     Interact.blocker(`Saving ${workingPivot.tag} pivot...`)
-    await PivotStore.upsert(newPivot)
-    Interact.stopBlocker()
+    try {
+      await PivotStore.upsert(newPivot)
+    } catch (e) {
+      Interact.error(e.message)
+      return
+    } finally {
+      Interact.stopBlocker()
+    }
     showToast({ message: 'Pivot Saved' })
     close()
   }

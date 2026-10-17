@@ -11,9 +11,19 @@
   let tribute
   let textarea: HTMLTextAreaElement
 
+  $effect(() => {
+    value
+    if (textarea) autosize.update(textarea)
+  })
+
   export const setSelectionRange = (a,b)=>{
     textarea.setSelectionRange(a,b);
     textarea.focus();
+  }
+
+  export const setValue = (text: string) => {
+    textarea.value = text;
+    value = text;
   }
 
 	const tributeTriggered = (e)=>{

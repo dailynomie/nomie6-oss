@@ -56,24 +56,36 @@ export class Trackable {
   constructor(starter: TrackableType) {
     this.type = starter.type
     if (starter.type == 'tracker') {
-      this.tracker = starter.tracker instanceof TrackerClass ? starter.tracker : new TrackerClass(starter.tracker)
+      // Always create a new TrackerClass to ensure we get a copy, not a shared reference
+      const trackerData = starter.tracker instanceof TrackerClass ? starter.tracker.asObject : starter.tracker
+      this.tracker = new TrackerClass(trackerData)
       this.id = starter.id || `#${(this.tracker || {}).tag}`
     } else if (starter.type === 'person') {
       this.person = starter.person
         ? starter.person instanceof Person
-          ? starter.person
+          ? new Person({
+              username: starter.person.username,
+              displayName: starter.person.displayName,
+              avatar: starter.person.avatar,
+              emoji: starter.person.emoji,
+              color: starter.person.color,
+              last: starter.person.last,
+              notes: starter.person.notes,
+            })
           : new Person(starter.person)
         : undefined
-      this.id = starter.id || `@(this.person || {}).username`
+      this.id = starter.id || `@${(this.person || {}).username}`
     } else if (starter.type === 'context') {
       this.context = starter.context
       this.id = starter.id
-      // If ctx is already a ContextClass instance, preserve it; otherwise create from data
-      this.ctx = starter.ctx instanceof ContextClass ? starter.ctx : new ContextClass(starter.ctx || this.context)
+      // Always create a new ContextClass to ensure we get a copy, not a shared reference
+      const ctxData = starter.ctx instanceof ContextClass ? starter.ctx.asObject : (starter.ctx || this.context)
+      this.ctx = new ContextClass(ctxData)
     } else if (starter.type === 'pointer') {
       this.pointer = starter.pointer
       this.id = starter.id
-      this.ptr = new PointerClass(starter.ptr || this.pointer)
+      const ptrData = starter.ptr instanceof PointerClass ? starter.ptr.asObject : (starter.ptr || this.pointer)
+      this.ptr = new PointerClass(ptrData)
     }
     this.value = starter.value
   }

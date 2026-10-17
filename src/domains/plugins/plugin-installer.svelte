@@ -22,7 +22,6 @@
   import { wait } from '../../utils/tick/tick'
 
   import { randomEmoji } from '../tracker/editor/TrackerEditorStore'
-  import { trackEvent } from '../usage/stat-ping'
   import { PluginClass, type PluginType } from './plugin-helpers'
   import { broadcastPluginMessage, PluginStore } from './PluginStore'
 
@@ -97,7 +96,6 @@
 
   const installPluginDetails = async () => {
     const plugin = new PluginClass(pluginDetails)
-    trackEvent(`in-plugin-${plugin.url}`)
     if (plugin.name) {
       PluginStore.upsert(plugin)
       let confirmEnabled = await Interact.confirm(

@@ -3,6 +3,7 @@ import { closeModal, openModal } from "../../components/backdrop/BackdropStore2"
 import appConfig from "../../config/appConfig";
 import NPaths from "../../paths";
 import { createArrayStore } from "../../store/ArrayStore";
+import Storage from "../storage/storage";
 
 import type { PluginType, PluginUseTypes } from "./plugin-helpers";
 import { PluginClass } from "./plugin-helpers";
@@ -145,5 +146,46 @@ export const initializeBuildinPlugins = () => {
 
   if (!existing) {
     PluginStore.upsert(blocklyPlugin)
+  }
+}
+
+/**
+ * Register change listeners for plugin preferences to enable real-time sync
+ * When plugin preferences are updated on other devices via CouchDB,
+ * this function ensures the app detects and handles those changes.
+ */
+export const registerPluginPreferencesListeners = async () => {
+  try {
+    const plugins: Array<PluginClass> = PluginStore.rawState()
+
+    console.log('[PluginStore] Registering preference listeners for', plugins.length, 'plugins')
+
+    for (const plugin of plugins) {
+      const prefsPath = `plugins/${plugin.id}/prefs.json`
+
+      // Register listener for preference changes from CouchDB sync
+      Storage.get(prefsPath, (changedPrefs: any) => {
+        console.log(`[PluginStore] Preference update detected for plugin: ${plugin.name} (${plugin.id})`)
+        console.log(`[PluginStore] Updated prefs:`, Object.keys(changedPrefs || {}))
+
+        // Note: Individual plugins may need to reload their preferences
+        // This broadcasts the update so plugins can react if needed
+        broadcastPluginMessage(
+          {
+            action: 'preferencesUpdated',
+            data: {
+              pluginId: plugin.id,
+              preferences: changedPrefs,
+            },
+          },
+          plugin.id,
+          'auto'
+        )
+      })
+    }
+
+    console.log('[PluginStore] Plugin preference listeners initialized')
+  } catch (e) {
+    console.error('[PluginStore] Error registering preference listeners:', e)
   }
 }

@@ -28,10 +28,11 @@ import is from '../../utils/is/is';
   }
 
   let onInput = (evt: any) => {
-    if (evt.key == 'Enter') {
+    if (evt?.key == 'Enter') {
       dispatch('enter', value)
     }
-    dispatch('input', evt.target.value)
+    // Use the bound value instead of evt.target.value (evt.target can be null in Safari)
+    dispatch('input', value)
   }
 
   let hasInput = $derived.by(() => {

@@ -181,13 +181,15 @@
         editingWidget.timeRange = undefined;
       }
 
+      const widget = new WidgetClass($state.snapshot(editingWidget))
+
       if(props.onSave) {
-        props.onSave(editingWidget);
-        await upsertWidget(editingWidget).catch((e) => {
+        props.onSave(widget);
+        await upsertWidget(widget).catch((e) => {
           throw e
         })
       } else {
-        await upsertWidget(editingWidget).catch((e) => {
+        await upsertWidget(widget).catch((e) => {
           throw e
         })
       }

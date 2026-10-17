@@ -36,6 +36,7 @@
     success: false,
     syncing: false,
     canSync: false,
+    syncEnabled: false,
   })
 
   const methods = {
@@ -71,12 +72,14 @@
     },
     startSync() {
       state.syncing = true
+      state.syncEnabled = true
       state.remote.syncEnabled = true
       pouchEngine.saveRemote(state.remote)
       pouchEngine.startSync()
     },
     stopSync() {
       state.syncing = false
+      state.syncEnabled = false
       pouchEngine.stopSync()
       state.remote.syncEnabled = false
     },
@@ -110,7 +113,6 @@
           setTimeout(() => {
             methods.startSync()
             state.syncing = true
-            state.remote.syncEnabled = true
           }, 120)
         }
         connecting = false
@@ -194,6 +196,7 @@
     // Get Remote Settings
     //@ts-ignore
     state.remote = pouchEngine.getRemote()
+    state.syncEnabled = state.remote.syncEnabled
     // Wait for it to be ready
     pouchEngine.onReady(() => {
       // Wait for syncer to turn on
@@ -216,11 +219,11 @@
           isOpen = !isOpen
         }}
       >
-        <div slot="left" class={!state.remote.syncEnabled ? 'opacity-20' : ''}>♻️</div>
+        <div slot="left" class={!state.syncEnabled ? 'opacity-20' : ''}>♻️</div>
         <div class="line-clamp-1 text-xs text-gray-500">{connectionString}</div>
         <div slot="right">
           <ToggleSwitch
-            bind:value={state.remote.syncEnabled}
+            bind:value={state.syncEnabled}
             on:change={(event) => {
               if (event.detail == false) {
                 methods.stopSync()

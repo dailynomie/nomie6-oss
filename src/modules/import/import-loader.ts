@@ -32,7 +32,7 @@ export interface IImportStatus {
 export default class ImportLoader {
   normalized: INormalizedImport
   raw: any
-  changeListeners: Array<Function>
+  changeListeners: Array<Function> = []
   importing: any = {}
   importer: Importer
 
@@ -115,7 +115,7 @@ export default class ImportLoader {
     })
     const updatedBoards = [...oldBoardsNotBeingReplaced, ...newBoards]
     const allBoardIndex = updatedBoards.findIndex((b) => b.id == 'all' || b.id == '_all')
-    if (allBoardIndex) {
+    if (allBoardIndex > -1) {
       if(updatedBoards[allBoardIndex]) {
         updatedBoards[allBoardIndex].id = 'v5-all'
         updatedBoards[allBoardIndex].label = 'All'
@@ -152,10 +152,16 @@ export default class ImportLoader {
   }
 
   public async importPeople() {
+    const newPeople = (this.normalized || { people: {} }).people
+
     const people = await PeopleStore.updateSync((state) => {
-      let newPeople = (this.normalized || { people: {} }).people
-      return { ...newPeople, ...state }
+      const merged = { ...newPeople, ...state }
+      return merged
     })
+
+    // Need to refresh TrackableStore so people appear as trackables
+    const { InitTrackableStore } = await import('../../domains/trackable/TrackableStore')
+    await InitTrackableStore()
     return people
   }
 
@@ -224,8 +230,113 @@ export default class ImportLoader {
   }
 
   public async importPlugins() {
+    console.log('[importPlugins] Starting import')
+    console.log('[importPlugins] Plugins in backup:', this.normalized.plugins?.length || 0)
     if (this.normalized.plugins && this.normalized.plugins.length > 0) {
+      console.log('[importPlugins] Backup plugins:', this.normalized.plugins.map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        active: p.active,
+        setupComplete: p.setupComplete
+      })))
+
+      // Get existing plugins before replacement
+      const existingPlugins = await Storage.get(NPaths.storage.plugins())
+      console.log('[importPlugins] Existing plugins before import:', existingPlugins?.length || 0)
+      if (existingPlugins) {
+        console.log('[importPlugins] Existing plugins:', existingPlugins.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          active: p.active
+        })))
+      }
+
+      console.log('[importPlugins] ⚠️ IMPORTANT: Using Storage.put() which REPLACES all plugins')
+      console.log('[importPlugins] Any existing plugins not in the backup will be LOST!')
+
       await Storage.put(NPaths.storage.plugins(), this.normalized.plugins)
+
+      // Import plugin preferences if available in backup
+      if (this.normalized.pluginPreferences && Object.keys(this.normalized.pluginPreferences).length > 0) {
+        console.log('[importPlugins] Importing plugin preferences...')
+        for (const pluginId of Object.keys(this.normalized.pluginPreferences)) {
+          try {
+            const prefsPath = `plugins/${pluginId}/prefs.json`
+            const prefs = this.normalized.pluginPreferences[pluginId]
+            await Storage.put(prefsPath, prefs)
+            console.log(`[importPlugins] Imported prefs for plugin: ${pluginId}`)
+          } catch (e) {
+            console.error(`[importPlugins] Error importing prefs for plugin ${pluginId}:`, e)
+          }
+        }
+        console.log('[importPlugins] Plugin preferences imported successfully')
+      }
+
+      console.log('[importPlugins] ✅ Plugins written to storage')
+      const afterImport = await Storage.get(NPaths.storage.plugins())
+      console.log('[importPlugins] Plugins in storage after import:', afterImport?.length || 0)
+
+      // Find "My Balance" plugin before and after
+      const myBalanceBefore = existingPlugins?.find((p: any) => p.name === 'My Balance')
+      const myBalanceAfter = afterImport?.find((p: any) => p.name === 'My Balance')
+
+      console.log('[importPlugins] "My Balance" before import:', {
+        name: myBalanceBefore?.name,
+        active: myBalanceBefore?.active,
+        setupComplete: myBalanceBefore?.setupComplete,
+        addToCaptureMenu: myBalanceBefore?.addToCaptureMenu,
+        addToMoreMenu: myBalanceBefore?.addToMoreMenu,
+        addToWidgets: myBalanceBefore?.addToWidgets,
+      })
+
+      console.log('[importPlugins] "My Balance" after import:', {
+        name: myBalanceAfter?.name,
+        active: myBalanceAfter?.active,
+        setupComplete: myBalanceAfter?.setupComplete,
+        addToCaptureMenu: myBalanceAfter?.addToCaptureMenu,
+        addToMoreMenu: myBalanceAfter?.addToMoreMenu,
+        addToWidgets: myBalanceAfter?.addToWidgets,
+      })
+
+      console.log('[importPlugins] ✅ All plugins after import:', afterImport?.map((p: any) => ({ name: p.name, active: p.active })))
+
+      // Check for plugin prefs before and after import
+      console.log('[importPlugins] ⚠️ CHECKING PLUGIN PREFERENCES FOLDERS...')
+
+      console.log('[importPlugins] Prefs BEFORE import:')
+      for (const plugin of (existingPlugins || [])) {
+        try {
+          const prefsPath = `plugins/${plugin.id}/prefs.json`
+          const prefs = await Storage.get(prefsPath)
+          console.log(`  - "${plugin.name}" (${plugin.id}):`, prefs ? '✓ HAS PREFS' : '✗ NO PREFS')
+          if (prefs) {
+            console.log(`    Prefs content keys:`, Object.keys(prefs || {}))
+          }
+        } catch (e) {
+          console.log(`  - "${plugin.name}" (${plugin.id}): ✗ ERROR`)
+        }
+      }
+
+      console.log('[importPlugins] Prefs AFTER import:')
+      for (const plugin of (afterImport || [])) {
+        try {
+          const prefsPath = `plugins/${plugin.id}/prefs.json`
+          const prefs = await Storage.get(prefsPath)
+          console.log(`  - "${plugin.name}" (${plugin.id}):`, prefs ? '✓ HAS PREFS' : '✗ NO PREFS')
+          if (prefs) {
+            console.log(`    Prefs content keys:`, Object.keys(prefs || {}))
+          }
+        } catch (e) {
+          console.log(`  - "${plugin.name}" (${plugin.id}): ✗ ERROR`)
+        }
+      }
+
+      console.log('[importPlugins] ⚠️ ANALYSIS:')
+      console.log('[importPlugins] - Plugin definitions (plugins.json): ✓ IMPORTED')
+      console.log('[importPlugins] - Plugin preferences (plugins/*/prefs.json): ✗ NOT IMPORTED')
+      console.log('[importPlugins] - Plugin prefs will be recreated when plugins are opened after import')
+    } else {
+      console.log('[importPlugins] No plugins to import')
     }
     return this
   }

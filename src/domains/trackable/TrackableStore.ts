@@ -5,14 +5,14 @@ import { derived, writable } from 'svelte/store'
 import { ContextClass } from '../context/context-class'
 import type { PointerClass } from '../pointers/pointer-class'
 import { ContextStore } from '../context/context-store'
-import { PointerStore } from '../pointers/pointer-store'
+import { PointerStore, repairPrefixedPointerTags } from '../pointers/pointer-store'
 import { Interact } from '../../store/interact'
 import { Lang } from '../../store/lang'
-import { PeopleStore } from '../people/PeopleStore'
+import { PeopleStore, normalizePersonKeys } from '../people/PeopleStore'
 import Person from '../people/Person.class'
 import type { Trackable } from './Trackable.class'
 import TrackerClass from '../../modules/tracker/TrackerClass'
-import { TrackerStore } from '../tracker/TrackerStore'
+import { TrackerStore, repairPrefixedTrackerKeys } from '../tracker/TrackerStore'
 import { showToast } from '../../components/toast/ToastStore'
 import type { PermissionsState } from '../my-account/PermissionsStore'
 
@@ -78,10 +78,10 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   // Get Poeple Trackers Pointers and Context
   const finished: Array<any> = await Promise.all([PeopleStore.init(), TrackerStore.init(), ContextStore.init(), PointerStore.init()])
 
-  const people: IPeople = finished[0] || {}
-  const trackers: ITrackers = finished[1] || {}
+  const people: IPeople = await normalizePersonKeys(finished[0] || {})
+  const trackers: ITrackers = await repairPrefixedTrackerKeys(finished[1] || {})
   let ctxs: any = finished[2] || {}
-  const ptrs: any = finished[3] || {}
+  const ptrs: any = await repairPrefixedPointerTags(finished[3] || [])
 
   // Handle migration: if contexts are stored as array (old ArrayStore format), convert to object
   if (Array.isArray(ctxs)) {
@@ -103,7 +103,9 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   Object.keys(people || {}).map((username) => {
     const person = new Person(people[username])
     const trackable = person.toTrackable()
-    MasterTrackables[trackable.tag] = trackable
+    if (trackable.tag) {
+      MasterTrackables[trackable.tag] = trackable
+    }
   })
 
   // Trackables to
@@ -151,11 +153,9 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
 export const InitTrackableStore = async (): Promise<ITrackables> => {
   const trackables = await getTrackablesFromStorage()
 
-  TrackableStore.update((s) => {
+  TrackableStore.update(() => {
     delete trackables['#']
-    s.trackables = trackables
-    s.ready = true
-    return s
+    return { trackables, ready: true }
   })
 
   return trackables
@@ -183,6 +183,7 @@ export const saveTrackable = async ({
   saveToActiveBoard = true,
 }: SaveTrackableProps) => {
   try {
+
     // if (permissions.canWrite && permissions.trackables <= Object.keys(known).length) {
     //   // Maxed out. lets see if it already exists
     //   if (!known[trackable.tag]) {
@@ -252,17 +253,6 @@ export const deleteTrackableFromNomie = async (trackable: Trackable, prompt: boo
  */
 export const saveTrackersToStorage = async (trackables: Array<Trackable>): Promise<boolean> => {
   try {
-    // const existing: ITrackers = (await Storage.get(NPaths.storage.trackers())) || {}
-    // const trackers: ITrackers = {}
-    // trackables
-    //   .filter((t) => t.type === 'tracker')
-    //   .map((t) => {
-    //     trackers[t.tracker.tag] = t.tracker
-    //     return t.tracker
-    //   })
-    // let merged: ITrackers = { ...existing, ...trackers }
-    // await Storage.put(NPaths.storage.trackers(), merged)
-
     const map: ITrackers = {}
     trackables
       .filter((t) => t.type === 'tracker')
@@ -272,7 +262,6 @@ export const saveTrackersToStorage = async (trackables: Array<Trackable>): Promi
 
     await TrackerStore.updateSync((state) => {
       let merged: ITrackers = { ...state, ...map }
-
       return merged
     })
 

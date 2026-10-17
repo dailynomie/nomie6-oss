@@ -104,6 +104,7 @@ export function N5ImportNormalizer(importer: any): INormalizedImport {
     goals: importer.goals || [],
     pivots: importer.pivots || [],
     plugins: importer.plugins || [],
+    pluginPreferences: importer.pluginPreferences || {},
   }
 
   return final

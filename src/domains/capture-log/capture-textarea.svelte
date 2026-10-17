@@ -41,7 +41,7 @@
       if (inputValue) {
         let note = replaceTextAt(value, tag, inputValue.raw, cursorPos)
         let newCursor = evt.detail.cursor.end + (inputValue.raw.length - tag.length)
-        value = `${note} `
+        textarea.setValue(note)
         await wait(20)
         textarea.setSelectionRange(newCursor, newCursor)
         emit('input', evt.detail)

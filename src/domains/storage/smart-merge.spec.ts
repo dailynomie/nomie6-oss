@@ -57,5 +57,40 @@ describe('modules/smart-merge', function () {
     expect(merged.sub.notime).toBe(true);
     expect(merged.sub.time).toBe(true);
   })
- 
+
+  it('should not duplicate shared items in nested lists', () => {
+    const local = [{ id: 'b1', label: 'Health', elements: ['#sleep', '#mood'] }]
+    const incoming = [{ id: 'b1', label: 'Health', elements: ['#sleep', '#water'] }]
+    const merged = smartMerge(local, incoming)
+    expect(merged).toHaveLength(1)
+    expect(merged[0].elements).toEqual(['#sleep', '#mood', '#water'])
+  })
+
+  it('should be idempotent when the same data is merged repeatedly', () => {
+    const local = [{ id: 'b1', elements: ['#sleep', '#mood'], widgets: [{ id: 'w1', type: 'chart' }] }]
+    const once = smartMerge(local, local)
+    const thrice = smartMerge(smartMerge(once, local), local)
+    expect(thrice).toEqual(local)
+  })
+
+  it('should merge nested objects that share an id instead of duplicating them', () => {
+    const local = { dashboards: [{ id: 'd1', widgets: [{ id: 'w1', title: 'Old' }] }] }
+    const incoming = { dashboards: [{ id: 'd1', widgets: [{ id: 'w1', title: 'New' }, { id: 'w2', title: 'Added' }] }] }
+    const merged = smartMerge(local, incoming)
+    expect(merged.dashboards[0].widgets).toEqual([
+      { id: 'w1', title: 'New' },
+      { id: 'w2', title: 'Added' },
+    ])
+  })
+
+  it('should keep every item that has no id', () => {
+    const noIds = [{ name: 'a' }, { name: 'b' }, { name: 'c' }]
+    expect(smartMerge(noIds, [])).toEqual(noIds)
+    expect(smartMerge(noIds, [{ name: 'c' }, { name: 'd' }])).toEqual([...noIds, { name: 'd' }])
+  })
+
+  it('should merge every copy when more than two items share an id', () => {
+    const merged = smartMerge([{ id: 'x', a: 1 }], [{ id: 'x', b: 2 }, { id: 'x', c: 3 }])
+    expect(merged).toEqual([{ id: 'x', a: 1, b: 2, c: 3 }])
+  })
 })

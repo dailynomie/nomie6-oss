@@ -114,6 +114,25 @@ export default class Export {
       let plugins = await Storage.get(NPaths.storage.plugins())
       this.backup.plugins = plugins || []
 
+      // Export plugin preferences for each plugin
+      this.backup.pluginPreferences = {}
+      for (const plugin of (this.backup.plugins || [])) {
+        try {
+          const prefsPath = `plugins/${plugin.id}/prefs.json`
+          const prefs = await Storage.get(prefsPath)
+          if (prefs) {
+            this.backup.pluginPreferences[plugin.id] = prefs
+          }
+        } catch (e) {
+          // Plugin may not have prefs, which is fine
+        }
+      }
+
+      console.log('[export] Exporting plugins and preferences')
+      console.log('[export] Plugins count:', this.backup.plugins?.length || 0)
+      console.log('[export] Plugins with prefs:', Object.keys(this.backup.pluginPreferences || {}).length)
+      console.log('[export] Plugin prefs included:', this.backup.pluginPreferences)
+
       // Get Trackers
       this.fireChange('Trackers...')
       let trackers = await this.getTrackers()
@@ -136,7 +155,7 @@ export default class Export {
         'href',
         URL.createObjectURL(new Blob([JSON.stringify(this.backup)], { type: 'text/json' }))
       )
-      downloadButton.setAttribute('download', `nomie-${AppVersion}-${dayjs().format('YYYY-MM-DD-H:mm')}.json`)
+      downloadButton.setAttribute('download', `nomie-${AppVersion}-${dayjs().format('YYYY-MM-DD-HHmm')}.json`)
       downloadButton.click()
     } catch (e) {
       Interact.alert('Export Error', e.message)
@@ -190,8 +209,11 @@ export default class Export {
               loadNext()
             })
             .catch((e) => {
-              console.error(`Error importing ${bookPath}`)
+              console.error(`Error exporting ${bookPath}`, e)
               failures.push(bookPath)
+              // Keep going: without this the export never finished when one book failed
+              finished.push([])
+              loadNext()
             })
         } else {
           let events = flatten(finished)
