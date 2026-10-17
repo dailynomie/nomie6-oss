@@ -92,6 +92,7 @@ export interface IStorage {
   _storageType?(): string
   getEngine?(): IStorage
   get(path: string): Promise<any>
+  getStrict?(path: string): Promise<any>
   put(path: string, content: any): Promise<any>
   delete(path: string): Promise<any>
   convertPath?(path: string): string
@@ -164,6 +165,12 @@ const Storage: IStorage = {
   // Get a file
   async get(path, onChange = null) {
     return await this.getEngine().get(path, onChange)
+  },
+  // Like get, but a failed read throws instead of returning null. Backup and restore use this,
+  // so a read error is never taken for a missing file.
+  async getStrict(path: string) {
+    const engine: any = this.getEngine()
+    return engine.getStrict ? await engine.getStrict(path) : await engine.get(path)
   },
   // Put a file
   async put(path, content) {

@@ -224,6 +224,15 @@ export const PouchDBEngine: IStorage = {
     } catch (e) {console.log("get error") }
     return doc
   },
+  async getStrict(path) {
+    try {
+      const doc = await this.db.get(path)
+      return doc.data ?? null
+    } catch (e) {
+      if (e.status === 404) return null
+      throw e
+    }
+  },
   async list() {
     let docs = await this.db.allDocs()
     let rows = docs ? docs.rows : []

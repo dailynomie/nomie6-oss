@@ -6,12 +6,16 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
  * so these tests exercise the real export, detection, merge and restore code.
  */
 
-const memory = vi.hoisted(() => ({ files: new Map<string, any>() }))
+const memory = vi.hoisted(() => ({ files: new Map<string, any>(), failing: new Set<string>() }))
 
 vi.mock('./storage', () => ({
   default: {
     list: async () => Array.from(memory.files.keys()),
     get: async (path: string) => (memory.files.has(path) ? structuredClone(memory.files.get(path)) : null),
+    getStrict: async (path: string) => {
+      if (memory.failing.has(path)) throw new Error(`read failed: ${path}`)
+      return memory.files.has(path) ? structuredClone(memory.files.get(path)) : null
+    },
     put: async (path: string, content: any) => {
       memory.files.set(path, structuredClone(content))
     },
@@ -81,6 +85,7 @@ vi.stubGlobal('localStorage', local)
 // A device with data from both original and newer Daily Nomie features
 const seedDevice = () => {
   memory.files.clear()
+  memory.failing.clear()
   memory.files.set('trackers.json', { mood: { tag: 'mood', label: 'Mood', type: 'range' } })
   memory.files.set('boards.json', [{ id: 'b1', label: 'Health', elements: ['#mood', '#sleep'] }])
   memory.files.set('goals.json', [{ id: 'g1', tag: '#mood', period: 'week' }])
@@ -248,6 +253,31 @@ describe('choosing the restore path for a selected file', () => {
     expect(showImportModal).not.toHaveBeenCalled()
     expect(memory.files.get('data/books/2026-33')).toHaveLength(2)
     expect(reload).toHaveBeenCalled()
+  })
+})
+
+describe('unreadable files', () => {
+  beforeEach(seedDevice)
+
+  it('a backup reports a file it could not read instead of leaving it out silently', async () => {
+    memory.failing.add('goals.json')
+    const { archive, failures } = await buildStorageArchive()
+    expect(failures).toEqual(['goals.json'])
+    expect(archive.files['goals.json']).toBeUndefined()
+    expect(archive.files['boards.json']).toBeDefined()
+  })
+
+  it('a restore does not overwrite a file it could not read', async () => {
+    const { archive } = await buildStorageArchive()
+    const before = memory.files.get('goals.json')
+    memory.failing.add('goals.json')
+    const backupFile = JSON.parse(JSON.stringify(archive))
+    backupFile.files['goals.json'] = [{ id: 'g9', tag: '#other' }]
+
+    const { errors } = await writeStorageArchive(backupFile)
+
+    expect(errors.map((e) => e.path)).toContain('goals.json')
+    expect(memory.files.get('goals.json')).toEqual(before)
   })
 })
 

@@ -91,8 +91,8 @@ export const buildStorageArchive = async (
     const path = Storage.convertPath(paths[i])
     if (onProgress) onProgress(path, math.percentage(paths.length, i))
     try {
-      const content = await Storage.get(path)
-      if (content) {
+      const content = await Storage.getStrict(path)
+      if (content !== null && content !== undefined) {
         files[path] = content
         if (isBookPath(path) && Array.isArray(content)) logs += content.length
       }
@@ -220,7 +220,7 @@ export const writeStorageArchive = async (
       const content = normalizeContextFile(path, file.content)
 
       // Merge with existing data when there is any; otherwise write as-is
-      const existing = await Storage.get(path)
+      const existing = await Storage.getStrict(path)
       if (existing && typeof existing !== 'string') {
         await Storage.put(path, smartMerge(existing, content))
       } else {
