@@ -296,6 +296,41 @@ describe('template install adds only what is missing', () => {
   })
 })
 
+describe('restore keeps this device’s version of items that exist on both sides', () => {
+  beforeEach(seedDevice)
+
+  it('keeps the device version of a board and a setting, and adds what only the backup has', async () => {
+    const { archive } = await buildStorageArchive()
+    memory.files.set('boards.json', [{ id: 'b1', label: 'Health', elements: ['#mood'] }])
+    local.setItem('timeline-settings', JSON.stringify({ compact: false }))
+
+    const backupFile = JSON.parse(JSON.stringify(archive))
+    backupFile.files['boards.json'] = [
+      { id: 'b1', label: 'Health', elements: ['#mood', '#sleep', '#water'] },
+      { id: 'b9', label: 'Backup only', elements: [] },
+    ]
+
+    await writeStorageArchive(backupFile, undefined, 'add-missing')
+
+    expect(memory.files.get('boards.json')).toEqual([
+      { id: 'b1', label: 'Health', elements: ['#mood'] },
+      { id: 'b9', label: 'Backup only', elements: [] },
+    ])
+    expect(JSON.parse(local.getItem('timeline-settings')!)).toEqual({ compact: false })
+  })
+
+  it('uses the backup version when asked to', async () => {
+    const { archive } = await buildStorageArchive()
+    memory.files.set('boards.json', [{ id: 'b1', label: 'Health', elements: ['#mood'] }])
+    const backupFile = JSON.parse(JSON.stringify(archive))
+    backupFile.files['boards.json'] = [{ id: 'b1', label: 'Health', elements: ['#mood', '#sleep'] }]
+
+    await writeStorageArchive(backupFile, undefined, 'merge')
+
+    expect(memory.files.get('boards.json')[0].elements).toEqual(['#mood', '#sleep'])
+  })
+})
+
 describe('unreadable files', () => {
   beforeEach(seedDevice)
 

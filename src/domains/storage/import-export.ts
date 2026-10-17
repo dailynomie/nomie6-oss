@@ -236,7 +236,7 @@ export const writeStorageArchive = async (
 
   let localSettings = 0
   try {
-    localSettings = restoreLocalSettings(archive.local)
+    localSettings = restoreLocalSettings(archive.local, localStorage, mode === 'add-missing')
   } catch (e) {
     errors.push({ path: 'local settings', e })
   }
@@ -258,11 +258,19 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
     `This backup${created} contains ${fileCount} files and ${logCount.toLocaleString()} logs. It will be merged with the data on this device. This action cannot be undone.`
   )
   if (confirmed) {
-    const { errors } = await writeStorageArchive(
-      archive,
-      (path, percent) => Interact.blocker(path, percent),
-      props.addMissingOnly ? 'add-missing' : 'merge'
-    )
+    // Items that exist on both sides keep this device's version, unless the user picks the backup's.
+    // Dismissing the question keeps this device's version too.
+    let mode: 'merge' | 'add-missing' = 'add-missing'
+    if (!props.addMissingOnly && !props.silent) {
+      const useBackup = await Interact.confirm(
+        'Items already on this device',
+        'Some items exist on this device and in the backup. Keep this device\'s version (recommended), or use the version from the backup? Items only in the backup are always added.',
+        'Use backup version',
+        'Keep this device (recommended)'
+      )
+      mode = useBackup ? 'merge' : 'add-missing'
+    }
+    const { errors } = await writeStorageArchive(archive, (path, percent) => Interact.blocker(path, percent), mode)
 
     Interact.stopBlocker()
 
