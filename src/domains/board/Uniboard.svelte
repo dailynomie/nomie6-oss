@@ -24,6 +24,7 @@
   import { Prefs } from '../preferences/Preferences'
   import { objectHash } from '../../modules/object-hash/object-hash'
 
+  import { ArchiveOutline } from '../../components/icon/nicons'
 
   // import { openPersonModal } from '../people/usePersonModal'
   import UniboardEditorView from './uniboard-editor-view.svelte'
@@ -36,6 +37,7 @@
   import { PeopleStore } from '../people/PeopleStore'
   import { TrackerStore } from '../tracker/TrackerStore'
   import { onTrackerLongPress } from '../../modules/tracker/tracker-utils'
+  import { importStorage } from '../storage/import-export'
   import NLog from '../nomie-log/nomie-log'
   import { UsageStore } from '../usage/UsageStore'
 
@@ -48,11 +50,6 @@
   const dispatch = createEventDispatcher()
 
   let trackables = $state<Array<Trackable>>([])
-
-  // Elements whose trackable still exists; stale tags from deleted trackables don't count
-  let liveElementCount = $derived(
-    ($ActiveBoard?.elements || []).filter((tag) => Object.values($TrackableStore.trackables).some((t) => t.tag === tag)).length
-  )
 
   $effect(() => {
     if ($TrackableStore.trackables) {
@@ -153,10 +150,20 @@
       //     title: `${Lang.t('general.add-a-person', 'Add New Person')}`,
       //   },
       // },
+      {
+        title: `${Lang.t('general.import-from-backup', ' Import from Backup')}`,
+        description: `${Lang.t('general.import-from-backup-description', 'Have a Nomie backup file? Import it here')}`,
+        icon: ArchiveOutline,
+        click() {
+          importStorage()
+        },
+      },
     ]
 
-    //@ts-ignore
-    emptyBoardMenuButtons.unshift(getAddExistingButton($ActiveBoard))
+    if (Object.keys($TrackableStore.trackables).length) {
+      //@ts-ignore
+      emptyBoardMenuButtons.unshift(getAddExistingButton($ActiveBoard))
+    }
     return emptyBoardMenuButtons
   } // end get Empty Boad Menu
 
@@ -240,7 +247,7 @@
                 on:more={(evt) => onMore(evt.detail)}
                 on:add={(evt) => onAdd()}
                 on:longpress={(evt) => onLongpress(evt.detail)}
-                hideAdd={!liveElementCount}
+                hideAdd={!$ActiveBoard.elements.length}
                 {trackables}
               >
                 <div slot="no-results">
@@ -280,7 +287,7 @@
               />
             {/if}
 
-            {#if liveElementCount === 0}
+            {#if $ActiveBoard.elements.length === 0}
               <div class="px-4 max-w-md mx-auto pb-10">
                 <div class="text-center py-4">
                   <!-- <div class="text-6xl text-center lg:mt-10">👋</div> -->
