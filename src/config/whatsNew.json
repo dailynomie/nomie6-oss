@@ -305,6 +305,15 @@
   ],
   "fixes": [
     {
+      "version": "dn6.8.0v20261017",
+      "title": "Backups include everything again: templates, awards, units, plugins and settings"
+    },{
+      "version": "dn6.8.0v20261017",
+      "title": "Backups from August and September 2026 restore again, including their logs"
+    },{
+      "version": "dn6.8.0v20261017",
+      "title": "Restoring a backup no longer duplicates board items and widgets"
+    },{
       "version": "dn6.8.0v20261015",
       "title": "Long notes fill the whole editor when edited"
     },{
