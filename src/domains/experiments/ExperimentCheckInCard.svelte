@@ -4,6 +4,7 @@
   import dayjs from 'dayjs'
   import { ExperimentStore } from './ExperimentStore'
   import { DAY_FORMAT } from './experiment-data'
+  import { BackdropStore2 } from '../../components/backdrop/BackdropStore2'
   import { loadDailyValues } from './experiment-query'
   import { recordCheckIn } from './experiment-live'
   import { TrackableStore } from '../trackable/TrackableStore'
@@ -52,7 +53,7 @@
   })
 </script>
 
-{#if pending.length}
+{#if pending.length && !$BackdropStore2.length}
   <div use:toBody class="fixed bottom-52 lg:bottom-6 left-3 right-3 lg:left-auto lg:w-96 space-y-2" style="z-index: 9999">
     {#each pending as experiment (experiment.id)}
       <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700 space-y-3">

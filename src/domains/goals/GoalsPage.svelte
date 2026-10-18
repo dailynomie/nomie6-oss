@@ -10,7 +10,6 @@
   import { Lang } from '../../store/lang'
   import List from '../../components/list/list.svelte'
   import Layout from '../layout/layout.svelte'
-  import ExperimentCheckInCard from '../experiments/ExperimentCheckInCard.svelte'
 
   import { GoalClass, type GoalDurationType } from './goal-class'
 
@@ -185,10 +184,6 @@
     </Toolbar>
   </header>
   <main class="py-4 relative z-10 px-2 lg:px-4">
-    <ExperimentCheckInCard />
-    <List solo className="max-w-screen-lg mx-auto mb-4">
-      <ListItem detail bottomLine={16} to="/experiments" title={Lang.t('experiments.title', 'Experiments')} />
-    </List>
     {#if goals.length}
       <List solo className="max-w-screen-lg mx-auto">
         {#each goalUsages as item, index (item.id)}

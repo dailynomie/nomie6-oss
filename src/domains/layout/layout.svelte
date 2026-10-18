@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import AppTabs from '../../domains/layout/tabs.svelte'
+  import ExperimentCheckInCard from '../experiments/ExperimentCheckInCard.svelte'
 
   import './layout.css'
   import { AppVersion } from '../../modules/app-version/app-version'
@@ -93,6 +94,11 @@ import appConfig from '../../config/appConfig';
     </div>
     {/if}
   </div>
+  <!-- Today's experiment check-ins: main screens only, and not while a dialogue or modal is open -->
+  {#if showTabs}
+    <ExperimentCheckInCard />
+  {/if}
+
   {#if hasBottom}
     <main id="nomie-main-bottom" class="glass xl:ml-56 non-printable">
       <slot name="bottom" />
