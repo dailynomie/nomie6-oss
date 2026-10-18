@@ -30,6 +30,7 @@ export type PreferencesStateType = {
   betaFeatures?: boolean
   peopleBoard?: boolean
   contextBoard?: boolean
+  experimentBoard?: boolean
   allBoard?: boolean
   nowBoard?: boolean
   theme?: 'dark' | 'light' | 'auto'

@@ -26,6 +26,7 @@
   import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelte'
   import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
+  import ExperimentBoardIcon from '../../n-icons/board-tab-icons/ExperimentBoardIcon.svelte'
   import { FeatureVisible, resolveExperience } from '../preferences/features'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
@@ -238,6 +239,18 @@
     </div>
   </ListItem>
   {/if}
+  <ListItem bottomLine={52} title="Show Experiments Board">
+    <IonIcon icon={ExperimentBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
+    <div slot="right">
+      <ToggleSwitch
+        value={$Prefs.experimentBoard === true}
+        title="Toggle Experiments Board"
+        on:change={(evt) => {
+          $Prefs.experimentBoard = evt.detail
+        }}
+      />
+    </div>
+  </ListItem>
 </List>
 
 <div class="mb-4" />
