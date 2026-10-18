@@ -11,6 +11,18 @@
   import { Lang } from '../../store/lang'
   import { PulseOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from './ExperimentStore'
+  import Button from '../../components/button/button.svelte'
+  import { openModal } from '../../components/backdrop/BackdropStore2'
+  import ExperimentEditorModal from './experiment-editor-modal.svelte'
+
+  const openEditor = () => {
+    openModal({
+      id: 'experiment-editor',
+      position: 'fullscreen',
+      component: ExperimentEditorModal,
+      componentProps: {},
+    })
+  }
 
   // Days so far, counted from the start day, capped at the experiment length
   const dayReached = (start: string, durationDays: number): number => {
@@ -27,7 +39,9 @@
     <ToolbarGrid>
       <div slot="left"></div>
       <h1 class="ntitle outline-none focus:ring-none">{Lang.t('experiments.title', 'Experiments')}</h1>
-      <div slot="right"></div>
+      <div slot="right">
+        <Button clear primary on:click={openEditor}>New</Button>
+      </div>
     </ToolbarGrid>
   </header>
   <main class="py-4 relative z-10 px-2 lg:px-4">
