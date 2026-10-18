@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import Dot from '../../components/dot/dot.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import Container from '../../components/container/container.svelte'
 
@@ -17,6 +16,9 @@
     AppsSolid,
     CalendarOutline,
     CalendarSolid,
+    MapOutline,
+    PulseOutline,
+    TagOutline,
     EaselOutline,
     EaselSolid,
     RibbonOutline,
@@ -27,8 +29,39 @@
   import { RunningTimers } from '../tracker/TrackerStore'
   import { GoalScoreStore } from '../../domains/goals/GoalStore'
   import MenuOutline from '../../n-icons/MenuOutline.svelte'
+  import RadialMenu from './radial-menu.svelte'
+  import { ExperimentStore } from '../experiments/ExperimentStore'
+  import Dot from '../../components/dot/dot.svelte'
+  import { openPointersModal } from '../pointers/pointer-store'
+  import { openLocationModal } from '../locations/LocationStore'
+  import { FeatureVisible } from '../preferences/features'
 
   const { className = '' } = $props<{ className?: string }>()
+
+  // How many experiments are running, shown as a badge
+  let runningExperiments = $derived($ExperimentStore.filter((e: any) => e.status === 'running').length)
+
+  // Options in the middle button. Pointers are full-mode only.
+  let radialItems = $derived([
+    {
+      id: 'goals',
+      label: Lang.t('tabs.goals', 'Goals'),
+      icon: RibbonOutline,
+      link: '/goals',
+      notify: $GoalScoreStore.join('/') !== '0/0' ? $GoalScoreStore.join('/') : undefined,
+    },
+    {
+      id: 'experiments',
+      label: 'Experiments',
+      icon: PulseOutline,
+      link: '/experiments',
+      notify: runningExperiments > 0 ? `${runningExperiments}` : undefined,
+    },
+    ...($FeatureVisible('pointers')
+      ? [{ id: 'pointers', label: 'Pointers', icon: TagOutline, action: () => openPointersModal() }]
+      : []),
+    { id: 'locations', label: 'Locations', icon: MapOutline, action: () => openLocationModal() },
+  ])
 
   let state = $state({
     mounted: false,
@@ -97,6 +130,16 @@
           <IonIcon className="active" icon={EaselSolid} />
         </AppTab>
 
+        <div class="radial-slot">
+          <RadialMenu items={radialItems} label="Actions" />
+        </div>
+
+        <!-- <AppTab link={NPaths.routes.analytics()}  label={Lang.t('tabs.analytics', 'Stats')}>
+          <IonIcon className="inactive" icon={BarChartOutline} />
+          <IonIcon className="active" icon={BarChartSolid} />
+        </AppTab> -->
+
+
         <AppTab
           id="track"
           className={page == 'track' ? 'start-page' : ''}
@@ -110,24 +153,6 @@
           {/if}
         </AppTab>
 
-        <!-- <AppTab link={NPaths.routes.analytics()}  label={Lang.t('tabs.analytics', 'Stats')}>
-          <IonIcon className="inactive" icon={BarChartOutline} />
-          <IonIcon className="active" icon={BarChartSolid} />
-        </AppTab> -->
-
-        {#key $GoalScoreStore}
-          <AppTab
-            id="goals"
-            className={page == 'goals' ? 'start-page' : ''}
-            link={'/goals'}
-            label={Lang.t('tabs.goals', ' Goals')}
-            notify={$GoalScoreStore.join('/') !== '0/0' ? $GoalScoreStore.join('/') : undefined}
-          >
-            <IonIcon className="inactive" icon={RibbonOutline} />
-            <IonIcon className="active" icon={RibbonSolid} />
-          </AppTab>
-        {/key}
-
         <AppTab id="settings" link={NPaths.routes.settings()} label={Lang.t('general.more', 'More')}>
           <IonIcon className="inactive" icon={MenuOutline} />
           <IonIcon className="active" icon={MenuOutline} />
@@ -140,6 +165,7 @@
 <style global lang="postcss">
   #app-tabs {
     --tab-height: 65px;
+    position: relative;
     height: calc(var(--tab-height) + env(safe-area-inset-bottom));
     padding-bottom: calc(env(safe-area-inset-bottom));
     display: flex;
@@ -148,6 +174,18 @@
     @apply z-50;
     @apply pt-1;
     flex-shrink: 0;
+  }
+
+  #app-tabs .radial-slot {
+    flex: 0 0 76px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    height: 100%;
+  }
+  #app-tabs .radial-slot .radial-hub {
+    margin-top: -18px;
   }
 
   .tab-wrap a {

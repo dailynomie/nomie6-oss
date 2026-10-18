@@ -17,6 +17,7 @@ export type FeatureId =
   | 'csv'
   | 'advanced-tracker-options'
   | 'advanced-widgets'
+  | 'pointers'
   | 'people-board'
   | 'context-board'
   | 'experiment-advanced'
@@ -33,6 +34,7 @@ export const STARTER_HIDDEN: ReadonlyArray<FeatureId> = [
   'csv',
   'advanced-tracker-options',
   'advanced-widgets',
+  'pointers',
   'people-board',
   'context-board',
   'experiment-advanced',

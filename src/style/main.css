@@ -186,8 +186,9 @@ html {
 }
 
 .ntitle {
-  @apply text-base;
-  @apply font-bold;
+  @apply text-lg;
+  @apply font-extrabold;
+  @apply tracking-tight;
   @apply text-black dark:text-white;
   @apply leading-tight;
   @apply w-full;
@@ -199,6 +200,11 @@ html {
 
 html {
   @apply bg-gray-200 dark:bg-gray-800;
+}
+
+/* v7: a cool, very light page tint in light mode */
+html:not(.dark) .n-layout.bg-gray-100 {
+  background-color: #f2f4f8;
 }
 html.mode-dark {
   @apply bg-gray-800;

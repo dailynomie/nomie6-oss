@@ -20,6 +20,7 @@ const ALL_FEATURES: Array<FeatureId> = [
   'csv',
   'advanced-tracker-options',
   'advanced-widgets',
+  'pointers',
   'people-board',
   'context-board',
   'experiment-advanced',
