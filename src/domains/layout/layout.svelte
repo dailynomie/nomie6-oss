@@ -54,7 +54,7 @@ import appConfig from '../../config/appConfig';
 </script>
 
 <svelte:head>
-  <title>{pageTitle ? `${pageTitle} → Nomie 6` : `Nomie 6`}</title>
+  <title>{pageTitle ? `${pageTitle} → Daily Nomie` : `Daily Nomie`}</title>
 </svelte:head>
 
 <div

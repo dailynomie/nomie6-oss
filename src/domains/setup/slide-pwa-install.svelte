@@ -27,7 +27,7 @@
       </ListItem>
       <ListItem>
         <span slot="left" class="text-lg font-extrabold"> 3. </span>
-        When added, go to your Home Screen and launch Nomie 6
+        When added, go to your Home Screen and launch Daily Nomie
       </ListItem>
     </List>
   </div>

@@ -1,6 +1,10 @@
 {
   "features": [
     {
+      "version": "7.0.0",
+      "title": "Daily Nomie 7 is here: the first release of the new version"
+    },
+    {
       "version": "dn6.8.0v20261014",
       "title": "What's New is grouped per version, with features and fixes expandable"
     },{
