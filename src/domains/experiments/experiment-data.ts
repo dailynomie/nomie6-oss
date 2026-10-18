@@ -98,3 +98,24 @@ export const outcomeWindows = (input: {
     during: selectExperimentDays(input.days, input.adherence, series, lag),
   }
 }
+
+/**
+ * A tracker tag for an experiment's daily check-in, e.g. 'exp_no_caffeine_after_14'.
+ * Unique among the tags already in use by appending a number.
+ */
+export const adherenceTagFor = (title: string, existingTags: Array<string>): string => {
+  const base =
+    'exp_' +
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .slice(0, 40)
+  let tag = base
+  let n = 2
+  while (existingTags.includes(tag)) {
+    tag = `${base}_${n}`
+    n++
+  }
+  return tag
+}

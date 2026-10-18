@@ -5,6 +5,7 @@ import {
   dailySeries,
   outcomeWindows,
   selectExperimentDays,
+  adherenceTagFor,
   shiftDay,
   summarizeAdherence,
   valuesInOrder,
@@ -115,5 +116,15 @@ describe('outcome windows', () => {
 
     expect(before).toEqual([6])
     expect(during).toEqual([9])
+  })
+})
+
+describe('adherence tags', () => {
+  it('builds a tag from the title', () => {
+    expect(adherenceTagFor('No caffeine after 14:00', [])).toBe('exp_no_caffeine_after_14_00')
+  })
+
+  it('makes the tag unique', () => {
+    expect(adherenceTagFor('No alcohol', ['exp_no_alcohol'])).toBe('exp_no_alcohol_2')
   })
 })
