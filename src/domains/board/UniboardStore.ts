@@ -14,7 +14,10 @@ import nid from '../../modules/nid/nid'
 import { objectHash } from '../../modules/object-hash/object-hash'
 import { toTrackableArray } from '../trackable/trackable-utils'
 
-import { getRawPrefs, type PreferencesStateType } from '../preferences/Preferences'
+import { getRawPrefs, Prefs, type PreferencesStateType } from '../preferences/Preferences'
+import { ExperimentStore } from '../experiments/ExperimentStore'
+import { EXPERIMENT_BOARD_ID, experimentBoardElements } from '../experiments/experiment-board'
+import ExperimentBoardIcon from '../../n-icons/board-tab-icons/ExperimentBoardIcon.svelte'
 
 import AllBoardIcon from '../../n-icons/board-tab-icons/AllBoardIcon.svelte'
 import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelte'
@@ -171,12 +174,16 @@ export const getBoardsFromStorage = async (): Promise<Array<UniboardType>> => {
  * @param $Prefs
  * @returns
  */
-const combineStoreBoards = ($Uniboard, $Prefs: PreferencesStateType): Array<UniboardType> => {
+const combineStoreBoards = (
+  $Uniboard,
+  $Prefs: PreferencesStateType,
+  experimentElements: Array<string> = []
+): Array<UniboardType> => {
   const peopleBoard = $Uniboard.dynamicBoards.people
   const contextBoard = $Uniboard.dynamicBoards.context
   const allBoard = $Uniboard.dynamicBoards.all
 
-  let boards = []
+  let boards: Array<UniboardType> = []
   if ($Prefs.allBoard) {
     if (allBoard?.elements?.length) boards = [...boards, ...[allBoard]]
   }
@@ -185,6 +192,10 @@ const combineStoreBoards = ($Uniboard, $Prefs: PreferencesStateType): Array<Unib
   }
   if ($Prefs.contextBoard) {
     if (contextBoard?.elements?.length) boards = [...boards, ...[contextBoard]]
+  }
+
+  if ($Prefs.experimentBoard && experimentElements.length) {
+    boards = [...boards, ...[{ label: 'Experiments', icon: ExperimentBoardIcon, id: EXPERIMENT_BOARD_ID, elements: experimentElements }]]
   }
 
   boards = [...boards, ...$Uniboard.boards]
@@ -201,9 +212,8 @@ const combineStoreBoards = ($Uniboard, $Prefs: PreferencesStateType): Array<Unib
   )
   // return $Uniboard.boards
 }
-export const CombinedBoards = derived(UniboardStore, ($Uniboard) => {
-  const prefs = getRawPrefs()
-  const combined = combineStoreBoards($Uniboard, prefs)
+export const CombinedBoards = derived([UniboardStore, Prefs, ExperimentStore], ([$Uniboard, $Prefs, $Experiments]) => {
+  const combined = combineStoreBoards($Uniboard, $Prefs, experimentBoardElements($Experiments as Array<any>))
   return combined.map((board) => {
     if ($Uniboard.activeId == board.id) {
       board.active = true
