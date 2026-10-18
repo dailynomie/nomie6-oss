@@ -11,6 +11,7 @@
   // import Track from './track.svelte'
   import { Prefs } from '../domains/preferences/Preferences'
   import RouteControl from './RouteControl.svelte'
+  import FeatureGate from '../domains/preferences/feature-gate.svelte'
   import Dashboard from './dashboard.svelte'
   import Track from './track.svelte'
   import Timeline from './Timeline.svelte'
@@ -55,13 +56,19 @@
     <Track />
   </Route>
   <Route path="/analytics">
-    <Analytics />
+    <FeatureGate feature="analytics">
+      <Analytics />
+    </FeatureGate>
   </Route>
   <Route path="/afternomie">
-    <AfterNomie />
+    <FeatureGate feature="afternomie">
+      <AfterNomie />
+    </FeatureGate>
   </Route>
   <Route path="/nomie-blockly">
-    <NomieBlockly />
+    <FeatureGate feature="blockly">
+      <NomieBlockly />
+    </FeatureGate>
   </Route>
   <Route path="/timeline">
     <Timeline />
@@ -77,7 +84,9 @@
   </Route>
 
   <Route path="/uoms">
-    <Uoms />
+    <FeatureGate feature="uoms">
+      <Uoms />
+    </FeatureGate>
   </Route>
   <Route path="/awards">
     <Awards />
@@ -106,14 +115,20 @@
     <Export />
   </Route>
   <Route path="/settings/export/csv">
-    <Csv />
+    <FeatureGate feature="csv">
+      <Csv />
+    </FeatureGate>
   </Route>
   <Route path="/files">
-    <FileBrowser />
+    <FeatureGate feature="files">
+      <FileBrowser />
+    </FeatureGate>
   </Route>
 
   <Route path="/files/*path" let:params>
-    <FileBrowser path={params.path} />
+    <FeatureGate feature="files">
+      <FileBrowser path={params.path} />
+    </FeatureGate>
   </Route>
   <Route path="/setup">
     <Setup />

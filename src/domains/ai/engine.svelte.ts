@@ -6,6 +6,7 @@ import { journalProfile } from './profiles/journal'
 import { alertProfile } from './profiles/alert'
 import { narrativeProfile } from './profiles/narrative'
 import { chatProfile } from './profiles/chat'
+import { experimentProfile } from './profiles/experiment'
 import type {
   AIRequest,
   AIResponse,
@@ -27,7 +28,8 @@ const profiles: Record<ProfileName, Profile> = {
   journal: journalProfile,
   alert: alertProfile,
   narrative: narrativeProfile,
-  chat: chatProfile
+  chat: chatProfile,
+  experiment: experimentProfile,
 }
 
 function getDateRangeFromTimeframe(timeframeId: string): { from: string; to: string } {
@@ -117,6 +119,10 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
         narrative_entries: narrativeData.entries_by_date
       }
       systemPrompt = `${profile.systemPrompt(context, req.prompt)}\n\nJournal entries to analyze:\n${JSON.stringify(narrativeData.entries_by_date, null, 2)}`
+    } else if (req.profile === 'experiment') {
+      // Only the frozen result is sent, never the user's logs or summary
+      context = { summary: '', goals: [], recentMetrics: {} }
+      systemPrompt = profile.systemPrompt(context, req.prompt)
     } else if (req.profile === 'chat' || req.profile === 'insight') {
       context = await buildChatContext(req.contextHints)
       systemPrompt = profile.systemPrompt(context, req.prompt)

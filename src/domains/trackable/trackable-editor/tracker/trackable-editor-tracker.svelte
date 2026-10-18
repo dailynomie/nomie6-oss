@@ -24,6 +24,7 @@
 
   // modules
   import { toTag } from '../../../../modules/tracker/TrackerClass'
+  import { FeatureVisible } from '../../../preferences/features'
   import type { ITrackerType } from '../../../../modules/tracker/TrackerClass'
   import { getTypeDetails } from '../../../../modules/tracker-types/tracker-types'
 
@@ -90,6 +91,8 @@
   let advanced: boolean = $state(false)
   let forceAdvancedView: boolean = $state(false)
   let advancedCanToggle: boolean = $state(true)
+  // Starter mode hides the advanced options (math, defaults, scoring). Full mode shows them as before.
+  let advancedVisible = $derived($FeatureVisible('advanced-tracker-options'))
   let tagHardcoded: boolean = $state(false)
   let alsoInclude: boolean = $state(false)
 
@@ -418,6 +421,7 @@
         {/each}
       </NInput>
       <Divider center />
+      {#if $FeatureVisible('advanced-tracker-options')}
       <NInput
         listItem
         type="select"
@@ -430,12 +434,13 @@
           <option value={math_key.value}>{math_key.label}</option>
         {/each}
       </NInput>
+      {/if}
     </List>
   {/if}
 
   <!-- ADVANCED OPTIONS -->
 
-  {#if advancedCanToggle}
+  {#if advancedVisible && advancedCanToggle}
     <div class="px-4">
       <Button
         block
@@ -445,13 +450,13 @@
         className="mt-2 mb-3 advanced-toggler text-gray-600 dark:text-gray-200"
         on:click={() => (forceAdvancedView = !forceAdvancedView)}
       >
-        {#if advanced}Less Options{:else}More Options{/if}
+        {#if advancedVisible}Less Options{:else}More Options{/if}
         <IonIcon name={advanced ? ChevronUpOutline : ChevronDownOutline} size={12} className="ml-2 text-gray-500" />
       </Button>
     </div>
   {/if}
 
-  {#if advanced}
+  {#if advancedVisible}
     {#if tracker.type == 'tick'}
       <List solo className="p-1">
         <ListItem
@@ -504,7 +509,7 @@
           </ListItem>
         {/if} -->
 
-    {#if advanced && ['note', 'picker'].indexOf(tracker.type) === -1 && tracker.type != 'habit'}
+    {#if advancedVisible && ['note', 'picker'].indexOf(tracker.type) === -1 && tracker.type != 'habit'}
       <NInput
         listItem
         className="tracker-default mb-3 error"
@@ -533,7 +538,7 @@
         </div>
       </NInput>
     {/if}
-    {#if advanced && tracker.type === 'habit'}
+    {#if advancedVisible && tracker.type === 'habit'}
     <NInput
     listItem
     type="select"
@@ -549,7 +554,7 @@
     {/if}
   </List>
 
-  {#if advanced}
+  {#if advancedVisible}
     <List solo>
       <PositivityEditor {tracker} />
     </List>
@@ -634,7 +639,7 @@
     </section>
   {/if}
 
-  <!-- {#if advanced}
+  <!-- {#if advancedVisible}
     <section>
       <List solo>
         <ListItem bg="transparent" id="hide-all-board" title={Lang.t('tracker.hide-on-all-board', 'Hide on All Board')}>

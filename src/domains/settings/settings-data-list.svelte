@@ -13,6 +13,7 @@
   import { navigate } from '../../vendor/svelte-navigator'
 
   import { Prefs, saveStorageType } from '../preferences/Preferences'
+  import { FeatureVisible } from '../preferences/features'
   import { wait } from '../../utils/tick/tick'
   import { Device } from '../../store/device-store'
   import { Interact } from '../../store/interact'
@@ -189,7 +190,9 @@
     <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
   </ListItem>
 
-  <ListItem bottomLine={16} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv" />
+  {#if $FeatureVisible('csv')}
+    <ListItem bottomLine={16} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv" />
+  {/if}
 </List>
 <List solo className="mb-3" outside>
   <ListItem

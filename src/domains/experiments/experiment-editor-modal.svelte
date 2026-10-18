@@ -17,6 +17,8 @@
   import { baselineDaysBefore, DAY_FORMAT, dailySeries } from './experiment-data'
   import { loadActiveDays, loadDailyValues } from './experiment-query'
   import { createExperiment } from './experiment-create'
+  import { hasLibraryTracker, installLibraryTracker, libraryTrackerLabel } from './experiment-library'
+  import { FeatureVisible } from '../preferences/features'
 
   const { id } = $props()
 
@@ -45,7 +47,13 @@
     durationDays = preset.durationDays
     outcomes = preset.outcomes.map((o) => {
       const trackable = trackerByTag(o.tag)
-      return { tag: o.tag, label: trackable?.label ?? o.tag, direction: o.direction, found: !!trackable, preview: '' }
+      return {
+        tag: o.tag,
+        label: trackable?.label ?? libraryTrackerLabel(o.tag) ?? o.tag,
+        direction: o.direction,
+        found: !!trackable,
+        preview: '',
+      }
     })
     step = 2
     updatePreviews()
@@ -73,6 +81,18 @@
     outcomes = outcomes.map((o, i) =>
       i === index ? { ...o, tag: trackable.tracker.tag, label: trackable.label, found: true } : o
     )
+    updatePreviews()
+  }
+
+  /** Install the library version of a suggested tracker, then use it for this outcome. */
+  const installFromLibrary = async (index: number) => {
+    const tag = outcomes[index].tag
+    const trackable = await installLibraryTracker(tag, $TrackableStore.trackables)
+    if (!trackable) {
+      Interact.error(`Could not add ${libraryTrackerLabel(tag) ?? tag} from the library`)
+      return
+    }
+    outcomes = outcomes.map((o, i) => (i === index ? { ...o, label: trackable.label, found: true } : o))
     updatePreviews()
   }
 
@@ -148,6 +168,9 @@
       saving = false
     }
   }
+
+  const segment = (active: boolean) =>
+    `py-2 rounded-xl text-sm font-medium transition-colors ${active ? 'bg-primary-500 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'}`
 </script>
 
 <BackdropModal>
@@ -161,97 +184,133 @@
     </ToolbarGrid>
   </header>
 
-  <main class="p-4 space-y-4 text-gray-800 dark:text-gray-200">
+  <main class="p-4 space-y-5 text-gray-800 dark:text-gray-200">
+    <!-- Step indicator -->
+    <div class="flex items-center gap-2">
+      {#each [1, 2, 3] as n}
+        <div class="h-1.5 flex-1 rounded-full {step >= n ? 'bg-primary-500' : 'bg-gray-200 dark:bg-gray-700'}"></div>
+      {/each}
+    </div>
+    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 -mt-3">
+      {step === 1 ? 'Step 1 of 3 · Choose a change' : step === 2 ? 'Step 2 of 3 · What to watch' : 'Step 3 of 3 · Start'}
+    </div>
+
     {#if step === 1}
-      <div class="text-sm text-gray-500">What will you change?</div>
-      {#each EXPERIMENT_PRESETS as preset}
-        <button class="w-full text-left p-3 rounded-xl bg-white dark:bg-gray-800" onclick={() => choosePreset(preset)}>
-          <div class="font-semibold">{preset.title}</div>
+      <div class="space-y-2">
+        {#each EXPERIMENT_PRESETS as preset}
+          <button class="w-full text-left p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm hover:ring-2 hover:ring-primary-200 dark:hover:ring-primary-800 transition" onclick={() => choosePreset(preset)}>
+            <div class="font-semibold">{preset.title}</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{preset.durationDays} days · {preset.outcomes.length} {preset.outcomes.length === 1 ? 'tracker' : 'trackers'}</div>
+          </button>
+        {/each}
+        {#if $FeatureVisible('experiment-advanced')}
+        <button class="w-full text-left p-4 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-primary-400 transition" onclick={writeOwn}>
+          <div class="font-semibold">Write my own</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Pick any change and the trackers it should affect</div>
         </button>
-      {/each}
-      <button class="w-full text-left p-3 rounded-xl bg-white dark:bg-gray-800" onclick={writeOwn}>
-        <div class="font-semibold">Write my own</div>
-      </button>
+        {/if}
+      </div>
     {:else if step === 2}
-      <label class="block text-sm text-gray-500" for="experiment-title">The change</label>
-      <input
-        id="experiment-title"
-        class="w-full p-2 rounded-lg bg-white dark:bg-gray-800"
-        placeholder="No coffee after 14:00"
-        bind:value={title}
-      />
+      <section class="space-y-2">
+        <label class="block text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400" for="experiment-title">The change</label>
+        <input
+          id="experiment-title"
+          class="w-full p-3 rounded-xl bg-white dark:bg-gray-800 shadow-sm outline-none focus:ring-2 focus:ring-primary-300"
+          placeholder="No coffee after 14:00"
+          bind:value={title}
+        />
+      </section>
 
-      <div class="text-sm text-gray-500">What should it affect? (1 to 3 trackers)</div>
-      {#each outcomes as outcome, index}
-        <div class="p-3 rounded-xl bg-white dark:bg-gray-800 space-y-2">
-          <div class="flex items-center justify-between">
-            <div class="font-semibold">{outcome.label}</div>
-            <button class="text-xs text-red-500" onclick={() => removeOutcome(index)}>Remove</button>
+      <section class="space-y-2">
+        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">What should it affect? (1 to 3 trackers)</div>
+        {#each outcomes as outcome, index}
+          <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="font-semibold truncate">{outcome.label}</div>
+              <button class="text-xs font-medium text-red-500" onclick={() => removeOutcome(index)}>Remove</button>
+            </div>
+            {#if !outcome.found}
+              <div class="flex flex-wrap gap-3">
+                {#if hasLibraryTracker(outcome.tag)}
+                  <button class="text-sm font-medium text-primary-500" onclick={() => installFromLibrary(index)}>Add {libraryTrackerLabel(outcome.tag)} from library</button>
+                {/if}
+                <button class="text-sm font-medium text-primary-500" onclick={() => chooseFor(index)}>Choose a tracker</button>
+              </div>
+            {/if}
+            <select class="w-full p-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 outline-none" bind:value={outcome.direction} onchange={updatePreviews}>
+              <option value="up">I hope it goes up</option>
+              <option value="down">I hope it goes down</option>
+              <option value="either">I want to see either way</option>
+            </select>
+            {#if outcome.preview}
+              <div class="text-xs leading-relaxed text-gray-500 dark:text-gray-400">{outcome.preview}</div>
+            {/if}
           </div>
-          {#if !outcome.found}
-            <button class="text-sm text-primary-500" onclick={() => chooseFor(index)}>Choose a tracker</button>
-          {/if}
-          <select class="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700" bind:value={outcome.direction} onchange={updatePreviews}>
-            <option value="up">I hope it goes up</option>
-            <option value="down">I hope it goes down</option>
-            <option value="either">I want to see either way</option>
-          </select>
-          {#if outcome.preview}
-            <div class="text-xs text-gray-500">{outcome.preview}</div>
-          {/if}
-        </div>
-      {/each}
-      {#if outcomes.length < 3}
-        <button class="text-sm text-primary-500" onclick={addOutcome}>Add a tracker to watch</button>
-      {/if}
+        {/each}
+        {#if outcomes.length < 3}
+          <button class="w-full p-3 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 text-sm font-medium text-primary-500" onclick={addOutcome}>+ Add a tracker to watch</button>
+        {/if}
+      </section>
 
-      <label class="flex items-center space-x-2 text-sm">
-        <input type="checkbox" checked={lagDays === 1} onchange={(e) => (lagDays = e.currentTarget.checked ? 1 : 0)} />
+      {#if $FeatureVisible('experiment-advanced')}
+      <label class="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm text-sm">
+        <input type="checkbox" class="w-4 h-4" checked={lagDays === 1} onchange={(e) => (lagDays = e.currentTarget.checked ? 1 : 0)} />
         <span>The effect shows the next day</span>
       </label>
+      {/if}
 
       <Button block primary on:click={toStepThree}>Next</Button>
     {:else if step === 3}
-      <div class="text-sm text-gray-500">How long?</div>
-      <div class="grid grid-cols-4 gap-2">
-        {#each EXPERIMENT_DURATIONS as days}
-          <button
-            class="p-2 rounded-lg {durationDays === days ? 'bg-primary-500 text-white' : 'bg-white dark:bg-gray-800'}"
-            onclick={() => {
-              durationDays = days
-              updatePreviews()
-            }}>{days} days</button
-          >
-        {/each}
-      </div>
-
-      <div class="text-sm text-gray-500">When does it start?</div>
-      <div class="grid grid-cols-2 gap-2">
-        <button
-          class="p-2 rounded-lg {startChoice === 'today' ? 'bg-primary-500 text-white' : 'bg-white dark:bg-gray-800'}"
-          onclick={() => {
-            startChoice = 'today'
-            updatePreviews()
-          }}>Today</button
-        >
-        <button
-          class="p-2 rounded-lg {startChoice === 'tomorrow' ? 'bg-primary-500 text-white' : 'bg-white dark:bg-gray-800'}"
-          onclick={() => {
-            startChoice = 'tomorrow'
-            updatePreviews()
-          }}>Tomorrow</button
-        >
-      </div>
-
-      <div class="p-3 rounded-xl bg-white dark:bg-gray-800 text-sm">
-        <div class="font-semibold">{title}</div>
-        <div class="text-gray-500">
-          {durationDays} days from {startDay().format('D MMM YYYY')}, {outcomes.map((o) => o.label).join(', ')}
+      <section class="space-y-2">
+        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">How long?</div>
+        <div class="grid grid-cols-4 gap-2 p-1 rounded-2xl bg-gray-100 dark:bg-gray-900">
+          {#each EXPERIMENT_DURATIONS as days}
+            <button
+              class={segment(durationDays === days)}
+              onclick={() => {
+                durationDays = days
+                updatePreviews()
+              }}>{days}d</button
+            >
+          {/each}
         </div>
-        <div class="text-xs text-gray-500 mt-2">
+      </section>
+
+      <section class="space-y-2">
+        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">When does it start?</div>
+        <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-gray-100 dark:bg-gray-900">
+          <button
+            class={segment(startChoice === 'today')}
+            onclick={() => {
+              startChoice = 'today'
+              updatePreviews()
+            }}>Today</button
+          >
+          <button
+            class={segment(startChoice === 'tomorrow')}
+            onclick={() => {
+              startChoice = 'tomorrow'
+              updatePreviews()
+            }}>Tomorrow</button
+          >
+        </div>
+      </section>
+
+      <section class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm space-y-3">
+        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Summary</div>
+        <div class="font-semibold">{title}</div>
+        <div class="text-sm text-gray-600 dark:text-gray-300">
+          {durationDays} days from {startDay().format('D MMM YYYY')}
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          {#each outcomes as o}
+            <span class="text-xs rounded-full px-2 py-0.5 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300">{o.label}</span>
+          {/each}
+        </div>
+        <div class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
           Each day you will be asked whether you stuck to it. A check-in tracker is created for this.
         </div>
-      </div>
+      </section>
 
       <Button block primary disabled={saving} on:click={start}>Start experiment</Button>
     {/if}

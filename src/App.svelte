@@ -55,6 +55,7 @@
   import { loadToday } from './domains/usage/today/TodayStore'
 
   import { trackLaunch } from './domains/preferences/LaunchCount'
+  import { checkStarterNudge } from './domains/preferences/starter-nudge'
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
   import PointerLoader from './domains/pointers/pointer-loader.svelte'
   import { PluginStore, initializeBuildinPlugins, registerPluginPreferencesListeners } from './domains/plugins/PluginStore'
@@ -188,6 +189,7 @@
         wait(2000).then(() => {
           checkGoals('storage-init')
           trackLaunch()
+          checkStarterNudge().catch((e) => console.error(e))
         })
       })
     }

@@ -46,6 +46,8 @@ export type PreferencesStateType = {
   lastBackup?: string
   alwaysLocate?: boolean
   onboarded?: boolean
+  experience?: 'starter' | 'full'
+  starterNudgeShown?: boolean
   startPage?: 'track' | 'timeline' | 'history' | 'goals' | 'dashboard'
   ai?: AIConfig
 }

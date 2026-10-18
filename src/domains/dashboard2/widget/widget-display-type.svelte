@@ -16,6 +16,7 @@
   import WidgetTodos from './types/widget-todos.svelte';
   import WidgetPlugin from './types/widget-plugin.svelte';
   import WidgetInsight from './types/widget-insights.svelte';
+  import WidgetExperiment from './types/widget-experiment.svelte';
 
   import type { WidgetClass } from './widget-class'
   import type { Trackable } from '../../trackable/Trackable.class'
@@ -85,6 +86,8 @@
   <WidgetPlugin {widget} />
   {:else if widget.type == 'insight'}
   <WidgetInsight {widget} />
+  {:else if widget.type == 'experiment'}
+  <WidgetExperiment {widget} />
   {:else if widget.type == 'habit'}
   <WidgetHabit {widget} {trackable} {usage} />
   {:else if widget.type == 'pointer'}

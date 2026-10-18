@@ -22,6 +22,10 @@ export function canSaveWidget(testWidget: WidgetClass, widgetTypes:Array<IWidget
       console.info('This widget requires a timeframe')
       return false
     }
+    if (type.id === 'experiment' && !testWidget.data?.experimentId) {
+      console.info('Select an experiment to display')
+      return false
+    }
   } else {
     console.info('Select a Widget Type')
     return false
