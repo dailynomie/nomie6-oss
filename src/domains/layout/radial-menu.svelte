@@ -4,6 +4,7 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { AddCircleOutline } from '../../components/icon/nicons'
   import { navigate } from '../../vendor/svelte-navigator'
+  import { Prefs } from '../preferences/Preferences'
 
   type RadialItem = { id: string; label: string; icon: any; link?: string; action?: () => void; notify?: string }
 
@@ -21,6 +22,34 @@
   let origin = $state({ x: 0, y: 0 })
   let hub: HTMLElement | undefined = $state()
 
+  // A one-time hint above the button, until it is tapped or has been shown for a few seconds
+  const HINT_MS = 8000
+  let hintVisible = $state(false)
+
+  $effect(() => {
+    if ($Prefs && !$Prefs.menuHintSeen) {
+      hintVisible = true
+      const timer = setTimeout(() => dismissHint(), HINT_MS)
+      return () => clearTimeout(timer)
+    }
+  })
+
+  const dismissHint = () => {
+    hintVisible = false
+    if (!getSeen()) {
+      Prefs.update((p) => {
+        p.menuHintSeen = true
+        return p
+      })
+    }
+  }
+
+  const getSeen = (): boolean => {
+    let seen = false
+    Prefs.subscribe((p) => (seen = !!p?.menuHintSeen))()
+    return seen
+  }
+
   const angleFor = (index: number): number =>
     items.length <= 1 ? 90 : ARC_START - ((ARC_START - ARC_END) * index) / (items.length - 1)
 
@@ -30,6 +59,7 @@
   }
 
   const openMenu = () => {
+    dismissHint()
     const rect = hub?.getBoundingClientRect()
     if (rect) origin = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
     open = true
@@ -65,6 +95,10 @@
     if (open && event.key === 'Escape') closeMenu()
   }}
 />
+
+{#if hintVisible && !open}
+  <div class="radial-hint" role="note">Tap for more</div>
+{/if}
 
 <button
   bind:this={hub}
@@ -126,7 +160,7 @@
     overflow: hidden;
     background: none;
     box-shadow: 0 6px 16px rgba(0, 131, 212, 0.35);
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.15s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -145,6 +179,49 @@
     transform: translate(-50%, -50%) rotate(45deg);
     transition: transform 0.24s ease;
     opacity: 1;
+  }
+
+  .radial-hint {
+    position: absolute;
+    top: -58px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 12px;
+    border-radius: 9999px;
+    background: #111827;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+    animation: radial-hint-in 0.4s ease both;
+  }
+
+  .radial-hint::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 8px;
+    height: 8px;
+    background: #111827;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  @keyframes radial-hint-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 6px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  .radial-hub:active {
+    transform: scale(0.92);
   }
 
   .radial-dot {
