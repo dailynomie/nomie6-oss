@@ -185,15 +185,6 @@
     }
   }
 
-  // TEMPORARY TEST HELPER, remove before release. Moves the start back so the experiment ends today.
-  const isDev = import.meta.env.DEV
-  const endTodayForTesting = async () => {
-    if (!experiment || busy) return
-    const start = dayjs().startOf('day').subtract(experiment.durationDays - 1, 'day').format('YYYY-MM-DD')
-    await ExperimentStore.upsert(serializeExperiment({ ...experiment, start }))
-    await refresh()
-  }
-
   const dayLabel = (day: string) => dayjs(day).format('ddd D MMM')
 
   $effect(() => {
@@ -342,10 +333,6 @@
       <!-- Actions -->
       <div class="space-y-2 pt-2">
         {#if !frozen}
-          {#if isDev}
-            <!-- TEMPORARY TEST BUTTON, remove before release -->
-            <Button block clear disabled={busy} on:click={endTodayForTesting}>TEST: move start back so it ends today</Button>
-          {/if}
           {#if finishable}
             <Button block primary disabled={busy} on:click={() => finish('completed')}>Finish experiment</Button>
           {/if}

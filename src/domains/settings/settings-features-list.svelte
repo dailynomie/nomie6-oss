@@ -27,7 +27,6 @@
   import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
   import { FeatureVisible, resolveExperience } from '../preferences/features'
-  import { testStarterNudge } from '../preferences/starter-nudge'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
   let hasPin: boolean = $state(false)
@@ -88,10 +87,6 @@
     </div>
   </ListItem>
   <div class="text-xs text-gray-500 px-4 pb-4 leading-tight">Starter shows the core of Daily Nomie. Full shows everything. Switching never deletes data.</div>
-  {#if import.meta.env.DEV}
-    <!-- TEMPORARY TEST BUTTON, remove before release -->
-    <ListItem bottomLine={16} clickable on:click={() => testStarterNudge()} title="TEST: show starter nudge" />
-  {/if}
 
   <ListItem bottomLine={16} title={Lang.t('settings.start-page', 'Start Page')}>
     <div slot="right">

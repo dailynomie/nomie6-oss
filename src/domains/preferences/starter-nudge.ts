@@ -47,8 +47,3 @@ export const checkStarterNudge = async (): Promise<void> => {
   })
   await askAboutFullMode()
 }
-
-// TEMPORARY TEST HELPER, remove before release. Asks the nudge question now, without the 14-day or 30-launch rule.
-export const testStarterNudge = async (): Promise<void> => {
-  await askAboutFullMode()
-}
