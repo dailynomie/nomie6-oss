@@ -350,6 +350,33 @@ describe('template install reports failure', () => {
   })
 })
 
+describe('experiments are part of the backup', () => {
+  beforeEach(seedDevice)
+
+  it('includes experiments.json in a backup and restores it', async () => {
+    const experiments = [
+      {
+        id: 'e1',
+        title: 'No coffee after 14:00',
+        change: 'No coffee after 14:00',
+        status: 'running',
+        adherenceTag: 'exp_no_late_coffee',
+        outcomes: [{ tag: 'sleep_quality', direction: 'up' }],
+        start: '2026-10-01',
+        durationDays: 14,
+      },
+    ]
+    memory.files.set('experiments.json', experiments)
+
+    const { archive } = await buildStorageArchive()
+    expect(archive.files['experiments.json']).toEqual(experiments)
+
+    memory.files.clear()
+    await writeStorageArchive(JSON.parse(JSON.stringify(archive)))
+    expect(memory.files.get('experiments.json')).toEqual(experiments)
+  })
+})
+
 describe('unreadable files', () => {
   beforeEach(seedDevice)
 

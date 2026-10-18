@@ -12,6 +12,9 @@ const NPaths = {
     analytics() {
       return `/analytics`
     },
+    experiments() {
+      return `/experiments`
+    },
     search() {
       return `/search`
     },
@@ -79,6 +82,9 @@ const NPaths = {
     },
     goals() {
       return `goals.json`
+    },
+    experiments() {
+      return `experiments.json`
     },
     pivots() {
       return `pivots.json`
