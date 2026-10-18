@@ -4,6 +4,7 @@
   import EaselOutline from '../../n-icons/EaselOutline.svelte'
 
   import RibbonOutline from '../../n-icons/RibbonOutline.svelte'
+  import PulseOutline from '../../n-icons/PulseOutline.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { openUnisearch } from '../../domains/search/UnisearchStore'
@@ -117,6 +118,13 @@
       title: Lang.t('tabs.goals', 'Goals'),
       icon: RibbonOutline,
       activeIcon: RibbonSolid,
+    },
+    {
+      id: 'experiments',
+      path: '/experiments',
+      title: Lang.t('tabs.experiments', 'Experiments'),
+      icon: PulseOutline,
+      activeIcon: PulseOutline,
     },
     {
       id: 'analytics',

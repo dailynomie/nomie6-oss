@@ -15,6 +15,7 @@
   import Track from './track.svelte'
   import Timeline from './Timeline.svelte'
   import Goals from './Goals.svelte'
+  import Experiments from './Experiments.svelte'
   import Analytics from './Analytics.svelte'
   import AfterNomie from './AfterNomie.svelte'
   import Tests from './tests/tests.svelte'
@@ -67,6 +68,9 @@
   </Route>
   <Route path="/goals">
     <Goals />
+  </Route>
+  <Route path="/experiments">
+    <Experiments />
   </Route>
   <Route path="/test">
     <Tests />

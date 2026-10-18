@@ -188,6 +188,10 @@
               </div>
             </ListItem> -->
 
+            <List solo outside className="mb-4">
+              <ListItem detail bottomLine={16} to="/experiments" title="Experiments" />
+            </List>
+
             <List solo outside>
               <AwardsPreviewList />
             </List>
