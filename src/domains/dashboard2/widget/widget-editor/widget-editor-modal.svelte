@@ -36,6 +36,7 @@
   import BackdropModal from '../../../../components/backdrop/backdrop-modal.svelte'
   import CloseOutline from '../../../../n-icons/CloseOutline.svelte'
   import { PluginStore } from "../../../plugins/PluginStore";
+  import { ExperimentStore } from "../../../experiments/ExperimentStore";
   import Storage from '../../../../domains/storage/storage'
   import type { ITrackerType } from '../../../../modules/tracker/TrackerClass'
 
@@ -394,6 +395,32 @@
         <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
       {:else}
         <div class="text-gray-500 leading-tight px-4 text-sm pb-4">No widget options available for this plugin</div>
+      {/if}
+    </List>
+    {/if}
+
+    <!-- Experiment -->
+    {#if activeType?.id == 'experiment'}
+    <List solo className="mt-4">
+      {#if $ExperimentStore.length > 0}
+        <Input listItem bind:value={editingWidget.data.experimentId} type="select" label="Experiment">
+          <div
+            slot="left"
+            class="{!editingWidget?.data?.experimentId
+              ? 'pl-2 pt-3 w-full'
+              : ''} text-black dark:text-white pointer-events-none absolute"
+          >
+            {#if !editingWidget?.data?.experimentId}
+              Select an experiment
+            {/if}
+          </div>
+          {#each $ExperimentStore as experiment}
+            <option value={experiment.id}>{experiment.title}</option>
+          {/each}
+        </Input>
+        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Shows the progress and result of this experiment</div>
+      {:else}
+        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">No experiments yet. Start one from Goals.</div>
       {/if}
     </List>
     {/if}

@@ -13,6 +13,8 @@ import {
 } from '../../../components/icon/nicons'
 import CheckmarkCircleOutlineSvelte from '../../../n-icons/CheckmarkCircleOutline.svelte'
 import type { PluginClass } from '../../plugins/plugin-helpers'
+import { getRawPrefs } from '../../preferences/Preferences'
+import { isWidgetTypeVisible } from '../../preferences/experience'
 
 export type IWidgetTypeUnit = 'timeframe' | 'cond-style' | 'token' | 'tokens' | 'pointer'
 
@@ -43,7 +45,9 @@ export const getWidgetTypes = ($PluginStore:Array<PluginClass>):Array<IWidgetTyp
         }
       })
     })
-    return allWidgetTypes;
+    // Starter mode only offers the starter widget types. Existing widgets keep working.
+    const prefs = getRawPrefs()
+    return allWidgetTypes.filter((widgetType) => isWidgetTypeVisible(prefs, widgetType.id));
 }
 
 
@@ -167,5 +171,13 @@ export const widgetTypes: Array<IWidgetType> = [
     optional: [],
     icon: SparklesOutline,
     emoji: '💡',
+  },
+  {
+    label: 'Experiment',
+    id: 'experiment',
+    requires: [],
+    optional: [],
+    icon: PulseOutline,
+    emoji: '🧪',
   },
 ]

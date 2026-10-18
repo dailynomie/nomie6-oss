@@ -32,6 +32,7 @@
   import { RunningTimers } from '../tracker/TrackerStore'
 
   import { Prefs } from '../preferences/Preferences'
+  import { FeatureVisible, type FeatureId } from '../preferences/features'
 
   import { GoalScoreStore } from '../goals/GoalStore'
 
@@ -65,6 +66,7 @@
   type NavType = {
     id: string
     path: string
+    feature?: FeatureId
     title: string
     icon: any
     activeIcon: any
@@ -128,6 +130,7 @@
     },
     {
       id: 'analytics',
+      feature: 'analytics',
       path: '/analytics',
       title: Lang.t('tabs.analytics', 'Analytics'),
       icon: CubeOutline,
@@ -142,6 +145,7 @@
     // },
     {
       id: 'blockly',
+      feature: 'blockly',
       path: '/nomie-blockly',
       title: 'Nomie Blockly',
       icon: QRCode,
@@ -178,7 +182,7 @@
   </div>
 
   {#if loggedIn}
-    {#each navigation as item}
+    {#each navigation.filter((item) => !item.feature || $FeatureVisible(item.feature)) as item}
       <a
         role="menuitem"
         href={item.path}

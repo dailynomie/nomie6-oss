@@ -46,6 +46,7 @@
 
   import AwardsPreviewList from '../awards/components/awards-preview-list.svelte'
   import { enabledBetaFeatures, Prefs } from '../preferences/Preferences'
+  import { FeatureVisible } from '../preferences/features'
   import { showImportModal } from '../import-export/ImporterStore'
   import { deleteEverything } from './settings-functions'
   // import Logo from '../../components/logo/logo.svelte'
@@ -145,7 +146,7 @@
           <!-- {#if !hasChatInstalled} -->
           <a
             title="Find a bug? Want to provide feedback?"
-            href={`mailto:${config.support_email}?subject=Nomie ${AppVersion} `}
+            href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}
             class="font-semibold text-black dark:text-white text-sm flex items-center space-x-2"
             target="_blank"
           >
@@ -197,6 +198,7 @@
             </List>
 
             <!-- Sign-in and Register Block  -->
+            {#if $FeatureVisible('plugins')}
             <List solo className="mt-4">
               <ListItem detail bottomLine={16} on:click={() => openPluginsModal()} title="Manage Plugins">
                 <span slot="left">🔌</span>
@@ -217,6 +219,7 @@
               <PluginsMoreMenu />
               {/if}
             </List>
+            {/if}
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={16} on:click={() => openLocationModal()} title="Locations">
@@ -248,7 +251,9 @@
               </ListItem>
             </List> -->
 
-            <SettingsAIList />
+            {#if $FeatureVisible('ai')}
+              <SettingsAIList />
+            {/if}
 
             <div id="data-marker" />
             <SettingsDataList
@@ -266,7 +271,7 @@
               <ListItem title={Lang.t('general.questions', 'Questions')} detail>
                 <span slot="left">🆘</span>
                 <div slot="right">
-                  <a href={`mailto:${config.support_email}?subject=Nomie ${AppVersion} `}>
+                  <a href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}>
                     <Badge pad className="bg-gray-300 text-black">Email</Badge>
                   </a>
                 </div>

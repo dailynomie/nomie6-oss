@@ -29,6 +29,7 @@ export type ExperimentType = {
   status: ExperimentStatus
   presetId?: string
   result?: ExperimentResultSnapshot // frozen when completed or stopped
+  explanation?: string // AI explanation of the frozen result, saved so it is not asked again
   created?: string
   updated?: string
 }
@@ -47,6 +48,7 @@ export class ExperimentClass implements ExperimentType {
   status: ExperimentStatus
   presetId?: string
   result?: ExperimentResultSnapshot
+  explanation?: string
   created?: string
   updated?: string
 
@@ -62,6 +64,7 @@ export class ExperimentClass implements ExperimentType {
     this.status = starter.status || 'running'
     this.presetId = starter.presetId
     this.result = starter.result
+    this.explanation = starter.explanation
     this.created = starter.created
     this.updated = starter.updated
   }

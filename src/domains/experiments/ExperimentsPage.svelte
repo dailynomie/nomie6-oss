@@ -11,7 +11,9 @@
   import { Lang } from '../../store/lang'
   import { PulseOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from './ExperimentStore'
-  import { verdictText } from './experiment-result'
+  import { experimentWidgetView } from './experiment-widget-lines'
+  import ExperimentProgress from './experiment-progress.svelte'
+  import ExperimentChip from './experiment-chip.svelte'
   import Button from '../../components/button/button.svelte'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import ExperimentEditorModal from './experiment-editor-modal.svelte'
@@ -66,12 +68,16 @@
       </List>
     {:else}
       {#if running.length}
-        <List solo title="Running" className="max-w-screen-lg mx-auto">
+        <List solo title="Running" className="max-w-screen-lg mx-auto mb-4">
           {#each running as experiment (experiment.id)}
+            {@const day = dayReached(experiment.start, experiment.durationDays)}
             <ListItem clickable bottomLine={16} on:click={() => openDetail(experiment.id)}>
-              <div class="font-semibold">{experiment.title}</div>
-              <div class="text-xs text-gray-500">
-                Day {dayReached(experiment.start, experiment.durationDays)} of {experiment.durationDays}
+              <div class="w-full py-1 space-y-2">
+                <div class="flex items-center justify-between gap-2 min-w-0">
+                  <div class="font-semibold truncate">{experiment.title}</div>
+                  <ExperimentChip tone="running" label="Day {day} of {experiment.durationDays}" />
+                </div>
+                <ExperimentProgress value={day / experiment.durationDays} />
               </div>
             </ListItem>
           {/each}
@@ -80,10 +86,17 @@
       {#if finished.length}
         <List solo title="Finished" className="max-w-screen-lg mx-auto">
           {#each finished as experiment (experiment.id)}
+            {@const view = experimentWidgetView(experiment, experiment.result, 0)}
+            {@const first = view.outcomes[0]}
             <ListItem clickable bottomLine={16} on:click={() => openDetail(experiment.id)}>
-              <div class="font-semibold">{experiment.title}</div>
-              <div class="text-xs text-gray-500">
-                {experiment.status === 'stopped' ? 'Stopped early' : 'Finished'}{experiment.result?.outcomes?.length ? ` · ${verdictText(experiment.result.outcomes[0])}` : ''}
+              <div class="w-full py-1 space-y-2">
+                <div class="flex items-center justify-between gap-2 min-w-0">
+                  <div class="font-semibold truncate">{experiment.title}</div>
+                  <ExperimentChip tone="neutral" label={experiment.status === 'stopped' ? 'Stopped early' : 'Finished'} />
+                </div>
+                {#if first}
+                  <ExperimentChip tone={first.tone} label="{first.label}: {first.text}" title={first.text} />
+                {/if}
               </div>
             </ListItem>
           {/each}

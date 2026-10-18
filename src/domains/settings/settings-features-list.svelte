@@ -26,6 +26,8 @@
   import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelte'
   import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
+  import { FeatureVisible, resolveExperience } from '../preferences/features'
+  import { testStarterNudge } from '../preferences/starter-nudge'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
   let hasPin: boolean = $state(false)
@@ -71,6 +73,26 @@
 </script>
 
 <List solo outside title="Customize">
+  <ListItem bottomLine={16} title="Experience">
+    <div slot="right">
+      <SelectPop
+        id="experience"
+        value={resolveExperience($Prefs) === 'full' ? 'Full' : 'Starter'}
+        on:change={(evt) => {
+          $Prefs.experience = evt.detail.key
+        }}
+        options={['starter', 'full'].map((mode) => {
+          return { key: mode, value: capitalize(mode), selected: resolveExperience($Prefs) === mode }
+        })}
+      />
+    </div>
+  </ListItem>
+  <div class="text-xs text-gray-500 px-4 pb-4 leading-tight">Starter shows the core of Daily Nomie. Full shows everything. Switching never deletes data.</div>
+  {#if import.meta.env.DEV}
+    <!-- TEMPORARY TEST BUTTON, remove before release -->
+    <ListItem bottomLine={16} clickable on:click={() => testStarterNudge()} title="TEST: show starter nudge" />
+  {/if}
+
   <ListItem bottomLine={16} title={Lang.t('settings.start-page', 'Start Page')}>
     <div slot="right">
       <SelectPop
@@ -205,18 +227,22 @@
       <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle People Board" />
     </div>
   </ListItem>
+  {#if $FeatureVisible('people-board')}
   <ListItem bottomLine={52} title={Lang.t('settings.show-people-board', 'Show People Board')}>
     <IonIcon icon={PeopleBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
     </div>
   </ListItem>
+  {/if}
+  {#if $FeatureVisible('context-board')}
   <ListItem bottomLine={52} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
     <IonIcon icon={ContextBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
     </div>
   </ListItem>
+  {/if}
 </List>
 
 <div class="mb-4" />
