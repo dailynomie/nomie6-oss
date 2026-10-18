@@ -10,7 +10,7 @@
 {#if title && outside}
   <header>
     <div class="outside-title flex items-end lg:mt-4 mb-1 lg:mb-2">
-      <h2 class="text-lg lg:text-2xl pl-1  font-bold leading-tight">{title}</h2>
+      <h2 class="text-xs lg:text-sm pl-1 font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 leading-tight">{title}</h2>
       <slot name="header-left" />
       <slot name="header-right" />
     </div>
@@ -49,10 +49,10 @@
   }
 
   .n-list > div > .n-input-container:first-child {
-    @apply rounded-t-xl;
+    @apply rounded-t-2xl;
   }
   .n-list > div > .n-input-container:last-child {
-    @apply rounded-b-xl;
+    @apply rounded-b-2xl;
   }
 
   .n-list .list-header {
@@ -89,8 +89,8 @@
   .n-list [solo] {
     width: calc(100% - 16px);
     @apply mx-auto;
-    @apply shadow-md;
-    @apply rounded-xl;
+    @apply shadow-sm;
+    @apply rounded-2xl;
     overflow: hidden;
 
     padding: 0px 0;
@@ -107,11 +107,11 @@
     width:100%;
   }
   .n-list.solo .n-item:first-child {
-    @apply rounded-t-xl;
+    @apply rounded-t-2xl;
   }
 
   .n-list.solo .n-item:last-child {
-    @apply rounded-b-xl;
+    @apply rounded-b-2xl;
   }
 
   .n-list.framed {

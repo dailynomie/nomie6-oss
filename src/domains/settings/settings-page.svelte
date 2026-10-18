@@ -142,6 +142,8 @@
 
         <!-- <Logo size={22} /> -->
 
+        <span slot="left" title="Daily Nomie 7" class="rounded-full bg-primary-500 text-white text-xs font-bold px-2 py-0.5 leading-none">v7</span>
+
         <div slot="right">
           <!-- {#if !hasChatInstalled} -->
           <a
