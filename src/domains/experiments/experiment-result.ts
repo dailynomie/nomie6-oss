@@ -61,3 +61,25 @@ export const verdictText = (result: OutcomeResult): string => {
       return 'No clear difference.'
   }
 }
+
+const shortVerdict = (result: OutcomeResult): string => {
+  switch (result.verdict) {
+    case 'not-enough-data':
+      return 'not enough data'
+    case 'clear':
+      return 'clear'
+    case 'hint':
+      return 'possible'
+    case 'no-clear-difference':
+      return 'no clear difference'
+  }
+}
+
+/** The journal note written when an experiment ends. Tracker names are plain text, not #tags. */
+export const summaryNote = (title: string, snapshot: ExperimentResultSnapshot): string => {
+  const parts = snapshot.outcomes.map((o) => {
+    const pct = o.pct === undefined ? '' : `${o.pct > 0 ? '+' : ''}${o.pct.toFixed(0)}%, `
+    return `${o.tag} ${o.meanB.toFixed(1)} → ${o.meanE.toFixed(1)} (${pct}${shortVerdict(o)})`
+  })
+  return `Finished experiment "${title}": ${parts.join('; ')} +experiment`
+}

@@ -70,3 +70,7 @@ export class ExperimentClass implements ExperimentType {
     return JSON.parse(JSON.stringify(this))
   }
 }
+
+/** Saved experiments may be class instances or plain objects. Both are stored as plain data. */
+export const serializeExperiment = (item: ExperimentType | ExperimentClass): ExperimentType =>
+  item instanceof ExperimentClass ? item.asObject : JSON.parse(JSON.stringify(item))

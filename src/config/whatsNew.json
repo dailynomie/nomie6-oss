@@ -2,6 +2,10 @@
   "features": [
     {
       "version": "7.0.0",
+      "title": "Experiments: test whether one change affects something you track"
+    },
+    {
+      "version": "7.0.0",
       "title": "Daily Nomie 7 is here: the first release of the new version"
     },
     {

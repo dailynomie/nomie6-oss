@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { computeResult, experimentDaysSoFar, verdictText } from './experiment-result'
+import { computeResult, experimentDaysSoFar, summaryNote, verdictText } from './experiment-result'
 import { daysFrom, baselineDaysBefore } from './experiment-data'
 
 const experimentBase = {
@@ -70,5 +70,37 @@ describe('live result', () => {
     expect(verdictText({ ...base, verdict: 'hint' })).toBe('Possibly a difference. Keep going to be sure.')
     expect(verdictText({ ...base, verdict: 'no-clear-difference' })).toBe('No clear difference.')
     expect(verdictText({ ...base, verdict: 'clear', matchesExpectation: false })).toBe('A clear change, the opposite of what you hoped.')
+  })
+})
+
+describe('journal note', () => {
+  it('summarises the result in plain text', () => {
+    const note = summaryNote('No coffee after 14:00', {
+      computedAt: '2026-10-29T10:00:00.000Z',
+      adherence: { kept: 14, missed: 0, unchecked: 0 },
+      outcomes: [
+        {
+          tag: 'sleep_quality',
+          direction: 'up',
+          nB: 14,
+          nE: 14,
+          meanB: 6.2,
+          meanE: 7.4,
+          sdB: 0,
+          sdE: 0,
+          diff: 1.2,
+          pct: 18.4,
+          ciLow: 0,
+          ciHigh: 0,
+          p: 0.001,
+          d: 1,
+          verdict: 'clear',
+          matchesExpectation: true,
+          effect: 'large',
+        },
+      ],
+    })
+    expect(note).toBe('Finished experiment "No coffee after 14:00": sleep_quality 6.2 → 7.4 (+18%, clear) +experiment')
+    expect(note).not.toContain('#')
   })
 })

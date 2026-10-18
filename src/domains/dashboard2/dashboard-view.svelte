@@ -21,6 +21,7 @@
   import DashboardEmptyView from './dashboard-empty-view.svelte'
   import DashboardTabs from './dashboard-tabs.svelte'
   import DashboardWidgetGrid from './dashboard-widget-grid.svelte'
+  import ExperimentCheckInCard from '../experiments/ExperimentCheckInCard.svelte'
   import {
     createNewDashboard,
     DashStore,
@@ -216,6 +217,7 @@
             }}
           />
         {:else}
+          <ExperimentCheckInCard />
           <DashboardWidgetGrid {showDate} dashboard={$DashStore.activeDashboard} />
         {/if}
       </Container>

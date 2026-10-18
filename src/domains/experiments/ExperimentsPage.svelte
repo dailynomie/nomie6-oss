@@ -11,6 +11,7 @@
   import { Lang } from '../../store/lang'
   import { PulseOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from './ExperimentStore'
+  import { verdictText } from './experiment-result'
   import Button from '../../components/button/button.svelte'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import ExperimentEditorModal from './experiment-editor-modal.svelte'
@@ -82,7 +83,7 @@
             <ListItem clickable bottomLine={16} on:click={() => openDetail(experiment.id)}>
               <div class="font-semibold">{experiment.title}</div>
               <div class="text-xs text-gray-500">
-                {experiment.status === 'stopped' ? 'Stopped early' : 'Finished'}
+                {experiment.status === 'stopped' ? 'Stopped early' : 'Finished'}{experiment.result?.outcomes?.length ? ` · ${verdictText(experiment.result.outcomes[0])}` : ''}
               </div>
             </ListItem>
           {/each}

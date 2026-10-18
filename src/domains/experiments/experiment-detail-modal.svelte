@@ -7,28 +7,33 @@
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import Button from '../../components/button/button.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
+  import { showToast } from '../../components/toast/ToastStore'
   import { Interact } from '../../store/interact'
   import { TrackableStore } from '../trackable/TrackableStore'
 
   import { ExperimentStore } from './ExperimentStore'
   import type { ExperimentResultSnapshot, ExperimentType } from './experiment-class'
   import { CAVEAT, computeResult, experimentDaysSoFar, verdictText } from './experiment-result'
-  import { loadResultInput, recordCheckIn, removeCheckInFromBoards } from './experiment-live'
+  import { endExperiment, loadResultInput, recordCheckIn, removeCheckInFromBoards } from './experiment-live'
 
   const { id, experimentId } = $props()
 
   let experiment = $derived(
     ($ExperimentStore as Array<any>).find((e) => e.id === experimentId) as ExperimentType | undefined
   )
-  let result = $state<ExperimentResultSnapshot | undefined>(undefined)
+  let liveResult = $state<ExperimentResultSnapshot | undefined>(undefined)
   let uncheckedDays = $state<Array<string>>([])
   let daysSoFar = $state(0)
   let busy = $state(false)
 
+  let frozen = $derived(experiment?.status !== 'running')
+  let shownResult = $derived(frozen ? experiment?.result : liveResult)
+  let finishable = $derived(daysSoFar >= (experiment?.durationDays ?? Infinity))
+
   const refresh = async () => {
-    if (!experiment) return
+    if (!experiment || frozen) return
     const input = await loadResultInput(experiment, $TrackableStore.trackables)
-    result = computeResult(input)
+    liveResult = computeResult(input)
     const days = experimentDaysSoFar(experiment.start, experiment.durationDays, input.today)
     daysSoFar = days.length
     uncheckedDays = days.filter((day) => input.adherence[day] === undefined).reverse()
@@ -47,19 +52,44 @@
     }
   }
 
-  const deleteExperiment = async () => {
-    if (!experiment) return
-    const confirmed = await Interact.confirm('Delete this experiment?', 'The experiment is removed. Your check-in logs are kept.')
-    if (!confirmed) return
-    const takeOffBoards = await Interact.confirm(
+  const offerToRemoveFromBoards = async (adherenceTag: string) => {
+    const remove = await Interact.confirm(
       'Remove the check-in tracker from your boards?',
       'The tracker and its logs are kept. Only its place on your boards is removed.',
       'Remove from boards',
       'Keep on boards'
     )
+    if (remove) await removeCheckInFromBoards(adherenceTag)
+  }
+
+  const finish = async (status: 'completed' | 'stopped') => {
+    if (!experiment || busy) return
+    const question = status === 'completed' ? 'Finish this experiment?' : 'Stop this experiment early?'
+    const confirmed = await Interact.confirm(
+      question,
+      'The result is saved as it is now, and a summary is written to your journal.'
+    )
+    if (!confirmed) return
+    busy = true
+    try {
+      const adherenceTag = experiment.adherenceTag
+      await endExperiment(experiment, status, $TrackableStore.trackables)
+      showToast({ message: status === 'completed' ? 'Experiment finished' : 'Experiment stopped' })
+      await offerToRemoveFromBoards(adherenceTag)
+    } catch (e) {
+      Interact.error(e.message)
+    } finally {
+      busy = false
+    }
+  }
+
+  const deleteExperiment = async () => {
+    if (!experiment) return
+    const confirmed = await Interact.confirm('Delete this experiment?', 'The experiment is removed. Your check-in logs are kept.')
+    if (!confirmed) return
     const adherenceTag = experiment.adherenceTag
     await ExperimentStore.remove(experiment)
-    if (takeOffBoards) await removeCheckInFromBoards(adherenceTag)
+    await offerToRemoveFromBoards(adherenceTag)
     closeModal(id)
   }
 
@@ -84,22 +114,26 @@
   <main class="p-4 space-y-4 text-gray-800 dark:text-gray-200">
     {#if experiment}
       <div class="text-sm text-gray-500">
-        Day {Math.min(daysSoFar, experiment.durationDays)} of {experiment.durationDays}
+        {#if frozen}
+          {experiment.status === 'stopped' ? 'Stopped early' : 'Finished'}, {experiment.durationDays} days
+        {:else}
+          Day {Math.min(daysSoFar, experiment.durationDays)} of {experiment.durationDays}
+        {/if}
       </div>
 
-      {#if result}
+      {#if shownResult}
         <div class="p-3 rounded-xl bg-white dark:bg-gray-800 space-y-1">
           <div class="font-semibold">Kept to it</div>
           <div class="text-sm">
-            {result.adherence.kept} of {daysSoFar} days
-            {#if result.adherence.unchecked}
-              <span class="text-gray-500">({result.adherence.unchecked} not checked in yet)</span>
+            {shownResult.adherence.kept} of {shownResult.adherence.kept + shownResult.adherence.missed + shownResult.adherence.unchecked} days
+            {#if shownResult.adherence.unchecked}
+              <span class="text-gray-500">({shownResult.adherence.unchecked} not checked in)</span>
             {/if}
           </div>
         </div>
       {/if}
 
-      {#if uncheckedDays.length}
+      {#if !frozen && uncheckedDays.length}
         <div class="p-3 rounded-xl bg-white dark:bg-gray-800 space-y-2">
           <div class="font-semibold">Did you stick to it?</div>
           {#each uncheckedDays as day}
@@ -114,8 +148,8 @@
         </div>
       {/if}
 
-      {#if result}
-        {#each result.outcomes as outcome}
+      {#if shownResult}
+        {#each shownResult.outcomes as outcome}
           <div class="p-3 rounded-xl bg-white dark:bg-gray-800 space-y-1">
             <div class="font-semibold">{outcome.tag.replace(/_/g, ' ')}</div>
             <div class="text-sm">
@@ -125,12 +159,17 @@
               {/if}
             </div>
             <div class="text-sm font-semibold">{verdictText(outcome)}</div>
-            <div class="text-xs text-gray-500">
-              {outcome.nB} days before, {outcome.nE} days during
-            </div>
+            <div class="text-xs text-gray-500">{outcome.nB} days before, {outcome.nE} days during</div>
           </div>
         {/each}
         <div class="text-xs text-gray-500">{CAVEAT}</div>
+      {/if}
+
+      {#if !frozen}
+        {#if finishable}
+          <Button block primary disabled={busy} on:click={() => finish('completed')}>Finish experiment</Button>
+        {/if}
+        <Button block clear disabled={busy} on:click={() => finish('stopped')}>Stop early</Button>
       {/if}
 
       <Button block clear className="text-red-500" on:click={deleteExperiment}>Delete experiment</Button>

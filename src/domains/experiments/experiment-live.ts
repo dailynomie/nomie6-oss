@@ -3,10 +3,11 @@ import { getBoardsFromStorage, saveBoardsToStorageAndUpdate } from '../board/Uni
 import NLog from '../nomie-log/nomie-log'
 import { saveLog } from '../ledger/LedgerStore'
 import type { ITrackables } from '../trackable/trackable-utils'
+import { ExperimentStore } from './ExperimentStore'
 import type { ExperimentType } from './experiment-class'
 import { DAY_FORMAT } from './experiment-data'
 import { loadActiveDays, loadDailyValues } from './experiment-query'
-import type { ResultInput } from './experiment-result'
+import { computeResult, summaryNote, type ResultInput } from './experiment-result'
 
 const trackerFor = (known: ITrackables, tag: string): any =>
   Object.values(known).find((t: any) => t.tracker?.tag === tag)
@@ -60,4 +61,20 @@ export const removeCheckInFromBoards = async (adherenceTag: string): Promise<voi
     }
   })
   if (changed) await saveBoardsToStorageAndUpdate(boards)
+}
+
+/**
+ * End an experiment: freeze its result, mark it completed or stopped, and write the journal note.
+ * The check-ins and logs stay as they are.
+ */
+export const endExperiment = async (
+  experiment: ExperimentType,
+  status: 'completed' | 'stopped',
+  known: ITrackables
+): Promise<ExperimentType> => {
+  const snapshot = computeResult(await loadResultInput(experiment, known))
+  const ended: ExperimentType = { ...experiment, status, result: snapshot, updated: new Date().toJSON() }
+  await ExperimentStore.upsert(ended)
+  await saveLog(new NLog({ note: summaryNote(experiment.title, snapshot), end: new Date() }))
+  return ended
 }
