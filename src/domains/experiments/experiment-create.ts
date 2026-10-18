@@ -31,8 +31,7 @@ export type CreateExperimentInput = {
 
 /** Create the check-in tracker and save the experiment, which starts running. */
 export const createExperiment = async (input: CreateExperimentInput, known: ITrackables): Promise<ExperimentClass> => {
-  const existingTags = Object.values(known).map((t: any) => t.tag)
-  const adherenceTag = adherenceTagFor(input.title, existingTags)
+  const adherenceTag = adherenceTagFor(input.title)
 
   const tracker = buildAdherenceTracker(adherenceTag, input.title)
   const saved = await saveTrackable({

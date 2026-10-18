@@ -109,7 +109,8 @@ export const tInv = (p: number, df: number): number => {
   return (lo + hi) / 2
 }
 
-export const meanOf = (values: Array<number>): number => values.reduce((sum, v) => sum + v, 0) / values.length
+export const meanOf = (values: Array<number>): number =>
+  values.length ? values.reduce((sum, v) => sum + v, 0) / values.length : 0
 
 /** Sample standard deviation (n - 1). Zero for fewer than two values. */
 export const sdOf = (values: Array<number>): number => {

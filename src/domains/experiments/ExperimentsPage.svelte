@@ -14,6 +14,16 @@
   import Button from '../../components/button/button.svelte'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import ExperimentEditorModal from './experiment-editor-modal.svelte'
+  import ExperimentDetailModal from './experiment-detail-modal.svelte'
+
+  const openDetail = (experimentId: string) => {
+    openModal({
+      id: `experiment-${experimentId}-detail`,
+      position: 'fullscreen',
+      component: ExperimentDetailModal,
+      componentProps: { experimentId },
+    })
+  }
 
   const openEditor = () => {
     openModal({
@@ -57,7 +67,7 @@
       {#if running.length}
         <List solo title="Running" className="max-w-screen-lg mx-auto">
           {#each running as experiment (experiment.id)}
-            <ListItem bottomLine={16}>
+            <ListItem clickable bottomLine={16} on:click={() => openDetail(experiment.id)}>
               <div class="font-semibold">{experiment.title}</div>
               <div class="text-xs text-gray-500">
                 Day {dayReached(experiment.start, experiment.durationDays)} of {experiment.durationDays}
@@ -69,7 +79,7 @@
       {#if finished.length}
         <List solo title="Finished" className="max-w-screen-lg mx-auto">
           {#each finished as experiment (experiment.id)}
-            <ListItem bottomLine={16}>
+            <ListItem clickable bottomLine={16} on:click={() => openDetail(experiment.id)}>
               <div class="font-semibold">{experiment.title}</div>
               <div class="text-xs text-gray-500">
                 {experiment.status === 'stopped' ? 'Stopped early' : 'Finished'}

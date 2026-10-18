@@ -18,7 +18,8 @@ export const loadDailyValues = async (
 ): Promise<DailyValues> => {
   const usages = await queryToUsageMap({ start: start.startOf('day'), end: end.endOf('day') }, known)
   const values: DailyValues = {}
-  const usage = usages[tag]
+  // The usage map is keyed by the trackable tag, which includes the '#'
+  const usage = usages[`#${tag.replace(/^#/, '')}`]
   if (usage) {
     const byDay = usage.byDay
     byDay.dates.forEach((date, i) => {

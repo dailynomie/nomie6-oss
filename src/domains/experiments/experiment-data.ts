@@ -1,3 +1,4 @@
+import nid from '../../modules/nid/nid'
 import dayjs from 'dayjs'
 import type { MissingDayRule } from './experiment-class'
 
@@ -100,10 +101,11 @@ export const outcomeWindows = (input: {
 }
 
 /**
- * A tracker tag for an experiment's daily check-in, e.g. 'exp_no_caffeine_after_14'.
- * Unique among the tags already in use by appending a number.
+ * A new tracker tag for an experiment's daily check-in, e.g. 'exp_no_caffeine_after_14_00_3f9a1c'.
+ * It always gets a random part, so a new experiment never reuses the check-ins of an earlier one
+ * (deleting an experiment keeps its tracker and logs).
  */
-export const adherenceTagFor = (title: string, existingTags: Array<string>): string => {
+export const adherenceTagFor = (title: string): string => {
   const base =
     'exp_' +
     title
@@ -111,11 +113,5 @@ export const adherenceTagFor = (title: string, existingTags: Array<string>): str
       .replace(/[^a-z0-9]+/g, '_')
       .replace(/^_+|_+$/g, '')
       .slice(0, 40)
-  let tag = base
-  let n = 2
-  while (existingTags.includes(tag)) {
-    tag = `${base}_${n}`
-    n++
-  }
-  return tag
+  return `${base}_${nid(6)}`
 }

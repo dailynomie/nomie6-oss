@@ -120,11 +120,11 @@ describe('outcome windows', () => {
 })
 
 describe('adherence tags', () => {
-  it('builds a tag from the title', () => {
-    expect(adherenceTagFor('No caffeine after 14:00', [])).toBe('exp_no_caffeine_after_14_00')
+  it('builds a tag from the title with a random part', () => {
+    expect(adherenceTagFor('No caffeine after 14:00')).toMatch(/^exp_no_caffeine_after_14_00_[a-f0-9]{6}$/)
   })
 
-  it('makes the tag unique', () => {
-    expect(adherenceTagFor('No alcohol', ['exp_no_alcohol'])).toBe('exp_no_alcohol_2')
+  it('never gives two experiments the same tag, even with the same title', () => {
+    expect(adherenceTagFor('No alcohol')).not.toBe(adherenceTagFor('No alcohol'))
   })
 })
