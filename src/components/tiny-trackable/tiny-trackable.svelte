@@ -36,7 +36,8 @@
     @apply flex-shrink;
     @apply w-auto;
     @apply mr-1 mt-1;
-    @apply bg-gray-100 dark:bg-gray-900 rounded-lg;
+    @apply rounded-lg;
+    background: var(--ios-fill);
 
     @apply py-1 px-2;
     @apply transform-gpu transition-all duration-100 ease-in-out;
