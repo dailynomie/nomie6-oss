@@ -4,6 +4,7 @@
   import ListItem from '../../../components/list-item/list-item.svelte'
 
   import List from '../../../components/list/list.svelte'
+  import IconSquare from '../../../components/icon-square/icon-square.svelte'
 
   import { AwardStore } from '../AwardsStore'
 
@@ -13,8 +14,8 @@
 </script>
 
 
-  <ListItem title="Awards" detail to="/awards">
-    <div slot="left">🥇</div>
+  <ListItem title="Awards" detail to="/awards" bottomLine={57}>
+    <span slot="left"><IconSquare color="#C2185B">🥇</IconSquare></span>
     <div slot="right" class="flex items-center space-x-1">
       {#if awardsToShow.length}
         {#each awardsToShow as award, index}

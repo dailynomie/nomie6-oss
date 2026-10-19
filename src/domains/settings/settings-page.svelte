@@ -65,8 +65,6 @@
 
   import ChevronDownOutline from '../../n-icons/ChevronDownOutline.svelte'
   import { openLocationModal } from '../locations/LocationStore'
-  import { ExperimentStore } from '../experiments/ExperimentStore'
-  import { PulseOutline } from '../../components/icon/nicons'
   import IconSquare from '../../components/icon-square/icon-square.svelte'
 
   const location = undefined
@@ -195,13 +193,6 @@
                 </Button>
               </div>
             </ListItem> -->
-
-            <List solo outside className="mb-4">
-              <!-- iOS look: blue pulse icon square, with the running count -->
-              <ListItem detail bottomLine={57} to="/experiments" title="Experiments" description="{$ExperimentStore.filter((e) => e.status === 'running').length} running">
-                <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={PulseOutline} size={16} /></IconSquare></span>
-              </ListItem>
-            </List>
 
             <List solo outside>
               <AwardsPreviewList />
