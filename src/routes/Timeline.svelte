@@ -19,7 +19,7 @@
 
   import Button from '../components/button/button.svelte'
   import IonIcon from '../components/icon/ion-icon.svelte'
-  import { CalendarOutline, ChevronForwardOutline, OptionsOutline, SearchIcon } from '../components/icon/nicons'
+  import { CalendarOutline, ChevronForwardOutline, FunnelOutline, SearchIcon } from '../components/icon/nicons'
 
   import { selectFuzzyDate } from '../domains/timeline/select-date-fuzzy'
   import { openOnThisDayModal } from '../domains/on-this-day/useOnThisDayModal'
@@ -156,11 +156,14 @@
       >
         <IonIcon icon={CalendarOutline} size={18} />
       </button>
-      <MenuInline id="timeline-filter" y="bottom" menuButtons={filterMenu} buttonClass="ios-round">
-        <IonIcon icon={OptionsOutline} size={18} />
+      <MenuInline id="timeline-filter" x="right" y="bottom" menuButtons={filterMenu} buttonClass="ios-round">
+        <IonIcon icon={FunnelOutline} size={18} />
       </MenuInline>
     </div>
     <h1 class="text-ios-large font-bold text-ios-label mt-1">Timeline</h1>
+    <div class="max-w-xl w-full mt-1">
+      <PositivityGrid className="h-3" logs={topItem?.logs || []} />
+    </div>
     <button type="button" class="ios-search mt-2" aria-label="Search notes" on:click={() => openUnisearch()}>
       <IonIcon icon={SearchIcon} size={16} />
       <span>Search notes, #trackers, @people</span>

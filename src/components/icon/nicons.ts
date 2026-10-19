@@ -37,6 +37,7 @@ import EaselOutlineIcon from '../../n-icons/EaselOutline.svelte'
 import EaselSolidIcon from '../../n-icons/EaselSolid.svelte'
 import ExpandOutlineIcon from '../../n-icons/ExpandOutline.svelte'
 import EyeSolidIcon from '../../n-icons/EyeSolid.svelte'
+import FunnelOutlineIcon from '../../n-icons/FunnelOutline.svelte'
 import EyeClosedSolidIcon from '../../n-icons/EyeClosedSolid.svelte'
 import GitCompareOutlineIcon from '../../n-icons/Git.svelte'
 import HappyOutlineIcon from '../../n-icons/HappyOutline.svelte'
@@ -207,6 +208,7 @@ export const SettingsSolid = SettingsSolidIcon
 export const StopSolid = StopSolidIcon
 
 export const EyeSolid = EyeSolidIcon
+export const FunnelOutline = FunnelOutlineIcon
 
 export const EyeClosedSolid = EyeClosedSolidIcon
 
