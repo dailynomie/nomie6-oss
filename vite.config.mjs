@@ -95,12 +95,25 @@ export default defineConfig({
               },
             },
           },
-          // CSS and JS - cache first (versioned by build hash)
+          // Hashed build files under /assets/ - cache first, the name changes with every build
           {
-            urlPattern: /\.(?:js|css)$/,
+            urlPattern: /\/assets\/.*\.(?:js|css)$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'assets-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+          // Other JS and CSS (unhashed, such as public/js/vendors.js and plugin scripts) -
+          // serve the cached copy, but fetch the new one in the background for the next load
+          {
+            urlPattern: /\.(?:js|css)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'scripts-cache',
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
