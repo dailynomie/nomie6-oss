@@ -199,8 +199,9 @@
             </List>
 
             <!-- Sign-in and Register Block  -->
+            <!-- iOS look (guide 5.11): Advanced is one group in Full mode: Plugins and CSV -->
             {#if $FeatureVisible('plugins')}
-            <List solo className="mt-4">
+            <List solo outside title="Advanced" className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
                 <span slot="left"><IconSquare color="#C25E00">🔌</IconSquare></span>
               </ListItem>
@@ -218,6 +219,11 @@
               </ListItem>
               {#if showplugins}
               <PluginsMoreMenu />
+              {/if}
+              {#if $FeatureVisible('csv')}
+                <ListItem detail bottomLine={57} title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
+                  <span slot="left"><IconSquare color="#248A3D">📄</IconSquare></span>
+                </ListItem>
               {/if}
             </List>
             {/if}

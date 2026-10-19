@@ -195,12 +195,6 @@
     <span slot="left"><IconSquare color="#248A3D"><IonIcon icon={DownloadOutline} size={16} /></IconSquare></span>
     <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
   </ListItem>
-
-  {#if $FeatureVisible('csv')}
-    <ListItem bottomLine={57} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
-      <span slot="left"><IconSquare color="#248A3D">📄</IconSquare></span>
-    </ListItem>
-  {/if}
 </List>
 <List solo className="mb-3" outside>
   <ListItem
