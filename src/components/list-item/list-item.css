@@ -23,7 +23,9 @@
   @apply text-left;
   @apply dark:text-gray-200;
   @apply text-gray-900;
-  @apply px-4 py-2;
+  @apply px-4;
+  padding-top: 0;
+  padding-bottom: 0;
   @apply relative;
   color: var(--ios-label);
   /* @apply bg-white dark:bg-black dark:bg-opacity-50; */
