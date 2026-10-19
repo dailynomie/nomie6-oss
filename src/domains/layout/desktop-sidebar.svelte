@@ -169,7 +169,7 @@
 </script>
 
 <aside
-  class="desktop-sidebar bg-white dark:bg-gray-900 px-4 shadow-xl z-50 not-printable"
+  class="desktop-sidebar px-4 z-50 not-printable"
   role="menu"
   aria-hidden="false"
   title="Nomie Navigation"
@@ -247,8 +247,16 @@
   @media print {
       .not-printable { display: none; }
   }
+  /* iOS look: the sidebar is a card with a hairline on its right edge, no shadow */
+  .desktop-sidebar {
+    background: var(--ios-card);
+    border-right: 0.5px solid var(--ios-separator);
+    box-shadow: none;
+  }
+
   .desktop-sidebar .nav-item {
     @apply px-4 py-2;
+    min-height: 44px;
     @apply mb-2;
     @apply flex items-center;
     @apply focus:ring-2 ring-inset ring-primary-500;
@@ -269,10 +277,10 @@
   }
   .desktop-sidebar .nav-item .ion-icon.inactive {
     @apply flex;
-    @apply text-gray-500;
+    color: var(--ios-label2);
   }
   .desktop-sidebar .nav-item:hover {
-    @apply bg-primary-500 bg-opacity-20;
+    background: var(--ios-fill);
   }
   .desktop-sidebar .nav-item .ion-icon.active {
     @apply hidden;
@@ -283,7 +291,8 @@
   }
 
   .desktop-sidebar .nav-item.current {
-    @apply bg-primary-500 bg-opacity-10;
+    background: var(--ios-tint-soft);
+    color: var(--ios-tint);
   }
 
   .desktop-sidebar .link-title {
@@ -295,7 +304,8 @@
     @apply hidden;
   }
   .desktop-sidebar .nav-item.current .ion-icon.active {
-    @apply text-primary-500 bg-primary-500 bg-opacity-10 scale-105 transform;
+    color: var(--ios-tint);
+    @apply scale-105 transform;
     @apply flex;
   }
 
