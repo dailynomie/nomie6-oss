@@ -37,21 +37,22 @@
   })
 </script>
 
-<div class="w-full h-full flex flex-col justify-center gap-2 px-4 py-2 overflow-hidden text-gray-800 dark:text-gray-200">
+<div class="w-full h-full flex flex-col justify-center gap-2 px-4 py-2 overflow-hidden text-ios-label">
   {#if view}
+    <!-- iOS look (guide 5.7): 34 px tint square, 15 px title, 13 px status -->
     <div class="flex items-center gap-2 min-w-0">
-      <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary-100 dark:bg-primary-900 flex items-center justify-center text-base">🧪</div>
+      <div class="ios-exp-icon flex-shrink-0 flex items-center justify-center">🧪</div>
       <div class="min-w-0">
-        <div class="font-semibold text-sm truncate">{view.title}</div>
-        <div class="text-xs text-gray-500 dark:text-gray-400">{view.status}</div>
+        <div class="text-ios-subhead font-semibold truncate">{view.title}</div>
+        <div class="text-ios-footnote text-ios-label2">{view.status}</div>
       </div>
     </div>
 
     <ExperimentProgress value={view.progress} />
 
     {#if view.adherence}
-      <div class="text-xs text-gray-500 dark:text-gray-400">
-        Kept to it <span class="font-semibold text-gray-800 dark:text-gray-200">{view.adherence.kept}</span> of {view.adherence.total} days
+      <div class="text-ios-footnote text-ios-label2">
+        Kept to it <span class="font-semibold text-ios-label">{view.adherence.kept}</span> of {view.adherence.total} days
       </div>
     {/if}
 
@@ -63,6 +64,17 @@
       </div>
     {/if}
   {:else}
-    <div class="text-xs text-gray-500">Experiment not found</div>
+    <div class="text-ios-footnote text-ios-label2">Experiment not found</div>
   {/if}
 </div>
+
+<style>
+  /* iOS look: 34 px square in the tint-soft colour */
+  .ios-exp-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--ios-tint-soft);
+    font-size: 17px;
+  }
+</style>
