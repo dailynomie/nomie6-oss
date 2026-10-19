@@ -20,6 +20,7 @@
   import { AwardStore } from '../awards/AwardsStore'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
+  import { openPrivacyPolicy } from '../../components/markdown-modal/MarkdownModalStore'
 
   let counts = $state({
     trackers: 0,
@@ -59,6 +60,10 @@
   </ListItem>
   <ListItem bottomLine={16} detail title="Learn More" href="https://www.dailynomie.com">
     <span slot="right" class="text-inverse-3">DailyNomie.com</span>
+  </ListItem>
+
+  <ListItem bottomLine={16} title="Privacy Policy" detail clickable on:click={() => openPrivacyPolicy()}>
+    <span slot="left">🔒</span>
   </ListItem>
 
   <ListItem bottomLine={16} title="Reddit r/nomie" detail href="https://reddit.com/r/nomie">
