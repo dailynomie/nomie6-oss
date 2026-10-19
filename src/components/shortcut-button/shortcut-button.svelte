@@ -16,7 +16,9 @@
 
   const dispatch = createEventDispatcher()
 
-  let emojiSize = $derived(compact ? 30 : 40)
+  let emojiSize = $derived(compact ? 30 : 20)
+  // Experiment check-in trackers have an id that contains exp_
+  let isExperiment = $derived(is.truthy(id) && String(id).includes('exp_'))
 
   async function more() {
     dispatch('more')
@@ -46,9 +48,9 @@
     color="clear"
     className="w-full {className} {compact ? 'compact' : 'normal'} shortcut-button {is.truthy(value)
       ? 'has-value'
-      : 'no-value bg-white dark:bg-black'}
-  {compact ? 'compact' : ''}"
-    style={[style, `--tracker-color:${color};`, value ? `background-color:${color};` : ``].join('')}
+      : 'no-value'}
+  {compact ? 'compact' : ''} {isExperiment ? 'experiment-check-in' : ''}"
+    style={[style, `--tracker-color:${color};`].join('')}
     on:longpress={() => {
       dispatch('longpress')
       clickSkip = true
@@ -105,14 +107,15 @@
 
 <style global lang="postcss">
   .shortcut-button {
-    @apply rounded-2xl;
-    @apply shadow-md;
+    border-radius: 18px;
+    box-shadow: none;
+    background: var(--ios-card);
     @apply overflow-visible;
     @apply text-black dark:text-white;
     overflow:hidden;
   }
   .shortcut-button.normal {
-    @apply h-28 lg:h-32;
+    height: 112px;
   }
   .shortcut-button.compact {
     @apply h-14;
@@ -130,15 +133,28 @@
     @apply flex flex-col justify-center justify-items-center;
   }
   .shortcut-button .title {
-    @apply font-semibold;
-    @apply leading-tight;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
   }
   .shortcut-button .title.long {
-    font-size: .825rem;
+    font-size: 14px;
   }
   .shortcut-button.normal .emoji-holder {
-    @apply absolute top-2 left-2;
-    @apply text-black dark:text-white;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--tracker-color) 16%, transparent);
+    color: var(--ios-label);
+  }
+  :global(html.dark) .shortcut-button.normal .emoji-holder {
+    background: color-mix(in srgb, var(--tracker-color) 28%, transparent);
   }
   .shortcut-button.compact .emoji-holder {
     @apply absolute top-0 bottom-0 left-2;
@@ -153,12 +169,9 @@
     @apply px-3 pb-3;
   }
   .shortcut-button .subtitle {
-    @apply text-sm;
-    @apply opacity-60;
-  }
-  .shortcut-button.has-value,
-  .shortcut-button.has-value .title {
-    color: #fff !important;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--ios-label2);
   }
 
   .shortcut-button .value-sub {
@@ -168,14 +181,18 @@
   }
 
   .shortcut-button.normal .value-sub {
-    @apply flex;
-    @apply items-center;
-    @apply justify-between;
-    @apply space-x-2;
+    display: block;
   }
 
   .shortcut-button.normal .value-sub .value {
-    @apply whitespace-nowrap;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 26px;
+    font-family: var(--ios-font-rounded);
+    white-space: nowrap;
   }
   .shortcut-button.normal .value-sub .subtitle {
     @apply whitespace-nowrap;
@@ -183,7 +200,7 @@
   }
 
   .shortcut-button.has-value .value-sub {
-    @apply text-white;
+    color: var(--ios-label);
   }
   .shortcut-button .value-sub .value {
     @apply leading-tight;
@@ -245,5 +262,11 @@
 
   .shortcut-button.compact .highlight {
     @apply hidden;
+  }
+
+  /* Experiment check-in trackers: a soft tint with a dashed tint border */
+  .shortcut-button.experiment-check-in {
+    background: var(--ios-tint-soft);
+    border: 1.5px dashed var(--ios-tint);
   }
 </style>
