@@ -20,7 +20,7 @@
 </button>
 {:else}
 <button class="tiny-trackable" on:click={() => emit('click')}>
-  <span class="chip-dot" style="background-color: {color}" />
+  <TrackableAvatar className="items-center self-center" {trackable} size={16} />
   <span class="label line-clamp-1">{trackable.label}</span>
   {#if value}
     <span class="value">{trackable.formatValue(value)}</span>
@@ -28,7 +28,7 @@
 </button>
 {/if}
 <style lang="postcss" global>
-  /* iOS look: timeline chips are 24 px high, 13 px text, with an 8 px colour dot, the label, then the value in bold */
+  /* iOS look: timeline chips are 24 px high, 13 px text, with a small emoji, the label, then the value in bold */
   .tiny-trackable {
     @apply flex items-center;
     @apply whitespace-nowrap;
@@ -44,12 +44,6 @@
 
     @apply transform-gpu transition-all duration-100 ease-in-out;
     @apply max-w-full;
-  }
-  .tiny-trackable .chip-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 9999px;
-    flex-shrink: 0;
   }
   .tiny-trackable:hover {
     @apply scale-105;
