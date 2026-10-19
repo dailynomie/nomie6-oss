@@ -22,6 +22,11 @@
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
   import { openPrivacyPolicy } from '../../components/markdown-modal/MarkdownModalStore'
   import IconSquare from '../../components/icon-square/icon-square.svelte'
+  import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
+  import { ExperimentStore } from '../experiments/ExperimentStore'
+
+  let countsOpen = $state(false)
 
   let counts = $state({
     trackers: 0,
@@ -33,10 +38,27 @@
     plugins: 0,
     templates: 0,
     awards: 0,
+    experiments: 0,
+    runningExperiments: 0,
     total: 0,
   })
 
+  // Items in the Counts section, not counting reminders (a subset of pointers) or running experiments (a subset of experiments)
+  let totalCounted = $derived(
+    counts.trackers +
+      counts.people +
+      counts.context +
+      counts.pointers +
+      counts.locations +
+      counts.templates +
+      counts.awards +
+      counts.plugins +
+      counts.experiments
+  )
+
   $effect(() => {
+    counts.experiments = $ExperimentStore.length
+    counts.runningExperiments = $ExperimentStore.filter((e: any) => e.status === 'running').length
     counts.trackers = Object.keys($TrackerStore).length
     counts.context = Object.keys($ContextStore).length
     counts.pointers = $PointerStore.length
@@ -111,34 +133,43 @@
     <span slot="right">{$Device.pwa}</span>
   </ListItem>
 
-  <ListItem><span class="text-gray-500 text-sm">Counts</span></ListItem>
-  <ListItem bottomLine={16} title="Trackers">
-    <div slot="right">{counts.trackers}</div>
+  <!-- Counts is a section that opens and closes; the rows show when it is open -->
+  <ListItem bottomLine={countsOpen ? 57 : undefined} clickable title="Counts" description="{totalCounted} items in total" on:click={() => (countsOpen = !countsOpen)}>
+    <span slot="left"><IconSquare color="#6C6C70">🔢</IconSquare></span>
+    <div slot="right"><IonIcon icon={countsOpen ? ChevronUpOutline : ChevronDownOutline} size={16} /></div>
   </ListItem>
-  <ListItem bottomLine={16} title="People">
-    <div slot="right">{counts.people}</div>
-  </ListItem>
-  <ListItem bottomLine={16} title="Context">
-    <div slot="right">{counts.context}</div>
-  </ListItem>
-  <ListItem bottomLine={16} title="Pointers">
-    <div slot="right">{counts.pointers}</div>
-  </ListItem>
-  <ListItem bottomLine={16} title="Reminders">
-    <div slot="right">{counts.reminders}</div>
-  </ListItem>
-  <ListItem bottomLine={16} title="Locations">
-    <div slot="right">{counts.locations}</div>
-  </ListItem>
-  <ListItem bottomLine={16} title="Templates">
-    <div slot="right">{counts.templates}</div>
-  </ListItem>
-  <ListItem bottomLine={16} title="Awards">
-    <div slot="right">{counts.awards}</div>
-  </ListItem>
-  <ListItem title="Plugins">
-    <div slot="right">{counts.plugins}</div>
-  </ListItem>
+  {#if countsOpen}
+    <ListItem bottomLine={16} title="Trackers">
+      <div slot="right">{counts.trackers}</div>
+    </ListItem>
+    <ListItem bottomLine={16} title="People">
+      <div slot="right">{counts.people}</div>
+    </ListItem>
+    <ListItem bottomLine={16} title="Context">
+      <div slot="right">{counts.context}</div>
+    </ListItem>
+    <ListItem bottomLine={16} title="Pointers">
+      <div slot="right">{counts.pointers}</div>
+    </ListItem>
+    <ListItem bottomLine={16} title="Reminders">
+      <div slot="right">{counts.reminders}</div>
+    </ListItem>
+    <ListItem bottomLine={16} title="Locations">
+      <div slot="right">{counts.locations}</div>
+    </ListItem>
+    <ListItem bottomLine={16} title="Templates">
+      <div slot="right">{counts.templates}</div>
+    </ListItem>
+    <ListItem bottomLine={16} title="Awards">
+      <div slot="right">{counts.awards}</div>
+    </ListItem>
+    <ListItem bottomLine={16} title="Plugins">
+      <div slot="right">{counts.plugins}</div>
+    </ListItem>
+    <ListItem title="Experiments" description="{counts.runningExperiments} running">
+      <div slot="right">{counts.experiments}</div>
+    </ListItem>
+  {/if}
 </List>
 
 <List solo title="Version" outside className="mb-3">
