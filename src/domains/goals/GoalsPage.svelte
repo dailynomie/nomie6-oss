@@ -4,7 +4,6 @@
   import Button from '../../components/button/button.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { AddIcon, CheckmarkCircle, ChevronForwardOutline, RibbonOutline } from '../../components/icon/nicons'
-  import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
 
   import { Lang } from '../../store/lang'
@@ -129,34 +128,34 @@
 </script>
 
 <Layout pageTitle={Lang.t('goals.goals', 'Goals')}>
-  <header slot="header" class="glass z-50">
-    <ToolbarGrid>
-      <div slot="left">
-        <Button primary clear icon on:click={createGoal}>
-          <IonIcon icon={AddIcon} size={32} />
-        </Button>
-      </div>
-      <h1 class="ntitle outline-none focus:ring-none">{Lang.t('goals.my-goals', 'My Goals')}</h1>
-      <div slot="right">
-        {#if editMode}
-          <Button
-            clear
-            primary
-            on:click={() => {
-              editMode = false
-            }}>Done</Button
-          >
-        {:else if goals.length}
-          <Button
-            clear
-            primary
-            on:click={() => {
-              editMode = true
-            }}>Edit</Button
-          >
-        {/if}
-      </div>
-    </ToolbarGrid>
+  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
+    <!-- iOS look: action row, then the large title and today's count -->
+    <div class="flex items-center justify-between h-11">
+      <button type="button" aria-label="New goal" class="goals-round" on:click={createGoal}>
+        <IonIcon icon={AddIcon} size={18} />
+      </button>
+      {#if editMode}
+        <Button
+          clear
+          primary
+          on:click={() => {
+            editMode = false
+          }}>Done</Button
+        >
+      {:else if goals.length}
+        <Button
+          clear
+          primary
+          on:click={() => {
+            editMode = true
+          }}>Edit</Button
+        >
+      {/if}
+    </div>
+    <h1 class="text-ios-large font-bold text-ios-label mt-1 outline-none">{Lang.t('goals.my-goals', 'My Goals')}</h1>
+    {#if $GoalScoreStore[1]}
+      <p class="text-ios-subhead text-ios-label2">{$GoalScoreStore[0]} of {$GoalScoreStore[1]} reached today</p>
+    {/if}
     <!-- <div class=" items-center justify-center">
       <DateRangeController
         on:next={() => {
@@ -196,33 +195,34 @@
               usageClicked(item)
             }}
           >
-            <div slot="left" class="flex items-center space-x-2 stiff">
+            <div slot="left" class="flex items-center stiff">
               <button
+                type="button"
+                aria-label="Tracker options"
                 on:click|preventDefault|stopPropagation|capture={(evt) => {
                   blockOpen()
                   showTrackablePopmenu($TrackableStore.trackables[item.goal.tag])
                 }}
               >
-                <TrackableAvatar
-                  className=" my-2"
-                  trackable={$TrackableStore.trackables[item.goal.tag]}
-                  size={48}
-                /></button
-              >
+                <!-- iOS look: a 29 px tracker square, as on the other lists -->
+                <span class="ios-goal-icon">
+                  <TrackableAvatar trackable={$TrackableStore.trackables[item.goal.tag]} size={18} />
+                </span>
+              </button>
             </div>
 
             <div class="title-progress filler">
               <div class="flex items-center justify-between mb-2">
-                <h1 class="font-semibold flex items-center space-x-2">
+                <h1 class="ios-goal-label font-semibold flex items-center space-x-2">
                   <div class="line-clamp-1">{$TrackableStore.trackables[item.goal.tag]?.label}</div>
                   {#if (item.scores && item.scores[0]?.success) || (item.goal.isDontDoIt && !item.scores.length)}
                     <IonIcon icon={CheckmarkCircle} className="text-ios-good" />
                   {/if}
                 </h1>
                 {#if !editMode}
-                  <div class="filler whitespace-nowrap text-right">
+                  <div class="filler whitespace-nowrap text-right text-ios-footnote text-ios-label2">
                     <span>
-                      <span class="usage-value font-semibold ">
+                      <span class="usage-value font-semibold text-ios-label">
                         {#if !item.trackableUsage}
                           0
                         {:else}
@@ -230,7 +230,7 @@
                         {/if}
                       </span>
                       <span class="opacity-40">/</span>
-                      <span class="target-value opacity-70">
+                      <span class="target-value">
                         {$TrackableStore.trackables[item.goal.tag]?.formatValue(item.goal.target)}
                       </span>
                     </span>
@@ -289,13 +289,13 @@
         {/each}
         <ListItem on:click={createGoal}>
           {#if view === 'day'}
-          <div class="text-center text-primary">Add Daily Goal</div>
+          <div class="text-center text-ios-tint text-ios-body">Add Daily Goal</div>
           {:else if view === 'week'}
-          <div class="text-center text-primary">Add Weekly Goal</div>
+          <div class="text-center text-ios-tint text-ios-body">Add Weekly Goal</div>
           {:else if view === 'month'}
-          <div class="text-center text-primary">Add Monthly Goal</div>
+          <div class="text-center text-ios-tint text-ios-body">Add Monthly Goal</div>
           {:else if view === 'year'}
-          <div class="text-center text-primary">Add Yearly Goal</div>
+          <div class="text-center text-ios-tint text-ios-body">Add Yearly Goal</div>
           {/if}
         </ListItem>
        
@@ -325,6 +325,33 @@
 </Layout>
 
 <style>
+  /* iOS look: round add button (36 px, fill) */
+  .goals-round {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ios-fill);
+    color: var(--ios-label);
+  }
+  /* iOS look: 29 px tracker square, with a 17 px label */
+  .ios-goal-icon {
+    width: 29px;
+    height: 29px;
+    border-radius: 8px;
+    background: var(--ios-fill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ios-goal-label {
+    font-size: 17px;
+    line-height: 22px;
+    color: var(--ios-label);
+  }
+
   /* iOS look: 6 px progress bars on a fill track (guide 4.6). The bar classes are applied inside ProgressBar, hence :global */
   :global(.n-progress-bar.ios-bar) {
     height: 6px;
