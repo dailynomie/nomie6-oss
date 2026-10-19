@@ -216,7 +216,7 @@
                 <h1 class="font-semibold flex items-center space-x-2">
                   <div class="line-clamp-1">{$TrackableStore.trackables[item.goal.tag]?.label}</div>
                   {#if (item.scores && item.scores[0]?.success) || (item.goal.isDontDoIt && !item.scores.length)}
-                    <IonIcon icon={CheckmarkCircle} className="text-green-500" />
+                    <IonIcon icon={CheckmarkCircle} className="text-ios-good" />
                   {/if}
                 </h1>
                 {#if !editMode}
@@ -240,17 +240,17 @@
               </div>
               <div class="progress pb-2">
                 {#if !item.scores.length}
-                  <ProgressBar percentage={0} />
+                  <ProgressBar percentage={0} className="ios-bar" barClass="ios-bar-fill" />
                 {/if}
                 {#each item.scores || [] as score}
                   {#if score.failure}
-                    <ProgressBar barClass="bg-red-500" r2l={item.goal.isDontDoIt} percentage={score.percent || 0} />
+                    <ProgressBar className="ios-bar" barClass="ios-bar-bad" r2l={item.goal.isDontDoIt} percentage={score.percent || 0} />
                   {:else if item.goal.isDontDoIt && score.percent > 80}
-                    <ProgressBar r2l={item.goal.isDontDoIt} barClass="bg-yellow-500" percentage={score.percent || 0} />
+                    <ProgressBar className="ios-bar" r2l={item.goal.isDontDoIt} barClass="ios-bar-warn" percentage={score.percent || 0} />
                   {:else if score.success}
-                    <ProgressBar percentage={score.percent || 0} r2l={item.goal.isDontDoIt} barClass="bg-green-500" />
+                    <ProgressBar className="ios-bar" percentage={score.percent || 0} r2l={item.goal.isDontDoIt} barClass="ios-bar-good" />
                   {:else}
-                    <ProgressBar r2l={item.goal.isDontDoIt} percentage={score.percent || 0} />
+                    <ProgressBar className="ios-bar" r2l={item.goal.isDontDoIt} barClass="ios-bar-fill" percentage={score.percent || 0} />
                   {/if}
                 {/each}
               </div>
@@ -323,3 +323,27 @@
     </List>
   </main>
 </Layout>
+
+<style>
+  /* iOS look: 6 px progress bars on a fill track (guide 4.6). The bar classes are applied inside ProgressBar, hence :global */
+  :global(.n-progress-bar.ios-bar) {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--ios-fill);
+  }
+  :global(.n-progress-bar.ios-bar > .progress-bar) {
+    border-radius: 3px;
+  }
+  :global(.ios-bar-fill) {
+    background: var(--ios-tint) !important;
+  }
+  :global(.ios-bar-good) {
+    background: var(--ios-good) !important;
+  }
+  :global(.ios-bar-warn) {
+    background: var(--ios-save) !important;
+  }
+  :global(.ios-bar-bad) {
+    background: var(--ios-danger) !important;
+  }
+</style>
