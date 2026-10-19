@@ -25,10 +25,10 @@
   @apply text-gray-900;
   @apply px-4 py-2;
   @apply relative;
-  @apply text-gray-800 dark:text-gray-200;
+  color: var(--ios-label);
   /* @apply bg-white dark:bg-black dark:bg-opacity-50; */
 
-  min-height: 48px;
+  min-height: 44px;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
 }
@@ -124,7 +124,7 @@ button.n-item:active {
   content: '';
   position: absolute;
   top: 0px;
-  @apply border-t border-gray-200 dark:border-gray-600;
+  border-top: 0.5px solid var(--ios-separator);
   left: 16px;
   right: 0;
 }
@@ -144,7 +144,7 @@ button.n-item:active {
   position: absolute;
   bottom: 0px;
   
-  @apply border-b border-black dark:border-white border-opacity-20 dark:border-opacity-10;
+  border-bottom: 0.5px solid var(--ios-separator);
   left: var(--line-gap, 16px);
   right: 0;
 }
@@ -254,4 +254,19 @@ button.n-item:active {
 }
 .bg-light {
   @apply bg-gray-100 dark:bg-gray-700;
+}
+
+/* iOS look: row titles are regular weight at 17 px, and the chevron uses the secondary label colour */
+.n-item .title {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 22px;
+}
+.ios-chevron {
+  color: var(--ios-label2);
+  opacity: 0.7;
+}
+.ios-chevron svg {
+  width: 12px;
+  height: 12px;
 }

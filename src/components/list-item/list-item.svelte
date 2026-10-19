@@ -107,7 +107,7 @@
         {#if detail}
           <IonIcon
             icon={ChevronForwardOutline}
-            className="text-gray-300 z-0 dark:text-gray-700"
+            className="ios-chevron z-0"
             style="margin-left:6px; margin-right:-10px;"
           />
         {/if}
