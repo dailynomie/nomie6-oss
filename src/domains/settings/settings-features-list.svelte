@@ -27,6 +27,7 @@
   import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
   import ExperimentBoardIcon from '../../n-icons/board-tab-icons/ExperimentBoardIcon.svelte'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
   import { FeatureVisible, resolveExperience } from '../preferences/features'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
@@ -243,8 +244,9 @@
     </div>
   </ListItem>
   {/if}
-  <ListItem bottomLine={52} title="Show Experiments Board">
-    <IonIcon icon={ExperimentBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
+  <!-- iOS look: teal icon square for the Experiments board -->
+  <ListItem bottomLine={57} title="Show Experiments Board">
+    <span slot="left"><IconSquare color="#0E7C86"><IonIcon icon={ExperimentBoardIcon} size={16} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch
         value={$Prefs.experimentBoard === true}
