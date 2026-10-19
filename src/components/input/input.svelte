@@ -275,16 +275,16 @@ import is from '../../utils/is/is';
   .n-input-container.list-item div.n-input label {
     left: 20px !important;
     top: 10px !important;
-    @apply text-black dark:text-white;
+    color: var(--ios-label);
   }
   .n-input-container.list-item .n-input-wrapper {
     border-radius: 0px !important;
   }
   .n-input-container.solid {
-    @apply bg-white dark:bg-black;
+    background: var(--ios-card);
   }
   .n-input-container.outline {
-    @apply border border-gray-500 dark:border-opacity-60 border-opacity-30;
+    border: 0.5px solid var(--ios-separator);
     @apply p-1;
   }
   .n-input-container {
@@ -293,7 +293,7 @@ import is from '../../utils/is/is';
     @apply flex flex-col flex-grow flex-shrink;
     @apply mb-px;
     
-    @apply rounded-md;
+    border-radius: 10px;
     @apply focus-within:ring-2 ring-opacity-50 ring-inset ring-primary-500;
   }
 
@@ -376,10 +376,9 @@ import is from '../../utils/is/is';
   .n-input-container.compact .n-input-wrapper .n-input select,
   .n-input-container.compact .n-input-wrapper .n-input textarea {
     min-height: 40px;
-    @apply text-base;
-    @apply leading-5;
-    /* @apply bg-white dark:bg-gray-900; */
-    @apply text-black dark:text-white;
+    font-size: 17px;
+    line-height: 22px;
+    color: var(--ios-label);
   }
   .n-input-container .n-input-wrapper {
     transition: all 0.2s ease-in-out;

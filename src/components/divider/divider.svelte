@@ -34,8 +34,8 @@
   }
   .divider.show-line::after {
     content: '';
-    @apply h-px;
-    @apply bg-gray-300 dark:bg-gray-800;
+    height: 0.5px;
+    background: var(--ios-separator);
     @apply absolute;
     @apply bottom-px;
   }

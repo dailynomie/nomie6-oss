@@ -23,6 +23,8 @@
   <button
     type="button"
     class="onoffswitch-btn"
+    role="switch"
+    aria-checked={value}
     aria-label={title || 'Toggle'}
     on:click={methods.onChange}
   >
@@ -33,9 +35,10 @@
 
 <style lang="postcss" global>
   .onoffswitch-btn {
-    @apply w-11 h-6;
-    @apply rounded-full;
-    @apply p-0.5;
+    width: 51px;
+    height: 31px;
+    border-radius: 16px;
+    padding: 2px;
     @apply transform transition-all duration-100;
     @apply inline-flex;
     @apply focus:outline-none focus:ring-2 ring-green-500 ring-inset;
@@ -46,16 +49,19 @@
     @apply transform transition-colors duration-100 inline-block;
   }
   .onoffswitch.on .onoffswitch-btn {
-    @apply bg-green-500 dark:bg-green-500;
+    background: var(--ios-switch-on);
   }
 
   .onoffswitch-btn .ball {
-    @apply transition-all duration-100;
+    width: 27px;
+    height: 27px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
   }
   .onoffswitch.on .onoffswitch-btn .ball {
     @apply transform translate-x-5;
   }
   .onoffswitch.off .onoffswitch-btn {
-    @apply bg-gray-300 dark:bg-gray-700;
+    background: var(--ios-switch-off);
   }
 </style>
