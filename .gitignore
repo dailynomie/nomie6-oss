@@ -195,3 +195,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+planning/
+.claude/
