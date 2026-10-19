@@ -537,3 +537,10 @@ html.dark .ios-thumb {
 .ios-float {
   box-shadow: var(--ios-shadow-float);
 }
+
+/* iOS look: the router moves focus to the page heading after a route change (for screen readers).
+   That heading is not a control, so it should not get a white focus box around the title. */
+:is(h1, h2, h3, h4, h5, h6)[tabindex='-1']:focus {
+  outline: none;
+  box-shadow: none;
+}
