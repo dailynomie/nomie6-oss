@@ -34,6 +34,9 @@
   import PluginDedupModal from '../plugins/plugin-dedup-modal.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
   import { autoCleanupPlugins } from '../plugins/PluginCleanupStore'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
+  import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { DownloadOutline } from '../../components/icon/nicons'
 
   // let fileInputF
   // let showImporter = false
@@ -144,17 +147,19 @@
     {storageDetails.shortName}
     <IonIcon icon={ChevronDownOutline} size={14} className="ml-2 text-black dark:text-white" />
   </Button> -->
-  <ListItem on:click={showStorageOptions} detail>
+  <ListItem on:click={showStorageOptions} detail bottomLine={57}>
     <span slot="left">
-      {#if $Prefs.storageType === 'local'}
-        🗄
-      {:else if $Prefs.storageType === 'firebase'}
-        ☁️
-      {:else if $Prefs.storageType === 'nomie-server'}
-        ☁️
-      {:else if $Prefs.storageType == 'pouchdb'}
-        🛋
-      {/if}
+      <IconSquare color="#6C6C70">
+        {#if $Prefs.storageType === 'local'}
+          🗄
+        {:else if $Prefs.storageType === 'firebase'}
+          ☁️
+        {:else if $Prefs.storageType === 'nomie-server'}
+          ☁️
+        {:else if $Prefs.storageType == 'pouchdb'}
+          🛋
+        {/if}
+      </IconSquare>
     </span>
     <div class="font-semibold leading-tight">Stored on {storageDetails.name}</div>
     <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
@@ -180,46 +185,55 @@
 
 <List solo className="mb-3 mt-4" outside>
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
     detail
     title={Lang.t('general.import-data', 'Import Data')}
     on:click={() => {
       showImportModal()
     }}
   >
+    <span slot="left"><IconSquare color="#248A3D"><IonIcon icon={DownloadOutline} size={16} /></IconSquare></span>
     <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
   </ListItem>
 
   {#if $FeatureVisible('csv')}
-    <ListItem bottomLine={16} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv" />
+    <ListItem bottomLine={57} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
+      <span slot="left"><IconSquare color="#248A3D">📄</IconSquare></span>
+    </ListItem>
   {/if}
 </List>
 <List solo className="mb-3" outside>
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
     detail
     title={Lang.t('general.browse-files', 'Browse Files')}
     on:click={() => {
       navigate('/files')
     }}
-  />
+  >
+    <span slot="left"><IconSquare color="#6C6C70">📁</IconSquare></span>
+  </ListItem>
 
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
     detail
     clickable
     title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
     on:click={updateLastUsedDates}
-  />
+  >
+    <span slot="left"><IconSquare color="#6C6C70">🔄</IconSquare></span>
+  </ListItem>
 
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
     detail
     clickable
     title="Clean Plugin Database"
     description="Find and remove duplicate plugin settings"
     on:click={openPluginDedupModal}
-  />
+  >
+    <span slot="left"><IconSquare color="#6C6C70">🧹</IconSquare></span>
+  </ListItem>
 
   <ListItem title="Auto-PluginDB-Cleanup Schedule">
     <div slot="right">

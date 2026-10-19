@@ -6,6 +6,8 @@
   import { Lang } from '../../store/lang'
   import ListItem from '../list-item/list-item.svelte'
   import List from '../list/list.svelte'
+  import IconSquare from '../icon-square/icon-square.svelte'
+  import dayjs from 'dayjs'
   import { Prefs } from './../../domains/preferences/Preferences'
 
   let daysToBackup = $state($Prefs.backupDays || 7)
@@ -45,18 +47,30 @@
   ])
 
   let selectedBackupLabel = $derived((backupOptions.find((s) => s.selected) || {}).value)
+
+  let lastBackupText = $derived(
+    $Prefs.lastBackup
+      ? `Last backup ${dayjs($Prefs.lastBackup).fromNow()} · everything included`
+      : 'Never backed up · everything included'
+  )
 </script>
 
 <List solo>
+  <!-- iOS look (guide 5.11): "Back up now" is a two-line row with a green square -->
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
     detail
-    title={Lang.t('general.backup-now', 'Backup Data')}
+    title="Back up now"
+    titleClass="text-ios-tint"
+    description={lastBackupText}
     on:click={() => {
       generateBackup()
     }}
-  />
-  <ListItem bottomLine={16} title={Lang.t('settings.backup-reminder', 'Backup Reminder')}>
+  >
+    <span slot="left"><IconSquare color="#248A3D">💾</IconSquare></span>
+  </ListItem>
+  <ListItem bottomLine={57} title={Lang.t('settings.backup-reminder', 'Backup Reminder')}>
+    <span slot="left"><IconSquare color="#6C6C70">🔔</IconSquare></span>
     <div slot="right">
       <SelectPop
         id="start-page"
