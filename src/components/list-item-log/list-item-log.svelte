@@ -166,7 +166,7 @@
         </div>
 
         {#if log.hasNote}
-          <p class="text-base leading-5">
+          <p class="text-ios-subhead">
             <NoteTextualizer
               note={log.note}
               on:noteChange={(evt) => {

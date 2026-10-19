@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import type NLog from '../nomie-log/nomie-log'
+  import dayjs, { type Dayjs } from 'dayjs'
   import { logsToTimeline, type TimelineFilterProps, type TimelineItemType } from './timeline-utils'
 
   import { TrackableStore } from '../trackable/TrackableStore'
@@ -52,6 +53,14 @@
 
   let topItem: TimelineItemType | undefined = $state(undefined)
 
+  const dayTitle = (day: Dayjs) => {
+    const today = dayjs().startOf('day')
+    const target = day.startOf('day')
+    if (target.isSame(today, 'day')) return 'Today'
+    if (target.isSame(today.subtract(1, 'day'), 'day')) return 'Yesterday'
+    return target.format('dddd')
+  }
+
   $effect(() => {
     if (listEndIndex === timeline.length && timeline.length > 0) {
       dispatch('endOfItems')
@@ -76,26 +85,27 @@
   }}
 >
   <Container size="md">
-    <header class="text-center px-6 items-center mt-6 mb-2 font-bold text-ios-label">
+    <!-- iOS look: day title on the left (Today, Yesterday, or the weekday), date on the right -->
+    <header class="flex items-end justify-between gap-3" style="padding: 22px 16px 7px">
       <button
         type="button"
-        class=" text-left w-full font-bold hover:opacity-80"
+        class="text-left hover:opacity-80 min-w-0"
         on:click={() => {
           openOnThisDayModal(item.logs[0].end)
         }}
       >
-        <div class="text-ios-footnote block font-normal leading-none text-ios-label2 mb-1">
-          {item.logs[0].endDayjs().fromNow()}
-        </div>
         <h2
-          class="transform block transition-all duration-500 filler text-ios-title3"
+          class="transform block transition-all duration-500 text-ios-title3 font-bold text-ios-label"
           class:text-sm={item.logs[0].endDayjs().format('YYYY-MM-DD') ==
             topItem?.logs[0].endDayjs().format('YYYY-MM-DD')}
         >
-          {item.logs[0].endDayjs().format(`ddd ${dateFormats.mmm_d_yyyy}`)}
+          {dayTitle(item.logs[0].endDayjs())}
           <IonIcon icon={ChevronForwardOutline} className="opacity-50" size={14} />
         </h2>
       </button>
+      <div class="text-ios-footnote text-ios-label2 whitespace-nowrap">
+        {item.logs[0].endDayjs().format(dateFormats.mmm_d_yyyy)}
+      </div>
     </header>
 
     {#if filters.trackables}
@@ -155,7 +165,7 @@
     {/if}
 
     {#if filters.notes}
-      <div class="notes">
+      <div class="notes mx-4 rounded-group bg-ios-card overflow-hidden">
         {#each item.logs.filter((nlog) => {
           if (filters.trackables) return nlog.hasNote
           return true
@@ -166,7 +176,7 @@
             return a.end < b.end ? 1 : -1
           }
         }) as log}
-          <div class="px-4 py-2">
+          <div class="log-row">
             <ListItemLog {log} hideTrackables={filters.trackables} />
           </div>
         {/each}
@@ -214,6 +224,14 @@
   .bubble.note-bubble {
     @apply p-4;
     @apply font-medium;
+  }
+
+  /* iOS look: entries of one day share a grouped card, divided by 0.5 px lines */
+  .log-row + .log-row {
+    border-top: 0.5px solid var(--ios-separator);
+  }
+  .log-row .note-bubble {
+    border-radius: 0;
   }
 
   .bubble .timeline-pill .title-value h3 {
