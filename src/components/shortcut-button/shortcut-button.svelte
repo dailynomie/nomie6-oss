@@ -264,6 +264,14 @@
     @apply hidden;
   }
 
+  /* A value today: the emoji square turns solid in the tracker colour, and the card stays white */
+  .shortcut-button.has-value.normal .emoji-holder {
+    background: var(--tracker-color);
+  }
+  :global(html.dark) .shortcut-button.has-value.normal .emoji-holder {
+    background: var(--tracker-color);
+  }
+
   /* Experiment check-in trackers: a soft tint with a dashed tint border */
   .shortcut-button.experiment-check-in {
     background: var(--ios-tint-soft);
