@@ -285,7 +285,7 @@
             {/if}
           </section>
         {/each}
-        <div class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-xs leading-relaxed text-gray-600 dark:text-gray-400">{CAVEAT}</div>
+        <div class="ios-box p-3 text-xs leading-relaxed text-gray-600 dark:text-gray-400">{CAVEAT}</div>
       {/if}
 
       <!-- AI explanation: full mode with AI set up, only once the result is frozen -->
