@@ -76,7 +76,7 @@
   }}
 >
   <Container size="md">
-    <header class="text-center px-6 items-center mt-6 mb-2 font-bold text-gray-900 dark:text-gray-100">
+    <header class="text-center px-6 items-center mt-6 mb-2 font-bold text-ios-label">
       <button
         type="button"
         class=" text-left w-full font-bold hover:opacity-80"
@@ -84,11 +84,11 @@
           openOnThisDayModal(item.logs[0].end)
         }}
       >
-        <div class="text-sm block font-normal  leading-none text-gray-500 mb-1">
+        <div class="text-ios-footnote block font-normal leading-none text-ios-label2 mb-1">
           {item.logs[0].endDayjs().fromNow()}
         </div>
         <h2
-          class="transform block transition-all duration-500 filler text-xl md:text-2xl"
+          class="transform block transition-all duration-500 filler text-ios-title3"
           class:text-sm={item.logs[0].endDayjs().format('YYYY-MM-DD') ==
             topItem?.logs[0].endDayjs().format('YYYY-MM-DD')}
         >
@@ -101,7 +101,7 @@
     {#if filters.trackables}
       <div class="timeline-30">
         <div class="my-2 mx-4" class:hidden={!Object.keys(item.usage).length}>
-          <div class="trackables relative z-0 rounded-lg bg-white dark:bg-gray-950">
+          <div class="trackables relative z-0 rounded-lg bg-ios-card">
             {#each Object.keys(item.usage)
               .map((tag) => {
                 return { usage: item.usage[tag], tag: tag, item }
@@ -175,7 +175,7 @@
     <!-- {#if filters.maps}
       <div class="px-4 pb-4">
         {#if item.logs.filter(l=>l.lat).length}
-        <div class="map relative h-28 px-4 flex items-center justify-center bg-gray-200 dark:bg-gray-900 text-gray-500 text-opacity-50 rounded-lg">
+        <div class="map relative h-28 px-4 flex items-center justify-center bg-ios-fill text-ios-label2 text-opacity-50 rounded-lg">
           <Map lock records={item.logs} className="h-28 rounded-lg overflow-hidden shadow-md" />
         </div>
         {/if}
@@ -196,17 +196,16 @@
     @apply hidden;
   }
   .bubble {
-    @apply bg-white dark:bg-gray-950;
-    /* @apply bg-opacity-90 dark:bg-opacity-90; */
-    @apply rounded-xl;
+    background: var(--ios-card);
+    border-radius: 12px;
     @apply p-2 pb-1;
-    @apply shadow-sm;
+    box-shadow: none;
   }
 
   .timeline-token {
     @apply text-black dark:text-white rounded-lg p-0;
     @apply ring-primary-500 ring-offset-4;
-    @apply bg-primary-500 bg-opacity-20;
+    background: var(--ios-tint-soft);
   }
   .timeline-token:active,
   .timeline-token:focus {

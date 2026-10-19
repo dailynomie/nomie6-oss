@@ -137,18 +137,18 @@
 {#if displayLog}
   <div id="log-{displayLog._id}" class:pinned={displayLog.pinned} class="note-bubble space-y-2 bubble {className}">
     <div class="flex items-center justify-between text-xs  space-x-3 -mt-2">
-      <button on:click={() => changePositivity(log)} class="text-base text-gray-600 dark:text-gray-400"
+      <button on:click={() => changePositivity(log)} class="text-base text-ios-label2"
         >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
       >
-      <div class="text-gray-500 stiff line-clamp-1">
+      <div class="text-ios-label2 stiff line-clamp-1">
         {#if fullDate}
           {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
         {:else}
           {log.endDayjs().format(dateFormats.time)}
-          <span class="pl-2 text-gray-300 dark:text-gray-700">{log.endDayjs().fromNow()}</span>
+          <span class="pl-2 text-ios-label2">{log.endDayjs().fromNow()}</span>
         {/if}
       </div>
-      <div class="text-right flex items-center  filler text-gray-500">
+      <div class="text-right flex items-center  filler text-ios-label2">
         <button
           aria-label="View Location"
           on:click={() => {
@@ -166,7 +166,7 @@
       <button
         type="button"
         style="margin-right:-10px"
-        class="text-gray-800  dark:text-white h-7 w-7 rounded-full  flex items-center justify-center"
+        class="text-ios-label h-7 w-7 rounded-full  flex items-center justify-center"
         on:click={() => {
           Interact.logOptions(log, {
             description: log.note,
@@ -228,12 +228,12 @@
 
 <style global lang="postcss">
   .note-bubble.pinned {
-    @apply ring ring-primary-500;
+    @apply ring ring-ios-tint;
   }
   .note-bubble {
-    @apply bg-white dark:bg-gray-950;
-    @apply rounded-xl;
-    @apply shadow-sm;
+    background: var(--ios-card);
+    border-radius: 12px;
+    box-shadow: none;
     @apply p-4;
     @apply font-medium;
   }
