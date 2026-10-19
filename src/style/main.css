@@ -476,3 +476,31 @@ hr.divider.indent {
   @apply h-40 w-full;
   @apply flex items-center justify-center;
 }
+
+/* iOS look: cards, inner boxes and the experiment progress bar (guide sections 4.6 and 4.7) */
+.ios-card {
+  background: var(--ios-card);
+  border-radius: 16px;
+  box-shadow: none;
+}
+.ios-box {
+  background: var(--ios-card-2);
+  border-radius: 12px;
+}
+.ios-box-tint {
+  background: var(--ios-tint-soft);
+  border-radius: 12px;
+}
+.ios-box-good {
+  background: var(--ios-good-soft);
+  border-radius: 12px;
+}
+.ios-progress-track.n-progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--ios-fill);
+}
+.ios-progress-track .ios-progress-fill {
+  border-radius: 3px;
+  background: var(--ios-tint);
+}

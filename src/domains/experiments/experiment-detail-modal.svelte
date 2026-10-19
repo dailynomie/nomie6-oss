@@ -206,7 +206,7 @@
   <main class="p-4 space-y-4 text-gray-800 dark:text-gray-200">
     {#if experiment}
       <!-- Status -->
-      <section class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm space-y-3">
+      <section class="ios-card p-4 space-y-3">
         <div class="flex items-center justify-between gap-2">
           <ExperimentChip tone={frozen ? 'neutral' : 'running'} label={statusLabel} />
           <div class="text-xs text-gray-500 dark:text-gray-400">{experiment.durationDays} days</div>
@@ -218,15 +218,15 @@
 
         {#if shownResult}
           <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="rounded-xl bg-green-50 dark:bg-green-900 p-2">
+            <div class="ios-box-good p-2">
               <div class="text-lg font-semibold text-green-700 dark:text-green-300">{shownResult.adherence.kept}</div>
               <div class="text-xs text-gray-600 dark:text-gray-400">Kept to it</div>
             </div>
-            <div class="rounded-xl bg-gray-100 dark:bg-gray-700 p-2">
+            <div class="ios-box p-2">
               <div class="text-lg font-semibold">{shownResult.adherence.missed}</div>
               <div class="text-xs text-gray-600 dark:text-gray-400">Didn't</div>
             </div>
-            <div class="rounded-xl bg-gray-100 dark:bg-gray-700 p-2">
+            <div class="ios-box p-2">
               <div class="text-lg font-semibold">{shownResult.adherence.unchecked}</div>
               <div class="text-xs text-gray-600 dark:text-gray-400">Not checked</div>
             </div>
@@ -236,7 +236,7 @@
 
       <!-- Check-ins -->
       {#if !frozen && uncheckedDays.length}
-        <section class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm">
+        <section class="ios-card p-4">
           <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">Check in</div>
           <div class="font-semibold mb-2">Did you stick to it?</div>
           {#each uncheckedDays as day}
@@ -254,18 +254,18 @@
       <!-- Outcomes -->
       {#if shownResult}
         {#each shownResult.outcomes as outcome}
-          <section class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm space-y-3">
+          <section class="ios-card p-4 space-y-3">
             <div class="flex items-center justify-between gap-2 min-w-0">
               <div class="font-semibold capitalize truncate">{outcome.tag.replace(/_/g, ' ')}</div>
               <ExperimentChip tone={outcomeTone(outcome.verdict, outcome.matchesExpectation)} label={verdictText(outcome)} title={verdictText(outcome)} />
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <div class="rounded-xl bg-gray-100 dark:bg-gray-700 p-3">
+              <div class="ios-box p-3">
                 <div class="text-xs text-gray-500 dark:text-gray-400">Before</div>
                 <div class="text-lg font-semibold">{outcome.meanB.toFixed(1)}</div>
                 <div class="text-xs text-gray-500 dark:text-gray-400">{outcome.nB} days</div>
               </div>
-              <div class="rounded-xl bg-primary-50 dark:bg-primary-900 p-3">
+              <div class="ios-box-tint p-3">
                 <div class="text-xs text-gray-500 dark:text-gray-400">During</div>
                 <div class="text-lg font-semibold">
                   {outcome.meanE.toFixed(1)}
@@ -290,7 +290,7 @@
 
       <!-- AI explanation: full mode with AI set up, only once the result is frozen -->
       {#if frozen && shownResult && $FeatureVisible('ai') && aiReady}
-        <section class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm space-y-3">
+        <section class="ios-card p-4 space-y-3">
           <div class="flex items-center gap-3">
             <NomieAiButton size="44px" label="Explain this result" onclick={tapEye} />
             <div class="min-w-0">

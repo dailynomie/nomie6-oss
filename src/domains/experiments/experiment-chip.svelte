@@ -6,11 +6,59 @@
   const { tone = 'neutral', label = '', title = undefined }: { tone?: ChipTone; label: string; title?: string } = $props()
 
   const classes: Record<ChipTone, string> = {
-    running: 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300',
-    positive: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-    possible: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300',
-    neutral: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300',
+    running: 'chip-running',
+    positive: 'chip-positive',
+    possible: 'chip-possible',
+    neutral: 'chip-neutral',
   }
 </script>
 
-<span class="inline-block max-w-full truncate text-xs leading-tight rounded-full px-2 py-0.5 {classes[tone]}" {title}>{label}</span>
+<span class="chip {classes[tone]}" {title}>{label}</span>
+
+<style>
+  /* iOS look: chip colours from the design guide, section 2.1 */
+  .chip {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 10px;
+  }
+  .chip-running {
+    background: #e3effb;
+    color: #0a5ba8;
+  }
+  .chip-positive {
+    background: #ddf3e2;
+    color: #1e6b30;
+  }
+  .chip-possible {
+    background: #fdf0d5;
+    color: #7a4d00;
+  }
+  .chip-neutral {
+    background: #eeeef2;
+    color: #55555a;
+  }
+  :global(html.dark) .chip-running {
+    background: #0b2236;
+    color: #7cc6ff;
+  }
+  :global(html.dark) .chip-positive {
+    background: #123620;
+    color: #5be07f;
+  }
+  :global(html.dark) .chip-possible {
+    background: #3a2a06;
+    color: #ffd60a;
+  }
+  :global(html.dark) .chip-neutral {
+    background: #2c2c2e;
+    color: #c7c7cc;
+  }
+</style>

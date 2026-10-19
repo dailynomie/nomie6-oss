@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <ExperimentProgress value={view.progress} className="h-2 bg-gray-300 dark:bg-gray-700" />
+    <ExperimentProgress value={view.progress} />
 
     {#if view.adherence}
       <div class="text-xs text-gray-500 dark:text-gray-400">

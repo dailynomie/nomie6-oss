@@ -8,4 +8,4 @@
   let percent = $derived(Math.round(Math.min(1, Math.max(0, value)) * 100))
 </script>
 
-<ProgressBar percentage={percent} {className} />
+<ProgressBar percentage={percent} className={className ?? 'ios-progress-track'} barClass="ios-progress-fill" />
