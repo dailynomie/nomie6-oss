@@ -220,12 +220,16 @@
               {#if showplugins}
               <PluginsMoreMenu />
               {/if}
-              {#if $FeatureVisible('csv')}
+            </List>
+            {/if}
+
+            <!-- CSV is its own row group, separate from the plugin rows -->
+            {#if $FeatureVisible('csv')}
+              <List solo className="mt-4">
                 <ListItem detail bottomLine={57} title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
                   <span slot="left"><IconSquare color="#248A3D">📄</IconSquare></span>
                 </ListItem>
-              {/if}
-            </List>
+              </List>
             {/if}
 
             <List solo className="mt-4">
