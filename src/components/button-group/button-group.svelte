@@ -42,7 +42,7 @@
           title={button.label}
           disabled={button.disabled}
           class="btn-group-btn btn-{index} {button.active || (value && value == button.value)
-            ? 'bg-primary-gradient active'
+            ? 'active'
             : 'text-solid-1'} {button.disabled ? 'opacity-50 cursor-not-allowed' : ''}"
           on:click={() => {
             if (button.disabled) return

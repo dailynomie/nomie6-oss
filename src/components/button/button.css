@@ -273,3 +273,34 @@ button, .nbtn {
 .nbtn.tap-icon {
   box-shadow: none;
 }
+
+/* iOS look: buttons (DAILY_NOMIE_7_IOS_DESIGN_GUIDE.md section 4.4) */
+.nbtn.clear {
+  color: var(--ios-tint);
+  min-height: 44px;
+  font-size: 17px;
+}
+.nbtn.clear.text-red-500 {
+  color: var(--ios-danger);
+}
+.nbtn.text-primary:not(.clear):not(.nbtn-icon) {
+  background: var(--ios-tint);
+  color: var(--ios-on-tint);
+  border-radius: 12px;
+  min-height: 44px;
+  font-size: 17px;
+  font-weight: 600;
+}
+.nbtn-block:not(.clear):not(.text-primary):not(.nbtn-icon) {
+  background: var(--ios-fill);
+  color: var(--ios-label);
+  border-radius: 12px;
+  min-height: 44px;
+}
+.nbtn.nbtn-icon {
+  background: var(--ios-fill);
+  color: var(--ios-label);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
