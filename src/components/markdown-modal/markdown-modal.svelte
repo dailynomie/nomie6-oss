@@ -51,7 +51,7 @@
       size="sm"
       clear
       on:click={() => {
-        composeEmail('support@happydata.org', `RE: ${props.title}`, '')
+        composeEmail(props.replyTo || 'support@happydata.org', `RE: ${props.title}`, '')
       }}
     >
       <span class="text-sm">Reply</span>

@@ -6,6 +6,8 @@ import { writable } from 'svelte/store'
 export type MarkdownModalStoreProps = {
   title?: string
   path?: string
+  // Where the Reply button writes to. Defaults to the Happy Data support address.
+  replyTo?: string
 }
 
 export const MarkdownModalStore = writable<MarkdownModalStoreProps | undefined>(undefined)
@@ -36,5 +38,6 @@ export const openPrivacyPolicy = () => {
   openMarkdownModal({
     title: 'Privacy Policy',
     path: '/content/privacy.md',
+    replyTo: 'dailynomie@gmail.com',
   })
 }
