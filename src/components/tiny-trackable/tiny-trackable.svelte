@@ -14,8 +14,9 @@
 </script>
 
 {#if trackable.type == "pointer"}
-<button class="tiny-trackable" style="background-color: {color};border-radius: 90px" on:click={() => emit('click')}>
-  <TrackableAvatar className="items-center self-center" {trackable} size={18} />
+<!-- iOS look: a pointer has no label, so it is a 24 px circle with the same emoji size as the other chips -->
+<button class="tiny-trackable pointer-chip" style="background-color: {color}" on:click={() => emit('click')}>
+  <TrackableAvatar className="items-center self-center" {trackable} size={16} />
   
 </button>
 {:else}
@@ -44,6 +45,12 @@
 
     @apply transform-gpu transition-all duration-100 ease-in-out;
     @apply max-w-full;
+  }
+  .tiny-trackable.pointer-chip {
+    width: 24px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 12px;
   }
   .tiny-trackable:hover {
     @apply scale-105;
