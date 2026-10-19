@@ -1,0 +1,42 @@
+name: Test and build
+
+on:
+  push:
+    branches: ["dev", "master"]
+  pull_request:
+    branches: ["dev", "master"]
+
+  # Allows this workflow to be run manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # A dependency downloads a browser on install; the tests do not need it
+      PUPPETEER_SKIP_DOWNLOAD: "1"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci || npm ci --legacy-peer-deps
+
+      - name: Run tests
+        run: npx vitest run
+
+      - name: Build
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: npm run vbuild
