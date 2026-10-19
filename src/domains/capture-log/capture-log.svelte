@@ -368,7 +368,7 @@
               y="top"
               x="right"
               id="prompt-button"
-              buttonClass="stiff block max-w-8 h-8 w-8 z-40  text-primary bg-transparent rounded-full"
+              buttonClass="stiff block max-w-8 h-8 w-8 z-40  text-ios-tint bg-transparent rounded-full"
               menuButtons={promptMenu}
             >
               <IonIcon icon={BulbSolid} size={22} />
@@ -504,13 +504,13 @@
       <Container>
         <div class=" xl:ml-auto xl:w-80 grid grid-cols-2 justify-center gap-4 items-center px-4">
           <Button
-            className="bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+            className="bg-ios-fill text-ios-label"
             on:click={() => confirmClear()}>{Lang.t('general.cancel', 'Cancel')}</Button
           >
           {#if $LedgerStoreSaving}
-            <Button className="bg-green-500 text-white" disabled>{Lang.t('general.saving', 'Saving')}...</Button>
+            <Button className="bg-ios-save text-ios-onsave" disabled>{Lang.t('general.saving', 'Saving')}...</Button>
           {:else}
-            <Button className="bg-green-500 text-white" on:click={methods.logSave}
+            <Button className="bg-ios-save text-ios-onsave" on:click={methods.logSave}
               >{Lang.t('general.save', 'Save')}</Button
             >
           {/if}

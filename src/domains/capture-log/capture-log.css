@@ -17,10 +17,9 @@
 }
 
 .capture-wrapper .save-button {
-  @apply rounded-xl;
-  @apply text-white;
-  text-shadow:0px 1px 4px rgba(0,0,0,0.23);
-  @apply bg-gradient-to-b from-green-500  to-green-600;
+  border-radius: 12px;
+  color: var(--ios-on-save);
+  background: var(--ios-save);
   @apply py-1 px-3;
   @apply flex items-center flex-grow-0 flex-shrink-0;
   @apply h-8;
@@ -28,7 +27,7 @@
 }
 .capture-wrapper .save-button:active {
   @apply scale-95;
-  @apply bg-gradient-to-b from-green-500 via-green-600 to-green-700;
+  filter: brightness(0.9);
   
 }
 
@@ -68,21 +67,21 @@
 
 
 .capture-wrapper .mask-textarea.focused {
-  @apply bg-gray-100 dark:bg-gray-900;
+  background: var(--ios-card);
 }
 
 
 .capture-log .mask-textarea.populated {
-  @apply bg-green-50 dark:bg-gray-700 dark:bg-opacity-20;
-  @apply border border-gray-800 border-opacity-30;
+  background: var(--ios-card);
 }
 
 
 
 .capture-log .mask-textarea {
   @apply transition-all duration-200;
-  @apply bg-gray-300 dark:bg-black bg-opacity-50 dark:bg-opacity-40;
-  @apply rounded-3xl;
+  background: var(--ios-card);
+  box-shadow: var(--ios-shadow-float);
+  border-radius: 22px;
   min-height:40px;
   /* @apply h-10; */
 }
@@ -97,7 +96,6 @@
 }
 .capture-log .mask-textarea.focused,
 .capture-log .mask-textarea.populated {
-  @apply ring-2 ring-opacity-100 ring-primary-500;
   @apply h-auto;
 }
 .capture-log.positive .mask-textarea.focused,
@@ -177,7 +175,8 @@
   /* @apply px-4;
   @apply pt-1; */
   @apply text-black dark:text-white;
-  @apply text-lg;
+  font-size: 17px;
+  line-height: 22px;
   @apply flex;
   @apply flex-col;
   @apply w-full;
@@ -187,7 +186,6 @@
   @apply rounded-2xl;
   
   @apply overflow-hidden;
-  @apply shadow-inner;
   /* @apply border; */
   /* @apply border-gray-200 dark:border-gray-700; */
   @apply border-opacity-60;
@@ -224,7 +222,8 @@
   @apply pointer-events-none;
   @apply absolute top-0 bottom-0 right-8 left-4;
   @apply flex items-center;
-  @apply text-gray-500;
+  color: var(--ios-label2);
+  font-size: 17px;
   @apply opacity-100;
   
 }
