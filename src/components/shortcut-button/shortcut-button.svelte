@@ -156,8 +156,21 @@
     background: color-mix(in srgb, var(--tracker-color) 28%, transparent);
   }
   .shortcut-button.compact .emoji-holder {
-    @apply absolute top-0 bottom-0 left-2;
-    @apply flex items-center;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--tracker-color) 16%, transparent);
+    color: var(--ios-label);
+  }
+  :global(html.dark) .shortcut-button.compact .emoji-holder {
+    background: color-mix(in srgb, var(--tracker-color) 28%, transparent);
   }
   .button-wrapper .more {
     @apply absolute top-0 right-0 flex items-center justify-center z-40 w-10 h-10 rounded-full;
@@ -265,10 +278,10 @@
 
   /* Experiment check-in trackers: a soft tint with a dashed tint border */
   /* A value today: a small value in the top-right corner, and a soft tint glow around the card */
-  .shortcut-button.normal.has-value {
+  .shortcut-button.has-value {
     box-shadow: 0 0 14px 2px color-mix(in srgb, var(--tracker-color) 30%, transparent);
   }
-  :global(html.dark) .shortcut-button.normal.has-value {
+  :global(html.dark) .shortcut-button.has-value {
     box-shadow: 0 0 14px 2px color-mix(in srgb, var(--tracker-color) 40%, transparent);
   }
 
