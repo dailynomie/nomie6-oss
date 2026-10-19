@@ -205,7 +205,7 @@
   .timeline-token {
     @apply text-black dark:text-white rounded-lg p-0;
     @apply ring-primary-500 ring-offset-4;
-    background: var(--ios-tint-soft);
+    background: var(--ios-fill);
   }
   .timeline-token:active,
   .timeline-token:focus {
