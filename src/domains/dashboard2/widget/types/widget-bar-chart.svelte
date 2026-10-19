@@ -79,6 +79,7 @@
       {type}
       className="w-full"
       {widget}
+      iosLook
     />
   </div>
 {/if}

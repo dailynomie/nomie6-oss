@@ -30,7 +30,7 @@
   import { getContextOn } from '../context/context-utils'
   import { Prefs } from '../preferences/Preferences'
 
-  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false, dualAxis = false, widget } = $props<{
+  const { usages = [], style = '', className = '', type = 'bar', hideLabels = false, hideValues = false, id, stacked = false, isstatsview = false, showcontext = false, dualAxis = false, widget, iosLook = false } = $props<{
     usages?: Array<TrackableUsage>
     style?: string
     className?: string
@@ -43,6 +43,8 @@
     showcontext?: boolean
     dualAxis?: boolean
     widget?: WidgetClass
+    // iOS look: 2.5 px lines, dots with a card-coloured centre, rounder bars (dashboard widgets)
+    iosLook?: boolean
   }>()
 
   let dateFormats = $state(getDateFormats())
@@ -617,6 +619,11 @@ else {contextannotation.annotations ={}}
       lineweight = 2.5
       dotsweight = 0
     }
+    if (iosLook) {
+      lineweight = 2.5
+    }
+    // The dot centre takes the card colour, so the dots read as rings on the card
+    const cardColour = getComputedStyle(document.documentElement).getPropertyValue('--ios-card').trim() || '#FFFFFF'
 
     const skipped = (ctx, value) => (ctx.p0.skip || ctx.p1.skip ? value : undefined)
 
@@ -627,13 +634,16 @@ else {contextannotation.annotations ={}}
         ...dataset,
         ...{
           type: "line",
-          pointRadius: dotsweight,
+          pointRadius: iosLook ? 3.5 : dotsweight,
           pointHitRadius: 10,
+          ...(iosLook
+            ? { pointBackgroundColor: cardColour, pointBorderColor: usageByDay.trackable.color, pointBorderWidth: 2 }
+            : {}),
           borderColor: usageByDay.trackable.color,
 
           spanGaps: true,
           borderWidth: lineweight,
-          backgroundColor: hex2rgba(usageByDay.trackable.color, 0.1),
+          backgroundColor: hex2rgba(usageByDay.trackable.color, iosLook ? 0.14 : 0.1),
           fill: 'origin',
           segment: {
             borderColor: (ctx) => skipped(ctx, 'rgb(140,140,140,0.5)'),
@@ -648,8 +658,8 @@ else {contextannotation.annotations ={}}
         ...{
           type: "bar",
           backgroundColor: usageByDay.trackable.color,
-          barPercentage: 0.9,
-          borderRadius: 100,
+          barPercentage: iosLook ? 0.8 : 0.9,
+          borderRadius: iosLook ? 4 : 100,
           minBarLength: 10,
         },
       }
