@@ -94,7 +94,8 @@
     </div>
   </div>
 
-  <ListItem bottomLine={16} title={Lang.t('settings.start-page', 'Start Page')}>
+  <ListItem bottomLine={57} title={Lang.t('settings.start-page', 'Start Page')}>
+    <span slot="left"><IconSquare color="#C25E00">🏁</IconSquare></span>
     <div slot="right">
       <SelectPop
         id="start-page"
@@ -116,7 +117,8 @@
     </div>
   </ListItem>
 
-  <ListItem bottomLine={16} title={Lang.t('settings.use-location', 'Use Location')}>
+  <ListItem bottomLine={57} title={Lang.t('settings.use-location', 'Use Location')}>
+    <span slot="left"><IconSquare color="#0A6CC9">📍</IconSquare></span>
     <div slot="right" class="ml-2">
       <ToggleSwitch title="Location Lookup" bind:value={$Prefs.alwaysLocate} />
     </div>
@@ -124,7 +126,8 @@
 
   <!-- Pin Code -->
   <!-- description={Lang.t('settings.require-pin-description', "Don't forget it!")} -->
-  <ListItem bottomLine={16} title={Lang.t('settings.require-pin', 'Require Access Pin')}>
+  <ListItem bottomLine={57} title={Lang.t('settings.require-pin', 'Require Access Pin')}>
+    <span slot="left"><IconSquare color="#6C6C70">🔒</IconSquare></span>
     <div slot="right" class="ml-2">
       {#if hasPin}
         <button
@@ -155,8 +158,8 @@
 
 <div class="mb-4" />
 <List solo>
-  <ListItem bottomLine={52} title={Lang.t('settings.theme', 'Theme')}>
-    <Avatar slot="left" className="-ml-1 mr-2" emoji="💡" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.theme', 'Theme')}>
+    <span slot="left"><IconSquare color="#3634A3">💡</IconSquare></span>
     <div slot="right">
       <SelectPop
         id="theme"
@@ -192,8 +195,8 @@
     </div>
   </ListItem>
 
-  <ListItem bottomLine={52} title={Lang.t('settings.font-size', 'Font Size')}>
-    <Avatar slot="left" className="-ml-1 mr-2" emoji="🔎" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.font-size', 'Font Size')}>
+    <span slot="left"><IconSquare color="#6C6C70">🔎</IconSquare></span>
     <div slot="right">
       <ButtonGroup style="width:170px;">
         {#each ['xs', 'sm', 'md', 'lg', 'xl'] as size}
@@ -222,23 +225,23 @@
 <div class="mb-4" />
 
 <List solo>
-  <ListItem bottomLine={52} title={Lang.t('settings.show-all-board', 'Show All Board')}>
-    <IonIcon icon={AllBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
+  <ListItem bottomLine={57} title={Lang.t('settings.show-all-board', 'Show All Board')}>
+    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={AllBoardIcon} size={16} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle People Board" />
     </div>
   </ListItem>
   {#if $FeatureVisible('people-board')}
-  <ListItem bottomLine={52} title={Lang.t('settings.show-people-board', 'Show People Board')}>
-    <IonIcon icon={PeopleBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
+  <ListItem bottomLine={57} title={Lang.t('settings.show-people-board', 'Show People Board')}>
+    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={PeopleBoardIcon} size={16} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
     </div>
   </ListItem>
   {/if}
   {#if $FeatureVisible('context-board')}
-  <ListItem bottomLine={52} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
-    <IonIcon icon={ContextBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
+  <ListItem bottomLine={57} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
+    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={ContextBoardIcon} size={16} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
     </div>
@@ -261,22 +264,22 @@
 
 <div class="mb-4" />
 <List solo>
-  <ListItem bottomLine={52} title={Lang.t('settings.small-tracker-buttons', 'Compact Trackers')}>
-    <Avatar slot="left" className="-ml-1 mr-2" emoji="🐭" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.small-tracker-buttons', 'Compact Trackers')}>
+    <span slot="left"><IconSquare color="#6C6C70">🐭</IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.compactTrackers} title="Compact Tracker Buttons" />
     </div>
   </ListItem>
 
-  <ListItem bottomLine={52} title={Lang.t('settings.hide-backup-reminder', 'Hide Backup Reminder')}>
-    <Avatar slot="left" className="-ml-1 mr-2" emoji="💾" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.hide-backup-reminder', 'Hide Backup Reminder')}>
+    <span slot="left"><IconSquare color="#248A3D">💾</IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.hideBackupMessage} title="Hide Backup Message" />
     </div>
   </ListItem>
 
-  <ListItem bottomLine={52} title={Lang.t('settings.hide-message-notifications', 'Hide Message Alerts')}>
-    <Avatar slot="left" className="-ml-1 mr-2" emoji="📢" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.hide-message-notifications', 'Hide Message Alerts')}>
+    <span slot="left"><IconSquare color="#6C6C70">📢</IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.hideMessages} title="Hide Nomie Messages" />
     </div>

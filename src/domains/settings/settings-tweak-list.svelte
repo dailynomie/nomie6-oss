@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import ListItem from '../../components/list-item/list-item.svelte'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
 
   import NToggle from '../../components/toggle-switch/toggle-switch.svelte'
   import { Lang } from '../../store/lang'
@@ -21,7 +22,7 @@
 -->
 <!-- Use Location -->
 
-<!-- <ListItem bottomLine={42} title={Lang.t('settings.base-font-size', 'Text Size')}>
+<!-- <ListItem bottomLine={57} title={Lang.t('settings.base-font-size', 'Text Size')}>
     <Avatar slot="left"  className="-ml-1" emoji="🅰" />
     <div slot="right">
       <ButtonGroup>
@@ -48,8 +49,8 @@
   <!-- 24 Hour -->
 
   <!-- firstDayOfWeek -->
-  <ListItem bottomLine={42} title={Lang.t('settings.unit-system,', 'Units')}>
-    <Avatar slot="left" emoji="📐" className="-ml-1 mr-2" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.unit-system,', 'Units')}>
+    <span slot="left"><IconSquare color="#6C6C70">📐</IconSquare></span>
     <div slot="right">
       <ButtonGroup
         buttons={[
@@ -72,8 +73,8 @@
     </div>
   </ListItem>
 
-  <ListItem bottomLine={42} title={Lang.t('settings.week-starts', 'Week Starts')}>
-    <Avatar slot="left" emoji="🗓" className="-ml-1 mr-2" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.week-starts', 'Week Starts')}>
+    <span slot="left"><IconSquare color="#6C6C70">🗓</IconSquare></span>
     <div slot="right">
       <ButtonGroup
         bind:value={$Prefs.weekStarts}
@@ -91,16 +92,16 @@
     </div>
   </ListItem>
 
-  <ListItem bottomLine={42} title={Lang.t('settings.24-hour-clock', '24 hour clock')}>
-    <Avatar slot="left" emoji="⌚️" className="-ml-1 mr-2" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.24-hour-clock', '24 hour clock')}>
+    <span slot="left"><IconSquare color="#6C6C70">⌚️</IconSquare></span>
     <div slot="right">
       <NToggle title="24 Hour Mode" bind:value={$Prefs.use24hour} />
     </div>
   </ListItem>
 
   <!-- Language -->
-  <ListItem bottomLine={42} title={Lang.t('settings.language', 'Language')}>
-    <Avatar slot="left" emoji="🌎" className="-ml-1 mr-2" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.language', 'Language')}>
+    <span slot="left"><IconSquare color="#0A6CC9">🌎</IconSquare></span>
     <div slot="right">
       <select
         title="Select a Language"
@@ -118,6 +119,6 @@
   </ListItem>
 </List>
 <!-- 
-  <ListItem bottomLine={42} title={Lang.t('settings.translate-nomie', 'Help Translate Nomie')} to="/lang" detail>
-    <Avatar slot="left"  emoji="🌍" className="-ml-1 mr-2" size={22}/>
+  <ListItem bottomLine={57} title={Lang.t('settings.translate-nomie', 'Help Translate Nomie')} to="/lang" detail>
+    <span slot="left"><IconSquare color="#0A6CC9">🌍</IconSquare></span>
   </ListItem> -->

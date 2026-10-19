@@ -21,6 +21,7 @@
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
   import { openPrivacyPolicy } from '../../components/markdown-modal/MarkdownModalStore'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
 
   let counts = $state({
     trackers: 0,
@@ -62,8 +63,8 @@
     <span slot="right" class="text-inverse-3">DailyNomie.com</span>
   </ListItem>
 
-  <ListItem bottomLine={16} title="Privacy Policy" detail clickable on:click={() => openPrivacyPolicy()}>
-    <span slot="left">🔒</span>
+  <ListItem bottomLine={57} title="Privacy Policy" detail clickable on:click={() => openPrivacyPolicy()}>
+    <span slot="left"><IconSquare color="#6C6C70">🔒</IconSquare></span>
   </ListItem>
 
   <ListItem bottomLine={16} title="Reddit r/nomie" detail href="https://reddit.com/r/nomie">
