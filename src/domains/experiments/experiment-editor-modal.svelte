@@ -227,7 +227,7 @@
           <div class="p-4 ios-card space-y-3">
             <div class="flex items-center justify-between gap-2">
               <div class="font-semibold truncate">{outcome.label}</div>
-              <button class="text-xs font-medium text-red-500" onclick={() => removeOutcome(index)}>Remove</button>
+              <button class="text-xs font-medium text-ios-danger" onclick={() => removeOutcome(index)}>Remove</button>
             </div>
             {#if !outcome.found}
               <div class="flex flex-wrap gap-3">
