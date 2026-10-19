@@ -194,28 +194,7 @@
 </Layout>
 
 <style lang="postcss" global>
-  /* iOS look: round action buttons and the inline search field on the Timeline header */
-  .ios-round {
-    width: 36px;
-    height: 36px;
-    border-radius: 18px;
-    border: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--ios-fill);
-    color: var(--ios-label);
-  }
-  .ios-round-alert {
-    background: var(--ios-danger);
-    color: #ffffff;
-  }
-  /* The inline menu stretches its buttons to full width; keep the round action buttons at 36 px */
-  .menu-inline button.ios-round {
-    width: 36px;
-    height: 36px;
-  }
+  /* iOS look: the inline search field on the Timeline header (the round buttons are in main.css) */
   .ios-search {
     display: flex;
     align-items: center;

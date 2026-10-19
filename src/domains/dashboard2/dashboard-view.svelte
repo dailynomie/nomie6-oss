@@ -39,7 +39,7 @@
   import EaselOutline from '../../n-icons/EaselOutline.svelte'
 
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
-  import CaretDownCircle from '../../n-icons/CaretDownCircle.svelte'
+  import SettingsOutline from '../../n-icons/SettingsOutline.svelte'
   import Empty from '../../components/empty/empty.svelte'
   import List from '../../components/list/list.svelte'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -180,11 +180,7 @@
 </script>
 
 <Layout className="h-full">
-  <Toolbar slot="header" className="pr-8">
-    <MenuInline id="dashboard-menu" y="bottom" menuButtons={mainMenu} buttonClass="menu-button-icon">
-      <IonIcon className="text-primary-500" icon={CaretDownCircle} size={32} />
-    </MenuInline>
-
+  <Toolbar slot="header" className="px-4">
     {#if !$DashStore.editMode}
       <DashboardTabs />
     {:else}
@@ -198,6 +194,12 @@
         >Done
       </Button>
     {/if}
+    <!-- iOS look: the dashboard settings menu is a round button on the right -->
+    <div class="flex items-center ml-2">
+      <MenuInline id="dashboard-menu" x="right" y="bottom" menuButtons={mainMenu} buttonClass="ios-round">
+        <IonIcon icon={SettingsOutline} size={18} />
+      </MenuInline>
+    </div>
   </Toolbar>
 
   {#if $DashStore.activeDashboard}

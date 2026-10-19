@@ -33,7 +33,6 @@
   import { TodayStore } from '../domains/usage/today/TodayStore'
   import { TrackableStore } from '../domains/trackable/TrackableStore'
   import appConfig from '../config/appConfig'
-  import CaretDownCircle from '../n-icons/CaretDownCircle.svelte'
   import ExpandOutline from '../n-icons/ExpandOutline.svelte'
   import IonIcon from '../components/icon/ion-icon.svelte'
   import Logo from '../components/logo/logo.svelte'
@@ -190,7 +189,6 @@
     deviceWidth={$Device.width}
     runningTimers={$RunningTimers}
     onShowRunningTimers={() => showRunningTimersModal()}
-    carouselIcon={CaretDownCircle}
     alarmIcon={AlarmOutline}
   />
   <!-- Include the Universial Board -->

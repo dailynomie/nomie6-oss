@@ -12,6 +12,7 @@
   import { quintOut } from 'svelte/easing'
   import { slide } from 'svelte/transition'
   import appConfig from '../config/appConfig'
+  import { SettingsOutline } from '../components/icon/nicons'
 
   const {
     showController = false,
@@ -30,7 +31,6 @@
     deviceWidth = 0,
     runningTimers = [],
     onShowRunningTimers = () => {},
-    carouselIcon = undefined,
     alarmIcon = undefined,
   } = $props()
 </script>
@@ -65,16 +65,6 @@
 <Toolbar className="stiff h-14 max-h-14 min-h-14">
   <div class="flex items-center space-x-1">
     {#if !editMode}
-      <MenuInline
-        id="add-menu-button"
-        x="left"
-        y="bottom"
-        menuButtons={boardAddMenu}
-        buttonClass="add-menu-button menu-icon-button"
-      >
-        <IonIcon className="text-primary-500" icon={carouselIcon} size={32} />
-      </MenuInline>
-
       {#if runningTimers.length}
         <Button icon on:click={onShowRunningTimers}>
           <IonIcon className="text-red-500 flex justify-center animate-pulse" size={30} icon={alarmIcon} />
@@ -102,5 +92,14 @@
       on:clear={onSearchClear}
       on:change={onSearchChange}
     />
+  {/if}
+
+  <!-- iOS look: the board settings menu is a round button on the right -->
+  {#if !editMode}
+    <div class="flex items-center ml-2">
+      <MenuInline id="add-menu-button" x="right" y="bottom" menuButtons={boardAddMenu} buttonClass="ios-round">
+        <IonIcon icon={SettingsOutline} size={18} />
+      </MenuInline>
+    </div>
   {/if}
 </Toolbar>
