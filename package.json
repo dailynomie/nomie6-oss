@@ -1,14 +1,14 @@
 {
   "name": "nomie",
   "version": "7.0.0",
-  "homepage": "https://github.com/dailynomie/nomie-oss",
+  "homepage": "https://github.com/dailynomie/dailynomie7",
   "bugs": {
-    "url": "https://github.com/dailynomie/nomie-oss/issues",
+    "url": "https://github.com/dailynomie/dailynomie7/issues",
     "email": "ronald_de_lange@hotmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dailynomie/nomie-oss.git"
+    "url": "https://github.com/dailynomie/dailynomie7.git"
   },
   "author": {
     "name": "Ronald de Lange",
