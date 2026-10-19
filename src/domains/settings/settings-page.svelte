@@ -65,6 +65,9 @@
 
   import ChevronDownOutline from '../../n-icons/ChevronDownOutline.svelte'
   import { openLocationModal } from '../locations/LocationStore'
+  import { ExperimentStore } from '../experiments/ExperimentStore'
+  import { PulseOutline } from '../../components/icon/nicons'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
 
   const location = undefined
   const style = undefined
@@ -194,7 +197,10 @@
             </ListItem> -->
 
             <List solo outside className="mb-4">
-              <ListItem detail bottomLine={16} to="/experiments" title="Experiments" />
+              <!-- iOS look: blue pulse icon square, with the running count -->
+              <ListItem detail bottomLine={57} to="/experiments" title="Experiments" description="{$ExperimentStore.filter((e) => e.status === 'running').length} running">
+                <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={PulseOutline} size={16} /></IconSquare></span>
+              </ListItem>
             </List>
 
             <List solo outside>
@@ -204,11 +210,11 @@
             <!-- Sign-in and Register Block  -->
             {#if $FeatureVisible('plugins')}
             <List solo className="mt-4">
-              <ListItem detail bottomLine={16} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left">🔌</span>
+              <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
+                <span slot="left"><IconSquare color="#C25E00">🔌</IconSquare></span>
               </ListItem>
               <ListItem clickable on:click={toggleshowplugins}>
-                <span slot="left">🔌</span>
+                <span slot="left"><IconSquare color="#C25E00">🔌</IconSquare></span>
                 <div slot="right">
                   {#if showplugins}
                     <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
@@ -226,20 +232,20 @@
             {/if}
 
             <List solo className="mt-4">
-              <ListItem detail bottomLine={16} on:click={() => openLocationModal()} title="Locations">
-                <span slot="left">📍</span>
+              <ListItem detail bottomLine={57} on:click={() => openLocationModal()} title="Locations">
+                <span slot="left"><IconSquare color="#0A6CC9">📍</IconSquare></span>
               </ListItem>
             </List>
             
             <List solo className="mt-4">
-              <ListItem detail bottomLine={16} on:click={() => openPointersModal()} title="Pointers">
-                <span slot="left">🏷</span>
+              <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
+                <span slot="left"><IconSquare color="#0E7C86">🏷</IconSquare></span>
               </ListItem>
               </List>
 
             <List solo className="mt-4">
-              <ListItem detail bottomLine={16} on:click={() => openTemplateManager()} title="Templates">
-                <span slot="left">🏭</span>
+              <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">
+                <span slot="left"><IconSquare color="#3634A3">🏭</IconSquare></span>
               </ListItem>
             </List>
 
