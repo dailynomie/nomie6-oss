@@ -634,10 +634,15 @@ else {contextannotation.annotations ={}}
         ...dataset,
         ...{
           type: "line",
-          pointRadius: iosLook ? 3.5 : dotsweight,
+          pointRadius: iosLook ? (dotsweight ? 2 : 0) : dotsweight,
           pointHitRadius: 10,
           ...(iosLook
-            ? { pointBackgroundColor: cardColour, pointBorderColor: usageByDay.trackable.color, pointBorderWidth: 2 }
+            ? {
+                pointBackgroundColor: cardColour,
+                pointBorderColor: usageByDay.trackable.color,
+                pointBorderWidth: 1.5,
+                pointHoverRadius: 4,
+              }
             : {}),
           borderColor: usageByDay.trackable.color,
 
