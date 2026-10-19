@@ -164,7 +164,7 @@
 
 <style global lang="postcss">
   #app-tabs {
-    --tab-height: 65px;
+    --tab-height: 56px;
     position: relative;
     height: calc(var(--tab-height) + env(safe-area-inset-bottom));
     padding-bottom: calc(env(safe-area-inset-bottom));
@@ -172,8 +172,12 @@
     justify-content: space-between;
     align-items: stretch;
     @apply z-50;
-    @apply pt-1;
+    padding-top: 7px;
     flex-shrink: 0;
+    background: var(--ios-bar);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-top: 0.5px solid var(--ios-bar-border);
   }
 
   #app-tabs .radial-slot {
@@ -185,7 +189,7 @@
     height: 100%;
   }
   #app-tabs .radial-slot .radial-hub {
-    margin-top: -18px;
+    margin-top: -20px;
   }
 
   .tab-wrap a {

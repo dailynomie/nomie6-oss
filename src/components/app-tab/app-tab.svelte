@@ -28,11 +28,14 @@
   }
   .tab-wrap a {
     position: relative;
-    @apply text-gray-600 dark:text-gray-400;
+    color: var(--ios-label2);
     @apply inline-flex  flex-col items-center justify-center;
     @apply relative;
     padding: 6px 10px;
-    font-size: 0.7em;
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: 500;
+    gap: 3px;
     height: 100%;
     text-decoration: none;
     flex-grow: 1;
@@ -44,15 +47,20 @@
   }
   .tab-wrap a i {
     pointer-events: none;
-    font-size: 1.2em;
+    font-size: 26px;
     transition: all 0.2s ease-in-out;
   }
   .tab-wrap a .label {
     pointer-events: none;
     margin-bottom: 0;
   }
+  .tab-wrap a svg {
+    width: 26px;
+    height: 26px;
+  }
   .tab-wrap a[aria-current='page'] {
-    color: var(--color-primary-bright);
+    color: var(--ios-tint);
+    font-weight: 600;
   }
   .tab-wrap a[aria-current='page'] svg {
     transition: all 0.2s ease-in-out;

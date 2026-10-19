@@ -125,13 +125,13 @@
         style="z-index: 9999; left: {origin.x}px; top: {origin.y}px; opacity: {expanded ? 1 : 0}; transform: translate(calc(-50% + {expanded ? offset.x : 0}px), calc(-50% + {expanded ? offset.y : 0}px)) scale({expanded ? 1 : 0.4}); transition-delay: {index * 35}ms"
         onclick={() => choose(item)}
       >
-        <span class="radial-icon bg-white dark:bg-gray-800 text-primary-500">
+        <span class="radial-icon">
           <IonIcon icon={item.icon} size={22} />
           {#if item.notify}
-            <span class="radial-notify bg-gray-600 dark:bg-gray-400 text-white dark:text-gray-800">{item.notify}</span>
+            <span class="radial-notify">{item.notify}</span>
           {/if}
         </span>
-        <span class="radial-label bg-gray-900 text-white">{item.label}</span>
+        <span class="radial-label">{item.label}</span>
       </button>
     {/each}
 
@@ -152,14 +152,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: 58px;
+    height: 58px;
     padding: 0;
     border: none;
     border-radius: 9999px;
     overflow: hidden;
     background: none;
-    box-shadow: 0 6px 16px rgba(0, 131, 212, 0.35);
+    box-shadow: 0 0 0 3px #f9f9f9, var(--ios-shadow-hub);
     transition: opacity 0.2s ease, transform 0.15s ease;
     -webkit-tap-highlight-color: transparent;
   }
@@ -174,8 +174,8 @@
 
   .radial-hub.is-open {
     position: fixed;
-    color: #ffffff;
-    background: linear-gradient(145deg, #2cbdff, #0083d4);
+    color: var(--ios-on-tint);
+    background: var(--ios-tint);
     transform: translate(-50%, -50%) rotate(45deg);
     transition: transform 0.24s ease;
     opacity: 1;
@@ -188,7 +188,7 @@
     transform: translateX(-50%);
     padding: 4px 12px;
     border-radius: 9999px;
-    background: #111827;
+    background: #1c1c1e;
     color: #ffffff;
     font-size: 12px;
     font-weight: 600;
@@ -205,7 +205,7 @@
     bottom: -4px;
     width: 8px;
     height: 8px;
-    background: #111827;
+    background: #1c1c1e;
     transform: translateX(-50%) rotate(45deg);
   }
 
@@ -224,6 +224,22 @@
     transform: scale(0.92);
   }
 
+  /* Dark mode: the hint, the badge and the ring use the inverted colours from the design guide */
+  :global(html.dark) .radial-hub {
+    box-shadow: 0 0 0 3px #161618, var(--ios-shadow-hub);
+  }
+  :global(html.dark) .radial-hint {
+    background: #f2f2f7;
+    color: #000000;
+  }
+  :global(html.dark) .radial-hint::after {
+    background: #f2f2f7;
+  }
+  :global(html.dark) .radial-notify {
+    background: #c7c7cc;
+    color: #000000;
+  }
+
   .radial-dot {
     position: absolute;
     top: 6px;
@@ -238,7 +254,8 @@
   .radial-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
+    background: var(--ios-scrim);
+    backdrop-filter: blur(3px);
   }
 
   .radial-item {
@@ -259,10 +276,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 52px;
-    height: 52px;
+    width: 54px;
+    height: 54px;
+    background: var(--ios-card);
+    color: var(--ios-tint);
     border-radius: 9999px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
   }
 
   .radial-notify {
@@ -270,22 +289,27 @@
     top: -6px;
     left: 50%;
     transform: translateX(-50%);
-    height: 16px;
+    min-width: 22px;
+    height: 20px;
     padding: 0 6px;
-    border-radius: 9999px;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 16px;
+    border-radius: 10px;
+    background: #48484a;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 20px;
     white-space: nowrap;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
 
   .radial-label {
-    font-size: 11px;
+    background: #1c1c1e;
+    color: #ffffff;
+    font-size: 12px;
     font-weight: 600;
     line-height: 1;
-    padding: 4px 8px;
-    border-radius: 9999px;
+    padding: 3px 9px;
+    border-radius: 10px;
     white-space: nowrap;
   }
 </style>
