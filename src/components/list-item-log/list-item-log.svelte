@@ -144,7 +144,7 @@
         {#if fullDate}
           {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
         {:else}
-          {log.endDayjs().format(dateFormats.time)}
+          <span class="ios-time-col">{log.endDayjs().format(dateFormats.time)}</span>
           <span class="pl-2 ios-ago text-ios-label2">{log.endDayjs().fromNow()}</span>
         {/if}
       </div>
@@ -232,6 +232,11 @@
     font-size: 13px;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
+  }
+  /* The time sits in a fixed 40 px column, so the "ago" text lines up across entries */
+  .ios-time-col {
+    display: inline-block;
+    min-width: 40px;
   }
   .ios-ago {
     font-size: 13px;
