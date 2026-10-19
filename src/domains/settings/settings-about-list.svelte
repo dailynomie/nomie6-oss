@@ -61,6 +61,10 @@
     <span slot="right" class="text-inverse-3">DailyNomie.com</span>
   </ListItem>
 
+  <ListItem bottomLine={16} title="Privacy Policy" detail href="/privacy.md">
+    <span slot="left">🔒</span>
+  </ListItem>
+
   <ListItem bottomLine={16} title="Reddit r/nomie" detail href="https://reddit.com/r/nomie">
     <span slot="right" class="flex text-inverse-3">/r/nomie</span>
   </ListItem>
