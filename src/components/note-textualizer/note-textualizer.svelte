@@ -171,8 +171,8 @@
   }
 
   .default-token-class {
-    @apply text-black dark:text-white;
-    @apply bg-primary-500 bg-opacity-20;
+    color: var(--ios-label);
+    background: var(--ios-fill);
     @apply px-1;
     @apply my-px;
     @apply focus:ring-2 ring-primary-500;
