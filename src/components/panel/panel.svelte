@@ -37,8 +37,8 @@
   }
 
   .nui-panel.nui-rounded {
-    @apply rounded-xl;
-    @apply shadow-lg;
+    border-radius: 16px;
+    box-shadow: var(--ios-shadow-float);
   }
   .nui-panel.clear {
     @apply bg-transparent;

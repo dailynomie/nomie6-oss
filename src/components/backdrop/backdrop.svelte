@@ -103,8 +103,7 @@
     @apply flex;
     @apply flex-col;
     @apply justify-center;
-    @apply bg-gray-700;
-    @apply bg-opacity-50;
+    background: var(--ios-scrim);
     @apply flex-shrink-0;
     @apply flex-grow-0;
     @apply backdrop-filter backdrop-saturate-150 backdrop-blur-sm;
@@ -160,7 +159,7 @@
   .nui-backdrop--children.in-background::after {
     content: '';
     @apply absolute -top-10 -bottom-10 -left-10 -right-10;
-    @apply bg-gray-400 bg-opacity-50 dark:bg-gray-600 dark:bg-opacity-50;
+    background: var(--ios-scrim);
     @apply backdrop-blur-sm backdrop-filter;
     @apply z-40;
   }
