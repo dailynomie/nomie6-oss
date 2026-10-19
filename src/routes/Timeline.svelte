@@ -162,7 +162,7 @@
     </div>
     <h1 class="text-ios-large font-bold text-ios-label mt-1">Timeline</h1>
     <div class="max-w-xl w-full mt-1">
-      <PositivityGrid className="h-3" logs={topItem?.logs || []} />
+      <PositivityGrid className="h-2" logs={topItem?.logs || []} />
     </div>
     <button type="button" class="ios-search mt-2" aria-label="Search notes" on:click={() => openUnisearch()}>
       <IonIcon icon={SearchIcon} size={16} />
