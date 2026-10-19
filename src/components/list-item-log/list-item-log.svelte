@@ -15,6 +15,7 @@
   import { TrackableStore } from '../../domains/trackable/TrackableStore'
   import { wait } from '../../utils/tick/tick'
   import IonIcon from '../icon/ion-icon.svelte'
+  import MagnetSolid from '../../n-icons/MagnetSolid.svelte'
   import MapOutline from '../../n-icons/MapOutline.svelte'
   import More from '../../n-icons/More.svelte'
   import NLog from '../../domains/nomie-log/nomie-log'
@@ -153,6 +154,9 @@
               <span class="ios-ago text-ios-label2">{log.endDayjs().fromNow()}</span>
             {/if}
           </div>
+          {#if displayLog.pinned}
+            <span class="pinned-mark text-ios-tint" aria-label="Pinned"><IonIcon icon={MagnetSolid} size={13} /></span>
+          {/if}
           <div class="filler"></div>
           <button
             type="button"
@@ -275,9 +279,6 @@
     font-weight: 400;
   }
 
-  .note-bubble.pinned {
-    @apply ring ring-ios-tint;
-  }
   .note-bubble {
     background: var(--ios-card);
     border-radius: 12px;
