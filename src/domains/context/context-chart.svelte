@@ -232,9 +232,11 @@
     @apply overflow-hidden;
   }
 
+  /* Expanded: show every context row and let the Timeline scroll as a whole */
   .context-wrapper.size-lg .context-chart-bound {
     @apply h-auto;
-    @apply overflow-y-auto;
+    @apply overflow-visible;
+    @apply flex-shrink-0;
   }
   .size-auto .context-chart-bound {
     border-radius: 0 !important;
