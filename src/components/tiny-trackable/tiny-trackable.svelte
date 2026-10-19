@@ -46,6 +46,18 @@
     @apply transform-gpu transition-all duration-100 ease-in-out;
     @apply max-w-full;
   }
+  /* iOS look: the chip is 24 px high, but its tap area reaches 44 px (section 8, touch targets) */
+  .tiny-trackable {
+    position: relative;
+  }
+  .tiny-trackable::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10px;
+    bottom: -10px;
+  }
   .tiny-trackable.pointer-chip {
     width: 24px;
     padding: 0;

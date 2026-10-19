@@ -142,7 +142,7 @@
       {/if}
       <div class="flex-1 min-w-0 space-y-2">
         <div class="flex items-center justify-between text-xs space-x-3 -mt-2">
-          <button on:click={() => changePositivity(log)} class="text-base text-ios-label2"
+          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-base text-ios-label2"
             >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
           >
           <div class="text-ios-label2 stiff line-clamp-1">
@@ -155,8 +155,9 @@
           <div class="filler"></div>
           <button
             type="button"
-            style="margin-right:-10px"
-            class="text-ios-label h-7 w-7 rounded-full  flex items-center justify-center"
+            aria-label="More options for this entry"
+            style="margin:-8px -12px -8px 0"
+            class="text-ios-label h-11 w-11 rounded-full flex items-center justify-center"
             on:click={() => {
               Interact.logOptions(log, {
                 description: log.note,
@@ -207,7 +208,7 @@
             />
             {/if}
           {/each}
-            <button on:click={() => addItem()} class="tiny-trackable bg-transparent">
+            <button type="button" aria-label="Add a tracker or person to this note" on:click={() => addItem()} class="tiny-trackable bg-transparent">
               <span class="value w-5">+</span>
             </button>
           </div>
