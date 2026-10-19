@@ -229,7 +229,8 @@
     <span slot="left"><IconSquare color="#6C6C70">🧹</IconSquare></span>
   </ListItem>
 
-  <ListItem title="Auto-PluginDB-Cleanup Schedule">
+  <ListItem bottomLine={57} title="Auto-PluginDB-Cleanup Schedule">
+    <span slot="left"><IconSquare color="#6C6C70">⏱</IconSquare></span>
     <div slot="right">
       <SelectPop
         id="plugin-cleanup-schedule"
