@@ -233,3 +233,9 @@
   outline: none;
 
 }
+
+/* The Cancel / Save bar sits under the note field, above the tab bar, with 44 px buttons */
+.capture-wrapper .glass .nbtn {
+  min-height: 44px;
+  border-radius: 12px;
+}
