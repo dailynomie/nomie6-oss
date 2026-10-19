@@ -290,6 +290,11 @@ html.mode-dark {
   @apply grid grid-cols-3 gap-2.5 px-4 py-2 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 xl:gap-6 xl:px-6 2xl:grid-cols-5;
 }
 
+/* Small tracker buttons stay at two columns, because their titles need the width */
+.item-grid.item-grid-small {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .item-grid-compact {
   @apply grid grid-cols-2 md:grid-cols-2 gap-2 p-2 md:gap-3 md:px-2 lg:grid-cols-4 xl:grid-cols-5;
 }

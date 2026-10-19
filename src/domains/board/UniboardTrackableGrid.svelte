@@ -49,7 +49,7 @@
 {#if !trackables.length}
   <slot name="no-results" />
 {/if}
-<div class="item-grid">
+<div class="item-grid {$Prefs.compactTrackers ? 'item-grid-small' : ''}">
   {#each trackables as trackable, index}
     {#if trackable && trackable.tag}
       <ShortcutButton
