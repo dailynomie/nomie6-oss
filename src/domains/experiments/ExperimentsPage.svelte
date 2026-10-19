@@ -59,6 +59,9 @@
     </div>
     <h1 class="text-ios-large font-bold text-ios-label mt-1 outline-none">{Lang.t('experiments.title', 'Experiments')}</h1>
     <p class="text-ios-subhead text-ios-label2">Test one change. See what it does.</p>
+    {#if $ExperimentStore.length}
+      <p class="text-ios-footnote text-ios-label2 mt-1">{running.length} running · {finished.length} finished</p>
+    {/if}
   </header>
   <main class="py-4 relative z-10 px-2 lg:px-4">
     {#if $ExperimentStore.length === 0}
