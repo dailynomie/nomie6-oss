@@ -194,7 +194,7 @@
 
 {#if widget && widget.type !== 'text'}
   <div class="dashboard-widget {getClass(widget, updateTrigger)}" {id}>
-    <div class="flex widget-header px-2 py-1 items-center gap-1">
+    <div class="flex widget-header px-4 pt-3 pb-1 items-center gap-1">
       {#if trackable && widget.type != 'pointer'}
         <div class="flex items-center gap-1">
           {#if includedTrackable && ['barchart', 'linechart'].includes(widget.type)}
@@ -218,7 +218,7 @@
           <span class="capitalize text-xs font-semibold pt-1">{widgetInstance.getTitle()}</span>
         </div>
       {:else}
-        <span class="capitalize text-xs font-semibold pt-1 pl-1">{widgetInstance.getTitle()}</span>
+        <span class="capitalize text-ios-subhead font-semibold">{widgetInstance.getTitle()}</span>
       {/if}
       <div class="filler" />
       {#if !hideTools}
@@ -246,7 +246,7 @@
         <div class="flex items-center justify-center px-4 py-6 h-28">No Value</div>
       {/if}
     </div>
-    <footer class="px-1 flex widget-footer space-x-2 justify-between">
+    <footer class="px-4 pb-3 flex widget-footer space-x-2 justify-between">
       {#if widget.timeRange &&  widget.type !== 'plugin'}
         <button on:click={(evt) => showTimeframeMenu(evt)} class="">
           {updateTrigger, widgetInstance.getLabel().replace('days', '')}
@@ -312,10 +312,16 @@
     padding: 16px;
     @apply text-gray-600 dark:text-gray-400;
   }
+  /* iOS look: footer controls are small fill pills, with 13 px secondary text */
   .dashboard-widget footer button,
   .dashboard-widget .usage-chart-tools button {
-    @apply bg-gray-100 dark:bg-gray-900 rounded-md h-6 px-2;
-    @apply text-xs whitespace-nowrap text-gray-600 dark:text-gray-400;
+    background: var(--ios-fill);
+    border-radius: 8px;
+    height: 28px;
+    padding: 0 10px;
+    @apply whitespace-nowrap;
+    font-size: 13px;
+    color: var(--ios-label2);
     @apply flex-shrink-0 flex-grow-0 flex items-center;
     @apply z-40;
   }
@@ -348,6 +354,8 @@
 
 
   .dashboard-widget:after {
+    /* iOS look: no colour wash on the card; the colour lives in the values */
+    display: none;
     content: '';
     @apply pointer-events-none;
     @apply bottom-0;
@@ -391,10 +399,9 @@
   .dashboard-widget {
     display: flex;
     flex-direction: column;
-    @apply bg-white dark:bg-black;
-    @apply text-gray-900 dark:text-gray-100;
-    @apply shadow-md;
-    @apply rounded-lg;
+    background: var(--ios-card);
+    color: var(--ios-label);
+    border-radius: 16px;
     @apply flex-grow flex-shrink;
     @apply overflow-hidden;
   }

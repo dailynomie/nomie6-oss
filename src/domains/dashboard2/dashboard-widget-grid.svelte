@@ -146,7 +146,7 @@
     </h1>
     <p class="mb-2 text-sm text-center text-primary">Nomie.app</p>
   {/if}
-  <div id="widget-grid" class="grid grid-cols-2 lg:grid-cols-6 gap-2 lg:gap-4 lg:gap-6 p-2 lg:p-4 ">
+  <div id="widget-grid" class="grid grid-cols-2 lg:grid-cols-6 gap-3 lg:gap-6 p-4 lg:p-4">
     {#each widgets as widgetWrapper}
       <WidgetDisplay
         hideTools={showDate}

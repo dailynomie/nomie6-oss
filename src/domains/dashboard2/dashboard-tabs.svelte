@@ -29,13 +29,21 @@
   .n-dashboard-tabs {
     @apply h-12;
   }
+  /* iOS look: dashboard names are capsules, like the board tabs on Track */
   .n-dashboard-tabs button {
     @apply transform transition-all duration-200;
-    @apply text-gray-800 dark:text-gray-200;
+    @apply whitespace-nowrap;
+    height: 34px;
+    padding: 0 16px;
+    border-radius: 17px;
+    font-size: 15px;
+    font-weight: 500;
+    background: var(--ios-fill);
+    color: var(--ios-label);
   }
   .n-dashboard-tabs .selected {
-    @apply bg-white dark:bg-black text-primary-500;
-    @apply shadow-md;
-    @apply px-4 py-1 rounded-full;
+    background: var(--ios-tint);
+    color: var(--ios-on-tint);
+    font-weight: 600;
   }
 </style>
