@@ -79,9 +79,11 @@
   <Route path="/experiments">
     <Experiments />
   </Route>
-  <Route path="/test">
-    <Tests />
-  </Route>
+  {#if import.meta.env.DEV}
+    <Route path="/test">
+      <Tests />
+    </Route>
+  {/if}
 
   <Route path="/uoms">
     <FeatureGate feature="uoms">
@@ -133,7 +135,9 @@
   <Route path="/setup">
     <Setup />
   </Route>
-  <Route path="/test-ai">
-    <TestAi />
-  </Route>
+  {#if import.meta.env.DEV}
+    <Route path="/test-ai">
+      <TestAi />
+    </Route>
+  {/if}
 </Router>
