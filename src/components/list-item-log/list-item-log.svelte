@@ -141,8 +141,9 @@
         <div class="log-time-col ios-time text-ios-label2">{log.endDayjs().format(dateFormats.time)}</div>
       {/if}
       <div class="flex-1 min-w-0 space-y-2">
-        <div class="flex items-center justify-between text-xs space-x-3 -mt-2">
-          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-base text-ios-label2"
+        <!-- iOS look (proposal 2): the time and this line share one 22 px baseline grid -->
+        <div class="entry-head flex items-center justify-between text-ios-footnote space-x-3">
+          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-ios-subhead text-ios-label2"
             >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
           >
           <div class="text-ios-label2 stiff line-clamp-1">
@@ -156,7 +157,7 @@
           <button
             type="button"
             aria-label="More options for this entry"
-            style="margin:-8px -12px -8px 0"
+            style="margin:-11px -12px -11px 0"
             class="text-ios-label h-11 w-11 rounded-full flex items-center justify-center"
             on:click={() => {
               Interact.logOptions(log, {
@@ -211,16 +212,26 @@
             <button type="button" aria-label="Add a tracker or person to this note" on:click={() => addItem()} class="tiny-trackable bg-transparent">
               <span class="value w-5">+</span>
             </button>
+            {#if log.location || log.lng}
+              <button
+                aria-label="View Location"
+                on:click={() => {
+                  return openLocationViewer([log.geoType], [log])
+                }}
+                class="ios-loc inline-flex items-center gap-1 text-ios-label2"
+              >
+                <IonIcon icon={MapOutline} size={13} />
+                {#if log.location}<span class="line-clamp-1">{log.location}</span>{/if}
+              </button>
+            {/if}
           </div>
-        {/if}
-
-        {#if log.location || log.lng}
+        {:else if log.location || log.lng}
           <button
             aria-label="View Location"
             on:click={() => {
               return openLocationViewer([log.geoType], [log])
             }}
-            class="ios-loc flex items-center gap-1 text-ios-label2"
+            class="ios-loc inline-flex items-center gap-1 text-ios-label2"
           >
             <IonIcon icon={MapOutline} size={13} />
             {#if log.location}<span class="line-clamp-1">{log.location}</span>{/if}
@@ -239,8 +250,8 @@
     flex-shrink: 0;
     font-size: 13px;
     font-weight: 600;
-    line-height: 18px;
-    padding-top: 2px;
+    line-height: 22px;
+    padding-top: 0;
     font-variant-numeric: tabular-nums;
   }
   .ios-loc {
