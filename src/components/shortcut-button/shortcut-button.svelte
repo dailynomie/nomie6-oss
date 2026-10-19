@@ -79,21 +79,24 @@
         <div class="title {title.length > 15 ? 'long' : ''} {compact ? 'line-clamp-1' : 'line-clamp-2'}">{title}</div>
       {/if}
       <div class="value-sub">
+        {#if value && !hideValue}
+          {#if id.includes('habit')}
+            {#if value < -0.5}
+            <span class="value">👎</span>
+            {:else if value <0.3}
+            <span class="value">🤙</span>
+            {:else}
+            <span class="value">👍</span>
+            {/if}
+          {:else}
+          <span class="value">{value}</span>
+          {/if}
+        {/if}
         {#if subtitle}
           <span class="subtitle">{subtitle}</span>
         {/if}
       </div>
     </div>
-    <!-- The value sits in the top-right corner of the card -->
-    {#if value && !hideValue}
-      <div class="corner-value">
-        {#if id.includes('habit')}
-          {#if value < -0.5}👎{:else if value < 0.3}🤙{:else}👍{/if}
-        {:else}
-          {value}
-        {/if}
-      </div>
-    {/if}
     <!-- highlight -->
     <div class="highlight {oneTap ? 'one-tap' : ''}">
       <TimeBalls color="#FFF" hours={hoursUsed} />
@@ -177,16 +180,16 @@
   }
 
   .shortcut-button.normal .value-sub {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
   }
 
   .shortcut-button.normal .value-sub .value {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 26px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
     font-family: var(--ios-font-rounded);
     white-space: nowrap;
   }
@@ -262,17 +265,6 @@
 
   /* Experiment check-in trackers: a soft tint with a dashed tint border */
   /* A value today: a small value in the top-right corner, and a soft tint glow around the card */
-  .shortcut-button .corner-value {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 20px;
-    font-family: var(--ios-font-rounded);
-    white-space: nowrap;
-    color: var(--ios-label);
-  }
   .shortcut-button.normal.has-value {
     box-shadow: 0 0 14px 2px color-mix(in srgb, var(--tracker-color) 30%, transparent);
   }
