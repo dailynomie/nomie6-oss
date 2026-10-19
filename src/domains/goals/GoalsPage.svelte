@@ -340,8 +340,9 @@
   :global(.ios-bar-good) {
     background: var(--ios-good) !important;
   }
+  /* warning for a don't-do goal near its limit: iOS orange, which is readable in both modes */
   :global(.ios-bar-warn) {
-    background: var(--ios-save) !important;
+    background: #ff9f0a !important;
   }
   :global(.ios-bar-bad) {
     background: var(--ios-danger) !important;
