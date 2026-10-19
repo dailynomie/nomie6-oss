@@ -233,6 +233,25 @@ html {
   @apply text-sm;
 }
 
+/* iOS look: page titles in the header use the 17 px nav-bar style (large titles come per screen) */
+h1.ntitle {
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: var(--ios-label);
+}
+
+/* iOS look: modal titles are 17 px semibold and centred */
+h2.ntitle {
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  text-align: center;
+  color: var(--ios-label);
+}
+
 html {
   background: var(--ios-bg);
 }

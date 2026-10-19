@@ -28,13 +28,9 @@
 }
 
  .glass {
-  @apply bg-gray-100;
-  @apply dark:bg-gray-800;
-  @apply dark:bg-opacity-80;
-  @apply bg-opacity-80;
-  @apply backdrop-filter;
-  @apply backdrop-saturate-150;
-  @apply backdrop-blur-md;
+  background: var(--ios-bar);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
 }
 
 .glass-lite {
