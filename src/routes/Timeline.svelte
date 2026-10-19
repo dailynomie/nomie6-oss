@@ -19,7 +19,7 @@
 
   import Button from '../components/button/button.svelte'
   import IonIcon from '../components/icon/ion-icon.svelte'
-  import { CalendarOutline, ChevronForwardOutline, SearchIcon } from '../components/icon/nicons'
+  import { CalendarOutline, ChevronForwardOutline, OptionsOutline, SearchIcon } from '../components/icon/nicons'
 
   import { selectFuzzyDate } from '../domains/timeline/select-date-fuzzy'
   import { openOnThisDayModal } from '../domains/on-this-day/useOnThisDayModal'
@@ -146,39 +146,26 @@
 </script>
 
 <Layout pageTitle="Timeline" className="timeline-layout">
-  <Toolbar slot="header" className="py-2 h-14">
-    <MenuInline id="timeline-filter" y="bottom" menuButtons={filterMenu} buttonClass="menu-icon-button">
-      <IonIcon className="text-primary-500" icon={CaretDownCircle} size={32} />
-    </MenuInline>
-    <div class="ntitle w-full mt-2 px-4  justify-center items-center  grid grid-cols-1">
+  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
+    <div class="flex items-center justify-end gap-2 h-11">
       <button
         type="button"
-        class="mx-auto mb-1 hover:text-gray-500 transform-gpu transition-all duration-200 items-center grid grid-cols-1"
-        on:click={() => {
-          openOnThisDayModal(displayDate.toDate())
-        }}
+        aria-label="Jump to date"
+        class="ios-round {inPast ? 'ios-round-alert' : ''}"
+        on:click={() => jumpTo()}
       >
-        {#key mounted}
-          <h1 class="flex-nowrap flex items-center">
-            <LetterTicker className="font-bold" text={displayDate.format(`ddd ${dateFormats.mmm_d_yyyy}`)} />
-            <IonIcon icon={ChevronForwardOutline} className="text-gray-500" size={12} />
-          </h1>
-        {/key}
+        <IonIcon icon={CalendarOutline} size={18} />
       </button>
-
-      <div class="max-w-xl w-full mt-1 mx-auto items-center stiff">
-        <PositivityGrid className="h-3" logs={topItem?.logs || []} />
-      </div>
+      <MenuInline id="timeline-filter" y="bottom" menuButtons={filterMenu} buttonClass="ios-round">
+        <IonIcon icon={OptionsOutline} size={18} />
+      </MenuInline>
     </div>
-    <div class="space-x-2 flex-nowrap flex">
-      <Button className={`${inPast ? 'bg-red-500 ' : ''}`} icon on:click={() => jumpTo()}>
-        <IonIcon className={inPast ? 'text-white' : 'text-primary'} icon={CalendarOutline} size={28} />
-      </Button>
-      <Button icon on:click={() => openUnisearch()} className="mr-6">
-        <IonIcon className="text-primary-500" icon={SearchIcon} size={28} />
-      </Button>
-    </div>
-  </Toolbar>
+    <h1 class="text-ios-large font-bold text-ios-label mt-1">Timeline</h1>
+    <button type="button" class="ios-search mt-2" aria-label="Search notes" on:click={() => openUnisearch()}>
+      <IonIcon icon={SearchIcon} size={16} />
+      <span>Search notes, #trackers, @people</span>
+    </button>
+  </header>
 
   {#if filters.context}
     <Container className="px-4 py-2">
@@ -204,4 +191,34 @@
 </Layout>
 
 <style lang="postcss" global>
+  /* iOS look: round action buttons and the inline search field on the Timeline header */
+  .ios-round {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    border: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ios-fill);
+    color: var(--ios-label);
+  }
+  .ios-round-alert {
+    background: var(--ios-danger);
+    color: #ffffff;
+  }
+  .ios-search {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 0;
+    background: var(--ios-fill);
+    color: var(--ios-label2);
+    font-size: 17px;
+  }
 </style>
