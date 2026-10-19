@@ -73,21 +73,25 @@
 </script>
 
 <List solo outside title="Customize">
-  <ListItem bottomLine={16} title="Experience">
-    <div slot="right">
-      <SelectPop
-        id="experience"
-        value={resolveExperience($Prefs) === 'full' ? 'Full' : 'Starter'}
-        on:change={(evt) => {
-          $Prefs.experience = evt.detail.key
-        }}
-        options={['starter', 'full'].map((mode) => {
-          return { key: mode, value: capitalize(mode), selected: resolveExperience($Prefs) === mode }
-        })}
-      />
+  <!-- iOS look (guide 5.11): Experience is a segmented control with the explanation under it -->
+  <div class="px-4 py-3 space-y-2">
+    <div class="text-ios-subhead font-semibold text-ios-label">How much do you want to see?</div>
+    <ButtonGroup
+      value={resolveExperience($Prefs)}
+      buttons={[
+        { label: 'Starter', value: 'starter' },
+        { label: 'Full', value: 'full' },
+      ]}
+      on:change={(evt) => {
+        $Prefs.experience = evt.detail.value
+      }}
+    />
+    <div class="text-ios-footnote text-ios-label2">
+      {resolveExperience($Prefs) === 'full'
+        ? 'Full shows everything. Switching never deletes data.'
+        : 'Starter shows the essentials. Nothing is deleted.'}
     </div>
-  </ListItem>
-  <div class="text-xs text-gray-500 px-4 pb-4 leading-tight">Starter shows the core of Daily Nomie. Full shows everything. Switching never deletes data.</div>
+  </div>
 
   <ListItem bottomLine={16} title={Lang.t('settings.start-page', 'Start Page')}>
     <div slot="right">

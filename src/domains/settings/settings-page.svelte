@@ -158,6 +158,8 @@
           <!-- {/if} -->
         </div>
       </ToolbarGrid>
+      <!-- iOS look (guide 5.11): large title "More" -->
+      <h1 class="text-ios-large font-bold text-ios-label px-4 mt-1">More</h1>
     </Container>
   </div>
 
@@ -285,13 +287,10 @@
 
             <Spacer gap={1} />
 
-            <button class="w-full px-4 mt-4 mb-3 text-sm text-center " on:click={specialTap}>
-              <div class="text-sm text-black dark:text-white">
-                Version v{import.meta.env.PACKAGE_VERSION}
-              </div>
-              <div class="text-xs text-gray-800 dark:text-gray-500">
-                <strong>DailyNomie</strong>; Copyright 2014 - {dayjs().format('YYYY')}
-              </div>
+            <!-- iOS look: footer, centred, 13 px secondary, 24 px above -->
+            <button class="w-full px-4 mt-6 mb-3 text-center text-ios-footnote text-ios-label2" on:click={specialTap}>
+              <div>Daily Nomie {import.meta.env.PACKAGE_VERSION}</div>
+              <div>Copyright 2014 - {dayjs().format('YYYY')}</div>
             </button>
           </div>
           <!-- end container -->
