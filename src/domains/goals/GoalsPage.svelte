@@ -3,8 +3,7 @@
 <script lang="ts">
   import Button from '../../components/button/button.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { AddIcon, CheckmarkCircle, ChevronForwardOutline, RibbonOutline } from '../../components/icon/nicons'
-  import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
+  import { AddIcon, CheckmarkOutline, RibbonOutline } from '../../components/icon/nicons'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
 
   import { Lang } from '../../store/lang'
@@ -27,8 +26,6 @@
   import ListItem from '../../components/list-item/list-item.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
 
-  import ProgressBar from '../../components/progress-bar/progress-bar.svelte'
-
   import { TrackableStore } from '../trackable/TrackableStore'
   import { Interact } from '../../store/interact'
 
@@ -48,6 +45,8 @@
   let view: GoalDurationType = $state('day')
   let goals: Array<GoalClass> = $state([])
   let goalUsages: Array<GoalUsageResponseType> = $state([])
+  // Goal id -> hit (true) or miss (false) for each of the last seven days, oldest first
+  let histories: Record<string, Array<boolean>> = $state({})
   let loading: boolean = $state(true)
   let mounted = $state(false)
   let activeDate = $state(dayjs())
@@ -60,6 +59,27 @@
     }, 500)
   }
 
+  /**
+   * Seven-day history for daily goals. One usage pass per day.
+   * updateScore is false so the "reached today" count in the header is not changed by past days.
+   */
+  const loadHistories = async (dailyGoals: Array<GoalClass>) => {
+    if (!dailyGoals.length) {
+      histories = {}
+      return
+    }
+    const next: Record<string, Array<boolean>> = {}
+    for (let offset = 6; offset >= 0; offset--) {
+      const day = activeDate.subtract(offset, 'day')
+      const results = await getGoalUsage(dailyGoals, $TrackableStore.trackables, day, { updateScore: false })
+      results.forEach((gu) => {
+        const hit = (!gu.scores.length && gu.goal.isDontDoIt) || (gu.scores.length > 0 && gu.scores[0].success === true)
+        next[gu.goal.id] = [...(next[gu.goal.id] || []), !!hit]
+      })
+    }
+    histories = next
+  }
+
   const initialzeGoalPage = debounce(() => {
     try {
       if ($GoalStore.length) {
@@ -67,6 +87,7 @@
         goals = [...$GoalStore]
         getGoalUsage(goals, $TrackableStore.trackables, activeDate).then((gu) => {
           goalUsages = gu
+          loadHistories(goals.filter((g) => g.duration === 'day')).catch((e) => console.error(e))
         })
       }
       loading = false
@@ -75,7 +96,7 @@
       loading = false
     }
     goalUsages = [...goalUsages]
-    
+
   }, 1000)
 
   let lastGoalStore = $state('')
@@ -111,6 +132,17 @@
     }
   }
 
+  // iOS look: the target line reads "At least 5 km a day" (or "At most" for don't-do goals)
+  const targetText = (item: GoalUsageResponseType) => {
+    const value = $TrackableStore.trackables[item.goal.tag]?.formatValue(item.goal.target)
+    const unit = item.goal.duration || 'day'
+    return `${item.goal.isDontDoIt ? 'At most' : 'At least'} ${value} a ${unit}`
+  }
+
+  const isDone = (item: GoalUsageResponseType) => {
+    return (item.scores && item.scores[0]?.success) || (item.goal.isDontDoIt && !item.scores.length)
+  }
+
   let editMode: boolean = $state(false)
 
   let newPostListener: any = $state(undefined)
@@ -129,34 +161,34 @@
 </script>
 
 <Layout pageTitle={Lang.t('goals.goals', 'Goals')}>
-  <header slot="header" class="glass z-50">
-    <ToolbarGrid>
-      <div slot="left">
-        <Button primary clear icon on:click={createGoal}>
-          <IonIcon icon={AddIcon} size={32} />
-        </Button>
-      </div>
-      <h1 class="ntitle outline-none focus:ring-none">{Lang.t('goals.my-goals', 'My Goals')}</h1>
-      <div slot="right">
-        {#if editMode}
-          <Button
-            clear
-            primary
-            on:click={() => {
-              editMode = false
-            }}>Done</Button
-          >
-        {:else if goals.length}
-          <Button
-            clear
-            primary
-            on:click={() => {
-              editMode = true
-            }}>Edit</Button
-          >
-        {/if}
-      </div>
-    </ToolbarGrid>
+  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
+    <!-- iOS look: action row, then the large title and today's count -->
+    <div class="flex items-center justify-between h-11">
+      <button type="button" aria-label="New goal" class="goals-round" on:click={createGoal}>
+        <IonIcon icon={AddIcon} size={18} />
+      </button>
+      {#if editMode}
+        <Button
+          clear
+          primary
+          on:click={() => {
+            editMode = false
+          }}>Done</Button
+        >
+      {:else if goals.length}
+        <Button
+          clear
+          primary
+          on:click={() => {
+            editMode = true
+          }}>Edit</Button
+        >
+      {/if}
+    </div>
+    <h1 class="text-ios-large font-bold text-ios-label mt-1 outline-none">{Lang.t('goals.my-goals', 'My Goals')}</h1>
+    {#if $GoalScoreStore[1]}
+      <p class="text-ios-subhead text-ios-label2">{$GoalScoreStore[0]} of {$GoalScoreStore[1]} reached today</p>
+    {/if}
     <!-- <div class=" items-center justify-center">
       <DateRangeController
         on:next={() => {
@@ -196,64 +228,51 @@
               usageClicked(item)
             }}
           >
-            <div slot="left" class="flex items-center space-x-2 stiff">
+            <div slot="left" class="flex items-center stiff">
               <button
+                type="button"
+                aria-label="Tracker options"
                 on:click|preventDefault|stopPropagation|capture={(evt) => {
                   blockOpen()
                   showTrackablePopmenu($TrackableStore.trackables[item.goal.tag])
                 }}
               >
-                <TrackableAvatar
-                  className=" my-2"
-                  trackable={$TrackableStore.trackables[item.goal.tag]}
-                  size={48}
-                /></button
-              >
+                <span class="ios-goal-icon">
+                  <TrackableAvatar trackable={$TrackableStore.trackables[item.goal.tag]} size={18} />
+                </span>
+              </button>
             </div>
 
-            <div class="title-progress filler">
-              <div class="flex items-center justify-between mb-2">
-                <h1 class="font-semibold flex items-center space-x-2">
-                  <div class="line-clamp-1">{$TrackableStore.trackables[item.goal.tag]?.label}</div>
-                  {#if (item.scores && item.scores[0]?.success) || (item.goal.isDontDoIt && !item.scores.length)}
-                    <IonIcon icon={CheckmarkCircle} className="text-green-500" />
-                  {/if}
-                </h1>
+            <div class="filler min-w-0">
+              <div class="flex items-center justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="ios-goal-label line-clamp-1">{$TrackableStore.trackables[item.goal.tag]?.label}</div>
+                  <div class="text-ios-footnote text-ios-label2 line-clamp-1">{targetText(item)}</div>
+                </div>
                 {#if !editMode}
-                  <div class="filler whitespace-nowrap text-right">
-                    <span>
-                      <span class="usage-value font-semibold ">
-                        {#if !item.trackableUsage}
-                          0
-                        {:else}
-                          {item.trackableUsage.totalOnly}
-                        {/if}
-                      </span>
-                      <span class="opacity-40">/</span>
-                      <span class="target-value opacity-70">
-                        {$TrackableStore.trackables[item.goal.tag]?.formatValue(item.goal.target)}
-                      </span>
+                  {#if isDone(item)}
+                    <span class="ios-done" aria-label="Goal reached">
+                      <IonIcon icon={CheckmarkOutline} size={16} className="text-white" />
                     </span>
-                    <IonIcon icon={ChevronForwardOutline} size={14} className="opacity-50" />
-                  </div>
-                {/if}
-              </div>
-              <div class="progress pb-2">
-                {#if !item.scores.length}
-                  <ProgressBar percentage={0} />
-                {/if}
-                {#each item.scores || [] as score}
-                  {#if score.failure}
-                    <ProgressBar barClass="bg-red-500" r2l={item.goal.isDontDoIt} percentage={score.percent || 0} />
-                  {:else if item.goal.isDontDoIt && score.percent > 80}
-                    <ProgressBar r2l={item.goal.isDontDoIt} barClass="bg-yellow-500" percentage={score.percent || 0} />
-                  {:else if score.success}
-                    <ProgressBar percentage={score.percent || 0} r2l={item.goal.isDontDoIt} barClass="bg-green-500" />
                   {:else}
-                    <ProgressBar r2l={item.goal.isDontDoIt} percentage={score.percent || 0} />
+                    <span class="text-ios-footnote font-semibold text-ios-label2 whitespace-nowrap">
+                      {item.trackableUsage ? item.trackableUsage.totalOnly : 0} of {$TrackableStore.trackables[item.goal.tag]?.formatValue(item.goal.target)}
+                    </span>
                   {/if}
-                {/each}
+                {/if}
               </div>
+              {#if view === 'day' && histories[item.goal.id]}
+                {@const days = histories[item.goal.id]}
+                <div
+                  class="ios-history"
+                  role="img"
+                  aria-label="Reached on {days.filter(Boolean).length} of the last {days.length} days"
+                >
+                  {#each days as hit}
+                    <span class="ios-hist-bar {hit ? 'hit' : ''}"></span>
+                  {/each}
+                </div>
+              {/if}
             </div>
             <div slot="right" class=" flex items-center">
               {#if editMode}
@@ -298,7 +317,7 @@
           <div class="text-center text-primary">Add Yearly Goal</div>
           {/if}
         </ListItem>
-       
+
       </List>
     {/if}
 
@@ -323,3 +342,58 @@
     </List>
   </main>
 </Layout>
+
+<style>
+  /* iOS look: round action button (36 px, fill) */
+  .goals-round {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ios-fill);
+    color: var(--ios-label);
+  }
+  /* 29 px tracker square */
+  .ios-goal-icon {
+    width: 29px;
+    height: 29px;
+    border-radius: 8px;
+    background: var(--ios-fill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ios-goal-label {
+    font-size: 17px;
+    line-height: 22px;
+    color: var(--ios-label);
+  }
+  /* 26 px green check */
+  .ios-done {
+    width: 26px;
+    height: 26px;
+    border-radius: 13px;
+    background: var(--ios-good);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  /* Seven 18 x 6 px bars, 5 px apart */
+  .ios-history {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .ios-hist-bar {
+    width: 18px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--ios-fill);
+  }
+  .ios-hist-bar.hit {
+    background: var(--ios-good);
+  }
+</style>

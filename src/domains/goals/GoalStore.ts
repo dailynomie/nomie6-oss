@@ -222,7 +222,9 @@ export const openGoalEditor = (goal?: GoalClass) => {
 export const getGoalUsage = async (
   _goals: Array<GoalClass>,
   trackables,
-  date?: Dayjs
+  date?: Dayjs,
+  // updateScore: false lets the Goals page look at past days without changing "reached today"
+  options: { updateScore?: boolean } = {}
 ): Promise<Array<GoalUsageResponseType>> => {
   const goals = _goals.filter((g) => g)
   if (goals.length) {
@@ -251,7 +253,9 @@ export const getGoalUsage = async (
 
     const newScore = [successes, goals.length]
 
-    wait(200).then(() => GoalScoreStore.update((s) => newScore))
+    if (options.updateScore !== false) {
+      wait(200).then(() => GoalScoreStore.update((s) => newScore))
+    }
 
     return goalUsages
   } else {
