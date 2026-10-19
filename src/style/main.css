@@ -286,7 +286,8 @@ html.mode-dark {
 
 .item-grid {
   /* @apply grid grid-cols-3 md:grid-cols-3 gap-2 p-2 md:gap-3 md:px-2 lg:grid-cols-4 xl:grid-cols-5; */
-  @apply grid grid-cols-2 md:grid-cols-2 gap-2 lg:gap-4 p-2 md:gap-3 md:px-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 xl:gap-6 xl:px-6;
+  /* iOS look: three columns on phones, 10 px gaps and 16 px side padding (decision 2) */
+  @apply grid grid-cols-3 gap-2.5 px-4 py-2 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 xl:gap-6 xl:px-6 2xl:grid-cols-5;
 }
 
 .item-grid-compact {
