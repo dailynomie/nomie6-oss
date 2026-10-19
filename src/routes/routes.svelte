@@ -29,6 +29,7 @@
   import Export from './export.svelte'
   import Setup from './setup.svelte'
   import TestAi from './test-ai.svelte'
+  import TimelineProposals from './timeline-proposals.svelte'
   import NomieBlockly from './nomie-blockly.svelte'
 </script>
 
@@ -138,6 +139,10 @@
   {#if import.meta.env.DEV}
     <Route path="/test-ai">
       <TestAi />
+    </Route>
+    <!-- TEMPORARY: timeline entry proposals. Remove with src/routes/timeline-proposals.svelte -->
+    <Route path="/timeline-proposals">
+      <TimelineProposals />
     </Route>
   {/if}
 </Router>
