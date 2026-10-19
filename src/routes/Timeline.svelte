@@ -211,6 +211,11 @@
     background: var(--ios-danger);
     color: #ffffff;
   }
+  /* The inline menu stretches its buttons to full width; keep the round action buttons at 36 px */
+  .menu-inline button.ios-round {
+    width: 36px;
+    height: 36px;
+  }
   .ios-search {
     display: flex;
     align-items: center;

@@ -134,7 +134,7 @@
     bind:this={boundingBox}
   >
     {#if contextMap.length == 0}
-      <div class="w-full h-full flex items-center justify-center text-gray-500 text-xs">
+      <div class="w-full h-full flex items-center justify-center text-ios-label2 text-xs">
         No Context for this time period.
       </div>
     {/if}
@@ -184,8 +184,8 @@
     <button
       class="absolute transition-all rounded-lg h-7 w-7 flex items-center justify-center border-opacity-70 duration-200 bottom-1 left-1 z-40 {size ==
       'sm'
-        ? 'bg-white bg-opacity-10 text-white'
-        : 'bg-white bg-opacity-30 text-white'} "
+        ? 'bg-ios-fill text-ios-label'
+        : 'bg-ios-fill text-ios-label'} "
       on:click={() => {
         size = size == 'sm' ? 'lg' : 'sm'
       }}
@@ -198,7 +198,8 @@
 <style global lang="postcss">
   .context-chart-bound {
     @apply relative;
-    @apply bg-black;
+    background: var(--ios-card);
+    border-radius: 16px;
     @apply h-full;
     @apply w-full;
     @apply flex-grow;
@@ -259,7 +260,7 @@
     @apply top-0;
     @apply bottom-0;
     left: 50%;
-    border-left: solid 2px rgba(255, 255, 255, 0.2);
+    border-left: solid 2px var(--ios-separator);
   }
   .context-wrapper.size-auto .cc-bar,
   .context-wrapper.size-auto .cc-item-holder {
