@@ -34,6 +34,10 @@
   let experiment = $derived(
     ($ExperimentStore as Array<any>).find((e) => e.id === experimentId) as ExperimentType | undefined
   )
+  // The last day of the experiment, for example "Saturday 24 October"
+  let endsText = $derived(
+    experiment ? dayjs(experiment.start).add(experiment.durationDays - 1, 'day').format('dddd D MMMM') : ''
+  )
   let liveResult = $state<ExperimentResultSnapshot | undefined>(undefined)
   let uncheckedDays = $state<Array<string>>([])
   let daysSoFar = $state(0)
@@ -198,18 +202,21 @@
       <div slot="left">
         <Button clear primary on:click={() => closeModal(id)}>Close</Button>
       </div>
-      <h2 class="ntitle">{experiment?.title ?? 'Experiment'}</h2>
+      <!-- iOS look (guide 5.6): the modal header reads "Experiment"; the title is the large title below -->
+      <h2 class="text-ios-body font-semibold text-ios-label">Experiment</h2>
       <div slot="right"></div>
     </ToolbarGrid>
   </header>
 
   <main class="p-4 space-y-4 text-ios-label">
     {#if experiment}
+      <h1 class="text-ios-title1 font-bold px-1">{experiment.title}</h1>
+
       <!-- Status -->
       <section class="ios-card p-4 space-y-3">
         <div class="flex items-center justify-between gap-2">
           <ExperimentChip tone={frozen ? 'neutral' : 'running'} label={statusLabel} />
-          <div class="text-xs text-ios-label2">{experiment.durationDays} days</div>
+          <div class="text-ios-footnote text-ios-label2 whitespace-nowrap">{experiment.durationDays} days · ends {endsText}</div>
         </div>
         {#if experiment.change && experiment.change !== experiment.title}
           <div class="text-sm">{experiment.change}</div>
@@ -219,15 +226,15 @@
         {#if shownResult}
           <div class="grid grid-cols-3 gap-2 text-center">
             <div class="ios-box-good p-2">
-              <div class="text-lg font-semibold text-green-700 dark:text-green-300">{shownResult.adherence.kept}</div>
-              <div class="text-xs text-ios-label2">Kept to it</div>
+              <div class="text-xl font-bold text-ios-good">{shownResult.adherence.kept}</div>
+              <div class="text-ios-caption text-ios-label2">Kept to it</div>
             </div>
             <div class="ios-box p-2">
-              <div class="text-lg font-semibold">{shownResult.adherence.missed}</div>
-              <div class="text-xs text-ios-label2">Didn't</div>
+              <div class="text-xl font-bold">{shownResult.adherence.missed}</div>
+              <div class="text-ios-caption text-ios-label2">Didn't</div>
             </div>
             <div class="ios-box p-2">
-              <div class="text-lg font-semibold">{shownResult.adherence.unchecked}</div>
+              <div class="text-xl font-bold">{shownResult.adherence.unchecked}</div>
               <div class="text-xs text-ios-label2">Not checked</div>
             </div>
           </div>
@@ -238,13 +245,13 @@
       {#if !frozen && uncheckedDays.length}
         <section class="ios-card p-4">
           <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 mb-1">Check in</div>
-          <div class="font-semibold mb-2">Did you stick to it?</div>
+          <div class="text-ios-subhead font-semibold mb-2">Did you stick to it?</div>
           {#each uncheckedDays as day}
-            <div class="flex items-center justify-between gap-2 py-2 border-t border-ios-separator">
-              <span class="text-sm">{dayLabel(day)}</span>
+            <div class="flex items-center justify-between gap-2 py-2" style="border-top: 0.5px solid var(--ios-separator)">
+              <span class="text-ios-subhead">{dayLabel(day)}</span>
               <div class="flex gap-2">
-                <button class="px-3 py-1.5 rounded-full bg-ios-tint text-ios-ontint text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, true)}>Kept to it</button>
-                <button class="px-3 py-1.5 rounded-full bg-ios-fill text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, false)}>Didn't</button>
+                <button class="h-9 px-3.5 rounded-full bg-ios-tint text-ios-ontint text-ios-subhead font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, true)}>Kept to it</button>
+                <button class="h-9 px-3.5 rounded-full bg-ios-fill text-ios-label text-ios-subhead font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, false)}>Didn't</button>
               </div>
             </div>
           {/each}
@@ -256,21 +263,21 @@
         {#each shownResult.outcomes as outcome}
           <section class="ios-card p-4 space-y-3">
             <div class="flex items-center justify-between gap-2 min-w-0">
-              <div class="font-semibold capitalize truncate">{outcome.tag.replace(/_/g, ' ')}</div>
+              <div class="text-ios-body font-semibold capitalize truncate">{outcome.tag.replace(/_/g, ' ')}</div>
               <ExperimentChip tone={outcomeTone(outcome.verdict, outcome.matchesExpectation)} label={verdictText(outcome)} title={verdictText(outcome)} />
             </div>
             <div class="grid grid-cols-2 gap-3">
               <div class="ios-box p-3">
                 <div class="text-xs text-ios-label2">Before</div>
-                <div class="text-lg font-semibold">{outcome.meanB.toFixed(1)}</div>
+                <div class="font-bold" style="font-size: 22px; line-height: 26px">{outcome.meanB.toFixed(1)}</div>
                 <div class="text-xs text-ios-label2">{outcome.nB} days</div>
               </div>
               <div class="ios-box-tint p-3">
                 <div class="text-xs text-ios-label2">During</div>
-                <div class="text-lg font-semibold">
+                <div class="font-bold" style="font-size: 22px; line-height: 26px">
                   {outcome.meanE.toFixed(1)}
                   {#if outcome.pct !== undefined}
-                    <span class="text-xs font-medium {outcome.pct >= 0 ? 'text-green-700 dark:text-green-300' : 'text-red-600 dark:text-red-400'}">{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span>
+                    <span class="text-ios-footnote font-bold {outcome.pct >= 0 ? 'text-ios-good' : 'text-ios-danger'}">{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span>
                   {/if}
                 </div>
                 <div class="text-xs text-ios-label2">{outcome.nE} days</div>
@@ -285,7 +292,8 @@
             {/if}
           </section>
         {/each}
-        <div class="ios-card p-3 text-xs leading-relaxed text-ios-label2">{CAVEAT}</div>
+        <!-- iOS look: the caveat is plain text with a 4 px inset, not a card -->
+        <div class="px-1 text-ios-caption text-ios-label2">{CAVEAT}</div>
       {/if}
 
       <!-- AI explanation: full mode with AI set up, only once the result is frozen -->
@@ -330,18 +338,37 @@
         </section>
       {/if}
 
-      <!-- Actions -->
-      <div class="space-y-2 pt-2">
+      <!-- Actions: one grouped card of 48 px rows -->
+      <div class="ios-card overflow-hidden mt-2">
         {#if !frozen}
           {#if finishable}
-            <Button block primary disabled={busy} on:click={() => finish('completed')}>Finish experiment</Button>
+            <button class="ios-action font-semibold text-ios-tint" disabled={busy} onclick={() => finish('completed')}>Finish experiment</button>
           {/if}
-          <Button block clear disabled={busy} on:click={() => finish('stopped')}>Stop early</Button>
+          <button class="ios-action text-ios-tint" disabled={busy} onclick={() => finish('stopped')}>Stop early</button>
         {/if}
-        <Button block clear className="text-red-500" on:click={deleteExperiment}>Delete experiment</Button>
+        <button class="ios-action text-ios-danger" disabled={busy} onclick={deleteExperiment}>Delete experiment</button>
       </div>
     {:else}
       <div class="text-ios-label2">This experiment could not be found.</div>
     {/if}
   </main>
 </BackdropModal>
+
+<style>
+  /* iOS look: a 48 px row in the grouped action card (guide 5.6) */
+  .ios-action {
+    display: block;
+    width: 100%;
+    height: 48px;
+    font-size: 17px;
+    line-height: 22px;
+    text-align: center;
+    background: transparent;
+  }
+  .ios-action + .ios-action {
+    border-top: 0.5px solid var(--ios-separator);
+  }
+  .ios-action:disabled {
+    opacity: 0.5;
+  }
+</style>
