@@ -122,6 +122,11 @@ export class GoalClass {
     //
     // } else
     if (usage) {
+      // A "don't do it" goal is reached on a day with no log, so fill those days in before scoring
+      if (this.comparison == 'lt' || this.comparison == 'lte') {
+        usage = usage.backfill()
+      }
+
       scores = usage.values.map((value, index) => {
         // If Not a Number
         let ogValue = value
