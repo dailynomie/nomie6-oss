@@ -27,9 +27,47 @@ module.exports = {
       '7xl': '5rem',
     },
     extend: {
+      // iOS look: corner radii and text sizes (section 2.2 and 2.4 of the design guide)
+      borderRadius: {
+        tile: '18px',
+        card: '16px',
+        group: '12px',
+        chip: '10px',
+        float: '22px',
+      },
+      fontSize: {
+        'ios-large': ['34px', { lineHeight: '41px', letterSpacing: '0.37px' }],
+        'ios-title1': ['28px', { lineHeight: '34px' }],
+        'ios-title3': ['20px', { lineHeight: '25px' }],
+        'ios-body': ['17px', { lineHeight: '22px' }],
+        'ios-subhead': ['15px', { lineHeight: '20px' }],
+        'ios-footnote': ['13px', { lineHeight: '18px' }],
+        'ios-caption': ['12px', { lineHeight: '16px' }],
+        'ios-caption2': ['11px', { lineHeight: '13px' }],
+      },
+      minHeight: { tap: '44px' },
+      minWidth: { tap: '44px' },
       colors: {
         gray: {
           950: '#090C13',
+        },
+        // iOS look tokens: defined as CSS variables in src/style/main.css
+        ios: {
+          bg: 'var(--ios-bg)',
+          card: 'var(--ios-card)',
+          card2: 'var(--ios-card-2)',
+          label: 'var(--ios-label)',
+          label2: 'var(--ios-label-2)',
+          fill: 'var(--ios-fill)',
+          separator: 'var(--ios-separator)',
+          tint: 'var(--ios-tint)',
+          ontint: 'var(--ios-on-tint)',
+          tintsoft: 'var(--ios-tint-soft)',
+          good: 'var(--ios-good)',
+          goodsoft: 'var(--ios-good-soft)',
+          save: 'var(--ios-save)',
+          onsave: 'var(--ios-on-save)',
+          danger: 'var(--ios-danger)',
         },
         primary: {
           DEFAULT: '#00A4E4',

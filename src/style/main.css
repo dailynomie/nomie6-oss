@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* iOS look: design tokens (DAILY_NOMIE_7_IOS_DESIGN_GUIDE.md section 2) */
+:root {
+  --ios-bg: #F2F2F7; --ios-card: #FFFFFF; --ios-card-2: #F2F2F7;
+  --ios-label: #000000; --ios-label-2: #6C6C70;
+  --ios-fill: #E5E5EA; --ios-separator: #D8D8DC;
+  --ios-tint: #0A6CC9; --ios-on-tint: #FFFFFF; --ios-tint-soft: #E3EFFB;
+  --ios-good: #1E7A34; --ios-good-soft: #DDF3E2;
+  --ios-save: #1E7A34; --ios-on-save: #FFFFFF; --ios-danger: #D70015;
+  --ios-switch-on: #34C759; --ios-switch-off: #E3E3E8;
+  --ios-bar: rgba(249,249,249,0.92); --ios-bar-border: rgba(0,0,0,0.2);
+  --ios-scrim: rgba(0,0,0,0.38);
+  --ios-shadow-float: 0 6px 24px rgba(0,0,0,0.12);
+  --ios-shadow-thumb: 0 2px 6px rgba(0,0,0,0.12);
+  --ios-shadow-hub: 0 6px 16px rgba(10,108,201,0.35);
+  --ios-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  --ios-font-rounded: ui-rounded, -apple-system, system-ui, sans-serif;
+}
+html.dark {
+  --ios-bg: #000000; --ios-card: #1C1C1E; --ios-card-2: #2C2C2E;
+  --ios-label: #FFFFFF; --ios-label-2: #AEAEB2;
+  --ios-fill: #2C2C2E; --ios-separator: #38383A;
+  --ios-tint: #4DB3FF; --ios-on-tint: #000000; --ios-tint-soft: #0B2236;
+  --ios-good: #30D158; --ios-good-soft: #123620;
+  --ios-save: #30D158; --ios-on-save: #000000; --ios-danger: #FF6961;
+  --ios-switch-off: #39393D;
+  --ios-bar: rgba(22,22,24,0.92); --ios-bar-border: rgba(255,255,255,0.16);
+  --ios-scrim: rgba(0,0,0,0.55);
+  --ios-shadow-float: 0 6px 24px rgba(0,0,0,0.6);
+  --ios-shadow-thumb: 0 2px 6px rgba(0,0,0,0.5);
+  --ios-shadow-hub: 0 6px 16px rgba(77,179,255,0.30);
+}
+
 @layer base {
   .bg-primary-gradient,
   .primary-gradient {
@@ -18,6 +50,9 @@
 
 body {
   overflow-x: hidden;
+  font-family: var(--ios-font);
+  color: var(--ios-label);
+  -webkit-font-smoothing: antialiased;
   --header-height: 56px;
   --color-darkest: #fff;
   --color-darkest-translucent: rgba(255, 255, 255, 0.89);
@@ -199,15 +234,15 @@ html {
 }
 
 html {
-  @apply bg-gray-200 dark:bg-gray-800;
+  background: var(--ios-bg);
 }
 
-/* v7: a cool, very light page tint in light mode */
-html:not(.dark) .n-layout.bg-gray-100 {
-  background-color: #f2f4f8;
+/* The app page, on the token background in both modes */
+.n-layout {
+  background: var(--ios-bg);
 }
 html.mode-dark {
-  @apply bg-gray-800;
+  background: var(--ios-bg);
 }
 
 .full-screen {

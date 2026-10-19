@@ -145,7 +145,7 @@
   })
 </script>
 
-<Layout pageTitle="Timeline" className="timeline-layout bg-gray-200 dark:bg-gray-800">
+<Layout pageTitle="Timeline" className="timeline-layout">
   <Toolbar slot="header" className="py-2 h-14">
     <MenuInline id="timeline-filter" y="bottom" menuButtons={filterMenu} buttonClass="menu-icon-button">
       <IonIcon className="text-primary-500" icon={CaretDownCircle} size={32} />

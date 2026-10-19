@@ -60,7 +60,7 @@ import appConfig from '../../config/appConfig';
 
 <div
   {id}
-  class="n-layout z-50 {className ? className : 'bg-gray-100 dark:bg-gray-800'}
+  class="n-layout z-50 {className ? className : ''}
   {hasFooter ? 'has-footer' : ''}
   {hasHeader ? 'has-header' : ''}
   {showTabs ? 'has-tabs' : 'no-tabs'}"
