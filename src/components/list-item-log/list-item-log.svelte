@@ -140,12 +140,12 @@
       <button on:click={() => changePositivity(log)} class="text-base text-ios-label2"
         >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
       >
-      <div class="text-ios-label2 stiff line-clamp-1">
+      <div class="ios-time text-ios-label2 stiff line-clamp-1">
         {#if fullDate}
           {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
         {:else}
           {log.endDayjs().format(dateFormats.time)}
-          <span class="pl-2 text-ios-label2">{log.endDayjs().fromNow()}</span>
+          <span class="pl-2 ios-ago text-ios-label2">{log.endDayjs().fromNow()}</span>
         {/if}
       </div>
       <div class="text-right flex items-center  filler text-ios-label2">
@@ -157,7 +157,7 @@
           class="w-full text-right flex items-center justify-end"
         >
           {#if log.location}
-            <div class="line-clamp-1 text-green-500">{log.location}</div>
+            <div class="line-clamp-1 text-ios-good">{log.location}</div>
           {:else if log.lng}
             <IonIcon icon={MapOutline} className="text-green-500" size={16} />
           {/if}
@@ -227,6 +227,17 @@
 {/if}
 
 <style global lang="postcss">
+  /* iOS look: the entry time uses tabular figures; the "ago" text is regular weight */
+  .ios-time {
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .ios-ago {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
   .note-bubble.pinned {
     @apply ring ring-ios-tint;
   }
