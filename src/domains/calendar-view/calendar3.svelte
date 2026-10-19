@@ -121,7 +121,7 @@
         </div>
         <div class="filler" />
         {#if !hidePrevNext}
-        <button class="nselect" class:sm={size == 'sm'} on:click={() => nextPrev('previous')}>
+        <button type="button" aria-label="Previous" class="nselect" class:sm={size == 'sm'} on:click={() => nextPrev('previous')}>
           <IonIcon icon={ChevronBackOutline} size={14} />
         </button>
         {/if}
@@ -133,7 +133,7 @@
           }}>Today</button
         >
         {#if !hidePrevNext}
-        <button class="nselect" class:sm={size == 'sm'} on:click={() => nextPrev('next')}>
+        <button type="button" aria-label="Next" class="nselect" class:sm={size == 'sm'} on:click={() => nextPrev('next')}>
           <IonIcon icon={ChevronForwardOutline} size={14} />
         </button>
         {/if}

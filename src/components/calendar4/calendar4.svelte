@@ -144,10 +144,10 @@
       </div>
       <div class="filler" />
 
-      <button class="nselect clear" class:sm={size == 'sm'} on:click={() => nextPrev('previous')}>
+      <button type="button" aria-label="Previous" class="nselect clear" class:sm={size == 'sm'} on:click={() => nextPrev('previous')}>
         <IonIcon icon={ChevronBackOutline} size={22} />
       </button>
-      <button class="nselect clear" class:sm={size == 'sm'} on:click={() => nextPrev('next')}>
+      <button type="button" aria-label="Next" class="nselect clear" class:sm={size == 'sm'} on:click={() => nextPrev('next')}>
         <IonIcon icon={ChevronForwardOutline} size={22} />
       </button>
       {#if date.toDateString() !== new Date().toDateString()}

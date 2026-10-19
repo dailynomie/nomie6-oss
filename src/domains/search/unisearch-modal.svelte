@@ -235,7 +235,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
       placeholder="Search your Nomie"
       class="search-input rounded-t-2xl w-full"
     />
-    <button on:click={close} class="absolute top-3 rounded-full right-3 h-7 w-7 flex items-center justify-center">
+    <button type="button" aria-label="Close search" on:click={close} class="absolute top-3 rounded-full right-3 h-7 w-7 flex items-center justify-center">
       <IonIcon size={28} icon={CloseOutline} className="text-gray-500" />
     </button>
   </header>
