@@ -290,9 +290,24 @@ html.mode-dark {
   @apply grid grid-cols-3 gap-2.5 px-4 py-2 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 xl:gap-6 xl:px-6 2xl:grid-cols-5;
 }
 
-/* Small tracker buttons stay at two columns, because their titles need the width */
+/* Small tracker buttons: two columns on phones, more columns as the screen gets wider */
 .item-grid.item-grid-small {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 500px) {
+  .item-grid.item-grid-small {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 900px) {
+  .item-grid.item-grid-small {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1200px) {
+  .item-grid.item-grid-small {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
 }
 
 .item-grid-compact {
