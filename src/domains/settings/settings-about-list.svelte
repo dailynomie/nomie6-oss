@@ -25,6 +25,7 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
+  import { GoalStore } from '../goals/GoalStore'
 
   let countsOpen = $state(false)
 
@@ -39,6 +40,7 @@
     templates: 0,
     awards: 0,
     experiments: 0,
+    goals: 0,
     runningExperiments: 0,
     total: 0,
   })
@@ -53,10 +55,12 @@
       counts.templates +
       counts.awards +
       counts.plugins +
-      counts.experiments
+      counts.experiments +
+      counts.goals
   )
 
   $effect(() => {
+    counts.goals = $GoalStore.length
     counts.experiments = $ExperimentStore.length
     counts.runningExperiments = $ExperimentStore.filter((e: any) => e.status === 'running').length
     counts.trackers = Object.keys($TrackerStore).length
@@ -134,8 +138,7 @@
   </ListItem>
 
   <!-- Counts is a section that opens and closes; the rows show when it is open -->
-  <ListItem bottomLine={countsOpen ? 57 : undefined} clickable title="Counts" description="{totalCounted} items in total" on:click={() => (countsOpen = !countsOpen)}>
-    <span slot="left"><IconSquare color="#6C6C70">🔢</IconSquare></span>
+  <ListItem bottomLine={countsOpen ? 16 : undefined} clickable title="Counts" description="{totalCounted} items in total" on:click={() => (countsOpen = !countsOpen)}>
     <div slot="right"><IonIcon icon={countsOpen ? ChevronUpOutline : ChevronDownOutline} size={16} /></div>
   </ListItem>
   {#if countsOpen}
@@ -166,8 +169,11 @@
     <ListItem bottomLine={16} title="Plugins">
       <div slot="right">{counts.plugins}</div>
     </ListItem>
-    <ListItem title="Experiments" description="{counts.runningExperiments} running">
+    <ListItem bottomLine={16} title="Experiments" description="{counts.runningExperiments} running">
       <div slot="right">{counts.experiments}</div>
+    </ListItem>
+    <ListItem title="Goals">
+      <div slot="right">{counts.goals}</div>
     </ListItem>
   {/if}
 </List>
