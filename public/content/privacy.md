@@ -23,6 +23,6 @@ Daily Nomie does not load any analytics or tracking scripts.
 We announce changes to this policy in the What's New section of the app.
 
 ## Contact
-dailynomie@gmail.com
+[dailynomie@gmail.com](mailto:dailynomie@gmail.com)
 
 Last updated: November 1, 2026
