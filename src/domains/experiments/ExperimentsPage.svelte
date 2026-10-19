@@ -7,14 +7,13 @@
   import List from '../../components/list/list.svelte'
   import ListItem from '../../components/list-item/list-item.svelte'
   import Empty from '../../components/empty/empty.svelte'
-  import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
+  import IonIcon from '../../components/icon/ion-icon.svelte'
   import { Lang } from '../../store/lang'
-  import { PulseOutline } from '../../components/icon/nicons'
+  import { AddIcon, PulseOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from './ExperimentStore'
   import { experimentWidgetView } from './experiment-widget-lines'
   import ExperimentProgress from './experiment-progress.svelte'
   import ExperimentChip from './experiment-chip.svelte'
-  import Button from '../../components/button/button.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import ExperimentEditorModal from './experiment-editor-modal.svelte'
@@ -51,14 +50,15 @@
 </script>
 
 <Layout pageTitle={Lang.t('experiments.title', 'Experiments')}>
-  <header slot="header" class="glass z-50">
-    <ToolbarGrid>
-      <div slot="left"></div>
-      <h1 class="ntitle outline-none focus:ring-none">{Lang.t('experiments.title', 'Experiments')}</h1>
-      <div slot="right">
-        <Button clear primary on:click={openEditor}>New</Button>
-      </div>
-    </ToolbarGrid>
+  <!-- Same header as My Goals: round add button, large title, subtitle -->
+  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
+    <div class="flex items-center justify-between h-11">
+      <button type="button" aria-label="New experiment" class="exp-round" on:click={openEditor}>
+        <IonIcon icon={AddIcon} size={18} />
+      </button>
+    </div>
+    <h1 class="text-ios-large font-bold text-ios-label mt-1 outline-none">{Lang.t('experiments.title', 'Experiments')}</h1>
+    <p class="text-ios-subhead text-ios-label2">Test one change. See what it does.</p>
   </header>
   <main class="py-4 relative z-10 px-2 lg:px-4">
     {#if $ExperimentStore.length === 0}
@@ -124,3 +124,17 @@
     {/if}
   </main>
 </Layout>
+
+<style>
+  /* iOS look: round add button, as on My Goals */
+  .exp-round {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ios-fill);
+    color: var(--ios-label);
+  }
+</style>
