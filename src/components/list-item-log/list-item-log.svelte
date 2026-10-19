@@ -135,98 +135,118 @@
 </script>
 
 {#if displayLog}
-  <div id="log-{displayLog._id}" class:pinned={displayLog.pinned} class="note-bubble space-y-2 bubble {className}">
-    <div class="flex items-center justify-between text-xs  space-x-3 -mt-2">
-      <button on:click={() => changePositivity(log)} class="text-base text-ios-label2"
-        >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
-      >
-      <div class="ios-time text-ios-label2 stiff line-clamp-1">
-        {#if fullDate}
-          {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
-        {:else}
-          <span class="ios-time-col">{log.endDayjs().format(dateFormats.time)}</span>
-          <span class="pl-2 ios-ago text-ios-label2">{log.endDayjs().fromNow()}</span>
-        {/if}
-      </div>
-      <div class="text-right flex items-center  filler text-ios-label2">
-        <button
-          aria-label="View Location"
-          on:click={() => {
-            return openLocationViewer([log.geoType], [log])
-          }}
-          class="w-full text-right flex items-center justify-end"
-        >
-          {#if log.location}
-            <div class="line-clamp-1 text-ios-good">{log.location}</div>
-          {:else if log.lng}
-            <IonIcon icon={MapOutline} className="text-green-500" size={16} />
-          {/if}
-        </button>
-      </div>
-      <button
-        type="button"
-        style="margin-right:-10px"
-        class="text-ios-label h-7 w-7 rounded-full  flex items-center justify-center"
-        on:click={() => {
-          Interact.logOptions(log, {
-            description: log.note,
-          })
-        }}><IonIcon size={22} icon={More} /></button
-      >
-    </div>
-
-    {#if log.hasNote}
-      <p class="text-base leading-5">
-        <NoteTextualizer
-          note={log.note}
-          on:noteChange={(evt) => {
-            onLogNoteChange(evt.detail, log)
-          }}
-          className=" dark:text-gray-300 text-gray-700 leading-snug"
-          on:textClick={(evt) => {
-            const trackable = tokenToTrackable(evt.detail, $TrackableStore.trackables)
-            showTrackablePopmenu(trackable)
-          }}
-        />
-      </p>
-    {/if}
-
-    {#if !hideTrackables}
-      <div class="trackables -px-1 w-full flex flex-wrap">
-        {#each logElements as logElement, index (`${logElement.trackable.tag}-${index}`)}
-        {#if logElement.trackable.type != "pointer"}
-          <TinyTrackable
-            trackable={logElement.trackable}
-            value={logElement.value}
-            date={log.end}
+  <div id="log-{displayLog._id}" class:pinned={displayLog.pinned} class="note-bubble bubble {className}">
+    <div class="flex gap-3">
+      {#if !fullDate}
+        <div class="log-time-col ios-time text-ios-label2">{log.endDayjs().format(dateFormats.time)}</div>
+      {/if}
+      <div class="flex-1 min-w-0 space-y-2">
+        <div class="flex items-center justify-between text-xs space-x-3 -mt-2">
+          <button on:click={() => changePositivity(log)} class="text-base text-ios-label2"
+            >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
+          >
+          <div class="text-ios-label2 stiff line-clamp-1">
+            {#if fullDate}
+              {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
+            {:else}
+              <span class="ios-ago text-ios-label2">{log.endDayjs().fromNow()}</span>
+            {/if}
+          </div>
+          <div class="filler"></div>
+          <button
+            type="button"
+            style="margin-right:-10px"
+            class="text-ios-label h-7 w-7 rounded-full  flex items-center justify-center"
             on:click={() => {
-              showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
-            }}
-          />
-          {/if}
-        {/each}
-        {#each logElements as logElement, index (`${logElement.trackable.tag}-${index}`)}
-        {#if logElement.trackable.type == "pointer"}
-        <TinyTrackable
-          trackable={logElement.trackable}
-          value={logElement.value}
-          date={log.end}
-          on:click={() => {
-            showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
-          }}
-        />
+              Interact.logOptions(log, {
+                description: log.note,
+              })
+            }}><IonIcon size={22} icon={More} /></button
+          >
+        </div>
+
+        {#if log.hasNote}
+          <p class="text-base leading-5">
+            <NoteTextualizer
+              note={log.note}
+              on:noteChange={(evt) => {
+                onLogNoteChange(evt.detail, log)
+              }}
+              className=" dark:text-gray-300 text-gray-700 leading-snug"
+              on:textClick={(evt) => {
+                const trackable = tokenToTrackable(evt.detail, $TrackableStore.trackables)
+                showTrackablePopmenu(trackable)
+              }}
+            />
+          </p>
         {/if}
-      {/each}
-        <button on:click={() => addItem()} class="tiny-trackable bg-transparent">
-          <span class="value w-5">+</span>
-        </button>
+
+        {#if !hideTrackables}
+          <div class="trackables -px-1 w-full flex flex-wrap">
+            {#each logElements as logElement, index (`${logElement.trackable.tag}-${index}`)}
+            {#if logElement.trackable.type != "pointer"}
+              <TinyTrackable
+                trackable={logElement.trackable}
+                value={logElement.value}
+                date={log.end}
+                on:click={() => {
+                  showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
+                }}
+              />
+              {/if}
+            {/each}
+            {#each logElements as logElement, index (`${logElement.trackable.tag}-${index}`)}
+            {#if logElement.trackable.type == "pointer"}
+            <TinyTrackable
+              trackable={logElement.trackable}
+              value={logElement.value}
+              date={log.end}
+              on:click={() => {
+                showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
+              }}
+            />
+            {/if}
+          {/each}
+            <button on:click={() => addItem()} class="tiny-trackable bg-transparent">
+              <span class="value w-5">+</span>
+            </button>
+          </div>
+        {/if}
+
+        {#if log.location || log.lng}
+          <button
+            aria-label="View Location"
+            on:click={() => {
+              return openLocationViewer([log.geoType], [log])
+            }}
+            class="ios-loc flex items-center gap-1 text-ios-label2"
+          >
+            <IonIcon icon={MapOutline} size={13} />
+            {#if log.location}<span class="line-clamp-1">{log.location}</span>{/if}
+          </button>
+        {/if}
+        <slot name="item-footer" />
       </div>
-    {/if}
-    <slot name="item-footer" />
+    </div>
   </div>
 {/if}
 
 <style global lang="postcss">
+  /* iOS look: the entry time is a 40 px column on the left, and the location sits under the chips */
+  .log-time-col {
+    width: 40px;
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 18px;
+    padding-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .ios-loc {
+    font-size: 13px;
+    line-height: 16px;
+  }
+
   /* iOS look: the entry time uses tabular figures; the "ago" text is regular weight */
   .ios-time {
     font-size: 13px;
