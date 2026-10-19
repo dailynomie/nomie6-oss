@@ -55,16 +55,16 @@
     aria-modal
     aria-label="Lock Screen"
     style="zIndex: 10000"
-    class="lock-screen relative p-4 w-full rounded-xl shadow-xl 
-    flex-col full-screen bg-primary-500"
+    class="lock-screen relative p-4 w-full ios-card 
+    flex-col full-screen"
   >
-    <Text center size="sm" faded className="text-white mb-2">
+    <Text center size="sm" faded className="lock-hint mb-2">
       {Lang.t('settings.pin-requirements', '1 to 6 digits')}
     </Text>
     <h1>{title}</h1>
 
     <!-- Pin Display -->
-    <div class="text-2xl text-white pin-holder ">
+    <div class="text-2xl pin-holder">
       {#each _pin.split('') as d}•{/each}
     </div>
     <!-- Keypad Input -->
@@ -79,9 +79,9 @@
 
 <style global lang="postcss">
   .lock-screen h1 {
-    color: #fff;
+    color: var(--ios-label);
     margin-bottom: 20px;
-    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+    border-bottom: 0.5px solid var(--ios-separator);
     padding-bottom: 20px;
     width: 100%;
     text-align: center;
@@ -92,15 +92,21 @@
   .lock-screen .pin-holder {
     @apply w-full;
     @apply text-center text-3xl;
-    @apply bg-white bg-opacity-20;
+    background: var(--ios-fill);
+    color: var(--ios-label);
     @apply flex items-center justify-center;
     @apply h-10;
-    @apply rounded-lg;
+    border-radius: 10px;
     @apply mb-4;
+  }
+  .lock-screen .lock-hint {
+    color: var(--ios-label2);
+  }
+  .lock-screen .nbtn.pin-close-btn {
+    color: var(--ios-label);
   }
   .lock-screen .pin-close-btn {
     @apply absolute;
-    @apply text-white;
     top: 20px;
     left: 20px;
   }

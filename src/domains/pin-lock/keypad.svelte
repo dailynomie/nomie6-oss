@@ -46,10 +46,10 @@
     grid-gap: 0.5em;
     @apply justify-center;
   }
-  .keypad button {
-    color: #fff;
+  .keypad button.nbtn {
+    color: var(--ios-label);
   }
-  .keypad button:hover {
-    color: #fff;
+  .keypad button.nbtn:hover {
+    color: var(--ios-label);
   }
 </style>
