@@ -56,12 +56,12 @@
 {#if pending.length && !$BackdropStore2.length}
   <div use:toBody class="fixed bottom-52 lg:bottom-6 left-3 right-3 lg:left-auto lg:w-96 space-y-2" style="z-index: 9999">
     {#each pending as experiment (experiment.id)}
-      <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700 space-y-3">
-        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Today's check-in</div>
+      <div class="ios-card ios-float p-4 space-y-3">
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">Today's check-in</div>
         <div class="text-sm">Did you stick to <span class="font-semibold">{experiment.title}</span>?</div>
         <div class="grid grid-cols-2 gap-2">
-          <button class="py-2 rounded-xl bg-primary-500 text-white text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => answer(experiment, true)}>Kept to it</button>
-          <button class="py-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => answer(experiment, false)}>Didn't</button>
+          <button class="py-2 rounded-xl bg-ios-tint text-ios-ontint text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => answer(experiment, true)}>Kept to it</button>
+          <button class="py-2 rounded-xl bg-ios-fill text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => answer(experiment, false)}>Didn't</button>
         </div>
       </div>
     {/each}

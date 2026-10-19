@@ -504,3 +504,15 @@ hr.divider.indent {
   border-radius: 3px;
   background: var(--ios-tint);
 }
+
+/* iOS look: the selected segment (white in light mode, grey in dark mode) and the floating shadow */
+.ios-thumb {
+  background: #ffffff;
+  box-shadow: var(--ios-shadow-thumb);
+}
+html.dark .ios-thumb {
+  background: #636366;
+}
+.ios-float {
+  box-shadow: var(--ios-shadow-float);
+}

@@ -203,13 +203,13 @@
     </ToolbarGrid>
   </header>
 
-  <main class="p-4 space-y-4 text-gray-800 dark:text-gray-200">
+  <main class="p-4 space-y-4 text-ios-label">
     {#if experiment}
       <!-- Status -->
       <section class="ios-card p-4 space-y-3">
         <div class="flex items-center justify-between gap-2">
           <ExperimentChip tone={frozen ? 'neutral' : 'running'} label={statusLabel} />
-          <div class="text-xs text-gray-500 dark:text-gray-400">{experiment.durationDays} days</div>
+          <div class="text-xs text-ios-label2">{experiment.durationDays} days</div>
         </div>
         {#if experiment.change && experiment.change !== experiment.title}
           <div class="text-sm">{experiment.change}</div>
@@ -220,15 +220,15 @@
           <div class="grid grid-cols-3 gap-2 text-center">
             <div class="ios-box-good p-2">
               <div class="text-lg font-semibold text-green-700 dark:text-green-300">{shownResult.adherence.kept}</div>
-              <div class="text-xs text-gray-600 dark:text-gray-400">Kept to it</div>
+              <div class="text-xs text-ios-label2">Kept to it</div>
             </div>
             <div class="ios-box p-2">
               <div class="text-lg font-semibold">{shownResult.adherence.missed}</div>
-              <div class="text-xs text-gray-600 dark:text-gray-400">Didn't</div>
+              <div class="text-xs text-ios-label2">Didn't</div>
             </div>
             <div class="ios-box p-2">
               <div class="text-lg font-semibold">{shownResult.adherence.unchecked}</div>
-              <div class="text-xs text-gray-600 dark:text-gray-400">Not checked</div>
+              <div class="text-xs text-ios-label2">Not checked</div>
             </div>
           </div>
         {/if}
@@ -237,14 +237,14 @@
       <!-- Check-ins -->
       {#if !frozen && uncheckedDays.length}
         <section class="ios-card p-4">
-          <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">Check in</div>
+          <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 mb-1">Check in</div>
           <div class="font-semibold mb-2">Did you stick to it?</div>
           {#each uncheckedDays as day}
-            <div class="flex items-center justify-between gap-2 py-2 border-t border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between gap-2 py-2 border-t border-ios-separator">
               <span class="text-sm">{dayLabel(day)}</span>
               <div class="flex gap-2">
-                <button class="px-3 py-1.5 rounded-full bg-primary-500 text-white text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, true)}>Kept to it</button>
-                <button class="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-700 text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, false)}>Didn't</button>
+                <button class="px-3 py-1.5 rounded-full bg-ios-tint text-ios-ontint text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, true)}>Kept to it</button>
+                <button class="px-3 py-1.5 rounded-full bg-ios-fill text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, false)}>Didn't</button>
               </div>
             </div>
           {/each}
@@ -261,19 +261,19 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
               <div class="ios-box p-3">
-                <div class="text-xs text-gray-500 dark:text-gray-400">Before</div>
+                <div class="text-xs text-ios-label2">Before</div>
                 <div class="text-lg font-semibold">{outcome.meanB.toFixed(1)}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">{outcome.nB} days</div>
+                <div class="text-xs text-ios-label2">{outcome.nB} days</div>
               </div>
               <div class="ios-box-tint p-3">
-                <div class="text-xs text-gray-500 dark:text-gray-400">During</div>
+                <div class="text-xs text-ios-label2">During</div>
                 <div class="text-lg font-semibold">
                   {outcome.meanE.toFixed(1)}
                   {#if outcome.pct !== undefined}
                     <span class="text-xs font-medium {outcome.pct >= 0 ? 'text-green-700 dark:text-green-300' : 'text-red-600 dark:text-red-400'}">{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span>
                   {/if}
                 </div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">{outcome.nE} days</div>
+                <div class="text-xs text-ios-label2">{outcome.nE} days</div>
               </div>
             </div>
             {#if charts[outcome.tag]}
@@ -285,7 +285,7 @@
             {/if}
           </section>
         {/each}
-        <div class="ios-box p-3 text-xs leading-relaxed text-gray-600 dark:text-gray-400">{CAVEAT}</div>
+        <div class="ios-box p-3 text-xs leading-relaxed text-ios-label2">{CAVEAT}</div>
       {/if}
 
       <!-- AI explanation: full mode with AI set up, only once the result is frozen -->
@@ -295,7 +295,7 @@
             <NomieAiButton size="44px" label="Explain this result" onclick={tapEye} />
             <div class="min-w-0">
               <div class="font-semibold">AI explanation</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400">
+              <div class="text-xs text-ios-label2">
                 {#if explaining}
                   Reading the result…
                 {:else if experiment.explanation}
@@ -311,20 +311,20 @@
             <div>
               <blockquote
                 bind:this={explanationEl}
-                class="text-sm leading-relaxed border-l-4 border-primary-500 pl-3 text-gray-700 dark:text-gray-200"
+                class="text-sm leading-relaxed border-l-4 border-ios-tint pl-3 text-ios-label"
                 style={expanded ? '' : clampStyle}
               >
                 {experiment.explanation}
               </blockquote>
               {#if overflowing || expanded}
-                <button class="mt-2 text-sm font-medium text-primary-500" onclick={toggleExpanded}>
+                <button class="mt-2 text-sm font-medium text-ios-tint" onclick={toggleExpanded}>
                   {expanded ? 'Show less' : 'Read more'}
                 </button>
               {/if}
             </div>
           {/if}
 
-          <div class="text-xs text-gray-500 dark:text-gray-400">
+          <div class="text-xs text-ios-label2">
             The numbers and verdicts come from the statistics above. The AI only explains them.
           </div>
         </section>
@@ -341,7 +341,7 @@
         <Button block clear className="text-red-500" on:click={deleteExperiment}>Delete experiment</Button>
       </div>
     {:else}
-      <div class="text-gray-500">This experiment could not be found.</div>
+      <div class="text-ios-label2">This experiment could not be found.</div>
     {/if}
   </main>
 </BackdropModal>

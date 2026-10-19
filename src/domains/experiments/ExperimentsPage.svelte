@@ -64,7 +64,7 @@
     {#if $ExperimentStore.length === 0}
       <List transparent className="max-w-md mx-auto">
         <Empty icon={PulseOutline} title="No experiments yet">
-          <div class="text-center px-6 text-gray-500">
+          <div class="text-center px-6 text-ios-label2">
             Test whether one change, such as no coffee after 14:00, affects something you track.
           </div>
         </Empty>
@@ -116,10 +116,10 @@
         </List>
       {/if}
       {#if view === 'running' && !running.length}
-        <div class="text-center text-gray-500 py-8">No running experiments</div>
+        <div class="text-center text-ios-label2 py-8">No running experiments</div>
       {/if}
       {#if view === 'finished' && !finished.length}
-        <div class="text-center text-gray-500 py-8">No finished experiments yet</div>
+        <div class="text-center text-ios-label2 py-8">No finished experiments yet</div>
       {/if}
     {/if}
   </main>

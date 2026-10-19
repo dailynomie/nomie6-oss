@@ -170,7 +170,7 @@
   }
 
   const segment = (active: boolean) =>
-    `py-2 rounded-xl text-sm font-medium transition-colors ${active ? 'bg-primary-500 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'}`
+    `py-2 rounded-xl text-sm font-medium transition-colors ${active ? 'ios-thumb text-ios-label' : 'bg-ios-card text-ios-label'}`
 </script>
 
 <BackdropModal>
@@ -184,47 +184,47 @@
     </ToolbarGrid>
   </header>
 
-  <main class="p-4 space-y-5 text-gray-800 dark:text-gray-200">
+  <main class="p-4 space-y-5 text-ios-label">
     <!-- Step indicator -->
     <div class="flex items-center gap-2">
       {#each [1, 2, 3] as n}
-        <div class="h-1.5 flex-1 rounded-full {step >= n ? 'bg-primary-500' : 'bg-gray-200 dark:bg-gray-700'}"></div>
+        <div class="h-1.5 flex-1 rounded-full {step >= n ? 'bg-ios-tint' : 'bg-ios-fill'}"></div>
       {/each}
     </div>
-    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 -mt-3">
+    <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 -mt-3">
       {step === 1 ? 'Step 1 of 3 · Choose a change' : step === 2 ? 'Step 2 of 3 · What to watch' : 'Step 3 of 3 · Start'}
     </div>
 
     {#if step === 1}
       <div class="space-y-2">
         {#each EXPERIMENT_PRESETS as preset}
-          <button class="w-full text-left p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm hover:ring-2 hover:ring-primary-200 dark:hover:ring-primary-800 transition" onclick={() => choosePreset(preset)}>
+          <button class="w-full text-left p-4 ios-card hover:ring-2 hover:ring-primary-200 dark:hover:ring-primary-800 transition" onclick={() => choosePreset(preset)}>
             <div class="font-semibold">{preset.title}</div>
-            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{preset.durationDays} days · {preset.outcomes.length} {preset.outcomes.length === 1 ? 'tracker' : 'trackers'}</div>
+            <div class="text-xs text-ios-label2 mt-1">{preset.durationDays} days · {preset.outcomes.length} {preset.outcomes.length === 1 ? 'tracker' : 'trackers'}</div>
           </button>
         {/each}
         {#if $FeatureVisible('experiment-advanced')}
-        <button class="w-full text-left p-4 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-primary-400 transition" onclick={writeOwn}>
+        <button class="w-full text-left p-4 rounded-2xl border-2 border-dashed border-ios-separator hover:border-primary-400 transition" onclick={writeOwn}>
           <div class="font-semibold">Write my own</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Pick any change and the trackers it should affect</div>
+          <div class="text-xs text-ios-label2 mt-1">Pick any change and the trackers it should affect</div>
         </button>
         {/if}
       </div>
     {:else if step === 2}
       <section class="space-y-2">
-        <label class="block text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400" for="experiment-title">The change</label>
+        <label class="block text-xs font-semibold uppercase tracking-wide text-ios-label2" for="experiment-title">The change</label>
         <input
           id="experiment-title"
-          class="w-full p-3 rounded-xl bg-white dark:bg-gray-800 shadow-sm outline-none focus:ring-2 focus:ring-primary-300"
+          class="w-full p-3 rounded-xl ios-card outline-none focus:ring-2 focus:ring-primary-300"
           placeholder="No coffee after 14:00"
           bind:value={title}
         />
       </section>
 
       <section class="space-y-2">
-        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">What should it affect? (1 to 3 trackers)</div>
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">What should it affect? (1 to 3 trackers)</div>
         {#each outcomes as outcome, index}
-          <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm space-y-3">
+          <div class="p-4 ios-card space-y-3">
             <div class="flex items-center justify-between gap-2">
               <div class="font-semibold truncate">{outcome.label}</div>
               <button class="text-xs font-medium text-red-500" onclick={() => removeOutcome(index)}>Remove</button>
@@ -232,28 +232,28 @@
             {#if !outcome.found}
               <div class="flex flex-wrap gap-3">
                 {#if hasLibraryTracker(outcome.tag)}
-                  <button class="text-sm font-medium text-primary-500" onclick={() => installFromLibrary(index)}>Add {libraryTrackerLabel(outcome.tag)} from library</button>
+                  <button class="text-sm font-medium text-ios-tint" onclick={() => installFromLibrary(index)}>Add {libraryTrackerLabel(outcome.tag)} from library</button>
                 {/if}
-                <button class="text-sm font-medium text-primary-500" onclick={() => chooseFor(index)}>Choose a tracker</button>
+                <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}>Choose a tracker</button>
               </div>
             {/if}
-            <select class="w-full p-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 outline-none" bind:value={outcome.direction} onchange={updatePreviews}>
+            <select class="w-full p-2.5 rounded-xl bg-ios-fill outline-none" bind:value={outcome.direction} onchange={updatePreviews}>
               <option value="up">I hope it goes up</option>
               <option value="down">I hope it goes down</option>
               <option value="either">I want to see either way</option>
             </select>
             {#if outcome.preview}
-              <div class="text-xs leading-relaxed text-gray-500 dark:text-gray-400">{outcome.preview}</div>
+              <div class="text-xs leading-relaxed text-ios-label2">{outcome.preview}</div>
             {/if}
           </div>
         {/each}
         {#if outcomes.length < 3}
-          <button class="w-full p-3 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 text-sm font-medium text-primary-500" onclick={addOutcome}>+ Add a tracker to watch</button>
+          <button class="w-full p-3 rounded-2xl border-2 border-dashed border-ios-separator text-sm font-medium text-ios-tint" onclick={addOutcome}>+ Add a tracker to watch</button>
         {/if}
       </section>
 
       {#if $FeatureVisible('experiment-advanced')}
-      <label class="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm text-sm">
+      <label class="flex items-center gap-3 p-4 ios-card text-sm">
         <input type="checkbox" class="w-4 h-4" checked={lagDays === 1} onchange={(e) => (lagDays = e.currentTarget.checked ? 1 : 0)} />
         <span>The effect shows the next day</span>
       </label>
@@ -262,8 +262,8 @@
       <Button block primary on:click={toStepThree}>Next</Button>
     {:else if step === 3}
       <section class="space-y-2">
-        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">How long?</div>
-        <div class="grid grid-cols-4 gap-2 p-1 rounded-2xl bg-gray-100 dark:bg-gray-900">
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">How long?</div>
+        <div class="grid grid-cols-4 gap-2 p-1 rounded-2xl ios-box">
           {#each EXPERIMENT_DURATIONS as days}
             <button
               class={segment(durationDays === days)}
@@ -277,8 +277,8 @@
       </section>
 
       <section class="space-y-2">
-        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">When does it start?</div>
-        <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-gray-100 dark:bg-gray-900">
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">When does it start?</div>
+        <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl ios-box">
           <button
             class={segment(startChoice === 'today')}
             onclick={() => {
@@ -296,18 +296,18 @@
         </div>
       </section>
 
-      <section class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm space-y-3">
-        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Summary</div>
+      <section class="p-4 ios-card space-y-3">
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">Summary</div>
         <div class="font-semibold">{title}</div>
-        <div class="text-sm text-gray-600 dark:text-gray-300">
+        <div class="text-sm text-ios-label2">
           {durationDays} days from {startDay().format('D MMM YYYY')}
         </div>
         <div class="flex flex-wrap gap-1.5">
           {#each outcomes as o}
-            <span class="text-xs rounded-full px-2 py-0.5 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300">{o.label}</span>
+            <span class="text-xs rounded-full px-2 py-0.5 bg-ios-tintsoft text-ios-tint">{o.label}</span>
           {/each}
         </div>
-        <div class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+        <div class="text-xs text-ios-label2 leading-relaxed">
           Each day you will be asked whether you stuck to it. A check-in tracker is created for this.
         </div>
       </section>
