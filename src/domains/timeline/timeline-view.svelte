@@ -111,7 +111,7 @@
     {#if filters.trackables}
       <div class="timeline-30">
         <div class="my-2 mx-4" class:hidden={!Object.keys(item.usage).length}>
-          <div class="trackables relative z-0 rounded-lg bg-ios-card">
+          <div class="trackables relative z-0 rounded-group bg-ios-card">
             {#each Object.keys(item.usage)
               .map((tag) => {
                 return { usage: item.usage[tag], tag: tag, item }
@@ -165,7 +165,7 @@
     {/if}
 
     {#if filters.notes}
-      <div class="notes mx-4 rounded-group bg-ios-card overflow-hidden">
+      <div class="notes mx-4 rounded-group bg-ios-card">
         {#each item.logs.filter((nlog) => {
           if (filters.trackables) return nlog.hasNote
           return true
