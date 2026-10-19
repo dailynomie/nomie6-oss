@@ -136,35 +136,40 @@
 
 {#if displayLog}
   <div id="log-{displayLog._id}" class:pinned={displayLog.pinned} class="note-bubble bubble {className}">
-    <div class="flex gap-3">
+    <!-- iOS look: reading order is mood, then the time, then "x days ago" on the same line as the time -->
+    <div class="entry-grid {fullDate ? '' : 'with-time'}">
+      <button
+        type="button"
+        aria-label="Change mood score"
+        on:click={() => changePositivity(log)}
+        class="entry-mood text-base text-ios-label2"
+        >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
+      >
       {#if !fullDate}
         <div class="log-time-col ios-time text-ios-label2">{log.endDayjs().format(dateFormats.time)}</div>
       {/if}
-      <div class="flex-1 min-w-0 space-y-2">
-        <div class="flex items-center justify-between text-xs space-x-3 -mt-2">
-          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-base text-ios-label2"
-            >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
-          >
-          <div class="text-ios-label2 stiff line-clamp-1">
-            {#if fullDate}
-              {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
-            {:else}
-              <span class="ios-ago text-ios-label2">{log.endDayjs().fromNow()}</span>
-            {/if}
-          </div>
-          <div class="filler"></div>
-          <button
-            type="button"
-            aria-label="More options for this entry"
-            style="margin:-8px -12px -8px 0"
-            class="text-ios-label h-11 w-11 rounded-full flex items-center justify-center"
-            on:click={() => {
-              Interact.logOptions(log, {
-                description: log.note,
-              })
-            }}><IonIcon size={22} icon={More} /></button
-          >
+      <div class="entry-head flex items-center text-xs space-x-3">
+        <div class="text-ios-label2 stiff line-clamp-1">
+          {#if fullDate}
+            {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
+          {:else}
+            <span class="ios-ago text-ios-label2">{log.endDayjs().fromNow()}</span>
+          {/if}
         </div>
+        <div class="filler"></div>
+        <button
+          type="button"
+          aria-label="More options for this entry"
+          style="margin:-8px -12px -8px 0"
+          class="text-ios-label h-11 w-11 rounded-full flex items-center justify-center"
+          on:click={() => {
+            Interact.logOptions(log, {
+              description: log.note,
+            })
+          }}><IonIcon size={22} icon={More} /></button
+        >
+      </div>
+      <div class="entry-body min-w-0 space-y-2">
 
         {#if log.hasNote}
           <p class="text-ios-subhead">
@@ -253,6 +258,38 @@
     font-size: 13px;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
+  }
+  /* iOS look: a grid for the entry. The mood sits above the time in the 40 px column;
+     the "ago" text and the More button sit on the time's line, and the body starts under them */
+  .entry-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 4px;
+  }
+  .entry-grid.with-time {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+  .entry-grid.with-time .entry-mood {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    line-height: 20px;
+  }
+  .entry-grid.with-time .log-time-col {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .entry-grid.with-time .entry-head {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .entry-grid.with-time .entry-body {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .entry-mood {
+    justify-self: start;
   }
   /* The time sits in a fixed 40 px column, so the "ago" text lines up across entries */
   .ios-time-col {
