@@ -87,7 +87,7 @@
         on:click={() => {
           closeModal(id)
         }}
-        className="w-full bg-red-gradient text-white stiff"
+        className="w-full ios-sheet-cancel stiff"
         style="min-height:50px;">{Lang.t('general.close', 'Close')}</Button
       >
     </footer>
@@ -95,6 +95,14 @@
 </div>
 
 <style lang="postcss" global>
+  /* iOS look: the action sheet's Close is the cancel button: tint, semibold, on its own card */
+  .ios-sheet-cancel {
+    background: var(--ios-card);
+    color: var(--ios-tint);
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 14px;
+  }
   .pop-menu2 {
     @apply flex flex-col space-y-3;
     @apply bg-gray-300 dark:bg-gray-900 p-2 lg:p-4 pt-2 lg:pb-3;
