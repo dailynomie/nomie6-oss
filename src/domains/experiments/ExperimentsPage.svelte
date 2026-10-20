@@ -127,10 +127,11 @@
         </List>
       {/if}
       {#if view === 'running' && !running.length}
-        <div class="text-center text-ios-label2 py-8">No running experiments</div>
+        <!-- iOS look: the same empty state as the page, with its icon -->
+        <Empty icon={PulseOutline} title="No running experiments" />
       {/if}
       {#if view === 'finished' && !finished.length}
-        <div class="text-center text-ios-label2 py-8">No finished experiments yet</div>
+        <Empty icon={PulseOutline} title="No finished experiments yet" />
       {/if}
     {/if}
   </main>
