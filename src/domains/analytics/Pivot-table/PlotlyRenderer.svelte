@@ -12,10 +12,11 @@
     let currentwidth = $state(500);
     let screenratio = $state(1);
     // iOS look: the chart uses the card and label colours of the app theme (Plotly needs literal colours)
-    let theme = $state($Prefs.theme);
-    let plotbgcolor = $state(theme == 'dark' ? '#1C1C1E' : '#FFFFFF')
-    let paperbgcolor = $state(theme == 'dark' ? '#1C1C1E' : '#FFFFFF')
-    let plottextcolor = $state(theme == 'dark' ? '#FFFFFF' : '#000000')
+    // The preference can be 'auto', so read the mode the page is actually in (the html.dark class)
+    const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
+    let plotbgcolor = $state(isDark ? '#1C1C1E' : '#FFFFFF')
+    let paperbgcolor = $state(isDark ? '#1C1C1E' : '#FFFFFF')
+    let plottextcolor = $state(isDark ? '#FFFFFF' : '#000000')
 
     // With Plotly autosize, we don't need to manually calculate width
     $effect(() => {
