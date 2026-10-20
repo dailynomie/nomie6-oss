@@ -28,7 +28,7 @@
     import { CubeOutline } from '../../components/icon/nicons'
     import { EyeSolid } from '../../components/icon/nicons'
     import { EyeClosedSolid } from '../../components/icon/nicons'
-    import { AddIcon, ChevronDownOutline, ChevronUpOutline, CopyOutline, CreateOutline, TrashOutline, CheckmarkCircleOutline, ListOutline } from '../../components/icon/nicons'
+    import { AddIcon, CopyOutline, CreateOutline, TrashOutline, SaveOutline, ListOutline } from '../../components/icon/nicons'
     import IonIcon from "../../components/icon/ion-icon.svelte";
     import Spinner from '../../components/spinner/spinner.svelte';
 
@@ -78,8 +78,7 @@
     let data = $state([]);
     let getConfig = $state(false);
     let pivots: Array<PivotClass> = $state([]);
-    // iOS look: the pivot table can be collapsed to the top action row; the pivot picker is a menu (top right)
-    let tableOpen = $state(true);
+    // iOS look: the pivot picker is a menu (top right), so the table is always shown
     let pivotMenu = $derived([
         ...pivots.map((p) => ({
             title: p.tag,
@@ -465,9 +464,6 @@
     }
     
     
-    const toggleTable = () => {
-        tableOpen = !tableOpen;
-    }
    
 </script>
 
@@ -476,14 +472,11 @@
     <div class="px-4 pt-2 pb-1">
         <div class="flex items-center justify-between h-11 gap-2">
             <div class="flex items-center gap-2">
-                <button type="button" class="ios-round" aria-label={tableOpen ? 'Collapse the pivot table' : 'Expand the pivot table'} on:click={toggleTable}>
-                    <IonIcon icon={tableOpen ? ChevronUpOutline : ChevronDownOutline} size={18} />
-                </button>
                 <button type="button" class="ios-round" aria-label="New pivot" on:click={createPivot}>
                     <IonIcon icon={AddIcon} size={18} />
                 </button>
                 <button type="button" class="ios-round" aria-label="Save pivot" on:click={savePivot}>
-                    <IonIcon icon={CheckmarkCircleOutline} size={18} />
+                    <IonIcon icon={SaveOutline} size={18} />
                 </button>
                 <button type="button" class="ios-round" aria-label="Copy pivot" on:click={copyPivot}>
                     <IonIcon icon={CopyOutline} size={18} />
@@ -530,7 +523,6 @@
       </Empty>
     </List>
   {:else}
-    {#if tableOpen}
     <Container className="py-4 shadow shadow-black/10 dark:shadow-black/40 bg-white filler dark:bg-black rounded-md" size="xl" >
 <div class="row text-center my-1 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
     <fieldset class="col-md-6" >
@@ -558,7 +550,6 @@
         </div>
     </div>
       </Container>
-    {/if}
 {/if}      
 {/if}    
   
