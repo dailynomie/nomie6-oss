@@ -43,3 +43,8 @@
 .n-board-tabs .wrapper.force-center {
   justify-content: flex-start !important;
 }
+
+/* iOS look: on the selected board tab the SVG board icons (like the Show All elephant) turn white, so they stay visible on the tint */
+.n-board-tabs button.selected svg path {
+  fill: #ffffff !important;
+}
