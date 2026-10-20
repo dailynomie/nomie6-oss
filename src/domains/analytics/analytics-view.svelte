@@ -83,6 +83,8 @@
         ...pivots.map((p) => ({
             title: p.tag,
             emoji: p.emoji,
+            // the days of history, green on the default pivot and tint on the others (as the old menu bar showed)
+            badge: { text: String(p.days ?? 90), tone: p.default ? 'good' : 'tint' },
             checked: p.id === workingPivotId,
             click: () => selectPivot({ detail: p }),
         })),
@@ -469,7 +471,7 @@
 
 
     <!-- iOS look (guide 3.1): round actions on the left, the pivot menu on the right, then the large title. No separate menu bar. -->
-    <div class="glass px-4 pt-2 pb-3">
+    <div class="glass relative z-50 px-4 pt-2 pb-3">
         <div class="flex items-center justify-between h-11 gap-2">
             <div class="flex items-center gap-2">
                 <button type="button" class="ios-round" aria-label="New pivot" on:click={createPivot}>

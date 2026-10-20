@@ -9,6 +9,8 @@ export type PopMenuButton = {
   title?: string
   description?: string
   emoji?: string
+  // iOS look: a small pill next to the item, e.g. the days of a pivot; 'good' is green, 'tint' is the accent
+  badge?: { text: string; tone?: 'good' | 'tint' }
   icon?: any
   checked?: boolean
   disabled?: boolean

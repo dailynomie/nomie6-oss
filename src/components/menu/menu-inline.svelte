@@ -92,6 +92,9 @@ import Divider from '../divider/divider.svelte'
               {/if}
             </main>
             <div class="flex items-center">
+              {#if button.badge}
+                <span class="ios-menu-badge {button.badge.tone === 'good' ? 'ios-menu-badge-good' : 'ios-menu-badge-tint'}">{button.badge.text}</span>
+              {/if}
               {#if button.icon}
                 <IonIcon icon={button.icon} className="text-black dark:text-white" size={accessorySize} />
               {:else if button.emoji}
@@ -111,6 +114,28 @@ import Divider from '../divider/divider.svelte'
 </div>
 
 <style global lang="postcss">
+  /* iOS look: the badge on a menu row, green for the default pivot, tint for the others */
+  .ios-menu-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 20px;
+    padding: 0 7px;
+    margin-right: 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .ios-menu-badge-good {
+    background: var(--ios-good);
+    color: #ffffff;
+  }
+  .ios-menu-badge-tint {
+    background: var(--ios-tint);
+    color: var(--ios-on-tint);
+  }
   .menu-inline {
     @apply flex items-center;
     @apply z-50;
