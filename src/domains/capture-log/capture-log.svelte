@@ -501,7 +501,7 @@
   </Container>
   {#if isFocused || isPopulated}
     <!-- transition:slide|global={{ delay: 75, duration: 75, easing: quintOut }} -->
-    <div class="glass relative z-50 w-full pt-2 pb-2">
+    <div class="glass relative z-40 w-full pt-2 pb-2">
       <Container>
         <div class=" xl:ml-auto xl:w-80 grid grid-cols-2 justify-center gap-4 items-center px-4">
           <Button
