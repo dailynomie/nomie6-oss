@@ -524,20 +524,21 @@
     </List>
   {:else}
     <Container className="py-4 shadow shadow-black/10 dark:shadow-black/40 bg-white filler dark:bg-black rounded-md" size="xl" >
-<div class="row text-center my-1 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+<!-- iOS look: the options are a row of tinted checkboxes with 13 px labels -->
+<div class="pvt-options">
     <fieldset class="col-md-6" >
-        <label class=" checkbox-inline" style="text-transform: capitalize;font-size:{fontsize}px">
+        <label class="pvt-option">
             <input type="checkbox" bind:checked={grouping} /> Grouping
         </label>
 
-        <label class=" checkbox-inline" style="text-transform: capitalize;font-size:{fontsize}px">
+        <label class="pvt-option">
             <input type="checkbox" bind:checked={compactRows} disabled={!grouping}/> Compact Rows
         </label>
 
-        <label class=" checkbox-inline" style="text-transform: capitalize;font-size:{fontsize}px">
+        <label class="pvt-option">
             <input type="checkbox" bind:checked={rowGroupBefore} disabled={!grouping}/> Rows totals above
         </label>
-        <label class=" checkbox-inline" style="text-transform: capitalize;font-size:{fontsize}px">
+        <label class="pvt-option">
             <input type="checkbox" bind:checked={colGroupBefore} disabled={!grouping}/> Cols totals before
         </label>
     </fieldset>
@@ -554,4 +555,25 @@
 {/if}    
   
 
-
+<style>
+  .pvt-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 16px;
+    padding: 8px 16px;
+  }
+  .pvt-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--ios-label2);
+  }
+  .pvt-option input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--ios-tint);
+  }
+</style>
