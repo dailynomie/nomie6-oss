@@ -5,6 +5,11 @@
   import ExperimentCheckInCard from '../experiments/ExperimentCheckInCard.svelte'
 
   import './layout.css'
+  import { onMount } from 'svelte'
+  import { startCollapseOnScroll } from './collapse-on-scroll'
+
+  // iOS look (3.1): the row under the title collapses when the page scrolls down
+  onMount(() => startCollapseOnScroll())
   import { AppVersion } from '../../modules/app-version/app-version'
   import BackupMessage from '../../components/backup-message/backup-message.svelte'
   import nid from '../../modules/nid/nid'

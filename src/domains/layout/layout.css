@@ -67,3 +67,16 @@
 .n-layout #nav-tabs {
   height: 70px;
 }
+
+/* iOS look (section 3.1): the row under the large title collapses when the page is scrolled down */
+.collapsible-row {
+  max-height: 80px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+html.page-scrolled .collapsible-row {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}

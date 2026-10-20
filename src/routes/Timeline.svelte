@@ -161,7 +161,7 @@
       </MenuInline>
     </div>
     <h1 class="text-ios-large font-bold text-ios-label">Timeline</h1>
-    <div class="max-w-xl w-full mt-1">
+    <div class="max-w-xl w-full mt-1 collapsible-row">
       <PositivityGrid className="h-2" logs={topItem?.logs || []} />
     </div>
     <button type="button" class="ios-search mt-2" aria-label="Search notes" on:click={() => openUnisearch()}>

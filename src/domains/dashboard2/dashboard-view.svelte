@@ -188,6 +188,7 @@
       </MenuInline>
     </div>
     <h1 class="text-ios-large font-bold text-ios-label">Dashboard</h1>
+    <div class="collapsible-row">
     <Toolbar className="px-0 h-11 max-h-11 min-h-11">
       {#if !$DashStore.editMode}
         <DashboardTabs />
@@ -203,6 +204,7 @@
         </Button>
       {/if}
     </Toolbar>
+    </div>
   </header>
 
   {#if $DashStore.activeDashboard}

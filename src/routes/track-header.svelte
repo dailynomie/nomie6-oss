@@ -75,6 +75,7 @@
   <h1 class="text-ios-large font-bold text-ios-label">Track</h1>
 </div>
 
+<div class="collapsible-row">
 <Toolbar className="stiff h-11 max-h-11 min-h-11">
   <div class="flex items-center space-x-1">
     {#if !editMode}
@@ -108,3 +109,4 @@
   {/if}
 
 </Toolbar>
+</div>
