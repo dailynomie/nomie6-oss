@@ -155,7 +155,7 @@
       <IconSquare color="#0B4F55"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
     </span>
     <div class="leading-tight">Stored on {storageDetails.name}</div>
-    <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
+    <div class="text-xs text-ios-label2 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
   </ListItem>
   {#if $Prefs.storageType === 'pouchdb'}
     <Divider left={32} />

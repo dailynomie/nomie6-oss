@@ -134,7 +134,7 @@
     <div slot="right" class="ml-2">
       {#if hasPin}
         <button
-          class=" toggle-pin-button whitespace-nowrap text-primary-500 text-right"
+          class=" toggle-pin-button whitespace-nowrap text-ios-tint text-right"
           on:click={() => {
             methods.lockToggle(false)
           }}
@@ -143,7 +143,7 @@
         </button>
       {:else}
         <button
-          class=" toggle-pin-button whitespace-nowrap text-primary-500 text-right"
+          class=" toggle-pin-button whitespace-nowrap text-ios-tint text-right"
           on:click={() => {
             methods.lockToggle(true)
           }}

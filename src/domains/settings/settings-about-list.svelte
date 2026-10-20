@@ -213,7 +213,7 @@
       })
     }}
   >
-    <span slot="right" class="flex text-sm text-primary-500"> What's New </span>
+    <span slot="right" class="flex text-sm text-ios-tint"> What's New </span>
   </ListItem>
   <ListItem
     detail

@@ -577,6 +577,10 @@ html.dark .ios-thumb {
   position: absolute;
   inset: -4px;
 }
+/* iOS look (section 8): the backup banner is a fixed red, so white text passes 4.5:1 in both modes */
+.ios-banner-danger {
+  background-color: #d70015;
+}
 .ios-round-alert {
   background: var(--ios-danger);
   color: #ffffff;

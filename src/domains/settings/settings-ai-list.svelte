@@ -154,7 +154,7 @@
     <div class="leading-tight">
       {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}
     </div>
-    <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">
+    <div class="text-xs text-ios-label2 line-clamp-2 leading-tight mt-1">
       {config.enabled ? `Using ${config.selectedService}` : 'Click to enable AI integration'}
     </div>
     <div slot="right" class="flex items-center gap-3">

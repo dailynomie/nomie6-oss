@@ -46,7 +46,8 @@
 </script>
 
 {#if mounted && visible === true}
-  <div class="flex text-xs space-x-1 items-center justify-center container-sm bg-red-500 text-white">
+  <!-- iOS look (section 8): white text on a fixed red, so the contrast holds in light and dark mode -->
+  <div class="flex text-xs space-x-1 items-center justify-center container-sm ios-banner-danger text-white">
     <button
       aria-label="Backup your data"
       on:click={generateBackup}
@@ -54,11 +55,11 @@
     >
       <!--- If it's way back - it's not really set-->
       {#if lastBackupDaysBack > 1000}
-        <div class="text-red-200">
+        <div class="text-white">
           {Lang.t('general.no-known-backups', 'No recent backups')}
         </div>
       {:else}
-        <div class="text-red-200">
+        <div class="text-white">
           {lastBackupDaysBack} days since last backup
         </div>
       {/if}
