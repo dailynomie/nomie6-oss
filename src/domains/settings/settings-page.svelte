@@ -204,26 +204,30 @@
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openLocationModal()} title="Locations">
-                <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
+                <span slot="left"><IconSquare color="#7EB6FF"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
               </ListItem>
             </List>
             
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
-                <span slot="left"><IconSquare color="#4B48B8"><IonIcon icon={PricetagOutline} size={17} /></IconSquare></span>
+                <span slot="left"><IconSquare color="#B39DDB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare></span>
               </ListItem>
               </List>
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">
-                <span slot="left"><IconSquare color="#636366"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
+                <span slot="left"><IconSquare color="#81C784"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
               </ListItem>
-              {#if $FeatureVisible('plugins')}
+            </List>
+
+            <!-- Plugins are a group of their own, with the same spacing as the other groups -->
+            {#if $FeatureVisible('plugins')}
+            <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left" class="adv-corner"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#FFB74D"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
               </ListItem>
-              <ListItem clickable on:click={toggleshowplugins}>
-                <span slot="left" class="adv-corner"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+              <ListItem clickable bottomLine={showplugins ? 57 : undefined} title="Show Plugins" description="Click to show or hide the installed Plugins" on:click={toggleshowplugins}>
+                <span slot="left" class="adv-corner"><IconSquare color="#FFB74D"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
                 <div slot="right">
                   {#if showplugins}
                     <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
@@ -231,14 +235,12 @@
                   <span><IonIcon icon={ChevronDownOutline} size={16} /></span>
                   {/if}
                 </div>
-                <div class="font-semibold leading-tight">Show Plugins</div>
-                <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">Click to show or hide the installed Plugins</div>
               </ListItem>
               {#if showplugins}
               <PluginsMoreMenu />
               {/if}
-              {/if}
             </List>
+            {/if}
 
             <!-- <List solo className="mt-4">
               <ListItem detail bottomLine={16} on:click={() => openAnalytics()} title="Analytics">

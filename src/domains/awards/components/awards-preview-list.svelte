@@ -17,7 +17,7 @@
 
 
   <ListItem title="Awards" detail to="/awards" bottomLine={57}>
-    <span slot="left"><IconSquare color="#C2185B"><IonIcon icon={RibbonOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#F28B82"><IonIcon icon={RibbonOutline} size={17} /></IconSquare></span>
     <div slot="right" class="flex items-center space-x-1">
       {#if awardsToShow.length}
         {#each awardsToShow as award, index}
