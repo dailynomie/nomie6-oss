@@ -127,9 +127,9 @@
 </script>
 
 <Layout pageTitle={Lang.t('goals.goals', 'Goals')}>
-  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
-    <!-- iOS look: action row, then the large title and today's count -->
-    <div class="flex items-center justify-between h-11">
+  <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
+    <!-- iOS look: action row, then the large title and today's count (compact on phones) -->
+    <div class="flex items-center justify-between h-9">
       <button type="button" aria-label="New goal" class="goals-round" on:click={createGoal}>
         <IonIcon icon={AddIcon} size={18} />
       </button>
@@ -151,7 +151,7 @@
         >
       {/if}
     </div>
-    <h1 class="text-ios-large font-bold text-ios-label mt-1 outline-none">{Lang.t('goals.my-goals', 'My Goals')}</h1>
+    <h1 class="text-ios-large font-bold text-ios-label outline-none">{Lang.t('goals.my-goals', 'My Goals')}</h1>
     {#if $GoalScoreStore[1]}
       <p class="text-ios-subhead text-ios-label2">{$GoalScoreStore[0]} of {$GoalScoreStore[1]} reached today</p>
     {/if}
@@ -169,7 +169,8 @@
         dateClass="text-xl font-bold text-center dark:text-white"
       />
     </div> -->
-    <Toolbar>
+    <div class="collapsible-row">
+    <Toolbar className="h-11 max-h-11 min-h-11">
       <ButtonGroup
         bind:value={view}
         className="max-w-sm mx-auto"
@@ -180,6 +181,7 @@
         ]}
       />
     </Toolbar>
+    </div>
   </header>
   <main class="py-4 relative z-10 px-2 lg:px-4">
     {#if goals.length}

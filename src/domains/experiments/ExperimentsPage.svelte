@@ -51,13 +51,13 @@
 
 <Layout pageTitle={Lang.t('experiments.title', 'Experiments')}>
   <!-- Same header as My Goals: round add button, large title, subtitle -->
-  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
-    <div class="flex items-center justify-between h-11">
+  <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
+    <div class="flex items-center justify-between h-9">
       <button type="button" aria-label="New experiment" class="exp-round" on:click={openEditor}>
         <IonIcon icon={AddIcon} size={18} />
       </button>
     </div>
-    <h1 class="text-ios-large font-bold text-ios-label mt-1 outline-none">{Lang.t('experiments.title', 'Experiments')}</h1>
+    <h1 class="text-ios-large font-bold text-ios-label outline-none">{Lang.t('experiments.title', 'Experiments')}</h1>
     <p class="text-ios-subhead text-ios-label2">Test one change. See what it does.</p>
     {#if $ExperimentStore.length}
       <p class="text-ios-footnote text-ios-label2 mt-1">{running.length} running · {finished.length} finished</p>
