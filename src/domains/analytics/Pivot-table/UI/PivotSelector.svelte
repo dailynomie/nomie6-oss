@@ -69,100 +69,100 @@
 
 <HScroller
   className="items-start justify-start"
-  wrapperClass="snap-scroll-x flex   space-x-4 px-4 pivot-selector py-2 "
+  wrapperClass="snap-scroll-x flex   space-x-4 px-4 pivot-selector py-1 "
 >
   <button
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl"
+      class="flex flex-col self-start focus:outline-none p-0.5 rounded-xl"
       aria-label={`${"new"} pivot`}
       on:click={() => {
         newPivot()
       }}
     >
       <div
-        class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
+        class="w-8 h-8 mb-0.5 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
       >
         
-          <Avatar size={30} emoji={"➕"} />
+          <Avatar size={18} emoji={"➕"} />
         
       </div>
-      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-0.5 leading-tight">
         {"New"}
       </div>
     </button>
     <button
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl"
+      class="flex flex-col self-start focus:outline-none p-0.5 rounded-xl"
       aria-label={`${"save"} pivot`}
       on:click={() => {
         savePivot()
       }}
     >
     <div
-    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
+    class="w-8 h-8 mb-0.5 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
   >
     
-      <Avatar size={30} emoji={"💾"} />
+      <Avatar size={18} emoji={"💾"} />
     
   </div>
-      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-0.5 leading-tight">
         {"Save"}
       </div>
     </button>
     <button
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl"
+      class="flex flex-col self-start focus:outline-none p-0.5 rounded-xl"
       aria-label={`${"duplicate"} pivot`}
       on:click={() => {
         copyPivot()
       }}
     >
     <div
-    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
+    class="w-8 h-8 mb-0.5 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
   >
     
-      <Avatar size={30} emoji={"🪞"} />
+      <Avatar size={18} emoji={"🪞"} />
     
   </div>
-      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-0.5 leading-tight">
         {"Copy"}
       </div>
     </button>
     <button
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl"
+      class="flex flex-col self-start focus:outline-none p-0.5 rounded-xl"
       aria-label={`${"edit"} pivot`}
       on:click={() => {
         editPivot()
       }}
     >
     <div
-    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
+    class="w-8 h-8 mb-0.5 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
   >
     
-      <Avatar size={30} emoji={"✍🏼"} />
+      <Avatar size={18} emoji={"✍🏼"} />
     
   </div>
-      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-0.5 leading-tight">
         {"Edit"}
       </div>
     </button>
     <button
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl"
+      class="flex flex-col self-start focus:outline-none p-0.5 rounded-xl"
       aria-label={`${"delete"} pivot`}
       on:click={() => {
         deletePivot()
       }}
     >
     <div
-    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
+    class="w-8 h-8 mb-0.5 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
   >
     
-      <Avatar size={30} emoji={"🗑️"} />
+      <Avatar size={18} emoji={"🗑️"} />
     
   </div>
-      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-0.5 leading-tight">
         {"Delete"}
       </div>
     </button>
     <div
-    class="w-10 h-10 lg:h-14 mb-6 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center text-ios-label2 text-3xl"
+    class="w-8 h-8 mb-0.5 transition-all duration-100 transform stiff flex items-center justify-center text-ios-label2 text-3xl"
   >
     
       ||
@@ -170,7 +170,7 @@
   </div>
   {#each pivots as pivot, index}
     <button
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl"
+      class="flex flex-col self-start focus:outline-none p-0.5 rounded-xl"
       aria-label={`${pivot.tag} pivot`}
       on:click={() => {
         select(pivot)
@@ -184,14 +184,14 @@
     </span>
     
       <div
-        class="w-10 h-10 lg:h-14 mb-1 -mt-4 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
+        class="w-8 h-8 mb-0.5 -mt-1 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
       >
       
-          <Avatar size={30} emoji={pivot.emoji} />
+          <Avatar size={18} emoji={pivot.emoji} />
         
       </div>
       
-      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-0.5 leading-tight">
         {pivot.tag}
       </div>
       {:else}
@@ -202,14 +202,14 @@
       </span>
       
         <div
-          class="w-10 h-10 lg:h-14 mb-1 -mt-4 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
+          class="w-8 h-8 mb-0.5 -mt-1 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
         >
         
-            <Avatar size={30} emoji={pivot.emoji} />
+            <Avatar size={18} emoji={pivot.emoji} />
           
         </div>
         
-        <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
+        <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-0.5 leading-tight">
           {pivot.tag}
         </div>
       {/if}
