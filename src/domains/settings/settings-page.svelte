@@ -270,17 +270,6 @@
 
             <!-- END Views -->
 
-            <List solo className="mt-4">
-              <ListItem title={Lang.t('general.questions', 'Questions')} detail>
-                <span slot="left"><IconSquare color="#636366"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
-                <div slot="right">
-                  <a href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}>
-                    <Badge pad className="bg-gray-300 text-black">Email</Badge>
-                  </a>
-                </div>
-              </ListItem>
-            </List>
-
             <div id="about-marker" />
             <SettingsAboutList />
 

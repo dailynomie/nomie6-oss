@@ -23,7 +23,10 @@
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
   import { openPrivacyPolicy } from '../../components/markdown-modal/MarkdownModalStore'
   import IconSquare from '../../components/icon-square/icon-square.svelte'
-  import { BookOutline, ChatbubblesOutline, GlobeOutline } from '../../components/icon/nicons'
+  import config from '../../config/appConfig'
+  import { AppVersion } from '../../modules/app-version/app-version'
+  import Badge from '../../components/badge/badge.svelte'
+  import { BookOutline, ChatbubblesOutline, GlobeOutline, HelpCircleOutline } from '../../components/icon/nicons'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
@@ -100,6 +103,15 @@
   <ListItem bottomLine={16} title="Reddit r/nomie" detail href="https://reddit.com/r/nomie">
     <span slot="left"><IconSquare color="#5BA3F0"><IonIcon icon={ChatbubblesOutline} size={17} /></IconSquare></span>
     <span slot="right" class="flex text-inverse-3">/r/nomie</span>
+  </ListItem>
+  <!-- Questions moved here from More's top section, so all the help and links are in one place -->
+  <ListItem bottomLine={16} title={Lang.t('general.questions', 'Questions')} detail>
+    <span slot="left"><IconSquare color="#7DB8F5"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
+    <div slot="right">
+      <a href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}>
+        <Badge pad className="bg-gray-300 text-black">Email</Badge>
+      </a>
+    </div>
   </ListItem>
 
   <!-- <ListItem title="Open Source" detail href="https://github.com/open-nomie/nomie">
