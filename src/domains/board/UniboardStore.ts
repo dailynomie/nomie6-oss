@@ -22,6 +22,7 @@ import ExperimentBoardIcon from '../../n-icons/board-tab-icons/ExperimentBoardIc
 import AllBoardIcon from '../../n-icons/board-tab-icons/AllBoardIcon.svelte'
 import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelte'
 import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
+import { isFeatureVisible } from '../preferences/experience'
 // Define the Prop Typese
 export type UniboardType = {
   id: string
@@ -187,10 +188,11 @@ const combineStoreBoards = (
   if ($Prefs.allBoard) {
     if (allBoard?.elements?.length) boards = [...boards, ...[allBoard]]
   }
-  if ($Prefs.peopleBoard) {
+  // People and Context boards are Full-mode boards: Starter never shows them, even if a toggle was saved earlier
+  if ($Prefs.peopleBoard && isFeatureVisible($Prefs, 'people-board')) {
     if (peopleBoard?.elements?.length) boards = [...boards, ...[peopleBoard]]
   }
-  if ($Prefs.contextBoard) {
+  if ($Prefs.contextBoard && isFeatureVisible($Prefs, 'context-board')) {
     if (contextBoard?.elements?.length) boards = [...boards, ...[contextBoard]]
   }
 
