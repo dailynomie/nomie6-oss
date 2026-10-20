@@ -236,18 +236,16 @@
   </ListItem>
   {#if $FeatureVisible('people-board')}
   <ListItem bottomLine={57} title={Lang.t('settings.show-people-board', 'Show People Board')}>
-    <span slot="left"><IconSquare color="#9E62C0"><span class="board-white"><PeopleBoardIcon size={17} /></span></IconSquare></span>
-    <div slot="right" class="flex items-center gap-2">
-      <AdvancedBadge />
+    <span slot="left" class="adv-corner"><IconSquare color="#9E62C0"><span class="board-white"><PeopleBoardIcon size={17} /></span></IconSquare><AdvancedBadge /></span>
+    <div slot="right">
       <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
     </div>
   </ListItem>
   {/if}
   {#if $FeatureVisible('context-board')}
   <ListItem bottomLine={57} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
-    <span slot="left"><IconSquare color="#A066C0"><span class="board-white"><ContextBoardIcon size={17} /></span></IconSquare></span>
-    <div slot="right" class="flex items-center gap-2">
-      <AdvancedBadge />
+    <span slot="left" class="adv-corner"><IconSquare color="#A066C0"><span class="board-white"><ContextBoardIcon size={17} /></span></IconSquare><AdvancedBadge /></span>
+    <div slot="right">
       <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
     </div>
   </ListItem>

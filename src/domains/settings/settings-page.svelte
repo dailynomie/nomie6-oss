@@ -220,13 +220,11 @@
               </ListItem>
               {#if $FeatureVisible('plugins')}
               <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare></span>
-                <span slot="right"><AdvancedBadge /></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
               </ListItem>
               <ListItem clickable on:click={toggleshowplugins}>
-                <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
                 <div slot="right">
-                  <AdvancedBadge />
                   {#if showplugins}
                     <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
                   {:else}

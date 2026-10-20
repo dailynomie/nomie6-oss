@@ -579,3 +579,10 @@ html.dark .ios-thumb {
     scroll-behavior: auto !important;
   }
 }
+
+/* iOS look: a wrapper that holds a settings icon square and its corner badge (see advanced-badge) */
+.adv-corner {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}

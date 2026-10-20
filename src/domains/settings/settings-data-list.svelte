@@ -191,8 +191,7 @@
 
   {#if $FeatureVisible('csv')}
     <ListItem bottomLine={57} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
-      <span slot="left"><IconSquare color="#636366"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare></span>
-    <span slot="right"><AdvancedBadge /></span>
+      <span slot="left" class="adv-corner"><IconSquare color="#636366"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare><AdvancedBadge /></span>
     </ListItem>
   {/if}
 </List>

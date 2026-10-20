@@ -147,8 +147,9 @@
 
 <List solo className="mb-4" title={Lang.t('settings.ai', 'AI Integration')} outside>
   <ListItem bottomLine={16}>
-    <span slot="left" class="flex items-center justify-center">
+    <span slot="left" class="flex items-center justify-center adv-corner">
       <NomieAiButton size="30px" />
+      <AdvancedBadge />
     </span>
     <div class="font-semibold leading-tight">
       {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}
@@ -157,7 +158,6 @@
       {config.enabled ? `Using ${config.selectedService}` : 'Click to enable AI integration'}
     </div>
     <div slot="right" class="flex items-center gap-3">
-      <AdvancedBadge />
       {#if config.enabled}
         <button
           type="button"

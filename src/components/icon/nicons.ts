@@ -325,3 +325,5 @@ import CheckmarkCircleOutlineIcon from '../../n-icons/CheckmarkCircleOutline.sve
 export const CheckmarkCircleOutline = CheckmarkCircleOutlineIcon
 import RocketOutlineIcon from '../../n-icons/RocketOutline.svelte'
 export const RocketOutline = RocketOutlineIcon
+import CrownOutlineIcon from '../../n-icons/CrownOutline.svelte'
+export const CrownOutline = CrownOutlineIcon
