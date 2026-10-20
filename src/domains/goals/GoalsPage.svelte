@@ -191,7 +191,7 @@
           <ListItem
             clickable
             bottomLine={72}
-            className="relative transition-all duration-200"
+            className="relative transition-all duration-200 ios-goal-row"
             on:click={(evt) => {
               // iOS edit mode: the row opens its editor, as the chevron shows
               if (editMode) openGoalEditor(item.goal)
@@ -327,6 +327,13 @@
     color: var(--ios-label);
   }
   /* iOS look: 29 px tracker square, with a 17 px label */
+  /* iOS look: the first goal row has room above its title, like the other grouped rows */
+  :global(.ios-goal-row) {
+    padding-top: 14px !important;
+    padding-bottom: 10px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
   .ios-goal-icon {
     width: 29px;
     height: 29px;
