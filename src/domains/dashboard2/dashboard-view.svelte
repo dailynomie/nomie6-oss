@@ -180,27 +180,30 @@
 </script>
 
 <Layout className="h-full">
-  <Toolbar slot="header" className="px-4">
-    {#if !$DashStore.editMode}
-      <DashboardTabs />
-    {:else}
-      <Button
-        shape="round"
-        size="sm"
-        className="ml-2 bg-primary-500 text-white w-32"
-        on:click={() => {
-          toggleDashboardEditMode()
-        }}
-        >Done
-      </Button>
-    {/if}
-    <!-- iOS look: the dashboard settings menu is a round button on the right -->
-    <div class="flex items-center ml-2">
+  <!-- iOS look (same as the Timeline header): action row with the round menu, then the large title, then the dashboard names -->
+  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
+    <div class="flex items-center justify-end h-11">
       <MenuInline id="dashboard-menu" x="right" y="bottom" menuButtons={mainMenu} buttonClass="ios-round">
         <IonIcon icon={SettingsOutline} size={18} />
       </MenuInline>
     </div>
-  </Toolbar>
+    <h1 class="text-ios-large font-bold text-ios-label mt-1">Dashboard</h1>
+    <Toolbar className="px-0 mt-1">
+      {#if !$DashStore.editMode}
+        <DashboardTabs />
+      {:else}
+        <Button
+          shape="round"
+          size="sm"
+          className="ml-2 bg-primary-500 text-white w-32"
+          on:click={() => {
+            toggleDashboardEditMode()
+          }}
+          >Done
+        </Button>
+      {/if}
+    </Toolbar>
+  </header>
 
   {#if $DashStore.activeDashboard}
     {#key $DashStore.activeDashboard.widgets.length}

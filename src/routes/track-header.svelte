@@ -62,6 +62,18 @@
   </div>
 {/if}
 
+<!-- iOS look (same as the Timeline header): action row with the round board menu, then the large title -->
+<div class="glass px-4 pt-2">
+  <div class="flex items-center justify-end h-11">
+    {#if !editMode}
+      <MenuInline id="add-menu-button" x="right" y="bottom" menuButtons={boardAddMenu} buttonClass="ios-round">
+        <IonIcon icon={SettingsOutline} size={18} />
+      </MenuInline>
+    {/if}
+  </div>
+  <h1 class="text-ios-large font-bold text-ios-label mt-1">Track</h1>
+</div>
+
 <Toolbar className="stiff h-14 max-h-14 min-h-14">
   <div class="flex items-center space-x-1">
     {#if !editMode}
@@ -94,12 +106,4 @@
     />
   {/if}
 
-  <!-- iOS look: the board settings menu is a round button on the right -->
-  {#if !editMode}
-    <div class="flex items-center ml-2">
-      <MenuInline id="add-menu-button" x="right" y="bottom" menuButtons={boardAddMenu} buttonClass="ios-round">
-        <IonIcon icon={SettingsOutline} size={18} />
-      </MenuInline>
-    </div>
-  {/if}
 </Toolbar>
