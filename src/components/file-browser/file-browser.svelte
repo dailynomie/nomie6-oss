@@ -28,7 +28,7 @@
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import { Prefs } from '../../domains/preferences/Preferences'
   import IonIcon from '../icon/ion-icon.svelte'
-  import { DownloadOutline, TrashOutline } from '../icon/nicons'
+  import { DocumentTextOutline, DownloadOutline, FolderOutline, TrashOutline } from '../icon/nicons'
   import { showToast } from '../toast/ToastStore'
 
   const { path = "" } = $props()
@@ -321,7 +321,7 @@
               >
                 {file}
                 <div slot="left">
-                  <span class="text-md">🗂</span>
+                  <IonIcon icon={FolderOutline} size={22} className="text-ios-tint" />
                 </div>
               </NItem>
             {:else}
@@ -334,7 +334,7 @@
               >
                 {file}
                 <div slot="left">
-                  <span class="text-md">📝</span>
+                  <IonIcon icon={DocumentTextOutline} size={22} className="text-ios-label2" />
                 </div>
               </NItem>
             {/if}
