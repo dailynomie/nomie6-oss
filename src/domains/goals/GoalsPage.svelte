@@ -36,7 +36,6 @@
   import debounce from 'lodash/debounce'
 
   import RemoveCircle from '../../n-icons/RemoveCircle.svelte'
-  import CreateOutline from '../../n-icons/CreateOutline.svelte'
 
   import { onDestroy, onMount } from 'svelte'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
@@ -192,10 +191,23 @@
             bottomLine={72}
             className="relative transition-all duration-200"
             on:click={(evt) => {
-              usageClicked(item)
+              // iOS edit mode: the row opens its editor, as the chevron shows
+              if (editMode) openGoalEditor(item.goal)
+              else usageClicked(item)
             }}
           >
             <div slot="left" class="flex items-center stiff">
+              {#if editMode}
+                <!-- iOS edit mode: the red delete control sits on the leading edge -->
+                <button
+                  type="button"
+                  aria-label="Delete goal"
+                  class="mr-3"
+                  on:click|preventDefault|stopPropagation={() => deleteGoal(item.goal)}
+                >
+                  <IonIcon icon={RemoveCircle} size={24} className="text-ios-danger" />
+                </button>
+              {/if}
               <button
                 type="button"
                 aria-label="Tracker options"
@@ -257,31 +269,7 @@
             </div>
             <div slot="right" class=" flex items-center">
               {#if editMode}
-                <div class="w-4 stiff" />
-                <div class="flex items-center space-x-1">
-                  <Button
-                    clear
-                    icon
-                    on:click={(evt) => {
-                      evt.detail.preventDefault()
-                      evt.detail.stopPropagation()
-                      openGoalEditor(item.goal)
-                    }}
-                  >
-                    <IonIcon icon={CreateOutline} size={28} className="text-black dark:text-white" />
-                  </Button>
-                  <Button
-                    clear
-                    icon
-                    on:click={(evt) => {
-                      evt.detail.preventDefault()
-                      evt.detail.stopPropagation()
-                      deleteGoal(item.goal)
-                    }}
-                  >
-                    <IonIcon icon={RemoveCircle} size={28} className="text-red-500" />
-                  </Button>
-                </div>
+                <IonIcon icon={ChevronForwardOutline} size={14} className="opacity-50" />
               {/if}
             </div>
           </ListItem>
