@@ -22,7 +22,7 @@
     // Theme-based styles
     // iOS look: the table uses the design tokens, so light and dark mode follow the app theme
     let cssVarStyles = $derived(
-        '--bg:var(--ios-card-2);--border:var(--ios-separator);--btbg:var(--ios-fill);--btborder:transparent;--fontcolor:var(--ios-tint);--totalcolor:var(--ios-label2)'
+        '--bg:var(--ios-card-2);--border:var(--ios-separator);--btbg:var(--ios-fill);--btborder:transparent;--fontcolor:var(--ios-tint);--totalcolor:transparent'
     );
 
     let pvtValBGPlaceholder = $derived(
@@ -100,6 +100,15 @@
             }
         };
     }
+
+    // iOS look: the text is dark on light cells and white on dark cells, judged from the cell's own background
+    const cellStyle = (bg) => {
+        const m = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/.exec(bg || '');
+        if (!m) return bg || '';
+        const [r, g, b] = m.slice(1).map(Number);
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return `${bg};color:${luminance > 0.6 ? '#000000' : '#FFFFFF'}`;
+    };
 
     const flatKey = (arr) => arr.join(String.fromCharCode(0));
     const has = (set, arr) => arr.every(set.has, set);
@@ -310,7 +319,7 @@
                     <td
                         class={"pvtVal" + (colGap ? " pvtLevel" + colGap : "")}
                         on:click={getClickHandler && getClickHandler(aggregator.value(), rowKey, colKey)}
-                        style={valueCellColors(rowKey, colKey, aggregator.value())}
+                        style={cellStyle(valueCellColors(rowKey, colKey, aggregator.value()))}
 
                     >
                         {aggregator.format(aggregator.value())}
@@ -319,7 +328,7 @@
                     <td
                         class={"pvtVal" + (colGap ? " pvtLevelD" + colGap : "")}
                         on:click={getClickHandler && getClickHandler(aggregator.value(), rowKey, colKey)}
-                        style={valueCellColors(rowKey, colKey, aggregator.value())+";color:white"}
+                        style={cellStyle(valueCellColors(rowKey, colKey, aggregator.value()))}
 
                     >
                         {aggregator.format(aggregator.value())}
@@ -331,7 +340,7 @@
                 <td
                     class="pvtTotal"
                     on:click={getClickHandler && getClickHandler(totalAggregator.value(), rowKey, [null])}
-                    style={colTotalColors(totalAggregator.value())}
+                    style={cellStyle(colTotalColors(totalAggregator.value()))}
                 >
                     {totalAggregator.format(totalAggregator.value())}
                 </td>
@@ -349,7 +358,7 @@
                 <td
                     class={"pvtTotal" + (colGap ? " pvtLevel" + colGap : "")}
                     on:click={getClickHandler && getClickHandler(totalAggregator.value(), [null], colKey)}
-                    style={rowTotalColors(totalAggregator.value())}
+                    style={cellStyle(rowTotalColors(totalAggregator.value()))}
                 >
                     {totalAggregator.format(totalAggregator.value())}
                 </td>
