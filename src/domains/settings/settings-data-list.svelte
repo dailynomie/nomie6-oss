@@ -1,6 +1,8 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { FolderOutline, RefreshOutline, TimeOutline, TrashOutline } from '../../components/icon/nicons'
+  import { ServerOutline } from '../../components/icon/nicons'
   import { useStorageSelectMenu } from './settings-functions'
 
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -149,17 +151,7 @@
   </Button> -->
   <ListItem on:click={showStorageOptions} detail bottomLine={57}>
     <span slot="left">
-      <IconSquare color="#6C6C70">
-        {#if $Prefs.storageType === 'local'}
-          🗄
-        {:else if $Prefs.storageType === 'firebase'}
-          ☁️
-        {:else if $Prefs.storageType === 'nomie-server'}
-          ☁️
-        {:else if $Prefs.storageType == 'pouchdb'}
-          🛋
-        {/if}
-      </IconSquare>
+      <IconSquare color="#6C6C70"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
     </span>
     <div class="font-semibold leading-tight">Stored on {storageDetails.name}</div>
     <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
@@ -192,7 +184,7 @@
       showImportModal()
     }}
   >
-    <span slot="left"><IconSquare color="#248A3D"><IonIcon icon={DownloadOutline} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#8E8E93"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
     <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
   </ListItem>
 </List>
@@ -205,7 +197,7 @@
       navigate('/files')
     }}
   >
-    <span slot="left"><IconSquare color="#6C6C70">📁</IconSquare></span>
+    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={FolderOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem
@@ -215,7 +207,7 @@
     title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
     on:click={updateLastUsedDates}
   >
-    <span slot="left"><IconSquare color="#6C6C70">🔄</IconSquare></span>
+    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem
@@ -226,11 +218,11 @@
     description="Find and remove duplicate plugin settings"
     on:click={openPluginDedupModal}
   >
-    <span slot="left"><IconSquare color="#6C6C70">🧹</IconSquare></span>
+    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={TrashOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem bottomLine={57} title="Auto-PluginDB-Cleanup Schedule">
-    <span slot="left"><IconSquare color="#6C6C70">⏱</IconSquare></span>
+    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="plugin-cleanup-schedule"

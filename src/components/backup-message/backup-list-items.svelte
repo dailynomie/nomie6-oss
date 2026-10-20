@@ -1,6 +1,8 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { CloudUploadOutline, NotificationsOutline } from '../../components/icon/nicons'
   import { generateBackup } from '../../domains/backup/BackupStore'
   import SelectPop from '../../select-pop/select-pop.svelte'
   import { Lang } from '../../store/lang'
@@ -67,10 +69,10 @@
       generateBackup()
     }}
   >
-    <span slot="left"><IconSquare color="#248A3D">💾</IconSquare></span>
+    <span slot="left"><IconSquare color="#636366"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>
   </ListItem>
   <ListItem bottomLine={57} title={Lang.t('settings.backup-reminder', 'Backup Reminder')}>
-    <span slot="left"><IconSquare color="#6C6C70">🔔</IconSquare></span>
+    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={NotificationsOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="start-page"

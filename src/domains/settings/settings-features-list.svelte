@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { CloudUploadOutline, ContractOutline, ContrastOutline, HomeOutline, LocationOutline, LockClosedOutline, NotificationsOffOutline, TextOutline } from '../../components/icon/nicons'
   import capitalize from 'lodash/capitalize'
   import ListItem from '../../components/list-item/list-item.svelte'
   import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
@@ -95,7 +96,7 @@
   </div>
 
   <ListItem bottomLine={57} title={Lang.t('settings.start-page', 'Start Page')}>
-    <span slot="left"><IconSquare color="#C25E00">🏁</IconSquare></span>
+    <span slot="left"><IconSquare color="#2F7FD6"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="start-page"
@@ -118,7 +119,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.use-location', 'Use Location')}>
-    <span slot="left"><IconSquare color="#0A6CC9">📍</IconSquare></span>
+    <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
     <div slot="right" class="ml-2">
       <ToggleSwitch title="Location Lookup" bind:value={$Prefs.alwaysLocate} />
     </div>
@@ -127,7 +128,7 @@
   <!-- Pin Code -->
   <!-- description={Lang.t('settings.require-pin-description', "Don't forget it!")} -->
   <ListItem bottomLine={57} title={Lang.t('settings.require-pin', 'Require Access Pin')}>
-    <span slot="left"><IconSquare color="#6C6C70">🔒</IconSquare></span>
+    <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
     <div slot="right" class="ml-2">
       {#if hasPin}
         <button
@@ -159,7 +160,7 @@
 <div class="mb-4" />
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.theme', 'Theme')}>
-    <span slot="left"><IconSquare color="#3634A3">💡</IconSquare></span>
+    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={ContrastOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="theme"
@@ -196,7 +197,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.font-size', 'Font Size')}>
-    <span slot="left"><IconSquare color="#6C6C70">🔎</IconSquare></span>
+    <span slot="left"><IconSquare color="#4D9BE8"><IonIcon icon={TextOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ButtonGroup style="width:170px;">
         {#each ['xs', 'sm', 'md', 'lg', 'xl'] as size}
@@ -265,21 +266,21 @@
 <div class="mb-4" />
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.small-tracker-buttons', 'Compact Trackers')}>
-    <span slot="left"><IconSquare color="#6C6C70">🐭</IconSquare></span>
+    <span slot="left"><IconSquare color="#5AA9F2"><IonIcon icon={ContractOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.compactTrackers} title="Compact Tracker Buttons" />
     </div>
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.hide-backup-reminder', 'Hide Backup Reminder')}>
-    <span slot="left"><IconSquare color="#248A3D">💾</IconSquare></span>
+    <span slot="left"><IconSquare color="#636366"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.hideBackupMessage} title="Hide Backup Message" />
     </div>
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.hide-message-notifications', 'Hide Message Alerts')}>
-    <span slot="left"><IconSquare color="#6C6C70">📢</IconSquare></span>
+    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={NotificationsOffOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.hideMessages} title="Hide Nomie Messages" />
     </div>

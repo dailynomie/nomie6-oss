@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { LockClosedOutline } from '../../components/icon/nicons'
 	import { LaunchCount } from './../preferences/LaunchCount.ts';
   import { navigate } from '../../vendor/svelte-navigator'
 
@@ -90,7 +91,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title="Privacy Policy" detail clickable on:click={() => openPrivacyPolicy()}>
-    <span slot="left"><IconSquare color="#6C6C70">🔒</IconSquare></span>
+    <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem bottomLine={16} title="Reddit r/nomie" detail href="https://reddit.com/r/nomie">

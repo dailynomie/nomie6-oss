@@ -1,6 +1,8 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IonIcon from '../../../components/icon/ion-icon.svelte'
+  import { RibbonOutline } from '../../../components/icon/nicons'
   import ListItem from '../../../components/list-item/list-item.svelte'
 
   import List from '../../../components/list/list.svelte'
@@ -15,7 +17,7 @@
 
 
   <ListItem title="Awards" detail to="/awards" bottomLine={57}>
-    <span slot="left"><IconSquare color="#C2185B">🥇</IconSquare></span>
+    <span slot="left"><IconSquare color="#C2185B"><IonIcon icon={RibbonOutline} size={17} /></IconSquare></span>
     <div slot="right" class="flex items-center space-x-1">
       {#if awardsToShow.length}
         {#each awardsToShow as award, index}

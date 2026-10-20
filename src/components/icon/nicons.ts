@@ -267,3 +267,47 @@ export const CircleOutline = CircleOutlineIcon
 export const ArchiveOutline = ArchiveOutlineIcon
 
 export default {}
+import ContrastOutlineIcon from '../../n-icons/ContrastOutline.svelte'
+export const ContrastOutline = ContrastOutlineIcon
+import HomeOutlineIcon from '../../n-icons/HomeOutline.svelte'
+export const HomeOutline = HomeOutlineIcon
+import CloudUploadOutlineIcon from '../../n-icons/CloudUploadOutline.svelte'
+export const CloudUploadOutline = CloudUploadOutlineIcon
+import ServerOutlineIcon from '../../n-icons/ServerOutline.svelte'
+export const ServerOutline = ServerOutlineIcon
+import DocumentTextOutlineIcon from '../../n-icons/DocumentTextOutline.svelte'
+export const DocumentTextOutline = DocumentTextOutlineIcon
+import FolderOutlineIcon from '../../n-icons/FolderOutline.svelte'
+export const FolderOutline = FolderOutlineIcon
+import RefreshOutlineIcon from '../../n-icons/RefreshOutline.svelte'
+export const RefreshOutline = RefreshOutlineIcon
+import TimeOutlineIcon from '../../n-icons/TimeOutline.svelte'
+export const TimeOutline = TimeOutlineIcon
+import NotificationsOutlineIcon from '../../n-icons/NotificationsOutline.svelte'
+export const NotificationsOutline = NotificationsOutlineIcon
+import LockClosedOutlineIcon from '../../n-icons/LockClosedOutline.svelte'
+export const LockClosedOutline = LockClosedOutlineIcon
+import LocationOutlineIcon from '../../n-icons/LocationOutline.svelte'
+export const LocationOutline = LocationOutlineIcon
+import ShieldCheckmarkOutlineIcon from '../../n-icons/ShieldCheckmarkOutline.svelte'
+export const ShieldCheckmarkOutline = ShieldCheckmarkOutlineIcon
+import FlaskOutlineIcon from '../../n-icons/FlaskOutline.svelte'
+export const FlaskOutline = FlaskOutlineIcon
+import StatsChartOutlineIcon from '../../n-icons/StatsChartOutline.svelte'
+export const StatsChartOutline = StatsChartOutlineIcon
+import ExtensionPuzzleOutlineIcon from '../../n-icons/ExtensionPuzzleOutline.svelte'
+export const ExtensionPuzzleOutline = ExtensionPuzzleOutlineIcon
+import ResizeOutlineIcon from '../../n-icons/ResizeOutline.svelte'
+export const ResizeOutline = ResizeOutlineIcon
+import LanguageOutlineIcon from '../../n-icons/LanguageOutline.svelte'
+export const LanguageOutline = LanguageOutlineIcon
+import GlobeOutlineIcon from '../../n-icons/GlobeOutline.svelte'
+export const GlobeOutline = GlobeOutlineIcon
+import ContractOutlineIcon from '../../n-icons/ContractOutline.svelte'
+export const ContractOutline = ContractOutlineIcon
+import NotificationsOffOutlineIcon from '../../n-icons/NotificationsOffOutline.svelte'
+export const NotificationsOffOutline = NotificationsOffOutlineIcon
+import PricetagOutlineIcon from '../../n-icons/PricetagOutline.svelte'
+export const PricetagOutline = PricetagOutlineIcon
+import FlagOutlineIcon from '../../n-icons/FlagOutline.svelte'
+export const FlagOutline = FlagOutlineIcon

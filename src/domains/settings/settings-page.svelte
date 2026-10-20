@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline } from '../../components/icon/nicons'
   import { navigate } from '../../vendor/svelte-navigator'
 
   import SettingsTweakList from './settings-tweak-list.svelte'
@@ -203,10 +204,10 @@
             {#if $FeatureVisible('plugins')}
             <List solo outside title="Advanced" className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left"><IconSquare color="#C25E00">🔌</IconSquare></span>
+                <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare></span>
               </ListItem>
               <ListItem clickable on:click={toggleshowplugins}>
-                <span slot="left"><IconSquare color="#C25E00">🔌</IconSquare></span>
+                <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare></span>
                 <div slot="right">
                   {#if showplugins}
                     <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
@@ -227,26 +228,26 @@
             {#if $FeatureVisible('csv')}
               <List solo className="mt-4">
                 <ListItem detail bottomLine={57} title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
-                  <span slot="left"><IconSquare color="#248A3D">📄</IconSquare></span>
+                  <span slot="left"><IconSquare color="#8E8E93"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare></span>
                 </ListItem>
               </List>
             {/if}
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openLocationModal()} title="Locations">
-                <span slot="left"><IconSquare color="#0A6CC9">📍</IconSquare></span>
+                <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
               </ListItem>
             </List>
             
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
-                <span slot="left"><IconSquare color="#0E7C86">🏷</IconSquare></span>
+                <span slot="left"><IconSquare color="#4B48B8"><IonIcon icon={PricetagOutline} size={17} /></IconSquare></span>
               </ListItem>
               </List>
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">
-                <span slot="left"><IconSquare color="#3634A3">🏭</IconSquare></span>
+                <span slot="left"><IconSquare color="#636366"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
               </ListItem>
             </List>
 
