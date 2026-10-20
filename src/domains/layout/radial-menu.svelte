@@ -54,12 +54,17 @@
     return seen
   }
 
+  // Five or more items (Analytics in Full mode) get a wider arc and a larger radius, so the labels don't overlap
+  const arcStart = () => (items.length > 4 ? 165 : ARC_START)
+  const arcEnd = () => (items.length > 4 ? 15 : ARC_END)
+  const radius = () => (items.length > 4 ? 136 : RADIUS)
+
   const angleFor = (index: number): number =>
-    items.length <= 1 ? 90 : ARC_START - ((ARC_START - ARC_END) * index) / (items.length - 1)
+    items.length <= 1 ? 90 : arcStart() - ((arcStart() - arcEnd()) * index) / (items.length - 1)
 
   const offsetFor = (index: number): { x: number; y: number } => {
     const radians = (angleFor(index) * Math.PI) / 180
-    return { x: Math.cos(radians) * RADIUS, y: -Math.sin(radians) * RADIUS }
+    return { x: Math.cos(radians) * radius(), y: -Math.sin(radians) * radius() }
   }
 
   const openMenu = () => {

@@ -11,19 +11,7 @@
 
   import NPaths from '../../paths'
 
-  import {
-    AppsOutline,
-    AppsSolid,
-    CalendarOutline,
-    CalendarSolid,
-    MapOutline,
-    PulseOutline,
-    TagOutline,
-    EaselOutline,
-    EaselSolid,
-    RibbonOutline,
-    RibbonSolid,
-  } from '../../components/icon/nicons'
+  import { AppsOutline, AppsSolid, CalendarOutline, CalendarSolid, MapOutline, PulseOutline, TagOutline, EaselOutline, EaselSolid, RibbonOutline, RibbonSolid, CubeOutline } from '../../components/icon/nicons'
   import { Prefs } from '../../domains/preferences/Preferences'
   import { Device } from '../../store/device-store'
   import { RunningTimers } from '../tracker/TrackerStore'
@@ -41,7 +29,7 @@
   // How many experiments are running, shown as a badge
   let runningExperiments = $derived($ExperimentStore.filter((e: any) => e.status === 'running').length)
 
-  // Options in the middle button. Pointers are full-mode only.
+  // Options in the middle button. Analytics and Pointers are full-mode only.
   let radialItems = $derived([
     {
       id: 'goals',
@@ -57,6 +45,10 @@
       link: '/experiments',
       notify: runningExperiments > 0 ? `${runningExperiments}` : undefined,
     },
+    // Analytics is a full-mode option (starter hides it)
+    ...($FeatureVisible('analytics')
+      ? [{ id: 'analytics', label: 'Analytics', icon: CubeOutline, link: '/analytics' }]
+      : []),
     ...($FeatureVisible('pointers')
       ? [{ id: 'pointers', label: 'Pointers', icon: TagOutline, action: () => openPointersModal() }]
       : []),
