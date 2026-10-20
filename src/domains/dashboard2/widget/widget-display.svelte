@@ -222,17 +222,17 @@
       {/if}
       <div class="filler" />
       {#if !hideTools}
-        <Button
-          size="xs"
-          icon
-          primary
-          className="p-1 -mr-1 bg-gray-500 bg-opacity-5 mt-px"
+        <!-- The three-dot menu as it was: a plain icon, not the round icon button -->
+        <button
+          type="button"
+          aria-label="Widget options"
+          class="widget-options"
           on:click={() => {
             showWidgetPopmenu(widget)
           }}
         >
           <IonIcon icon={MoreVertical} size={16} />
-        </Button>
+        </button>
       {/if}
     </div>
     <div class="widget-main">
@@ -297,6 +297,17 @@
 {/if}
 
 <style lang="postcss" global>
+  /* The widget's three-dot menu: a plain icon in the secondary colour */
+  .dashboard-widget .widget-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-right: -4px;
+    background: transparent;
+    color: var(--ios-label2);
+  }
   .dashboard-text.widget-size-md {
     font-size: 1em;
     font-weight: 500;
