@@ -49,10 +49,10 @@
   }
 
   .n-list > div > .n-input-container:first-child {
-    @apply rounded-t-group;
+    border-top-left-radius: 12px; border-top-right-radius: 12px;
   }
   .n-list > div > .n-input-container:last-child {
-    @apply rounded-b-group;
+    border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
   }
 
   .n-list .list-header {
@@ -90,28 +90,28 @@
     width: calc(100% - 16px);
     @apply mx-auto;
     box-shadow: none;
-    @apply rounded-group;
+    border-radius: 12px;
     overflow: hidden;
 
     padding: 0px 0;
   }
 
   .n-list.solo > .n-input-container.list-item:first-child {
-    @apply rounded-t-group;
+    border-top-left-radius: 12px; border-top-right-radius: 12px;
   }
   .n-list.solo > .n-input-container.list-item:last-child {
-    @apply rounded-b-group;
+    border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
   }
 
   .n-list.solo.w-full {
     width:100%;
   }
   .n-list.solo .n-item:first-child {
-    @apply rounded-t-group;
+    border-top-left-radius: 12px; border-top-right-radius: 12px;
   }
 
   .n-list.solo .n-item:last-child {
-    @apply rounded-b-group;
+    border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
   }
 
   /* iOS look: section headings above lists are 13 px uppercase in the secondary label colour */
