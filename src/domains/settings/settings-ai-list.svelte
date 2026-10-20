@@ -151,7 +151,7 @@
       <IconSquare color="#7D4AA8"><IonIcon icon={SparklesOutline} size={17} /></IconSquare>
       <AdvancedBadge />
     </span>
-    <div class="font-semibold leading-tight">
+    <div class="leading-tight">
       {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}
     </div>
     <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">
