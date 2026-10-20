@@ -138,23 +138,28 @@
 {#if displayLog}
   <div id="log-{displayLog._id}" class:pinned={displayLog.pinned} class="note-bubble bubble {className}">
     <div class="flex gap-3">
+      <!-- iOS look (mockup): the time is on the left, the mood sits under it, and the note starts on the time's line.
+           More stays in the top-right corner, so it does not push the note down. -->
       {#if !fullDate}
-        <div class="log-time-col ios-time text-ios-label2">{log.endDayjs().format(dateFormats.time)}</div>
+        <div class="log-side">
+          <div class="log-time-col ios-time text-ios-label2">{log.endDayjs().format(dateFormats.time)}</div>
+          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="log-mood text-ios-subhead text-ios-label2"
+            >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
+          >
+        </div>
       {/if}
       <div class="flex-1 min-w-0 space-y-2">
-        <!-- iOS look (proposal 2): the time and this line share one 22 px baseline grid -->
-        <!-- iOS look (mockup): no "x days ago" line; the mood sits in the top-right corner, next to More -->
-        <div class="entry-head flex items-center justify-between text-ios-footnote space-x-3">
+        <div class="entry-head flex items-center text-ios-footnote space-x-3" class:entry-corner={!fullDate}>
           {#if fullDate}
+            <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-ios-subhead text-ios-label2"
+              >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
+            >
             <div class="text-ios-label2 stiff line-clamp-1">{log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}</div>
           {/if}
           {#if displayLog.pinned}
             <span class="pinned-mark text-ios-tint" aria-label="Pinned"><IonIcon icon={MagnetSolid} size={13} /></span>
           {/if}
           <div class="filler"></div>
-          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-ios-subhead text-ios-label2"
-            >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
-          >
           <button
             type="button"
             aria-label="More options for this entry"
@@ -169,7 +174,7 @@
         </div>
 
         {#if log.hasNote}
-          <p class="text-ios-subhead">
+          <p class="log-note">
             <NoteTextualizer
               note={log.note}
               on:noteChange={(evt) => {
@@ -254,6 +259,35 @@
     line-height: 22px;
     padding-top: 0;
     font-variant-numeric: tabular-nums;
+  }
+  /* iOS look (mockup): the time column holds the time and, under it, the mood */
+  .log-side {
+    width: 40px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .log-mood {
+    font-size: 15px;
+    line-height: 20px;
+  }
+  /* The note text is 15 px at the default size, and scales with the Font Size setting (em based) */
+  .log-note {
+    font-size: 0.9375em;
+    line-height: 1.33em;
+    font-weight: 400;
+    padding-right: 40px;
+  }
+  /* The More button sits in the top-right corner of the entry; the note starts on the time's line */
+  .note-bubble {
+    position: relative;
+  }
+  .entry-corner {
+    position: absolute;
+    top: 6px;
+    right: 6px;
   }
   .ios-loc {
     font-size: 13px;
