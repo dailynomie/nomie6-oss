@@ -18,7 +18,7 @@
     import Button from '../../components/button/button.svelte'
     import dayjs from 'dayjs'
     import { LedgerStore, queryToTrackableUsage } from '../ledger/LedgerStore'
-    import PivotSelector from "./Pivot-table/UI/PivotSelector.svelte";
+    import MenuInline from '../../components/menu/menu-inline.svelte'
     import debounce from 'lodash/debounce'
     import { Interact } from '../../store/interact'
     import { PivotStore, openPivotEditor} from './PivotStore'
@@ -28,6 +28,7 @@
     import { CubeOutline } from '../../components/icon/nicons'
     import { EyeSolid } from '../../components/icon/nicons'
     import { EyeClosedSolid } from '../../components/icon/nicons'
+    import { AddIcon, ChevronDownOutline, ChevronUpOutline, CopyOutline, CreateOutline, TrashOutline, CheckmarkCircleOutline, ListOutline } from '../../components/icon/nicons'
     import IonIcon from "../../components/icon/ion-icon.svelte";
     import Spinner from '../../components/spinner/spinner.svelte';
 
@@ -77,7 +78,19 @@
     let data = $state([]);
     let getConfig = $state(false);
     let pivots: Array<PivotClass> = $state([]);
-    let menushow = $state(true);
+    // iOS look: the pivot table can be collapsed to the top action row; the pivot picker is a menu (top right)
+    let tableOpen = $state(true);
+    let pivotMenu = $derived([
+        ...pivots.map((p) => ({
+            title: p.tag,
+            emoji: p.emoji,
+            checked: p.id === workingPivotId,
+            click: () => selectPivot({ detail: p }),
+        })),
+        ...(pivots.length
+            ? [{ title: 'Make default', divider: true, click: () => setDefault({ detail: { id: workingPivotId } }) }]
+            : []),
+    ]);
     let countpivots = $state(0);
     let isLoadingData = $state(false);
 
@@ -452,39 +465,47 @@
     }
     
     
-    const showMenu = () => {
-        menushow = true;
-    }
-
-    const hideMenu = () => {
-        menushow = false;
+    const toggleTable = () => {
+        tableOpen = !tableOpen;
     }
    
 </script>
 
 
-    <Container className="py-1 shadow shadow-black/10 dark:shadow-black/40 bg-white filler dark:bg-black rounded-md" size="xl" >
-        {#if !notenoughdata}
-        <div>
-            {#if !menushow}
-            <!-- iOS look: round 36 px toggle, as the other action rows -->
-            <button type="button" class="ios-round" aria-label="Show pivot options" on:click={showMenu}>
-                <IonIcon icon={EyeSolid} size={18} />
-              </button>
-            {:else}
-            <button type="button" class="ios-round" aria-label="Hide pivot options" on:click={hideMenu}>
-                <IonIcon icon={EyeClosedSolid} size={18} />
-              </button>
-            {/if}
+    <!-- iOS look (guide 3.1): round actions on the left, the pivot menu on the right, then the large title. No separate menu bar. -->
+    <div class="px-4 pt-2 pb-1">
+        <div class="flex items-center justify-between h-11 gap-2">
+            <div class="flex items-center gap-2">
+                <button type="button" class="ios-round" aria-label={tableOpen ? 'Collapse the pivot table' : 'Expand the pivot table'} on:click={toggleTable}>
+                    <IonIcon icon={tableOpen ? ChevronUpOutline : ChevronDownOutline} size={18} />
+                </button>
+                <button type="button" class="ios-round" aria-label="New pivot" on:click={createPivot}>
+                    <IonIcon icon={AddIcon} size={18} />
+                </button>
+                <button type="button" class="ios-round" aria-label="Save pivot" on:click={savePivot}>
+                    <IonIcon icon={CheckmarkCircleOutline} size={18} />
+                </button>
+                <button type="button" class="ios-round" aria-label="Copy pivot" on:click={copyPivot}>
+                    <IonIcon icon={CopyOutline} size={18} />
+                </button>
+                <button type="button" class="ios-round" aria-label="Edit pivot" on:click={editPivot}>
+                    <IonIcon icon={CreateOutline} size={18} />
+                </button>
+                <button type="button" class="ios-round text-ios-danger" aria-label="Delete pivot" on:click={deletePivot}>
+                    <IonIcon icon={TrashOutline} size={18} />
+                </button>
+            </div>
+            <MenuInline id="pivot-menu" title="Choose a pivot" x="right" y="bottom" menuButtons={pivotMenu} buttonClass="ios-round">
+                <IonIcon icon={ListOutline} size={18} />
+            </MenuInline>
         </div>
-        {#if menushow}
-
-        <PivotSelector pivots={pivots} on:setdefault={setDefault} on:selectpivot={selectPivot} on:newpivot={createPivot} on:save={savePivot} on:delete={deletePivot} on:edit={editPivot} on:copy={copyPivot}></PivotSelector>
-        
+        <h1 class="text-ios-large font-bold text-ios-label mt-1">
+            Analytics <span class="text-ios-tint text-ios-title3 font-semibold align-middle">BETA</span>
+        </h1>
+        {#if workingPivotTag !== "Initiati0nPiv0t"}
+        <p class="text-ios-subhead text-ios-label2">Active pivot: {workingPivotEmoji} {workingPivotTag}</p>
         {/if}
-        {/if}
-
-    </Container>
+    </div>
     {#if isLoadingData}
     <div class="flex items-center justify-center py-12">
         <div class="flex flex-col items-center space-y-4">
@@ -509,9 +530,7 @@
       </Empty>
     </List>
   {:else}
-  <div class="my-0 text-center text-lg font-normal leading-tight text-gray-800 dark:text-gray-50">
-    Active Pivot: {workingPivotEmoji} {workingPivotTag}
-  </div>
+    {#if tableOpen}
     <Container className="py-4 shadow shadow-black/10 dark:shadow-black/40 bg-white filler dark:bg-black rounded-md" size="xl" >
 <div class="row text-center my-1 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
     <fieldset class="col-md-6" >
@@ -539,6 +558,7 @@
         </div>
     </div>
       </Container>
+    {/if}
 {/if}      
 {/if}    
   
