@@ -137,7 +137,8 @@
 
 {#if displayLog}
   <div id="log-{displayLog._id}" class:pinned={displayLog.pinned} class="note-bubble bubble {className}">
-    <div class="flex gap-3">
+    <!-- Baseline alignment: the time and the first line of the note share one baseline, as in the mockup -->
+    <div class="flex gap-3" style="align-items: baseline">
       <!-- iOS look (mockup): the time is on the left, the mood sits under it, and the note starts on the time's line.
            More stays in the top-right corner, so it does not push the note down. -->
       {#if !fullDate}
