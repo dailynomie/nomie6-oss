@@ -29,6 +29,7 @@
   import SelectPop from '../../select-pop/select-pop.svelte'
   import ExperimentBoardIcon from '../../n-icons/board-tab-icons/ExperimentBoardIcon.svelte'
   import IconSquare from '../../components/icon-square/icon-square.svelte'
+  import { PulseOutline } from '../../components/icon/nicons'
   import { FeatureVisible, resolveExperience } from '../preferences/features'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
@@ -227,14 +228,14 @@
 
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.show-all-board', 'Show All Board')}>
-    <span slot="left"><IconSquare color="#9455B8"><IonIcon icon={AllBoardIcon} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#9455B8"><span class="board-white"><AllBoardIcon size={17} /></span></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle People Board" />
     </div>
   </ListItem>
   {#if $FeatureVisible('people-board')}
   <ListItem bottomLine={57} title={Lang.t('settings.show-people-board', 'Show People Board')}>
-    <span slot="left"><IconSquare color="#9E62C0"><IonIcon icon={PeopleBoardIcon} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#9E62C0"><span class="board-white"><PeopleBoardIcon size={17} /></span></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
     </div>
@@ -242,7 +243,7 @@
   {/if}
   {#if $FeatureVisible('context-board')}
   <ListItem bottomLine={57} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
-    <span slot="left"><IconSquare color="#A066C0"><IonIcon icon={ContextBoardIcon} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#A066C0"><span class="board-white"><ContextBoardIcon size={17} /></span></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
     </div>
@@ -250,7 +251,7 @@
   {/if}
   <!-- iOS look: teal icon square for the Experiments board -->
   <ListItem bottomLine={57} title="Show Experiments Board">
-    <span slot="left"><IconSquare color="#A86EC8"><IonIcon icon={ExperimentBoardIcon} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#A86EC8"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch
         value={$Prefs.experimentBoard === true}
@@ -286,3 +287,10 @@
     </div>
   </ListItem>
 </List>
+
+<style>
+  /* iOS look: the board icons are white glyphs on the purple square */
+  .board-white :global(path) {
+    fill: #ffffff !important;
+  }
+</style>
