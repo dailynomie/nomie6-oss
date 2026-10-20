@@ -4,7 +4,6 @@
 
   import { onMount } from 'svelte'
 
-  import Text from '../../components/text/text.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
   import Layout from '../../domains/layout/layout.svelte'
@@ -71,15 +70,13 @@
       <div slot="left">
         <BackButton to="/settings" />
       </div>
-      <div slot="main">
-        <Text bold>Nomie Language</Text>
-      </div>
       <div slot="right">
         <button type="button" class="ios-text-action" on:click={save}>Save</button>
       </div>
     </ToolbarGrid>
   </div>
   <main class="p-4 space-y-5 text-ios-label">
+    <h1 class="text-ios-large font-bold text-ios-label px-1 -mb-3">Nomie Language</h1>
     <p class="px-1 text-ios-subhead text-ios-label2">
       Want to help translate Nomie? Fill in the fields below. Save keeps your progress on this device. When you are finished, send the file.
     </p>
