@@ -99,6 +99,8 @@
     const buttons = timeFrames.map((tf) => {
       return {
         title: tf.label,
+        // iOS look: the current time frame carries a checkmark, as in an iOS picker
+        checked: tf.id == widget.timeRange,
         async click() {
           // Mutate widget and force re-render via updateTrigger
           widget.timeRange = tf.id

@@ -836,7 +836,7 @@ else {contextannotation.annotations ={}}
           showOptionsMenu(evt.target)
         }}
       >
-        <IonIcon size={14} icon={OptionsOutline} className="text-gray-800 dark:text-gray-200" />
+        <IonIcon size={14} icon={OptionsOutline} className="text-ios-label2" />
       </button>
     </div>
   </div>
