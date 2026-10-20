@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { HelpCircleOutline, CopyOutline, }DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline } from '../../components/icon/nicons'
+  import { HelpCircleOutline, CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline } from '../../components/icon/nicons'
   import { navigate } from '../../vendor/svelte-navigator'
 
   import SettingsTweakList from './settings-tweak-list.svelte'
