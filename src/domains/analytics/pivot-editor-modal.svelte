@@ -181,9 +181,9 @@
       <div class="py-2">Which Emoji?</div>
       <div slot="right">
         {#if emoji}
-        <span class="text-primary-500">{emoji}</span>
+        <span class="text-ios-tint">{emoji}</span>
         {:else}
-          <span class="text-primary-500">Select</span>
+          <span class="text-ios-tint">Select</span>
         {/if}
       </div>
     </ListItem>
@@ -198,9 +198,9 @@
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
         {#if name && !emoji}
-          <div class="text-gray-500">{name}</div>
+          <div class="text-ios-label2">{name}</div>
         {:else if name && emoji}
-        <div class="text-gray-500">{emoji}{name}</div>
+        <div class="text-ios-label2">{emoji}{name}</div>
         {/if}
         
       </div>
@@ -210,18 +210,17 @@
       <div class="py-2">How Many Days of History?</div>
       <div slot="right">
         {#if days}
-        <span class="text-primary-500">{days}</span>
+        <span class="text-ios-tint">{days}</span>
         {:else}
-          <span class="text-primary-500">Select</span>
+          <span class="text-ios-tint">Select</span>
         {/if}
       </div>
     </ListItem>
     <Divider left={16} />
     <ListItem clickable on:click={resetfilters}>
-      <div class="py-2">Reset (all) {amountoffilters} Filters?</div>
+      <div class="py-2">Reset Filters</div>
       <div slot="right">
-          <span class="text-primary-500">Reset</span>
-        
+          <span class="text-ios-label2 tabular-nums">{amountoffilters}</span>
       </div>
     </ListItem>
     <Divider left={16} />
@@ -242,12 +241,30 @@
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
        
-        <div class="text-gray-500">{countsearchterms} SearchTerms</div>
+        <div class="text-ios-label2">{countsearchterms} SearchTerms</div>
     
         
       </div>
     </Input>
   </List>
 
-  <Button clear className="text-red-500 mt-10 mx-auto text-sm" on:click={() => deletePivot()}>Delete Pivot</Button>
+  <!-- iOS look: the destructive action is a row of its own in a card, in the danger colour -->
+  <div class="ios-card mx-2 mt-8 overflow-hidden">
+    <button type="button" class="ios-delete-row" on:click={() => deletePivot()}>Delete Pivot</button>
+  </div>
 </BackdropModal>
+
+<style>
+  .ios-delete-row {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 0;
+    background: transparent;
+    color: var(--ios-danger);
+    font-size: 17px;
+    line-height: 22px;
+    text-align: center;
+  }
+</style>
