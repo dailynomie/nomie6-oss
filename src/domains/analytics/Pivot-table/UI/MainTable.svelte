@@ -2,7 +2,8 @@
 
 <script lang="ts">
     import { Prefs } from '../../../preferences/Preferences'
-    const { horizUnused } = $props();
+    // viewOnly (phones): only the chart or table chooser and the output, no field, aggregator or drag and drop cells
+    const { horizUnused, viewOnly = false } = $props();
     let theme = $state($Prefs.theme);
 
     // iOS look: the table's own surface and text come from the tokens
@@ -12,6 +13,16 @@
 
 </script>
 <style>
+    /* view only (phones): the table and the chart use the full width, so the chart is readable */
+    .pvtViewOnly {
+        width: 100%;
+    }
+    .pvtViewOnly td.pvtOutput {
+        width: 100%;
+    }
+    .pvtViewOnly .scrolling-wrapper {
+        width: 100%;
+    }
     .scrolling-wrapper {
         overflow-x: scroll;
         overflow-y: hidden;
@@ -20,7 +31,18 @@
     }
    </style>
 
-{#if horizUnused}
+{#if viewOnly}
+    <table class="pvtUi pvtViewOnly" style={cssVarStyles}>
+        <tbody>
+            <tr>
+                <td class="pvtRenderers"><slot name="rendererCell" /></td>
+            </tr>
+            <tr>
+                <td class="pvtOutput"><div class="scrolling-wrapper"><slot name="outputCell" /></div></td>
+            </tr>
+        </tbody>
+    </table>
+{:else if horizUnused}
     <table class="pvtUi" style={cssVarStyles}>
         <tbody>
             <tr>

@@ -35,6 +35,7 @@
         sorters = PivotData.defaultProps.sorters,
         valueFilter: initialValueFilter = PivotData.defaultProps.valueFilter,
         data,
+        viewOnly = false,
         ...restProps
     } = $props();
 
@@ -137,7 +138,7 @@
     });
 </script>
 <div class="mtcontainer">
-<MainTable horizUnused={true}>
+<MainTable horizUnused={true} {viewOnly}>
     <DropdownNomie slot="rendererCell" bind:current={rendererName} values={Object.keys(renderers)} />
 
     <Aggregators

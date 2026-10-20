@@ -19,6 +19,7 @@
     import dayjs from 'dayjs'
     import { LedgerStore, queryToTrackableUsage } from '../ledger/LedgerStore'
     import MenuInline from '../../components/menu/menu-inline.svelte'
+    import { Device } from '../../store/device-store'
     import debounce from 'lodash/debounce'
     import { Interact } from '../../store/interact'
     import { PivotStore, openPivotEditor} from './PivotStore'
@@ -78,7 +79,9 @@
     let data = $state([]);
     let getConfig = $state(false);
     let pivots: Array<PivotClass> = $state([]);
-    // iOS look: the pivot picker is a menu (top right), so the table is always shown
+    // iOS look: the pivot picker is a menu (top right), so the table is always shown.
+    // On phones the page is view only: pick a pivot and read the table or chart. Editing is on larger screens.
+    let viewOnly = $derived($Device.width <= 899);
     let pivotMenu = $derived([
         ...pivots.map((p) => ({
             title: p.tag,
@@ -88,7 +91,7 @@
             checked: p.id === workingPivotId,
             click: () => selectPivot({ detail: p }),
         })),
-        ...(pivots.length
+        ...(pivots.length && !viewOnly
             ? [{ title: 'Make default', divider: true, click: () => setDefault({ detail: { id: workingPivotId } }) }]
             : []),
     ]);
@@ -474,6 +477,7 @@
     <div class="glass relative z-50 px-4 pt-2 pb-3">
         <div class="flex items-center justify-between h-11 gap-2">
             <div class="flex items-center gap-2">
+                {#if !viewOnly}
                 <button type="button" class="ios-round" aria-label="New pivot" on:click={createPivot}>
                     <IonIcon icon={AddIcon} size={18} />
                 </button>
@@ -489,6 +493,7 @@
                 <button type="button" class="ios-round text-ios-danger" aria-label="Delete pivot" on:click={deletePivot}>
                     <IonIcon icon={TrashOutline} size={18} />
                 </button>
+                {/if}
             </div>
             <MenuInline id="pivot-menu" title="Choose a pivot" x="right" y="bottom" menuButtons={pivotMenu} buttonClass="ios-round">
                 <IonIcon icon={ListOutline} size={18} />
@@ -527,6 +532,7 @@
   {:else}
     <Container className="py-4 shadow shadow-black/10 dark:shadow-black/40 bg-white filler dark:bg-black rounded-md" size="xl" >
 <!-- iOS look: the options are a row of tinted checkboxes with 13 px labels -->
+{#if !viewOnly}
 <div class="pvt-options">
     <fieldset class="col-md-6" >
         <label class="pvt-option">
@@ -545,10 +551,12 @@
         </label>
     </fieldset>
 </div>
+{/if}
    
     <div class="scrolling-wrapper">
         <div class="px-4 grid grid-cols-1 gap-3">
             <PivotTableUI
+            {viewOnly}
             {...options} {renderers} {grouping} {compactRows} {rowGroupBefore} {colGroupBefore} {rendererName} {aggregatorName} {hiddenAttributes} {hiddenFromAggregators} {hiddenFromDragDrop} {unusedOrientationCutoff} {menuLimit} {workingPivotId} {workingPivotTag} {workingPivotEmoji} {workingPivotDefault} {workingPivotDays} {workingPivotSearchTerm} bind:pivotconfig={pivotconfig} bind:getConfig={getConfig}/>
         </div>
     </div>
