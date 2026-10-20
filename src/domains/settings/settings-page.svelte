@@ -224,15 +224,6 @@
             </List>
             {/if}
 
-            <!-- CSV is its own row group, separate from the plugin rows -->
-            {#if $FeatureVisible('csv')}
-              <List solo className="mt-4">
-                <ListItem detail bottomLine={57} title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
-                  <span slot="left"><IconSquare color="#8E8E93"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare></span>
-                </ListItem>
-              </List>
-            {/if}
-
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openLocationModal()} title="Locations">
                 <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>

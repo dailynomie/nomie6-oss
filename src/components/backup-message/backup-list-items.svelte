@@ -69,10 +69,10 @@
       generateBackup()
     }}
   >
-    <span slot="left"><IconSquare color="#48484A"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#3A3A3C"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>
   </ListItem>
   <ListItem bottomLine={57} title={Lang.t('settings.backup-reminder', 'Backup Reminder')}>
-    <span slot="left"><IconSquare color="#56565B"><IonIcon icon={NotificationsOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#48484A"><IonIcon icon={NotificationsOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="start-page"

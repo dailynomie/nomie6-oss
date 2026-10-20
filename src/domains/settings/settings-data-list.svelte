@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { FolderOutline, RefreshOutline, TimeOutline, TrashOutline } from '../../components/icon/nicons'
+  import { DocumentTextOutline, FolderOutline, RefreshOutline, TimeOutline, TrashOutline } from '../../components/icon/nicons'
   import { ServerOutline } from '../../components/icon/nicons'
   import { useStorageSelectMenu } from './settings-functions'
 
@@ -151,7 +151,7 @@
   </Button> -->
   <ListItem on:click={showStorageOptions} detail bottomLine={57}>
     <span slot="left">
-      <IconSquare color="#3A3A3C"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
+      <IconSquare color="#323234"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
     </span>
     <div class="font-semibold leading-tight">Stored on {storageDetails.name}</div>
     <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
@@ -184,9 +184,15 @@
       showImportModal()
     }}
   >
-    <span slot="left"><IconSquare color="#636366"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#56565B"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
     <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
   </ListItem>
+
+  {#if $FeatureVisible('csv')}
+    <ListItem bottomLine={57} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
+      <span slot="left"><IconSquare color="#636366"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare></span>
+    </ListItem>
+  {/if}
 </List>
 <List solo className="mb-3" outside>
   <ListItem
