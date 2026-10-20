@@ -46,7 +46,6 @@
   import Empty from '../components/empty/empty.svelte'
   import { ActiveLogStore } from '../domains/capture-log/CaptureLogStore'
   import ButtonGroup from '../components/button-group/button-group.svelte'
-  import Toolbar from '../components/toolbar/toolbar.svelte'
   import type { OTDViewOption } from '../domains/on-this-day/on-this-day-helpers'
   import { OTDViews } from '../domains/on-this-day/on-this-day-helpers'
   import OnThisDayViews from '../domains/on-this-day/on-this-day-views.svelte'
@@ -231,54 +230,54 @@
 </script>
 
 <NLayout pageTitle={appTitle} {style}>
-  <header slot="header" class="items-center flex-column z-30">
-    <Container>
-      <Toolbar className=" px-2 items-center">
-        <Button icon on:click={methods.search}>
-          <IonIcon className="text-primary-500" icon={SearchIcon} size={24} />
-        </Button>
+  <!-- iOS look (3.1): action row with round buttons, then the large title, as on the Timeline -->
+  <header slot="header" class="glass z-30 px-4 pt-2 pb-3">
+    <div class="flex items-center justify-between gap-2 h-11">
+      <button type="button" aria-label="Search" class="ios-round" on:click={methods.search}>
+        <IonIcon icon={SearchIcon} size={18} />
+      </button>
+      <div class="flex items-center gap-2">
         {#if refreshing}
           <Spinner size={16} />
         {/if}
-        <h1 class="leading-none ntitle line-clamp-1 text-left ml-2" aria-label="Current Active Date">
-          {state.date.format('ddd')}
-          {state.date.format(dateFormats.date)}
-        </h1>
-        <div class="filler" />
         <NextPrevCal on:previous={methods.previous} on:next={methods.next} on:calendar={methods.selectDate} {isToday} />
-      </Toolbar>
-      {#if logs.length}
-        <Toolbar className="px-4">
-          <ButtonGroup
-            compact
-            bind:value={view}
-            buttons={OTDViews.map((otd) => {
-              return {
-                label: otd.view,
-                icon: otd.icon,
-                value: otd.view,
-              }
-            })}
-          >
-            <!-- {#each OTDViews as loopView}
-              <Button
-                size="sm"
-                className={view === loopView.view ? 'active' : ''}
-                icon
-                on:click={() => {
-                  view = loopView.view
-                }}
-              >
-                <div class="relative pt-1">
-                  <IonIcon icon={loopView.icon} size={28} />
-                  <div data-count={loopView.reduce(logs)} class="notification-badge" />
-                </div>
-              </Button>
-            {/each} -->
-          </ButtonGroup>
-        </Toolbar>
-      {/if}
-    </Container>
+      </div>
+    </div>
+    <h1 class="text-ios-large font-bold text-ios-label mt-1 line-clamp-1" aria-label="Current Active Date">
+      {state.date.format('ddd')}
+      {state.date.format(dateFormats.date)}
+    </h1>
+    {#if logs.length}
+      <div class="mt-2">
+        <ButtonGroup
+          compact
+          bind:value={view}
+          buttons={OTDViews.map((otd) => {
+            return {
+              label: otd.view,
+              icon: otd.icon,
+              value: otd.view,
+            }
+          })}
+        >
+          <!-- {#each OTDViews as loopView}
+            <Button
+              size="sm"
+              className={view === loopView.view ? 'active' : ''}
+              icon
+              on:click={() => {
+                view = loopView.view
+              }}
+            >
+              <div class="relative pt-1">
+                <IonIcon icon={loopView.icon} size={28} />
+                <div data-count={loopView.reduce(logs)} class="notification-badge" />
+              </div>
+            </Button>
+          {/each} -->
+        </ButtonGroup>
+      </div>
+    {/if}
   </header>
   <!-- end header-content header -->
 
