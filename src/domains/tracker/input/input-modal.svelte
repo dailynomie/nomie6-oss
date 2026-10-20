@@ -332,8 +332,8 @@
     @apply transition-all;
     @apply transform;
   }
-  .action-button:focus {
-    @apply scale-95;
-    @apply ring-2 ring-primary-600;
+  /* iOS look: a press shrinks the pill a little; no coloured ring */
+  .action-button:active {
+    transform: scale(0.96);
   }
 </style>

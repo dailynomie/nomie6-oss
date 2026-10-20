@@ -65,14 +65,14 @@
       steps={parseFloat(tracker.step || 1)}
       pips
     />
-    <div class="value dark:bg-gray-700 bg-gray-300 px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
+    <div class="value ios-slider-value px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
       {#if tracker && tracker.uom !== 'num'}
         <LetterTicker
           text={`${tracker.displayValue(values[0])}`}
-          className=" font-bold text-gray-800 dark:text-white"
+          className=" font-bold text-ios-label"
         />
       {:else if tracker}
-        <LetterTicker text={`${values[0]}`} className="font-bold text-gray-800 dark:text-white" />
+        <LetterTicker text={`${values[0]}`} className="font-bold text-ios-label" />
       {/if}
     </div>
   </div>
@@ -88,8 +88,14 @@
     width: var(--nub-width);
   }
 
+  /* iOS look: the track is a grouped-card fill with a hairline edge */
   .tracker-input-slider .rangeSlider {
-    @apply bg-gray-100 border-gray-500 border border-opacity-30 dark:bg-gray-900;
+    background: var(--ios-card);
+    border: 0.5px solid var(--ios-separator);
+  }
+  .tracker-input-slider .ios-slider-value {
+    background: var(--ios-fill);
+    color: var(--ios-label);
   }
 
   .tracker-input-slider .rangeHandle {
@@ -105,15 +111,15 @@
 
   .tracker-input-slider .range-label {
     @apply block;
-    @apply text-gray-500 dark:text-gray-500;
     @apply absolute;
     @apply pointer-events-none;
     @apply pl-40;
     @apply text-left;
     @apply line-clamp-1;
-
-    @apply uppercase;
-    @apply font-semibold;
+    /* iOS look: secondary label in sentence case, 13 px semibold */
+    color: var(--ios-label2);
+    font-size: 13px;
+    font-weight: 600;
   }
   .tracker-input-slider .range-label.min-label {
     @apply bottom-8;

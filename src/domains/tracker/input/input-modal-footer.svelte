@@ -43,7 +43,7 @@
               aria-label="Save"
               autofocus
               on:click={() => dispatch('stopTimer')}
-              class="action-button bg-red-500 text-white"
+              class="action-button action-stop"
             >
               <IonIcon icon={StopSolid} size={32} className="text-white" />
             </button>
@@ -55,7 +55,7 @@
                 dispatch('startTimer')
               }}
               autofocus
-              class="action-button bg-primary-500 text-white"
+              class="action-button action-save"
             >
               {Lang.t('general.start', 'Start')}
             </button>
@@ -67,7 +67,7 @@
               on:click={() => {
                 dispatch('save')
               }}
-              class="action-button bg-primary-500 text-white"
+              class="action-button action-save"
             >
               {saveLabel}
             </button>
@@ -79,7 +79,7 @@
             on:click={() => {
               dispatch('save')
             }}
-            class="action-button bg-primary-500 text-white"
+            class="action-button action-save"
           >
             {saveLabel}
           </button>
@@ -121,8 +121,28 @@
 </footer>
 
 <style lang="postcss" global>
+  /* iOS look: buttons are tint (save) or danger (stop) pills, with the on-colour text. No focus box for taps. */
   .tracker-input-footer button {
     @apply focus:outline-none;
-    @apply focus:ring-4  ring-gray-500 ring-opacity-60 ring-inset;
+  }
+  .tracker-input-footer button:focus-visible {
+    outline: 2px solid var(--ios-tint);
+    outline-offset: 2px;
+  }
+  .tracker-input-footer .action-button.action-save {
+    background: var(--ios-tint);
+    color: var(--ios-on-tint);
+  }
+  .tracker-input-footer .action-button.action-stop {
+    background: var(--ios-danger);
+    color: #ffffff;
+  }
+  .tracker-input-footer .action-button {
+    border-radius: 999px;
+    padding: 8px 22px;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 22px;
+    min-width: 96px;
   }
 </style>
