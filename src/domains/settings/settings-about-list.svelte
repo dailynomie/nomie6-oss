@@ -85,20 +85,20 @@
     <span slot="right" class="text-inverse-3">FAQ</span>
   </ListItem> -->
   <ListItem bottomLine={16} detail title="N6 Docs" href="https://www.dailynomie.com/%f0%9f%93%96-docs/">
-    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={BookOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#0A4F9E"><IonIcon icon={BookOutline} size={17} /></IconSquare></span>
     <span slot="right" class="text-inverse-3">Read</span>
   </ListItem>
   <ListItem bottomLine={16} detail title="Learn More" href="https://www.dailynomie.com">
-    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={GlobeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#1F78D1"><IonIcon icon={GlobeOutline} size={17} /></IconSquare></span>
     <span slot="right" class="text-inverse-3">DailyNomie.com</span>
   </ListItem>
 
   <ListItem bottomLine={57} title="Privacy Policy" detail clickable on:click={() => openPrivacyPolicy()}>
-    <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#3A8EE6"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem bottomLine={16} title="Reddit r/nomie" detail href="https://reddit.com/r/nomie">
-    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={ChatbubblesOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#5BA3F0"><IonIcon icon={ChatbubblesOutline} size={17} /></IconSquare></span>
     <span slot="right" class="flex text-inverse-3">/r/nomie</span>
   </ListItem>
 

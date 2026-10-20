@@ -151,7 +151,7 @@
   </Button> -->
   <ListItem on:click={showStorageOptions} detail bottomLine={57}>
     <span slot="left">
-      <IconSquare color="#6C6C70"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
+      <IconSquare color="#3A3A3C"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
     </span>
     <div class="font-semibold leading-tight">Stored on {storageDetails.name}</div>
     <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
@@ -184,7 +184,7 @@
       showImportModal()
     }}
   >
-    <span slot="left"><IconSquare color="#8E8E93"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#636366"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
     <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
   </ListItem>
 </List>
@@ -207,7 +207,7 @@
     title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
     on:click={updateLastUsedDates}
   >
-    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#7A7A80"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem
@@ -218,11 +218,11 @@
     description="Find and remove duplicate plugin settings"
     on:click={openPluginDedupModal}
   >
-    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={TrashOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#8E8E93"><IonIcon icon={TrashOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem bottomLine={57} title="Auto-PluginDB-Cleanup Schedule">
-    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#A1A1A6"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="plugin-cleanup-schedule"
