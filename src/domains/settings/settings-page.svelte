@@ -204,19 +204,19 @@
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openLocationModal()} title="Locations">
-                <span slot="left"><IconSquare color="#7EB6FF"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
+                <span slot="left"><IconSquare color="#5A9CF0"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
               </ListItem>
             </List>
             
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
-                <span slot="left"><IconSquare color="#B39DDB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare></span>
+                <span slot="left"><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare></span>
               </ListItem>
               </List>
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">
-                <span slot="left"><IconSquare color="#81C784"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
+                <span slot="left"><IconSquare color="#5DAE62"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
               </ListItem>
             </List>
 
@@ -224,10 +224,10 @@
             {#if $FeatureVisible('plugins')}
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left" class="adv-corner"><IconSquare color="#FFB74D"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
               </ListItem>
               <ListItem clickable bottomLine={showplugins ? 57 : undefined} title="Show Plugins" description="Click to show or hide the installed Plugins" on:click={toggleshowplugins}>
-                <span slot="left" class="adv-corner"><IconSquare color="#FFB74D"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
                 <div slot="right">
                   {#if showplugins}
                     <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
