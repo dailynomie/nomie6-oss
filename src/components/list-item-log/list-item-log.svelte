@@ -143,21 +143,18 @@
       {/if}
       <div class="flex-1 min-w-0 space-y-2">
         <!-- iOS look (proposal 2): the time and this line share one 22 px baseline grid -->
+        <!-- iOS look (mockup): no "x days ago" line; the mood sits in the top-right corner, next to More -->
         <div class="entry-head flex items-center justify-between text-ios-footnote space-x-3">
-          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-ios-subhead text-ios-label2"
-            >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
-          >
-          <div class="text-ios-label2 stiff line-clamp-1">
-            {#if fullDate}
-              {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
-            {:else}
-              <span class="ios-ago text-ios-label2">{log.endDayjs().fromNow()}</span>
-            {/if}
-          </div>
+          {#if fullDate}
+            <div class="text-ios-label2 stiff line-clamp-1">{log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}</div>
+          {/if}
           {#if displayLog.pinned}
             <span class="pinned-mark text-ios-tint" aria-label="Pinned"><IonIcon icon={MagnetSolid} size={13} /></span>
           {/if}
           <div class="filler"></div>
+          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-ios-subhead text-ios-label2"
+            >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
+          >
           <button
             type="button"
             aria-label="More options for this entry"
