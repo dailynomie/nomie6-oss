@@ -271,6 +271,15 @@
     align-items: flex-start;
     gap: 2px;
   }
+  /* iOS look (section 8): the mood button is small; its tap area is at least 44 px */
+  button[aria-label='Change mood score'] {
+    position: relative;
+  }
+  button[aria-label='Change mood score']::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+  }
   .log-mood {
     font-size: 15px;
     line-height: 20px;

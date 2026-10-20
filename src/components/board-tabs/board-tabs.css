@@ -48,3 +48,16 @@
 .n-board-tabs button.selected svg path {
   fill: #ffffff !important;
 }
+
+/* iOS look (section 8): the 34 px capsules keep their look; their tap area is at least 44 px high */
+.n-board-tabs button {
+  position: relative;
+}
+.n-board-tabs button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -5px;
+  bottom: -5px;
+}

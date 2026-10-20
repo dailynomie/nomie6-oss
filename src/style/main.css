@@ -568,6 +568,15 @@ html.dark .ios-thumb {
   background: var(--ios-fill);
   color: var(--ios-label);
 }
+/* iOS look (section 8): the 36 px round button keeps its look; its tap area is 44 px */
+.ios-round {
+  position: relative;
+}
+.ios-round::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+}
 .ios-round-alert {
   background: var(--ios-danger);
   color: #ffffff;

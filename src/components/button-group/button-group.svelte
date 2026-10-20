@@ -40,6 +40,7 @@
         <button
           type="menu"
           title={button.label}
+          aria-pressed={!!(button.active || (value && value == button.value))}
           disabled={button.disabled}
           class="btn-group-btn btn-{index} {button.active || (value && value == button.value)
             ? 'active'
@@ -80,4 +81,16 @@
 </div>
 
 <style lang="postcss" global>
+  /* iOS look (section 8): the segment keeps its look, and its tap area is at least 44 px high */
+  .nbtn-group .btn-group-btn {
+    position: relative;
+  }
+  .nbtn-group .btn-group-btn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -7px;
+    bottom: -7px;
+  }
 </style>
