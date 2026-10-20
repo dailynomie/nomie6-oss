@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline } from '../../components/icon/nicons'
+  import { HelpCircleOutline, CopyOutline, }DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline } from '../../components/icon/nicons'
   import { navigate } from '../../vendor/svelte-navigator'
 
   import SettingsTweakList from './settings-tweak-list.svelte'
@@ -281,7 +281,7 @@
 
             <List solo className="mt-4">
               <ListItem title={Lang.t('general.questions', 'Questions')} detail>
-                <span slot="left">🆘</span>
+                <span slot="left"><IconSquare color="#636366"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
                 <div slot="right">
                   <a href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}>
                     <Badge pad className="bg-gray-300 text-black">Email</Badge>

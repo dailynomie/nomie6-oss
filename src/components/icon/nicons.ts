@@ -311,3 +311,7 @@ import PricetagOutlineIcon from '../../n-icons/PricetagOutline.svelte'
 export const PricetagOutline = PricetagOutlineIcon
 import FlagOutlineIcon from '../../n-icons/FlagOutline.svelte'
 export const FlagOutline = FlagOutlineIcon
+import HelpCircleOutlineIcon from '../../n-icons/HelpCircleOutline.svelte'
+export const HelpCircleOutline = HelpCircleOutlineIcon
+import ChatbubblesOutlineIcon from '../../n-icons/ChatbubblesOutline.svelte'
+export const ChatbubblesOutline = ChatbubblesOutlineIcon
