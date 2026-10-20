@@ -63,7 +63,7 @@
 {/if}
 
 <!-- iOS look (same as the Timeline header): action row with the round board menu, then the large title -->
-<div class="glass px-4 pt-2">
+<div class="glass relative z-50 px-4 pt-2">
   <div class="flex items-center justify-end h-11">
     {#if !editMode}
       <MenuInline id="add-menu-button" title="Board options" x="right" y="bottom" menuButtons={boardAddMenu} buttonClass="ios-round">

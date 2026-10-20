@@ -10,6 +10,7 @@
   import { TrackableStore } from '../trackable/TrackableStore'
   import type { ExperimentType } from './experiment-class'
   import { RadialOpenStore } from '../layout/radial-store'
+  import { MenuBlockerStore } from '../../components/menu/useDropmenu'
 
   // Move the card to the top of the page, so it is not held back by the page's own layers
   const toBody = (node: HTMLElement) => {
@@ -54,7 +55,7 @@
   })
 </script>
 
-{#if pending.length && !$BackdropStore2.length && !$RadialOpenStore}
+{#if pending.length && !$BackdropStore2.length && !$RadialOpenStore && !$MenuBlockerStore}
   <div use:toBody class="fixed bottom-52 lg:bottom-6 left-3 right-3 lg:left-auto lg:w-96 space-y-2" style="z-index: 9999">
     {#each pending as experiment (experiment.id)}
       <!-- iOS look (guide 5.4): 18 px radius, 12 px caption, 15 px question, two 44 px buttons -->

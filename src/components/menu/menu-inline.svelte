@@ -11,6 +11,7 @@
 
   import type { PopMenuButton } from '../pop-menu/usePopmenu'
   import MenuBlocker from './menu-blocker.svelte'
+  import { MenuBlockerStore } from './useDropmenu'
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
 import Divider from '../divider/divider.svelte'
 
@@ -19,6 +20,16 @@ import Divider from '../divider/divider.svelte'
   let accessorySize = $derived(compact ? 18 : 24)
   let open = $state(false)
   let activeIndex = $state(-1)
+  // A tap outside the menu clears the page's blocker. Close this menu when that happens.
+  let blocked = $state(false)
+  $effect(() => {
+    if ($MenuBlockerStore) {
+      blocked = true
+    } else if (blocked) {
+      blocked = false
+      open = false
+    }
+  })
 </script>
 
 <div {id} class="id-{id} {compact ? 'compact' : ''} relative menu-inline">
