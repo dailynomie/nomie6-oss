@@ -5,6 +5,8 @@
   import Layout from '../domains/layout/layout.svelte'
 
   import AnalyticsView from '../domains/afternomie/afternomie-view.svelte'
+  import ToolbarGrid from '../components/toolbar/toolbar-grid.svelte'
+  import NBackButton from '../components/back-button/back-button.svelte'
 
 
   
@@ -12,6 +14,10 @@
 
 <Layout pageTitle="AfterNomie" checkIn={false}>
   <div slot="header">
+    <!-- iOS look: nav bar with a back control, then the large title (as on the other pushed screens) -->
+    <ToolbarGrid>
+      <NBackButton slot="left" />
+    </ToolbarGrid>
     <h1 class="ios-large-title">
       <span>AfterNomie</span>&nbsp;<span class="redText">BETA</span>
     </h1>
