@@ -5,7 +5,7 @@
 /* iOS look: design tokens (DAILY_NOMIE_7_IOS_DESIGN_GUIDE.md section 2) */
 :root {
   --ios-bg: #F2F2F7; --ios-card: #FFFFFF; --ios-card-2: #F2F2F7;
-  --ios-label: #000000; --ios-label-2: #6C6C70;
+  --ios-label: #000000; --ios-label-2: #6C6C70; --ios-label2: var(--ios-label-2);
   --ios-fill: #E5E5EA; --ios-separator: #D8D8DC;
   --ios-tint: #0A6CC9; --ios-on-tint: #FFFFFF; --ios-tint-soft: #E3EFFB;
   --ios-good: #1E7A34; --ios-good-soft: #DDF3E2;
@@ -21,7 +21,7 @@
 }
 html.dark {
   --ios-bg: #000000; --ios-card: #1C1C1E; --ios-card-2: #2C2C2E;
-  --ios-label: #FFFFFF; --ios-label-2: #AEAEB2;
+  --ios-label: #FFFFFF; --ios-label-2: #AEAEB2; --ios-label2: var(--ios-label-2);
   --ios-fill: #2C2C2E; --ios-separator: #38383A;
   --ios-tint: #4DB3FF; --ios-on-tint: #000000; --ios-tint-soft: #0B2236;
   --ios-good: #30D158; --ios-good-soft: #123620;
