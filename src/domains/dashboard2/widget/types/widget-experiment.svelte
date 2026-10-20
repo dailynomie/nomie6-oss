@@ -57,7 +57,8 @@
     {/if}
 
     {#if view.outcomes.length}
-      <div class="flex flex-wrap gap-1">
+      <!-- iOS look (guide 0 rule 1): the verdict wraps; it is not cut off -->
+      <div class="flex flex-wrap gap-1 outcome-chips">
         {#each view.outcomes as outcome}
           <ExperimentChip tone={outcome.tone} label="{outcome.label}: {outcome.text}" title={outcome.text} />
         {/each}
@@ -69,6 +70,14 @@
 </div>
 
 <style>
+  .outcome-chips :global(.chip) {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: 100%;
+    line-height: 1.3;
+    padding: 4px 9px;
+  }
   /* iOS look: 34 px square in the tint-soft colour */
   .ios-exp-icon {
     width: 34px;
