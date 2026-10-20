@@ -687,6 +687,12 @@ else {contextannotation.annotations ={}}
       return dataset
     })
 
+    // iOS look (guide 5.10): axis labels are 11 px in the secondary label colour (read from the token, so dark mode follows)
+    const axisSize = iosLook ? 11 : 10
+    const axisColor = iosLook && typeof document !== 'undefined'
+      ? getComputedStyle(document.documentElement).getPropertyValue('--ios-label2').trim() || undefined
+      : undefined
+
     // Setup scales configuration
     const scales: any = {
       x: {
@@ -694,8 +700,9 @@ else {contextannotation.annotations ={}}
         ticks: {
           autoSkip: true,
           maxRotation: 0,
+          color: axisColor,
           font: {
-            size: 10,
+            size: axisSize,
           },
         },
       },
@@ -705,8 +712,9 @@ else {contextannotation.annotations ={}}
         beginAtZero: startWithZero,
         type: chartScale,
         ticks: {
+          color: axisColor,
           font: {
-            size: 10,
+            size: axisSize,
           },
           callback: function (value: any, index, ticks) {
             return usage.trackable.formatValue(value)
