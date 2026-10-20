@@ -5,6 +5,7 @@
   import { AddCircleOutline } from '../../components/icon/nicons'
   import { navigate } from '../../vendor/svelte-navigator'
   import { Prefs } from '../preferences/Preferences'
+  import { RadialOpenStore } from './radial-store'
 
   type RadialItem = { id: string; label: string; icon: any; link?: string; action?: () => void; notify?: string }
 
@@ -18,6 +19,9 @@
   const CLOSE_MS = 240
 
   let open = $state(false)
+  $effect(() => {
+    RadialOpenStore.set(open)
+  })
   let expanded = $state(false)
   let origin = $state({ x: 0, y: 0 })
   let hub: HTMLElement | undefined = $state()
