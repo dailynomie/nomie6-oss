@@ -26,7 +26,7 @@ for (const [viewportName, size] of Object.entries(viewports)) {
     await context.addInitScript((mode) => {
       const key = "data/localDB/preferences"
       if (!localStorage.getItem(key)) {
-        localStorage.setItem(key, JSON.stringify({ state: { onboarded: true, experience: mode } }))
+        localStorage.setItem(key, JSON.stringify({ state: { use24hour: false, useMetric: false, storageType: "local", betaFeatures: false, peopleBoard: false, contextBoard: false, allBoard: true, nowBoard: false, startPage: "track", theme: "auto", fontSize: "md", language: "en-us", weekStarts: "sunday", compactTrackers: false, backupDays: 7, pluginCleanupDays: -1, hideBackupMessage: false, hideMessages: false, allowFileEdit: false, alwaysLocate: true, onboarded: true, experience: mode, ai: { enabled: false, selectedService: "claude", services: { claude: {}, openrouter: {}, chatgpt: {} } } } }))
       }
     }, process.env.UI_MODE || "full")
     const page = await context.newPage()
