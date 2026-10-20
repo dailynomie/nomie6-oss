@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
   import { DocumentTextOutline, FolderOutline, RefreshOutline, TimeOutline, TrashOutline } from '../../components/icon/nicons'
   import { ServerOutline } from '../../components/icon/nicons'
   import { useStorageSelectMenu } from './settings-functions'
@@ -191,6 +192,7 @@
   {#if $FeatureVisible('csv')}
     <ListItem bottomLine={57} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
       <span slot="left"><IconSquare color="#636366"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare></span>
+    <span slot="right"><AdvancedBadge /></span>
     </ListItem>
   {/if}
 </List>

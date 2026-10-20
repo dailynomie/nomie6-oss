@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
   import { HelpCircleOutline, CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline } from '../../components/icon/nicons'
   import { navigate } from '../../vendor/svelte-navigator'
 
@@ -200,29 +201,6 @@
             </List>
 
             <!-- Sign-in and Register Block  -->
-            <!-- iOS look (guide 5.11): Advanced is one group in Full mode: Plugins and CSV -->
-            {#if $FeatureVisible('plugins')}
-            <List solo outside title="Advanced" className="mt-4">
-              <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare></span>
-              </ListItem>
-              <ListItem clickable on:click={toggleshowplugins}>
-                <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare></span>
-                <div slot="right">
-                  {#if showplugins}
-                    <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
-                  {:else}
-                  <span><IonIcon icon={ChevronDownOutline} size={16} /></span>
-                  {/if}
-                </div>
-                <div class="font-semibold leading-tight">Show Plugins</div>
-                <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">Click to show or hide the installed Plugins</div>
-              </ListItem>
-              {#if showplugins}
-              <PluginsMoreMenu />
-              {/if}
-            </List>
-            {/if}
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openLocationModal()} title="Locations">
@@ -240,6 +218,28 @@
               <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">
                 <span slot="left"><IconSquare color="#636366"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
               </ListItem>
+              {#if $FeatureVisible('plugins')}
+              <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
+                <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare></span>
+                <span slot="right"><AdvancedBadge /></span>
+              </ListItem>
+              <ListItem clickable on:click={toggleshowplugins}>
+                <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare></span>
+                <div slot="right">
+                  <AdvancedBadge />
+                  {#if showplugins}
+                    <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
+                  {:else}
+                  <span><IonIcon icon={ChevronDownOutline} size={16} /></span>
+                  {/if}
+                </div>
+                <div class="font-semibold leading-tight">Show Plugins</div>
+                <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">Click to show or hide the installed Plugins</div>
+              </ListItem>
+              {#if showplugins}
+              <PluginsMoreMenu />
+              {/if}
+              {/if}
             </List>
 
             <!-- <List solo className="mt-4">

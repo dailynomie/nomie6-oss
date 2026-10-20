@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
   import { Prefs } from '../preferences/Preferences'
   import { Lang } from '../../store/lang'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -156,6 +157,7 @@
       {config.enabled ? `Using ${config.selectedService}` : 'Click to enable AI integration'}
     </div>
     <div slot="right" class="flex items-center gap-3">
+      <AdvancedBadge />
       {#if config.enabled}
         <button
           type="button"

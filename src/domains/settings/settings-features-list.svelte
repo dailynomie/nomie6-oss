@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
   import { CloudUploadOutline, ContractOutline, ContrastOutline, HomeOutline, LocationOutline, LockClosedOutline, NotificationsOffOutline, TextOutline } from '../../components/icon/nicons'
   import capitalize from 'lodash/capitalize'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -236,7 +237,8 @@
   {#if $FeatureVisible('people-board')}
   <ListItem bottomLine={57} title={Lang.t('settings.show-people-board', 'Show People Board')}>
     <span slot="left"><IconSquare color="#9E62C0"><span class="board-white"><PeopleBoardIcon size={17} /></span></IconSquare></span>
-    <div slot="right">
+    <div slot="right" class="flex items-center gap-2">
+      <AdvancedBadge />
       <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
     </div>
   </ListItem>
@@ -244,7 +246,8 @@
   {#if $FeatureVisible('context-board')}
   <ListItem bottomLine={57} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
     <span slot="left"><IconSquare color="#A066C0"><span class="board-white"><ContextBoardIcon size={17} /></span></IconSquare></span>
-    <div slot="right">
+    <div slot="right" class="flex items-center gap-2">
+      <AdvancedBadge />
       <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
     </div>
   </ListItem>
