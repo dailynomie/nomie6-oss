@@ -469,7 +469,7 @@
 
 
     <!-- iOS look (guide 3.1): round actions on the left, the pivot menu on the right, then the large title. No separate menu bar. -->
-    <div class="px-4 pt-2 pb-1">
+    <div class="glass px-4 pt-2 pb-3">
         <div class="flex items-center justify-between h-11 gap-2">
             <div class="flex items-center gap-2">
                 <button type="button" class="ios-round" aria-label="New pivot" on:click={createPivot}>
