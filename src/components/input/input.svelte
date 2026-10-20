@@ -294,7 +294,13 @@ import is from '../../utils/is/is';
     @apply mb-px;
     
     border-radius: 10px;
-    @apply focus-within:ring-2 ring-opacity-50 ring-inset ring-primary-500;
+  }
+  /* iOS look: touch focus shows the caret, not a coloured box. Keyboard users still get a visible focus ring (tint). */
+  .n-input-container input:focus-visible,
+  .n-input-container select:focus-visible,
+  .n-input-container textarea:focus-visible {
+    outline: 2px solid var(--ios-tint);
+    outline-offset: 2px;
   }
 
   .n-input-container input:invalid {
@@ -304,7 +310,7 @@ import is from '../../utils/is/is';
 
   .n-input-container .helper {
     font-size: 0.65em;
-    color: var(--color-grey-5);
+    color: var(--ios-label2);
     padding: 3px 6px;
   }
   .n-input-container.list-item {
