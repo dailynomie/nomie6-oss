@@ -4,6 +4,8 @@
     import { createEventDispatcher } from "svelte";
     import { Prefs } from '../../../preferences/Preferences'
     import { openDateOptionPopMenu, openPopMenu, type PopMenuButton } from '../../../../components/pop-menu/usePopmenu'
+    import IonIcon from '../../../../components/icon/ion-icon.svelte'
+    import { ChevronExpandOutline } from '../../../../components/icon/nicons'
 
     const dispatch = createEventDispatcher();
 
@@ -38,20 +40,48 @@ const showMenu = () => {
 
 </script>
 
-<div class="pvtDropdown" style='{cssVarStyles}'>
-    <button
-        
-        class={"pvtDropdownValue pvtDropdownCurrent " + (open ? "pvtDropdownCurrentOpen" : "")} style="font-size:{fontsize}px;width:{leftcolumnsize}px"
-        on:click={()=>{showMenu()}}
-            
-    >
-        <div class="pvtDropdownIcon">{open ? "×" : "..."}</div>
-        {#if current}
-            {current}
-        {:else}
-            <span>&nbsp;</span>
-        {/if}
+<!-- iOS look: a pill button with the chart or table type and a chevron; the choices open in an action sheet -->
+<div class="pvtDropdown ios-chooser-wrap" style='{cssVarStyles}'>
+    <button type="button" class="ios-chooser" aria-label="Chart or table type" aria-expanded={open} on:click={()=>{showMenu()}}>
+        <span class="ios-chooser-label">{current || " "}</span>
+        <IonIcon icon={ChevronExpandOutline} size={14} />
     </button>
-
-        
 </div>
+
+<style>
+    .ios-chooser-wrap {
+        display: block;
+        margin: 0;
+        width: 100%;
+    }
+    .ios-chooser {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+        min-height: 36px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 10px;
+        background: var(--ios-fill);
+        color: var(--ios-label);
+        font-size: 15px;
+        font-weight: 500;
+        text-align: left;
+    }
+    .ios-chooser:active {
+        opacity: 0.7;
+    }
+    .ios-chooser-label {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .ios-chooser :global(svg) {
+        color: var(--ios-label2);
+        flex-shrink: 0;
+    }
+</style>
