@@ -26,7 +26,7 @@
   import config from '../../config/appConfig'
   import { AppVersion } from '../../modules/app-version/app-version'
   import Badge from '../../components/badge/badge.svelte'
-  import { BookOutline, ChatbubblesOutline, GlobeOutline, HelpCircleOutline } from '../../components/icon/nicons'
+  import { BookOutline, ChatbubblesOutline, GlobeOutline, HelpCircleOutline, LanguageOutline } from '../../components/icon/nicons'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
@@ -112,6 +112,11 @@
         <Badge pad className="bg-gray-300 text-black">Email</Badge>
       </a>
     </div>
+  </ListItem>
+
+  <!-- The translation editor (/lang): help translating Nomie -->
+  <ListItem bottomLine={16} title={Lang.t('settings.help-translate', 'Help translate Nomie')} detail clickable on:click={() => navigate('/lang')}>
+    <span slot="left"><IconSquare color="#9CCBF8"><IonIcon icon={LanguageOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <!-- <ListItem title="Open Source" detail href="https://github.com/open-nomie/nomie">
