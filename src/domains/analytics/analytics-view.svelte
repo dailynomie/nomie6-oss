@@ -516,13 +516,13 @@
     <div class="flex items-center justify-center py-12">
         <div class="flex flex-col items-center space-y-4">
             <Spinner size={48} />
-            <div class="text-xs dark:text-gray-400 text-gray-600">Loading data...</div>
+            <div class="text-ios-footnote text-ios-label2">Loading data...</div>
         </div>
     </div>
     {:else if notenoughdata}
     <List transparent className="max-w-md mx-auto">
         <Empty icon={CubeOutline} title="Not Enough Data">
-            <div class="my-0 text-center text-lg font-normal leading-tight text-gray-800 dark:text-gray-50">
+            <div class="my-0 text-center text-ios-body text-ios-label2">
                 Not enough Data to create Pivots.
               </div>
         </Empty>
