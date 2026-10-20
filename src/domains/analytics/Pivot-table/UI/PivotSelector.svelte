@@ -79,13 +79,13 @@
       }}
     >
       <div
-        class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+        class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
       >
         
           <Avatar size={30} emoji={"➕"} />
         
       </div>
-      <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xxs pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
         {"New"}
       </div>
     </button>
@@ -97,13 +97,13 @@
       }}
     >
     <div
-    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
   >
     
       <Avatar size={30} emoji={"💾"} />
     
   </div>
-      <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xxs pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
         {"Save"}
       </div>
     </button>
@@ -115,13 +115,13 @@
       }}
     >
     <div
-    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
   >
     
       <Avatar size={30} emoji={"🪞"} />
     
   </div>
-      <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xxs pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
         {"Copy"}
       </div>
     </button>
@@ -133,13 +133,13 @@
       }}
     >
     <div
-    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
   >
     
       <Avatar size={30} emoji={"✍🏼"} />
     
   </div>
-      <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xxs pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
         {"Edit"}
       </div>
     </button>
@@ -151,18 +151,18 @@
       }}
     >
     <div
-    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+    class="w-10 h-10 lg:h-14 mb-1 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
   >
     
       <Avatar size={30} emoji={"🗑️"} />
     
   </div>
-      <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xxs pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
         {"Delete"}
       </div>
     </button>
     <div
-    class="w-10 h-10 lg:h-14 mb-6 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center dark:text-gray-500 text-5xl"
+    class="w-10 h-10 lg:h-14 mb-6 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center text-ios-label2 text-3xl"
   >
     
       ||
@@ -178,38 +178,38 @@
     >
     {#if pivot.default}
     <span  class="inset-0 object-right-top -mr-10 lg:-mr-14 -mt-2 z-10">
-      <div class="inline-flex items-center px-1 py-0.3 border-2 border-none rounded-full text-xxs font-semibold text-white leading-3 bg-green-500">
+      <div class="inline-flex items-center px-1 py-0.3 border-2 border-none rounded-full text-xxs font-semibold text-white leading-3 ios-badge-good">
         {pivot.days}
       </div>
     </span>
     
       <div
-        class="w-10 h-10 lg:h-14 mb-1 -mt-4 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+        class="w-10 h-10 lg:h-14 mb-1 -mt-4 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
       >
       
           <Avatar size={30} emoji={pivot.emoji} />
         
       </div>
       
-      <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xxs pt-2 leading-tight">
+      <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
         {pivot.tag}
       </div>
       {:else}
       <span class="inset-0 object-right-top -mr-10 lg:-mr-14 -mt-2 z-10" on:click|preventDefault|stopPropagation={()=>{setDefault(pivot)}} on:keypress>
-        <div class="inline-flex items-center px-1 py-0.3 border-2 border-none rounded-full text-xxs font-semibold text-black leading-3 bg-yellow-400">
+        <div class="inline-flex items-center px-1 py-0.3 border-2 border-none rounded-full text-xxs font-semibold text-ios-ontint leading-3 ios-badge-tint">
           {pivot.days}
         </div>
       </span>
       
         <div
-          class="w-10 h-10 lg:h-14 mb-1 -mt-4 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl"
+          class="w-10 h-10 lg:h-14 mb-1 -mt-4 lg:w-14 transition-all duration-100 transform stiff flex items-center justify-center ios-pivot-tile"
         >
         
             <Avatar size={30} emoji={pivot.emoji} />
           
         </div>
         
-        <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xxs pt-2 leading-tight">
+        <div class="filler w-full line-clamp-2 text-ios-label text-center text-ios-caption pt-2 leading-tight">
           {pivot.tag}
         </div>
       {/if}
@@ -218,6 +218,18 @@
 </HScroller>
 
 <style lang="postcss" global>
+  /* iOS look: pivot tiles are plain cards with no shadow, and the badges use the iOS tokens */
+  .ios-pivot-tile {
+    background: var(--ios-card);
+    color: var(--ios-label2);
+    border-radius: 14px;
+  }
+  .ios-badge-good {
+    background: var(--ios-good);
+  }
+  .ios-badge-tint {
+    background: var(--ios-tint);
+  }
   .pivot-selector .active-pivot {
     @apply bg-primary-500 text-white;
     @apply ring ring-inset ring-white;

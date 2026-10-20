@@ -467,13 +467,14 @@
         {#if !notenoughdata}
         <div>
             {#if !menushow}
-            <Button icon on:click={showMenu}>
-                <IonIcon className="text-primary-500" icon={EyeSolid} size={32} />
-              </Button>
+            <!-- iOS look: round 36 px toggle, as the other action rows -->
+            <button type="button" class="ios-round" aria-label="Show pivot options" on:click={showMenu}>
+                <IonIcon icon={EyeSolid} size={18} />
+              </button>
             {:else}
-            <Button icon on:click={hideMenu}>
-                <IonIcon className="text-primary-500" icon={EyeClosedSolid} size={32} />
-              </Button>
+            <button type="button" class="ios-round" aria-label="Hide pivot options" on:click={hideMenu}>
+                <IonIcon icon={EyeClosedSolid} size={18} />
+              </button>
             {/if}
         </div>
         {#if menushow}
