@@ -238,10 +238,11 @@
     @apply font-medium dark:text-gray-300;
   }
 
-  .bubble.note-bubble .text-size-sm {
-    @apply text-base;
-  }
+  /* iOS look: short and long notes use the same 15 px text (scales with Font Size), regular weight, as in the mockup */
+  .bubble.note-bubble .text-size-sm,
   .bubble.note-bubble .text-size-big {
-    @apply text-lg;
+    font-size: 0.9375em;
+    line-height: 1.33em;
+    font-weight: 400;
   }
 </style>
