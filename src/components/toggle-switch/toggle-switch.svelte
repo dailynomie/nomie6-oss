@@ -41,7 +41,12 @@
     padding: 2px;
     @apply transform transition-all duration-100;
     @apply inline-flex;
-    @apply focus:outline-none focus:ring-2 ring-green-500 ring-inset;
+    @apply focus:outline-none;
+  }
+  /* iOS look: keyboard focus only, in the tint colour */
+  .onoffswitch-btn:focus-visible {
+    outline: 2px solid var(--ios-tint);
+    outline-offset: 2px;
     @apply border-none cursor-pointer;
   }
 

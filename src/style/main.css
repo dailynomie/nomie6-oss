@@ -589,6 +589,10 @@ html.dark .ios-thumb {
     margin-right: auto;
   }
 }
+/* iOS look: a tap or click focuses an element without drawing a box. Keyboard focus keeps a visible outline. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
 .ios-round-alert {
   background: var(--ios-danger);
   color: #ffffff;
