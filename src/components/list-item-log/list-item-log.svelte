@@ -251,10 +251,11 @@
 {/if}
 
 <style global lang="postcss">
-  /* iOS look: the entry time is a 40 px column on the left, and the location sits under the chips */
+  /* iOS look: the entry time is a 56 px column on the left (wide enough for "8:00 AM" on one line), and the location sits under the chips */
   .log-time-col {
-    width: 40px;
+    width: 56px;
     flex-shrink: 0;
+    white-space: nowrap;
     font-size: 13px;
     font-weight: 600;
     line-height: 22px;
@@ -263,7 +264,7 @@
   }
   /* iOS look (mockup): the time column holds the time and, under it, the mood */
   .log-side {
-    width: 40px;
+    width: 56px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
