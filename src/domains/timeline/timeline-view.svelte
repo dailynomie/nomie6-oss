@@ -120,7 +120,7 @@
                 return a.usage.logs[a.usage.logs.length - 1].end < b.usage.logs[b.usage.logs.length - 1].end ? 1 : -1
               }) as usageMapItem, index (usageMapItem.tag)}
               <!-- <TimelineItem {item} /> -->
-              <ListItem bottomLine={60} id="{textToId(usageMapItem.usage.trackable.tag)}-items">
+              <ListItem bottomLine={57} id="{textToId(usageMapItem.usage.trackable.tag)}-items">
                 <TrackablePill
                   transparent
                   slot="left"
@@ -130,7 +130,7 @@
                   )}
                   hideValue={usageMapItem.usage.trackable.type === 'person' || usageMapItem.usage.trackable.type === 'pointer'}
                   trackable={usageMapItem.usage.trackable}
-                  size={$Device.width < 350 ? 34 : 42}
+                  size={29}
                   className="stiff z-10 hover:scale-105 focus:scale-95 transition-all transform duration-200 mb-1 mr-1  lg:mr-2 shadow-md lg:col-span-3 md:col-span-6 col-span-6 timeline-pill w-full"
                 />
                 <div class="w-full">
@@ -149,7 +149,7 @@
                         percentage={usageItem.percentage}
                         value={usageItem.trackable.formatValue(usageItem.value)}
                         wrapperClass="m-px"
-                        size={48}
+                        size={40}
                         date={usageItem.date}
                         color={usageItem.trackable.color}
                         topLabel={usageItem.date.format(dateFormats.time).replace(/( |M)/g, '').toLowerCase()}
