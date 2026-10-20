@@ -52,7 +52,7 @@
 
   <!-- firstDayOfWeek -->
   <ListItem bottomLine={57} title={Lang.t('settings.unit-system,', 'Units')}>
-    <span slot="left"><IconSquare color="#2F7FD6"><IonIcon icon={ResizeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#9E4A00"><IonIcon icon={ResizeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ButtonGroup
         buttons={[
@@ -76,7 +76,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.week-starts', 'Week Starts')}>
-    <span slot="left"><IconSquare color="#2F7FD6"><IonIcon icon={CalendarOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#B95500"><IonIcon icon={CalendarOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ButtonGroup
         bind:value={$Prefs.weekStarts}
@@ -95,7 +95,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.24-hour-clock', '24 hour clock')}>
-    <span slot="left"><IconSquare color="#2F7FD6"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <NToggle title="24 Hour Mode" bind:value={$Prefs.use24hour} />
     </div>
@@ -103,7 +103,7 @@
 
   <!-- Language -->
   <ListItem bottomLine={57} title={Lang.t('settings.language', 'Language')}>
-    <span slot="left"><IconSquare color="#2F7FD6"><IonIcon icon={LanguageOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#D06A14"><IonIcon icon={LanguageOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <select
         title="Select a Language"
@@ -122,5 +122,5 @@
 </List>
 <!-- 
   <ListItem bottomLine={57} title={Lang.t('settings.translate-nomie', 'Help Translate Nomie')} to="/lang" detail>
-    <span slot="left"><IconSquare color="#2F7FD6"><IonIcon icon={GlobeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#DE7B2A"><IonIcon icon={GlobeOutline} size={17} /></IconSquare></span>
   </ListItem> -->

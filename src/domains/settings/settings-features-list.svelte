@@ -96,7 +96,7 @@
   </div>
 
   <ListItem bottomLine={57} title={Lang.t('settings.start-page', 'Start Page')}>
-    <span slot="left"><IconSquare color="#2F7FD6"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#1F78D1"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="start-page"
@@ -160,7 +160,7 @@
 <div class="mb-4" />
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.theme', 'Theme')}>
-    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={ContrastOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#0A4F9E"><IonIcon icon={ContrastOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="theme"
@@ -197,7 +197,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.font-size', 'Font Size')}>
-    <span slot="left"><IconSquare color="#4D9BE8"><IonIcon icon={TextOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#4A9BEA"><IonIcon icon={TextOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ButtonGroup style="width:170px;">
         {#each ['xs', 'sm', 'md', 'lg', 'xl'] as size}
@@ -266,7 +266,7 @@
 <div class="mb-4" />
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.small-tracker-buttons', 'Compact Trackers')}>
-    <span slot="left"><IconSquare color="#5AA9F2"><IonIcon icon={ContractOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#6EB2F5"><IonIcon icon={ContractOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.compactTrackers} title="Compact Tracker Buttons" />
     </div>

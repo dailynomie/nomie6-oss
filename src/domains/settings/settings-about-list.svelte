@@ -23,7 +23,7 @@
   import WhatsNewModal from '../whats-new/whats-new-modal.svelte'
   import { openPrivacyPolicy } from '../../components/markdown-modal/MarkdownModalStore'
   import IconSquare from '../../components/icon-square/icon-square.svelte'
-  import { BookOutline, ChatbubblesOutline, GlobeOutline } from '../../components/icon/nicons'
+  import { AppsOutline, BookOutline, ChatbubblesOutline, CheckmarkCircleOutline, DesktopOutline, GlobeOutline, InformationCircleOutline, PhonePortraitOutline, RocketOutline, TimeOutline } from '../../components/icon/nicons'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
@@ -109,6 +109,7 @@
 
 <List solo className="mb-3" outside title="App">
   <ListItem bottomLine={16} title={Lang.t('general.first_log', 'First Log')}>
+    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div class="" slot="right">
       {#await LedgerStore.getFirstDate(true)}
         Loading...
@@ -119,6 +120,7 @@
     </div>
   </ListItem>
   <ListItem bottomLine={16} title={Lang.t('general.launch_count', 'Launch Count')}>
+    <span slot="left"><IconSquare color="#636366"><IonIcon icon={RocketOutline} size={17} /></IconSquare></span>
     <div class="" slot="right">
       {$LaunchCount}
     </div>
@@ -133,12 +135,15 @@
     </div>
   </ListItem> -->
   <ListItem bottomLine={16} title={Lang.t('general.device', 'Device')}>
+    <span slot="left"><IconSquare color="#48484A"><IonIcon icon={PhonePortraitOutline} size={17} /></IconSquare></span>
     <span slot="right">{$Device.device}</span>
   </ListItem>
   <ListItem bottomLine={16} title={Lang.t('general.platform', 'Platform')}>
+    <span slot="left"><IconSquare color="#3A3A3C"><IonIcon icon={DesktopOutline} size={17} /></IconSquare></span>
     <span slot="right">{$Device.platform}</span>
   </ListItem>
   <ListItem bottomLine={16} title={Lang.t('general.pwa', 'PWA')}>
+    <span slot="left"><IconSquare color="#56565B"><IonIcon icon={AppsOutline} size={17} /></IconSquare></span>
     <span slot="right">{$Device.pwa}</span>
   </ListItem>
 
@@ -185,7 +190,7 @@
 
 <List solo title="Version" outside className="mb-3">
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
     title="Version {import.meta.env.PACKAGE_VERSION} "
     detail
     on:click={() => {
@@ -196,6 +201,7 @@
       })
     }}
   >
+    <span slot="left"><IconSquare color="#8E8E93"><IonIcon icon={InformationCircleOutline} size={17} /></IconSquare></span>
     <span slot="right" class="flex text-sm text-primary-500"> What's New </span>
   </ListItem>
   <ListItem
@@ -205,6 +211,7 @@
       navigate('/setup')
     }}
   >
+    <span slot="left"><IconSquare color="#7A7A80"><IonIcon icon={CheckmarkCircleOutline} size={17} /></IconSquare></span>
     <span slot="right" class="text-sm text-primary-500">
       {Lang.t('settings.redo-setup', 'Redo Setup')}
     </span>

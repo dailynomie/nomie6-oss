@@ -315,3 +315,13 @@ import HelpCircleOutlineIcon from '../../n-icons/HelpCircleOutline.svelte'
 export const HelpCircleOutline = HelpCircleOutlineIcon
 import ChatbubblesOutlineIcon from '../../n-icons/ChatbubblesOutline.svelte'
 export const ChatbubblesOutline = ChatbubblesOutlineIcon
+import PhonePortraitOutlineIcon from '../../n-icons/PhonePortraitOutline.svelte'
+export const PhonePortraitOutline = PhonePortraitOutlineIcon
+import DesktopOutlineIcon from '../../n-icons/DesktopOutline.svelte'
+export const DesktopOutline = DesktopOutlineIcon
+import InformationCircleOutlineIcon from '../../n-icons/InformationCircleOutline.svelte'
+export const InformationCircleOutline = InformationCircleOutlineIcon
+import CheckmarkCircleOutlineIcon from '../../n-icons/CheckmarkCircleOutline.svelte'
+export const CheckmarkCircleOutline = CheckmarkCircleOutlineIcon
+import RocketOutlineIcon from '../../n-icons/RocketOutline.svelte'
+export const RocketOutline = RocketOutlineIcon
