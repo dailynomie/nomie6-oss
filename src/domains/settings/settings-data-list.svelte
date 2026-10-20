@@ -152,7 +152,7 @@
   </Button> -->
   <ListItem on:click={showStorageOptions} detail bottomLine={57}>
     <span slot="left">
-      <IconSquare color="#323234"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
+      <IconSquare color="#0B4F55"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
     </span>
     <div class="font-semibold leading-tight">Stored on {storageDetails.name}</div>
     <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
@@ -185,13 +185,13 @@
       showImportModal()
     }}
   >
-    <span slot="left"><IconSquare color="#56565B"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#0E7C86"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
     <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
   </ListItem>
 
   {#if $FeatureVisible('csv')}
     <ListItem bottomLine={57} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
-      <span slot="left" class="adv-corner"><IconSquare color="#636366"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+      <span slot="left" class="adv-corner"><IconSquare color="#2A8E97"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare><AdvancedBadge /></span>
     </ListItem>
   {/if}
 </List>
@@ -204,7 +204,7 @@
       navigate('/files')
     }}
   >
-    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={FolderOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#3FA0A9"><IonIcon icon={FolderOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem
@@ -214,7 +214,7 @@
     title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
     on:click={updateLastUsedDates}
   >
-    <span slot="left"><IconSquare color="#7A7A80"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#5CB3BB"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem
@@ -225,11 +225,11 @@
     description="Find and remove duplicate plugin settings"
     on:click={openPluginDedupModal}
   >
-    <span slot="left"><IconSquare color="#8E8E93"><IonIcon icon={TrashOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#7CC4CB"><IonIcon icon={TrashOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem bottomLine={57} title="Auto-PluginDB-Cleanup Schedule">
-    <span slot="left"><IconSquare color="#A1A1A6"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#9AD3D8"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="plugin-cleanup-schedule"
