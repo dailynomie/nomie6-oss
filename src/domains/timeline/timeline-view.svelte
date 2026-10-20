@@ -20,7 +20,6 @@
   import { openOnThisDayModal } from '../on-this-day/useOnThisDayModal'
 
   import math from '../../utils/math/math'
-  import ValueButton from '../../components/value-button/value-button.svelte'
 
   import { Device } from '../../store/device-store'
 
@@ -140,20 +139,20 @@
                         return { value: v, log: usageMapItem.usage.logs[i], date: usageMapItem.usage.dates[i], usage: usageMapItem.usage, trackable: usageMapItem.usage.trackable, percentage: math.percentage(UsageStore[usageMapItem.usage.trackable.tag]?.max.v || v, v) }
                       })
                       .sort((a, b) => (a.log.end > b.log.end ? 1 : -1)) as usageItem, index (index)}
-                      <ValueButton
+                      <!-- iOS look: each value is a chip, the same as the chips on an entry: time, then the value in bold -->
+                      <button
+                        type="button"
+                        class="tiny-trackable m-px"
+                        aria-label="Log options for this value"
                         on:click={() => {
                           Interact.logOptions(usageItem.log, {
                             description: usageItem.log.note,
                           })
                         }}
-                        percentage={usageItem.percentage}
-                        value={usageItem.trackable.formatValue(usageItem.value)}
-                        wrapperClass="m-px"
-                        size={40}
-                        date={usageItem.date}
-                        color={usageItem.trackable.color}
-                        topLabel={usageItem.date.format(dateFormats.time).replace(/( |M)/g, '').toLowerCase()}
-                      />
+                      >
+                        <span class="label">{usageItem.date.format(dateFormats.time)}</span>
+                        <span class="value">{usageItem.trackable.formatValue(usageItem.value)}</span>
+                      </button>
                     {/each}
                   </div>
                 </div>
