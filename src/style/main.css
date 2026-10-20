@@ -152,12 +152,13 @@ html {
   height: -webkit-fill-available;
 }
 
+/* iOS look: the danger text is the danger token (light and dark) */
 .text-danger {
-  @apply text-red-600 dark:text-red-400;
+  color: var(--ios-danger);
 }
+/* iOS look: the accent text is the tint token (light and dark), as in the rest of the design */
 .text-primary {
-  @apply text-primary-600;
-  @apply dark:text-primary-400;
+  color: var(--ios-tint);
 }
 
 .bg-solid {
