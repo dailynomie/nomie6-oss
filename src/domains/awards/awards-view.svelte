@@ -32,7 +32,6 @@
       <div slot="left">
         <BackButton to="/settings" />
       </div>
-      <h1 class="ntitle">My Awards</h1>
       <div slot="right">
         <button
           class="{$Device.width < 399 ? 'nbtn-icon circle' : 'clear'} flex items-center text-primary-500"
@@ -47,6 +46,7 @@
         </button>
       </div>
     </ToolbarGrid>
+    <h1 class="ios-large-title">My Awards</h1>
   </header>
   <main class="h-full ">
     <Container className="py-4">

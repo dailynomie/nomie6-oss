@@ -10,11 +10,13 @@
 </script>
 
 <Layout checkIn={false}>
-  <ToolbarGrid slot="header">
-    <Button slot="left" icon on:click={() => {}}>
-      <IonIcon icon={PlusIcon} className="text-primary-500" />
-    </Button>
-    <h1 class="ntitle">Units of Measure</h1>
-  </ToolbarGrid>
+  <div slot="header">
+    <ToolbarGrid>
+      <Button slot="left" icon on:click={() => {}}>
+        <IonIcon icon={PlusIcon} className="text-primary-500" />
+      </Button>
+    </ToolbarGrid>
+    <h1 class="ios-large-title">Units of Measure</h1>
+  </div>
   <!-- <UomsView /> -->
 </Layout>

@@ -298,10 +298,12 @@
 
 {#if !browserFile}
   <NLayout className="n-file-browser" checkIn={false}>
-    <ToolbarGrid slot="header">
-      <BackButton on:click={() => back()} slot="left" />
-      <h1 class="ntitle">{browserTitle}</h1>
-    </ToolbarGrid>
+    <div slot="header">
+      <ToolbarGrid>
+        <BackButton on:click={() => back()} slot="left" />
+      </ToolbarGrid>
+      <h1 class="ios-large-title">{browserTitle}</h1>
+    </div>
     <div class="content n-panel vertical scroll-y" style="overflow: hidden;">
       <div style="overflow-y: auto; height: 100%; position: relative; z-index: 0;">
         <List className="mt-2" solo role="menu" style="position: relative; z-index: 0;">

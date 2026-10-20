@@ -233,6 +233,16 @@ html {
   @apply text-sm;
 }
 
+/* iOS look: large title for pushed screens, placed under the nav bar (guide 3.1) */
+.ios-large-title {
+  font-size: 34px;
+  line-height: 41px;
+  font-weight: 700;
+  letter-spacing: 0.37px;
+  color: var(--ios-label);
+  padding: 4px 16px 8px;
+}
+
 /* iOS look: page titles in the header use the 17 px nav-bar style (large titles come per screen) */
 h1.ntitle {
   font-size: 17px;

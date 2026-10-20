@@ -35,10 +35,12 @@
 </script>
 
 <NLayout pageTitle="Export your Data" className="Export">
-  <ToolbarGrid slot="header">
-    <NBackButton slot="left" />
-    <h1 class="ntitle">Generate Backup</h1>
-  </ToolbarGrid>
+  <div slot="header">
+    <ToolbarGrid>
+      <NBackButton slot="left" />
+    </ToolbarGrid>
+    <h1 class="ios-large-title">Generate Backup</h1>
+  </div>
 
   <div class=" backup">
     <Spacer gap={4} />

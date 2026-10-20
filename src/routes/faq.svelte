@@ -22,9 +22,10 @@
     <div class="left">
       <NBackButton />
     </div>
-    <div class="main title">Q&A</div>
+    <div class="main title" />
     <div class="right" />
   </div>
+  <h1 class="ios-large-title">Q&amp;A</h1>
 
   <div class="min-h-full bg-gray-200 dark:bg-gray-800">
     {#each faq as q}

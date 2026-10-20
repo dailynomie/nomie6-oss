@@ -6,17 +6,16 @@
 
   import AnalyticsView from '../domains/afternomie/afternomie-view.svelte'
 
-  import Toolbar from '../components/toolbar/toolbar.svelte'
 
   
 </script>
 
 <Layout pageTitle="AfterNomie" checkIn={false}>
-  <Toolbar slot="header">
-    <h1 class="ntitle w-full" style="text-align: center;">
+  <div slot="header">
+    <h1 class="ios-large-title">
       <span>AfterNomie</span>&nbsp;<span class="redText">BETA</span>
     </h1>
-  </Toolbar>
+  </div>
   <AnalyticsView />
 </Layout>
 
