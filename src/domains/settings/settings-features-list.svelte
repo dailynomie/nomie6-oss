@@ -96,7 +96,7 @@
   </div>
 
   <ListItem bottomLine={57} title={Lang.t('settings.start-page', 'Start Page')}>
-    <span slot="left"><IconSquare color="#6E3A96"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#4E2470"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="start-page"
@@ -119,7 +119,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.use-location', 'Use Location')}>
-    <span slot="left"><IconSquare color="#8944AB"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#5B2C7A"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
     <div slot="right" class="ml-2">
       <ToggleSwitch title="Location Lookup" bind:value={$Prefs.alwaysLocate} />
     </div>
@@ -128,7 +128,7 @@
   <!-- Pin Code -->
   <!-- description={Lang.t('settings.require-pin-description', "Don't forget it!")} -->
   <ListItem bottomLine={57} title={Lang.t('settings.require-pin', 'Require Access Pin')}>
-    <span slot="left"><IconSquare color="#A066C0"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#6E3A96"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
     <div slot="right" class="ml-2">
       {#if hasPin}
         <button
@@ -160,7 +160,7 @@
 <div class="mb-4" />
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.theme', 'Theme')}>
-    <span slot="left"><IconSquare color="#0A4F9E"><IonIcon icon={ContrastOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#7D4AA8"><IonIcon icon={ContrastOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="theme"
@@ -197,7 +197,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.font-size', 'Font Size')}>
-    <span slot="left"><IconSquare color="#4A9BEA"><IonIcon icon={TextOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#8944AB"><IonIcon icon={TextOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ButtonGroup style="width:170px;">
         {#each ['xs', 'sm', 'md', 'lg', 'xl'] as size}
@@ -227,14 +227,14 @@
 
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.show-all-board', 'Show All Board')}>
-    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={AllBoardIcon} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#9455B8"><IonIcon icon={AllBoardIcon} size={16} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle People Board" />
     </div>
   </ListItem>
   {#if $FeatureVisible('people-board')}
   <ListItem bottomLine={57} title={Lang.t('settings.show-people-board', 'Show People Board')}>
-    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={PeopleBoardIcon} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#9E62C0"><IonIcon icon={PeopleBoardIcon} size={16} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
     </div>
@@ -242,7 +242,7 @@
   {/if}
   {#if $FeatureVisible('context-board')}
   <ListItem bottomLine={57} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
-    <span slot="left"><IconSquare color="#0A6CC9"><IonIcon icon={ContextBoardIcon} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#A066C0"><IonIcon icon={ContextBoardIcon} size={16} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
     </div>
@@ -250,7 +250,7 @@
   {/if}
   <!-- iOS look: teal icon square for the Experiments board -->
   <ListItem bottomLine={57} title="Show Experiments Board">
-    <span slot="left"><IconSquare color="#0E7C86"><IonIcon icon={ExperimentBoardIcon} size={16} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#A86EC8"><IonIcon icon={ExperimentBoardIcon} size={16} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch
         value={$Prefs.experimentBoard === true}
@@ -266,21 +266,21 @@
 <div class="mb-4" />
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.small-tracker-buttons', 'Compact Trackers')}>
-    <span slot="left"><IconSquare color="#6EB2F5"><IonIcon icon={ContractOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#B07AD0"><IonIcon icon={ContractOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.compactTrackers} title="Compact Tracker Buttons" />
     </div>
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.hide-backup-reminder', 'Hide Backup Reminder')}>
-    <span slot="left"><IconSquare color="#636366"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#B985D8"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.hideBackupMessage} title="Hide Backup Message" />
     </div>
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.hide-message-notifications', 'Hide Message Alerts')}>
-    <span slot="left"><IconSquare color="#6C6C70"><IonIcon icon={NotificationsOffOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#C192DE"><IonIcon icon={NotificationsOffOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.hideMessages} title="Hide Nomie Messages" />
     </div>
