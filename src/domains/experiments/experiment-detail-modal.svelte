@@ -214,9 +214,11 @@
 
       <!-- Status -->
       <section class="ios-card p-4 space-y-3">
-        <div class="flex items-center justify-between gap-2">
-          <ExperimentChip tone={frozen ? 'neutral' : 'running'} label={statusLabel} />
-          <div class="text-ios-footnote text-ios-label2 whitespace-nowrap">{experiment.durationDays} days · ends {endsText}</div>
+        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+          <div class="shrink-0">
+            <ExperimentChip tone={frozen ? 'neutral' : 'running'} label={statusLabel} />
+          </div>
+          <div class="text-ios-footnote text-ios-label2">{experiment.durationDays} days · ends {endsText}</div>
         </div>
         {#if experiment.change && experiment.change !== experiment.title}
           <div class="text-sm">{experiment.change}</div>
@@ -262,8 +264,8 @@
       {#if shownResult}
         {#each shownResult.outcomes as outcome}
           <section class="ios-card p-4 space-y-3">
-            <div class="flex items-center justify-between gap-2 min-w-0">
-              <div class="text-ios-body font-semibold capitalize truncate">{outcome.tag.replace(/_/g, ' ')}</div>
+            <div class="space-y-2 min-w-0">
+              <div class="text-ios-body font-semibold capitalize">{outcome.tag.replace(/_/g, ' ')}</div>
               <ExperimentChip tone={outcomeTone(outcome.verdict, outcome.matchesExpectation)} label={verdictText(outcome)} title={verdictText(outcome)} />
             </div>
             <div class="grid grid-cols-2 gap-3">
