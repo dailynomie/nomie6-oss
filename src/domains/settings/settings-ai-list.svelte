@@ -146,7 +146,7 @@
 </script>
 
 <List solo className="mb-4" title={Lang.t('settings.ai', 'AI Integration')} outside>
-  <ListItem bottomLine={57>
+  <ListItem bottomLine={57}>
     <span slot="left" class="adv-corner">
       <IconSquare color="#7D4AA8"><IonIcon icon={SparklesOutline} size={17} /></IconSquare>
       <AdvancedBadge />
