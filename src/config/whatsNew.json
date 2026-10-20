@@ -2,6 +2,10 @@
   "features": [
     {
       "version": "7.0.0",
+      "title": "A fresh iOS-style look with full dark mode"
+    },
+    {
+      "version": "7.0.0",
       "title": "Experiments: test whether one change affects something you track"
     },
     {
