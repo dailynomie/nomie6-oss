@@ -24,6 +24,7 @@ import Divider from '../divider/divider.svelte'
 <div {id} class="id-{id} {compact ? 'compact' : ''} relative menu-inline">
   <button
     title={title}
+    aria-label={title}
     id="{id}-button"
     style={buttonStyle}
     class="{buttonClass} flex items-center justify-center {open ? 'isOpen' : ''}"

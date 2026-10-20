@@ -86,6 +86,7 @@
 
   {#if !hideAdd && !searching}
     <button
+      aria-label="Add tracker"
       class="addButton ios-add-tile filler flex items-center justify-center {$Prefs.compactTrackers
         ? 'h-14'
         : 'h-28 lg:h-32'}"

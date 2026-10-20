@@ -183,7 +183,7 @@
   <!-- iOS look (same as the Timeline header): action row with the round menu, then the large title, then the dashboard names -->
   <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
     <div class="flex items-center justify-end h-11">
-      <MenuInline id="dashboard-menu" x="right" y="bottom" menuButtons={mainMenu} buttonClass="ios-round">
+      <MenuInline id="dashboard-menu" title="Dashboard options" x="right" y="bottom" menuButtons={mainMenu} buttonClass="ios-round">
         <IonIcon icon={SettingsOutline} size={18} />
       </MenuInline>
     </div>

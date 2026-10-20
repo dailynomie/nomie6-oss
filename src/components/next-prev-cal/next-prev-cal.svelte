@@ -16,6 +16,7 @@
 <div class="flex items-center flex-grow-0 flex-shrink-0 next-prev-cal {className}" {style}>
   <Button
     className="previous-action"
+    ariaLabel="Previous day"
     icon
     delay={0}
     on:click={() => {
@@ -27,6 +28,7 @@
   {#if !hideCal}
     <Button
       className="calendar-action {isToday ? 'tap-icon' : 'text-white bg-primary-500'}"
+      ariaLabel="Choose a date"
       delay={0}
       icon
       color="transparent"
@@ -41,6 +43,7 @@
   <slot />
   <Button
     className="next-action"
+    ariaLabel="Next day"
     delay={0}
     icon
     on:click={() => {

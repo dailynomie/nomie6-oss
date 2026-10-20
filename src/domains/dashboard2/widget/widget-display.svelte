@@ -255,6 +255,7 @@
       {#if !hideTools}
         <button
           class="text-xs  px-1 "
+          aria-label="Change widget size"
           on:click={(evt) => {
             // TODO: Move this to the new drop menu - when it follows better
             showSizeMenu(evt.target)

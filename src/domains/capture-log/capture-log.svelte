@@ -368,6 +368,7 @@
               y="top"
               x="right"
               id="prompt-button"
+              title="Writing prompts"
               buttonClass="stiff block max-w-8 h-8 w-8 z-40  text-ios-tint bg-transparent rounded-full"
               menuButtons={promptMenu}
             >
