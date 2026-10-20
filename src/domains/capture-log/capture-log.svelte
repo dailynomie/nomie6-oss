@@ -37,7 +37,7 @@
   import extract from '../../utils/extract/extract'
   import { getEmojiFromScore } from '../../utils/positivity/positivity'
 
-  import { ExpandOutline } from '../../components/icon/nicons'
+  import { ExpandOutline, ExtensionPuzzleOutline } from '../../components/icon/nicons'
 
   import CaptureDatePicker from './capture-date-picker.svelte'
 
@@ -89,7 +89,7 @@
           ...getPromptMenu(),
           {
             title: 'Integrated Blockly',
-            emoji: '📦',
+            icon: ExtensionPuzzleOutline,
             divider: true,
             click() {
               navigate('/nomie-blockly')
