@@ -52,6 +52,8 @@
 <Layout pageTitle={Lang.t('experiments.title', 'Experiments')}>
   <!-- Same header as My Goals: round add button, large title, subtitle -->
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
+    <!-- on desktop the header sits in the same centred column as the list -->
+    <div class="ios-desktop-column">
     <div class="flex items-center justify-between h-9">
       <button type="button" aria-label="New experiment" class="exp-round" on:click={openEditor}>
         <IonIcon icon={AddIcon} size={18} />
@@ -62,6 +64,7 @@
     {#if $ExperimentStore.length}
       <p class="text-ios-footnote text-ios-label2 mt-1">{running.length} running · {finished.length} finished</p>
     {/if}
+    </div>
   </header>
   <main class="py-4 relative z-10 px-2 lg:px-4">
     {#if $ExperimentStore.length === 0}

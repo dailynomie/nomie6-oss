@@ -128,6 +128,8 @@
 
 <Layout pageTitle={Lang.t('goals.goals', 'Goals')}>
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
+    <!-- on desktop the header sits in the same centred column as the list -->
+    <div class="ios-desktop-column">
     <!-- iOS look: action row, then the large title and today's count (compact on phones) -->
     <div class="flex items-center justify-between h-9">
       <button type="button" aria-label="New goal" class="goals-round" on:click={createGoal}>
@@ -181,6 +183,7 @@
         ]}
       />
     </Toolbar>
+    </div>
     </div>
   </header>
   <main class="py-4 relative z-10 px-2 lg:px-4">

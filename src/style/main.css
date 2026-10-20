@@ -581,6 +581,14 @@ html.dark .ios-thumb {
 .ios-banner-danger {
   background-color: #d70015;
 }
+/* iOS look (desktop): the header of a list screen sits in the same centred column as its list */
+@media (min-width: 900px) {
+  .ios-desktop-column {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 .ios-round-alert {
   background: var(--ios-danger);
   color: #ffffff;
