@@ -22,12 +22,19 @@ const browser = await chromium.launch()
 for (const [viewportName, size] of Object.entries(viewports)) {
   for (const scheme of schemes) {
     const context = await browser.newContext({ viewport: size, colorScheme: scheme })
+    // Mark onboarding as done so the screens show the app, not the setup flow (mode: UI_MODE, default full)
+    await context.addInitScript((mode) => {
+      const key = "data/localDB/preferences"
+      if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, JSON.stringify({ state: { onboarded: true, experience: mode } }))
+      }
+    }, process.env.UI_MODE || "full")
     const page = await context.newPage()
     for (const route of screens) {
       const name = `${viewportName}-${scheme}-${route.replace(/\//g, '') || 'home'}.png`
       try {
         await page.goto(baseUrl + route, { waitUntil: 'networkidle', timeout: 30000 })
-        await page.waitForTimeout(1000)
+        await page.waitForTimeout(6000)
         await page.screenshot({ path: join(outDir, name) })
         console.log('saved', name)
       } catch (e) {
