@@ -29,7 +29,7 @@
     import { CubeOutline } from '../../components/icon/nicons'
     import { EyeSolid } from '../../components/icon/nicons'
     import { EyeClosedSolid } from '../../components/icon/nicons'
-    import { AddIcon, CopyOutline, CreateOutline, TrashOutline, SaveOutline, ListOutline } from '../../components/icon/nicons'
+    import { LockClosedOutline, AddIcon, CopyOutline, CreateOutline, TrashOutline, SaveOutline, ListOutline } from '../../components/icon/nicons'
     import IonIcon from "../../components/icon/ion-icon.svelte";
     import Spinner from '../../components/spinner/spinner.svelte';
 
@@ -504,6 +504,12 @@
         </h1>
         {#if workingPivotTag !== "Initiati0nPiv0t"}
         <p class="text-ios-subhead text-ios-label2">Active pivot: {workingPivotEmoji} {workingPivotTag}</p>
+        {/if}
+        {#if viewOnly}
+        <!-- the phone view says it is read only, so nobody looks for the edit buttons here -->
+        <p class="mt-1 flex items-center gap-1 text-ios-footnote text-ios-label2" role="note">
+            <IonIcon icon={LockClosedOutline} size={12} /> Read only on this screen. Edit pivots on a larger screen.
+        </p>
         {/if}
     </div>
     {#if isLoadingData}
