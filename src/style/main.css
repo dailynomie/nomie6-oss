@@ -586,3 +586,21 @@ html.dark .ios-thumb {
   display: inline-flex;
   flex-shrink: 0;
 }
+
+/* iOS look: the Track search expand button is a plain grey icon */
+.search-expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  color: var(--ios-label2);
+}
+
+/* iOS look: the "add tracker" tile is a card with a plain plus, not an outlined box */
+.ios-add-tile {
+  background: var(--ios-card);
+  border-radius: 18px;
+  color: var(--ios-label2);
+}

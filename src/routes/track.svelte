@@ -204,9 +204,10 @@
         searchFor = evt.detail
       }}
     >
-      <Button icon slot="right-inside" on:click={() => openUnisearch(searchFor)}>
-        <IonIcon icon={ExpandOutline} className="text-gray-500" size={18} />
-      </Button>
+      <!-- iOS look: a plain icon, not a round button -->
+      <button type="button" slot="right-inside" aria-label="Open search" class="search-expand" on:click={() => openUnisearch(searchFor)}>
+        <IonIcon icon={ExpandOutline} size={18} />
+      </button>
     </SearchBar>
   {/if}
 

@@ -279,10 +279,10 @@
   /* Experiment check-in trackers: a soft tint with a dashed tint border */
   /* A value today: a small value in the top-right corner, and a soft tint glow around the card */
   .shortcut-button.has-value {
-    box-shadow: 0 0 14px 2px color-mix(in srgb, var(--tracker-color) 30%, transparent);
+    box-shadow: 0 0 10px 0 color-mix(in srgb, var(--tracker-color) 22%, transparent);
   }
   :global(html.dark) .shortcut-button.has-value {
-    box-shadow: 0 0 14px 2px color-mix(in srgb, var(--tracker-color) 40%, transparent);
+    box-shadow: 0 0 10px 0 color-mix(in srgb, var(--tracker-color) 30%, transparent);
   }
 
   .shortcut-button.experiment-check-in {

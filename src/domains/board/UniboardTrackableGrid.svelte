@@ -86,7 +86,7 @@
 
   {#if !hideAdd && !searching}
     <button
-      class="addButton filler border border-gray-500 rounded-2xl flex items-center justify-center opacity-25 hover:opacity-100 {$Prefs.compactTrackers
+      class="addButton ios-add-tile filler flex items-center justify-center {$Prefs.compactTrackers
         ? 'h-14'
         : 'h-28 lg:h-32'}"
       on:click={() => {
