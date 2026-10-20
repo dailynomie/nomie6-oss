@@ -96,7 +96,7 @@
   </div>
 
   <ListItem bottomLine={57} title={Lang.t('settings.start-page', 'Start Page')}>
-    <span slot="left"><IconSquare color="#1F78D1"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#6E3A96"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
         id="start-page"
@@ -119,7 +119,7 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.use-location', 'Use Location')}>
-    <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#8944AB"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
     <div slot="right" class="ml-2">
       <ToggleSwitch title="Location Lookup" bind:value={$Prefs.alwaysLocate} />
     </div>
@@ -128,7 +128,7 @@
   <!-- Pin Code -->
   <!-- description={Lang.t('settings.require-pin-description', "Don't forget it!")} -->
   <ListItem bottomLine={57} title={Lang.t('settings.require-pin', 'Require Access Pin')}>
-    <span slot="left"><IconSquare color="#3634A3"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#A066C0"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
     <div slot="right" class="ml-2">
       {#if hasPin}
         <button
