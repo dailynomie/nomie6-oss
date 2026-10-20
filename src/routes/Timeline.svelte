@@ -146,8 +146,8 @@
 </script>
 
 <Layout pageTitle="Timeline" className="timeline-layout">
-  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
-    <div class="flex items-center justify-end gap-2 h-11">
+  <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
+    <div class="flex items-center justify-end gap-2 h-9">
       <button
         type="button"
         aria-label="Jump to date"
@@ -160,7 +160,7 @@
         <IonIcon icon={FunnelOutline} size={18} />
       </MenuInline>
     </div>
-    <h1 class="text-ios-large font-bold text-ios-label mt-1">Timeline</h1>
+    <h1 class="text-ios-large font-bold text-ios-label">Timeline</h1>
     <div class="max-w-xl w-full mt-1">
       <PositivityGrid className="h-2" logs={topItem?.logs || []} />
     </div>

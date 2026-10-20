@@ -181,14 +181,14 @@
 
 <Layout className="h-full">
   <!-- iOS look (same as the Timeline header): action row with the round menu, then the large title, then the dashboard names -->
-  <header slot="header" class="glass z-50 px-4 pt-2 pb-3">
-    <div class="flex items-center justify-end h-11">
+  <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
+    <div class="flex items-center justify-end h-9">
       <MenuInline id="dashboard-menu" title="Dashboard options" x="right" y="bottom" menuButtons={mainMenu} buttonClass="ios-round">
         <IonIcon icon={SettingsOutline} size={18} />
       </MenuInline>
     </div>
-    <h1 class="text-ios-large font-bold text-ios-label mt-1">Dashboard</h1>
-    <Toolbar className="px-0 mt-1">
+    <h1 class="text-ios-large font-bold text-ios-label">Dashboard</h1>
+    <Toolbar className="px-0 h-11 max-h-11 min-h-11">
       {#if !$DashStore.editMode}
         <DashboardTabs />
       {:else}

@@ -63,18 +63,19 @@
 {/if}
 
 <!-- iOS look (same as the Timeline header): action row with the round board menu, then the large title -->
-<div class="glass relative z-50 px-4 pt-2">
-  <div class="flex items-center justify-end h-11">
+<!-- iOS look: a compact phone header (action row 36 px, toolbar 44 px) to leave more room for the trackers -->
+<div class="glass relative z-50 px-4 pt-1">
+  <div class="flex items-center justify-end h-9">
     {#if !editMode}
       <MenuInline id="add-menu-button" title="Board options" x="right" y="bottom" menuButtons={boardAddMenu} buttonClass="ios-round">
         <IonIcon icon={SettingsOutline} size={18} />
       </MenuInline>
     {/if}
   </div>
-  <h1 class="text-ios-large font-bold text-ios-label mt-1">Track</h1>
+  <h1 class="text-ios-large font-bold text-ios-label">Track</h1>
 </div>
 
-<Toolbar className="stiff h-14 max-h-14 min-h-14">
+<Toolbar className="stiff h-11 max-h-11 min-h-11">
   <div class="flex items-center space-x-1">
     {#if !editMode}
       {#if runningTimers.length}
