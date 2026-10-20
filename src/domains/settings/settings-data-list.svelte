@@ -228,7 +228,7 @@
     <span slot="left"><IconSquare color="#7CC4CB"><IonIcon icon={TrashOutline} size={17} /></IconSquare></span>
   </ListItem>
 
-  <ListItem bottomLine={57} title="Auto-PluginDB-Cleanup Schedule">
+  <ListItem bottomLine={57} title="Auto Cleanup" description="Removes duplicate plugin settings on a schedule">
     <span slot="left"><IconSquare color="#9AD3D8"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
