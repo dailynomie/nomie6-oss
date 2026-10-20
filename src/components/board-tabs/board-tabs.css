@@ -36,3 +36,8 @@
 .n-board-tabs button {
   @apply whitespace-nowrap;
 }
+
+/* iOS look: tabs start at the left edge and scroll sideways, instead of centring (centring hid the first boards when they overflow) */
+.n-board-tabs .wrapper.force-center {
+  justify-content: flex-start;
+}
