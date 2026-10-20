@@ -20,25 +20,10 @@
     } = $props();
 
     // Theme-based styles
-    let cssVarStyles = $derived.by(() => {
-        if ($Prefs.theme === 'dark') {
-            const bgdark = '#1D2737';
-            const border = '#2A303C';
-            const bgbt = '#0D324F';
-            const borderbt = '#0D324F';
-            const fontcolorbt = '#C8C8C8';
-            const pvtTotalcolor = '#716e6e';
-            return `--bg:${bgdark};--border:${border};--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt};--totalcolor:${pvtTotalcolor}`;
-        } else {
-            const bglight = '#E2F0F7';
-            const border = '#CCCCCC';
-            const bgbt = '#DFF0F8';
-            const borderbt = '#CDEEFF';
-            const fontcolorbt = '#000000';
-            const pvtTotalcolor = '#b0b0b0';
-            return `--bg:${bglight};--border:${border};--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt};--totalcolor:${pvtTotalcolor}`;
-        }
-    });
+    // iOS look: the table uses the design tokens, so light and dark mode follow the app theme
+    let cssVarStyles = $derived(
+        '--bg:var(--ios-card-2);--border:var(--ios-separator);--btbg:var(--ios-fill);--btborder:transparent;--fontcolor:var(--ios-tint);--totalcolor:var(--ios-label2)'
+    );
 
     let pvtValBGPlaceholder = $derived(
         !opts.heatmapMode

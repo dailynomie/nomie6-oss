@@ -17,12 +17,13 @@
 }
 
 table.pvtTable {
-    font-size: 8pt;
+    /* iOS look: system font at footnote size, not 8 pt Verdana */
+    font-size: 13px;
     text-align: left;
     border-collapse: collapse;
     margin-top: 3px;
     margin-left: 3px;
-    font-family: Verdana;
+    font-family: -apple-system, system-ui, sans-serif;
     border-width: 2px;
     border-color:var(--border,#04A6F9);
 }
@@ -42,12 +43,13 @@ table.pvtTable .pvtTotalLabel {
 }
 
 table.pvtTable tbody tr td {
-    color: #2a3f5f;
+    color: var(--ios-label);
     padding: 5px;
     
     border: 1px solid var(--border,#04A6F9);
     vertical-align: top;
     text-align: right;
+    background-color: var(--ios-card);
 }
 
 
