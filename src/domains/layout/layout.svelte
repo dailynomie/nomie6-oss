@@ -15,11 +15,12 @@
   import { hideMenuBlocker, MenuBlockerStore } from '../../components/menu/useDropmenu'
 import appConfig from '../../config/appConfig';
 
-  const { style = '', className = '', pageTitle, showTabs = true, headerClassNames = '', showCapture = true } = $props<{
+  const { style = '', className = '', pageTitle, showTabs = true, checkIn = true, headerClassNames = '', showCapture = true } = $props<{
     style?: string
     className?: string
     pageTitle?: string
     showTabs?: boolean
+    checkIn?: boolean
     headerClassNames?: string
     showCapture?: boolean
   }>()
@@ -94,8 +95,8 @@ import appConfig from '../../config/appConfig';
     </div>
     {/if}
   </div>
-  <!-- Today's experiment check-ins: main screens only, and not while a dialogue or modal is open -->
-  {#if showTabs}
+  <!-- Today's experiment check-ins: main screens only (not pushed screens such as Awards or the file list), and not while a dialogue or modal is open -->
+  {#if showTabs && checkIn}
     <ExperimentCheckInCard />
   {/if}
 

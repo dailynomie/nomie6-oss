@@ -11,7 +11,7 @@
   
 </script>
 
-<Layout pageTitle="AfterNomie">
+<Layout pageTitle="AfterNomie" checkIn={false}>
   <Toolbar slot="header">
     <h1 class="ntitle w-full" style="text-align: center;">
       <span>AfterNomie</span>&nbsp;<span class="redText">BETA</span>

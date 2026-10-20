@@ -297,7 +297,7 @@
 </script>
 
 {#if !browserFile}
-  <NLayout className="n-file-browser">
+  <NLayout className="n-file-browser" checkIn={false}>
     <ToolbarGrid slot="header">
       <BackButton on:click={() => back()} slot="left" />
       <h1 class="ntitle">{browserTitle}</h1>

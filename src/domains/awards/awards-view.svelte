@@ -26,7 +26,7 @@
   }
 </script>
 
-<Layout>
+<Layout checkIn={false}>
   <header slot="header">
     <ToolbarGrid>
       <div slot="left">

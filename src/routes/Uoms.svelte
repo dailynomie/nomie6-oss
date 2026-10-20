@@ -9,7 +9,7 @@
   import { PlusIcon } from '../components/icon/nicons'
 </script>
 
-<Layout>
+<Layout checkIn={false}>
   <ToolbarGrid slot="header">
     <Button slot="left" icon on:click={() => {}}>
       <IonIcon icon={PlusIcon} className="text-primary-500" />
