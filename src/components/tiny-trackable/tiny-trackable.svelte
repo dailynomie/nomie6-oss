@@ -34,7 +34,8 @@
     @apply flex items-center;
     @apply whitespace-nowrap;
     @apply space-x-1;
-    @apply text-ios-footnote;
+    font-size: 13px;
+    line-height: 18px;
     @apply flex-shrink;
     @apply w-auto;
     @apply mr-1 mt-1;
