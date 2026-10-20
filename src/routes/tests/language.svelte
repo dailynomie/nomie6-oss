@@ -18,7 +18,7 @@
   import BaseLang from '../../lang/base'
 
   import download from '../../modules/download/download'
-  import { SideStore } from '../../domains/storage/storage'
+  import { SideStore } from '../../domains/storage/side-storage'
 
   import { Device } from '../../store/device-store'
   import { Interact } from '../../store/interact'

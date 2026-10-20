@@ -22,7 +22,7 @@
   import Tests from './tests/tests.svelte'
   import Uoms from './Uoms.svelte'
   import Awards from './Awards.svelte'
-  // import Language from './tests/language.svelte'
+  import Language from './tests/language.svelte'
   import Faq from './faq.svelte'
   import History from './history.svelte'
   import Settings from './settings.svelte'
@@ -94,9 +94,10 @@
     <Awards />
   </Route>
 
-  <!-- <Route path="/lang">
+  <!-- Translation helpers: the Nomie language editor, reached at /lang -->
+  <Route path="/lang">
     <Language />
-  </Route> -->
+  </Route>
   <Route path="/dashboard">
     <Dashboard />
   </Route>
