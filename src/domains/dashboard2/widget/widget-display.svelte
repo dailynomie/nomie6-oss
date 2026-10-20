@@ -209,7 +209,11 @@
           </div>
         {/if}
         {:else if widget.type == 'pointer'}
-        <span class="widget-title">🏷 {titleCase(widget.pointer.id)}</span><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions}/>
+        <!-- iOS look: the pointer name has the full width, and its tracker sits under it -->
+        <div class="flex flex-col min-w-0 gap-0.5">
+          <span class="widget-title break-words">🏷 {titleCase(widget.pointer.id)}</span>
+          <div class="flex"><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions} /></div>
+        </div>
       {:else if widget.type == 'plugin'}
         <span class="widget-title">{label}</span>
       {:else if widget.type == 'insight'}
