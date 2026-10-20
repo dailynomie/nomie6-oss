@@ -42,8 +42,11 @@
     color: var(--ios-label);
   }
   /* iOS look: start at the left edge and scroll, instead of centring */
+  .n-dashboard-tabs,
+  .n-dashboard-tabs .wrapper,
   .n-dashboard-tabs .wrapper.force-center {
-    justify-content: flex-start;
+    justify-content: flex-start !important;
+    margin-right: auto;
   }
   .n-dashboard-tabs .selected {
     background: var(--ios-tint);
