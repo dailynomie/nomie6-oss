@@ -232,7 +232,7 @@
       {/each}
     {/each}
     {#if filtered.length === 0}
-      <div class="px-4 text-center text-gray-500 py-4">No Known Trackers</div>
+      <div class="px-4 text-center text-ios-label2 py-4">No Known Trackers</div>
 
       {#each unknownTrackables as trackable}
         <button

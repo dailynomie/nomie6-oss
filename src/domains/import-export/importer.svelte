@@ -398,7 +398,7 @@
       {:else}
         <ListItem bottomLine={48} title="Notes">
           <div slot="left">⏰</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 
@@ -416,7 +416,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.trackers')}>
           <div slot="left">🤪</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 
@@ -434,7 +434,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.pivots', 'Pivots')}>
           <div slot="left">🏆</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
       <!-- Importable Items -->
@@ -451,13 +451,13 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.goals', 'Goals')}>
           <div slot="left">🏆</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 
       <!-- <ListItem bottomLine={48} title={Lang.t('general.goals', 'Goals')}>
           <div slot="left">🏆</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem> -->
 
       <!-- Locations -->
@@ -474,7 +474,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.locations', 'Locations')}>
           <div slot="left">🗺</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 
@@ -492,7 +492,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.boards', 'Boards')}>
           <div slot="left">🗂</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 
@@ -510,7 +510,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.people', 'People')}>
           <div slot="left">👩🏽‍💼</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 
@@ -528,7 +528,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.context', 'Context')}>
           <div slot="left">💭</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
      <!-- Pointers -->
@@ -545,7 +545,7 @@
     {:else}
       <ListItem bottomLine={48} title={Lang.t('general.pointers', 'Pointers')}>
         <div slot="left">📍</div>
-        <div slot="right" class="text-gray-500 pr-4">No Data</div>
+        <div slot="right" class="text-ios-label2 pr-4">No Data</div>
       </ListItem>
     {/if}
 
@@ -563,7 +563,7 @@
       {:else}
         <ListItem bottomLine={48} title="Plugins">
           <div slot="left">🔌</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 
@@ -581,7 +581,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.dashboards', 'Dashboards')}>
           <div slot="left">📊</div>
-          <div slot="right" class="text-gray-500 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 

@@ -394,7 +394,7 @@
         </Input>
         <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
       {:else}
-        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">No widget options available for this plugin</div>
+        <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">No widget options available for this plugin</div>
       {/if}
     </List>
     {/if}
@@ -420,7 +420,7 @@
         </Input>
         <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Shows the progress and result of this experiment</div>
       {:else}
-        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">No experiments yet. Start one from Goals.</div>
+        <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">No experiments yet. Start one from Goals.</div>
       {/if}
     </List>
     {/if}

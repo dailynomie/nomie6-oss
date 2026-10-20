@@ -165,7 +165,7 @@
         <Spinner />
       </Empty>
     {:else}
-      <Empty className="text-gray-500">No data on this day</Empty>
+      <Empty className="text-ios-label2">No data on this day</Empty>
     {/if}
   </main>
 </BackdropModal>

@@ -132,7 +132,7 @@
             <Button size="sm" primary clear on:click={() => createTracker()}>Create</Button>
           </div>
           {#if trackers.length === 0}
-            <div class="text-sm py-4 text-center text-gray-500">No trackers selected</div>
+            <div class="text-sm py-4 text-center text-ios-label2">No trackers selected</div>
           {/if}
           {#each trackers as tracker}
             <ListItem compact>

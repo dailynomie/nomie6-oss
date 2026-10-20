@@ -93,7 +93,8 @@
   {:else if widget.type == 'pointer'}
   <WidgetPointer {widget} {trackable} {usage} {logs} />
   {:else}
-  <div class="value -mt-2 text-xs text-gray-300 flex w-full justify-center items-center h-full dark:text-gray-500">
+  <!-- iOS look: the empty state of a widget is readable secondary text -->
+  <div class="value -mt-2 text-ios-subhead text-ios-label2 flex w-full justify-center items-center h-full">
     Not enough data
   </div>
   {/if}

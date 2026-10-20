@@ -44,7 +44,7 @@ import { onMount } from 'svelte';
     <main>
       <h2 class="ntitle">{template.name}</h2>
       <p class="faded">
-        <span class="text-gray-500">{template.description || 'No Description'}</span>
+        <span class="text-ios-label2">{template.description || 'No Description'}</span>
       </p>
     </main>
     <div slot="right" class="flex items-center space-x-2">

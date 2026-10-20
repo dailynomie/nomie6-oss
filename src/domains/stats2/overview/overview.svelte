@@ -103,7 +103,7 @@
   {:else if $Stats2Store.loading}
     <div class="skeleton-item h-40 w-full bg-white rounded-lg dark:bg-gray-900" />
   {:else}
-    <div class="h-40 flex items-center justify-center text-gray-500">No Data</div>
+    <div class="h-40 flex items-center justify-center text-ios-label2">No Data</div>
   {/if}
 </div>
 

@@ -227,13 +227,13 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
           <TrendingItem {uct} />
         {/each}
         {#if !trendingUp.length}
-          <div class="text-gray-500 px-4 py-4">No Up Trends</div>
+          <div class="text-ios-label2 px-4 py-4">No Up Trends</div>
         {/if}
       </List>
 
       <List solo outside title="Trending Down ">
         {#if !trendingDown.length}
-          <div class="text-gray-500 px-4 py-4">No Down Trends</div>
+          <div class="text-ios-label2 px-4 py-4">No Down Trends</div>
         {/if}
         {#each trendingDown as uct, index (uct.trackableUsage.trackable)}
           <TrendingItem {uct} />

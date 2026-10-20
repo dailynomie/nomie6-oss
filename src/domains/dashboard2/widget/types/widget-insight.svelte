@@ -238,7 +238,7 @@
     </div>
   {:else}
     <div class="flex items-center justify-center h-full">
-      <p class="text-xs text-gray-500 dark:text-gray-400">No insight available</p>
+      <p class="text-xs text-ios-label2">No insight available</p>
     </div>
   {/if}
 </div>

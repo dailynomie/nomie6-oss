@@ -246,7 +246,7 @@
             >{workingLog.location || `${math.round(workingLog.lat, 100)},${math.round(workingLog.lng, 100)}`}</span
           >
         {:else}
-          <span class="text-gray-500">{Lang.t('general.no-location', 'No Location Set')}</span>
+          <span class="text-ios-label2">{Lang.t('general.no-location', 'No Location Set')}</span>
         {/if}
       </button>
       {#if workingLog?.lat}

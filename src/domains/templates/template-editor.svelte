@@ -816,7 +816,7 @@
     <Button size="sm" on:click={() => addTrackableOptions()} primary clear slot="header-right">+ Add</Button>
     {#if !template.trackables.length}
       <Empty small>
-        <span class="text-gray-500">No Trackables</span>
+        <span class="text-ios-label2">No Trackables</span>
       </Empty>
     {:else}
       {#key template.goals.length + template.dashboards.length + template.pivots.length + template.locations.length + template.plugins.length}
@@ -868,7 +868,7 @@
     <Button size="sm" on:click={() => addBoardTab()} primary clear slot="header-right">+ Add</Button>
     {#if !template.boards.length}
       <Empty small>
-        <span class="text-gray-500 text-sm">No Board Tabs</span>
+        <span class="text-ios-label2 text-sm">No Board Tabs</span>
       </Empty>
     {:else}
       {#each template.boards as board, index}
@@ -898,7 +898,7 @@
     <Button size="sm" on:click={() => addDashboard()} primary clear slot="header-right">+ Add</Button>
     {#if !template.dashboards.length}
       <Empty small>
-        <span class="text-gray-500">No Dashboards</span>
+        <span class="text-ios-label2">No Dashboards</span>
       </Empty>
     {:else}
       {#each template.dashboards as dashboard, index}
@@ -934,7 +934,7 @@
     <Button size="sm" on:click={() => addGoal()} primary clear slot="header-right">+ Add</Button>
     {#if !template.goals.length}
       <Empty small>
-        <span class="text-gray-500">No Goals</span>
+        <span class="text-ios-label2">No Goals</span>
       </Empty>
     {:else}
       {#if groupGoalsByDuration(template.goals).day.length > 0}
@@ -1071,7 +1071,7 @@
     <Button size="sm" on:click={() => addPivot()} primary clear slot="header-right">+ Add</Button>
     {#if !template.pivots.length}
       <Empty small>
-        <span class="text-gray-500">No Pivots</span>
+        <span class="text-ios-label2">No Pivots</span>
       </Empty>
     {:else}
       {#each template.pivots as pivot, index}
@@ -1097,7 +1097,7 @@
     {@const locationList = template.locations}
     {#if !locationList.length}
       <Empty small>
-        <span class="text-gray-500">No Locations</span>
+        <span class="text-ios-label2">No Locations</span>
       </Empty>
     {:else}
       {#each locationList as location, index}
@@ -1127,7 +1127,7 @@
     <Button size="sm" on:click={() => addPlugin()} primary clear slot="header-right">+ Add</Button>
     {#if !template.plugins.length}
       <Empty small>
-        <span class="text-gray-500">No Plugins</span>
+        <span class="text-ios-label2">No Plugins</span>
       </Empty>
     {:else}
       {#each template.plugins as plugin, index}

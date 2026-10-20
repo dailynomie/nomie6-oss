@@ -253,7 +253,7 @@
                 <div slot="no-results">
                   {#if searching}
                     <div class="text-center px-4 py-1 flex flex-col space-y-2 max-w-lg mx-auto">
-                      <span class="text-gray-500">No trackables found for '{searching}'</span>
+                      <span class="text-ios-label2">No trackables found for '{searching}'</span>
                       <Button
                         on:click={() => {
                           openUnisearch(searching)

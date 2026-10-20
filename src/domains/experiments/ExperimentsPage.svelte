@@ -111,10 +111,15 @@
               <div class="w-full py-1 space-y-2">
                 <div class="flex items-center justify-between gap-2 min-w-0">
                   <div class="font-semibold truncate">{experiment.title}</div>
-                  <ExperimentChip tone="neutral" label={experiment.status === 'stopped' ? 'Stopped early' : 'Finished'} />
+                  <!-- iOS look (section 0 rule 1): the status chip keeps its full text -->
+                  <div class="shrink-0">
+                    <ExperimentChip tone="neutral" label={experiment.status === 'stopped' ? 'Stopped early' : 'Finished'} />
+                  </div>
                 </div>
                 {#if first}
-                  <ExperimentChip tone={first.tone} label="{first.label}: {first.text}" title={first.text} />
+                  <div class="finished-outcome">
+                    <ExperimentChip tone={first.tone} label="{first.label}: {first.text}" title={first.text} />
+                  </div>
                 {/if}
               </div>
             </ListItem>
@@ -142,5 +147,13 @@
     justify-content: center;
     background: var(--ios-fill);
     color: var(--ios-label);
+  }
+  .finished-outcome :global(.chip) {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: 100%;
+    line-height: 1.3;
+    padding: 4px 9px;
   }
 </style>
