@@ -278,10 +278,13 @@
 
   /* Experiment check-in trackers: a soft tint with a dashed tint border */
   /* A value today: a small value in the top-right corner, and a soft tint glow around the card */
+  /* iOS look: a tile with a value gets a light tint of its colour, and the glow. Both sizes (normal and compact) share this rule. */
   .shortcut-button.has-value {
+    background: color-mix(in srgb, var(--tracker-color) 12%, var(--ios-card));
     box-shadow: 0 0 10px 0 color-mix(in srgb, var(--tracker-color) 22%, transparent);
   }
   :global(html.dark) .shortcut-button.has-value {
+    background: color-mix(in srgb, var(--tracker-color) 22%, var(--ios-card));
     box-shadow: 0 0 14px 2px color-mix(in srgb, var(--tracker-color) 40%, transparent);
   }
 
