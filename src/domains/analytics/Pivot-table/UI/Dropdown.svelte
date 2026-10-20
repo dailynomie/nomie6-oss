@@ -18,21 +18,8 @@
 
     let theme = $Prefs.theme;
     let cssVarStyles = "";
-    if (theme == 'dark') {
-    let ddicon= '#a2b1c6';
-    let ddcurrent = 'black'
-    let ddmenu = 'black'
-    let ddactive = 'black'
-    let ddfont = '#C8C8C8';
-	cssVarStyles = `--ddicon:${ddicon};--ddcurrent:${ddcurrent};--ddmenu:${ddmenu};--ddactive:${ddactive};--ddfont:${ddfont}`;}
-    else {
-        let ddicon= '#a2b1c6';
-        let ddcurrent = 'white'
-        let ddmenu = 'white'
-        let ddactive = '#ebf0f8'
-        let ddfont = '#000000'
-        cssVarStyles = `--ddicon:${ddicon};--ddcurrent:${ddcurrent};--ddmenu:${ddmenu};--ddactive:${ddactive};--ddfont:${ddfont}`;
-    }
+    // iOS look: menus are cards with label text, in light and dark mode
+    cssVarStyles = "--ddicon:var(--ios-label2);--ddcurrent:var(--ios-card);--ddmenu:var(--ios-card);--ddactive:var(--ios-fill);--ddfont:var(--ios-label)";
 
 
 </script>

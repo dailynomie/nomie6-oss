@@ -13,22 +13,12 @@
     let fontsize = $state(Math.round(14 /(1400/window.innerWidth)));
     if (fontsize < 12) {fontsize=12}
 
-    let cssVarStyles = $derived.by(() => {
-        const theme = $Prefs.theme;
-        const isSearchTerm = name.includes("🕵🏻‍♂️");
-
-        if (theme === 'dark') {
-            const bgdark = isSearchTerm ? '#6BBFF9' : '#0D324F';
-            const borderdark = '#0D324F';
-            const fontcolordark = isSearchTerm ? '#000000' : '#C8C8C8';
-            return `--btbg:${bgdark};--btborder:${borderdark};--fontcolor:${fontcolordark}`;
-        } else {
-            const bglight = isSearchTerm ? '#6BBFF9' : '#DFF0F8';
-            const borderlight = '#CDEEFF';
-            const fontcolorlight = '#000000';
-            return `--btbg:${bglight};--btborder:${borderlight};--fontcolor:${fontcolorlight}`;
-        }
-    });
+    // iOS look: attribute chips use the fill token; search terms use the tint
+    let cssVarStyles = $derived(
+        name.includes("🕵🏻‍♂️")
+            ? "--btbg:var(--ios-tint-soft);--btborder:transparent;--fontcolor:var(--ios-tint)"
+            : "--btbg:var(--ios-fill);--btborder:transparent;--fontcolor:var(--ios-label)"
+    );
 
     const toggleOpen = () => (open = !open);
 </script>

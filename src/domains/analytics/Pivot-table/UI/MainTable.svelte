@@ -5,19 +5,8 @@
     const { horizUnused } = $props();
     let theme = $state($Prefs.theme);
 
-    let cssVarStyles = $derived.by(() => {
-        if (theme === 'dark') {
-            const bgdark = '#000000';
-            const border = '#2A303C';
-            const fontcolor = "#ffffff";
-            return `--bg:${bgdark};--border:${border};--fontcolor:${fontcolor}`;
-        } else {
-            const bglight = '#ffffff';
-            const border = '#CCCCCC';
-            const fontcolor = "#000000";
-            return `--bg:${bglight};--border:${border};--fontcolor:${fontcolor}`;
-        }
-    });
+    // iOS look: the table's own surface and text come from the tokens
+    let cssVarStyles = "--bg:var(--ios-card);--border:var(--ios-separator);--fontcolor:var(--ios-label)";
 
 
 

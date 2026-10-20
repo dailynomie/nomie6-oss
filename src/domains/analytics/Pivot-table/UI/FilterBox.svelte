@@ -19,17 +19,8 @@
 
     let theme = $state($Prefs.theme);
     let cssVarStyles = $state("");
-    if (theme == 'dark') {
-        let bgbt= '#0D324F';
-        let borderbt ='#0D324F'
-        let fontcolorbt = '#C8C8C8'
-        cssVarStyles = `--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt}`;
-    } else {
-        let bgbt= '#DFF0F8';
-        let borderbt = '#CDEEFF'
-        let fontcolorbt = '#000000'
-        cssVarStyles = `--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt}`;
-    }
+    // iOS look: the same chip tokens in light and dark mode
+    cssVarStyles = "--btbg:var(--ios-fill);--btborder:transparent;--fontcolor:var(--ios-label)";
 
     function toggleValue(value) {
         value in valueFilter ? removeValuesFromFilter([value]) : addValuesToFilter([value]);
