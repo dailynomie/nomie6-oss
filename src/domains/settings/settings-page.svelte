@@ -208,11 +208,13 @@
               </ListItem>
             </List>
             
+            {#if $FeatureVisible('pointers')}
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
                 <span slot="left"><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare></span>
               </ListItem>
               </List>
+            {/if}
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">

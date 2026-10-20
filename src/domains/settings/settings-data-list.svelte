@@ -196,6 +196,7 @@
   {/if}
 </List>
 <List solo className="mb-3" outside>
+  {#if $FeatureVisible('files')}
   <ListItem
     bottomLine={57}
     detail
@@ -206,6 +207,7 @@
   >
     <span slot="left"><IconSquare color="#3FA0A9"><IonIcon icon={FolderOutline} size={17} /></IconSquare></span>
   </ListItem>
+  {/if}
 
   <ListItem
     bottomLine={57}
