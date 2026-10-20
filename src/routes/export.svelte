@@ -21,6 +21,7 @@
   import { Lang } from '../store/lang'
   import Spacer from '../components/spacer/spacer.svelte'
   import Empty from '../components/empty/empty.svelte'
+  import { ArchiveOutline } from '../components/icon/nicons'
 
   import ToolbarGrid from '../components/toolbar/toolbar-grid.svelte'
 
@@ -47,7 +48,7 @@
         'export.backup-description',
         'Export all your data as a single readable JSON file. This can be used to restore Nomie, or to inspect with your own programs.'
       )}
-      emoji="📦"
+      icon={ArchiveOutline}
       buttonLabel={Lang.t('export.backup-download', 'Download Backup')}
       buttonClick={methods.export}
     />

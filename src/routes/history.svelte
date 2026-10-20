@@ -56,7 +56,7 @@
   import { showTrackablePopmenu } from '../domains/board/boardActions'
   import { openStats2 } from '../domains/stats2/Stats2Store'
   import { Trackable } from '../domains/trackable/Trackable.class'
-  import { ChevronForwardOutline, SearchIcon } from '../components/icon/nicons'
+  import { CalendarOutline, ChevronForwardOutline, SearchIcon } from '../components/icon/nicons'
   import { selectFuzzyDate } from '../domains/timeline/select-date-fuzzy'
   import { openUnisearch } from '../domains/search/UnisearchStore'
 
@@ -292,7 +292,7 @@
       {:else if !loading && !logs.length}
         <Container className="flex items-center justify-center max-h-full h-75vh">
           <Empty
-            emoji="⏳"
+            icon={CalendarOutline}
             title={state.date.format($Prefs.use24hour ? 'ddd Do MMM YYYY' : 'ddd MMM Do YYYY')}
             description={`${Lang.t('history.empty-day', 'No data was found on this day')}`}
             buttonLabel={Lang.t('history.add-a-note', 'Add a Note...')}
