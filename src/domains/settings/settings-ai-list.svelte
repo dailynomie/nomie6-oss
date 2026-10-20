@@ -149,7 +149,7 @@
   <ListItem bottomLine={16}>
     <span slot="left" class="flex items-center justify-center adv-corner">
       <NomieAiButton size="30px" />
-      <AdvancedBadge />
+      <AdvancedBadge low />
     </span>
     <div class="font-semibold leading-tight">
       {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}

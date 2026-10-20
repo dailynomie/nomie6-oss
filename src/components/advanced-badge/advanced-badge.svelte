@@ -3,15 +3,21 @@
 <script lang="ts">
   import IonIcon from '../icon/ion-icon.svelte'
   import { CrownOutline } from '../icon/nicons'
+
+  // low moves the badge down, for round icons whose top edge is cut off
+  const { low = false } = $props<{ low?: boolean }>()
 </script>
 
 <!-- iOS look: a small grey badge with a gold crown marks a setting that only shows in Full mode.
      Grey and gold, not red, so it doesn't read as an unread count. -->
-<span class="advanced-badge" title="Full mode setting" aria-label="Full mode setting">
+<span class="advanced-badge" class:low title="Full mode setting" aria-label="Full mode setting">
   <IonIcon icon={CrownOutline} size={10} />
 </span>
 
 <style>
+  .advanced-badge.low {
+    top: 12px;
+  }
   .advanced-badge {
     position: absolute;
     top: -6px;
