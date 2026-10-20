@@ -4,15 +4,9 @@
 
   import { onMount } from 'svelte'
 
-  import Button from '../../components/button/button.svelte'
-  import Card from '../../components/card/card.svelte'
-  import Input from '../../components/input/input.svelte'
-  import ListItem from '../../components/list-item/list-item.svelte'
-  import Spacer from '../../components/spacer/spacer.svelte'
   import Text from '../../components/text/text.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-  import Toolbar from '../../components/toolbar/toolbar.svelte'
   import Layout from '../../domains/layout/layout.svelte'
 
   import BaseLang from '../../lang/base'
@@ -70,7 +64,8 @@
   onMount(main)
 </script>
 
-<Layout showTabs={false}>
+<!-- iOS look: nav bar with back and Save, grouped cards with a section header each, 44 px fields -->
+<Layout showTabs={false} checkIn={false}>
   <div slot="header">
     <ToolbarGrid>
       <div slot="left">
@@ -80,47 +75,120 @@
         <Text bold>Nomie Language</Text>
       </div>
       <div slot="right">
-        <Button type="clear" on:click={save}>Save</Button>
+        <button type="button" class="ios-text-action" on:click={save}>Save</button>
       </div>
     </ToolbarGrid>
   </div>
-  <Toolbar>
-    <Spacer />
-    Finished?
-    <Button size="sm" className="ml-2" on:click={send} text>Send to Brandon</Button>
-    <Spacer />
-  </Toolbar>
-  <main>
-    <Card pad>
-      <Text size="sm" leading2>
-        Want to help translate Nomie? Translate the following items. Once finished hit Send to Brandon. You can hit
-        "save" to save your progress locally.
-      </Text>
-    </Card>
+  <main class="p-4 space-y-5 text-ios-label">
+    <p class="px-1 text-ios-subhead text-ios-label2">
+      Want to help translate Nomie? Fill in the fields below. Save keeps your progress on this device. When you are finished, send the file.
+    </p>
+
     {#if activeLang}
-      <Card pad title="Language Details">
-        <Input compact placeholder="Language Name" bind:value={activeLang.name} />
-        <Input compact placeholder="Author" bind:value={activeLang.author} />
-      </Card>
+      <section>
+        <h2 class="ios-section-title">Language details</h2>
+        <div class="ios-card">
+          <label class="ios-field-row">
+            <span class="ios-field-label">Language name</span>
+            <input class="ios-field" placeholder="Language name" bind:value={activeLang.name} />
+          </label>
+          <label class="ios-field-row">
+            <span class="ios-field-label">Author</span>
+            <input class="ios-field" placeholder="Author" bind:value={activeLang.author} />
+          </label>
+        </div>
+      </section>
+
       {#each Object.keys(baseLang.translation) as parentId}
-        <Card pad title={parentId} className="my-2">
-          {#each Object.keys(baseLang.translation[parentId]) as key}
-            <Input
-              compact
-              className="mb-2"
-              rows={4}
-              type={(baseLang.translation[parentId][key] || '').length > 20 ? 'textarea' : 'text'}
-              placeholder={`${key}: ${baseLang.translation[parentId][key]}`}
-              bind:value={activeLang.translation[parentId][key]}
-            />
-          {/each}
-        </Card>
+        <section>
+          <h2 class="ios-section-title">{parentId}</h2>
+          <div class="ios-card">
+            {#each Object.keys(baseLang.translation[parentId]) as key}
+              <label class="ios-field-row">
+                <span class="ios-field-label">{key}</span>
+                <span class="ios-field-hint">{baseLang.translation[parentId][key]}</span>
+                {#if (baseLang.translation[parentId][key] || '').length > 20}
+                  <textarea class="ios-field" rows="3" bind:value={activeLang.translation[parentId][key]}></textarea>
+                {:else}
+                  <input class="ios-field" bind:value={activeLang.translation[parentId][key]} />
+                {/if}
+              </label>
+            {/each}
+          </div>
+        </section>
       {/each}
     {/if}
-    <ListItem className="my-4" on:click={reset}>
-      <Text className="text-red">Reset Language</Text>
-    </ListItem>
+
+    <div class="ios-card overflow-hidden">
+      <button type="button" class="ios-action font-semibold text-ios-tint" on:click={send}>Send to Brandon</button>
+      <button type="button" class="ios-action text-ios-danger" on:click={reset}>Reset language</button>
+    </div>
   </main>
 
   <div slot="footer" />
 </Layout>
+
+<style>
+  .ios-section-title {
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--ios-label2);
+    padding: 0 16px 6px;
+  }
+  .ios-field-row {
+    display: block;
+    padding: 10px 16px;
+    border-top: 0.5px solid var(--ios-separator);
+  }
+  .ios-field-row:first-child {
+    border-top: 0;
+  }
+  .ios-field-label {
+    display: block;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--ios-label2);
+  }
+  .ios-field-hint {
+    display: block;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--ios-label2);
+    font-style: italic;
+  }
+  .ios-field {
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ios-label);
+    font-size: 17px;
+    line-height: 22px;
+    outline: none;
+    resize: vertical;
+  }
+  .ios-action {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 17px;
+    line-height: 22px;
+    border-top: 0.5px solid var(--ios-separator);
+  }
+  .ios-action:first-child {
+    border-top: 0;
+  }
+  .ios-text-action {
+    color: var(--ios-tint);
+    font-size: 17px;
+    line-height: 22px;
+    padding: 8px 4px;
+  }
+</style>
