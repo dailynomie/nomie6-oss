@@ -238,7 +238,8 @@
           className="mb-3"
         />
         {#if config.apiKey}
-          <Button size="sm" className="bg-ios-bg mr-2" on:click={clearApiKey}>
+          <!-- iOS look (D-destructive-row): clearing the saved key removes data, so it is the red text control -->
+          <Button size="sm" clear className="text-ios-danger mr-2" on:click={clearApiKey}>
             Clear Key
           </Button>
         {/if}
