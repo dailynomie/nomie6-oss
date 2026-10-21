@@ -8,10 +8,12 @@
   import Button from '../button/button.svelte'
   import TimeBalls from '../time-balls/time-balls.svelte'
 
-  import { MoreVertical } from '../icon/nicons'
+  import { CheckmarkOutline, MoreVertical } from '../icon/nicons'
 
   const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon = MoreVertical, oneTap, hoursUsed } = $props()
   // a habit shows a thumb for its state; any other tracker shows its value
+  // a habit that is done shows a green check in a soft circle (guide 5.2)
+  const habitDone = $derived(id.includes('habit') && value >= 0.3)
   const valueLabel = $derived(
     id.includes('habit') ? (value < -0.5 ? '👎' : value < 0.3 ? '🤙' : '👍') : value
   )
@@ -80,7 +82,11 @@
     <slot />
     {#if value && !hideValue && !compact}
       <div class="tile-value {String(value).length > 4 ? 'long' : ''}">
-        <span class="value">{valueLabel}</span>
+        {#if habitDone}
+            <span class="habit-done"><IonIcon icon={CheckmarkOutline} size={16} /></span>
+          {:else}
+            <span class="value">{valueLabel}</span>
+          {/if}
       </div>
     {/if}
     <div class="title-value">
@@ -89,7 +95,11 @@
       {/if}
       <div class="value-sub">
         {#if value && !hideValue && compact}
-          <span class="value">{valueLabel}</span>
+          {#if habitDone}
+            <span class="habit-done"><IonIcon icon={CheckmarkOutline} size={16} /></span>
+          {:else}
+            <span class="value">{valueLabel}</span>
+          {/if}
         {/if}
         {#if subtitle}
           <span class="subtitle">{subtitle}</span>
@@ -170,6 +180,17 @@
   }
   :global(html.dark) .shortcut-button.compact .emoji-holder {
     background: color-mix(in srgb, var(--tracker-color) 28%, transparent);
+  }
+  /* a done habit: a 26 px soft green circle with a green check (guide 5.2) */
+  .shortcut-button .habit-done {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 9999px;
+    background: var(--ios-good-soft);
+    color: var(--ios-good);
   }
   /* iOS look (Phase 4, decision B): on a normal tile the value is top right, and the menu button moves to the bottom right */
   .shortcut-button.normal .tile-value {
