@@ -248,15 +248,16 @@
             </span>
           {/if}
           <div slot="right" class="flex items-center space-x-2">
-            {#if !editingWidget?.tokens?.length}
-              <div class="text-ios-tint">{Lang.t('general.select', 'Select')}</div>
-            {:else if editingWidget?.token}
+            {#if editingWidget?.token}
               <TrackablePill size={28} hideValue trackable={tokenToTrackable(editingWidget.token, $TrackableStore.trackables)} />
               {#if (activeType?.requires?.indexOf('token') === -1)}
                 <button class="flex items-center justify-center" on:click={()=>{editingWidget.token = undefined}}>
                   <IonIcon icon={CloseOutline} />
                 </button>
               {/if}
+            {:else}
+              <!-- no trackable yet (or an empty list): the row always offers Select, so it never looks empty -->
+              <div class="text-ios-tint">{Lang.t('general.select', 'Select')}</div>
             {/if}
           </div>
         </ListItem>
