@@ -154,6 +154,8 @@ export async function streamOpenRouter(
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
     let buffer = ''
+    // some free models stream only reasoning; with no content the reply must say so, not spin forever
+    let gotContent = false
 
     while (true) {
       const { done, value } = await reader.read()
@@ -177,7 +179,8 @@ export async function streamOpenRouter(
             }
             const chunk = json.choices?.[0]?.delta?.content
             if (chunk) {
-              onChunk(chunk)
+              gotContent = true
+          onChunk(chunk)
             }
           } catch (e) {
             // Ignore JSON parse errors in streaming
@@ -192,11 +195,15 @@ export async function streamOpenRouter(
         const json = JSON.parse(buffer.trim().slice(6))
         const chunk = json.choices?.[0]?.delta?.content
         if (chunk) {
+          gotContent = true
           onChunk(chunk)
         }
       } catch (e) {
         // Ignore JSON parse errors
       }
+    }
+    if (!gotContent) {
+      throw new Error('The model returned no answer. Try again, or pick another model in AI settings.')
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
