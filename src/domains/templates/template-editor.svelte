@@ -855,7 +855,7 @@
                 class="icon-badge trash-badge hover:brightness-110"
                 title="Remove trackable"
               >
-                <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
               </button>
             {/if}
           </div>
@@ -882,7 +882,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove this tab"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
             <div class="py-1 flex flex-wrap">
               {#each array_utils.unique(board.elements) as element, eindex}
@@ -912,7 +912,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove this dashboard"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
             <div class="widgets -ml-1 text-xs p-1 rounded-md flex flex-wrap">
               {#if dashboard.widgets.length}
@@ -946,7 +946,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove all daily goals"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
           </div>
           {#each groupGoalsByDuration(template.goals).day as goal}
@@ -962,7 +962,7 @@
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
                   title="Remove this goal"
                 >
-                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
               </div>
             </ListItem>
@@ -978,7 +978,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove all weekly goals"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
           </div>
           {#each groupGoalsByDuration(template.goals).week as goal}
@@ -994,7 +994,7 @@
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
                   title="Remove this goal"
                 >
-                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
               </div>
             </ListItem>
@@ -1010,7 +1010,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove all monthly goals"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
           </div>
           {#each groupGoalsByDuration(template.goals).month as goal}
@@ -1026,7 +1026,7 @@
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
                   title="Remove this goal"
                 >
-                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
               </div>
             </ListItem>
@@ -1042,7 +1042,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove all yearly goals"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
           </div>
           {#each groupGoalsByDuration(template.goals).year as goal}
@@ -1058,7 +1058,7 @@
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
                   title="Remove this goal"
                 >
-                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
+                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
               </div>
             </ListItem>
@@ -1085,7 +1085,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove this pivot"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
           </div>
         </ListItem>
@@ -1116,7 +1116,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove this location"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
           </div>
         </ListItem>
@@ -1142,7 +1142,7 @@
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
               title="Remove this plugin"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
           </div>
         </ListItem>

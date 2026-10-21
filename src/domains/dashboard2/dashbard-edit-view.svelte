@@ -105,7 +105,7 @@
       `}
       >
         <button class="delete-button" on:click={() => removeWidget(item)}>
-          <IonIcon icon={CloseOutline} className="text-white" size={12} />
+          <IonIcon icon={CloseOutline} className="text-ios-ondanger" size={12} />
         </button>
         {#if item.token && $TrackableStore?.trackables[item.token?.raw]}
           <TrackablePill transparent trackable={$TrackableStore.trackables[item.token?.raw]} hideValue size={32} />

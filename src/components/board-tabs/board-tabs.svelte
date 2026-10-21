@@ -116,7 +116,7 @@
             }}
             class="rounded-full h-4 w-4 absolute z-50 -right-2 bg-ios-danger text-ios-ondanger"
           >
-            <IonIcon className="text-white" icon={CloseOutline} size={10} />
+            <IonIcon className="text-ios-ondanger" icon={CloseOutline} size={10} />
           </button>
           <button
             class="tab animate-shake-big board-tab mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"

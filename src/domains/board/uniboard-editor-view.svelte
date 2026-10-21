@@ -138,7 +138,7 @@
             className="tracker-{item.id} animate-shake tracker-board-button"
           >
             <button class="delete-button" on:click={() => localRemoveTrackable(item)}>
-              <IonIcon icon={CloseOutline} className="text-white" size={12} />
+              <IonIcon icon={CloseOutline} className="text-ios-ondanger" size={12} />
             </button>
           </ShortcutButton>
         {/if}
