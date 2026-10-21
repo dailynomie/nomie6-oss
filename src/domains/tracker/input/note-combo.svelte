@@ -98,7 +98,7 @@
         <TrackableAvatar slot="left" {trackable} size={46} />
         <main class="filler">
           <header class="flex items-center justify-between">
-            <Title>{trackable.label}</Title>
+            <Title className="text-ios-body font-semibold" style="text-align:left">{trackable.label}</Title>
             {#if trackable.tracker?.type == 'range'}
               <LetterTicker className="text-lg font-bold" text={trackable.tracker?.displayValue(trackable.value)} />
             {/if}
