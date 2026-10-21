@@ -103,7 +103,7 @@ import type { WidgetClass } from '../widget-class';
 <style lang="postcss" global>
   .widget-type-selector .active-type {
     @apply bg-ios-tint text-ios-ontint;
-    @apply ring ring-inset ring-white;
+    /* iOS look: the tint fill alone marks the selected type; no extra ring */
   }
 
   /* Blend NomieAiButton colors with background for light/dark themes */
