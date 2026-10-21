@@ -50,7 +50,7 @@
         {/if}
       </div>
 
-      <div class="text-xs text-gray-600 px-2 pb-2">
+      <div class="text-xs text-ios-label2 px-2 pb-2">
         {#if lastCheckDisplay}
           Last checked: {lastCheckDisplay}
         {/if}
@@ -60,7 +60,7 @@
         {#if $offlineReady}
           <button
             disabled={$isCheckingForUpdates}
-            class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600 disabled:opacity-50"
+            class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-ios-tint disabled:opacity-50"
             title="Check for updates manually"
             on:click={handleManualCheck}
           >
@@ -73,7 +73,7 @@
         {/if}
 
         <button
-          class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600"
+          class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-ios-tint"
           on:click={close}
         >
           Later
@@ -83,7 +83,7 @@
           <button
             aria-label="Update the App"
             on:click={handleUpdate}
-            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-primary-600"
+            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-ios-tint"
           >
             Update Now
           </button>

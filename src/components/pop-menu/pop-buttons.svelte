@@ -71,7 +71,7 @@
               : 'locked'
             : ''}"
         >
-          <div slot="left" class="text-gray-500">
+          <div slot="left" class="text-ios-label2">
             {#if button.checked}
               <div in:fly|global={{ y: 50 }} class="mr-4">
                 <IonIcon className="text-ios-tint" icon={CheckmarkCircle} />
@@ -83,7 +83,7 @@
               {button.title}
             </div>
             {#if button.description}
-              <div class="text-sm text-gray-500 leading-tight font-base text-left pr-4 mt-1" aria-label="Description">
+              <div class="text-sm text-ios-label2 leading-tight font-base text-left pr-4 mt-1" aria-label="Description">
                 <p class="line-clamp-3 leading-tight">{button.description}</p>
               </div>
             {/if}
@@ -91,7 +91,7 @@
 
           <div slot="right" class="flex items-center">
             {#if button.icon}
-              <IonIcon icon={button.icon} className="text-gray-500" />
+              <IonIcon icon={button.icon} className="text-ios-label2" />
             {:else if button.emoji}
               <Avatar emoji={button.emoji} size={42} />
             {/if}
@@ -121,7 +121,7 @@
   .pm2-button .right-text {
     @apply absolute right-5;
     @apply font-semibold;
-    @apply text-gray-500;
+    @apply text-ios-label2;
     @apply bg-gray-500 rounded-md;
     min-width: 28px;
     @apply py-1;
@@ -213,7 +213,7 @@
   }
 
   .pop-buttons.list-grid .nbtn svg {
-    @apply text-gray-400 dark:text-gray-600;
+    @apply text-ios-label2;
     @apply mr-3;
   }
   .pop-buttons.list-grid .nbtn .main span {

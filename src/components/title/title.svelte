@@ -14,5 +14,5 @@
   <h2 class="ntitle {className}" {style}><slot /></h2>
 {/if}
 {#if subTitle}
-  <p class="text-sm text-gray-500 leading-tight mt-1">{subTitle}</p>
+  <p class="text-sm text-ios-label2 leading-tight mt-1">{subTitle}</p>
 {/if}

@@ -41,6 +41,6 @@
     @apply border-b border-gray-300 dark:border-gray-700;
   }
   .time-gap .label {
-    @apply text-gray-500;
+    @apply text-ios-label2;
   }
 </style>

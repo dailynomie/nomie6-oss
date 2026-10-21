@@ -30,7 +30,7 @@
     <button
       type="button"
       aria-label="More about this Trackable"
-      class="more {is.truthy(value) ? 'has-value text-white' : 'no-value text-gray-500 dark:text-white'}"
+      class="more {is.truthy(value) ? 'has-value text-white' : 'no-value text-ios-label2 dark:text-white'}"
       on:click={(evt) => {
         evt.preventDefault()
         evt.stopPropagation()

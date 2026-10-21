@@ -71,7 +71,7 @@
       {placeholder}
     >
       <div slot="left" class="flex items-center pl-2">
-        <IonIcon icon={SearchIcon} size={20} className="text-gray-500" />
+        <IonIcon icon={SearchIcon} size={20} className="text-ios-label2" />
       </div>
       <div slot="right" class="flex items-center">
         <slot name="right-inside" />
@@ -85,7 +85,7 @@
     <slot name="right" />
     {#if searchButton}
       <Button color="clear" icon on:click={fireSearch}>
-        <IonIcon icon={SearchIcon} size={20} className="text-gray-500" />
+        <IonIcon icon={SearchIcon} size={20} className="text-ios-label2" />
       </Button>
     {/if}
   </Container>

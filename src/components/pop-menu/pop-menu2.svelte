@@ -59,7 +59,7 @@
           {/if}
           {#if menu.description}
             <!-- DON'T MESS WITH THIS! THE BUTTONS ARE BELOW YOU KNUCKLE HEAD! -->
-            <p class="p-0 m-0 mb-2 mt-2 text-sm leading-tight text-gray-600 dark:text-gray-400 line-clamp-4">
+            <p class="p-0 m-0 mb-2 mt-2 text-sm leading-tight text-ios-label2 line-clamp-4">
               {menu.description}
             </p>
           {/if}
@@ -68,7 +68,7 @@
       </header>
     {/if}
     {#if menu.component}
-      <div class="rounded-xl overflow-hidden flex-shrink-0 text-gray-500">
+      <div class="rounded-xl overflow-hidden flex-shrink-0 text-ios-label2">
         <svelte:component this={menu.component} {...menu.componentProps || {}} />
       </div>
     {/if}

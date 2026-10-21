@@ -23,7 +23,7 @@
       dispatch('previous')
     }}
   >
-    <IonIcon icon={ChevronBackOutline} size={24} className="text-primary-500" />
+    <IonIcon icon={ChevronBackOutline} size={24} className="text-ios-tint" />
   </Button>
   {#if !hideCal}
     <Button
@@ -50,7 +50,7 @@
       dispatch('next')
     }}
   >
-    <IonIcon icon={ChevronForwardOutline} size={24} className="text-primary-500" />
+    <IonIcon icon={ChevronForwardOutline} size={24} className="text-ios-tint" />
   </Button>
 </div>
 

@@ -23,7 +23,7 @@
   .tab-button {
     @apply py-1 px-2;
     @apply text-sm font-semibold;
-    @apply text-gray-800 dark:text-gray-400;
+    @apply text-ios-label dark:text-ios-label2;
   }
   .tab-button.isActive {
     @apply dark:bg-black dark:text-white bg-white text-black rounded-full;

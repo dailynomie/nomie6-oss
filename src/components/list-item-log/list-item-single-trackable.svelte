@@ -38,7 +38,7 @@
     <div class="flex item-center space-y-1 filler items-center justify-between w-full">
       <h3 class="text-base leading-tight font-bold w-full dark:text-white">
         {trackable.label}
-        <span class="text-base font-normal text-gray-500">{log.endDayjs().format(dateFormats.tinyDate)}</span>
+        <span class="text-base font-normal text-ios-label2">{log.endDayjs().format(dateFormats.tinyDate)}</span>
       </h3>
       <p class="text-black dark:text-white font-bold text-xl text-right mr-4 leading-none whitespace-nowrap">
         {trackable.formatValue(value)}
@@ -53,7 +53,7 @@
         <ProgressBar percentage={math.percentage(max, value)} className="h-1 w-full" color={trackable.color} />
       </div>
     {:else}
-      <div class="text-sm text-gray-500 pr-2 pt-px w-full line-clamp-5">
+      <div class="text-sm text-ios-label2 pr-2 pt-px w-full line-clamp-5">
         {log.note}
       </div>
     {/if}

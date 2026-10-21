@@ -180,7 +180,7 @@
 
   .autocomplete-results button {
     @apply text-center;
-    @apply text-gray-500;
+    @apply text-ios-label2;
     @apply h-8;
     @apply rounded-md;
     @apply items-center;

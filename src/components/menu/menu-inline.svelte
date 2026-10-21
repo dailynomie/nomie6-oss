@@ -100,7 +100,7 @@ import Divider from '../divider/divider.svelte'
                 {button.title}
               </h1>
               {#if button.description}
-                <p class="text-sm text-gray-500 leading-snug">{button.description}</p>
+                <p class="text-sm text-ios-label2 leading-snug">{button.description}</p>
               {/if}
             </main>
             <div class="flex items-center">

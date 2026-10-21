@@ -179,12 +179,12 @@
   }
   .n-note-textualized .token {
     @apply rounded-lg mr-1 pl-1;
-    @apply hover:text-primary-500;
+    @apply hover:text-ios-tint;
     @apply transform transition-all duration-100;
     @apply cursor-pointer;
   }
   .n-note-textualized .token.link {
-    @apply bg-transparent text-primary-500;
+    @apply bg-transparent text-ios-tint;
   }
   .n-note-textualized .remainder {
     padding-right: 5px;

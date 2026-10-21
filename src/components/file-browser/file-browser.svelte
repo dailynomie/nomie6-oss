@@ -378,7 +378,7 @@
             download(browserFile)
           }}
         >
-          <IonIcon icon={DownloadOutline} className="text-primary-500" />
+          <IonIcon icon={DownloadOutline} className="text-ios-tint" />
         </Button>
         <Button
           icon
@@ -386,7 +386,7 @@
             deleteFile(browserFile)
           }}
         >
-          <IonIcon icon={TrashOutline} className="text-red-500" />
+          <IonIcon icon={TrashOutline} className="text-ios-danger" />
         </Button>
       </div>
     </ToolbarGrid>
@@ -394,7 +394,7 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex filler pb-12">
       {#if fileContent}
         {#if !browserEdit}
-          <pre class="text-gray-800 dark:text-gray-200">{fileContent}</pre>
+          <pre class="text-ios-label">{fileContent}</pre>
         {:else}
           <textarea id="file-editor" class="min-h-screen" autocapitalize="off" autocorrect="off">{fileContent}</textarea
           >

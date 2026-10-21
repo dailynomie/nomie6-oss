@@ -72,7 +72,7 @@
 
   .time-grid .day-label {
     @apply capitalize;
-    @apply text-gray-500;
+    @apply text-ios-label2;
     font-size: 10px;
     @apply text-right;
     @apply pr-1;

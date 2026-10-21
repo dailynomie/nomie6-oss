@@ -114,7 +114,7 @@
     @apply items-center;
     @apply justify-end;
     @apply flex-grow flex-shrink;
-    @apply text-gray-500;
+    @apply text-ios-label2;
     @apply bg-white dark:bg-black;
     @apply rounded-lg;
     @apply h-6;

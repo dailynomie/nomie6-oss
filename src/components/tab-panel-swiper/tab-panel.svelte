@@ -17,7 +17,7 @@
 
 <style lang="postcss" global>
   .tab-panel {
-    @apply text-gray-800 dark:text-gray-200;
+    @apply text-ios-label;
     @apply h-full flex-grow flex-shrink;
   }
 </style>

@@ -55,11 +55,11 @@
 
 {#if show}
   <section
-    class="n-tip-wrapper mt-10 dark:text-white text-gray-600 px-4 {className}
+    class="n-tip-wrapper mt-10 dark:text-white text-ios-label2 px-4 {className}
     relative"
   >
     <Button className="px-2 opacity-60" title="PrviousTip Tip" color="clear" icon on:click={previousTip}>
-      <IonIcon icon={ChevronBackOutline} size={32} className="text-gray-500" />
+      <IonIcon icon={ChevronBackOutline} size={32} className="text-ios-label2" />
     </Button>
     <div class="p-2 mx-auto rounded-md n-tips bg-solid" style="max-width:280px;">
       <div class="flex px-4 mb-2">
@@ -74,7 +74,7 @@
       </nav>
     </div>
     <Button className="px-2 opacity-60" title="Next Tip" color="clear" icon on:click={nextTip}>
-      <IonIcon icon={ChevronForwardOutline} size={32} className="text-gray-500" />
+      <IonIcon icon={ChevronForwardOutline} size={32} className="text-ios-label2" />
     </Button>
   </section>
 {/if}

@@ -202,7 +202,7 @@
   }
   .n-counter-manual .unit label {
     @apply font-bold;
-    @apply text-gray-500;
+    @apply text-ios-label2;
     @apply text-sm;
     @apply p-1;
   }

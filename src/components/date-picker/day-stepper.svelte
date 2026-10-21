@@ -43,7 +43,7 @@
     <div class="font-semibold dark:text-white">
       {dayjs(theDate).format(dayMonth)}
     </div>
-    <div class="text-gray-500">{dayjs(theDate).format('YYYY')}</div>
+    <div class="text-ios-label2">{dayjs(theDate).format('YYYY')}</div>
   </div>
   <button on:click={addDate} class="stepper-button">
     <IonIcon icon={ChevronForwardOutline} size={14} />

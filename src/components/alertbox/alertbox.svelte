@@ -177,7 +177,7 @@ import Markdown from '../markdown/markdown.svelte'
     @apply px-3;
     @apply text-sm;
     @apply leading-snug;
-    @apply text-gray-700 dark:text-gray-400;
+    @apply text-gray-700 dark:text-ios-label2;
     flex-grow: 1;
     flex-shrink: 1;
     overflow-y: auto;
@@ -201,10 +201,10 @@ import Markdown from '../markdown/markdown.svelte'
     @apply border-t dark:border-gray-700 border-gray-300;
   }
   .alert-dialog-window .footer button.cancel {
-    @apply text-red-500 dark:text-red-400
+    @apply text-ios-danger dark:text-red-400
   }
   .alert-dialog-window .footer button.primary {
-    @apply text-primary-500 dark:text-primary-400
+    @apply text-ios-tint
   }
   .alert-dialog-window .footer button:last-child {
     @apply rounded-b-2xl;

@@ -39,7 +39,7 @@
       dispatch('click', evt)
     }}
   >
-    <IonIcon icon={NavigateCircleSolid} size={18} className="text-primary-600 mr-1" />
+    <IonIcon icon={NavigateCircleSolid} size={18} className="text-ios-tint mr-1" />
     {#if name}
       <span class="font-medium line-clamp-1">{name}</span>
     {/if}

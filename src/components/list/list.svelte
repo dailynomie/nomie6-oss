@@ -57,7 +57,7 @@
 
   .n-list .list-header {
     @apply bg-gray-200 dark:bg-gray-800;
-    @apply px-4 text-sm text-gray-500;
+    @apply px-4 text-sm text-ios-label2;
     @apply h-7;
     @apply flex items-center;
   }

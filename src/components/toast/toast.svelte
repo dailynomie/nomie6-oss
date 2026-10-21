@@ -69,13 +69,13 @@
             toast.buttonClick()
             removeToast(toast)
           }}
-          class="text-primary-500 uppercase font-semibold text-sm px-2 py-1 rounded-full focus:outline-none focus:ring-2 ring-primary-500"
+          class="text-ios-tint uppercase font-semibold text-sm px-2 py-1 rounded-full focus:outline-none focus:ring-2 ring-primary-500"
         >
           {toast.buttonLabel}
         </button>
       {/if}
       {#if toast.timeout > 2500}
-        <IonIcon icon={CloseOutline} className="text-gray-500 pr-2" />
+        <IonIcon icon={CloseOutline} className="text-ios-label2 pr-2" />
       {/if}
     </div>
     {#if toast.buttonLabel}

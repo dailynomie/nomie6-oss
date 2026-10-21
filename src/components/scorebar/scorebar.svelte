@@ -34,7 +34,7 @@
 
 <button {style} on:click={() => (expanded = !expanded)} class="scorebar {className} {expanded ? 'expanded' : ''}">
   {#if total}
-    <div class="total {total > 0 ? 'text-green-500' : total < 0 ? 'text-red-500' : ''}">{total}</div>
+    <div class="total {total > 0 ? 'text-green-500' : total < 0 ? 'text-ios-danger' : ''}">{total}</div>
   {/if}
   {#each localScores as score, index}
     <div

@@ -67,7 +67,7 @@
                 OfflineQueue.removeLog(log)
               }}
             >
-              <IonIcon icon={TrashOutline} size={24} className="text-red-500" />
+              <IonIcon icon={TrashOutline} size={24} className="text-ios-danger" />
             </Button>
           </div>
         </ListItemLog>

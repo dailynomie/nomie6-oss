@@ -367,7 +367,7 @@
   }
   .n-calendar .n-calendar-container .body .day-name {
     color: var(--color-inverse);
-    @apply text-gray-200 dark:text-gray-800;
+    @apply text-gray-200 dark:text-ios-label;
     @apply font-extrabold;
     @apply text-xs;
 
@@ -384,7 +384,7 @@
     @apply leading-none;
     border-radius: 32%;
     box-sizing: content-box;
-    @apply text-gray-500;
+    @apply text-ios-label2;
     height: var(--cal-day-size);
     min-width: var(--cal-day-size);
   }

@@ -76,7 +76,7 @@
     >
       {#if button.checked}
         <div>
-          <IonIcon className="text-gray-800 dark:text-gray-200" icon={CheckmarkCircle} />
+          <IonIcon className="text-ios-label" icon={CheckmarkCircle} />
         </div>
       {/if}
       <main class="flex-fill w-full transition-all">

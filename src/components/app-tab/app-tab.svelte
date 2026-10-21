@@ -72,14 +72,14 @@
     @apply bg-gray-600 dark:bg-gray-400;
   }
   .tab-wrap a[aria-current='page'] .notify {
-    @apply bg-primary-500 dark:text-gray-800;
+    @apply bg-primary-500 dark:text-ios-label;
   }
 
   .tab-wrap a .notify {
     @apply absolute;
     @apply top-0;
     @apply z-40;
-    @apply text-white dark:text-gray-800;
+    @apply text-white dark:text-ios-label;
     @apply font-semibold;
     font-size: 11px;
     @apply h-4 flex items-center justify-center;

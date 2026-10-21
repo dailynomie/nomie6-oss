@@ -516,7 +516,7 @@ import is from '../../utils/is/is';
     content: '˯';
     @apply absolute;
     @apply right-2;
-    @apply text-gray-500;
+    @apply text-ios-label2;
   }
 
   .nselect-group {

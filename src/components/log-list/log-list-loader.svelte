@@ -102,7 +102,7 @@
     }}
   />
   {#if !loading && logs.length == 0}
-    <div class="px-4 py-10 text-center text-gray-800 dark:text-gray-100">
+    <div class="px-4 py-10 text-center text-ios-label">
       Nothing found since now and <strong>{lastFrom.format(dtFormat.date)}</strong>
     </div>
   {/if}
@@ -116,7 +116,7 @@
       {Lang.t('general.continue', 'Continue Looking')}...
     </Button>
     <div class="text-center px-4 py-4">
-      <p class="text-xs  pb-2 text-gray-500">
+      <p class="text-xs  pb-2 text-ios-label2">
         Point in time: ({lastFrom.fromNow()})
         <br />{lastFrom.format(dtFormat.date)}
       </p>

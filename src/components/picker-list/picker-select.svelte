@@ -81,7 +81,7 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
   {/if}
   {#each picks || [] as pick, index (index)}
     {#if isHeader(pick)}
-      <div class="text-gray-800 dark:text-gray-200 text-lg font-bold pt-5 pb-1 px-3 mt-1">
+      <div class="text-ios-label text-lg font-bold pt-5 pb-1 px-3 mt-1">
         {pick.replace(':', '')}
       </div>
     {:else}
