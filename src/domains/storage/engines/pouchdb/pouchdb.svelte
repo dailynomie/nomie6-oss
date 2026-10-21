@@ -305,7 +305,7 @@
             <Button
               disabled
               block
-              className="bg-gray-100 dark:bg-gray-900 text-ios-label2 font-bold"
+              className="bg-ios-bg text-ios-label2 font-bold"
               on:click={methods.connect}>Connect...</Button
             >
           {/if}

@@ -96,7 +96,7 @@
   const { id, props } = $props()
 </script>
 
-<BackdropModal className="bg-gray-200 dark:bg-gray-800 h-full">
+<BackdropModal className="bg-ios-bg h-full">
   <ToolbarGrid>
     <Button clear primary slot="left" on:click={close}>Cancel</Button>
     <h1 class="ntitle">

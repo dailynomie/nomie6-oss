@@ -99,8 +99,8 @@
   })
 </script>
 
-<main class="w-screen h-screen grid-cols-12 grid bg-gray-200 dark:bg-gray-800">
-  <Panel className="sidebar col-span-4 bg-gray-100 dark:bg-gray-900">
+<main class="w-screen h-screen grid-cols-12 grid bg-ios-bg">
+  <Panel className="sidebar col-span-4 bg-ios-bg">
     <ToolbarGrid slot="header">
       <h1 class="ntitle">Categories</h1>
     </ToolbarGrid>
@@ -140,7 +140,7 @@
             />
 
             {#if expanded[`index-${index}`] === true}
-              <div class="bg-gray-100 dark:bg-gray-900 py-2">
+              <div class="bg-ios-bg py-2">
                 <!-- <List solo className="">
                   {#if libraryTracker.trackers.length > 1}
                     <ListItem clickable={false}>

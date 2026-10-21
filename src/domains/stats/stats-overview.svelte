@@ -24,26 +24,26 @@
 {#if stats}
   <div class="flex-grow flex-shrink py-2 overview">
     {#if stats.math == 'sum'}
-      <ListItem className="solo bg-gray-100 dark:bg-gray-900" title={Lang.t('general.total', 'Total')}>
+      <ListItem className="solo bg-ios-bg" title={Lang.t('general.total', 'Total')}>
         <div slot="right" class="text-lg text-inverse">
           {formatValue(math.round(stats.sum, 100))}
         </div>
       </ListItem>
     {/if}
-    <ListItem className="solo bg-gray-100 dark:bg-gray-900" title={Lang.t('general.average', 'Average')}>
+    <ListItem className="solo bg-ios-bg" title={Lang.t('general.average', 'Average')}>
       <div slot="right" class="text-lg text-inverse">
         {formatValue(math.round(stats.avg, 100))}
       </div>
     </ListItem>
     {#if stats._stats.mode !== 'd'}
-      <ListItem className="solo bg-gray-100 dark:bg-gray-900" title={Lang.t('stats.daily-average', 'Daily Average')}>
+      <ListItem className="solo bg-ios-bg" title={Lang.t('stats.daily-average', 'Daily Average')}>
         <div slot="right" class="text-lg text-inverse">
           {formatValue(math.round(stats.sum / stats.rows.length, 100))}
         </div>
       </ListItem>
     {/if}
     {#if stats.max.value > stats.min.value}
-      <ListItem className="solo bg-gray-100 dark:bg-gray-900" title={Lang.t('stats.range', 'Range')}>
+      <ListItem className="solo bg-ios-bg" title={Lang.t('stats.range', 'Range')}>
         <div slot="right" class="text-lg text-inverse value">
           {formatValue(math.round(stats.min.value, 100), false)}
           <span class="text-faded-2 font-weight-normal">to</span>
@@ -51,7 +51,7 @@
         </div>
       </ListItem>
     {/if}
-    <ListItem className="solo bg-gray-100 dark:bg-gray-900" title={Lang.t('general.score')}>
+    <ListItem className="solo bg-ios-bg" title={Lang.t('general.score')}>
       <div slot="right" class="text-lg text-inverse">{getScore()}</div>
     </ListItem>
 

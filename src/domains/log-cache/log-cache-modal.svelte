@@ -128,7 +128,7 @@
           <Button
             size="sm"
             disabled={log == activeLog}
-            className="bg-gray-200 dark:bg-gray-800"
+            className="bg-ios-bg"
             on:click={() => {
               importLog(log)
             }}

@@ -223,7 +223,7 @@
   }
 
   .streak-2 .track-button {
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-bg;
     @apply w-full rounded-md;
     @apply mt-1;
   }
@@ -232,7 +232,7 @@
     @apply relative;
     @apply h-full;
     @apply overflow-hidden;
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-bg;
     @apply overflow-hidden;
     @apply w-12 h-14;
     @apply rounded-md;

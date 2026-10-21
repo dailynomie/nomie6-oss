@@ -42,7 +42,7 @@
 </script>
 
 <Modal2 id="uom-modal" {visible}>
-  <Panel className="h-full bg-gray-100 dark:bg-gray-900">
+  <Panel className="h-full bg-ios-bg">
     <ToolbarGrid slot="header">
       <Button slot="left" primary clear on:click={() => close()}>
         {Lang.t('general.close', 'Close')}

@@ -213,7 +213,7 @@
       />
 
       {#if activeId === index}
-        <div class="bg-gray-100 dark:bg-gray-900 pb-2">
+        <div class="bg-ios-bg pb-2">
           <LibraryTrackerItemDetails
             {libraryTracker}
             on:add={(evt) => {

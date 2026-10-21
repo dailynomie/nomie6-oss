@@ -109,7 +109,7 @@
         bind:value={config.apiKey}
       />
       {#if config.apiKey}
-        <Button size="sm" className="mt-2 bg-gray-200 dark:bg-gray-800" on:click={clearApiKey}>
+        <Button size="sm" className="mt-2 bg-ios-bg" on:click={clearApiKey}>
           Clear Key
         </Button>
       {/if}

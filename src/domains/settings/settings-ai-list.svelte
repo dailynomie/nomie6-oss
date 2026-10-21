@@ -238,7 +238,7 @@
           className="mb-3"
         />
         {#if config.apiKey}
-          <Button size="sm" className="bg-gray-200 dark:bg-gray-800 mr-2" on:click={clearApiKey}>
+          <Button size="sm" className="bg-ios-bg mr-2" on:click={clearApiKey}>
             Clear Key
           </Button>
         {/if}

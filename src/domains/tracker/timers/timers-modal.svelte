@@ -28,7 +28,7 @@
   }
 </script>
 
-<BackdropModal className="h-full bg-gray-100 dark:bg-gray-900">
+<BackdropModal className="h-full bg-ios-bg">
   <ToolbarGrid slot="header">
     <Button primary clear slot="left" on:click={close}>
       {Lang.t('general.close', 'Close')}

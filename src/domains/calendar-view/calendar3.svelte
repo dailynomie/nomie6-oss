@@ -192,7 +192,7 @@
   .calendar-3.xs {
   }
   .calendar-3 header {
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-bg;
     @apply text-ios-label2;
   }
   .calendar-3 .header-days .cell {

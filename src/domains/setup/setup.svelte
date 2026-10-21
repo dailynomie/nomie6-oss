@@ -110,6 +110,6 @@
 
 <style lang="postcss" global>
   .setup-main {
-    @apply bg-gray-100 dark:bg-gray-900;
+    @apply bg-ios-bg;
   }
 </style>

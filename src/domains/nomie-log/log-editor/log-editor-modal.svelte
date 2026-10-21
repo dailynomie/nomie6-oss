@@ -166,7 +166,7 @@
   })
 </script>
 
-<BackdropModal mainClass="bg-ios-card filler" className="h-full bg-white dark:bg-gray-800">
+<BackdropModal mainClass="bg-ios-card filler" className="h-full bg-ios-card">
   <div slot="header" class="shadow-md z-40 relative">
     {#if workingLog}
       <ToolbarGrid>

@@ -41,5 +41,6 @@
     their own privacy policy.
   </p>
   {#if url}<p class="text-xs text-ios-label mt-2 text-center">Source: {new URL(url).origin}</p>{/if}
-  <p class="text-xs text-ios-danger mt-2 text-center">Only install plugins from sources that you trust.</p>
+  <!-- iOS look (D-caution): a caution is neutral secondary text with a warning glyph; red is only for destructive actions -->
+  <p class="text-sm font-semibold text-ios-label2 mt-3 text-center">⚠︎ Only install plugins from sources that you trust.</p>
 </BackdropModal>

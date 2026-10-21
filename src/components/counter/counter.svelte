@@ -3,6 +3,7 @@
 <script lang="ts">
   import LetterTicker from '../letter-ticker/letter-ticker.svelte'
   import { onMount } from 'svelte'
+  import { accessibleTint, readableTextOn } from '../../utils/contrast/readable-text'
 
   const { started, initialDuration, lg, className, color, filled } = $props()
 
@@ -56,7 +57,9 @@
   class="n-counter {className}
   {lg ? 'large' : 'small'}
   {filled ? 'filled' : ''}"
-  style={`color:${filled ? '#FFF' : color}; background-color:${filled ? color : ''}`}
+  style={filled
+    ? `color:${readableTextOn(color)}; background-color:${color}`
+    : `color:${accessibleTint(color)}`}
 >
   <LetterTicker text={value} />
 </div>

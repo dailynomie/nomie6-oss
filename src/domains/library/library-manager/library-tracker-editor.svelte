@@ -91,7 +91,7 @@
 </script>
 
 <Modal2 visible={showDom} id="library-tracker-editor" on:close={() => close()}>
-  <Panel className="bg-gray-100 dark:bg-gray-800 h-full">
+  <Panel className="bg-ios-bg h-full">
     <ToolbarGrid slot="header">
       <Button icon slot="left" on:click={() => close()}>
         <IonIcon icon={CloseOutline} className="text-ios-tint" />
@@ -163,7 +163,7 @@
                     trackers = trackers
                   }}
                   shape="round"
-                  className="bg-gray-200 dark:bg-gray-800"
+                  className="bg-ios-bg"
                   icon><IonIcon size={20} icon={CopyOutline} /></Button
                 >
                 <Button
@@ -175,7 +175,7 @@
                     })
                   }}
                   shape="round"
-                  className="bg-gray-200 dark:bg-gray-800"
+                  className="bg-ios-bg"
                   icon><IonIcon size={20} icon={PencilOutline} /></Button
                 >
               </div>

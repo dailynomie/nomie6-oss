@@ -469,13 +469,13 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     @apply px-4 py-3;
     @apply space-x-2;
     @apply flex items-center justify-items-stretch;
-    @apply bg-white dark:bg-gray-800;
+    @apply bg-ios-card;
     @apply text-ios-label;
   }
 
   .unisearch .list-header {
     @apply transition-all duration-100 ease-in-out;
-    @apply bg-gray-50 dark:bg-gray-900;
+    @apply bg-ios-bg;
     @apply z-20;
     @apply text-sm px-4 py-1 text-ios-label2;
   }

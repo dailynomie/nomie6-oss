@@ -60,7 +60,7 @@
     @apply focus:outline-none;
   }
   .trackable-pill.filled {
-    @apply bg-gray-100 dark:bg-gray-800 bg-opacity-60 dark:bg-opacity-60;
+    @apply bg-ios-bg bg-opacity-60 dark:bg-opacity-60;
   }
   .trackable-pill.solid {
     @apply bg-ios-card;

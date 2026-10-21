@@ -159,7 +159,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
       <Divider left={1} className="opacity-50" />
 
       {#if trackableUsage}
-        <div class="px-2 pt-2 lg:px-4 bg-gray-300 dark:bg-gray-800">
+        <div class="px-2 pt-2 lg:px-4 bg-ios-bg">
           {#if !trackableUsage.logs.length}
             <div class="text-center p-10 text-ios-label2">
               No {trackableUsage.trackable.label} data for {dayjs(activeDate || starterDate).format(

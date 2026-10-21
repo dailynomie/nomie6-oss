@@ -172,7 +172,7 @@
   }
 </script>
 
-<BackdropModal className="bg-gray-100 dark:bg-gray-900">
+<BackdropModal className="bg-ios-bg">
   <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
       <Button slot="left" clear primary on:click={close}>Close</Button>

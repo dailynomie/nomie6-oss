@@ -205,7 +205,7 @@
     </div>
 
     {#if testDataInfo}
-      <div class="mb-6 bg-gray-50 dark:bg-gray-800 border border-ios-separator rounded p-4">
+      <div class="mb-6 bg-ios-bg border border-ios-separator rounded p-4">
         <button
           onclick={() => (showTestData = !showTestData)}
           class="w-full text-left flex items-center justify-between hover:opacity-70 transition-opacity"
@@ -323,7 +323,7 @@
 
     <div class="mb-4">
       <h2 class="text-lg font-semibold mb-2">Response:</h2>
-      <div class="bg-gray-100 dark:bg-gray-800 rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-ios-label">
+      <div class="bg-ios-bg rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-ios-label">
         {#if aiState.loading}
           <span class="text-ios-label2">Processing...</span>
         {:else if responseText}
