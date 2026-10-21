@@ -177,7 +177,7 @@
               <div class="grid grid-cols-2 gap-2">
                 <Button
                   role="menuitem"
-                  className="dark:bg-gray-800 bg-gray-100 text-ios-label"
+                  className="bg-ios-card text-ios-label"
                   title={`${Lang.t('settings.sign-in', 'Sign-In')}`}
                   on:click={() => {
                     openLoginModal()
@@ -187,7 +187,7 @@
                 >
                 <Button
                   role="menuitem"
-                  className="dark:bg-gray-800 bg-gray-100 text-ios-label"
+                  className="bg-ios-card text-ios-label"
                   title={Lang.t('settings.export', 'Export')}
                   on:click={() => openRegisterModal()}
                 >

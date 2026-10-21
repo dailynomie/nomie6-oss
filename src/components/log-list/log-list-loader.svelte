@@ -109,7 +109,7 @@
   {#if !loading && lastTo}
     <Button
       block
-      className="mx-auto bg-ios-tint focus:ring-2 ring-yellow-500  text-ios-ontint"
+      className="mx-auto bg-ios-tint focus:ring-2 ring-ios-tint  text-ios-ontint"
       style="max-width:300px;"
       on:click={search}
     >

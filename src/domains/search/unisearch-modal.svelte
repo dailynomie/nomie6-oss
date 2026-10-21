@@ -414,7 +414,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
 
   {#if results}
     <div
-      class="hidden dark:text-gray-500 xl:flex px-4 w-full items-center border-t border-ios-separator py-2 stiff space-x-4"
+      class="hidden text-ios-label2 xl:flex px-4 w-full items-center border-t border-ios-separator py-2 stiff space-x-4"
     >
       <div class="text-sm">↑↓ <span class="text-ios-label2 text-sm">Select</span></div>
       <div class="text-xs">⮐ <span class="text-ios-label2 text-sm">Open</span></div>
@@ -442,7 +442,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
   }
 
   .unisearch .search-input {
-    @apply bg-ios-card dark:text-white;
+    @apply bg-ios-card text-ios-label;
     @apply text-lg py-3 pr-8 pl-10 focus:outline-none;
   }
 

@@ -236,7 +236,7 @@
           <NProgress percentage={state.replacingProgress} />
           <span slot="left">
             {#if state.finishedReplacing}
-              <IonIcon icon={CheckmarkCircle} className="text-green-500" />
+              <IonIcon icon={CheckmarkCircle} className="text-ios-good" />
             {:else}
               <Spinner size={30} />
             {/if}
@@ -246,7 +246,7 @@
         <NItem className="pb-2" title={`${state.finishedFinding ? 'Find Complete' : 'Finding...'}`}>
           <span slot="left">
             {#if state.finishedFinding}
-              <IonIcon icon={CheckmarkCircle} className="text-green-500" />
+              <IonIcon icon={CheckmarkCircle} className="text-ios-good" />
             {:else}
               <Spinner size={30} />
             {/if}

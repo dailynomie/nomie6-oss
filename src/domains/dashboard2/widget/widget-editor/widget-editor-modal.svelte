@@ -505,7 +505,7 @@
 
     <!-- Styling -->
 
-    <List solo className="mt-4 dark:text-white" />
+    <List solo className="mt-4" />
     {/key}
   </main>
 </BackdropModal>

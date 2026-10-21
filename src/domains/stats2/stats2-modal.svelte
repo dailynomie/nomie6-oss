@@ -110,7 +110,7 @@
       on:next={() => nextStatsPeriod()}
       on:previous={() => previousStatsPeriod()}
      >
-     <h1 class="text-ios-label text-center flex items-center justify-center dark:text-white font-bold leading-none line-clamp-1 w-full">
+     <h1 class="text-ios-label text-center flex items-center justify-center font-bold leading-none line-clamp-1 w-full">
       <TrackableAvatar trackable={$Stats2Store.trackable} size={20} className="mr-2" />
       <span>{$Stats2Store.trackable.label}</span>
     </h1>

@@ -84,7 +84,7 @@
   }
 
   .tracker-input-slider .rangeNub {
-    @apply dark:bg-white;
+    @apply bg-ios-card;
     width: var(--nub-width);
   }
 
@@ -166,7 +166,7 @@
     height: 100px;
     cursor: pointer;
 
-    @apply bg-gray-500 dark:bg-black;
+    @apply bg-ios-fill;
     border-radius: 50px;
     padding: 0 6px;
     @apply border border-ios-separator;

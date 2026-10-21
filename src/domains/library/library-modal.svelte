@@ -185,10 +185,10 @@
                   }}
                   size="sm"
                   shape="round"
-                  className="bg-gray-600 text-white">Add</Button
+                  className="bg-ios-tint text-ios-ontint">Add</Button
                 >
               {:else}
-                <Button size="sm" shape="round" className="bg-gray-600 opacity-25 text-white">Added</Button>
+                <Button size="sm" shape="round" className="bg-ios-tint opacity-25 text-ios-ontint">Added</Button>
               {/if}
             </div>
           </ListItem>
@@ -231,7 +231,7 @@
 
 <style global lang="postcss">
   .intro-message {
-    @apply text-ios-label2 dark:text-gray-300;
+    @apply text-ios-label2;
     @apply text-sm;
     @apply leading-tight;
   }

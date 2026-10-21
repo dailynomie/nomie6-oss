@@ -277,7 +277,7 @@
       />
       {#if searchResults.length && locationSearchTerm?.length && !resultsHidden}
         <div value={1} class="absolute left-4 right-4 top-8 z-50">
-          <List solo className="my-2  shadow-lg ring-1 ring-gray-500 ring-opacity-25">
+          <List solo className="my-2  shadow-lg ring-1 ring-ios-separator">
             {#each searchResults as locationType, index}
               <ListItem
                 bottomLine={24}

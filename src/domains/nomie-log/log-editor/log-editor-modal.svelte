@@ -222,7 +222,7 @@
           }}
         >
           {#if updateTrigger >= 0 && workingLog.pinned}
-            <IonIcon icon={MagnetSolid} className="text-green-500 dark:text-green-400" />
+            <IonIcon icon={MagnetSolid} className="text-ios-good" />
           {:else if updateTrigger >= 0}
             <IonIcon icon={MagnetOutline} className="text-primary opacity-80" />
           {/if}
@@ -242,7 +242,7 @@
         }}
       >
         {#if workingLog?.lat}
-          <span class="text-green-500"
+          <span class="text-ios-good"
             >{workingLog.location || `${math.round(workingLog.lat, 100)},${math.round(workingLog.lng, 100)}`}</span
           >
         {:else}
@@ -261,7 +261,7 @@
         autofocus
         id="editor"
         placeholder="What's up?"
-        class="p-4 pt-2 w-full focus:outline-none dark:text-gray-200 placeholder-gray-500 focus:ring ring-inset ring-primary-500 ring-opacity-20 bg-transparent"
+        class="p-4 pt-2 w-full focus:outline-none placeholder-ios-label2 focus:ring ring-inset ring-ios-tint ring-opacity-20 bg-transparent"
         bind:value={workingLog.note}
         style="min-height:300px;"
       />

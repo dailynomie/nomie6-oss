@@ -369,7 +369,7 @@
   }
   .n-calendar .n-calendar-container .body .day-name {
     color: var(--color-inverse);
-    @apply text-gray-200 dark:text-ios-label;
+    @apply text-ios-label2;
     @apply font-extrabold;
     @apply text-xs;
 

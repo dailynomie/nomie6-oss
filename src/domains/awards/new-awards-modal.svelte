@@ -48,7 +48,7 @@
           alt={$AwardStore.newAwards[0].name}
         />
         <div
-          class="text-4xl my-4 font-bold  w-11/12 mx-auto relative text-gray-400 dark:text-gray-200  text-center leading-tight "
+          class="text-4xl my-4 font-bold  w-11/12 mx-auto relative text-ios-label2  text-center leading-tight "
         >
           {$AwardStore.newAwards[0].name}
           {#if $AwardStore.newAwards[0].reason}
@@ -67,7 +67,7 @@
           <div class="award-badge">
             <img src="/images/awards/{award.id}.svg" alt={award.name} />
             <div
-              class="text-xs -top-2 w-11/12 mx-auto relative text-gray-400 dark:text-gray-200 rounded-full py-1 text-center line-clamp-1 leading-tight "
+              class="text-xs -top-2 w-11/12 mx-auto relative text-ios-label2 rounded-full py-1 text-center line-clamp-1 leading-tight "
             >
               {award.name}
             </div>

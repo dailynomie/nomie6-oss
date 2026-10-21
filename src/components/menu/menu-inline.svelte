@@ -161,7 +161,6 @@ import Divider from '../divider/divider.svelte'
   }
   .menu-inline .n-menu.isOpen {
     @apply bg-ios-card;
-    @apply ring-2 ring-black dark:ring-gray-800 ring-opacity-0;
     /* max-height: calc(100vh-90px); */
   }
   .menu-inline .n-menu.isClosed {

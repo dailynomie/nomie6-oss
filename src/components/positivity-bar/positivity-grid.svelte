@@ -51,7 +51,7 @@
 <style lang="postcss" global>
   .score-grid {
     
-    @apply bg-gray-500 bg-opacity-5;
+    @apply bg-ios-fill;
     @apply flex leading-none rounded-md overflow-hidden space-x-px w-full;
   }
   .score-grid .score {
@@ -62,7 +62,7 @@
     @apply transition-all duration-100;
     width: calc(100% / 24 + 1px);
     
-    @apply bg-gray-500 bg-opacity-20;
+    @apply bg-ios-fill;
   }
   .score-grid .hour.positive {
     @apply from-green-600 via-green-500 to-green-400 bg-gradient-to-t;

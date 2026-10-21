@@ -60,7 +60,7 @@
       class="{dayjs()
         .subtract(daysBack - (item + 1), 'day')
         .format('YYYY-MM-DD') === $TodayStore.date.format('YYYY-MM-DD')
-        ? 'active ring-2 ring-white'
+        ? 'active ring-2 ring-ios-tint'
         : 'inactive'}  bit-button  whitespace-nowrap py-1 my-1 w-auto stiff flex-wrap leading-tight text-sm font-semibold  px-2 rounded-lg"
     >
       {dayjs()

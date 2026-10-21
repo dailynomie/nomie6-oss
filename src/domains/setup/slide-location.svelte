@@ -53,7 +53,7 @@
   </div>
   <!-- <NItem className="solod bg-ios-card  rounded-lg  shadow-sm mx-0 w-100">
       <div slot="left">
-        <IonIcon icon={NavigateCircleOutline} className={$Prefs.alwaysLocate ? 'text-green-600' : 'text-ios-label2'} />
+        <IonIcon icon={NavigateCircleOutline} className={$Prefs.alwaysLocate ? 'text-ios-good' : 'text-ios-label2'} />
       </div>
       Track Location
       <div slot="right" class="ml-2">

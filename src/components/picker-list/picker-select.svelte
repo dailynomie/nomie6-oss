@@ -103,7 +103,7 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
           {:else}
             <IonIcon
               icon={CircleOutline}
-              className="text-gray-300 rounded-full bg-ios-card text-ios-label "
+              className="rounded-full bg-ios-card text-ios-label "
               size={28}
             />
           {/if} -->

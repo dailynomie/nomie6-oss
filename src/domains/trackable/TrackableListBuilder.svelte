@@ -184,7 +184,7 @@
     >
       <ListItem compact bottomLine={62}>
         <div slot="left">
-          <Button size="sm" icon color="danger" className="mr-4 text-white bg-red-500" on:click={() => remove(item)}>
+          <Button size="sm" icon color="danger" className="mr-4 text-ios-ondanger bg-ios-danger" on:click={() => remove(item)}>
             -
           </Button>
           <TrackableAvatar trackable={item} size={24} />

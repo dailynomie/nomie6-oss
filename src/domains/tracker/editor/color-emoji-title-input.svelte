@@ -105,7 +105,7 @@
       {#if localTracker.tag}
         <button
           on:click={editTag}
-          class="absolute right-0 z-20 flex items-center justify-start w-auto h-6 px-2 py-1 space-x-2 text-xs font-semibold text-ios-label bg-gray-100 bg-opacity-50 rounded-lg dark:bg-black top-1 text-ios-label dark:bg-opacity-50"
+          class="absolute right-0 z-20 flex items-center justify-start w-auto h-6 px-2 py-1 space-x-2 text-xs font-semibold text-ios-label bg-ios-fill rounded-lg dark:bg-black top-1 text-ios-label dark:bg-opacity-50"
         >
           <span>#{localTracker.tag}</span>
           {#if isDirty}

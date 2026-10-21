@@ -98,6 +98,6 @@
   .prose img {
     @apply shadow-2xl;
     @apply rounded-lg;
-    @apply ring-2 ring-gray-400 ring-opacity-20;
+    @apply ring-2 ring-ios-separator ring-opacity-20;
   }
 </style>

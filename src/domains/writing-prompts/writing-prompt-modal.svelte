@@ -79,7 +79,7 @@
 </script>
 
 <BackdropModal mainClass="px-2 lg:px-4">
-  <header slot="header" class="bg-white dark:bg-gray-950 shadow-sm">
+  <header slot="header" class="bg-ios-card shadow-sm">
     <ToolbarGrid>
       <Button slot="left" on:click={() => closeModal(id)} clear primary>{Lang.t('general.close', 'Close')}</Button>
       <h1 class="ntitle">

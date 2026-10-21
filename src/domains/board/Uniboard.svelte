@@ -323,7 +323,7 @@
                 <div
                   class="mock shortcut h-3 rounded-xl {$Prefs.compactTrackers
                     ? 'h-14'
-                    : 'h-28 lg:h-32'} bg-ios-fill opacity-30 animate-pulse dark:bg-gray-700"
+                    : 'h-28 lg:h-32'} bg-ios-fill opacity-30 animate-pulse"
                 />
               {/each}
             </div>

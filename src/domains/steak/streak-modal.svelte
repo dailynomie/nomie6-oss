@@ -121,7 +121,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
   let streak = $state<StreakSummaryResults>(undefined)
 </script>
 
-<BackdropModal headerClass="glass mb-2" mainClass="bg-white filler dark:bg-black">
+<BackdropModal headerClass="glass mb-2" mainClass="bg-ios-bg filler">
   <header slot="header">
     <ToolbarGrid>
       <Button slot="left" clear primary icon on:click={close}>
@@ -196,7 +196,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
               </div>
             </div>
             <ProgressBar
-              className="h-2 bg-gray-500 bg-opacity-20"
+              className="h-2 bg-ios-fill"
               barClass="h-2"
               color={trackable.color}
               percentage={math.percentage(max, item.value)}
@@ -247,7 +247,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
   }
 
   .no-activity .connector-ball {
-    @apply bg-gray-500 bg-opacity-40;
+    @apply bg-ios-fill;
     @apply h-11;
   }
 

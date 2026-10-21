@@ -12,7 +12,7 @@ import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEdit
   {#each pointers as pointer, index}
   <div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <span class="py-1 px-1.5 inline-flex items-center gap-x-1 text-xxs font-small bg-ios-tintsoft text-ios-label rounded-full/10 dark:text-black"
+  <span class="py-1 px-1.5 inline-flex items-center gap-x-1 text-xxs font-small bg-ios-tintsoft text-ios-label rounded-full/10"
   style="cursor: pointer; background-color: {pointer.ptr.color}"
   on:click={() => {
     openTrackableEditor(

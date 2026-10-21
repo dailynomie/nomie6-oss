@@ -62,7 +62,7 @@
   }
 
   .plugin-name {
-    @apply text-2xl font-bold text-center dark:text-white;
+    @apply text-2xl font-bold text-center text-ios-label;
   }
 
   .confirmation-text {

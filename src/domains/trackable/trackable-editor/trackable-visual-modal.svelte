@@ -76,7 +76,7 @@
 </script>
 
 <BackdropModal className="" mainClass="bg-ios-card">
-  <header slot="header" class="bg-gray-200 dark:bg-black">
+  <header slot="header" class="bg-ios-bg">
     <Toolbar>
       <Button
         clear
@@ -126,7 +126,7 @@
               manualEmoji()
             }}
             src={avatar}
-            className="bg-white p-5 rounded-xl shadow-lg"
+            className="bg-ios-card p-5 rounded-xl shadow-lg"
             size={80}
           />
         {/if}

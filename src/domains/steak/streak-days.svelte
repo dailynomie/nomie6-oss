@@ -42,7 +42,7 @@
           height:{size}px; width:{size}px; "
         >
           {#if loopDate.used}
-            <IonIcon icon={CheckmarkCircle} className="fill-white" size={size * 0.6} />
+            <IonIcon icon={CheckmarkCircle} className="text-ios-ontint" size={size * 0.6} />
           {/if}
         </div>
         <Text size="xxs" faded={!loopDate.used}>

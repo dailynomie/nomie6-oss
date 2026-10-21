@@ -96,7 +96,7 @@
   <div slot="header" class="flex items-center justify-between p-4 border-b border-ios-separator">
     <button
       onclick={close}
-      class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 font-medium transition"
+      class="text-ios-tint font-medium transition"
     >
       Close
     </button>

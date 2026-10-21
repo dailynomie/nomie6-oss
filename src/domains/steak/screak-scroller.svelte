@@ -285,7 +285,7 @@
 
   .streak-2 .day .not-used {
     @apply mt-4;
-    @apply bg-gray-500 bg-opacity-25;
+    @apply bg-ios-fill;
   }
 
   .streak-2 .day label {

@@ -272,7 +272,7 @@
     min-height: 50px;
   }
   .n-calculator .nbtn:focus {
-    @apply ring-4 ring-inset ring-gray-500 ring-opacity-50;
+    @apply ring-4 ring-inset ring-ios-tint ring-opacity-50;
   }
   .n-calculator .nbtn:active,
   .n-calculator .nbtn.pressing {

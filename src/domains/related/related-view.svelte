@@ -299,7 +299,7 @@
 
 {#key usagesForChart}
   <div
-    class="chart sticky dark:bg-gray-900 bg-gray-100 top-0  pb-2 flex items-center justify-center w-full"
+    class="chart sticky bg-ios-bg top-0  pb-2 flex items-center justify-center w-full"
     style="min-height:180px;"
   >
     {#if !chartLoading}
@@ -342,7 +342,7 @@
           <span class="text-ios-label2 text-sm">{(trackableRes.score * 100).toFixed(1)}</span>
         </div>
         <ProgressBar
-          className="w-full h-2 dark:bg-gray-900 bg-gray-200"
+          className="w-full h-2 bg-ios-fill"
           barClass="mx-auto"
           percentage={trackableRes.percent}
           color={trackableRes.score > 0 ? 'green' : 'red'}
@@ -355,7 +355,7 @@
               <BarChartSolid />
             </span>
           {:else}
-            <span class="text-ios-label2 dark:text-gray-500 fill-current">
+            <span class="text-ios-label2 fill-current">
               <BarChartOutline />
             </span>
           {/if}

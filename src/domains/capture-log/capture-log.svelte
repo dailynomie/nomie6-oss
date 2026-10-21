@@ -426,7 +426,7 @@
                 <div>
                   <MenuInline
                     id="pos-menu"
-                    buttonClass="text-xl rounded-full flex-shrink-0 focus:bg-gray-500 focus:bg-opacity-20 rounded-md flex items-center justify-center"
+                    buttonClass="text-xl rounded-full flex-shrink-0 focus:bg-ios-fill rounded-md flex items-center justify-center"
                     menuButtons={getPositivityButtons($ActiveLogStore.score, (score) => {
                       $ActiveLogStore.score = score.score
                     })}
@@ -481,7 +481,7 @@
               {:else}
                 <button id="save-log-button" aria-label="Save Note" class="save-button" on:click={methods.logSave}>
                   <span class="md:text-lg">Save</span>
-                  <IonIcon icon={PaperPlaneSolid} size={18} className="ml-1 text-white " />
+                  <IonIcon icon={PaperPlaneSolid} size={18} className="ml-1 text-ios-ontint" />
                 </button>
               {/if} -->
             </section>

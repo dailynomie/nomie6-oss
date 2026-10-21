@@ -52,11 +52,11 @@
     height: calc(var(--size) * 0.73);
   }
   .value-button-wrapper button.value-button:focus {
-    @apply ring-2 ring-gray-500 dark:ring-white;
+    @apply ring-2 ring-ios-tint;
     @apply scale-95;
   }
   .value-button-wrapper button.value-button:hover {
-    @apply ring-2 ring-gray-500 dark:ring-white dark:ring-offset-black;
+    @apply ring-2 ring-ios-tint;
     @apply scale-95;
   }
   .value-button-wrapper .top-label {
