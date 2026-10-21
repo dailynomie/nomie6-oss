@@ -109,12 +109,13 @@
         }}
         let:item
       >
-        <div class="px-1">
+        <div class="px-1 relative">
           <button
             on:click|preventDefault={() => {
               deleteBoard(item)
             }}
-            class="tab-delete rounded-full h-4 w-4 absolute z-50 -right-2"
+            class="delete-button tab-delete"
+            aria-label="Delete {item.label} tab"
           >
             <IonIcon className="text-ios-ondanger" icon={CloseOutline} size={10} />
           </button>
