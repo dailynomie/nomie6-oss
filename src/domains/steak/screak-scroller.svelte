@@ -232,17 +232,21 @@
     @apply relative;
     @apply h-full;
     @apply overflow-hidden;
-    background-color: var(--ios-fill);
+    /* the track is the fill token below the value band; the band itself stays on the card (no pill) */
+    background: linear-gradient(to bottom, transparent 20px, var(--ios-fill) 20px);
     @apply overflow-hidden;
     @apply w-12 h-14;
     @apply rounded-md;
     @apply flex flex-col items-center justify-end;
     @apply transform transition-all duration-100;
-    @apply p-0;
+    /* iOS look: the top 20 px is the value band; the bar's height percentage is of the space below it,
+       so bars keep their relative heights and never reach the value */
+    padding: 20px 0 0 0;
   }
-  /* iOS look: the value is label text on a card pill, so it reads in light and dark mode */
-  .streak-2 .day-wrapper .progress {
-    max-height: calc(100% - 20px);
+  /* iOS look: the value is label text in the band above the bar, with no background */
+  /* a value longer than three characters (6h 16m) is set smaller so it stays inside the 48 px tile */
+  .streak-2 .day-wrapper .value.xs {
+    font-size: 11px;
   }
   .streak-2 .day-wrapper .value {
     @apply text-sm;
