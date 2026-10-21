@@ -54,7 +54,8 @@
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
     <!-- on desktop the header sits in the same centred column as the list -->
     <div class="ios-desktop-column">
-    <div class="flex items-center justify-between h-9">
+    <!-- iOS look: the add action is on the trailing side of the action row -->
+    <div class="flex items-center justify-end h-9">
       <button type="button" aria-label="New experiment" class="exp-round" on:click={openEditor}>
         <IonIcon icon={AddIcon} size={18} />
       </button>

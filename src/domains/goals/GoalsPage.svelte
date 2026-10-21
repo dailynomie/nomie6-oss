@@ -131,27 +131,30 @@
     <!-- on desktop the header sits in the same centred column as the list -->
     <div class="ios-desktop-column">
     <!-- iOS look: action row, then the large title and today's count (compact on phones) -->
+    <!-- iOS look: Edit or Done on the leading side, the add action on the trailing side -->
     <div class="flex items-center justify-between h-9">
+      <div>
+        {#if editMode}
+          <Button
+            clear
+            primary
+            on:click={() => {
+              editMode = false
+            }}>Done</Button
+          >
+        {:else if goals.length}
+          <Button
+            clear
+            primary
+            on:click={() => {
+              editMode = true
+            }}>Edit</Button
+          >
+        {/if}
+      </div>
       <button type="button" aria-label="New goal" class="goals-round" on:click={createGoal}>
         <IonIcon icon={AddIcon} size={18} />
       </button>
-      {#if editMode}
-        <Button
-          clear
-          primary
-          on:click={() => {
-            editMode = false
-          }}>Done</Button
-        >
-      {:else if goals.length}
-        <Button
-          clear
-          primary
-          on:click={() => {
-            editMode = true
-          }}>Edit</Button
-        >
-      {/if}
     </div>
     <h1 class="text-ios-large font-bold text-ios-label outline-none">{Lang.t('goals.my-goals', 'My Goals')}</h1>
     {#if $GoalScoreStore[1]}
