@@ -165,8 +165,10 @@
     @apply border-none;
   }
 
+  /* iOS look: the 1 px gap between cells is the divider, so the grid's background is the separator token */
   .pop-buttons.list-grid {
     @apply grid grid-cols-2 gap-px;
+    background: var(--ios-separator);
   }
   .pop-buttons.list-grid .nbtn {
     @apply flex flex-row-reverse;
