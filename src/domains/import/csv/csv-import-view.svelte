@@ -273,7 +273,6 @@ import Divider from '../../../components/divider/divider.svelte'
     let confirmed = await Interact.confirm(`Remove ${config.name} Importer?`, 'You can always remake it')
     if (confirmed) {
      
-      alert('TODO')
       // templates = templates.filter((template) => {
       //   return template.id !== config.id
       // })
@@ -296,7 +295,6 @@ import Divider from '../../../components/divider/divider.svelte'
       //   templates.push(activeImporter.config)
       // }
       await CsvTemplateStore.upsert(activeImporter.config)
-      alert('Did it work?')
       showToast({ message: `Import template saved` })
     } catch (e) {
       Interact.error(e.message)

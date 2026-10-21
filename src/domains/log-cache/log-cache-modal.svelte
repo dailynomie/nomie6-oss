@@ -118,7 +118,7 @@
       <Empty className="text-ios-label2">Select a date above</Empty>
     {/if}
     {#each logs as log}
-      <ListItemLog className="mb-2" {log} on:more={() => alert('more')}>
+      <ListItemLog className="mb-2" {log}>
         <div
           class="flex space-x-2 justify-between items-center pt-4  border-t border-ios-separator"
           slot="item-footer"

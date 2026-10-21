@@ -171,7 +171,6 @@ const ledgerInit = () => {
       return ledgerTools.listBooks()
     },
     getLastUsed() {
-      alert('FIX THIS LedgerStore line 173')
       // return LastUsed
     },
     extractTrackerTagAndValues(logs): ITrackersSummary {

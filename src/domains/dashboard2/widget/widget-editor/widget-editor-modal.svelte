@@ -460,18 +460,6 @@
                 bind:value={editingWidget.compareValue}
               />
 
-              {#if editingWidget?.token?.type == 'tracker'}
-                <Button
-                  icon
-                  className="mr-2 text-ios-tint"
-                  on:click={async () => {
-                    alert('get Conditional Value?')
-                    // getConditionalValue()
-                  }}
-                >
-                  <IonIcon icon={AddIcon} className="text-ios-label2" />
-                </Button>
-              {/if}
             </div>
           </ListItem>
           <Divider center />
