@@ -179,7 +179,7 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
 </script>
 
 <BackdropModal>
-  <header slot="header" class="bg-white dark:bg-black">
+  <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
       <Button slot="left" clear primary on:click={close}>
         {Lang.t('general.close', 'Close')}

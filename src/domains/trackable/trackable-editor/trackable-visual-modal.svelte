@@ -74,7 +74,7 @@
   }
 </script>
 
-<BackdropModal className="" mainClass="bg-white dark:bg-gray-900">
+<BackdropModal className="" mainClass="bg-ios-card">
   <header slot="header" class="bg-gray-200 dark:bg-black">
     <Toolbar>
       <Button
@@ -175,7 +175,7 @@
         }}
       />
       <div class="text-center pt-4 text-xs text-gray-500">Or provide a url to the image</div>
-      <div class="bg-white dark:bg-black rounded-md">
+      <div class="bg-ios-card rounded-md">
         <Input listItem type="url" bind:value={avatar} placeholder="URL to image" />
       </div>
     </div>

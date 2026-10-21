@@ -117,7 +117,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
       />
     </Panel>
 
-    <section id="calendar-view-list" class="flex flex-col h-auto overflow-y-auto  bg-white dark:bg-black">
+    <section id="calendar-view-list" class="flex flex-col h-auto overflow-y-auto  bg-ios-card">
       <!-- <div class="bg-transparent grid grid-cols-2 px-4 mt-2 rounded-md h-auto mb-2">
         {#if lastUsageData?.streak}
           <ListItem className="">

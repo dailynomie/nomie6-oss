@@ -292,7 +292,7 @@
 
   .geocoder-control-input {
     @apply dark:bg-black bg-white;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 
   .leaflet-touch .geocoder-control::after {

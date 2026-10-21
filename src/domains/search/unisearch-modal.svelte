@@ -220,7 +220,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     <IonIcon
       size={28}
       icon={SearchIcon}
-      className="text-gray-600 dark:text-gray-400  text-opacity-50 absolute top-3 left-2"
+      className="text-ios-label2  text-opacity-50 absolute top-3 left-2"
     />
     <!-- svelte-ignore a11y-autofocus -->
     <input
@@ -442,7 +442,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
   }
 
   .unisearch .search-input {
-    @apply bg-white dark:bg-black dark:text-white;
+    @apply bg-ios-card dark:text-white;
     @apply text-lg py-3 pr-8 pl-10 focus:outline-none focus:ring-2 ring-inset ring-primary-500;
   }
 
@@ -470,7 +470,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     @apply space-x-2;
     @apply flex items-center justify-items-stretch;
     @apply bg-white dark:bg-gray-800;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 
   .unisearch .list-header {

@@ -85,7 +85,7 @@
   <VirtualList items={timeline} let:item bind:start={listStartIndex} height={`90vh`} bind:end={listEndIndex}>
     <Container size="md">
       {#if item !== timeline[0]}
-        <header class="text-center px-6 grid grid-cols-12 items-center mt-2 font-bold text-gray-900 dark:text-gray-100">
+        <header class="text-center px-6 grid grid-cols-12 items-center mt-2 font-bold text-ios-label">
           <div class="col-span-2" />
           <button
             type="button"
@@ -201,7 +201,7 @@
 
 <style global lang="postcss">
   .bubble {
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply bg-opacity-90 dark:bg-opacity-90;
     @apply rounded-xl;
     @apply p-2 pb-1;

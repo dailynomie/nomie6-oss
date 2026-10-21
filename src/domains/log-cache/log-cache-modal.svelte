@@ -102,7 +102,7 @@
             clear
             className="stiff {ldate.toDateString() != date.toDateString()
               ? 'text-gray-500'
-              : 'bg-white dark:bg-black'} whitespace-nowrap"
+              : 'bg-ios-card'} whitespace-nowrap"
             on:click={() => {
               newDate(ldate)
             }}>{dayjs(ldate).format(dateFormats.shortDate)}</Button
@@ -147,7 +147,7 @@
 
 <style lang="postcss" global>
   .day-button.active {
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply text-primary-400;
     @apply py-1 px-2 rounded-lg;
     @apply shadow-md;

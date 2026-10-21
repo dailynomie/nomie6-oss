@@ -599,7 +599,7 @@
         >
         in a Beer Tracker. Then when you track your beer drinking, the percentage of alchol with also be tracked.
         <!-- Automatically include other trackers, people and data when using this tracker. For example, including <code
-              class="text-semibold text-black dark:text-white">{`#alcohol({value}*0.5)`}</code
+              class="text-semibold text-ios-label">{`#alcohol({value}*0.5)`}</code
             > in a Beer tracker will also track the percentage of the ciders value, as the value of alcohol. -->
       </p>
     </section>

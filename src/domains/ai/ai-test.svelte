@@ -220,16 +220,16 @@
               <p class="text-red-600 dark:text-red-400">{testDataInfo.error}</p>
             {/if}
             {#if testDataInfo.info}
-              <p class="text-gray-600 dark:text-gray-400">{testDataInfo.info}</p>
+              <p class="text-ios-label2">{testDataInfo.info}</p>
             {/if}
             {#if testDataInfo.totalEntries}
               <div class="grid grid-cols-2 gap-2">
                 <div class="bg-white dark:bg-gray-700 p-2 rounded">
-                  <p class="text-gray-600 dark:text-gray-400">Total Entries</p>
+                  <p class="text-ios-label2">Total Entries</p>
                   <p class="font-bold text-lg">{testDataInfo.totalEntries}</p>
                 </div>
                 <div class="bg-white dark:bg-gray-700 p-2 rounded">
-                  <p class="text-gray-600 dark:text-gray-400">Unique Metrics</p>
+                  <p class="text-ios-label2">Unique Metrics</p>
                   <p class="font-bold text-lg">{testDataInfo.uniqueMetrics}</p>
                 </div>
               </div>
@@ -239,8 +239,8 @@
                 <div class="space-y-2 max-h-40 overflow-y-auto">
                   {#each testDataInfo.metrics as metric (metric.tag)}
                     <div class="text-xs">
-                      <p class="font-medium text-gray-700 dark:text-gray-300">{metric.tag} ({metric.count} entries)</p>
-                      <p class="text-gray-500 dark:text-gray-400">Recent: {metric.recent.join(', ')}</p>
+                      <p class="font-medium text-ios-label2">{metric.tag} ({metric.count} entries)</p>
+                      <p class="text-ios-label2">Recent: {metric.recent.join(', ')}</p>
                     </div>
                   {/each}
                 </div>
@@ -249,7 +249,7 @@
               {#if contextSummary}
                 <div class="bg-white dark:bg-gray-700 p-3 rounded">
                   <p class="font-semibold mb-2">AI Context Summary:</p>
-                  <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{contextSummary}</p>
+                  <p class="text-ios-label2 leading-relaxed">{contextSummary}</p>
                 </div>
               {/if}
             {/if}
@@ -323,7 +323,7 @@
 
     <div class="mb-4">
       <h2 class="text-lg font-semibold mb-2">Response:</h2>
-      <div class="bg-gray-100 dark:bg-gray-800 rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-gray-900 dark:text-gray-100">
+      <div class="bg-gray-100 dark:bg-gray-800 rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-ios-label">
         {#if aiState.loading}
           <span class="text-gray-500">Processing...</span>
         {:else if responseText}
@@ -334,7 +334,7 @@
       </div>
     </div>
 
-    <div class="text-xs text-gray-600 dark:text-gray-400">
+    <div class="text-xs text-ios-label2">
       <h3 class="font-semibold mb-2">Profiles:</h3>
       <ul class="space-y-1">
         <li>💬 <strong>Insight:</strong> Natural language (supports streaming)</li>

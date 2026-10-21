@@ -60,7 +60,7 @@
     z-index: 2000;
   }
   .n-picker-list .n-input-container {
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply rounded-lg;
   }
 </style>

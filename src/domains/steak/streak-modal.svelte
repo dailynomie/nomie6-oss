@@ -165,7 +165,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
 
   <VirtualList bind:end={listEndIndex} bind:start={listStartIndex} items={values} let:item>
     <div
-      class="px-4 flex bg-white dark:bg-black justify-items-stretch  items-center {isNaN(item.value)
+      class="px-4 flex bg-ios-card justify-items-stretch  items-center {isNaN(item.value)
         ? 'no-activity'
         : 'has-activity'}"
       style="--trackable-color:{trackable.color}"
@@ -184,14 +184,14 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
           <TrackableAvatar {trackable} size={52} slot="left" />
           <main class="w-full">
             <h1 class="font-semibold leading-none flex items-end space-x-2">
-              <span class="text-lg text-black dark:text-white">{trackable.label}</span>
+              <span class="text-lg text-ios-label">{trackable.label}</span>
               <span
                 class="opacity-80 ml-2 font-bold bg-gray-300 dark:bg-gray-700 dark:text-white text-xs rounded-full px-3 py-1 leading-none "
                 >{trackable.formatValue(item.value)}</span
               >
             </h1>
             <div class="grid w-full grid-cols-1 lg:grid-2 items-center">
-              <div class="text-xl font-bold pt-1 text-black dark:text-white">
+              <div class="text-xl font-bold pt-1 text-ios-label">
                 {item.date.format(dateFormats.mmm_d_yyyy)}
               </div>
             </div>

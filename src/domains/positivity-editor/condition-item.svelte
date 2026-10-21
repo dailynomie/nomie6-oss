@@ -80,7 +80,7 @@
   }
 </script>
 
-<div class="w-full py-2 flex flex-col items-center text-black dark:text-white">
+<div class="w-full py-2 flex flex-col items-center text-ios-label">
   <header class="header px-2 flex w-full items-center justify-center">
     <slot name="left" />
     {#if index === 0}

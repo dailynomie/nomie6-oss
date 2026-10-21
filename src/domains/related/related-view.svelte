@@ -337,7 +337,7 @@
       >
         <div class="flex items-center justify-center mb-1 w-full">
           <TrackableAvatar trackable={trackableRes.trackable} size={20} />
-          <span class="ml-2 w-full line-clamp-1 text-xs font-semibold text-black dark:text-white">{trackableRes.trackable.tag}</span>
+          <span class="ml-2 w-full line-clamp-1 text-xs font-semibold text-ios-label">{trackableRes.trackable.tag}</span>
           <div class="filler" />
           <span class="text-gray-500 text-sm">{(trackableRes.score * 100).toFixed(1)}</span>
         </div>

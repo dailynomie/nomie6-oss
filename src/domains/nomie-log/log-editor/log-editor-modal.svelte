@@ -166,7 +166,7 @@
   })
 </script>
 
-<BackdropModal mainClass="bg-white dark:bg-black filler" className="h-full bg-white dark:bg-gray-800">
+<BackdropModal mainClass="bg-ios-card filler" className="h-full bg-white dark:bg-gray-800">
   <div slot="header" class="shadow-md z-40 relative">
     {#if workingLog}
       <ToolbarGrid>
@@ -174,7 +174,7 @@
           {Lang.t('general.close', 'Close')}
         </Button>
 
-        <div class="line-clamp-1 text-sm w-full min-w-0 text-black dark:text-white">
+        <div class="line-clamp-1 text-sm w-full min-w-0 text-ios-label">
           {workingLog.note}
         </div>
 
@@ -298,7 +298,7 @@
     @apply text-gray-800 dark:text-gray-200;
   }
   .meta-bar .value {
-    @apply text-lg text-black dark:text-white;
+    @apply text-lg text-ios-label;
     @apply line-clamp-1;
   }
 </style>

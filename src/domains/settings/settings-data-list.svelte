@@ -148,7 +148,7 @@
 <List solo className="mb-4" title={Lang.t('settings.my-data', 'My Data')} outside>
   <!-- <Button clear primary slot="header-right" on:click={showStorageOptions}>
     {storageDetails.shortName}
-    <IonIcon icon={ChevronDownOutline} size={14} className="ml-2 text-black dark:text-white" />
+    <IonIcon icon={ChevronDownOutline} size={14} className="ml-2 text-ios-label" />
   </Button> -->
   <ListItem on:click={showStorageOptions} detail bottomLine={57}>
     <span slot="left">
@@ -261,7 +261,7 @@
     <Button
       role="menuitem"
       
-      className="dark:bg-gray-900 bg-white text-black dark:text-white"
+      className="bg-ios-card text-ios-label"
       title={`${Lang.t('settings.import', 'Import')}`}
       on:click={() => {
         showImportModal()
@@ -273,7 +273,7 @@
     <Button
       role="menuitem"
       
-      className="dark:bg-gray-900 bg-white text-black dark:text-white"
+      className="bg-ios-card text-ios-label"
       title={Lang.t('settings.export', 'Export')}
       on:click={() => generateBackup()}
     >

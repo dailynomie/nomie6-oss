@@ -28,7 +28,7 @@
   >
   <div class="filler">
     <div class="title text-center"><slot name="title" /></div>
-    <p class="text-center text-gray-600 dark:text-gray-400 text-sm">
+    <p class="text-center text-ios-label2 text-sm">
       {start.format(dateFormats.mmm_d_yyyy)} -
       {end.format(dateFormats.mmm_d_yyyy)}
     </p>

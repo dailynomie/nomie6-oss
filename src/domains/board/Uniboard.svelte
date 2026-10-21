@@ -291,11 +291,11 @@
               <div class="px-4 max-w-md mx-auto pb-10">
                 <div class="text-center py-4">
                   <!-- <div class="text-6xl text-center lg:mt-10">👋</div> -->
-                  <!-- <h1 class="font-bold mb-2 text-xl text-black dark:text-white leading-tight">
+                  <!-- <h1 class="font-bold mb-2 text-xl text-ios-label leading-tight">
                     {Lang.t('general.get-started', 'Get Started!')}
                   </h1> -->
-                  <div class="text-center  text-gray-500 dark:text-gray-400 leading-snug px-6 mb-6 lg:mb-10 flex-fill ">
-                    <h1 class="text-black dark:text-white font-bold mb-1">Empty.</h1>
+                  <div class="text-center  text-ios-label2 leading-snug px-6 mb-6 lg:mb-10 flex-fill ">
+                    <h1 class="text-ios-label font-bold mb-1">Empty.</h1>
                     <p class="text-xs">
                       This is your {board.label} board; used to display your trackable buttons. Get started by adding a trackable
                       below.
@@ -303,7 +303,7 @@
                   </div>
                 </div>
 
-                <!-- <p class="max-w-screen-md text-xl text-black dark:text-white text-center">
+                <!-- <p class="max-w-screen-md text-xl text-ios-label text-center">
                   Your {board.label} board is empty!
                   <span class="text-primary-600 dark:text-primary-400 underline inline">browse the library</span> or
 

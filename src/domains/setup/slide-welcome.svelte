@@ -10,11 +10,11 @@
   <div class="max-w-xl flex items-center justify-center flex-col space-y-4">
     <Logo size={32} />
     {#if !$Prefs.storageType}
-      <p class="text-2xl leading-none font-extrabold  text-center md:text-3xl text-black dark:text-white">
+      <p class="text-2xl leading-none font-extrabold  text-center md:text-3xl text-ios-label">
         Daily Journal for short attention spans.
       </p>
     {:else}
-      <p class="text-2xl leading-none font-extrabold  text-center md:text-3xl text-black dark:text-white">
+      <p class="text-2xl leading-none font-extrabold  text-center md:text-3xl text-ios-label">
         👋 Nomie has been updated.
       </p>
     {/if}

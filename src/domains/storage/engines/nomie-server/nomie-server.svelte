@@ -88,7 +88,7 @@
 
 <!-- <div class="p-4 md:p-6 text-center">
   <h2 class="text-2xl font-bold">Nomie Server</h2>
-  <p class="text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
+  <p class="text-ios-label2 max-w-sm mx-auto">
     Connect to a <a
       href="https://github.com/open-nomie/nomie-server"
       target="_blank"
@@ -111,7 +111,7 @@
                     Disconnect
                     </button>
             </div>
-          <div class="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+          <div class="text-xs text-ios-label2 space-y-1">
             <div><span class="font-medium">Endpoint:</span> {storedUrl}</div>
             <div><span class="font-medium">API Key:</span> {maskToken(storedToken)}</div>
           </div>

@@ -66,7 +66,7 @@
   }
 
   .confirmation-text {
-    @apply text-center text-gray-700 dark:text-gray-300 mb-4;
+    @apply text-center text-ios-label2 mb-4;
   }
 
   .button-group {

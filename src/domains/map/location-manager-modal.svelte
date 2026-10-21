@@ -222,7 +222,7 @@
   }
 </script>
 
-<BackdropModal className="h-full bg-white dark:bg-gray-900 w-full">
+<BackdropModal className="h-full bg-ios-card w-full">
   <header slot="header" class="bg-white relative dark:bg-black pb-2 shadow-md z-40">
     <ToolbarGrid className="w-full stiff">
       <div slot="left">
@@ -337,7 +337,7 @@
                 <div class="item-wrapper">
                   <!-- Edit -->
                   {#if state.mode === 'edit'}
-                    <NItem bottomLine={14} className="dark:bg-gray-900 bg-white">
+                    <NItem bottomLine={14} className="bg-ios-card">
                       <div class="menu" slot="left">
                         <IonIcon icon={MenuOutline} />
                       </div>
@@ -376,7 +376,7 @@
                     <NItem
                       clickable
                       bottomLine={14}
-                      className=" dark:bg-gray-900 bg-white"
+                      className=" bg-ios-card"
                       on:click={() => {
                         if (state.mode == 'view') {
                           select(item)
@@ -386,7 +386,7 @@
                       <div slot="left">
                         <IonIcon icon={StarFilled} className="text-yellow-500" size={22} />
                       </div>
-                      <h2 class="text-base font-bold leading-tight text-black dark:text-white">
+                      <h2 class="text-base font-bold leading-tight text-ios-label">
                         {item.name}
                         {#if state.active && item.hash == state.active.hash}
                           <IonIcon icon={CheckmarkCircle} className="fill-primary" />

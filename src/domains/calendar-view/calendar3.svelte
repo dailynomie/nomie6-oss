@@ -205,7 +205,7 @@
   }
   .calendar-3 header {
     @apply bg-gray-200 dark:bg-gray-800;
-    @apply text-gray-600 dark:text-gray-400;
+    @apply text-ios-label2;
   }
   .calendar-3 .header-days .cell {
     @apply px-3 py-1;
@@ -228,7 +228,7 @@
   .calendar-3 .calendar-days .day span {
     @apply block;
     @apply relative;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
   .calendar-3 .calendar-days .day:focus {
     @apply ring-2 ring-primary-300 ring-inset;

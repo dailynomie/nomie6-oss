@@ -125,7 +125,7 @@
       {/if}
       {#if $Stats2Store.trackable && $Stats2Store.usage}
         <div class="stiff pr-2">
-          <span class="text-lg font-semibold text-black dark:text-white whitespace-nowrap"
+          <span class="text-lg font-semibold text-ios-label whitespace-nowrap"
             >{$Stats2Store.trackable.formatValue($Stats2Store.usage.min.value, false)} - {$Stats2Store.trackable.formatValue(
               $Stats2Store.usage.max.value,
               false
@@ -146,7 +146,7 @@
     </div>
   </section>
   <section class="px-3 w-full">
-    <div class="related bg-white dark:bg-black rounded-xl shadow-lg border-gray-500 border-opacity-20">
+    <div class="related bg-ios-card rounded-xl shadow-lg border-gray-500 border-opacity-20">
       {#if showRelated}
         <RelatedView trackable={$Stats2Store.trackable} />
       {:else}

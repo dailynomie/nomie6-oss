@@ -234,7 +234,7 @@
     {/if}
   {:else}
     <div class="text-gray-500 px-4 h-full text-sm flex flex-col  justify-center space-y-4">
-      <!-- <p class="font-bold dark:text-white text-black ">Welcome to Nomie 6!</p>
+      <!-- <p class="font-bold text-ios-label ">Welcome to Nomie 6!</p>
       <p>
         Nomie was created to enable neurodivergent people keep track of and monitor their lives in whichever way they
         like. Nomie doesn't put you in a box; instead, it adapts to your needs while keeping your information private.

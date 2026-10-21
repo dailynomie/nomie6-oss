@@ -40,6 +40,6 @@
     Plugins are externally hosted websites that can communicate back and forth with Nomie. Plugins are responsible for
     their own privacy policy.
   </p>
-  {#if url}<p class="text-xs text-black dark:text-white mt-2 text-center">Source: {new URL(url).origin}</p>{/if}
+  {#if url}<p class="text-xs text-ios-label mt-2 text-center">Source: {new URL(url).origin}</p>{/if}
   <p class="text-xs text-red-500 mt-2 text-center">Only install plugins from sources that you trust.</p>
 </BackdropModal>

@@ -204,7 +204,7 @@
     height: 90px;
     width: 90px;
     border-radius: 45px;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     cursor: pointer;
   }
   .tracker-input-slider input[type='range'] {

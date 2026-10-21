@@ -75,10 +75,10 @@
 </script>
 
 {#if loading}
-  <div class="skeleton-item h-36 bg-white dark:bg-black rounded-lg" />
-  <div class="skeleton-item h-48 bg-white dark:bg-black rounded-lg" />
+  <div class="skeleton-item h-36 bg-ios-card rounded-lg" />
+  <div class="skeleton-item h-48 bg-ios-card rounded-lg" />
 {:else}
-  <div class="p-2 h-42 bg-white dark:bg-black rounded-lg shadow-md">
+  <div class="p-2 h-42 bg-ios-card rounded-lg shadow-md">
     <h2 class="ntitle mb-4 px-2 pt-2 text-center">{trackable.label} by day of week</h2>
     <div class=" stiff">
       <ChartjsEle
@@ -110,7 +110,7 @@
     </div>
   </div>
 
-  <div class="p-2 h-40 overflow-hidden bg-white dark:bg-black rounded-lg shadow-md">
+  <div class="p-2 h-40 overflow-hidden bg-ios-card rounded-lg shadow-md">
     <h2 class="ntitle mb-4 px-2 pt-2 text-center">{trackable.label} by day and hour</h2>
     <div class="overflow-hidden w-full">
       <TimeGrid {usage} {trackable} className="rounded-lg shadow-md" />

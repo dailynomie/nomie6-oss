@@ -407,7 +407,7 @@
   {/if}
 
   {#if workingTrackable}
-    <section class="mt-4 bg-white dark:bg-black pb-10">
+    <section class="mt-4 bg-ios-card pb-10">
       <ListItem
         bottomLine={16}
         clickable

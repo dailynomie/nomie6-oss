@@ -172,7 +172,7 @@
 </script>
 
 <BackdropModal className="bg-gray-100 dark:bg-gray-900">
-  <header slot="header" class="bg-white dark:bg-black">
+  <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
       <Button slot="left" clear primary on:click={close}>Close</Button>
       <h1 class="ntitle">{Lang.t('general.trackables', 'Trackables')}</h1>
@@ -215,7 +215,7 @@
 
   <section class="trackable-list relative">
     {#each groupedTrackables as [headerKey, trackables] (headerKey)}
-      <header class="sticky top-0 z-50 text-gray-900 dark:text-gray-100 font-bold px-4 py-2 glass">
+      <header class="sticky top-0 z-50 text-ios-label font-bold px-4 py-2 glass">
         {headerKey}
       </header>
       {#each trackables.filter((t) => t.tag) as trackable (trackable.tag)}

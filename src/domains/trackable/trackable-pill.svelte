@@ -50,7 +50,7 @@
     @apply text-left;
     @apply w-auto;
 
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply space-x-2;
     @apply pl-1 pr-2;
     @apply rounded-lg;
@@ -63,7 +63,7 @@
     @apply bg-gray-100 dark:bg-gray-800 bg-opacity-60 dark:bg-opacity-60;
   }
   .trackable-pill.solid {
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-ios-card;
   }
   .trackable-pill.outlined {
     @apply border-gray-200 dark:border-gray-800 border;

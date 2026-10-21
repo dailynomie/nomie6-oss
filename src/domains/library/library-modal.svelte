@@ -155,8 +155,8 @@
 </script>
 
 <BackdropModal>
-  <header slot="header" class="bg-white dark:bg-gray-900 mb-2">
-    <ToolbarGrid className="bg-white dark:bg-gray-900">
+  <header slot="header" class="bg-ios-card mb-2">
+    <ToolbarGrid className="bg-ios-card">
       <Button clear primary slot="left" on:click={close}>Done</Button>
       <h1 class="ntitle">{Lang.t('library.tracker-library', 'Tracker Library')}</h1>
     </ToolbarGrid>

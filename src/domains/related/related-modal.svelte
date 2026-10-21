@@ -42,7 +42,7 @@ import RelatedView from './related-view.svelte'
 </script>
 
 <BackdropModal>
-  <header class="bg-white dark:bg-black" slot="header">
+  <header class="bg-ios-card" slot="header">
     <ToolbarGrid>
       <Button on:click={close} slot="left" clear primary>{Lang.t('general.close', 'Close')}</Button>
       <h1 class="ntitle">
@@ -53,12 +53,12 @@ import RelatedView from './related-view.svelte'
     </ToolbarGrid>
   </header>
 
-  <div class="p-4 flex justify-start items-center bg-white dark:bg-black">
+  <div class="p-4 flex justify-start items-center bg-ios-card">
     {#if trackable}
       <TrackableAvatar size={44} {trackable} />
     {/if}
     <main class="ml-3">
-      <h1 class="font-bold  text-2xl text-black dark:text-white">
+      <h1 class="font-bold  text-2xl text-ios-label">
         {trackable?.label || 'Loading...'}
       </h1>
       <p class="text-opacity-60 text-gray-500 text-sm">is possibly related to...</p>

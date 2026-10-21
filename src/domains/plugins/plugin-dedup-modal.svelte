@@ -89,9 +89,9 @@
   <header slot="header">
     <ToolbarGrid>
       <Button slot="left" clear icon on:click={handleClose}>
-        <IonIcon icon={CloseOutline} className="text-gray-700 dark:text-gray-300" />
+        <IonIcon icon={CloseOutline} className="text-ios-label2" />
       </Button>
-      <Text bold slot="main" className="text-gray-900 dark:text-white">
+      <Text bold slot="main" className="text-ios-label">
         Clean Plugin Database
       </Text>
     </ToolbarGrid>
@@ -154,7 +154,7 @@
         </div>
 
         <div class="mt-4">
-          <Text bold className="text-gray-900 dark:text-white mb-2">Issues Found:</Text>
+          <Text bold className="text-ios-label mb-2">Issues Found:</Text>
           <List transparent>
             {#each scanResult.pluginIssues as issue (issue.pluginId + issue.issueType)}
               <ListItem bottomLine={16}>
@@ -166,10 +166,10 @@
                   {/if}
                 </div>
                 <div class="flex-grow">
-                  <Text bold className="text-gray-900 dark:text-white">
+                  <Text bold className="text-ios-label">
                     {issue.pluginName}
                   </Text>
-                  <Text size="sm" className="text-gray-600 dark:text-gray-400">
+                  <Text size="sm" className="text-ios-label2">
                     {#if issue.issueType === 'duplicates-in-file'}
                       {issue.duplicatesFound} duplicate {issue.duplicatesFound === 1 ? 'entry' : 'entries'}
                     {:else if issue.issueType === 'rogue-folder'}

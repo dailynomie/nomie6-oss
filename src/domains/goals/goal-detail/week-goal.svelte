@@ -127,14 +127,14 @@
 
 {#if goal && totalWeeks}
   <div class="bg-white  dark:bg-black px-4 pb-4  flex flex-col space-y-2">
-    <h1 class="text-xl font-bold text-black dark:text-white leading-tight mt-4 pb-">
+    <h1 class="text-xl font-bold text-ios-label leading-tight mt-4 pb-">
       {trackable.label}
       {getGoalComparisonSymbol(goal.comparison)}
       {trackable.formatValue(goal.target)}
     </h1>
     {#if scores}
-      <p class="text-gray-600 dark:text-gray-400 leading-snug pb-2">
-        Goal hit <strong class="text-black dark:text-white"
+      <p class="text-ios-label2 leading-snug pb-2">
+        Goal hit <strong class="text-ios-label"
           >{math.round(math.percentage(totalWeeks, totalSuccess))}%</strong
         >
         <strong>{totalSuccess}</strong> out of {totalWeeks} weeks.
@@ -149,7 +149,7 @@
     {/if}
   </div>
 {:else if !loading && !totalWeeks}
-  <div class="bg-white dark:bg-black flex items-center justify-center h-40 p-10">Not enough data. Keep Tracking!</div>
+  <div class="bg-ios-card flex items-center justify-center h-40 p-10">Not enough data. Keep Tracking!</div>
 {/if}
 {#if loading}
   <Empty>
@@ -244,7 +244,7 @@
     @apply px-4;
   }
   .goal-scroller .month h2 {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply text-xs lg:text-lg;
     @apply font-medium;
     @apply mt-4 mb-2 lg:mt-10;
@@ -268,7 +268,7 @@
   }
   .day-score-button {
     @apply relative;
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-ios-card;
     @apply flex flex-col items-center justify-center;
     @apply py-3 px-3 rounded-2xl;
     @apply shadow-xl;

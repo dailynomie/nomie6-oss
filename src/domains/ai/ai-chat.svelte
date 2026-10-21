@@ -177,7 +177,7 @@
           class={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg break-words backdrop-blur-sm border ${
             message.role === 'user'
               ? 'bg-blue-500 text-white rounded-br-none border-blue-400'
-              : 'bg-white/80 dark:bg-white/10 text-gray-900 dark:text-white rounded-bl-none border-white/30'
+              : 'bg-white/80 dark:bg-white/10 text-ios-label rounded-bl-none border-white/30'
           }`}
           style="backdrop-filter: blur(10px);"
         >
@@ -192,7 +192,7 @@
           {:else}
             <p class="text-sm leading-relaxed">{message.content}</p>
           {/if}
-          <p class={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-700 dark:text-gray-300'}`}>
+          <p class={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-ios-label2'}`}>
             {dayjs(message.timestamp).format('HH:mm')}
           </p>
         </div>
@@ -201,7 +201,7 @@
   </div>
 
   <!-- Input Container -->
-  <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-4 relative z-20 bg-white dark:bg-gray-900">
+  <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-4 relative z-20 bg-ios-card">
     <div class="flex gap-2 items-end">
       <textarea
         bind:this={inputField}

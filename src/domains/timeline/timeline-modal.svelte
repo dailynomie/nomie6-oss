@@ -25,7 +25,7 @@ import type { TimelineFilterProps } from './timeline-utils';
 </script>
 
 <BackdropModal>
-  <ToolbarGrid slot="header" className="bg-white dark:bg-black">
+  <ToolbarGrid slot="header" className="bg-ios-card">
     <Button slot="left" primary clear on:click={close}>
       {Lang.t('general.close', 'Close')}
     </Button>

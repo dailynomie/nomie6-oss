@@ -807,7 +807,7 @@ else {contextannotation.annotations ={}}
     {#if activeDate}
       <div  class="active-date-holder z-40 flex items-center space-x-2 justify-center px-4 text-center absolute top-1 left-0 right-0">
         <button class="flex items-center" on:click={() => openDateOptionPopMenu(activeDate.toDate())}>
-          <div style="font-size:0.7rem;" class=" line-clamp-1 py-px px-2 rounded-md bg-gray-200 dark:bg-gray-800 text-black dark:text-white">
+          <div style="font-size:0.7rem;" class=" line-clamp-1 py-px px-2 rounded-md bg-gray-200 dark:bg-gray-800 text-ios-label">
             <span class="lg:hidden">
               {activeDate.format(dateFormats.tinyDate)}
             </span>
@@ -821,7 +821,7 @@ else {contextannotation.annotations ={}}
           on:click={()=>{
             itemClicked(undefined);
           }}
-          class="flex items-center justify-center text-sm text-black dark:text-white"><IonIcon size={12} icon={CloseOutline} /></button>
+          class="flex items-center justify-center text-sm text-ios-label"><IonIcon size={12} icon={CloseOutline} /></button>
       </div>
     {/if}
     {#if showChart}

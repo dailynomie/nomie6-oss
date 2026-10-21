@@ -83,7 +83,7 @@
   .math-examples {
     @apply bg-transparent;
     @apply px-1;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply text-sm;
     @apply h-6;
     @apply font-mono;

@@ -101,7 +101,7 @@
           size="lg"
           title="Add this to the note without immediately saving."
           className="-mr-2 whitespace-nowrap text-lg md:text-xl 
-                {!allowSave ? '' : 'text-gray-900 dark:text-white'}
+                {!allowSave ? '' : 'text-ios-label'}
                 {tracker.started ? 'hidden' : ''}"
           on:click={() => {
             dispatch('add')

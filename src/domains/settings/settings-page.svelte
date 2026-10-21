@@ -152,7 +152,7 @@
           <a
             title="Find a bug? Want to provide feedback?"
             href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}
-            class="font-semibold text-black dark:text-white text-sm flex items-center space-x-2"
+            class="font-semibold text-ios-label text-sm flex items-center space-x-2"
             target="_blank"
           >
             <span>{Lang.t('general.feedback', 'Feedback')}</span>
@@ -177,7 +177,7 @@
               <div class="grid grid-cols-2 gap-2">
                 <Button
                   role="menuitem"
-                  className="dark:bg-gray-800 bg-gray-100 text-black dark:text-white"
+                  className="dark:bg-gray-800 bg-gray-100 text-ios-label"
                   title={`${Lang.t('settings.sign-in', 'Sign-In')}`}
                   on:click={() => {
                     openLoginModal()
@@ -187,7 +187,7 @@
                 >
                 <Button
                   role="menuitem"
-                  className="dark:bg-gray-800 bg-gray-100 text-black dark:text-white"
+                  className="dark:bg-gray-800 bg-gray-100 text-ios-label"
                   title={Lang.t('settings.export', 'Export')}
                   on:click={() => openRegisterModal()}
                 >
@@ -320,7 +320,7 @@
     flex-direction: row !important;
     align-items: center;
     background: transparent !important;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     box-shadow: none !important;
     flex-wrap: nowrap;
     border-radius: 9900px;

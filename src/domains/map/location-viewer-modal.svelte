@@ -28,7 +28,7 @@ import Title from '../../components/title/title.svelte';
 </script>
 
 <BackdropModal>
-  <ToolbarGrid slot="header" className="bg-white dark:bg-black shadow-md z-40 relative">
+  <ToolbarGrid slot="header" className="bg-ios-card shadow-md z-40 relative">
     <div slot="left">
       <Button on:click={() => close()} primary clear>Close</Button>
     </div>

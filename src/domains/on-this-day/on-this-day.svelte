@@ -104,14 +104,14 @@
 </script>
 
 <BackdropModal>
-  <header slot="header" class="bg-white dark:bg-black">
+  <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
       <Button slot="left" primary clear on:click={close}>
         {Lang.t('general.close', 'Close')}
       </Button>
 
       <div class="title">
-        <h2 class="text-center text-black dark:text-white font-bold leading-none text-sm line-clamp-1">
+        <h2 class="text-center text-ios-label font-bold leading-none text-sm line-clamp-1">
           {dayjs($OnThisDayModalStore).format('ddd MMM D, YYYY')}
         </h2>
         <div class="text-xs text-gray-500 font-medium leading-none mt-1">

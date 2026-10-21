@@ -97,7 +97,7 @@
     </ToolbarGrid>
     <Toolbar>
       <ButtonGroup
-        className="bg-white dark:bg-black"
+        className="bg-ios-card"
         size="sm"
         value={activeTimeframe}
         buttons={[
@@ -151,7 +151,7 @@
         </Input>
         <Divider left={16} />
         <Textarea
-          class="bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-primary-500 ring-opacity-20"
+          class="bg-ios-card text-ios-label px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-primary-500 ring-opacity-20"
           placeholder="Writing Prompt"
           bind:value={editing.text}
         />

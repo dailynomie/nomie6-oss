@@ -18,7 +18,7 @@
 {:else}
   <div class="flex flex-col items-center justify-center h-full min-h-[60vh] px-8 py-12 text-center space-y-4 text-gray-800 dark:text-gray-200">
     <div class="text-lg font-semibold">This is part of the full Daily Nomie</div>
-    <div class="text-sm text-gray-500 dark:text-gray-400 max-w-sm">
+    <div class="text-sm text-ios-label2 max-w-sm">
       Starter mode keeps the app simple. Switch to full mode to open it. Your data stays as it is.
     </div>
     <Button primary on:click={switchToFull}>Switch to full mode</Button>

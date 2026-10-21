@@ -135,7 +135,7 @@
         on:change={methods.change}
         label={Lang.t('tracker.positivity', 'Positivity')}
       >
-        <div slot="left" class="pt-3 text-black dark:text-white">
+        <div slot="left" class="pt-3 text-ios-label">
           {#if showNeutral}
             <div class="pl-2">😐 {Lang.t('tracker.neutral', 'Neutral')}</div>
           {/if}

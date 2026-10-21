@@ -28,7 +28,7 @@ import { getDateFormats } from '../../preferences/Preferences'
     <Button icon on:click={() => close()} slot="left">
       <IonIcon icon={CloseOutline} className="text-primary-500" />
     </Button>
-    <h2 class="line-clamp-1 text-black dark:text-white whitespace-normal leading-tight text-base font-semibold">
+    <h2 class="line-clamp-1 text-ios-label whitespace-normal leading-tight text-base font-semibold">
       {log.endDayjs().format(`ddd ${dateFormats.date} ${dateFormats.time}`)}
     </h2>
   </ToolbarGrid>
