@@ -241,7 +241,7 @@
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
        
-        <div class="text-ios-label2">{countsearchterms} SearchTerms</div>
+        <div class="text-ios-label2">{countsearchterms} {countsearchterms === 1 ? 'search term' : 'search terms'}</div>
     
         
       </div>
