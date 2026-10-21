@@ -17,6 +17,7 @@
   import Layout from '../layout/layout.svelte'
   import { TrackableStore } from '../trackable/TrackableStore'
   import DashbardEditView from './dashbard-edit-view.svelte'
+  import dayjs from 'dayjs'
   import type { DashboardClass } from './dashboard-class'
   import DashboardEmptyView from './dashboard-empty-view.svelte'
   import DashboardTabs from './dashboard-tabs.svelte'
@@ -188,6 +189,7 @@
       </MenuInline>
     </div>
     <h1 class="text-ios-large font-bold text-ios-label">Dashboard</h1>
+    <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format('dddd D MMMM')}</p>
     <div class="collapsible-row">
     <Toolbar className="px-0 h-11 max-h-11 min-h-11">
       {#if !$DashStore.editMode}
