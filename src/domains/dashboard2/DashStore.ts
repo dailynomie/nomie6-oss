@@ -221,7 +221,7 @@ export const deleteWidget = async (widget: WidgetClass) => {
     board.widgets = board.widgets.filter((w) => w.id !== widget.id)
     return saveDashboard(board)
   } else {
-    alert('ERROR: Unable to find that Widget')
+    Interact.alert('Widget not found', 'That widget no longer exists.')
   }
 }
 

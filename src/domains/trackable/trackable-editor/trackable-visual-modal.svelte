@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import Avatar from '../../../components/avatar/avatar.svelte'
+  import { Interact } from '../../../store/interact'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
 
@@ -40,8 +41,8 @@
     ready = true
   }
 
-  const manualEmoji = () => {
-    const multiEmoji = prompt('Want multiple emojis? Do it here:', trackable.emoji)
+  const manualEmoji = async () => {
+    const multiEmoji = await Interact.prompt('Multiple emojis', 'Want multiple emojis? Do it here:', { value: trackable.emoji })
     if (multiEmoji) {
       trackable.emoji = multiEmoji
     }

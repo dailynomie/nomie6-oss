@@ -1,3 +1,4 @@
+import { Interact } from '../../store/interact'
 export default function copy(str: string) {
   try {
     const el = document.createElement("textarea");
@@ -8,6 +9,6 @@ export default function copy(str: string) {
     document.body.removeChild(el);
     return true;
   } catch (e) {
-    alert(e.message);
+    Interact.alert('Copy failed', e.message);
   }
 }

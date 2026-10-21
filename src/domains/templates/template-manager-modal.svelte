@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import { openTemplateEditor, openTemplateRef, TemplateStore } from './templates-svelte-helpers'
+  import { Interact } from '../../store/interact'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import Button from '../../components/button/button.svelte'
   import List from '../../components/list/list.svelte'
@@ -58,7 +59,7 @@ import AvailableTemplatesList from './available-templates-list.svelte'
       target.value = '' // Reset file input
     } catch (error) {
       console.error('Failed to upload template:', error)
-      alert('Failed to upload template. Please ensure it\'s a valid template JSON file.')
+      Interact.alert('Upload failed', 'Please ensure it\'s a valid template JSON file.')
     }
   }
 

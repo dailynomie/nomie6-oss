@@ -38,7 +38,8 @@ export const selectFile = async (
         }
         reader.readAsText(file)
       } catch (e) {
-        alert(e.message)
+        // loaded on demand: a static import of the store here closes a cycle with Preferences
+        import('../../store/interact').then(({ Interact }) => Interact.alert('Download failed', e.message))
       }
     }
 

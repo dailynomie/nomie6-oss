@@ -1,4 +1,5 @@
 import type { IStorage } from '../../domains/storage/storage'
+import { Interact } from '../../store/interact'
 import NLog from '../nomie-log/nomie-log'
 import { wait } from '../../utils/tick/tick'
 import type LedgerTools from './ledger-tools'
@@ -102,7 +103,7 @@ export class LedgerImporter {
       console.error(`${duplicates} duplicates found`)
     }
     if (failures.length) {
-      alert(`Importer failed to import ${failures.length} weeks of data. ${failures.join(', ')}`)
+      Interact.alert('Import incomplete', `Failed to import ${failures.length} weeks of data. ${failures.join(', ')}`)
     }
 
     return existingBooks

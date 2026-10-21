@@ -135,7 +135,7 @@ export const PouchDBEngine: IStorage = {
           this.onError(e)
           errorCount++
           if (errorCount > 10) {
-            alert('Something bad is going on')
+            Interact.alert('Sync problem', 'Repeated storage errors. Your latest changes may not be saved.')
           }
         })
     }

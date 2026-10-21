@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import Container from '../../components/container/container.svelte'
+  import { Interact } from '../../store/interact'
   import ListItem from '../../components/list-item/list-item.svelte'
   import List from '../../components/list/list.svelte'
 
@@ -43,7 +44,7 @@
       target.value = '' // Reset file input
     } catch (error) {
       console.error('Failed to upload template:', error)
-      alert('Failed to upload template. Please ensure it\'s a valid template JSON file.')
+      Interact.alert('Upload failed', 'Please ensure it\'s a valid template JSON file.')
     }
   }
 

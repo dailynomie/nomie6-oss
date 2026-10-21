@@ -42,7 +42,7 @@ export const switchStorage = async (type, ignoreConfirm: boolean = false) => {
       saveStorageType(to)
       Interact.reload()
     } else {
-      alert(`Error: ${to} is not valid`)
+      Interact.alert('Error', `${to} is not a valid storage type`)
     }
   }
 }
