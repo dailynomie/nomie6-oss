@@ -91,7 +91,7 @@
         <List solo className="max-w-screen-lg mx-auto mb-4">
           {#each running as experiment (experiment.id)}
             {@const day = dayReached(experiment.start, experiment.durationDays)}
-            <ListItem clickable bottomLine={16} on:click={() => openDetail(experiment.id)}>
+            <ListItem clickable detail bottomLine={16} on:click={() => openDetail(experiment.id)}>
               <div class="w-full py-1 space-y-2">
                 <div class="flex items-center justify-between gap-2 min-w-0">
                   <div class="font-semibold truncate">{experiment.title}</div>
@@ -106,9 +106,8 @@
       {#if view === 'finished' && finished.length}
         <List solo className="max-w-screen-lg mx-auto">
           {#each finished as experiment (experiment.id)}
-            {@const view = experimentWidgetView(experiment, experiment.result, 0)}
-            {@const first = view.outcomes[0]}
-            <ListItem clickable bottomLine={16} on:click={() => openDetail(experiment.id)}>
+            {@const summary = experimentWidgetView(experiment, experiment.result, 0)}
+            <ListItem clickable detail bottomLine={16} on:click={() => openDetail(experiment.id)}>
               <div class="w-full py-1 space-y-2">
                 <div class="flex items-center justify-between gap-2 min-w-0">
                   <div class="font-semibold truncate">{experiment.title}</div>
@@ -117,9 +116,12 @@
                     <ExperimentChip tone="neutral" label={experiment.status === 'stopped' ? 'Stopped early' : 'Finished'} />
                   </div>
                 </div>
-                {#if first}
-                  <div class="finished-outcome">
-                    <ExperimentChip tone={first.tone} label="{first.label}: {first.text}" title={first.text} />
+                {#if summary.outcomes.length}
+                  <!-- iOS look (guide 5.5): one chip per outcome, in its own tone -->
+                  <div class="finished-outcome flex flex-wrap gap-1">
+                    {#each summary.outcomes as outcome}
+                      <ExperimentChip tone={outcome.tone} label="{outcome.label}: {outcome.text}" title={outcome.text} />
+                    {/each}
                   </div>
                 {/if}
               </div>
