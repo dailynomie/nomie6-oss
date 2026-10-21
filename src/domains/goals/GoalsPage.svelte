@@ -374,7 +374,8 @@
   :global(.ios-bar-warn) {
     background: #ff9f0a !important;
   }
+  /* iOS look (decision 3): a goal that failed is a neutral bar, not red; red is only for destructive actions */
   :global(.ios-bar-bad) {
-    background: var(--ios-danger) !important;
+    background: var(--ios-label2) !important;
   }
 </style>
