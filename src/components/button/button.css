@@ -4,9 +4,12 @@
 }
 
 /* iOS look (D-focus): the keyboard focus outline is the tint; a tap shows nothing */
-header[slot="header"] .nbtn.clear {
+header[slot="header"] .nbtn.clear:not(.nbtn-icon) {
   @apply focus:outline-none;
   @apply rounded-xl;
+}
+header[slot="header"] .nbtn.clear.nbtn-icon {
+  @apply focus:outline-none;
 }
 header[slot="header"] .nbtn.clear:focus-visible {
   box-shadow: 0 0 0 2px var(--ios-tint);
