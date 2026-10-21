@@ -3,10 +3,14 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte'
 import is from '../../utils/is/is';
+  // iOS look (D-native): browser-native date, datetime and select controls are replaced by app-native ones
+  import IosSelect from '../ios-select/ios-select.svelte'
+  import IosDateField from '../ios-date/ios-date-field.svelte'
+  import IosDateTimeField from '../ios-date/ios-datetime-field.svelte'
 
   const dispatch = createEventDispatcher()
 
-  let { label = null, placeholder = null, inputmode = undefined, value = $bindable(), type = 'text', help = null, className = '', id = '', style = '', inputStyle = '', inputClass = '', pattern = '', width = '', disabled = undefined, solo = undefined, listItem = undefined, compact = undefined, rows = 2, accept = 'png,jpeg,jpg,csv', name = undefined, autocomplete = undefined, autocorrect = undefined, autocapitalize = undefined, autofocus = undefined } = $props<{ label?: any; placeholder?: any; inputmode?: any; value?: any; type?: string; help?: any; className?: string; id?: string; style?: string; inputStyle?: string; inputClass?: string; pattern?: string; width?: string; disabled?: any; solo?: any; listItem?: any; compact?: any; rows?: number; accept?: string; name?: any; autocomplete?: any; autocorrect?: any; autocapitalize?: any; autofocus?: any }>()
+  let { label = null, placeholder = null, inputmode = undefined, value = $bindable(), type = 'text', help = null, className = '', id = '', style = '', inputStyle = '', inputClass = '', pattern = '', width = '', disabled = undefined, solo = undefined, listItem = undefined, compact = undefined, rows = 2, accept = 'png,jpeg,jpg,csv', name = undefined, autocomplete = undefined, autocorrect = undefined, autocapitalize = undefined, autofocus = undefined, options = [] } = $props<{ options?: Array<{ value: any; label: string }>; label?: any; placeholder?: any; inputmode?: any; value?: any; type?: string; help?: any; className?: string; id?: string; style?: string; inputStyle?: string; inputClass?: string; pattern?: string; width?: string; disabled?: any; solo?: any; listItem?: any; compact?: any; rows?: number; accept?: string; name?: any; autocomplete?: any; autocorrect?: any; autocapitalize?: any; autofocus?: any }>()
 
   let focused = $state(false)
   let _elInput = $state<any>(undefined)
@@ -141,25 +145,7 @@ import is from '../../utils/is/is';
           on:blur={blur}
         />
       {:else if type == 'datetime-local'}
-        <!-- svelte-ignore a11y-autofocus -->
-        <input
-          bind:this={_elInput}
-          {id}
-          {disabled}
-          {inputmode}
-          type="datetime-local"
-          style={inputStyle}
-          class={inputClass}
-          {autofocus}
-          bind:value
-          {autocomplete}
-          {autocorrect}
-          {autocapitalize}
-          {placeholder}
-          on:input={onInput}
-          on:focus={focus}
-          on:blur={blur}
-        />
+        <IosDateTimeField bind:value {disabled} title={label || placeholder || 'Date and time'} onchange={() => dispatch('input', value)} />
       {:else if type == 'number'}
         <!-- svelte-ignore a11y-autofocus -->
         <input
@@ -181,38 +167,16 @@ import is from '../../utils/is/is';
           on:blur={blur}
         />
       {:else if type == 'date'}
-        <!-- svelte-ignore a11y-autofocus -->
-        <input
-          bind:this={_elInput}
-          {id}
-          {disabled}
-          {inputmode}
-          type="date"
-          style={inputStyle}
-          {autofocus}
-          class={inputClass}
-          bind:value
-          {placeholder}
-          on:input={onInput}
-          on:focus={focus}
-          on:blur={blur}
-        />
+        <IosDateField bind:value {disabled} title={label || placeholder || 'Date'} onchange={() => dispatch('input', value)} />
       {:else if type == 'select'}
-        <div class="select-wrap">
-          <select
-            {placeholder}
-            {id}
-            bind:this={_elInput}
-            {disabled}
-            on:input={(evt) => {
-              //@ts-ignore
-              dispatch('change', evt.target.value)
-            }}
-            bind:value
-          >
-            <slot />
-          </select>
-        </div>
+        <IosSelect
+          bind:value
+          {options}
+          {disabled}
+          title={label || placeholder || ''}
+          placeholder={placeholder || ''}
+          onchange={(next) => dispatch('change', `${next}`)}
+        />
       {:else if type == 'textarea'}
         <!-- svelte-ignore a11y-autofocus -->
         <textarea

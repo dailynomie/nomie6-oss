@@ -143,12 +143,7 @@
           <h1 class="font-bold text-lg">Create a Writing Prompt</h1>
         </ListItem>
 
-        <Input type="select" listItem label="Time frame" bind:value={editing.time}>
-          <option value="any">Anytime</option>
-          <option value="morning">Morning</option>
-          <option value="afternoon">Afternoon</option>
-          <option value="evening">Evening</option>
-        </Input>
+        <Input type="select" listItem label="Time frame" bind:value={editing.time} options={[{ value: 'any', label: 'Anytime' }, { value: 'morning', label: 'Morning' }, { value: 'afternoon', label: 'Afternoon' }, { value: 'evening', label: 'Evening' }]} />
         <Divider left={16} />
         <Textarea
           class="bg-ios-card text-ios-label px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-primary-500 ring-opacity-20"

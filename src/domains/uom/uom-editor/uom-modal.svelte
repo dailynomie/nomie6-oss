@@ -58,10 +58,7 @@
         <Divider center />
         <Input listItem type="text" bind:value={uom.symbol} placeholder="Symbol e.g kcal" label="Symbol" />
         <Divider center />
-        <Input listItem type="select" placeholder="Symbol Position" bind:value={uom.symbolAffix}>
-          <option value="pre">Before</option>
-          <option value="post">After</option>
-        </Input>
+        <Input type="select" listItem placeholder="Symbol Position" bind:value={uom.symbolAffix} options={[{ value: 'pre', label: 'Before' }, { value: 'post', label: 'After' }]} />
       </List>
 
       <List solo>

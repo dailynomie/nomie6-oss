@@ -131,20 +131,14 @@
         listItem
         type="select"
         bind:value={tracker.score}
-        placeholder="Select a Positivity"
+        placeholder={`😐 ${Lang.t('tracker.neutral', 'Neutral')}`}
         on:change={methods.change}
         label={Lang.t('tracker.positivity', 'Positivity')}
-      >
-        <div slot="left" class="pt-3 text-ios-label">
-          {#if showNeutral}
-            <div class="pl-2">😐 {Lang.t('tracker.neutral', 'Neutral')}</div>
-          {/if}
-        </div>
-        {#each appConfig.positivity as positivity}
-          <option value={`${positivity.score}`}>{positivity.emoji} {positivity.label}</option>
-        {/each}
-        <option value="custom">🛠 {Lang.t('general.customize', ' Custom')}</option>
-      </NInput>
+        options={[
+          ...appConfig.positivity.map((positivity) => ({ value: `${positivity.score}`, label: `${positivity.emoji} ${positivity.label}` })),
+          { value: 'custom', label: `🛠 ${Lang.t('general.customize', ' Custom')}` },
+        ]}
+      />
     {/key}
     {#if tracker.score === 'custom'}
       <section class="points-editor">

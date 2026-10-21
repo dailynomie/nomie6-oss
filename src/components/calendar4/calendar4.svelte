@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../ios-select/ios-select.svelte'
   import dayjs from 'dayjs'
   import type { Dayjs } from 'dayjs'
   import { createEventDispatcher } from 'svelte'
@@ -101,46 +102,33 @@
 
       <!-- Month Selector -->
       <div class="divide-x-2 divide-opacity-30 divide-gray-500 flex items-center nselect-group">
-        <select
-          class="nselect rounded-r-none"
-          class:sm={size == 'sm'}
-          value={month}
-          on:input={(evt) => {
-            //@ts-ignore
-            let newDate = datejs.month(evt.target.value)
-            date = newDate.toDate()
-            dispatch('dateChange', newDate.toDate())
-          }}
-        >
-          {#each Array(12)
-            .fill(0)
-            .map((c, index) => {
-              return dayjs().month(index).startOf('month').format('MMM')
-            }) as lmonth, index}
-            <option value={index}>{lmonth}</option>
-          {/each}
-        </select>
+        <IosSelect
+  compact
+  title="Month"
+  value={month}
+  options={Array.from({ length: 12 }, (_, index) => ({ value: index, label: dayjs().month(index).startOf('month').format('MMM') }))}
+  onchange={(next) => {
+    let newDate = datejs.month(parseNumber(`${next}`))
+    date = newDate.toDate()
+    dispatch('dateChange', newDate.toDate())
+  }}
+/>
 
         <!-- Year Selector -->
-        <select
-          class="nselect rounded-l-none"
-          class:sm={size == 'sm'}
-          value={year}
-          on:input={(evt) => {
-            //@ts-ignore
-            let newDate = datejs.year(parseNumber(evt.target.value))
-            date = newDate.toDate()
-            dispatch('dateChange', newDate)
-          }}
-        >
-          {#each Array(12)
-            .fill(0)
-            .map((c, index) => {
-              return parseNumber(dayjs().format('YYYY')) - index
-            }) as lyear, index}
-            <option value={lyear}>{lyear}</option>
-          {/each}
-        </select>
+        <IosSelect
+  compact
+  title="Year"
+  value={year}
+  options={Array.from({ length: 12 }, (_, index) => {
+    const y = parseNumber(dayjs().format('YYYY')) - index
+    return { value: y, label: `${y}` }
+  })}
+  onchange={(next) => {
+    let newDate = datejs.year(parseNumber(`${next}`))
+    date = newDate.toDate()
+    dispatch('dateChange', newDate)
+  }}
+/>
       </div>
       <div class="filler" />
 

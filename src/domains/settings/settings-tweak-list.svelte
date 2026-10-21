@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
-<script lang="ts">
+<script lang="ts">  import IosSelect from '../../components/ios-select/ios-select.svelte'
+
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { CalendarOutline, GlobeOutline, LanguageOutline, ResizeOutline, TimeOutline } from '../../components/icon/nicons'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -105,18 +106,12 @@
   <ListItem bottomLine={57} title={Lang.t('settings.language', 'Language')}>
     <span slot="left"><IconSquare color="#D06A14"><IonIcon icon={LanguageOutline} size={17} /></IconSquare></span>
     <div slot="right">
-      <select
+      <IosSelect
         title="Select a Language"
-        class="nselect clear"
         bind:value={$Lang.lang}
-        on:change={(event) => {
-          Lang.setLang($Lang.lang)
-        }}
-      >
-        {#each Lang.getLangs() as lang}
-          <option value={lang.key}>{lang.label}</option>
-        {/each}
-      </select>
+        onchange={() => Lang.setLang($Lang.lang)}
+        options={Lang.getLangs().map((lang) => ({ value: lang.key, label: lang.label }))}
+      />
     </div>
   </ListItem>
 </List>

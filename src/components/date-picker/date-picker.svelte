@@ -5,8 +5,7 @@
   import dayjs from 'dayjs'
   // utils
   import { createEventDispatcher } from 'svelte'
-  import { Device } from '../../store/device-store'
-  import DateTimeBar from '../date-time-bar/date-time-bar.svelte'
+  import IosDateTimeField from '../ios-date/ios-datetime-field.svelte'
 
   import { Prefs } from '../../domains/preferences/Preferences'
 
@@ -16,7 +15,6 @@
   const dispatch = createEventDispatcher()
   let { date = $bindable(), time = $bindable(), className, style, size } = $props()
 
-  let inputEle = $state<HTMLInputElement>(undefined)
   let localDate = $state<any>(dayjs(new Date()).format('YYYY-MM-DDTHH:mm'))
   let lastTime = $state(time)
   const dtlFormat = 'YYYY-MM-DDTHH:mm'
@@ -40,27 +38,13 @@
   }
 </script>
 
-<div class="n-date-picker {className}">
-  {#if Device.is(/(firefox)/gi)}
-    <DateTimeBar
-      {style}
-      bind:date={time}
-      on:change={(event) => {
-        
-        fireChange({ target: { value: event.detail }})
-      }}
-    />
-  {:else}
-    <input
-      {style}
-      type="datetime-local"
-      placeholder={dayjs().format(dateTimeFormat)}
-      class="native-datetime m-0 size-{size}"
-      on:input={fireChange}
-      bind:value={localDate}
-      bind:this={inputEle}
-    />
-  {/if}
+<div class="n-date-picker {className}" {style}>
+  <!-- iOS look (D-native): the app's own date and time field, the same in every browser -->
+  <IosDateTimeField
+    bind:value={localDate}
+    title="Date and time"
+    onchange={(next) => fireChange({ target: { value: next } })}
+  />
 </div>
 
 <style global lang="postcss">

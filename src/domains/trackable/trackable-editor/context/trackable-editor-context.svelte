@@ -17,14 +17,11 @@
     label="Duration"
     placeholder="Duration (in Days)"
     value={`${trackable.ctx.duration || 1}`}
+    options={Array.from({ length: 30 }, (_, index) => ({ value: `${index + 1}`, label: `${index + 1} days` }))}
     on:change={(evt) => {
       trackable.ctx.duration = parseNumber(evt.detail)
     }}
-  >
-    {#each Array(30).fill(0) as count, index}
-      <option value={`${index + 1}`}>{index + 1} days</option>
-    {/each}
-  </Input>
+  />
 </List>
 <p class="list-note">
   Duration Days is how long this context tends to impact your life. Context is used to mark specific points in your life

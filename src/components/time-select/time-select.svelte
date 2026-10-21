@@ -5,6 +5,7 @@
   import type { Dayjs } from 'dayjs'
   import { createEventDispatcher } from 'svelte'
 import { getDateFormats } from '../../domains/preferences/Preferences';
+  import IosSelect from '../ios-select/ios-select.svelte'
   
 
   const dispatch = createEventDispatcher()
@@ -89,44 +90,44 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
           </div>
         {/if}
         {#if is24Hour}
-          <select on:blur bind:value={hour} class=" hour" on:change={onChange}>
-            {#each hours as h}
-              <option value={h} selected={h === hour} style="text-align:center;">
-                {`${h}`.length == 1 ? `0${h}` : h}
-              </option>
-            {/each}
-          </select>
+          <IosSelect
+            compact
+            title="Hour"
+            bind:value={hour}
+            onchange={() => onChange()}
+            options={hours.map((h) => ({ value: h, label: `${h}`.length == 1 ? `0${h}` : `${h}` }))}
+          />
         {:else}
-          <select on:blur bind:value={hour12} class="hour" on:change={onChange}>
-            {#each hours as h}
-              <option
-                data-hour12={hour12}
-                data-mmatch={`${h}` == `${hour12}`}
-                value={h}
-                selected={`${h}` == `${hour12}`}
-                style="text-align:center;"
-              >
-                {`${h}`.length == 1 ? `0${h}` : h}
-              </option>
-            {/each}
-          </select>
+          <IosSelect
+            compact
+            title="Hour"
+            bind:value={hour12}
+            onchange={() => onChange()}
+            options={hours.map((h) => ({ value: h, label: `${h}`.length == 1 ? `0${h}` : `${h}` }))}
+          />
         {/if}
         <span class="blinker">:</span>
         <!-- Loop over minutes -->
-        <select on:blur bind:value={minute} class="minutes" on:change={onChange}>
-          {#each minutes as m}
-            <option value={m} selected={m == minute}>
-              {`${m}`.length == 1 ? `0${m}` : m}
-            </option>
-          {/each}
-        </select>
+        <IosSelect
+          compact
+          title="Minute"
+          bind:value={minute}
+          onchange={() => onChange()}
+          options={minutes.map((m) => ({ value: m, label: `${m}`.length == 1 ? `0${m}` : `${m}` }))}
+        />
       </div>
       <!-- If is not 24 hour - show ampm -->
       {#if !is24Hour}
-        <select bind:value={ampm} on:change={() => onChange()}>
-          <option value="am">AM</option>
-          <option value="pm">PM</option>
-        </select>
+        <IosSelect
+          compact
+          title="AM or PM"
+          bind:value={ampm}
+          onchange={() => onChange()}
+          options={[
+            { value: 'am', label: 'AM' },
+            { value: 'pm', label: 'PM' },
+          ]}
+        />
         <!-- <ButtonGroup
           style="min-width:80px; "
           className="ampm shadow-none"

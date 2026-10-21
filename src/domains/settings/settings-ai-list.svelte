@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
-<script lang="ts">
+<script lang="ts">  import IosSelect from '../../components/ios-select/ios-select.svelte'
+
   import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
   import { Prefs } from '../preferences/Preferences'
   import { Lang } from '../../store/lang'
@@ -249,14 +250,12 @@
       <div class="w-full py-3">
         <label class="block text-sm font-semibold mb-3">Default Data Timeframe</label>
         <p class="text-xs text-ios-label2 mb-3">Used for AI features that don't have their own timeframe</p>
-        <select
+        <IosSelect
+          className="w-full"
+          title="Default Data Timeframe"
           bind:value={config.defaultTimeframe}
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-ios-label text-sm"
-        >
-          {#each timeFrames as timeframe}
-            <option value={timeframe.id}>{timeframe.label}</option>
-          {/each}
-        </select>
+          options={timeFrames.map((timeframe) => ({ value: timeframe.id, label: timeframe.label }))}
+        />
       </div>
     </ListItem>
 

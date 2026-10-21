@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosRange from '../../../../components/ios-range/ios-range.svelte'
   import { untrack } from 'svelte'
   import ButtonGroup from '../../../../components/button-group/button-group.svelte'
   import Button from '../../../../components/button/button.svelte'
@@ -300,22 +301,7 @@
       {#if activeType && [...activeType.requires, ...activeType.optional].indexOf('timeframe') > -1}
         <Divider left={18} />
         {#if editingWidget}
-        <Input listItem bind:value={editingWidget.timeRange} type="select" label="Timeframe">
-          <div
-            slot="left"
-            class="{!editingWidget.timeRange
-              ? 'pl-2 pt-3 w-full'
-              : ''} text-ios-label pointer-events-none absolute"
-          >
-            {#if !editingWidget.timeRange}
-              {Lang.t('dashboard.select-a-timeframe', 'Select a Timeframe')}
-            {/if}
-          </div>
-          <option>Select</option>
-          {#each timeFrames as timeFrame}
-            <option value={timeFrame.id}>{timeFrame.label}</option>
-          {/each}
-        </Input>
+        <Input type="select" listItem bind:value={editingWidget.timeRange} label="Timeframe" placeholder={`${Lang.t('dashboard.select-a-timeframe', 'Select a Timeframe')}`} options={[...timeFrames.map((timeFrame) => ({ value: timeFrame.id, label: `${timeFrame.label}` }))]} />
         {#if activeType && activeType.id == 'value' && editingWidget.timeRange && ['today', 'yesterday'].indexOf(editingWidget.timeRange) == -1}
           <Divider left={18} />
           <ListItem bg="transparent" title="Include Daily Average" className="pl-6">
@@ -330,18 +316,17 @@
           Samples: {editingWidget?.data?.pointersamples || 5}
           <div slot="right" style="flex: 1; padding-right: 1rem; display: flex; align-items: center; min-height: 48px; width: 200px;">
             {#if editingWidget?.data}
-              <input
-                type="range"
-                min="1"
-                max="8"
+              <IosRange
+                min={1}
+                max={8}
+                step={1}
+                label="Samples"
                 value={editingWidget.data.pointersamples}
-                on:input={(e) => {
-                  editingWidget.data.pointersamples = parseInt(e.target.value)
+                onchange={(next) => {
+                  editingWidget.data.pointersamples = next
                   updateTrigger = updateTrigger + 1
                 }}
-                step="1"
-                style="width: 100%; height: 24px; cursor: pointer; -webkit-appearance: none; appearance: none; background: transparent; border: none; outline: none;"
-              >
+              />
             {:else}
               <span style="color: #999; font-size: 12px;">initializing...</span>
             {/if}
@@ -378,21 +363,7 @@
     {#if activeType?.id == 'plugin'}
     <List solo className="mt-4">
       {#if pluginWidgets.length > 0}
-        <Input listItem bind:value={editingWidget.data.widgetindex} type="select" label="Widget">
-          <div
-            slot="left"
-            class="{!editingWidget?.data?.widgetindex
-              ? 'pl-2 pt-3 w-full'
-              : ''} text-ios-label pointer-events-none absolute"
-          >
-            {#if !editingWidget?.data?.widgetindex}
-              Select a Widget
-            {/if}
-          </div>
-          {#each pluginWidgets as pluginWidget}
-            <option value={pluginWidget.widgetid}>{pluginWidget.emoji} {pluginWidget.name}</option>
-          {/each}
-        </Input>
+        <Input type="select" listItem bind:value={editingWidget.data.widgetindex} label="Widget" placeholder={'Select a Widget'} options={[...pluginWidgets.map((pluginWidget) => ({ value: pluginWidget.widgetid, label: `${pluginWidget.emoji} ${pluginWidget.name}` }))]} />
         <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
       {:else}
         <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">No widget options available for this plugin</div>
@@ -404,21 +375,7 @@
     {#if activeType?.id == 'experiment'}
     <List solo className="mt-4">
       {#if $ExperimentStore.length > 0}
-        <Input listItem bind:value={editingWidget.data.experimentId} type="select" label="Experiment">
-          <div
-            slot="left"
-            class="{!editingWidget?.data?.experimentId
-              ? 'pl-2 pt-3 w-full'
-              : ''} text-ios-label pointer-events-none absolute"
-          >
-            {#if !editingWidget?.data?.experimentId}
-              Select an experiment
-            {/if}
-          </div>
-          {#each $ExperimentStore as experiment}
-            <option value={experiment.id}>{experiment.title}</option>
-          {/each}
-        </Input>
+        <Input type="select" listItem bind:value={editingWidget.data.experimentId} label="Experiment" placeholder={'Select an experiment'} options={[...$ExperimentStore.map((experiment) => ({ value: experiment.id, label: `${experiment.title}` }))]} />
         <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">Shows the progress and result of this experiment</div>
       {:else}
         <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">No experiments yet. Start one from Goals.</div>
@@ -446,29 +403,7 @@
 
         <!-- Predefined Prompts Dropdown -->
         {#if editingWidget.data.promptType === 'predefined'}
-          <Input listItem bind:value={editingWidget.data.promptValue} type="select" label="Select Prompt">
-            <div
-              slot="left"
-              class="{!editingWidget.data.promptValue
-                ? 'pl-2 pt-3 w-full'
-                : ''} text-ios-label pointer-events-none absolute"
-            >
-              {#if !editingWidget.data.promptValue}
-                {Lang.t('dashboard.select-prompt', 'Select a prompt')}
-              {/if}
-            </div>
-            <option>Select</option>
-            <option value="patterns">Patterns</option>
-            <option value="progress">Progress</option>
-            <option value="insights">Insights</option>
-            <option value="recommendations">Recommendations</option>
-            <option value="trends">Trends</option>
-            <option value="wellbeing">Wellbeing</option>
-            <option value="productivity">Productivity</option>
-            <option value="health">Health</option>
-            <option value="mood">Mood & Emotions</option>
-            <option value="correlation">Correlations</option>
-          </Input>
+          <Input type="select" listItem bind:value={editingWidget.data.promptValue} label="Select Prompt" placeholder={`${Lang.t('dashboard.select-prompt', 'Select a prompt')}`} options={[{ value: 'patterns', label: 'Patterns' }, { value: 'progress', label: 'Progress' }, { value: 'insights', label: 'Insights' }, { value: 'recommendations', label: 'Recommendations' }, { value: 'trends', label: 'Trends' }, { value: 'wellbeing', label: 'Wellbeing' }, { value: 'productivity', label: 'Productivity' }, { value: 'health', label: 'Health' }, { value: 'mood', label: 'Mood & Emotions' }, { value: 'correlation', label: 'Correlations' }]} />
         {/if}
 
         <!-- Custom Prompt Textarea -->
@@ -582,57 +517,4 @@
   </main>
 </BackdropModal>
 
-<style lang="postcss">
-  input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 24px;
-    background: transparent;
-    cursor: pointer;
-    outline: none;
-  }
 
-  input[type="range"]::-webkit-slider-runnable-track {
-    height: 8px;
-    background: linear-gradient(to right, #9ca3af, #6b7280);
-    border-radius: 5px;
-    outline: none;
-    border: none;
-  }
-
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 24px;
-    height: 24px;
-    background: white;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid #3b82f6;
-    margin-top: -8px;
-  }
-
-  input[type="range"]::-moz-range-track {
-    height: 8px;
-    background: linear-gradient(to right, #9ca3af, #6b7280);
-    border-radius: 5px;
-    outline: none;
-    border: none;
-  }
-
-  input[type="range"]::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
-    background: white;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid #3b82f6;
-  }
-
-  input[type="range"]::-moz-range-progress {
-    background: linear-gradient(to right, #9ca3af, #6b7280);
-  }
-</style>

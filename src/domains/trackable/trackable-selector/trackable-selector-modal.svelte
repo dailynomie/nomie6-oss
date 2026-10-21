@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
-<script lang="ts">
+<script lang="ts">  import IosSelect from '../../../components/ios-select/ios-select.svelte'
+
   import TrackableAvatar from '../../../components/avatar/trackable-avatar.svelte'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
@@ -194,21 +195,23 @@
           onSearchTerm(evt.detail)
         }}
       >
-        <select
-          slot="right-inside"
-          value={type || ''}
-          on:input={(evt) => {
-            //@ts-ignore
-            payload.type = evt.target.value
-          }}
-          class="appearance-none text-right text-base text-ios-tint px-4 bg-transparent focus:outline-none rounded-md h-9 ring-inset focus:ring-1 ring-primary-500"
-        >
-          <option value="" selected>All Types</option>
-          <option value="tracker">{Lang.t('general.trackers', 'Trackers')}</option>
-          <option value="person">{Lang.t('general.people')}</option>
-          <option value="context">{Lang.t('general.context')}</option>
-          <option value="pointer">{Lang.t('general.pointer', 'Pointers')}</option>
-        </select>
+        <div slot="right-inside">
+          <IosSelect
+            compact
+            title="Type"
+            value={type || ''}
+            onchange={(next) => {
+              payload.type = next
+            }}
+            options={[
+              { value: '', label: 'All Types' },
+              { value: 'tracker', label: Lang.t('general.trackers', 'Trackers') },
+              { value: 'person', label: Lang.t('general.people') },
+              { value: 'context', label: Lang.t('general.context') },
+              { value: 'pointer', label: Lang.t('general.pointer', 'Pointers') },
+            ]}
+          />
+        </div>
       </SearchBar>
     </Toolbar>
   </header>

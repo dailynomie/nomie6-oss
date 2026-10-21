@@ -87,6 +87,21 @@
   })
 
   const groupedUOM = getGroupedUoms()
+  // iOS look (D-native): the measure list is one app-native select; each group header is a disabled row
+  let uomOptions = $derived(
+    Object.keys(groupedUOM).flatMap((groupKey) => {
+      if (tracker.type === 'timer' || groupKey === 'Timer') return []
+      const symbol = (key: string) => (uomSymbol(key).length > 0 && uomPlural(key).toLowerCase() !== uomSymbol(key).toLowerCase() ? ` (${uomSymbol(key)})` : '')
+      return [
+        { value: `group-${groupKey}`, label: `-- ${groupKey}`, disabled: true },
+        ...groupedUOM[groupKey].map((uom) => ({
+          value: uom.key,
+          label: `${uomPlural(uom.key)}${symbol(uom.key)}`,
+          disabled: uom.key == 'time' && tracker.type != 'timer',
+        })),
+      ]
+    })
+  )
 
   let advanced: boolean = $state(false)
   let forceAdvancedView: boolean = $state(false)
@@ -403,23 +418,8 @@
         type="select"
         className="tracker-uom"
         bind:value={tracker.uom}
-      >
-        {#each Object.keys(groupedUOM) as groupKey (groupKey)}
-          {#if tracker.type !== 'timer' && groupKey !== 'Timer'}
-            <option disabled>-- {groupKey}</option>
-            {#each groupedUOM[groupKey] as uom (`${groupKey}-${uom.key}`)}
-              <option value={uom.key} disabled={uom.key == 'time' && tracker.type != 'timer'}>
-                {uomPlural(uom.key)}
-                {#if uomPlural(uom.key).toLowerCase() !== uomSymbol(uom.key).toLowerCase()}
-                  {#if uomSymbol(uom.key).length > 0}
-                    ({uomSymbol(uom.key)})
-                  {/if}
-                {/if}
-              </option>
-            {/each}
-          {/if}
-        {/each}
-      </NInput>
+        options={uomOptions}
+      />
       <Divider center />
       {#if $FeatureVisible('advanced-tracker-options')}
       <NInput
@@ -429,11 +429,11 @@
         name="math"
         placeholder={Lang.t('tracker.calculate-total', 'Calculate Totals')}
         bind:value={tracker.math}
-      >
-        {#each [{ value: 'sum', label: Lang.t('general.sum', 'Sum') }, { value: 'mean', label: Lang.t('general.avg', 'Average') }] as math_key}
-          <option value={math_key.value}>{math_key.label}</option>
-        {/each}
-      </NInput>
+        options={[
+          { value: 'sum', label: Lang.t('general.sum', 'Sum') },
+          { value: 'mean', label: Lang.t('general.avg', 'Average') },
+        ]}
+      />
       {/if}
     </List>
   {/if}
@@ -546,11 +546,11 @@
     name="default habit"
     placeholder="Choose Default Habit Result"
     bind:value={tracker.default}
-  >
-    {#each [{ value: 1, label: tracker.habitChoice[0]}, { value: -1, label: tracker.habitChoice[1]}] as habit_key}
-      <option value={habit_key.value}>{habit_key.label}</option>
-    {/each}
-  </NInput>
+    options={[
+      { value: 1, label: tracker.habitChoice[0] },
+      { value: -1, label: tracker.habitChoice[1] },
+    ]}
+  />
     {/if}
   </List>
 

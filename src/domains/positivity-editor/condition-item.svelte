@@ -4,6 +4,7 @@
   import dayjs from 'dayjs'
 
   import { createEventDispatcher } from 'svelte'
+  import IosSelect from '../../components/ios-select/ios-select.svelte'
 
   import appConfig from '../../config/appConfig'
   import { ConditionIfs, type ICondition, type IConditionIfUnit, type IConditionIsUnit } from '../../modules/scoring/score-tracker'
@@ -94,16 +95,20 @@
   </header>
   {#if workingCondition}
   <main class="condition-group px-8 w-full">
-    <select aria-label="Compare to What?" bind:value={workingCondition.if} class="condition-select">
-      {#each ConditionIfs as cif}
-        <option value={cif}>{convertValueType(cif)}</option>
-      {/each}
-    </select>
-    <select aria-label="Comparison Value IS" bind:value={workingCondition.is} class="condition-select">
-      {#each ConditionIs as is}
-        <option value={is}>{convertCondition(is)}</option>
-      {/each}
-    </select>
+    <IosSelect
+      ariaLabel="Compare to What?"
+      title="Compare to What?"
+      bind:value={workingCondition.if}
+      compact
+      options={ConditionIfs.map((cif) => ({ value: cif, label: convertValueType(cif) }))}
+    />
+    <IosSelect
+      ariaLabel="Comparison Value IS"
+      title="Comparison Value IS"
+      bind:value={workingCondition.is}
+      compact
+      options={ConditionIs.map((is) => ({ value: is, label: convertCondition(is) }))}
+    />
     {#if workingCondition.if === 'value'}
       {#if trackable?.type == 'tracker' && trackable?.tracker?.type == 'timer'}
         <input
@@ -121,33 +126,31 @@
         />
       {/if}
     {:else if workingCondition.if === 'hour'}
-      <select aria-label="Hour of the Day" bind:value={workingCondition.v} class="condition-select w-12">
-        {#each getHours() as hour}
-          <option value={hour.index}>{hour.value}</option>
-        {/each}
-      </select>
+      <IosSelect
+        ariaLabel="Hour of the Day"
+        title="Hour of the Day"
+        bind:value={workingCondition.v}
+        compact
+        options={getHours().map((hour) => ({ value: hour.index, label: `${hour.value}` }))}
+      />
     {:else if workingCondition.if === 'month'}
-      <select aria-label="Day of the Month" bind:value={workingCondition.v} class="condition-select w-12">
-        {#each getDays() as day}
-          <option value={day.index}>{day.value}</option>
-        {/each}
-      </select>
+      <IosSelect
+        ariaLabel="Day of the Month"
+        title="Day of the Month"
+        bind:value={workingCondition.v}
+        compact
+        options={getDays().map((day) => ({ value: day.index, label: `${day.value}` }))}
+      />
     {/if}
-    <select
+    <IosSelect
       value={`${workingCondition.sc}`}
-      class="condition-select emoji"
-      on:change={(evt) => {
-        //@ts-ignore
-        workingCondition.sc = parseNumber(evt.target.value)
+      title="Positivity"
+      compact
+      onchange={(next) => {
+        workingCondition.sc = parseNumber(`${next}`)
       }}
-    >
-      {#each appConfig.positivity as positivity}
-        {`${positivity.score} === ${workingCondition.sc}`}
-        <option selected={`${positivity.score}` == `${workingCondition.sc}`} value={`${positivity.score}`}
-          >{positivity.emoji}</option
-        >
-      {/each}
-    </select>
+      options={appConfig.positivity.map((positivity) => ({ value: `${positivity.score}`, label: positivity.emoji }))}
+    />
   </main>
   {/if}
 </div>

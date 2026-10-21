@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../ios-select/ios-select.svelte'
   // Svelte
   import { createEventDispatcher } from 'svelte'
   // Utils
@@ -56,7 +57,7 @@
     // Set unit value by select box action
     setUnitValue(event, unit) {
       // Set to init
-      let selected = parseInt(event.target.value)
+      let selected = parseInt(`${event?.target?.value ?? event}`)
       // Set temp time chunks
       let dateChunks = {
         hours: data.hours,
@@ -108,52 +109,40 @@
 
 <div class="n-counter-manual size-{size} {className}">
   <div class="unit hours">
-    <select
-      name="hours"
-      id="hours"
+    <IosSelect
+      compact
+      title="Hours"
+      ariaLabel="Hours"
       value={methods.getUnitValue('hours')}
-      on:change={(event) => {
-        methods.setUnitValue(event, 'hours')
-      }}
-    >
-      {#each time.getNumberedArray(300) as unit (unit)}
-        <option value={unit}>{unit}</option>
-      {/each}
-    </select>
+      options={time.getNumberedArray(300).map((unit) => ({ value: unit, label: `${unit}` }))}
+      onchange={(next) => methods.setUnitValue(next, 'hours')}
+    />
 
     <label for="hours" aria-controls="hours">Hour</label>
   </div>
   <!-- Minutes -->
   <div class="unit hours">
-    <select
-      id="minutes"
-      name="minutes"
+    <IosSelect
+      compact
+      title="Minutes"
+      ariaLabel="Minutes"
       value={methods.getUnitValue('minutes')}
-      on:change={(event) => {
-        methods.setUnitValue(event, 'minutes')
-      }}
-    >
-      {#each time.getNumberedArray(59) as unit (unit)}
-        <option value={unit}>{unit}</option>
-      {/each}
-    </select>
+      options={time.getNumberedArray(59).map((unit) => ({ value: unit, label: `${unit}` }))}
+      onchange={(next) => methods.setUnitValue(next, 'minutes')}
+    />
     <!-- <NIcon icon={ChevronDown} className="fill-solid" /> -->
     <label for="minutes" aria-controls="minutes">Min</label>
   </div>
   <!-- SEconds -->
   <div class="unit seconds">
-    <select
-      id="seconds"
-      name="seconds"
+    <IosSelect
+      compact
+      title="Seconds"
+      ariaLabel="Seconds"
       value={methods.getUnitValue('seconds')}
-      on:change={(event) => {
-        methods.setUnitValue(event, 'seconds')
-      }}
-    >
-      {#each time.getNumberedArray(59) as unit (unit)}
-        <option value={unit}>{unit}</option>
-      {/each}
-    </select>
+      options={time.getNumberedArray(59).map((unit) => ({ value: unit, label: `${unit}` }))}
+      onchange={(next) => methods.setUnitValue(next, 'seconds')}
+    />
     <!-- <NIcon icon={ChevronDown} className="fill-solid" /> -->
     <label for="seconds" aria-controls="seconds">Sec</label>
   </div>
