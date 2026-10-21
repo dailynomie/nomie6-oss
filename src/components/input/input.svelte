@@ -457,7 +457,7 @@ import is from '../../utils/is/is';
   }
 
   .n-input-type-textarea {
-    @apply bg-gray-100 dark:bg-gray-900;
+    @apply bg-ios-card;
   }
   .n-input-type-textarea textarea {
     @apply placeholder-gray-400;

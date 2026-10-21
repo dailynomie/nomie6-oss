@@ -125,7 +125,7 @@
     flex-shrink: 0;
     flex-grow: 0;
     @apply appearance-none;
-    @apply bg-gray-100 dark:bg-gray-800;
+    @apply bg-ios-card;
     text-align: center;
     -webkit-appearance: none;
     @apply p-1;

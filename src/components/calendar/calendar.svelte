@@ -398,7 +398,7 @@
   }
   .n-calendar .n-calendar-container .body .day-container .day:active {
     font-weight: bold;
-    @apply dark:bg-gray-700 bg-gray-200;
+    @apply bg-ios-card;
   }
   .n-calendar .n-calendar-container .body .day-container .day span {
     font-size: var(--cal-font-size);

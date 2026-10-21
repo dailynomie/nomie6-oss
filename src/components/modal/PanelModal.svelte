@@ -20,7 +20,7 @@
     dispatch('close')
   }}
 >
-  <Panel className="h-full {panelClass ? panelClass : 'bg-gray-200 dark:bg-gray-800'}">
+  <Panel className="h-full {panelClass ? panelClass : 'bg-ios-bg'}">
     <header slot="header" class={headerClass ? headerClass : 'shadow-md'}>
       <ToolbarGrid>
         <div slot="left"><slot name="header-left" /></div>

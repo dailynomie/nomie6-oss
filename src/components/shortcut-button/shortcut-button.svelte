@@ -265,7 +265,7 @@
     @apply absolute bottom-1 left-3 right-3;
   }
   .shortcut-button .highlight.one-tap {
-    @apply bg-gray-300 dark:bg-gray-800 bg-opacity-40;
+    @apply bg-ios-card bg-opacity-40;
   }
 
   .shortcut-button.has-value .highlight.one-tap {

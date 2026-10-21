@@ -77,7 +77,7 @@
   }
 
   .slider-wrapper .rangeSlider {
-    @apply dark:bg-gray-700 bg-gray-300;
+    @apply bg-ios-card;
     @apply m-0;
   }
 

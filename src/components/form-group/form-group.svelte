@@ -22,7 +22,7 @@
     @apply bg-white dark:bg-black dark:bg-opacity-50;
   }
   .form-group.tint {
-    @apply bg-gray-100 dark:bg-gray-800;
+    @apply bg-ios-card;
   }
 </style>
 

@@ -56,7 +56,7 @@
   }
 
   .n-list .list-header {
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-card;
     @apply px-4 text-sm text-ios-label2;
     @apply h-7;
     @apply flex items-center;
@@ -77,7 +77,7 @@
   }
   .n-list.disabled:after {
     content: '';
-    @apply bg-gray-200 dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-50;
+    @apply bg-ios-card bg-opacity-50 dark:bg-opacity-50;
     @apply absolute;
     @apply top-0 left-0 right-0 bottom-0;
   }

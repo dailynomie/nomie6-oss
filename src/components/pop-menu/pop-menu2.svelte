@@ -105,7 +105,7 @@
   }
   .pop-menu2 {
     @apply flex flex-col space-y-3;
-    @apply bg-gray-300 dark:bg-gray-900 p-2 lg:p-4 pt-2 lg:pb-3;
+    @apply bg-ios-card p-2 lg:p-4 pt-2 lg:pb-3;
     @apply rounded-2xl;
     box-shadow: 5px 13px 34px 1px rgba(0, 0, 0, 0.4) !important;
   }

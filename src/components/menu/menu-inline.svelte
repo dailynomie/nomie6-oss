@@ -52,7 +52,7 @@ import Divider from '../divider/divider.svelte'
     >
       {#each menuButtons as button, index}
         {#if button.divider}
-          <div class="h-2 -mt-px bg-gray-200 dark:bg-gray-800"></div>
+          <div class="h-2 -mt-px bg-ios-card"></div>
         {/if}
         <div
           class="menu-item {id}-{index} {button.disabled ? 'disabled' : ''}"

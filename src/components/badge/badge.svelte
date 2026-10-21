@@ -39,7 +39,7 @@ import { createEventDispatcher } from "svelte";
     leading:0%;
   }
   .n-tag-badge.light {
-    @apply bg-gray-100 dark:bg-black;
+    @apply bg-ios-card;
   }
 
 

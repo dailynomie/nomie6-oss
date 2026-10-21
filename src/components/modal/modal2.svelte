@@ -51,7 +51,7 @@
     @apply flex-grow;
     @apply flex-shrink;
     @apply overflow-hidden;
-    @apply bg-gray-50 dark:bg-gray-800;
+    @apply bg-ios-bg;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.21);
     min-width: 300px;
     max-width: 500px;

@@ -158,10 +158,10 @@
     @apply text-white;
   }
   .positivity-bar .unit.neutral {
-    @apply bg-gray-200 dark:bg-gray-900;
+    @apply bg-ios-card;
     @apply z-50;
   }
   .positivity-bar .score-ball.is-neutral {
-    @apply bg-gray-100 dark:bg-gray-900;
+    @apply bg-ios-card;
   }
 </style>

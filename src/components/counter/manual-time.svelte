@@ -221,7 +221,7 @@
     @apply text-base;
     @apply text-center;
     @apply border-none;
-    @apply bg-gray-100 dark:bg-gray-900;
+    @apply bg-ios-card;
     @apply m-0;
   }
 

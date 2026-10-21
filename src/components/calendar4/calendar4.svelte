@@ -243,7 +243,7 @@
   .calendar-4.xs {
   }
   .calendar-4 header {
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-card;
     @apply text-ios-label2;
   }
   .calendar-4 .header-days .cell {

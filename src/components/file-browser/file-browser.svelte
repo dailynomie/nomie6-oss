@@ -391,7 +391,7 @@
       </div>
     </ToolbarGrid>
 
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex filler pb-12">
+    <div class="min-h-screen bg-ios-bg flex filler pb-12">
       {#if fileContent}
         {#if !browserEdit}
           <pre class="text-ios-label">{fileContent}</pre>
@@ -436,7 +436,7 @@
     min-height: calc(100% - 0px);
     width: 100%;
     border: none;
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-bg;
     @apply text-black dark:text-white;
     padding: 16px;
     background: url(/images/editor-background.png);
@@ -449,7 +449,7 @@
   }
 
   .code-view {
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-bg;
     @apply text-black dark:text-white;
   }
   pre {

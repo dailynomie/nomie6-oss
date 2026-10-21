@@ -18,7 +18,7 @@
         <div class="py-2">
           <ProgressBar
             percentage={$Interact.blocker.percent}
-            className="w-20 h-4 flex-shrink-0 bg-gray-200 dark:bg-gray-800"
+            className="w-20 h-4 flex-shrink-0 bg-ios-card"
           />
         </div>
       {/if}

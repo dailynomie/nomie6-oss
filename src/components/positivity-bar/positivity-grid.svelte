@@ -39,7 +39,7 @@
 
 {#if score}
   <div  class="score-grid {className || 'h-4'}">
-    <div class="score flex items-center bg-gray-300 dark:bg-gray-900 px-1 text-xs">
+    <div class="score flex items-center bg-ios-card px-1 text-xs">
       {score}
     </div>
     {#each byHour as hour, index}

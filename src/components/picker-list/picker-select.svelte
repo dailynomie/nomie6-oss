@@ -57,7 +57,7 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
   let { tracker, active = $bindable() } = $props()
 </script>
 
-<div class="w-full p-2 bg-gray-100 dark:bg-gray-800 ">
+<div class="w-full p-2 bg-ios-card ">
   {#if tracker.picks.length > 10}
     <SearchBar
       autocomplete
@@ -92,7 +92,7 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
         clickable
         className="pl-3 pr-2 compact duration-75  {active.indexOf(pick) > -1
           ? 'bg-ios-tintsoft text-white'
-          : 'bg-gray-200 dark:bg-gray-800'}"
+          : 'bg-ios-card'}"
         on:click={() => {
           toggle(pick)
         }}
