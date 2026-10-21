@@ -106,7 +106,8 @@
 
 <style global lang="postcss">
   .drop-menu-background {
-    z-index: 6000 !important;
+    /* iOS look: an open menu is above the check-in card (z-index 9999), so its options can be tapped */
+    z-index: 10000 !important;
   }
   .dropdown-menu {
     @apply z-50;
