@@ -198,7 +198,8 @@
 
 {#if widget && widget.type !== 'text'}
   <div class="dashboard-widget {getClass(widget, updateTrigger)}" {id}>
-    <div class="flex widget-header px-4 pt-3 pb-1 items-center gap-1">
+    <!-- iOS look (guide 5.10): the card name is in the series colour (the tracker colour), 15 px weight 600 -->
+    <div class="flex widget-header px-4 pt-3 pb-1 items-center gap-1" style={trackable ? `--series-color:${trackable.color}` : ''}>
       {#if trackable && widget.type != 'pointer'}
         <div class="flex items-center gap-1">
           {#if includedTrackable && ['barchart', 'linechart'].includes(widget.type)}
@@ -327,6 +328,17 @@
     font-weight: 700;
     padding: 16px;
     @apply text-ios-label2;
+  }
+  /* iOS look (guide 5.10): the tracker name in a card header is the series colour, 15 px weight 600 */
+  .dashboard-widget .widget-header .trackable-pill.transparent h3 {
+    color: var(--series-color, var(--ios-label));
+    font-size: 15px !important;
+    font-weight: 600;
+    line-height: 18px;
+  }
+  /* dark mode: a dark series colour is lifted towards white so the name keeps its contrast on the dark card (guide 8) */
+  :global(html.dark) .dashboard-widget .widget-header .trackable-pill.transparent h3 {
+    color: color-mix(in srgb, var(--series-color, var(--ios-label)) 55%, white);
   }
   /* iOS look (5.10): widget titles are the same size as the tracker names in the tiles (about 12 px on phones,
      which is 37% of the 30 px pill, as the pill sets its names), and a little larger on desktop */
