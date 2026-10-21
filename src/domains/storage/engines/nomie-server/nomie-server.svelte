@@ -122,7 +122,7 @@
   {:else}
     <form on:submit|preventDefault={connect} class="px-4">
       <Input bind:value={server.url} name="url" label="Server URL" required placeholder="https://your-server.com" />
-      <hr class="dark:border-gray-600" />
+      <hr class="dark:border-ios-separator" />
       <Input
         bind:value={server.token}
         name="token"
@@ -131,7 +131,7 @@
         placeholder="sk_live_..."
 
       />
-      <hr class="dark:border-gray-600" />
+      <hr class="dark:border-ios-separator" />
       {#if error}
         <div class="p-2 bg-red-500/20 text-red-700 dark:text-red-300 rounded-md text-sm my-4">{error}</div>
       {/if}

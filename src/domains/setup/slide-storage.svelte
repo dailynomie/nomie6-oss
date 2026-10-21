@@ -45,7 +45,7 @@
     <h1 class="leading-tight dark:text-white text-center font-bold px-4 text-xl">Data Storage</h1>
     <p class="text-description text-center text-sm pt-1 px-1">Where would you like your data stored?</p>
     <div class="h-4" />
-    <Menu size="sm" className="border border-gray-500 border-opacity-20" {buttons} />
+    <Menu size="sm" className="border border-ios-separator" {buttons} />
 
     <div class="flex items-center justify-center pt-4">
       <button

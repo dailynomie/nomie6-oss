@@ -38,7 +38,7 @@
     @apply flex items-center space-x-2;
   }
   .time-gap .buffer {
-    @apply border-b border-gray-300 dark:border-gray-700;
+    @apply border-b border-ios-separator;
   }
   .time-gap .label {
     @apply text-ios-label2;

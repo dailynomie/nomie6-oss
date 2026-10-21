@@ -106,6 +106,6 @@
   }
   .time-grid .hour.empty-hour {
     @apply bg-transparent;
-    @apply border border-gray-100 dark:border-gray-900;
+    @apply border border-ios-separator;
   }
 </style>

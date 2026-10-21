@@ -57,7 +57,7 @@
     @apply shadow-sm;
     @apply rounded-md;
     @apply h-5;
-    @apply border border-gray-500 border-opacity-40;
+    @apply border border-ios-separator;
     @apply flex items-center;
   }
 </style>

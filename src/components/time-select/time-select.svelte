@@ -83,7 +83,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
       <!-- Loop over hours -->
       <div class="flex items-center time-parts">
         {#if showDateButton}
-          <div class="section {dateButtonClass} border-r border-gray-500 border-opacity-30 mr-1">
+          <div class="section {dateButtonClass} border-r border-ios-separator mr-1">
             <button on:click={()=>{
               dispatch('dateClick');
             }} class="text-sm font-bold px-2 uppercase">{value.format(dateFormats.tinyDate)}</button>

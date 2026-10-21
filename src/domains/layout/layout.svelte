@@ -113,7 +113,7 @@ import appConfig from '../../config/appConfig';
   <!-- <div id="footer-buffer" class="sticky bottom-0" bind:this={footerBuffer} /> -->
   <footer
     bind:this={footerEle}
-    class="non-printable xl:ml-56  sticky self-justify-start left-0 right-0 bottom-0 z-50 border-t border-gray-300 layout-footer glass dark:border-gray-400 dark:border-opacity-20"
+    class="non-printable xl:ml-56  sticky self-justify-start left-0 right-0 bottom-0 z-50 border-t border-ios-separator layout-footer glass dark:border-ios-separator"
   >
     <slot name="footer" />
 

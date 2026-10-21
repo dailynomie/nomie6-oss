@@ -148,7 +148,7 @@
     @apply cursor-pointer;
     /* @apply appearance-none; */
     @apply h-4 w-4 rounded-sm;
-    @apply border border-gray-500;
+    @apply border border-ios-separator;
     @apply mx-px;
     @apply text-center;
     font-size:10px;

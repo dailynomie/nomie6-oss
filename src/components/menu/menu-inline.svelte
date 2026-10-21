@@ -197,7 +197,7 @@ import Divider from '../divider/divider.svelte'
   .menu-inline .n-menu .pop-button {
     @apply overflow-hidden;
     @apply rounded-none;
-    @apply border-b border-gray-500 dark:border-gray-700
+    @apply border-b border-ios-separator
   }
   .menu-inline.compact .n-menu .pop-button,
   .menu-inline.compact .n-menu .pop-button h1 {

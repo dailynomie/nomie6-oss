@@ -120,7 +120,7 @@
     {#each logs as log}
       <ListItemLog className="mb-2" {log} on:more={() => alert('more')}>
         <div
-          class="flex space-x-2 justify-between items-center pt-4  border-t border-gray-500 border-opacity-20"
+          class="flex space-x-2 justify-between items-center pt-4  border-t border-ios-separator"
           slot="item-footer"
         >
           <Button on:click={() => deleteLog(log)} confirm clear size="sm" className=" text-ios-danger">Delete</Button>

@@ -205,7 +205,7 @@
     </div>
 
     {#if testDataInfo}
-      <div class="mb-6 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded p-4">
+      <div class="mb-6 bg-gray-50 dark:bg-gray-800 border border-ios-separator rounded p-4">
         <button
           onclick={() => (showTestData = !showTestData)}
           class="w-full text-left flex items-center justify-between hover:opacity-70 transition-opacity"

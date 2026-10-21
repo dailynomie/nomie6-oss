@@ -146,7 +146,7 @@
     </div>
   </section>
   <section class="px-3 w-full">
-    <div class="related bg-ios-card rounded-xl shadow-lg border-gray-500 border-opacity-20">
+    <div class="related bg-ios-card rounded-xl shadow-lg border-ios-separator">
       {#if showRelated}
         <RelatedView trackable={$Stats2Store.trackable} />
       {:else}

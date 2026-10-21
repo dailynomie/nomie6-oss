@@ -128,7 +128,7 @@
         }
         dispatch('label-click', selectedIndex)
       }}
-      class="text-center w-full  text-ios-label h-12  hover-primary  dark:text-white py-2 text-xl font-bold border-b border-gray-500 border-opacity-20"
+      class="text-center w-full  text-ios-label h-12  hover-primary  dark:text-white py-2 text-xl font-bold border-b border-ios-separator"
     >
       <LetterTicker text={selectedLabel || selectedIndex || ''} />
       <IonIcon icon={ChevronForwardOutline} className="text-ios-label2" size={16} />

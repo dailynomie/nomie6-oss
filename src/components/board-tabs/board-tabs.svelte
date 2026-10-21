@@ -98,7 +98,7 @@
       </NHScroller>
     {:else if ready}
       <SortableList2
-        containerClass="w-full items-center flex-nowrap flex overflow-x-auto overflow-y-hidden mx-auto max-w-screen-xl border-2 border-gray-500 border-opacity-20 rounded-full"
+        containerClass="w-full items-center flex-nowrap flex overflow-x-auto overflow-y-hidden mx-auto max-w-screen-xl border-2 border-ios-separator rounded-full"
         className="items-center h-10"
         bind:items={localBoards}
         handleClass="board-tab"

@@ -169,7 +169,7 @@
     @apply bg-gray-500 dark:bg-black;
     border-radius: 50px;
     padding: 0 6px;
-    @apply border border-gray-500;
+    @apply border border-ios-separator;
     position: relative;
     margin-left: 20px;
   } */

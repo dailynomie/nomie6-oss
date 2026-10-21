@@ -23,7 +23,7 @@
   })
 </script>
 
-<div class="nd-object my-px text-xs  bg-gray-500 bg-opacity-20 border-gray-400 py-1 px-2 rounded-md {type}">
+<div class="nd-object my-px text-xs  bg-gray-500 bg-opacity-20 border-ios-separator py-1 px-2 rounded-md {type}">
   {#if variable}
     {#each Object.keys(variable) as key}
       <div class="values grid grid-cols-2">

@@ -66,7 +66,7 @@
     @apply bg-ios-card;
   }
   .trackable-pill.outlined {
-    @apply border-gray-200 dark:border-gray-800 border;
+    @apply border-ios-separator border;
   }
   .trackable-pill.transparent {
     @apply bg-opacity-0 dark:bg-opacity-0;

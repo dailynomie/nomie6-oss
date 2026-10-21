@@ -21,11 +21,11 @@ import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEdit
   }}>
     {pointer.ptr.emoji} {pointer.ptr.label}
     {#if pointer.ptr.reminder && new Date(pointer.ptr.reminderdate) < new Date()}
-    <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-red-500 text-ios-danger">✓</span>
+    <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-ios-separator bg-red-500 text-ios-danger">✓</span>
   {:else if pointer.ptr.reminder && new Date(pointer.ptr.reminderdate) >= new Date()}
-  <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-green-500 text-green-500">✓</span>
+  <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-ios-separator bg-green-500 text-green-500">✓</span>
   {:else}
-  <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-blue-500 text-blue-500">✓</span>
+  <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-ios-separator bg-blue-500 text-blue-500">✓</span>
   {/if}  
   </span>
 </div>

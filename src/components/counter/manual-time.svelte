@@ -179,7 +179,7 @@
     @apply rounded-lg;
     @apply bg-ios-card;
     @apply text-ios-label;
-    @apply border border-gray-300 dark:border-gray-700;
+    @apply border border-ios-separator;
     @apply h-14;
     @apply text-4xl;
     @apply font-bold;

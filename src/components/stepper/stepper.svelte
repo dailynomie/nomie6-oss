@@ -44,7 +44,7 @@
     border-radius: 4px;
   }
   .n-stepper .step.primary-bright {
-    @apply border border-primary-500;
+    @apply border border-ios-tint;
   }
   .n-stepper .step.active {
     background-color: var(--color-translucent);

@@ -207,7 +207,7 @@
           </button>
         {/each}
         {#if $FeatureVisible('experiment-advanced')}
-        <button class="w-full text-left p-4 rounded-2xl border-2 border-dashed border-ios-separator hover:border-primary-400 transition" onclick={writeOwn}>
+        <button class="w-full text-left p-4 rounded-2xl border-2 border-dashed border-ios-separator hover:border-ios-tint transition" onclick={writeOwn}>
           <div class="font-semibold">Write my own</div>
           <div class="text-xs text-ios-label2 mt-1">Pick any change and the trackers it should affect</div>
         </button>

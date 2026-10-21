@@ -313,7 +313,7 @@
                 <Menu
                   size="sm"
                   buttons={getEmptyBoardMenu()}
-                  className="max-w-xs mx-auto rounded-2xl border border-gray-500 border-opacity-30"
+                  className="max-w-xs mx-auto rounded-2xl border border-ios-separator"
                 />
               </div>
             {/if}

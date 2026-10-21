@@ -93,7 +93,7 @@
 </style>
 
 <BackdropModal mainClass="bg-ios-card flex flex-col">
-  <div slot="header" class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+  <div slot="header" class="flex items-center justify-between p-4 border-b border-ios-separator">
     <button
       onclick={close}
       class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 font-medium transition"
@@ -104,7 +104,7 @@
     <div class="w-12" />
   </div>
   <div class="flex-1 flex flex-col p-6 overflow-hidden">
-    <div class="flex-1 overflow-y-auto border border-primary-300 rounded p-4" style="font-size: {insightFontSize}">
+    <div class="flex-1 overflow-y-auto border border-ios-tint rounded p-4" style="font-size: {insightFontSize}">
       <div class="leading-relaxed text-ios-label markdown-content">
         {@html renderedInsight}
       </div>

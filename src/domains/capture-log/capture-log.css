@@ -187,7 +187,7 @@
   
   @apply overflow-hidden;
   /* @apply border; */
-  /* @apply border-gray-200 dark:border-gray-700; */
+  /* @apply border-ios-separator; */
   @apply border-opacity-60;
 }
 

@@ -248,7 +248,7 @@
     @apply text-sm;
     @apply p-1;
     @apply flex items-center justify-center;
-    @apply border-b border-l border-gray-200 dark:border-gray-700;
+    @apply border-b border-l border-ios-separator;
     @apply h-10;
     @apply focus:outline-none;
   }

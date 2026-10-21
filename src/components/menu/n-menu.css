@@ -35,7 +35,7 @@
   @apply text-left;
   @apply focus:outline-none;
   @apply rounded-none;
-  @apply border-b border-gray-500 border-opacity-30;
+  @apply border-b border-ios-separator;
   @apply relative;
 }
 .n-menu .pop-button:focus {
@@ -113,7 +113,7 @@
   @apply text-left;
   @apply focus:outline-none;
   @apply rounded-none;
-  @apply border-b border-gray-500 border-opacity-30;
+  @apply border-b border-ios-separator;
   @apply relative;
 }
 .n-menu .pop-button:hover {
@@ -135,7 +135,7 @@
   @apply max-w-lg;
   @apply border-b-4;
   @apply border-solid;
-  @apply border-gray-500 border-opacity-20;
+  @apply border-ios-separator;
   @apply w-full;
   /* background-color: var(--color-solid-2); */
 }

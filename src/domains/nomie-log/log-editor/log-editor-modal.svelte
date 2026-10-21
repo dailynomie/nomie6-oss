@@ -182,7 +182,7 @@
           {Lang.t('general.save', 'Save')}
         </Button>
       </ToolbarGrid>
-      <!-- <div class="w-full flex items-center relative pl-4 h-10 border-t border-gray-500 border-opacity-20">
+      <!-- <div class="w-full flex items-center relative pl-4 h-10 border-t border-ios-separator">
 
       </div> -->
 
@@ -288,7 +288,7 @@
     @apply p-2;
   }
   .meta-bar > * {
-    @apply border border-gray-500 border-opacity-20;
+    @apply border border-ios-separator;
     @apply rounded-lg;
     @apply py-2 px-1;
     @apply w-full;

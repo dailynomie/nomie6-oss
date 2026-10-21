@@ -33,7 +33,7 @@
     size="sm"
     className="w-full max-w-xs my-4">Use this Template</Button
   >
-  <hr class="mt-2 mb-4 dark:border-gray-700" />
+  <hr class="mt-2 mb-4 dark:border-ios-separator" />
   {#if template.trackables.length}
     <section>
       <Title className="mb-2 uppercase text-sm font-semibold tracking-wide" style="text-align:left; color: var(--ios-label2)">Trackables</Title>

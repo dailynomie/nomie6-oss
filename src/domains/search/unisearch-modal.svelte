@@ -215,7 +215,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
 
   <header
     slot="header"
-    class="input-wrapper w-full stuff flex items-stretch justify-items-stretch relative border-b border-gray-500 border-opacity-20"
+    class="input-wrapper w-full stuff flex items-stretch justify-items-stretch relative border-b border-ios-separator"
   >
     <IonIcon
       size={28}
@@ -414,7 +414,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
 
   {#if results}
     <div
-      class="hidden dark:text-gray-500 xl:flex px-4 w-full items-center border-t border-gray-500 border-opacity-20 py-2 stiff space-x-4"
+      class="hidden dark:text-gray-500 xl:flex px-4 w-full items-center border-t border-ios-separator py-2 stiff space-x-4"
     >
       <div class="text-sm">↑↓ <span class="text-gray-400 text-sm">Select</span></div>
       <div class="text-xs">⮐ <span class="text-gray-400 text-sm">Open</span></div>
@@ -423,7 +423,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     </div>
   {:else}
     <div
-      class="text-opacity-80 dark:bg-gray-900 text-ios-label2 flex px-4 w-full items-center border-t text-xs leading-tight border-gray-500 border-opacity-20 py-2 pb-3 stiff space-x-4"
+      class="text-opacity-80 dark:bg-gray-900 text-ios-label2 flex px-4 w-full items-center border-t text-xs leading-tight border-ios-separator py-2 pb-3 stiff space-x-4"
     >
       Search notes, trackables, and trigger commands (like Create...)
     </div>

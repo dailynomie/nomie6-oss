@@ -201,7 +201,7 @@
   </div>
 
   <!-- Input Container -->
-  <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-4 relative z-20 bg-ios-card">
+  <div class="flex-shrink-0 border-t border-ios-separator p-4 relative z-20 bg-ios-card">
     <div class="flex gap-2 items-end">
       <textarea
         bind:this={inputField}
@@ -209,7 +209,7 @@
         on:keydown={handleKeydown}
         placeholder="Ask about your tracking data..."
         disabled={aiState.loading}
-        class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+        class="flex-1 px-4 py-2 border border-ios-separator rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
         rows={1}
       />
       <button
