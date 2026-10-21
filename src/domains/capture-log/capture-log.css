@@ -12,7 +12,7 @@
   @apply px-1;
   @apply opacity-100;
   @apply flex items-center;
-  /* @apply bg-white dark:bg-black; */
+  /* @apply bg-ios-card; */
   @apply rounded-t-none rounded-b-2xl;
 }
 

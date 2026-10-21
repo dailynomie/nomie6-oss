@@ -121,8 +121,8 @@ interval = setInterval(async () => {
     z-index: 1;
     text-align: left;
     @apply shadow-xl;
-    @apply bg-primary-500;
-    @apply text-white;
+    @apply bg-ios-tint;
+    @apply text-ios-ontint;
     @apply rounded-xl;
   }
 </style>

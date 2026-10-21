@@ -224,17 +224,17 @@
             {/if}
             {#if testDataInfo.totalEntries}
               <div class="grid grid-cols-2 gap-2">
-                <div class="bg-white dark:bg-gray-700 p-2 rounded">
+                <div class="bg-ios-card p-2 rounded">
                   <p class="text-ios-label2">Total Entries</p>
                   <p class="font-bold text-lg">{testDataInfo.totalEntries}</p>
                 </div>
-                <div class="bg-white dark:bg-gray-700 p-2 rounded">
+                <div class="bg-ios-card p-2 rounded">
                   <p class="text-ios-label2">Unique Metrics</p>
                   <p class="font-bold text-lg">{testDataInfo.uniqueMetrics}</p>
                 </div>
               </div>
 
-              <div class="bg-white dark:bg-gray-700 p-3 rounded">
+              <div class="bg-ios-card p-3 rounded">
                 <p class="font-semibold mb-2">Tracked Metrics:</p>
                 <div class="space-y-2 max-h-40 overflow-y-auto">
                   {#each testDataInfo.metrics as metric (metric.tag)}
@@ -247,7 +247,7 @@
               </div>
 
               {#if contextSummary}
-                <div class="bg-white dark:bg-gray-700 p-3 rounded">
+                <div class="bg-ios-card p-3 rounded">
                   <p class="font-semibold mb-2">AI Context Summary:</p>
                   <p class="text-ios-label2 leading-relaxed">{contextSummary}</p>
                 </div>

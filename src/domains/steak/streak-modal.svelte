@@ -186,7 +186,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
             <h1 class="font-semibold leading-none flex items-end space-x-2">
               <span class="text-lg text-ios-label">{trackable.label}</span>
               <span
-                class="opacity-80 ml-2 font-bold bg-gray-300 dark:bg-gray-700 dark:text-white text-xs rounded-full px-3 py-1 leading-none "
+                class="opacity-80 ml-2 font-bold bg-ios-fill text-ios-label text-xs rounded-full px-3 py-1 leading-none "
                 >{trackable.formatValue(item.value)}</span
               >
             </h1>

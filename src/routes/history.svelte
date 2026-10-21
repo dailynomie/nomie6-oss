@@ -339,8 +339,8 @@
     @apply w-4;
     @apply h-4;
     @apply rounded-full;
-    @apply bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-50;
-    @apply text-gray-700 dark:text-gray-300;
+    @apply bg-ios-card;
+    @apply text-ios-label2;
     @apply shadow-sm;
     @apply absolute;
     @apply top-0;
@@ -352,8 +352,8 @@
     @apply font-bold;
   }
   .active .notification-badge {
-    @apply bg-primary-500;
-    @apply text-white;
+    @apply bg-ios-danger;
+    @apply text-ios-ondanger;
   }
   .notification-badge[data-count='0'] {
     @apply hidden;

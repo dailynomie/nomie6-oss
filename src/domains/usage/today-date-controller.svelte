@@ -39,7 +39,7 @@
 
 <div
   transition:slide|global={{ delay: 250, duration: 300, easing: quintOut }}
-  class="date-setting flex items-center justify-center bg-red-500"
+  class="date-setting flex items-center justify-center bg-ios-tint"
 >
   <Scroller
     className="filler min-w-0 py-2"
@@ -68,15 +68,16 @@
         .format(dateFormats.tinyDate)}
     </button>
   </Scroller>
-  <button class="bg-white text-ios-danger py-1 w-auto  leading-tight px-3 rounded-full mx-2 stiff" on:click={done}
+  <button class="bg-ios-card text-ios-tint py-1 w-auto  leading-tight px-3 rounded-full mx-2 stiff" on:click={done}
     >Done</button
   >
 </div>
 
 <style lang="postcss" global>
+  /* iOS look: a day picker bar is the tint (red is for destructive actions) */
   .date-setting {
-    @apply bg-red-500;
-    @apply text-white;
+    @apply bg-ios-tint;
+    @apply text-ios-ontint;
   }
   .date-setting .bit-button:last-child {
     margin-right: 20px !important;
