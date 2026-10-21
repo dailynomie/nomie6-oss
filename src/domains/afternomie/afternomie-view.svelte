@@ -34,16 +34,16 @@
     //message variables
     let subject = $state("")
     let subject_valid = $state(false)
-    let subject_style = $state("background-color:rgba(255, 0, 0, 0.05)")
+    let subject_style = $state("")
     let message = $state("")
     let message_valid = $state(false)
-    let message_style = $state("background-color:rgba(255, 0, 0, 0.05)")
+    let message_style = $state("")
     let primaryemail = $state("")
     let primary_valid = $state(false)
-    let primary_style = $state("background-color:rgba(255, 0, 0, 0.05)")
+    let primary_style = $state("")
     let secondaryemail = $state("")
     let secondary_valid = $state(false)
-    let secondary_style = $state("background-color:rgba(255, 0, 0, 0.05)")
+    let secondary_style = $state("")
     let waitingtime = $state(0)
     let expiration = $state(false)
     let expirationdate = $state(new Date())
@@ -74,16 +74,16 @@
     $effect(() => {
       if (primaryemail) {
         primary_valid = checkemail(primaryemail);
-        if (primary_valid) {primary_style = "background-color:rgba(0, 255, 0, 0.05)";}
-        else {primary_style = "background-color:rgba(255, 0, 0, 0.05)";}
+        if (primary_valid) {primary_style = "background-color:var(--ios-good-soft)";}
+        else {primary_style = "";}
       }
     })
 
     $effect(() => {
       if (secondaryemail) {
         secondary_valid = checkemail(secondaryemail);
-        if (secondary_valid) {secondary_style = "background-color:rgba(0, 255, 0, 0.05)";}
-        else {secondary_style = "background-color:rgba(255, 0, 0, 0.05)";}
+        if (secondary_valid) {secondary_style = "background-color:var(--ios-good-soft)";}
+        else {secondary_style = "";}
       }
     })
 
@@ -95,22 +95,22 @@
     function subjectChange(){
         if (subject.length > 10 && subject.length <100) {
           subject_valid = true;
-          subject_style = "background-color:rgba(0, 255, 0, 0.05)";
+          subject_style = "background-color:var(--ios-good-soft)";
         }
         else {
           subject_valid = false
-          subject_style = "background-color:rgba(255, 0, 0, 0.05)";}
+          subject_style = "";}
     
   }
 
   function messageChange(){
         if (message.length > 100 && message.length <1000) {
           message_valid = true;
-          message_style = "background-color:rgba(0, 255, 0, 0.05)";
+          message_style = "background-color:var(--ios-good-soft)";
         }
         else {
           message_valid = false
-          message_style = "background-color:rgba(255, 0, 0, 0.05)";}
+          message_style = "";}
     }
 
 
@@ -278,16 +278,16 @@ function startNew(){
     //message iables
      subject = ""
      subject_valid = false;
-     subject_style = "background-color:rgba(255, 0, 0, 0.05)";
+     subject_style = "";
      message = "";
      message_valid = false;
-     message_style = "background-color:rgba(255, 0, 0, 0.05)";
+     message_style = "";
      primaryemail = ""
      primary_valid = false;
-     primary_style = "background-color:rgba(255, 0, 0, 0.05)";
+     primary_style = "";
      secondaryemail = ""
      secondary_valid = false;
-     secondary_style = "background-color:rgba(255, 0, 0, 0.05)";
+     secondary_style = "";
      waitingtime = 0
      expiration = false
      expirationdate = new Date()
