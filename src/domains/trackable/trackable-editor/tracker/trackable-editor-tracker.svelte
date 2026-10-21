@@ -443,12 +443,12 @@
 
   {#if advancedVisible && advancedCanToggle}
     <div class="px-4">
+      <!-- iOS look: a disclosure is a tint text link, not a grey block -->
       <Button
-        block
-        text
-        color="clear"
+        clear
+        primary
         size="sm"
-        className="mt-2 mb-3 advanced-toggler text-ios-label2 text-ios-label"
+        className="mt-2 mb-3 advanced-toggler"
         on:click={() => (forceAdvancedView = !forceAdvancedView)}
       >
         {#if advancedVisible}Less Options{:else}More Options{/if}
