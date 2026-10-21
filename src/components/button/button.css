@@ -28,9 +28,16 @@ header[slot="header"] .nbtn.clear {
   border: none;
 }
 
+/* iOS look (D-focus): the focus ring is for keyboard focus only; a tap leaves no ring */
 button, .nbtn {
   @apply focus:outline-none;
-  @apply focus:ring-2 ring-primary-500;
+  @apply ring-primary-500;
+}
+button:focus-visible, .nbtn:focus-visible {
+  @apply ring-2;
+}
+button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
+  box-shadow: none;
 }
 .hit-mark {
   @apply transition-all duration-200 ease-in-out;
