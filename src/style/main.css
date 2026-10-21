@@ -462,7 +462,10 @@ html {
 }
 
 .delete-button {
-  @apply bg-red-500 rounded-full;
+  /* iOS look: the remove badge is the danger token, with the on-danger icon (white in light mode) */
+  @apply rounded-full;
+  background: var(--ios-danger);
+  color: var(--ios-on-danger);
   @apply focus:outline-none;
   @apply h-6 w-6;
   @apply ring-2 ring-white;
