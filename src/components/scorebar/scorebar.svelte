@@ -17,7 +17,8 @@
     color?: string
   }
 
-  const { scores, barClass, className, style, total, expanded } = $props()
+  const { scores, barClass, className, style, total, expanded: expandedProp = false } = $props()
+  let expanded = $state(expandedProp)
 
   const localScores = $derived.by(() => {
     const percentages = math.percentile(scores.map((s) => s.score))
