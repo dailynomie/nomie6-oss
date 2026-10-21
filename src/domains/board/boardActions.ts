@@ -225,6 +225,7 @@ export const removeTrackable = async (trackable: Trackable) => {
     },
     {
       title: 'Remove official Trackable',
+      danger: true,
       click() {
         removeTrackableFromNomie(trackable)
       },
@@ -383,6 +384,7 @@ export const showTrackablePopmenu = async (
     },
     {
       title: `${Lang.t('general.remove', 'Remove')}`,
+      danger: true,
       icon: TrashOutline,
 
       click() {

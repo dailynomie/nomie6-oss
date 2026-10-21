@@ -79,7 +79,7 @@
             {/if}
           </div>
           <div class="w-full pr-4">
-            <div class="title">
+            <div class="title" style={button.danger ? 'color: var(--ios-danger)' : undefined}>
               {button.title}
             </div>
             {#if button.description}

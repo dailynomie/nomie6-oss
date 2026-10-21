@@ -398,6 +398,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
 
   buttons.push({
     title: 'Delete Widget',
+    danger: true,
     icon: TrashOutline,
     divider: true,
     async click() {

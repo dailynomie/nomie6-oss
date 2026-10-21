@@ -377,6 +377,7 @@ const interactInit = () => {
       return new Promise((resolve, reject) => {
         const deleteButton = {
           title: `${Lang.t('general.delete-this-note', 'Delete this note...')}`,
+          danger: true,
           click: async () => {
             await wait(300)
             let confirmed = await methods.confirm('Delete this note?', 'Are you sure? Deleting a log cannot be undone.')

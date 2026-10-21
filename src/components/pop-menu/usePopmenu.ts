@@ -14,6 +14,8 @@ export type PopMenuButton = {
   icon?: any
   checked?: boolean
   disabled?: boolean
+  // iOS look (D-alert): a destructive action is shown in the danger colour
+  danger?: boolean
   right?: string
   click?: Function
   divider?: boolean
