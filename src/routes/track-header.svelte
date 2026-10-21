@@ -44,16 +44,17 @@
 {#if editMode}
   <div
     transition:slide|global={{ delay: 250, duration: 300, easing: quintOut }}
-    class="flex bg-white dark:bg-black items-center justify-center space-x-4 px-4 py-2"
+    class="flex bg-ios-card items-center justify-center space-x-4 px-4 py-2"
   >
-    <Button size="sm" shape="round" className="bg-red-500 text-white w-32" on:click={onToggleEditMode}>
+    <!-- iOS look: Close is the neutral fill, Save the tint (not red: red is for destructive actions) -->
+    <Button size="sm" shape="round" className="bg-ios-fill text-ios-label w-32" on:click={onToggleEditMode}>
       <span class="text-base">Close</span>
     </Button>
     {#if editedUniboard}
       <Button
         size="sm"
         shape="round"
-        className="ml-2 bg-primary-500 text-white w-32"
+        className="ml-2 bg-ios-tint text-ios-ontint w-32"
         on:click={onSaveEdits}
       >
         <span class="text-base">Save</span>
