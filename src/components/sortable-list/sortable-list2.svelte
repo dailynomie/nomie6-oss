@@ -261,7 +261,7 @@
   }
 
   .sl2-grid .murri {
-    @apply border-4 border-blue-500;
+    @apply border-4 border-ios-tint;
   }
 
   .n-sortable {
@@ -271,7 +271,7 @@
     @apply flex flex-row flex-nowrap;
     @apply items-center justify-start;
     @apply px-4;
-    @apply bg-pink-800;
+    @apply bg-ios-fill;
     @apply w-full min-w-full;
     @apply relative;
   } */

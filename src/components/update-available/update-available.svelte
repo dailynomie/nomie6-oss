@@ -104,7 +104,7 @@
     @apply flex-col;
     @apply justify-center;
     @apply items-center;
-    @apply bg-gray-500;
+    @apply bg-ios-fill;
     @apply bg-opacity-50;
     @apply flex-shrink-0;
     @apply flex-grow-0;

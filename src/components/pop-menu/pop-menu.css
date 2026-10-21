@@ -2,7 +2,7 @@
   @apply px-3 pt-3 pb-4 lg:pb-3;
   @apply backdrop-filter backdrop-saturate-150 backdrop-blur-sm;
   @apply text-ios-label;
-  /* @apply bg-gray-200 dark:bg-gray-700 bg-opacity-70 dark:bg-opacity-50 backdrop-filter backdrop-saturate-150 backdrop-blur-sm; */
+  /* @apply bg-ios-fill bg-opacity-70 dark:bg-opacity-50 backdrop-filter backdrop-saturate-150 backdrop-blur-sm; */
   @apply rounded-t-2xl lg:rounded-b-2xl;
   @apply bg-ios-bg;
   max-height: 90vh;

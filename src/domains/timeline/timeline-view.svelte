@@ -234,7 +234,7 @@
   }
 
   .bubble .timeline-pill .title-value h3 {
-    @apply font-medium dark:text-gray-300;
+    @apply font-medium text-ios-label;
   }
 
   /* iOS look: short and long notes use the same 15 px text (scales with Font Size), regular weight, as in the mockup */

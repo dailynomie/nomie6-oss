@@ -27,7 +27,7 @@
   </div>
   <h1 class="ios-large-title">Q&amp;A</h1>
 
-  <div class="min-h-full bg-gray-200 dark:bg-gray-800">
+  <div class="min-h-full bg-ios-bg">
     {#each faq as q}
       <div class="my-3">
         <NItem className="solo py-3 bg-ios-card">

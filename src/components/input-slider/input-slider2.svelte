@@ -115,7 +115,7 @@
     @apply -mt-1;
     @apply rounded-full;
     @apply shadow-md;
-    @apply bg-white;
+    @apply bg-ios-card;
   }
 
  

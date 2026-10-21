@@ -18,7 +18,7 @@
 <div class="flex items-center py-2 justify-center">
   <div class="filler" />
   <Button
-    className="bg-gray-500 bg-opacity-20"
+    className="bg-ios-fill"
     size="lg"
     on:click={() => {
       dispatch('previous')
@@ -34,7 +34,7 @@
     </p>
   </div>
   <Button
-    className="bg-gray-500 bg-opacity-20"
+    className="bg-ios-fill"
     size="lg"
     primary
     icon

@@ -40,7 +40,7 @@
         size="sm"
         slot="right"
         shape="round"
-        className="px-2 py-1 whitespace-nowrap bg-gray-500 text-white">Add All</Button
+        className="px-2 py-1 whitespace-nowrap bg-ios-tint text-ios-ontint">Add All</Button
       >
     </ListItem>
   {/if}

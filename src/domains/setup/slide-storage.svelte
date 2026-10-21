@@ -42,7 +42,7 @@
 
 <Container className="filler  flex items-center lg:justify-center flex-col pt-3 px-5 slide-storage ">
   <div class="max-w-screen-lg mx-auto pt-6">
-    <h1 class="leading-tight dark:text-white text-center font-bold px-4 text-xl">Data Storage</h1>
+    <h1 class="leading-tight text-ios-label text-center font-bold px-4 text-xl">Data Storage</h1>
     <p class="text-description text-center text-sm pt-1 px-1">Where would you like your data stored?</p>
     <div class="h-4" />
     <Menu size="sm" className="border border-ios-separator" {buttons} />
@@ -52,7 +52,7 @@
         on:click={() => {
           showAdvanced = !showAdvanced
         }}
-        class="nbtn-badge bg-gray-500 bg-opacity-10 text-ios-label2 dark:text-gray-300 text-xs"
+        class="nbtn-badge bg-ios-fill text-ios-label text-xs"
       >
         {#if showAdvanced}Hide Advanced{:else}Show Advanced{/if}
       </button>

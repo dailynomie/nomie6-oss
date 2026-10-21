@@ -74,7 +74,7 @@ interval = setInterval(async () => {
       </div>
 
       <div class="flex items-center justify-end space-x-4">
-        <button class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-ios-tint" on:click={close}>
+        <button class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint" on:click={close}>
           Later
         </button>
 
@@ -82,7 +82,7 @@ interval = setInterval(async () => {
           <button
             aria-label="Update the App"
             on:click={() => {close();openPointersModal()}}
-            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-ios-tint"
+            class="px-4 py-2 font-bold filler bg-ios-card shadow-sm rounded-xl text-ios-tint"
           >
             Manage Now
           </button>
@@ -102,7 +102,7 @@ interval = setInterval(async () => {
     @apply flex-col;
     @apply justify-center;
     @apply items-center;
-    @apply bg-gray-500;
+    @apply bg-ios-fill;
     @apply bg-opacity-50;
     @apply flex-shrink-0;
     @apply flex-grow-0;

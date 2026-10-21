@@ -78,7 +78,7 @@
         <slot name="header-left" />
 
         <!-- Month Selector -->
-        <div class="divide-x-2 divide-opacity-30 divide-gray-500 flex items-center nselect-group">
+        <div class="divide-x-2 divide-opacity-30 divide-ios-separator flex items-center nselect-group">
           <IosSelect
   compact
   title="Month"
@@ -222,7 +222,7 @@
     @apply ring-2 ring-primary-300 ring-inset;
   }
   .calendar-3 .calendar-days .day.today span {
-    @apply text-green-500 font-bold;
+    @apply text-ios-good font-bold;
     @apply bg-ios-tint text-ios-ontint;
     @apply rounded-full;
     @apply h-6 w-6;
@@ -241,7 +241,7 @@
   }
 
   .calendar-3 .calendar-days .day.has-value.is-positive::after {
-    @apply bg-green-500;
+    @apply bg-ios-good;
   }
   /* iOS look (decision 3): a negative day is the label colour, not red */
   .calendar-3 .calendar-days .day.has-value.is-negative::after {

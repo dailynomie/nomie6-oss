@@ -16,11 +16,11 @@
 </script>
 
 <div class="value px-4 flex flex-col items-center h-full justify-center {widget.includeAvg ? 'value-sm' : ''}">
-  <div class="current dark:text-white h-full w-full flex items-center justify-center flex-col">
+  <div class="current text-ios-label h-full w-full flex items-center justify-center flex-col">
     {#if usage?.trackable?.tracker?.type === 'range'}
       <div class="mb-2 text-3xl leading-tight">{usage.totalDisplay || 0}</div>
       <ProgressBar
-        className="w-20 mx-auto h-2 bg-gray-500 bg-opacity-40"
+        className="w-20 mx-auto h-2 bg-ios-fill"
         percentage={math.percentage(usage.trackable.tracker.max || 10, usage.total)}
       />
     {:else}

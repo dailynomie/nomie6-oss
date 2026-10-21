@@ -168,7 +168,7 @@
           initialzeGoalPage()
         }}
         date={activeDate}
-        dateClass="text-xl font-bold text-center dark:text-white"
+        dateClass="text-xl font-bold text-center text-ios-label"
       />
     </div> -->
     <div class="collapsible-row">

@@ -41,7 +41,7 @@
     @apply text-ios-label2 text-xs leading-tight;
   }
   .award-badge .title {
-    @apply leading-tight font-semibold text-sm dark:text-white;
+    @apply leading-tight font-semibold text-sm text-ios-label;
     @apply line-clamp-2;
     @apply mb-1;
   }

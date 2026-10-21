@@ -55,7 +55,7 @@
 
 {#if show}
   <section
-    class="n-tip-wrapper mt-10 dark:text-white text-ios-label2 px-4 {className}
+    class="n-tip-wrapper mt-10 text-ios-label text-ios-label2 px-4 {className}
     relative"
   >
     <Button className="px-2 opacity-60" title="PrviousTip Tip" color="clear" icon on:click={previousTip}>

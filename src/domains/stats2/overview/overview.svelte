@@ -107,7 +107,7 @@
   {/if}
 </div>
 
-<main class="grid grid-cols-2 gap-2 dark:text-white">
+<main class="grid grid-cols-2 gap-2 text-ios-label">
   <div class="h-auto text-center">
     <strong class="text-sm font-semibold">Daily Avg </strong>
     <div class="text-2xl line-clamp-1 font-semibold bg-ios-card shadow-md rounded-md px-4 py-2 mt-1">

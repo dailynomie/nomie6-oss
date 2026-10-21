@@ -443,7 +443,7 @@ import Divider from '../../../components/divider/divider.svelte'
           />
         {:else}
           <div class="px-4 pt-4">
-            <div class="dark:text-white opacity-60 text-sm">
+            <div class="text-ios-label opacity-60 text-sm">
               {Lang.t('csv-import.map-fields', 'Map Fields')}
             </div>
           </div>
@@ -480,7 +480,7 @@ import Divider from '../../../components/divider/divider.svelte'
             </ListItem>
           {/each}
           <ListItem>
-            <div class="dark:text-white">Note*</div>
+            <div class="text-ios-label">Note*</div>
             <Input
               type="textarea"
               placeholder={Lang.t('csv-import.compose-note', 'Compose a note for this CSV data')}
@@ -559,7 +559,7 @@ import Divider from '../../../components/divider/divider.svelte'
       <Divider />
         <div class="examples bg-inverse-2 p-2 px-4">
           <div class="n-toolbar flex pl-2">
-            <div class="main dark:text-white text-sm">
+            <div class="main text-ios-label text-sm">
               Preview {previewIndex} of {activeImporter.length()}
             </div>
             <div class="filler" />

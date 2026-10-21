@@ -23,7 +23,7 @@
     <h1 class="ntitle">
       {title}
     </h1>
-    <span class="text-xs font-semibold  px-2 rounded-full bg-gray-300 dark:bg-gray-700">{count || '0'}</span>
+    <span class="text-xs font-semibold  px-2 rounded-full bg-ios-fill">{count || '0'}</span>
   </main>
   <slot />
   <div slot="right" class="flex items-center space-x-2">

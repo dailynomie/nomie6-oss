@@ -194,7 +194,7 @@
     height: 100px;
     cursor: pointer;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
-    @apply bg-gray-300 dark:bg-gray-700;
+    @apply bg-ios-fill;
     border-radius: 50px;
     border: 0px solid var(--color-solid-2);
   }

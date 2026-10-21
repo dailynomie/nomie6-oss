@@ -60,7 +60,7 @@
     @apply w-auto;
     @apply mx-auto;
     @apply text-center;
-    @apply placeholder-gray-500;
+    @apply placeholder-ios-label2;
   }
   .native-datetime.size-lg {
     @apply text-lg;

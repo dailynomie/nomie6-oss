@@ -104,7 +104,7 @@
             {/if}
           </header>
           {#if trackable.tracker?.type === 'note'}
-            <div class="dark:text-white filler  py-1 text-sm ">Nested Combos are currently not supported</div>
+            <div class="text-ios-label filler  py-1 text-sm ">Nested Combos are currently not supported</div>
           {/if}
           {#if trackable.tracker?.type === 'range'}
             <div class="">

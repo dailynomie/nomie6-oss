@@ -70,7 +70,7 @@
   })
 </script>
 
-<div class="current dark:text-white h-full w-full flex items-center justify-center flex-col">
+<div class="current text-ios-label h-full w-full flex items-center justify-center flex-col">
   {#if samples.length > 0}
     <div class="parent" style="font-size:60%">
       {#each samples as sample, i}

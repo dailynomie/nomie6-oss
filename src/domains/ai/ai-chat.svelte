@@ -238,7 +238,7 @@
       </div>
     {/if}
 
-    <div class="mt-1 text-right text-gray-400 dark:text-gray-500" style="font-size: 0.625rem;">
+    <div class="mt-1 text-right text-ios-label2" style="font-size: 0.625rem;">
       {providerInfo.provider}
       {#if providerInfo.model}
         • <span class="font-mono">{providerInfo.model}</span>

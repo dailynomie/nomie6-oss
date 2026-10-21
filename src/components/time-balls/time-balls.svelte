@@ -20,7 +20,7 @@
 
   .time-balls .active {
     @apply absolute;
-    @apply bg-white opacity-50;
+    @apply bg-ios-card opacity-50;
     flex-shrink: 0;
     flex-grow: 0;
     @apply h-1 w-1;

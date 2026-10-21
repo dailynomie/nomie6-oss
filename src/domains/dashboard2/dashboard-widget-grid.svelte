@@ -141,7 +141,7 @@
 
 <div id="widgets-frame" class={showDate ? 'bg-ios-bg pt-4' : ''}>
   {#if showDate}
-    <h1 class="text-lg font-bold text-center mt-2 dark:text-white">
+    <h1 class="text-lg font-bold text-center mt-2 text-ios-label">
       {dashboard.label} - {dayjs().format(dateFormats.mmm_d_yyyy)}
     </h1>
     <p class="mb-2 text-sm text-center text-primary">Nomie.app</p>

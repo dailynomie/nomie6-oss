@@ -432,7 +432,7 @@
                     })}
                     y="bottom"
                   >
-                    <span class="w-8 dark:text-gray-300">{getEmojiFromScore($ActiveLogStore.score, true)}</span>
+                    <span class="w-8 text-ios-label">{getEmojiFromScore($ActiveLogStore.score, true)}</span>
                   </MenuInline>
                 </div>
 

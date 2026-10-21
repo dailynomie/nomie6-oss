@@ -36,7 +36,7 @@
   <TrackableAvatar {trackable} size={42} className="mr-2 mt-4" />
   <main class="flex py-3 items-start  flex-col w-full space-y-1">
     <div class="flex item-center space-y-1 filler items-center justify-between w-full">
-      <h3 class="text-base leading-tight font-bold w-full dark:text-white">
+      <h3 class="text-base leading-tight font-bold w-full text-ios-label">
         {trackable.label}
         <span class="text-base font-normal text-ios-label2">{log.endDayjs().format(dateFormats.tinyDate)}</span>
       </h3>

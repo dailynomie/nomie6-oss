@@ -132,7 +132,7 @@
 
   .drop-menu-background {
     @apply fixed top-0 bottom-0 left-0 right-0;
-    @apply bg-gray-300 bg-opacity-10 z-50;
+    @apply bg-ios-fill z-50;
   }
 
   .dropmenu {

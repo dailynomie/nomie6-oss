@@ -153,7 +153,7 @@ import Divider from '../divider/divider.svelte'
     @apply z-50;
   }
   .menu-inline .n-menu:focus {
-    @apply ring-2 ring-gray-500 ring-opacity-20;
+    @apply ring-2 ring-ios-tint ring-opacity-20;
     @apply outline-none;
   }
   .menu-inline .n-menu {

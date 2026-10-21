@@ -160,7 +160,7 @@ import Markdown from '../markdown/markdown.svelte'
     @apply focus:outline-none;
 
     @apply w-full;
-    @apply bg-gray-200;
+    @apply bg-ios-fill;
     @apply px-2;
     @apply mt-4;
     @apply rounded-lg;

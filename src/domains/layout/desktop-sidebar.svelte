@@ -272,7 +272,7 @@
   .desktop-sidebar .nav-item .ion-icon {
     /* @apply flex-grow-0 flex-shrink-0 flex items-center justify-center;
     @apply mr-4;
-    @apply bg-gray-500 bg-opacity-10;
+    @apply bg-ios-fill;
     @apply rounded-lg;
     @apply w-9 h-9; */
   }

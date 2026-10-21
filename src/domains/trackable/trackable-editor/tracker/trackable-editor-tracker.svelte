@@ -448,7 +448,7 @@
         text
         color="clear"
         size="sm"
-        className="mt-2 mb-3 advanced-toggler text-ios-label2 dark:text-gray-200"
+        className="mt-2 mb-3 advanced-toggler text-ios-label2 text-ios-label"
         on:click={() => (forceAdvancedView = !forceAdvancedView)}
       >
         {#if advancedVisible}Less Options{:else}More Options{/if}
@@ -624,8 +624,8 @@
               class=" flex text-center justify-center py-1 px-2 rounded-md items-center {focusList.indexOf(
                 focus.id
               ) > -1
-                ? 'ring-2 ring-primary-500 dark:text-white font-bold'
-                : 'dark:text-gray-300'}"
+                ? 'ring-2 ring-primary-500 text-ios-label font-bold'
+                : 'text-ios-label'}"
             >
               <span class="mr-3 -ml-1">{focus.emoji}</span>
               <span class="text-sm">{focus.label}</span>

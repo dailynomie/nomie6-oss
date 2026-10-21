@@ -149,7 +149,7 @@
     @apply hidden;
   }
   .positivity-bar .score-ball.is-negative {
-    /* @apply ring-2 ring-red-500 ring-opacity-50; */
+    /* @apply ring-2 ring-ios-danger ring-opacity-50; */
   }
   .positivity-bar .unit.positive {
     background: color-mix(in srgb, var(--ios-good) 40%, transparent);
