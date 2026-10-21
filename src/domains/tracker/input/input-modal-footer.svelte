@@ -22,7 +22,7 @@
       <Button
         type="clear"
         size="lg"
-        className="px-2 -ml-2 text-lg md:text-xl text-gray-900 dark:text-white"
+        className="px-2 -ml-2 text-lg md:text-xl text-ios-tint"
         on:click={() => {
           dispatch('cancel')
         }}
