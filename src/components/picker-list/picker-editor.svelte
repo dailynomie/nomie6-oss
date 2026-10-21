@@ -46,7 +46,7 @@
       placeholder={'Friends:\n@toby\n@patrick\n@maddy\nFeeling:\n#mood\n+joyful\n+anxious'}
       type="textarea"
       value={picks.join('\n')}
-      className="font-mono font-medium"
+      className="font-medium"
       bind:this={textList}
       on:input={textListChanged}
       inputStyle="height:45vh; line-height:28px"
@@ -63,7 +63,5 @@
     flex-grow: 1;
     box-shadow: var(--box-shadow-float);
   }
-  .n-picker-list textarea {
-    @apply font-mono;
-  }
+  /* iOS look: the pick list is plain text in the system font, like the other text fields */
 </style>
