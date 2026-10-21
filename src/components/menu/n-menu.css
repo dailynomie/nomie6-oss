@@ -42,8 +42,9 @@
   @apply outline-none;
   @apply ring-inset;
 }
+/* iOS look: the selected row keeps its card; the tint tick (see menu.svelte) shows the choice */
 .n-menu .pop-button.active {
-  @apply bg-primary-500 dark:bg-primary-500;
+  background: var(--ios-card);
 }
 .n-menu .pop-button .title {
   @apply font-semibold leading-tight;
@@ -53,11 +54,11 @@
   @apply dark:text-gray-400 text-gray-500  mt-1;
 }
 .n-menu .pop-button.active .title {
-  @apply text-white;
+  color: var(--ios-label);
 }
 .n-menu .pop-button.active .description {
-  @apply leading-tight  text-primary-100;
-  
+  @apply leading-tight;
+  color: var(--ios-label2);
 }
 .n-menu .pop-button.disabled,
 .n-menu .pop-button:disabled {
@@ -97,9 +98,7 @@
   @apply ring-2 ring-primary-500 ring-inset;
 }
 
-.n-menu .pop-button.active {
-  @apply bg-primary-600 dark:bg-primary-400;
-}
+
 
 .n-menu .pop-button {
   @apply z-20 relative;
