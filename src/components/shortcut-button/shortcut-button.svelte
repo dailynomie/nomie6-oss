@@ -30,7 +30,7 @@
     <button
       type="button"
       aria-label="More about this Trackable"
-      class="more {is.truthy(value) ? 'has-value text-white' : 'no-value text-ios-label2 dark:text-white'}"
+      class="more {is.truthy(value) ? 'has-value text-white' : 'no-value text-ios-label2'}"
       on:click={(evt) => {
         evt.preventDefault()
         evt.stopPropagation()
@@ -241,7 +241,7 @@
     @apply text-xs;
     @apply bg-ios-card;
     @apply z-40;
-    @apply border border-black dark:border-white border-opacity-20 dark:border-opacity-40;
+    @apply border border-ios-separator;
     @apply rounded-full;
     @apply shadow-md;
     @apply block;

@@ -435,8 +435,8 @@ import is from '../../utils/is/is';
     @apply bg-ios-card;
   }
   .n-input-type-textarea textarea {
-    @apply placeholder-gray-400;
-    @apply dark:text-white;
+    @apply placeholder-ios-label2;
+    color: var(--ios-label);
     min-height: 90px;
     padding-top: 8px;
   }
@@ -453,8 +453,8 @@ import is from '../../utils/is/is';
     @apply rounded-md;
     @apply bg-transparent;
     outline: none;
-    @apply placeholder-gray-400;
-    @apply dark:text-white;
+    @apply placeholder-ios-label2;
+    color: var(--ios-label);
   }
   .n-input-container .n-input-wrapper .n-input input:disabled,
   .n-input-container .n-input-wrapper .n-input select:disabled,

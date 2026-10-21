@@ -191,7 +191,7 @@ import Divider from '../divider/divider.svelte'
     @apply text-ios-tint bg-ios-tintsoft;
   }
   .menu-inline .n-menu .pop-button.focused {
-    @apply bg-black dark:bg-white bg-opacity-10 dark:bg-opacity-20;
+    @apply bg-ios-fill;
     @apply ring-0;
   }
   .menu-inline .n-menu .pop-button {
@@ -204,7 +204,7 @@ import Divider from '../divider/divider.svelte'
     font-size:0.9rem !important;
   }
   .menu-inline .n-menu .pop-button:hover {
-    @apply bg-black dark:bg-white bg-opacity-10 dark:bg-opacity-20;
+    @apply bg-ios-fill;
   }
   .menu-inline .n-menu .menu-item:first-child .pop-button {
     @apply rounded-t-2xl;

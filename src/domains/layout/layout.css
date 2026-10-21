@@ -34,10 +34,7 @@
 }
 
 .glass-lite {
-  @apply bg-gray-100;
-  @apply dark:bg-gray-800;
-  @apply dark:bg-opacity-40;
-  @apply bg-opacity-40;
+  background-color: var(--ios-bar);
   @apply backdrop-filter;
   @apply backdrop-saturate-150;
   @apply backdrop-blur-md;
