@@ -214,11 +214,12 @@
 
       <!-- Status -->
       <section class="ios-card p-4 space-y-3">
-        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+        <!-- iOS look (guide 5.6): the chip is on the left and the duration and end date on the right, on one line -->
+        <div class="flex items-center justify-between gap-3">
           <div class="shrink-0">
             <ExperimentChip tone={frozen ? 'neutral' : 'running'} label={statusLabel} />
           </div>
-          <div class="text-ios-footnote text-ios-label2">{experiment.durationDays} days · ends {endsText}</div>
+          <div class="text-ios-footnote text-ios-label2 text-right min-w-0">{experiment.durationDays} days · ends {endsText}</div>
         </div>
         {#if experiment.change && experiment.change !== experiment.title}
           <div class="text-sm">{experiment.change}</div>
@@ -279,7 +280,7 @@
                 <div class="font-bold" style="font-size: 22px; line-height: 26px">
                   {outcome.meanE.toFixed(1)}
                   {#if outcome.pct !== undefined}
-                    <span class="text-ios-footnote font-bold {outcome.pct >= 0 ? 'text-ios-good' : 'text-ios-label'}">{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span>
+                    <span class="text-ios-footnote font-bold {outcome.pct >= 0 ? 'text-ios-good' : 'text-ios-danger'}">{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span>
                   {/if}
                 </div>
                 <div class="text-xs text-ios-label2">{outcome.nE} days</div>
