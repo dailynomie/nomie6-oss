@@ -174,6 +174,32 @@
     @apply flex-col;
   }
 
+  /* iOS look: each unit is a card tile with the number large; the app's select (IosSelect) renders as the tile */
+  .n-counter-manual .unit :global(.ios-select-compact) {
+    @apply w-full;
+    @apply justify-center;
+    height: 56px;
+    padding: 0 4px;
+    border-radius: 12px;
+    background: var(--ios-card);
+    color: var(--ios-label);
+    border: 0.5px solid var(--ios-separator);
+    font-size: 36px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .n-counter-manual .unit {
+    width: 100%;
+  }
+  /* the tile is the control; the chevron would sit on the digits */
+  .n-counter-manual .unit :global(.ios-select-chevron) {
+    display: none;
+  }
+  .n-counter-manual.size-sm .unit :global(.ios-select-compact) {
+    height: 28px;
+    font-size: 16px;
+    border: none;
+  }
   .n-counter-manual .unit select {
     @apply appearance-none;
     @apply rounded-lg;
