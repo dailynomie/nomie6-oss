@@ -17,6 +17,10 @@
     let plotbgcolor = $state(isDark ? '#1C1C1E' : '#FFFFFF')
     let paperbgcolor = $state(isDark ? '#1C1C1E' : '#FFFFFF')
     let plottextcolor = $state(isDark ? '#FFFFFF' : '#000000')
+    // iOS look: the series colours are the iOS system colours (the dark variants in dark mode)
+    const iosSeriesLight = ['#007AFF', '#FF9500', '#34C759', '#FF3B30', '#AF52DE', '#A2845E', '#FF2D55', '#5AC8FA', '#FFCC00', '#5856D6']
+    const iosSeriesDark = ['#0A84FF', '#FF9F0A', '#30D158', '#FF453A', '#BF5AF2', '#AC8E68', '#FF375F', '#64D2FF', '#FFD60A', '#5E5CE6']
+    let seriesColors = $state(isDark ? iosSeriesDark : iosSeriesLight)
 
     // With Plotly autosize, we don't need to manually calculate width
     $effect(() => {
@@ -114,6 +118,7 @@
                 /* eslint-disable no-magic-numbers */
                 autosize: true,
                 dragmode:false,
+                colorway: seriesColors,
                 plot_bgcolor: plotbgcolor,
                 paper_bgcolor: paperbgcolor,
                 font: {size:18 / (1400/currentwidth),color:plottextcolor},
