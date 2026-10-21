@@ -80,3 +80,25 @@ export const getDurationFromGoals = (goals: Array<GoalClass>, base?: Dayjs): { s
   }
   return { start, end }
 }
+
+// iOS look (guide 5.8): the target line under a goal's label, for example "At least 5 km a day".
+// The target is already formatted by its tracker (for example "5 km").
+const TARGET_PREFIX: { [comparison: string]: string } = {
+  gte: 'At least',
+  gt: 'More than',
+  lte: 'At most',
+  lt: 'Less than',
+  eq: 'Exactly',
+}
+const TARGET_PERIOD: { [duration: string]: string } = {
+  day: 'a day',
+  week: 'a week',
+  month: 'a month',
+  year: 'a year',
+}
+export const goalTargetText = (goal: GoalClass, formattedTarget: string): string => {
+  const prefix = TARGET_PREFIX[goal.comparison]
+  const period = TARGET_PERIOD[goal.duration]
+  if (!prefix || !period) return ''
+  return `${prefix} ${formattedTarget} ${period}`
+}

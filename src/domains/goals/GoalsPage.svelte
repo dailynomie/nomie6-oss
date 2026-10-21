@@ -12,6 +12,7 @@
 
   import { GoalClass, type GoalDurationType } from './goal-class'
 
+  import { goalTargetText } from './goal-utils'
   import {
     getGoalHistory,
     getGoalUsage,
@@ -264,6 +265,9 @@
                   </div>
                 {/if}
               </div>
+              <p class="text-ios-footnote text-ios-label2 -mt-1 mb-1">
+                {goalTargetText(item.goal, $TrackableStore.trackables[item.goal.tag]?.formatValue(item.goal.target) ?? `${item.goal.target}`)}
+              </p>
               <div class="progress pb-2">
                 {#if !item.scores.length}
                   <ProgressBar percentage={0} className="ios-bar" barClass="ios-bar-fill" />
