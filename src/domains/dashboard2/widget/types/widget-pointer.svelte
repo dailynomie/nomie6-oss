@@ -34,6 +34,8 @@
       var temptracker = tempusage[i].trackers.filter(function (el) {
         return el.id == trackable.tracker.tag
       })
+      // a note tagged with the pointer but without a value for this tracker has nothing to draw
+      if (temptracker.length === 0) continue
       let tempvalue = temptracker[0].value
       let tempdate = tempusage[i].start
       let height = '100%'
@@ -47,6 +49,7 @@
         samples.push({ Date: samplestemp[j].Date, Value: samplestemp[j].Value, Height: samplestemp[j].Height })
       }
     }
+    if (samples.length === 0) return
     // first determin highest value
     let maxvalue = Math.max(...samples.map((o) => o.Value))
     // now make sure the height is adjusted to value (between 100% and 0%)
@@ -71,7 +74,9 @@
 </script>
 
 <div class="current text-ios-label h-full w-full flex items-center justify-center flex-col">
-  {#if samples.length > 0}
+  {#if samples.length === 0}
+    <div class="text-ios-label2">Not enough data</div>
+  {:else}
     <div class="parent" style="font-size:60%">
       {#each samples as sample, i}
         <span id="third" class="bar" style="height:{sample.Height}; width: {barwidth}"
@@ -92,7 +97,7 @@
     margin-right: 2%;
     margin-top: -2%;
     transform: rotateX(180deg);
-    border-top: 1px solid black;
+    border-top: 1px solid var(--ios-separator);
   }
 
   span.bar {
