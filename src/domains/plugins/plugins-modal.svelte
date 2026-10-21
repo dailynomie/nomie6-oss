@@ -138,7 +138,7 @@
           <ListItem bottomLine={15} disabled={plugin.locked}>
             <div class="flex space-x-2 items-center">
               <Avatar size={20} emoji={plugin.emoji} />
-              <Title className="flex items-center space-x-1">
+              <Title className="flex items-center space-x-1 text-ios-body font-semibold" style="text-align:left">
                 <span>{plugin.name}</span>
                 <div class="faded-badge">
                   {plugin.version}
@@ -217,10 +217,10 @@
             }}
           >
             <Avatar size={50} emoji={plugin.emoji} slot="left" />
-            <Title>{plugin.name}</Title>
+            <Title className="text-ios-body font-semibold" style="text-align:left">{plugin.name}</Title>
             <div class="description">
               {#if $PluginStore.find((p) => p.url == plugin.url)}
-                <Badge pad className="bg-green-500 text-white">Installed</Badge>
+                <Badge pad className="bg-ios-good text-ios-ontint">Installed</Badge>
               {/if}
               {plugin.description}
             </div>
