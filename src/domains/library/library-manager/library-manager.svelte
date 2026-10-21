@@ -15,7 +15,6 @@
   import Panel from '../../../components/panel/panel.svelte'
   import ToolbarGrid from '../../../components/toolbar/toolbar-grid.svelte'
   import TrackerClass from '../../../modules/tracker/TrackerClass'
-  import { firebaseAuth } from '../../firebase/FirebaseStore'
 
   import LibraryTrackerItem from '../library-tracker-item.svelte'
   import LibraryTrackerEditor from './library-tracker-editor.svelte'
@@ -66,7 +65,6 @@
       trackers: [],
       title: undefined,
       tags: [activeCategory.id],
-      uid: firebaseAuth.currentUser?.uid,
     }
     $LibraryManagerStore.libraryTracker = libTracker
   }

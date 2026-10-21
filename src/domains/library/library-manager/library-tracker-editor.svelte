@@ -21,7 +21,6 @@
 
   import Avatar from '../../../components/avatar/avatar.svelte'
 
-  import { firebaseAuth } from '../../firebase/FirebaseStore'
   import { Interact } from '../../../store/interact'
   import { editTracker } from '../../tracker/editor/TrackerEditorStore'
   import { selectTrackables } from '../../trackable/trackable-selector/TrackableSelectorStore'
@@ -66,7 +65,6 @@
       title: workingLibTracker.title,
       trackers: trackers.map((t) => t.asObject),
       tags: workingLibTracker.tags,
-      uid: firebaseAuth.currentUser?.uid,
       _id: workingLibTracker._id,
     }
     try {
@@ -134,7 +132,7 @@
           {#if trackers.length === 0}
             <div class="text-sm py-4 text-center text-ios-label2">No trackers selected</div>
           {/if}
-          {#each trackers as tracker}
+          {#each trackers as tracker, index}
             <ListItem compact>
               <div slot="left">
                 <Button
@@ -170,7 +168,8 @@
                   on:click={() => {
                     editTracker(tracker, {
                       onSave(updatedTracker) {
-                        tracker = updatedTracker
+                        trackers[index] = updatedTracker
+                        trackers = trackers
                       },
                     })
                   }}
