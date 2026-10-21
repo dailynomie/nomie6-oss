@@ -450,7 +450,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     @apply inline-flex;
     @apply text-sm;
     @apply py-1 px-3 rounded-full;
-    @apply bg-primary-50 text-ios-tint;
+    @apply bg-ios-tintsoft text-ios-tint;
     @apply dark:bg-ios-tintsoft dark:text-ios-tint;
   }
 

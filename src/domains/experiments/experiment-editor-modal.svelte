@@ -202,7 +202,7 @@
     {#if step === 1}
       <div class="space-y-2">
         {#each EXPERIMENT_PRESETS as preset}
-          <button class="w-full text-left p-4 ios-card hover:ring-2 hover:ring-primary-200 dark:hover:ring-primary-800 transition" onclick={() => choosePreset(preset)}>
+          <button class="w-full text-left p-4 ios-card hover:ring-2 hover:ring-ios-tint dark:hover:ring-primary-800 transition" onclick={() => choosePreset(preset)}>
             <div class="font-semibold">{preset.title}</div>
             <div class="text-xs text-ios-label2 mt-1">{preset.durationDays} days · {preset.outcomes.length} {preset.outcomes.length === 1 ? 'tracker' : 'trackers'}</div>
           </button>
@@ -219,7 +219,7 @@
         <label class="block text-xs font-semibold uppercase tracking-wide text-ios-label2" for="experiment-title">The change</label>
         <input
           id="experiment-title"
-          class="w-full p-3 rounded-xl ios-card outline-none focus:ring-2 focus:ring-primary-300"
+          class="w-full p-3 rounded-xl ios-card outline-none focus:ring-2 focus:ring-ios-tint"
           placeholder="No coffee after 14:00"
           bind:value={title}
         />

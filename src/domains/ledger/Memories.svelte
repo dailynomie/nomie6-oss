@@ -17,7 +17,7 @@
 </script>
 
 {#if $LedgerStore.memories.length > 0}
-  <section class="mt-3 bg-primary-500">
+  <section class="mt-3 bg-ios-tint">
     <Container className="px-4 pb-4">
       <!-- Show History if exists -->
 
@@ -27,7 +27,7 @@
             <button
               aria-label="View logs from {dayjs(log.end).format('ddd MM YYYY')}"
               class="flex items-center justify-center w-full py-2
-                  font-medium text-ios-label bg-primary-500"
+                  font-medium text-ios-label bg-ios-tint"
               on:click={() => {
                 dispatch('date', log.end)
               }}

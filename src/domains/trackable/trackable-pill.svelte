@@ -56,7 +56,7 @@
     @apply rounded-lg;
     @apply max-w-xs;
     @apply leading-none;
-    @apply focus:ring-primary-500 ring-opacity-60 focus:ring-2;
+    @apply focus:ring-ios-tint ring-opacity-60 focus:ring-2;
     @apply focus:outline-none;
   }
   .trackable-pill.filled {
@@ -72,6 +72,6 @@
     @apply bg-opacity-0 dark:bg-opacity-0;
   }
   .trackable-pill:active {
-    @apply ring ring-primary-500 ring-opacity-100;
+    @apply ring ring-ios-tint ring-opacity-100;
   }
 </style>

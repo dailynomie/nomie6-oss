@@ -278,7 +278,7 @@
   .n-calculator .nbtn.pressing {
     @apply scale-95;
     @apply shadow-md;
-    @apply ring-2 ring-primary-500 ring-inset;
+    @apply ring-2 ring-ios-tint ring-inset;
   }
 
   .calc-screen .value {

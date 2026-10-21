@@ -172,7 +172,7 @@
     background: var(--ios-fill);
     @apply px-1;
     @apply my-px;
-    @apply focus:ring-2 ring-primary-500;
+    @apply focus:ring-2 ring-ios-tint;
   }
   .n-note-textualized .token {
     @apply rounded-lg mr-1 pl-1;

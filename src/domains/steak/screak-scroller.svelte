@@ -218,7 +218,7 @@
   }
 
   .streak-2 .day:focus .day-wrapper {
-    @apply ring-2 ring-primary-500 ring-offset-1;
+    @apply ring-2 ring-ios-tint ring-offset-1;
     @apply text-center w-full rounded-md;
   }
 
@@ -268,7 +268,7 @@
   }
   .streak-2 .day:focus .wrapper,
   .streak-2 .day.active .day-wrapper {
-    @apply ring-primary-600;
+    @apply ring-ios-tint;
   }
 
   .streak-2 .day.active label {

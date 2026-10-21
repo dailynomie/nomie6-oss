@@ -474,7 +474,7 @@ import is from '../../utils/is/is';
     @apply bg-ios-card;
     @apply shadow-md;
     @apply flex items-center justify-center;
-    @apply focus:outline-none focus:ring-2 ring-primary-500 ring-inset;
+    @apply focus:outline-none focus:ring-2 ring-ios-tint ring-inset;
     @apply font-semibold;
     @apply h-10;
     @apply rounded-xl;

@@ -69,7 +69,7 @@
             toast.buttonClick()
             removeToast(toast)
           }}
-          class="text-ios-tint uppercase font-semibold text-sm px-2 py-1 rounded-full focus:outline-none focus:ring-2 ring-primary-500"
+          class="text-ios-tint uppercase font-semibold text-sm px-2 py-1 rounded-full focus:outline-none focus:ring-2 ring-ios-tint"
         >
           {toast.buttonLabel}
         </button>

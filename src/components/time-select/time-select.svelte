@@ -183,7 +183,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
     @apply bg-transparent;
     @apply appearance-none;
     @apply rounded-md;
-    @apply focus:outline-none ring-inset focus:ring-2 ring-primary-500;
+    @apply focus:outline-none ring-inset focus:ring-2 ring-ios-tint;
   }
   .time-picker .ampm {
     border: none;

@@ -288,7 +288,7 @@
     <section class="label-emoji-color filler overflow-y-auto  px-4 py-4 bg-ios-bg mb-4">
       <div class="visuals-editor flex items-center space-x-4">
         <button
-          class="bg-primary-500 w-20 h-20 stiff"
+          class="bg-ios-tint w-20 h-20 stiff"
           style="border-radius:33%; {workingTrackable.color
             ? `background-color:${workingTrackable.color} !important;`
             : ''}"
@@ -372,7 +372,7 @@
               {/if}
               <button
                 on:click={() => editTag()}
-                class="flex items-center focus:outline-none focus:ring ring-primary-500 rounded-md"
+                class="flex items-center focus:outline-none focus:ring ring-ios-tint rounded-md"
               >
                 {#if ogTag && ogTag.length}
                   <span class="opacity-50 ">Tag:</span> <span>{truncateText(`${workingTrackable.prefix}${ogTag}`, $Device.size == 'lg' ? 40 : 20)}</span>

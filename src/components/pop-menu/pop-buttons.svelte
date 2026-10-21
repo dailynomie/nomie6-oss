@@ -155,7 +155,7 @@
     @apply text-left;
   }
   .n-list.pop-buttons .nbtn:focus {
-    @apply ring-4 ring-primary-500 ring-inset;
+    @apply ring-4 ring-ios-tint ring-inset;
   }
   .n-list.pop-buttons .nbtn:first-child {
     @apply rounded-t-2xl;

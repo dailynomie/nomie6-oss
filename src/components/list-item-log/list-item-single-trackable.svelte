@@ -30,7 +30,7 @@
     dispatch('click', { log, trackable })
   }}
   type="menu"
-  class="rounded-md mock-item flex pl-1 items-start w-full text-left focus:ring-2 focus:ring-primary-500 {className}"
+  class="rounded-md mock-item flex pl-1 items-start w-full text-left focus:ring-2 focus:ring-ios-tint {className}"
   id="log-{log._id}"
 >
   <TrackableAvatar {trackable} size={42} className="mr-2 mt-4" />

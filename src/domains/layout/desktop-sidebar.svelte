@@ -227,7 +227,7 @@
         on:click={() => {
           openUnisearch()
         }}
-        class="focus:outline-none focus:ring-2 ring-primary-500 py-2 rounded-md flex items-center space-x-2 text-sm leading-tight px-4 text-left text-ios-label2 my-10"
+        class="focus:outline-none focus:ring-2 ring-ios-tint py-2 rounded-md flex items-center space-x-2 text-sm leading-tight px-4 text-left text-ios-label2 my-10"
       >
         <IonIcon icon={SearchIcon} />
         <span>Super Search</span>
@@ -260,7 +260,7 @@
     min-height: 44px;
     @apply mb-2;
     @apply flex items-center;
-    @apply focus:ring-2 ring-inset ring-primary-500;
+    @apply focus:ring-2 ring-inset ring-ios-tint;
     @apply outline-none;
     @apply rounded-lg;
     @apply duration-200 transition-all transform;

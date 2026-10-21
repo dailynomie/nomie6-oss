@@ -188,7 +188,7 @@
     @apply px-2;
 
     @apply focus:outline-none;
-    @apply focus:ring-2 ring-primary-500 ring-inset;
+    @apply focus:ring-2 ring-ios-tint ring-inset;
   }
   .autocomplete-results.scroller .trackable-element {
     flex-shrink: 0;

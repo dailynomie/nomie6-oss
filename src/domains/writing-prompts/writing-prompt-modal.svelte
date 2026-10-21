@@ -146,7 +146,7 @@
         <Input type="select" listItem label="Time frame" bind:value={editing.time} options={[{ value: 'any', label: 'Anytime' }, { value: 'morning', label: 'Morning' }, { value: 'afternoon', label: 'Afternoon' }, { value: 'evening', label: 'Evening' }]} />
         <Divider left={16} />
         <Textarea
-          class="bg-ios-card text-ios-label px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-primary-500 ring-opacity-20"
+          class="bg-ios-card text-ios-label px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-ios-tint ring-opacity-20"
           placeholder="Writing Prompt"
           bind:value={editing.text}
         />

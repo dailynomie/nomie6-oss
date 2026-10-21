@@ -164,7 +164,7 @@ import Markdown from '../markdown/markdown.svelte'
     @apply px-2;
     @apply mt-4;
     @apply rounded-lg;
-    @apply focus:ring-2 ring-primary-500 ring-inset;
+    @apply focus:ring-2 ring-ios-tint ring-inset;
     @apply bg-ios-card text-ios-label;
   }
   .alert-dialog-window .message {

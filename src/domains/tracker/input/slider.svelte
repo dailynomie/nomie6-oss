@@ -187,7 +187,7 @@
     margin-bottom: 10px;
   }
   .tracker-input-slider input[type='range']:focus::-webkit-slider-runnable-track {
-    @apply ring-2 ring-primary-500;
+    @apply ring-2 ring-ios-tint;
   }
   .tracker-input-slider input[type='range']::-moz-range-track {
     width: 48vh;

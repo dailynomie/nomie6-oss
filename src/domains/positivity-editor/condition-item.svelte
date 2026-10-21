@@ -161,7 +161,7 @@
     @apply text-center;
     @apply rounded-lg py-1 px-1 lg:px-2 text-ios-tint;
     @apply focus:outline-none;
-    @apply focus:ring-2 ring-primary-400 ring-opacity-75;
+    @apply focus:ring-2 ring-ios-tint ring-opacity-75;
   }
   .condition-select.emoji {
     @apply text-2xl lg:text-3xl;

@@ -20,7 +20,7 @@
     @apply p-1 pt-0;
     @apply rounded-md;
     @apply focus:outline-none;
-    @apply focus:ring-2 ring-primary-500;
+    @apply focus:ring-2 ring-ios-tint;
     @apply text-center;
   }
   .award-badge img {

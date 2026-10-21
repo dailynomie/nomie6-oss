@@ -523,7 +523,7 @@
 
 <!-- <Backdrop id="positivty-selector" visible={showPositivitySelector}>
   <PositivitySelector
-    className="bg-primary-500 shadow-2xl"
+    className="bg-ios-tint text-ios-ontint shadow-2xl"
     size="lg"
     id="score"
     showClose={true}

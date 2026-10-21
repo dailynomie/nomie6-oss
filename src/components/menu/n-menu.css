@@ -95,7 +95,7 @@
 
 
 .n-menu .pop-button.focused {
-  @apply ring-2 ring-primary-500 ring-inset;
+  @apply ring-2 ring-ios-tint ring-inset;
 }
 
 

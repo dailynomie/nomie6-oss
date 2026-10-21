@@ -213,7 +213,7 @@
 
   .timeline-token {
     @apply text-ios-label rounded-lg p-0;
-    @apply ring-primary-500 ring-offset-4;
+    @apply ring-ios-tint ring-offset-4;
     background: var(--ios-fill);
   }
   .timeline-token:active,

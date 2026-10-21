@@ -131,6 +131,6 @@
 
 <style global>
   .storage-select .n-menu .active {
-    @apply ring-2 ring-primary-500 ring-inset;
+    @apply ring-2 ring-ios-tint ring-inset;
   }
 </style>

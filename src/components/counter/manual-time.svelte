@@ -210,7 +210,7 @@
     @apply text-4xl;
     @apply font-bold;
     @apply outline-none;
-    @apply focus:ring-2 ring-primary-500 ring-inset;
+    @apply focus:ring-2 ring-ios-tint ring-inset;
   }
   .n-counter-manual .unit select option {
     text-align: center;

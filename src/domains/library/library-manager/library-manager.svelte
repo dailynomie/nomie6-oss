@@ -109,7 +109,7 @@
         <ListItem
           clickable
           solo={activeCategory == category}
-          className={activeCategory == category ? 'bg-primary-600' : ''}
+          className={activeCategory == category ? 'bg-ios-tint' : ''}
           on:click={() => {
             selectCategory(category)
           }}

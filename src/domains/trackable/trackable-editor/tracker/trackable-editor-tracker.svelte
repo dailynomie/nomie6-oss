@@ -624,7 +624,7 @@
               class=" flex text-center justify-center py-1 px-2 rounded-md items-center {focusList.indexOf(
                 focus.id
               ) > -1
-                ? 'ring-2 ring-primary-500 text-ios-label font-bold'
+                ? 'ring-2 ring-ios-tint text-ios-label font-bold'
                 : 'text-ios-label'}"
             >
               <span class="mr-3 -ml-1">{focus.emoji}</span>
