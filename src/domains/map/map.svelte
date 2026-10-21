@@ -321,14 +321,15 @@
     justify-content: center;
     z-index: 2000;
   }
+  /* iOS look: the centre pin is the tint (readable on light and dark maps) */
   .picker-cover svg {
-    fill: red;
-    opacity: 0.5;
+    fill: var(--ios-tint);
+    opacity: 0.85;
   }
   .map-lock-cover {
   }
   .leaflet-control-attribution {
-    @apply dark:bg-black dark:text-gray-600;
+    @apply dark:bg-black dark:text-ios-label2;
   }
   .leaflet-control-attribution a {
     @apply dark:text-ios-tint dark:text-opacity-50;

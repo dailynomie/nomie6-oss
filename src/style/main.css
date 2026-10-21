@@ -552,6 +552,11 @@ html.dark .ios-thumb {
   box-shadow: var(--ios-shadow-float);
 }
 
+/* iOS look (dark mode): map tiles are darkened to match the app; the markers keep their colours */
+html.dark .leaflet-tile {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.92);
+}
+
 /* iOS look: a chosen option in a two-way choice group (setup: time, weight, week, location) is the tint.
    The block button's fill rule would otherwise win over the choice's tint. */
 .big-group .nbtn.bg-ios-tint {
