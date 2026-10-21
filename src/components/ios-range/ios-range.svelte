@@ -94,6 +94,7 @@
 <style>
   .ios-range {
     position: relative;
+    width: 100%;
     height: 44px;
     display: flex;
     align-items: center;
