@@ -293,6 +293,12 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
   min-height: 44px;
   font-size: 17px;
 }
+/* iOS look: a clear icon button is a 36 px circle; the 44 px text-button height must not stretch it into an oval */
+.nbtn.clear.nbtn-icon {
+  min-height: 0;
+  width: 36px;
+  height: 36px;
+}
 .nbtn.clear.text-ios-danger {
   color: var(--ios-danger);
 }
