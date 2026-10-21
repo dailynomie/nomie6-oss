@@ -37,9 +37,11 @@
   // Import CSS from Leaflet and plugins.
   import 'leaflet/dist/leaflet.css'
 
-  // Import images directly that got missed via the CSS imports above.
-  import 'leaflet/dist/images/marker-icon-2x.png'
-  import 'leaflet/dist/images/marker-shadow.png'
+  // Marker images, imported so Vite serves them in development and bundles them for the PWA.
+  // (A new URL(...import.meta.url) path resolved to the app's index.html in development, so the marker showed as a broken image.)
+  import markerIconUrl from 'leaflet/dist/images/marker-icon.png'
+  import markerIcon2xUrl from 'leaflet/dist/images/marker-icon-2x.png'
+  import markerShadowUrl from 'leaflet/dist/images/marker-shadow.png'
 
   // Import JS from Leaflet and plugins.
   // import 'leaflet/dist/leaflet'
@@ -48,9 +50,9 @@
 
   // Configure Leaflet default icon paths for PWA compatibility
   L.Icon.Default.mergeOptions({
-    iconUrl: new URL('leaflet/dist/images/marker-icon.png', import.meta.url).href,
-    iconRetinaUrl: new URL('leaflet/dist/images/marker-icon-2x.png', import.meta.url).href,
-    shadowUrl: new URL('leaflet/dist/images/marker-shadow.png', import.meta.url).href,
+    iconUrl: markerIconUrl,
+    iconRetinaUrl: markerIcon2xUrl,
+    shadowUrl: markerShadowUrl,
   })
 
   // consts
