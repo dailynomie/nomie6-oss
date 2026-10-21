@@ -109,17 +109,17 @@
             title="Add a Pointer"
           />
         </List>
-        <div class="relative top-1">
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-red-500 text-red-500">X.</span>
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-red-500">Pointer Reminder Overdue</span>
+        <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
+          <span class="w-2.5 h-2.5 rounded-full bg-ios-danger"></span>
+          <span>Pointer Reminder Overdue</span>
         </div>
-        <div class="relative top-1">
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-green-500 text-green-500">X.</span>
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-green-500">Pointer Reminder Planned</span>
+        <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
+          <span class="w-2.5 h-2.5 rounded-full bg-ios-good"></span>
+          <span>Pointer Reminder Planned</span>
         </div>
-        <div class="relative top-1">
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-blue-500 text-blue-500">X.</span>
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-blue-500">Pointer Reminder Disabled</span>
+        <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
+          <span class="w-2.5 h-2.5 rounded-full bg-ios-tint"></span>
+          <span>Pointer Reminder Disabled</span>
         </div>
   </section>
 </BackdropModal>
