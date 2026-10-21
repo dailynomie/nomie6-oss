@@ -40,7 +40,7 @@
           </div>
           <div class="text-base line-clamp-1 font-medium">{dayjs(lastUsedDate).fromNow()}</div>
         </div>
-        <div class="text-xs font-normal leading-tight text-gray-500">
+        <div class="text-xs font-normal leading-tight text-ios-label2">
           {dayjs(lastUsedDate).format(`${dateFormat.mmm_d_yyyy} ${dateFormat.time} `)}
         </div>
       {:else}

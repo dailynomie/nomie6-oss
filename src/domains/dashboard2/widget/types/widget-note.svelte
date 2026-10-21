@@ -71,7 +71,7 @@ import type NLog from '../../../nomie-log/nomie-log';
             note={sortedLogs[activeIndex].note}
           />
         </div>
-        <div class="text-center leading-tight text-xs line-clamp-2 w-full mt-2 text-gray-500">
+        <div class="text-center leading-tight text-xs line-clamp-2 w-full mt-2 text-ios-label2">
           {sortedLogs[activeIndex].endDayjs().format(`${dateFormats.date}`)}
           - {sortedLogs[activeIndex].endDayjs().fromNow()}
         </div>
@@ -94,6 +94,6 @@ import type NLog from '../../../nomie-log/nomie-log';
     @apply text-lg;
   }
   .widget-note.value {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 </style>

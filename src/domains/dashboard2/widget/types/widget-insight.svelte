@@ -221,18 +221,18 @@
     <div class="flex items-center justify-center h-full">
       <div class="text-center">
         <div class="spinner mb-2"></div>
-        <p class="text-xs text-gray-500 dark:text-gray-400">Generating insight...</p>
+        <p class="text-xs text-ios-label2">Generating insight...</p>
       </div>
     </div>
   {:else if error}
     <div class="flex items-center justify-center h-full">
       <div class="text-center px-4">
-        <p class="text-xs text-red-600 dark:text-red-400 font-semibold">{error}</p>
+        <p class="text-xs text-ios-danger font-semibold">{error}</p>
       </div>
     </div>
   {:else if insight}
     <div class="insight-container px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition border border-gray-300 dark:border-gray-600 rounded h-full" onclick={openFullInsightModal}>
-      <div class="text-xs leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
+      <div class="text-xs leading-relaxed text-ios-label markdown-content">
         {@html renderedInsight}
       </div>
     </div>

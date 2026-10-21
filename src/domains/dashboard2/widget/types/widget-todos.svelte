@@ -53,7 +53,7 @@ import type NLog from '../../../nomie-log/nomie-log';
 </script>
 
 {#if !todoLogs || !todoLogs.length}
-  <div class="text-center px-4 -mt-2 empty value flex items-center justify-center text-gray-500 h-full text-xs">
+  <div class="text-center px-4 -mt-2 empty value flex items-center justify-center text-ios-label2 h-full text-xs">
     {Lang.t('general.no-todos-found', 'No todos found.')}
     <br />Include [] or [x] to turn an entry into a todo
   </div>
@@ -78,7 +78,7 @@ import type NLog from '../../../nomie-log/nomie-log';
             note={todoLogs[activeIndex].note}
           />
         </div>
-        <div class="leading-tight text-xs line-clamp-2 w-full mt-2 text-gray-500">
+        <div class="leading-tight text-xs line-clamp-2 w-full mt-2 text-ios-label2">
           {todoLogs[activeIndex].endDayjs().format(`${dateFormats.date}`)}
           - {todoLogs[activeIndex].endDayjs().fromNow()}
         </div>
@@ -101,6 +101,6 @@ import type NLog from '../../../nomie-log/nomie-log';
     @apply text-lg;
   }
   .widget-note.value {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 </style>

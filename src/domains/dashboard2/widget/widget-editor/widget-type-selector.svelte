@@ -83,7 +83,7 @@ import type { WidgetClass } from '../widget-class';
       <div
         class="{isWidgetTypeActive(widgetType)
           ? 'active-type scale-110'
-          : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl {isInsightDisabled ? 'opacity-60' : ''}"
+          : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-ios-label2 shadow-md rounded-xl {isInsightDisabled ? 'opacity-60' : ''}"
       >
         {#if widgetType.id === 'insight'}
           <NomieAiButton size="40px" />

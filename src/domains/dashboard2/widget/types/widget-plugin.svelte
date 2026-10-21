@@ -23,7 +23,7 @@
 {#if plugin}
   <PluginFrame lid="widget-{widget.id}" openAction="onWidget" {plugin} {widgetindexparam}/>
 {:else}
-  <div class="w-full h-full flex text-xs text-gray-500 items-center justify-center">
+  <div class="w-full h-full flex text-xs text-ios-label2 items-center justify-center">
     Plugin not found or disabled
   </div>
 {/if}
@@ -37,6 +37,6 @@
     @apply text-lg;
   }
   .widget-note.value {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 </style>

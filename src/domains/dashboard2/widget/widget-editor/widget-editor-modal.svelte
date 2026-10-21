@@ -202,8 +202,8 @@
   }
 </script>
 
-<BackdropModal mainClass="bg-gray-100 dark:bg-gray-800" className="bg-white dark:bg-black h-full">
-  <div slot="header" class="bg-white dark:bg-black w-full">
+<BackdropModal mainClass="bg-gray-100 dark:bg-gray-800" className="bg-ios-card h-full">
+  <div slot="header" class="bg-ios-card w-full">
     <ToolbarGrid>
       <Button slot="left" clear primary on:click={close}>{Lang.t('general.cancel', 'Cancel')}</Button>
       <h1 class="ntitle">Widget Settings</h1>
@@ -239,7 +239,7 @@
           className="h-16" >
           Trackable
           {#if !editingWidget?.token}
-            <span class="opacity-50 text-black dark:text-white">
+            <span class="opacity-50 text-ios-label">
               {#if (activeType?.requires?.indexOf('token') > -1)}
                 (required)
               {:else}
@@ -249,7 +249,7 @@
           {/if}
           <div slot="right" class="flex items-center space-x-2">
             {#if !editingWidget?.tokens?.length}
-              <div class="text-primary-500">{Lang.t('general.select', 'Select')}</div>
+              <div class="text-ios-tint">{Lang.t('general.select', 'Select')}</div>
             {:else if editingWidget?.token}
               <TrackablePill size={28} hideValue trackable={tokenToTrackable(editingWidget.token, $TrackableStore.trackables)} />
               {#if (activeType?.requires?.indexOf('token') === -1)}
@@ -272,7 +272,7 @@
           className="h-16" >
           Pointer
           {#if !editingWidget?.pointer}
-            <span class="opacity-50 text-black dark:text-white">
+            <span class="opacity-50 text-ios-label">
               {#if (activeType?.requires?.indexOf('token') > -1)}
                 (required)
               {:else}
@@ -282,7 +282,7 @@
           {/if}
           <div slot="right" class="flex items-center space-x-2">
             {#if !editingWidget?.pointer}
-              <div class="text-primary-500">{Lang.t('general.select', 'Select')}</div>
+              <div class="text-ios-tint">{Lang.t('general.select', 'Select')}</div>
             {:else if editingWidget.pointer}
               <TrackablePill size={28} hideValue trackable={tokenToTrackable(editingWidget.pointer, $TrackableStore.trackables)} />
               {#if (activeType?.requires?.indexOf('token') === -1)}
@@ -304,7 +304,7 @@
             slot="left"
             class="{!editingWidget.timeRange
               ? 'pl-2 pt-3 w-full'
-              : ''} text-black dark:text-white pointer-events-none absolute"
+              : ''} text-ios-label pointer-events-none absolute"
           >
             {#if !editingWidget.timeRange}
               {Lang.t('dashboard.select-a-timeframe', 'Select a Timeframe')}
@@ -368,7 +368,7 @@
     {#if activeType?.id == 'text'}
       <List solo className="mt-4">
         <Input listItem placeholder="Message" type="textarea" rows={2} bind:value={editingWidget.description} />
-        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Leave yourself a positive message or something!</div>
+        <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">Leave yourself a positive message or something!</div>
       </List>
     {/if}
 
@@ -382,7 +382,7 @@
             slot="left"
             class="{!editingWidget?.data?.widgetindex
               ? 'pl-2 pt-3 w-full'
-              : ''} text-black dark:text-white pointer-events-none absolute"
+              : ''} text-ios-label pointer-events-none absolute"
           >
             {#if !editingWidget?.data?.widgetindex}
               Select a Widget
@@ -392,7 +392,7 @@
             <option value={pluginWidget.widgetid}>{pluginWidget.emoji} {pluginWidget.name}</option>
           {/each}
         </Input>
-        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
+        <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
       {:else}
         <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">No widget options available for this plugin</div>
       {/if}
@@ -408,7 +408,7 @@
             slot="left"
             class="{!editingWidget?.data?.experimentId
               ? 'pl-2 pt-3 w-full'
-              : ''} text-black dark:text-white pointer-events-none absolute"
+              : ''} text-ios-label pointer-events-none absolute"
           >
             {#if !editingWidget?.data?.experimentId}
               Select an experiment
@@ -418,7 +418,7 @@
             <option value={experiment.id}>{experiment.title}</option>
           {/each}
         </Input>
-        <div class="text-gray-500 leading-tight px-4 text-sm pb-4">Shows the progress and result of this experiment</div>
+        <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">Shows the progress and result of this experiment</div>
       {:else}
         <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">No experiments yet. Start one from Goals.</div>
       {/if}
@@ -450,7 +450,7 @@
               slot="left"
               class="{!editingWidget.data.promptValue
                 ? 'pl-2 pt-3 w-full'
-                : ''} text-black dark:text-white pointer-events-none absolute"
+                : ''} text-ios-label pointer-events-none absolute"
             >
               {#if !editingWidget.data.promptValue}
                 {Lang.t('dashboard.select-prompt', 'Select a prompt')}
@@ -480,7 +480,7 @@
             rows={4}
             bind:value={editingWidget.data.promptValue}
           />
-          <div class="text-gray-500 leading-tight px-4 text-sm pb-4">
+          <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">
             Describe what insight you'd like Claude to provide based on your tracking data
           </div>
         {/if}
@@ -527,13 +527,13 @@
               {#if editingWidget?.token?.type == 'tracker'}
                 <Button
                   icon
-                  className="mr-2 text-primary-500"
+                  className="mr-2 text-ios-tint"
                   on:click={async () => {
                     alert('get Conditional Value?')
                     // getConditionalValue()
                   }}
                 >
-                  <IonIcon icon={AddIcon} className="text-gray-500" />
+                  <IonIcon icon={AddIcon} className="text-ios-label2" />
                 </Button>
               {/if}
             </div>

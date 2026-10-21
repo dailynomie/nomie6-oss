@@ -279,7 +279,7 @@
       <div class="filler pointer-events-none" />
       {#if widget.type === 'insight' && widget.data?.cachedDate}
         <div class="flex items-center gap-1">
-          <span class="text-xs text-gray-600 dark:text-gray-400">Will refresh in {getInsightRefreshTime()}</span>
+          <span class="text-xs text-ios-label2">Will refresh in {getInsightRefreshTime()}</span>
           <button
             class="text-xs px-1"
             on:click={clearInsightCache}
@@ -320,7 +320,7 @@
     font-weight: 500;
     padding: 8px 16px;
     line-height: 1.1em;
-    @apply text-gray-600 dark:text-gray-400;
+    @apply text-ios-label2;
   }
   .dashboard-text.widget-size-lg {
     padding: 8px 16px;
@@ -328,7 +328,7 @@
     line-height: 1.7em;
     font-weight: 700;
     padding: 16px;
-    @apply text-gray-600 dark:text-gray-400;
+    @apply text-ios-label2;
   }
   /* iOS look (5.10): widget titles are the same size as the tracker names in the tiles (about 12 px on phones,
      which is 37% of the 30 px pill, as the pill sets its names), and a little larger on desktop */
@@ -343,10 +343,10 @@
       line-height: 18px;
     }
   }
-  /* iOS look: footer controls are small fill pills, with 13 px secondary text */
+  /* iOS look: footer controls are small pills on the card-2 token (4.5:1 for the secondary text), with 13 px secondary text */
   .dashboard-widget footer button,
   .dashboard-widget .usage-chart-tools button {
-    background: var(--ios-fill);
+    background: var(--ios-card-2);
     border-radius: 8px;
     height: 28px;
     padding: 0 10px;
@@ -380,7 +380,7 @@
     @apply transition-all duration-100 ease-in-out;
     max-height: 300px;
     position: relative;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 
 

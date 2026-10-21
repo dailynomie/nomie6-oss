@@ -112,7 +112,7 @@
         {:else if item.token}
           {item.token.raw}
         {/if}
-        <div class="text-gray-500 text-sm">
+        <div class="text-ios-label2 text-sm">
         {#if item.type == "plugin"}
           <span class="text-2xl">{allWidgetTypes.find((a) => a.data && a.data.pluginId === item.data.pluginId)?.emoji}</span>
           <span> {allWidgetTypes.find((a) => a.data && a.data.pluginId === item.data.pluginId)?.label}</span>
@@ -131,8 +131,8 @@
   .mock-widget {
     @apply rounded-xl;
     @apply shadow-lg;
-    @apply bg-white dark:bg-black;
-    @apply text-black dark:text-white;
+    @apply bg-ios-card;
+    @apply text-ios-label;
     @apply h-28 lg:h-40;
     @apply m-2;
     @apply flex items-center flex-col justify-center;

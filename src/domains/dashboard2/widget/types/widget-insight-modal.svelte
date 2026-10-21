@@ -92,7 +92,7 @@
   }
 </style>
 
-<BackdropModal mainClass="bg-white dark:bg-gray-900 flex flex-col">
+<BackdropModal mainClass="bg-ios-card flex flex-col">
   <div slot="header" class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
     <button
       onclick={close}
@@ -100,22 +100,22 @@
     >
       Close
     </button>
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Nomie Insights</h2>
+    <h2 class="text-lg font-semibold text-ios-label">Nomie Insights</h2>
     <div class="w-12" />
   </div>
   <div class="flex-1 flex flex-col p-6 overflow-hidden">
     <div class="flex-1 overflow-y-auto border border-primary-300 rounded p-4" style="font-size: {insightFontSize}">
-      <div class="leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
+      <div class="leading-relaxed text-ios-label markdown-content">
         {@html renderedInsight}
       </div>
     </div>
     <div class="mt-4 space-y-2">
       {#if lastFetchDate}
-        <p class="text-xs text-gray-600 dark:text-gray-400">
+        <p class="text-xs text-ios-label2">
           Will refresh in {getRefreshTime()}
         </p>
       {/if}
-      <p class="text-xs text-gray-500 dark:text-gray-500" style="font-size: 0.625rem;">
+      <p class="text-xs text-ios-label2" style="font-size: 0.625rem;">
         Generated with {aiProvider}
         {#if aiModel}
           • <span class="font-mono">{aiModel}</span>

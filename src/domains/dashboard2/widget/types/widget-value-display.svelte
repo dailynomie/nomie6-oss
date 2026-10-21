@@ -29,7 +29,7 @@
     {/if}
   </div>
   {#if widget.includeAvg && usage}
-    <div class="avg text-primary-500 font-medium text-sm mt-1">
+    <div class="avg text-ios-tint font-medium text-sm mt-1">
       Avg <span class="font-bold">{(usage.trackable.formatValue(math.average(usage.byDay.values)))}</span>
     </div>
   {/if}

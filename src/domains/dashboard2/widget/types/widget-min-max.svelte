@@ -50,7 +50,7 @@
   .widget-size-sm .mm-block .label-date {
     @apply flex-row;
     @apply py-1 px-3 rounded-full;
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-card2;
     @apply items-center justify-center;
   }
   .widget-size-sm .mm-block .date {
@@ -62,7 +62,7 @@
   .mm-block .value {
     @apply text-xl lg:text-3xl;
     @apply font-bold;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
   .mm-block .label-date {
     @apply flex items-center justify-center;
@@ -70,13 +70,13 @@
     @apply flex flex-col items-center justify-center;
   }
   .mm-block .date {
-    @apply text-gray-500;
+    @apply text-ios-label2;
     @apply text-xs;
     @apply py-1 px-3 rounded-full;
-    @apply bg-gray-200 dark:bg-gray-800;
+    @apply bg-ios-card2;
   }
   .mm-block .label {
-    @apply text-gray-600 dark:text-gray-400;
+    @apply text-ios-label2;
     @apply text-sm font-bold;
     @apply mb-1;
   }
