@@ -65,7 +65,7 @@ import AvailableTemplatesList from './available-templates-list.svelte'
 
 </script>
 
-<BackdropModal className="h-full" mainClass="bg-gray-100 dark:bg-gray-800">
+<BackdropModal className="h-full" mainClass="bg-ios-bg">
   <header slot="header">
     <ToolbarGrid>
       <Button slot="left" primary clear on:click={() => closeTemplateManager()}>Close</Button>
@@ -102,7 +102,7 @@ import AvailableTemplatesList from './available-templates-list.svelte'
             buttonClick={() => newTemplate()}
           />
           <div class="py-4 px-4 text-center">
-            <p class="text-gray-500 text-sm mb-2">Or</p>
+            <p class="text-ios-label2 text-sm mb-2">Or</p>
             <button class="text-primary py-2 px-4" on:click={() => uploadTemplate()}> Upload Template </button>
           </div>
         {:else}

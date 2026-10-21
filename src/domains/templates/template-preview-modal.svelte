@@ -16,7 +16,7 @@
   let { id, template = $bindable() } = $props()
 </script>
 
-<BackdropModal className="h-full" mainClass="bg-gray-100 dark:bg-gray-800">
+<BackdropModal className="h-full" mainClass="bg-ios-bg">
   <ToolbarGrid slot="header">
     <Button slot="left" primary clear on:click={() => close()}>Close</Button>
   </ToolbarGrid>

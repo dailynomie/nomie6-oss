@@ -21,7 +21,7 @@
     </h1>
   </div>
   {#if template.description}
-    <p class="text-sm text-gray-500 dark:text-gray-400">
+    <p class="text-sm text-ios-label2">
       <span>{template.description}</span>
     </p>
   {/if}
@@ -52,7 +52,7 @@
         {#each template.boards as board}
           <div class="pill">
             <div class="ntitle">{board.label}</div>
-            <div class="text-xs text-gray-500 whitespace-nowrap">
+            <div class="text-xs text-ios-label2 whitespace-nowrap">
               {board.elements.length} trackables
             </div>
           </div>
@@ -68,7 +68,7 @@
         {#each template.dashboards as board}
           <div class="pill">
             <div class="ntitle">{board.label}</div>
-            <div class="text-xs text-gray-500 whitespace-nowrap">
+            <div class="text-xs text-ios-label2 whitespace-nowrap">
               {board.widgets.length} widgets
             </div>
           </div>
@@ -84,7 +84,7 @@
         {#each template.goals as goal}
           <div class="pill">
             <div class="ntitle">{goal.tag} {goal.comparison} {goal.target}</div>
-            <div class="text-xs text-gray-500 whitespace-nowrap" />
+            <div class="text-xs text-ios-label2 whitespace-nowrap" />
           </div>
         {/each}
       </div>
@@ -98,7 +98,7 @@
         {#each template.pivots as pivot}
           <div class="pill">
             <div class="ntitle">{pivot.emoji}{pivot.tag}</div>
-            <div class="text-xs text-gray-500 whitespace-nowrap" />
+            <div class="text-xs text-ios-label2 whitespace-nowrap" />
           </div>
         {/each}
       </div>

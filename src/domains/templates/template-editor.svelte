@@ -805,7 +805,7 @@
 </script>
 
 {#if template}
-  <p class="description text-gray-500 text-center pb-2 px-3 text-sm leading-tight">
+  <p class="description text-ios-label2 text-center pb-2 px-3 text-sm leading-tight">
     Create a sharable Nomie configuration
   </p>
   <List solo>
@@ -1109,7 +1109,7 @@
           <div class="relative pr-12 w-full">
             <div class="ntitle text-sm">
               <span>{location.name}</span>
-              <span class="text-gray-500 text-xs">({latStr}, {lngStr})</span>
+              <span class="text-ios-label2 text-xs">({latStr}, {lngStr})</span>
             </div>
             <button
               on:click={() => removeLocation(location.id)}
@@ -1135,7 +1135,7 @@
           <div class="relative pr-12 w-full">
             <div class="ntitle text-sm">
               <span>{plugin.emoji || '🔌'} {plugin.name}</span>
-              <span class="text-gray-500 text-xs">{plugin.version}</span>
+              <span class="text-ios-label2 text-xs">{plugin.version}</span>
             </div>
             <button
               on:click={() => removePlugin(plugin.id)}
@@ -1160,8 +1160,8 @@
     @apply space-x-2;
     @apply rounded-md;
     @apply m-1 text-xs px-2 py-1;
-    @apply bg-white dark:bg-black;
-    @apply text-gray-900 dark:text-white;
+    @apply bg-ios-card;
+    @apply text-ios-label;
     @apply shadow-md;
   }
 
@@ -1179,9 +1179,9 @@
   }
 
   .goal-period-label {
-    @apply text-xs font-semibold text-gray-600 dark:text-gray-400;
+    @apply text-xs font-semibold text-ios-label2;
     @apply px-4 py-2 uppercase tracking-wide;
-    @apply bg-gray-50 dark:bg-gray-900;
+    @apply bg-ios-bg;
   }
 
   .pill-wrapper {
