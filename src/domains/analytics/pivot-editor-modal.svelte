@@ -224,7 +224,7 @@
       </div>
     </ListItem>
     <Divider left={16} />
-    <ListItem bottomLine={52} title={"🕵🏻‍♂️ Enable Search Terms"}>
+    <ListItem bottomLine={16} title={"🕵🏻‍♂️ Enable Search Terms"}>
       
       <div slot="right">
         <ToggleSwitch bind:value={searchenabled} title="Toggle Search Terms" />
