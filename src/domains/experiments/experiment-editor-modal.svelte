@@ -172,8 +172,9 @@
     }
   }
 
+  // iOS look: a segmented control. The track is the fill; the selected segment is the thumb (white in light, grey in dark); the others sit on the track.
   const segment = (active: boolean) =>
-    `py-2 rounded-xl text-sm font-medium transition-colors ${active ? 'ios-thumb text-ios-label' : 'bg-ios-card text-ios-label'}`
+    `py-2 rounded-xl text-sm font-medium transition-colors ${active ? 'ios-thumb text-ios-label' : 'bg-transparent text-ios-label'}`
 </script>
 
 <BackdropModal>
@@ -272,7 +273,7 @@
     {:else if step === 3}
       <section class="space-y-2">
         <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">How long?</div>
-        <div class="grid grid-cols-4 gap-2 p-1 rounded-2xl ios-box">
+        <div class="grid grid-cols-4 gap-2 p-1 rounded-2xl bg-ios-fill">
           {#each EXPERIMENT_DURATIONS as days}
             <button
               class={segment(durationDays === days)}
@@ -287,7 +288,7 @@
 
       <section class="space-y-2">
         <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">When does it start?</div>
-        <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl ios-box">
+        <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-ios-fill">
           <button
             class={segment(startChoice === 'today')}
             onclick={() => {
