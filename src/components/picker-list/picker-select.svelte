@@ -81,7 +81,8 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
   {/if}
   {#each picks || [] as pick, index (index)}
     {#if isHeader(pick)}
-      <div class="text-ios-label text-lg font-bold pt-5 pb-1 px-3 mt-1">
+      <!-- iOS look: a group is a section header, small uppercase secondary text -->
+      <div class="text-ios-label2 text-sm font-semibold uppercase tracking-wide pt-5 pb-1 px-3 mt-1">
         {pick.replace(':', '')}
       </div>
     {:else}
@@ -90,9 +91,7 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
         style="min-height:40px;"
         compact
         clickable
-        className="pl-3 pr-2 compact duration-75  {active.indexOf(pick) > -1
-          ? 'bg-ios-tintsoft text-white'
-          : 'bg-ios-card'}"
+        className="pl-3 pr-2 compact duration-75 bg-ios-card"
         on:click={() => {
           toggle(pick)
         }}
