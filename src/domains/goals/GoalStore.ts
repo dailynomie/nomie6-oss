@@ -219,26 +219,36 @@ export const openGoalEditor = (goal?: GoalClass) => {
  * @param trackables
  * @returns Array GoalUsageResponseType
  */
-// iOS look (guide 5.8): the last seven days of a daily goal, hit (true) or missed (false).
+// iOS look (guide 5.8): the history of a goal, one entry per period, hit (true) or missed (false).
+// Daily goals show the last 7 days, weekly goals the last 4 weeks, monthly goals the last 12 months.
 // It reads the usage only. Unlike getGoalUsage it does not write GoalScoreStore, so today's score is unchanged.
+const HISTORY_PERIODS: { [duration: string]: { count: number; unit: 'day' | 'week' | 'month' } } = {
+  day: { count: 7, unit: 'day' },
+  week: { count: 4, unit: 'week' },
+  month: { count: 12, unit: 'month' },
+}
+
 export const getGoalHistory = async (
   _goals: Array<GoalClass>,
-  trackables,
-  days: number = 7
+  trackables
 ): Promise<{ [goalId: string]: Array<boolean> }> => {
   const history: { [goalId: string]: Array<boolean> } = {}
-  const goals = _goals.filter((g) => g && g.duration === 'day')
+  const goals = _goals.filter((g) => g && HISTORY_PERIODS[g.duration])
   if (!goals.length) return history
   const today = dayjs()
-  const usages = await queryToUsageMap(
-    { start: today.subtract(days - 1, 'day').startOf('day'), end: today.endOf('day') },
-    trackables
-  )
+  const queryStart = goals
+    .map((goal) => {
+      const { count, unit } = HISTORY_PERIODS[goal.duration]
+      return today.subtract(count - 1, unit).startOf(unit)
+    })
+    .reduce((earliest, start) => (start.isBefore(earliest) ? start : earliest))
+  const usages = await queryToUsageMap({ start: queryStart, end: today.endOf('day') }, trackables)
   goals.forEach((goal: GoalClass) => {
+    const { count, unit } = HISTORY_PERIODS[goal.duration]
     const usage = usages[goal.tag]
-    history[goal.id] = Array.from({ length: days }, (_, i) => {
-      const day = today.subtract(days - 1 - i, 'day')
-      const span = getTimespanFromGoal(goal, day)
+    history[goal.id] = Array.from({ length: count }, (_, i) => {
+      const base = today.subtract(count - 1 - i, unit)
+      const span = getTimespanFromGoal(goal, base)
       const truncatedUsage = usage ? usage.truncate(span.start, span.end) : undefined
       const scores = goal.calculateScores(truncatedUsage)
       return (!scores.length && goal.isDontDoIt) || (scores.length > 0 && scores[0].success === true)

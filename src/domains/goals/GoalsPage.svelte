@@ -280,12 +280,12 @@
                 {/each}
               </div>
               {#if goalHistory[item.goal.id]}
-                <!-- iOS look (guide 5.8): the last seven days, one 18 x 6 px bar per day -->
+                <!-- iOS look (guide 5.8): 7 days, 4 weeks or 12 months, one 18 x 6 px bar per period -->
                 <div
                   class="flex items-center pb-1"
-                  style="gap: 5px"
+                  style="gap: {goalHistory[item.goal.id].length > 7 ? 3 : 5}px"
                   role="img"
-                  aria-label="Reached on {goalHistory[item.goal.id].filter(Boolean).length} of the last 7 days"
+                  aria-label="Reached on {goalHistory[item.goal.id].filter(Boolean).length} of the last {goalHistory[item.goal.id].length} {item.goal.duration === 'month' ? 'months' : item.goal.duration === 'week' ? 'weeks' : 'days'}"
                 >
                   {#each goalHistory[item.goal.id] as hit}
                     <span class="history-bar {hit ? 'hit' : ''}"></span>
