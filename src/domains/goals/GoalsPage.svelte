@@ -13,6 +13,7 @@
   import { GoalClass, type GoalDurationType } from './goal-class'
 
   import {
+    getGoalHistory,
     getGoalUsage,
     GoalScoreStore,
     GoalStore,
@@ -46,6 +47,7 @@
   let view: GoalDurationType = $state('day')
   let goals: Array<GoalClass> = $state([])
   let goalUsages: Array<GoalUsageResponseType> = $state([])
+  let goalHistory: { [goalId: string]: Array<boolean> } = $state({})
   let loading: boolean = $state(true)
   let mounted = $state(false)
   let activeDate = $state(dayjs())
@@ -65,6 +67,9 @@
         goals = [...$GoalStore]
         getGoalUsage(goals, $TrackableStore.trackables, activeDate).then((gu) => {
           goalUsages = gu
+        })
+        getGoalHistory(goals, $TrackableStore.trackables).then((history) => {
+          goalHistory = history
         })
       }
       loading = false
@@ -274,6 +279,19 @@
                   {/if}
                 {/each}
               </div>
+              {#if goalHistory[item.goal.id]}
+                <!-- iOS look (guide 5.8): the last seven days, one 18 x 6 px bar per day -->
+                <div
+                  class="flex items-center pb-1"
+                  style="gap: 5px"
+                  role="img"
+                  aria-label="Reached on {goalHistory[item.goal.id].filter(Boolean).length} of the last 7 days"
+                >
+                  {#each goalHistory[item.goal.id] as hit}
+                    <span class="history-bar {hit ? 'hit' : ''}"></span>
+                  {/each}
+                </div>
+              {/if}
             </div>
             <div slot="right" class=" flex items-center">
               {#if editMode}
@@ -348,6 +366,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .history-bar {
+    width: 18px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--ios-fill);
+  }
+  .history-bar.hit {
+    background: var(--ios-good);
   }
   .ios-goal-label {
     font-size: 17px;

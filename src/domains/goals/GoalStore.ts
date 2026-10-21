@@ -219,6 +219,34 @@ export const openGoalEditor = (goal?: GoalClass) => {
  * @param trackables
  * @returns Array GoalUsageResponseType
  */
+// iOS look (guide 5.8): the last seven days of a daily goal, hit (true) or missed (false).
+// It reads the usage only. Unlike getGoalUsage it does not write GoalScoreStore, so today's score is unchanged.
+export const getGoalHistory = async (
+  _goals: Array<GoalClass>,
+  trackables,
+  days: number = 7
+): Promise<{ [goalId: string]: Array<boolean> }> => {
+  const history: { [goalId: string]: Array<boolean> } = {}
+  const goals = _goals.filter((g) => g && g.duration === 'day')
+  if (!goals.length) return history
+  const today = dayjs()
+  const usages = await queryToUsageMap(
+    { start: today.subtract(days - 1, 'day').startOf('day'), end: today.endOf('day') },
+    trackables
+  )
+  goals.forEach((goal: GoalClass) => {
+    const usage = usages[goal.tag]
+    history[goal.id] = Array.from({ length: days }, (_, i) => {
+      const day = today.subtract(days - 1 - i, 'day')
+      const span = getTimespanFromGoal(goal, day)
+      const truncatedUsage = usage ? usage.truncate(span.start, span.end) : undefined
+      const scores = goal.calculateScores(truncatedUsage)
+      return (!scores.length && goal.isDontDoIt) || (scores.length > 0 && scores[0].success === true)
+    })
+  })
+  return history
+}
+
 export const getGoalUsage = async (
   _goals: Array<GoalClass>,
   trackables,
