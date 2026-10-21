@@ -41,9 +41,10 @@ import { onMount } from 'svelte';
 
 {#each $TemplateStore as template, index}
   <ListItem>
-    <main>
-      <h2 class="ntitle">{template.name}</h2>
-      <p class="faded">
+    <!-- iOS look: the name and description start at the leading edge, like every list row -->
+    <main class="filler flex flex-col items-start text-left">
+      <h2 class="text-lg font-semibold text-ios-label text-left">{template.name}</h2>
+      <p class="text-left">
         <span class="text-ios-label2">{template.description || 'No Description'}</span>
       </p>
     </main>
@@ -67,7 +68,7 @@ import { onMount } from 'svelte';
           removeTemplate(template)
         }}
         icon
-        primary><IonIcon icon={RemoveOutline} /></Button
+        primary><IonIcon icon={RemoveOutline} className="text-ios-danger" /></Button
       >
       <Button
         on:click={() => {
