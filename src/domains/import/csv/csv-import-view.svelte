@@ -272,12 +272,13 @@ import Divider from '../../../components/divider/divider.svelte'
   async function remove(config: IImportConfig) {
     let confirmed = await Interact.confirm(`Remove ${config.name} Importer?`, 'You can always remake it')
     if (confirmed) {
-     
-      // templates = templates.filter((template) => {
-      //   return template.id !== config.id
-      // })
-      // await UserStore.mstore('csv_templates', templates)
-      showToast({ message: 'Removed' })
+      try {
+        // iOS look (Ronald mandate, Phase 7): the importer is removed from the store, so the list updates
+        await CsvTemplateStore.remove(config)
+        showToast({ message: 'Removed' })
+      } catch (e) {
+        Interact.error(e.message)
+      }
     }
   }
 
