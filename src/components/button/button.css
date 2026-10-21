@@ -3,11 +3,13 @@
   padding-bottom: 12px;
 }
 
+/* iOS look (D-focus): the keyboard focus outline is the tint; a tap shows nothing */
 header[slot="header"] .nbtn.clear {
   @apply focus:outline-none;
   @apply rounded-xl;
-  @apply focus:ring-2 ring-yellow-500;
-  
+}
+header[slot="header"] .nbtn.clear:focus-visible {
+  box-shadow: 0 0 0 2px var(--ios-tint);
 }
 
 .nbtn {
@@ -288,7 +290,7 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
   min-height: 44px;
   font-size: 17px;
 }
-.nbtn.clear.text-red-500 {
+.nbtn.clear.text-ios-danger {
   color: var(--ios-danger);
 }
 .nbtn.text-primary:not(.clear):not(.nbtn-icon) {

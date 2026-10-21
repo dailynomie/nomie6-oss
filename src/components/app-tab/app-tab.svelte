@@ -68,18 +68,19 @@
   .tab-wrap a[aria-current='page']:after {
     content: '';
   }
+  /* iOS look: an unread count is the danger colour, with on-danger text (4.5:1) */
   .tab-wrap a .notify {
-    @apply bg-gray-600 dark:bg-gray-400;
+    background: var(--ios-danger);
   }
   .tab-wrap a[aria-current='page'] .notify {
-    @apply bg-ios-tint dark:text-ios-label;
+    background: var(--ios-danger);
   }
 
   .tab-wrap a .notify {
     @apply absolute;
     @apply top-0;
     @apply z-40;
-    @apply text-white dark:text-ios-label;
+    color: var(--ios-on-danger);
     @apply font-semibold;
     font-size: 11px;
     @apply h-4 flex items-center justify-center;

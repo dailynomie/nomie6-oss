@@ -81,7 +81,7 @@
     {#if !editMode}
       {#if runningTimers.length}
         <Button icon on:click={onShowRunningTimers}>
-          <IonIcon className="text-red-500 flex justify-center animate-pulse" size={30} icon={alarmIcon} />
+          <IonIcon className="text-ios-danger flex justify-center animate-pulse" size={30} icon={alarmIcon} />
         </Button>
       {/if}
     {/if}

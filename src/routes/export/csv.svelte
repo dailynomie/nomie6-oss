@@ -202,7 +202,7 @@
                 }}
                 size="sm"
                 type="clear"
-                className="text-sm  text-red-500"
+                className="text-sm  text-ios-danger"
                 slot="right"
               >
                 <IonIcon icon={RemoveCircleOutline} /></Button

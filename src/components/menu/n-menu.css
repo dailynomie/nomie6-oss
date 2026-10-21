@@ -48,10 +48,10 @@
 }
 .n-menu .pop-button .title {
   @apply font-semibold leading-tight;
-  @apply text-black dark:text-white;
+  @apply text-ios-label;
 }
 .n-menu .pop-button .description {
-  @apply dark:text-gray-400 text-gray-500  mt-1;
+  @apply text-ios-label2 mt-1;
 }
 .n-menu .pop-button.active .title {
   color: var(--ios-label);

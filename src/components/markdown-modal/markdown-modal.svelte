@@ -64,7 +64,7 @@
         <Spinner size={32} />
       </Empty>
     {/if}
-    <div class="prose sm px-4 dark:text-white max-w-screen-lg mx-auto">
+    <div class="prose sm px-4 text-ios-label max-w-screen-lg mx-auto">
       <SvelteMarkdown source={content} />
     </div>
   </div>
@@ -83,17 +83,17 @@
   .prose h5 {
     @apply leading-tight;
     @apply font-bold;
-    @apply dark:text-white;
+    @apply text-ios-label;
   }
   .prose code {
-    @apply dark:text-white font-mono;
-    @apply bg-gray-500 bg-opacity-20;
+    @apply text-ios-label font-mono;
+    @apply bg-ios-fill;
   }
   .prose p {
-    @apply dark:text-gray-200;
+    @apply text-ios-label;
   }
   .prose strong {
-    @apply dark:text-white font-bold;
+    @apply text-ios-label font-bold;
   }
   .prose img {
     @apply shadow-2xl;

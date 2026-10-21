@@ -188,7 +188,7 @@ import Divider from '../divider/divider.svelte'
     @apply opacity-20;
   }
   .menu-inline .menu-icon-button.isOpen {
-    @apply text-white bg-ios-tintsoft;
+    @apply text-ios-tint bg-ios-tintsoft;
   }
   .menu-inline .n-menu .pop-button.focused {
     @apply bg-black dark:bg-white bg-opacity-10 dark:bg-opacity-20;
