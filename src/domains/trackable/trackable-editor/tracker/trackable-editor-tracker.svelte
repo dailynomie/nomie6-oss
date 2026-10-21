@@ -48,7 +48,7 @@
   import { focusTypes } from '../../../focus/focus-utils'
 
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
-  import { AddCircleOutline, ChevronDownOutline, ChevronUpOutline } from '../../../../components/icon/nicons'
+  import { AddCircleOutline, ChevronDownOutline, ChevronForwardOutline, ChevronUpOutline } from '../../../../components/icon/nicons'
 
   import type { Trackable } from '../../Trackable.class'
   import { getTrackerInputAsString, useTrackerInputModal } from '../../../tracker/input/TrackerInputStore'
@@ -264,9 +264,10 @@
     >
       {Lang.t('tracker.input-type', 'Input Type')}
       <div slot="right" class="flex h-12 items-center">
-        <Text bold>{(getTypeDetails(tracker?.type) || {}).label}</Text>
+        <!-- iOS look: a row that opens a list shows its value in secondary text and a disclosure chevron -->
+        <span class="text-ios-label2">{(getTypeDetails(tracker?.type) || {}).label}</span>
 
-        <IonIcon icon={ChevronDownOutline} className="text-ios-label2 mr-3 ml-2" size={16} />
+        <IonIcon icon={ChevronForwardOutline} className="text-ios-label2 mr-3 ml-2" size={16} />
       </div>
     </ListItem>
   </List>

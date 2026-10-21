@@ -552,6 +552,12 @@ html.dark .ios-thumb {
   box-shadow: var(--ios-shadow-float);
 }
 
+/* iOS look (D-focus): Tailwind focus:ring utilities show only for keyboard focus. A tap or click
+   leaves no ring; selected states (ring classes without focus) are not affected. */
+:focus:not(:focus-visible) {
+  --tw-ring-shadow: 0 0 #0000 !important;
+}
+
 /* iOS look: the router moves focus to the page heading after a route change (for screen readers).
    That heading is not a control, so it should not get a white focus box around the title. */
 :is(h1, h2, h3, h4, h5, h6)[tabindex='-1']:focus {
