@@ -379,7 +379,7 @@ import Divider from '../../../components/divider/divider.svelte'
                 <Button
                   size="sm"
                   color="transparent"
-                  className="text-red"
+                  className="text-ios-danger"
                   on:click={() => {
                     listMode = 'list'
                   }}

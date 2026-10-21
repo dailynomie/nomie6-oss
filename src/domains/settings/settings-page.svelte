@@ -289,7 +289,7 @@
 
       <List solo className="mb-3" outside title={Lang.t('settings.danger-zone', 'Danger Zone')}>
         <ListItem detail on:click={deleteEverything} clickable>
-          <Text className="text-red">
+          <Text className="text-ios-danger">
             {Lang.t('settings.destroy-all-data', 'Destroy all Data')}
           </Text>
         </ListItem>

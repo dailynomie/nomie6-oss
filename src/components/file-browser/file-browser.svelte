@@ -345,7 +345,7 @@
         <NItem className="bg-transparent mt-2" title={Lang.t('settings.allow-file-editing', 'Allow file editing')}>
           <Text size="sm" faded>
             Edit data files.
-            <span class="text-red">Use with caution.</span>
+            <span class="text-ios-danger">Use with caution.</span>
           </Text>
           <div slot="right">
             <ToggleSwitch bind:value={$Prefs.allowFileEdit} />
