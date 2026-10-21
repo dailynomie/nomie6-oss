@@ -37,7 +37,7 @@
   class:visible={showMenu}
   class:hidden={!showMenu}
 >
-  <div class="flex items-center pr-4 rounded-full bg-primary-600">
+  <div class="flex items-center pr-4 rounded-full bg-ios-tint">
     <PositivitySelector
       {size}
       {id}
@@ -46,7 +46,7 @@
         toggle()
       }}
     />
-    <button class="flex items-center flex-shrink-0 w-8 px-2 text-white" on:click={toggle}>
+    <button class="flex items-center flex-shrink-0 w-8 px-2 text-ios-ontint" on:click={toggle}>
       <IonIcon icon={CloseOutline} />
     </button>
   </div>

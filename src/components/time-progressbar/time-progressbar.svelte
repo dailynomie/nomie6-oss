@@ -32,7 +32,7 @@
     @apply w-full;
   }
   .time-progressbar .bar {
-    @apply bg-gray-300 dark:bg-black bg-opacity-90 dark:bg-opacity-25;
+    @apply bg-ios-fill;
     @apply h-2;
     @apply rounded-full;
   }

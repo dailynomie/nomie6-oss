@@ -116,9 +116,10 @@
     display: none;
   }
 
+  /* iOS look: negative is the danger token, positive the good token; the unit is a 40% tint of it, the score ball is solid with on-colour text (4.5:1) */
   .positivity-bar .unit.negative {
-    @apply bg-red-600 bg-opacity-40;
-    @apply text-white;
+    background: color-mix(in srgb, var(--ios-danger) 40%, transparent);
+    color: var(--ios-label);
     @apply justify-end;
   }
 
@@ -127,7 +128,8 @@
   }
 
   .positivity-bar .unit.negative .score-ball {
-    @apply bg-red-600 text-white;
+    background: var(--ios-danger);
+    color: var(--ios-on-danger);
     @apply z-40;
   }
 
@@ -149,13 +151,13 @@
     /* @apply ring-2 ring-red-500 ring-opacity-50; */
   }
   .positivity-bar .unit.positive {
-    @apply bg-green-600 bg-opacity-40;
-    @apply text-white;
+    background: color-mix(in srgb, var(--ios-good) 40%, transparent);
+    color: var(--ios-label);
     @apply flex items-start justify-end;
   }
   .positivity-bar .unit.positive .score-ball {
-    @apply bg-green-600;
-    @apply text-white;
+    background: var(--ios-good);
+    color: var(--ios-on-save);
   }
   .positivity-bar .unit.neutral {
     @apply bg-ios-card;

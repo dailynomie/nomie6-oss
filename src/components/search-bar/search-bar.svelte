@@ -112,7 +112,7 @@
 
   .search-bar .n-input-container {
     margin-bottom: 0 !important;
-    @apply bg-gray-400 dark:bg-gray-600 bg-opacity-30 dark:bg-opacity-30;
+    @apply bg-ios-fill;
   }
   .search-bar .n-input-container .n-input-wrapper input {
     /* iOS look: the placeholder keeps 4.5:1 on the search fill (label-2 is 4.2:1 there) */

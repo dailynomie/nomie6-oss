@@ -98,6 +98,6 @@
     @apply h-7 w-7;
   }
   .toast-type.success {
-    @apply text-green-500;
+    @apply text-ios-good;
   }
 </style>

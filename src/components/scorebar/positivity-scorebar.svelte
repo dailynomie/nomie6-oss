@@ -23,12 +23,12 @@
     total={positivity.positive - positivity.negative}
     {className}
     scores={[
-      { label: 'Positive', score: positivity.positive, className: 'bg-green-600 text-white' },
-      { label: 'Negative', score: positivity.negative, className: 'bg-red-600 text-white' },
+      { label: 'Positive', score: positivity.positive, className: 'bg-ios-good text-ios-onsave' },
+      { label: 'Negative', score: positivity.negative, className: 'bg-ios-danger text-ios-ondanger' },
       {
         label: 'Neutral',
         score: positivity.neutral,
-        className: 'bg-black dark:bg-white bg-opacity-20 dark:bg-opacity-20',
+        className: 'bg-ios-fill',
       },
     ]}
   />

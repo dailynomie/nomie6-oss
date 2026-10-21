@@ -11,7 +11,7 @@
   class:r2l
   aria-label={title}
   {title}
-  class="progress flex n-progress-bar  rounded-full  {className || 'h-6 dark:bg-gray-700 bg-gray-300'}"
+  class="progress flex n-progress-bar  rounded-full  {className || 'h-6 bg-ios-fill'}"
   {style}
 >
   <div

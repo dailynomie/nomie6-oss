@@ -52,10 +52,10 @@
     height: 8px;
   }
   .n-stepper .step.active.primary-bright {
-    @apply bg-primary;
+    @apply bg-ios-tint;
   }
   .n-stepper.dark .step {
-    @apply bg-primary;
+    @apply bg-ios-tint;
     opacity: 0.2;
   }
   .n-stepper.dark .step.active {

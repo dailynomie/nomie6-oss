@@ -124,7 +124,7 @@
     text-align: left;
     @apply shadow-xl;
     @apply bg-ios-tint;
-    @apply text-white;
+    @apply text-ios-ontint;
     @apply rounded-xl;
   }
 </style>
