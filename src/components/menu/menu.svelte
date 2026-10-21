@@ -19,6 +19,8 @@
   let accessorySize = $state(24)
 
   const { buttons, size, className, style, id } = $props()
+  // a menu with any checkable row reserves the checkmark's width on every row
+  const hasCheckmarks = $derived(buttons.some((b: PopMenuButton) => b.checked !== undefined))
 
   const buttonGroup = $derived.by(() => {
     if (buttons) {
@@ -78,6 +80,9 @@
         <div>
           <IonIcon className="text-ios-tint" icon={CheckmarkCircle} />
         </div>
+      {:else if hasCheckmarks}
+        <!-- iOS look: when a menu has checkable rows, every label starts at the same edge -->
+        <div class="check-space" aria-hidden="true"></div>
       {/if}
       <main class="flex-fill w-full transition-all">
         <h1
@@ -103,6 +108,11 @@
 </div>
 
 <style global lang="postcss">
+  /* the width of the checkmark icon, reserved on rows that are not checked */
+  .check-space {
+    width: 22px;
+    flex-shrink: 0;
+  }
   .n-menu > button:first-child {
     @apply rounded-t-2xl;
   }

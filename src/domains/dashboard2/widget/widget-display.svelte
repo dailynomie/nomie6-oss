@@ -84,6 +84,8 @@
     ].map((b) => {
       return {
         title: b.label,
+        // iOS look: the current size carries a blue checkmark, as the timeframe menu does
+        checked: b.id == widget.size,
         click() {
           // Mutate widget and force re-render via updateTrigger
           widget.size = b.id

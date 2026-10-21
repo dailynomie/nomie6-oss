@@ -131,9 +131,13 @@
     @apply bg-transparent;
   }
 
+  /* iOS look: the menu's backdrop is a light, blurred layer over the page (not a grey sheet) */
   .drop-menu-background {
     @apply fixed top-0 bottom-0 left-0 right-0;
-    @apply bg-ios-fill z-50;
+    @apply z-50;
+    background: color-mix(in srgb, var(--ios-bg) 25%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
   }
 
   .dropmenu {

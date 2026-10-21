@@ -343,14 +343,14 @@ else {contextannotation.annotations ={}}
     const buttons = [
       {
         title: Lang.t('general.line-chart', 'Line Chart'),
-        icon: localType === 'line' ? CheckmarkCircle : undefined,
+        checked: localType === 'line',
         click() {
           setChartType('line', startWithZero, ignoreZero,chartStats, includeAlso, showContext)
         },
       },
       {
         title: Lang.t('general.bar-chart', 'Bar Chart'),
-        icon: localType === 'bar' ? CheckmarkCircle : undefined,
+        checked: localType === 'bar',
         click() {
           setChartType('bar', startWithZero, ignoreZero,chartStats, includeAlso,showContext)
         },
