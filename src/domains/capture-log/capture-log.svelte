@@ -63,7 +63,7 @@
   import Button from '../../components/button/button.svelte'
   import { openPluginModal, PluginStore } from '../plugins/PluginStore'
 
-  import TimeSelect from '../../components/time-select/time-select.svelte'
+  import IosDatetimeField from '../../components/ios-date/ios-datetime-field.svelte'
   import CaptureAddonMenuController from './capture-addon-menu-controller.svelte'
   import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
   import { navigate } from '../../vendor/svelte-navigator'
@@ -326,13 +326,28 @@
     }
   }
 
-  const eventDateChange = (e: CustomEvent) => {
-    $ActiveLogStore.end = dayjs(e.detail).toDate()
+  const applyCaptureDate = (date: Date) => {
+    $ActiveLogStore.end = dayjs(date).toDate()
     loadToday({
       knownTrackables: $TrackableStore.trackables,
-      date: dayjs(e.detail),
+      date: dayjs(date),
     })
   }
+  const eventDateChange = (e: CustomEvent) => applyCaptureDate(dayjs(e.detail).toDate())
+
+  // iOS look (Phase 4): the pill reads "Today 08:12", or the day and time for another day
+  const captureLabel = $derived.by(() => {
+    const date = dayjs($TodayStore.date)
+    const time = date.format($Prefs.use24hour ? 'HH:mm' : 'h:mm A')
+    return date.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD') ? `Today ${time}` : `${date.format('ddd D MMM')} ${time}`
+  })
+
+  // iOS look (Phase 4): the check-in card is hidden while the capture card is being typed in
+  $effect(() => {
+    const typing = isFocused || isPopulated
+    document.body.classList.toggle('capture-typing', typing)
+    return () => document.body.classList.remove('capture-typing')
+  })
 
   const { className } = $props()
 
@@ -461,17 +476,17 @@
                 </button>
               </div>
 
-              <TimeSelect
-                className="stiff"
-                bind:value={$TodayStore.date}
-                is24Hour={$Prefs.use24hour}
-                showDateButton={true}
-                dateButtonClass={showDateSelector ? 'dark:text-ios-tint text-ios-tint' : ''}
-                on:dateClick={() => {
+              <button
+                type="button"
+                class="time-pill"
+                aria-expanded={showDateSelector}
+                aria-label="Change date and time"
+                on:click={() => {
                   showDateSelector = !showDateSelector
                 }}
-                on:change={(evt) => eventDateChange(evt)}
-              />
+              >
+                {captureLabel}
+              </button>
 
               <!-- {#if $LedgerStoreSaving}
                 <button disabled id="save-log-button" aria-label="Save Note" class="save-button">
@@ -493,6 +508,12 @@
                 is24Hour={$Prefs.use24hour}
                 on:change={(e) => eventDateChange(e)}
               />
+              <div class="capture-time-row">
+                <IosDatetimeField
+                  value={$TodayStore.date.format('YYYY-MM-DDTHH:mm')}
+                  onchange={(v) => applyCaptureDate(dayjs(v).toDate())}
+                />
+              </div>
             </div>
           {/if}
         </div>

@@ -664,3 +664,8 @@ input[type='number'] {
   border-radius: 18px;
   color: var(--ios-label2);
 }
+
+/* iOS look (Phase 4): the check-in card steps aside while the capture card is being typed in */
+body.capture-typing .experiment-check-in-card {
+  display: none;
+}

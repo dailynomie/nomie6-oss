@@ -239,3 +239,21 @@
   min-height: 44px;
   border-radius: 12px;
 }
+
+/* iOS look (Phase 4): the date and time pill is a 34 px fill pill, 15 px with tabular numbers */
+.capture-wrapper .time-pill {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 17px;
+  background: var(--ios-fill);
+  color: var(--ios-label);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.capture-wrapper .time-pill[aria-expanded='true'] {
+  color: var(--ios-tint);
+}
+.capture-wrapper .capture-time-row {
+  padding: 8px 0 4px;
+}
