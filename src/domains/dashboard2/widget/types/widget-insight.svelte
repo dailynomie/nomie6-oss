@@ -227,7 +227,7 @@
   {:else if error}
     <div class="flex items-center justify-center h-full">
       <div class="text-center px-4">
-        <p class="text-xs text-ios-danger font-semibold">{error}</p>
+        <p class="text-xs text-ios-label2 font-semibold"><span aria-hidden="true">⚠︎</span> {error}</p>
       </div>
     </div>
   {:else if insight}

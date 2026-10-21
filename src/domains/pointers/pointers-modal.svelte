@@ -110,7 +110,7 @@
           />
         </List>
         <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
-          <span class="w-2.5 h-2.5 rounded-full bg-ios-danger"></span>
+          <span aria-hidden="true" class="text-ios-label">⚠︎</span>
           <span>Pointer Reminder Overdue</span>
         </div>
         <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">

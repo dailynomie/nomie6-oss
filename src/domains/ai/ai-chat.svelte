@@ -223,8 +223,9 @@
       </button>
     </div>
     {#if aiState.error}
-      <div class="mt-3 p-3 rounded-lg bg-ios-card2 text-ios-danger">
+      <div class="mt-3 p-3 rounded-lg bg-ios-card2 text-ios-label">
         <p class="text-sm leading-tight whitespace-pre-wrap">
+          <span aria-hidden="true">⚠︎</span>
           {#if aiState.error.includes('openrouter.ai/settings/credits')}
             <span class="font-semibold block mb-1">🔗 OpenRouter Setup Needed</span>
           {/if}

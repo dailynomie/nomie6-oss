@@ -368,7 +368,7 @@
           {#if ogTag || workingTag}
             <div class="tag-control flex justify-end items-center space-x-2">
               {#if tagExists}
-                <div class="text-ios-danger text-xs">Tag already exists</div>
+                <div class="text-ios-label2 text-xs"><span aria-hidden="true">⚠︎</span> Tag already exists</div>
               {/if}
               <button
                 on:click={() => editTag()}
