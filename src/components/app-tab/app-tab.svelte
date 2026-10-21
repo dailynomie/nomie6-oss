@@ -72,7 +72,7 @@
     @apply bg-gray-600 dark:bg-gray-400;
   }
   .tab-wrap a[aria-current='page'] .notify {
-    @apply bg-primary-500 dark:text-ios-label;
+    @apply bg-ios-tint dark:text-ios-label;
   }
 
   .tab-wrap a .notify {

@@ -427,7 +427,7 @@ import is from '../../utils/is/is';
     bottom: 0;
     height: 2px;
     @apply w-full;
-    @apply bg-primary-500;
+    @apply bg-ios-tint;
   } */
   .n-input-container .n-input-wrapper textarea,
   .n-input-container .n-input-wrapper input {

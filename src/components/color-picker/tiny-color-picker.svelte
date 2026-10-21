@@ -53,7 +53,7 @@ import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte'
   }
   .tiny-color-picker button.blue {
     @apply border-primary-500;
-    @apply bg-primary-500;
+    @apply bg-ios-tint;
   }
   .tiny-color-picker button.red {
     @apply border-red-500;

@@ -27,7 +27,7 @@
   </Button>
   {#if !hideCal}
     <Button
-      className="calendar-action {isToday ? 'tap-icon' : 'text-white bg-primary-500'}"
+      className="calendar-action {isToday ? 'tap-icon' : 'text-ios-ontint bg-ios-tint'}"
       ariaLabel="Choose a date"
       delay={0}
       icon

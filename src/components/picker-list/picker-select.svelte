@@ -91,7 +91,7 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
         compact
         clickable
         className="pl-3 pr-2 compact duration-75  {active.indexOf(pick) > -1
-          ? 'bg-primary-500 bg-opacity-10 text-white'
+          ? 'bg-ios-tintsoft text-white'
           : 'bg-gray-200 dark:bg-gray-800'}"
         on:click={() => {
           toggle(pick)

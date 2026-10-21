@@ -123,7 +123,7 @@
     z-index: 1;
     text-align: left;
     @apply shadow-xl;
-    @apply bg-primary-500;
+    @apply bg-ios-tint;
     @apply text-white;
     @apply rounded-xl;
   }

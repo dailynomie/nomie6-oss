@@ -109,7 +109,7 @@
   {#if !loading && lastTo}
     <Button
       block
-      className="mx-auto bg-primary-500 focus:ring-2 ring-yellow-500  text-white"
+      className="mx-auto bg-ios-tint focus:ring-2 ring-yellow-500  text-ios-ontint"
       style="max-width:300px;"
       on:click={search}
     >
@@ -124,7 +124,7 @@
   {:else if loading}
     <div class="px-4 pb-4 text-center">
       <p class="text-xs font-bold pb-2 text-gray-700 dark:text-gray-300">Going back in time...</p>
-      <Button block className="mx-auto bg-primary-500 text-white" style="max-width:300px;" disabled>
+      <Button block className="mx-auto bg-ios-tint text-ios-ontint" style="max-width:300px;" disabled>
         <Spinner size={18} />
         <span class="ml-2">{Lang.t('general.searching', 'Searching...')}</span>
       </Button>

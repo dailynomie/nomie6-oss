@@ -215,7 +215,7 @@
               ? 'bg-green-500'
               : dayItem.positivity == 'negative'
               ? 'bg-red-500'
-              : 'bg-primary-500'}"
+              : 'bg-ios-tint'}"
             percentage={dayItem.percentage}
           />
         {/if}
@@ -274,7 +274,7 @@
   }
   .calendar-4 .calendar-days .day.today span {
     @apply text-green-500 font-bold;
-    @apply bg-primary-500 text-white;
+    @apply bg-ios-tint text-ios-ontint;
     @apply rounded-full;
     @apply h-6 w-6;
     @apply flex items-center justify-center;

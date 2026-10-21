@@ -16,7 +16,7 @@
 >
   <div
     class="h-full rounded-full {`${percentage}` !== '100' ? not100Class : is100Class}
-    progress-bar transition-all {barClass || 'bg-primary-500'}"
+    progress-bar transition-all {barClass || 'bg-ios-tint'}"
     role="progressbar"
     style={`width:${percentage}%; ${color ? `background-color:${color};` : ''}`}
   />

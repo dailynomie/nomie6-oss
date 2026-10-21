@@ -350,7 +350,7 @@
     width: 4px;
     border-radius: 2px;
 
-    @apply bg-primary-500;
+    @apply bg-ios-tint;
     bottom: -5px;
     position: absolute;
   }
