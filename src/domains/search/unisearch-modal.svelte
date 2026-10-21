@@ -443,7 +443,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
 
   .unisearch .search-input {
     @apply bg-ios-card dark:text-white;
-    @apply text-lg py-3 pr-8 pl-10 focus:outline-none focus:ring-2 ring-inset ring-primary-500;
+    @apply text-lg py-3 pr-8 pl-10 focus:outline-none;
   }
 
   .unisearch .selectable .action {
