@@ -236,20 +236,9 @@
         {:else}Locations{/if}
       </h1>
       <div slot="right">
-        {#if state.mode == 'edit'}
-          {#if saving}
-            <Spinner size={24} />
-          {:else}
-            <Button
-              clear
-              primary
-              type="clear"
-              
-            >
-              .
-            </Button>
-          {/if}
-        
+        <!-- iOS look: the empty placeholder action is removed; only the saving spinner shows here -->
+        {#if state.mode == 'edit' && saving}
+          <Spinner size={24} />
         {/if}
       </div>
     </ToolbarGrid>
@@ -353,7 +342,7 @@
                         <IonIcon icon={MenuOutline} />
                       </div>
 
-                      <h2 class="ntitle">
+                      <h2 class="text-ios-body font-semibold text-ios-label text-left">
                         {item.name}
                         {#if state.active && item.hash == state.active.hash}
                           <IonIcon icon={CheckmarkCircle} className="text-primary-500" />
@@ -363,7 +352,8 @@
                       <div slot="right" class="flex">
                         <Button
                           icon
-                          className="tap-icon"
+                          className="ios-round"
+                          aria-label="Rename location"
                           on:click={() => {
                             rename(item)
                           }}
@@ -372,11 +362,13 @@
                         </Button>
                         <Button
                           icon
+                          className="ios-round"
+                          aria-label="Remove location"
                           on:click={(evt) => {
                             unfavorite(item)
                           }}
                         >
-                          <IonIcon icon={TrashOutline} className="text-red-500" />
+                          <IonIcon icon={TrashOutline} className="text-ios-danger" />
                         </Button>
                       </div>
                     </NItem>
