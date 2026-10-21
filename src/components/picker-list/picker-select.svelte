@@ -124,15 +124,6 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
     <slot name="bottom" />
   </div>
 
-  <!-- <div class="value">{tempValue}</div>
-  <input
-    type="range"
-    bind:value={tempValue}
-    {min}
-    {max}
-    on:change={() => {
-      dispatch('change', parseInt(tempValue));
-    }} /> -->
 </div>
 
 <style lang="postcss" global>
