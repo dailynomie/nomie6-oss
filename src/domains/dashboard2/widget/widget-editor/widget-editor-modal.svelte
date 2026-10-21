@@ -391,7 +391,7 @@
           Prompt Type
           <!-- iOS look: the widget is a class instance, so the group reads and writes through updateTrigger to re-render -->
           <ButtonGroup
-            value={(updateTrigger, editingWidget.data.promptType)}
+            value={(updateTrigger, editingWidget.data.promptType ?? 'predefined')}
             on:change={(evt) => {
               editingWidget.data.promptType = evt.detail.value
               updateTrigger = updateTrigger + 1
@@ -407,7 +407,7 @@
         <Divider left={18} />
 
         <!-- Predefined Prompts Dropdown -->
-        {#if (updateTrigger, editingWidget.data.promptType) === 'predefined'}
+        {#if (updateTrigger, editingWidget.data.promptType ?? 'predefined') === 'predefined'}
           <Input type="select" listItem bind:value={editingWidget.data.promptValue} label="Select Prompt" placeholder={`${Lang.t('dashboard.select-prompt', 'Select a prompt')}`} options={[{ value: 'patterns', label: 'Patterns' }, { value: 'progress', label: 'Progress' }, { value: 'insights', label: 'Insights' }, { value: 'recommendations', label: 'Recommendations' }, { value: 'trends', label: 'Trends' }, { value: 'wellbeing', label: 'Wellbeing' }, { value: 'productivity', label: 'Productivity' }, { value: 'health', label: 'Health' }, { value: 'mood', label: 'Mood & Emotions' }, { value: 'correlation', label: 'Correlations' }]} />
         {/if}
 
