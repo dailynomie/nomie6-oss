@@ -175,14 +175,15 @@
 
   {#if config.enabled && !$Prefs.usePin}
     <ListItem bottomLine={16}>
-      <div class="w-full py-3 p-3 bg-red-50 dark:bg-red-950 rounded-lg border border-red-200 dark:border-red-800">
+      <!-- iOS look: an information notice is a neutral card; red is reserved for destructive actions -->
+      <div class="w-full py-3 p-3 bg-ios-card2 rounded-xl">
         <div class="flex gap-2">
           <span class="flex-shrink-0 text-lg">⚠️</span>
           <div class="flex-grow min-w-0">
-            <p class="text-sm font-semibold text-red-900 mb-1">
+            <p class="text-sm font-semibold text-ios-label mb-1">
               API Key Encryption Available
             </p>
-            <p class="text-xs text-red-800 leading-tight">
+            <p class="text-xs text-ios-label2 leading-tight">
               Your Nomie data always stays local on your device, which provides strong security. You can add an additional layer of protection by enabling a PIN in
               <span class="font-semibold">More Settings → Security → Use PIN</span>
               to encrypt your API key.
@@ -219,12 +220,12 @@
         <p class="text-xs text-ios-label2 mb-3">{getServiceDocs(config.selectedService)}</p>
         {#if config.apiKey}
           {#if isEncrypted}
-            <div class="flex items-center gap-2 mb-3 p-2 bg-green-100 dark:bg-green-900 rounded text-green-800 dark:text-green-200 text-xs">
+            <div class="flex items-center gap-2 mb-3 p-2 bg-ios-goodsoft rounded text-ios-good text-xs">
               <span>✓</span>
               <span>API key is encrypted with your PIN</span>
             </div>
           {:else if $Prefs.usePin}
-            <div class="flex items-center gap-2 mb-3 p-2 bg-yellow-100 dark:bg-yellow-900 rounded text-yellow-800 dark:text-yellow-200 text-xs">
+            <div class="flex items-center gap-2 mb-3 p-2 bg-ios-tintsoft rounded text-ios-tint text-xs">
               <span>⚠</span>
               <span>API key will be encrypted on next save</span>
             </div>
