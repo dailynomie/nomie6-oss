@@ -134,7 +134,7 @@
       label={Lang.t('tracker.positivity', 'Positivity')}
       options={[
         ...appConfig.positivity.map((positivity) => ({ value: `${positivity.score}`, label: `${positivity.emoji} ${positivity.label}` })),
-        { value: 'custom', label: `🛠 ${Lang.t('general.customize', ' Custom')}` },
+        { value: 'custom', label: Lang.t('general.customize', 'Custom') },
       ]}
     />
     {#if tracker.score === 'custom'}
