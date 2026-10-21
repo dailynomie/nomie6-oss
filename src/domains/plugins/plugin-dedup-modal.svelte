@@ -100,25 +100,25 @@
   <main class="filler space-y-4 p-4">
     {#if !hasScanned}
       <div class="info-box p-4 rounded-lg">
-        <Text bold className="text-gray-800 dark:text-gray-100 mb-2">What This Does</Text>
-        <Text className="text-gray-700 dark:text-gray-200" size="sm">
+        <Text bold className="text-ios-label mb-2">What This Does</Text>
+        <Text className="text-ios-label2" size="sm">
           Plugins are created by different developers and may store data differently. Over time, duplicate entries can accumulate in your plugin database—especially if you've synced data across devices.
         </Text>
-        <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
+        <Text className="text-ios-label2 mt-2" size="sm">
           This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their functionality are never affected—only the background storage is tidied up.
         </Text>
-        <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
+        <Text className="text-ios-label2 mt-2" size="sm">
           No changes are made until you confirm. You can always scan again to verify the results.
         </Text>
       </div>
 
       {#if lastCleanupLog}
-        <div class="last-cleanup-box p-3 rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800">
-          <Text bold size="sm" className="text-blue-900 dark:text-blue-100 mb-1">Last Cleanup</Text>
-          <Text size="xs" className="text-blue-800 dark:text-blue-200">
+        <div class="last-cleanup-box p-3 rounded-lg bg-ios-card">
+          <Text bold size="sm" className="text-ios-label mb-1">Last Cleanup</Text>
+          <Text size="xs" className="text-ios-label">
             {dayjs(lastCleanupLog.date).format('MMM D, YYYY [at] h:mm A')} ({lastCleanupLog.type})
           </Text>
-          <Text size="xs" className="text-blue-700 dark:text-blue-300 mt-1">
+          <Text size="xs" className="text-ios-label2 mt-1">
             Found {lastCleanupLog.duplicatesFound} duplicate{lastCleanupLog.duplicatesFound === 1 ? '' : 's'} and {lastCleanupLog.rogueFoldersFound} rogue folder{lastCleanupLog.rogueFoldersFound === 1 ? '' : 's'}
           </Text>
         </div>
@@ -133,15 +133,15 @@
       </Button>
     {:else if scanResult}
       {#if scanResult.hasDuplicates}
-        <div class="duplicate-alert p-4 rounded-lg flex gap-3">
+        <div class="duplicate-alert p-4 rounded-lg flex gap-3 bg-ios-card">
           <div class="flex-shrink-0">
-            <IonIcon icon={CircleOutline} className="text-orange-500 dark:text-orange-400" size={20} />
+            <IonIcon icon={CircleOutline} className="text-ios-label2" size={20} />
           </div>
           <div class="flex-grow">
-            <Text bold className="text-orange-900 dark:text-orange-100">
+            <Text bold className="text-ios-label">
               {scanResult.totalDuplicateEntries + scanResult.totalRogueFolders} Issue{scanResult.totalDuplicateEntries + scanResult.totalRogueFolders === 1 ? '' : 's'} Found
             </Text>
-            <Text size="sm" className="text-orange-800 dark:text-orange-200">
+            <Text size="sm" className="text-ios-label2">
               {#if scanResult.totalDuplicateEntries > 0}
                 {scanResult.totalDuplicateEntries} duplicate {scanResult.totalDuplicateEntries === 1 ? 'entry' : 'entries'}
               {/if}
@@ -176,7 +176,7 @@
                       Orphaned plugin folder (not in plugins.json)
                     {/if}
                   </Text>
-                  <Text size="xs" className="text-ios-label2 dark:text-gray-500 mt-1">
+                  <Text size="xs" className="text-ios-label2 mt-1">
                     {issue.fileLocation}
                   </Text>
                 </div>
@@ -204,15 +204,15 @@
           </Button>
         </div>
       {:else}
-        <div class="success-box p-4 rounded-lg flex gap-3">
+        <div class="success-box p-4 rounded-lg flex gap-3 bg-ios-goodsoft">
           <div class="flex-shrink-0">
-            <IonIcon icon={CheckmarkCircle} className="text-green-500 dark:text-green-400" size={20} />
+            <IonIcon icon={CheckmarkCircle} className="text-ios-good" size={20} />
           </div>
           <div class="flex-grow">
-            <Text bold className="text-green-900 dark:text-green-100">
+            <Text bold className="text-ios-good">
               No Issues Found
             </Text>
-            <Text size="sm" className="text-green-800 dark:text-green-200">
+            <Text size="sm" className="text-ios-good">
               Your plugin database is clean ({scanResult.totalPluginsInMainList} {scanResult.totalPluginsInMainList === 1 ? 'plugin' : 'plugins'}) with no duplicates or rogue folders
             </Text>
           </div>
@@ -232,35 +232,14 @@
 </BackdropModal>
 
 <style lang="postcss">
-  :global(.info-box) {
-    background-color: #eff6ff;
-  }
-
-  :global(.dark .info-box) {
-    background-color: #0c2940;
-  }
-
-  :global(.last-cleanup-box) {
-    background-color: #eff6ff;
-  }
-
-  :global(.dark .last-cleanup-box) {
-    background-color: #0c2940;
-  }
-
+  /* iOS look: notices are cards (info and caution, with a glyph); success is the good soft fill; dark mode follows the tokens */
+  :global(.info-box),
+  :global(.last-cleanup-box),
   :global(.duplicate-alert) {
-    background-color: #fffbeb;
-  }
-
-  :global(.dark .duplicate-alert) {
-    background-color: #78350f;
+    background-color: var(--ios-card);
   }
 
   :global(.success-box) {
-    background-color: #f0fdf4;
-  }
-
-  :global(.dark .success-box) {
-    background-color: #1b4332;
+    background-color: var(--ios-good-soft);
   }
 </style>
