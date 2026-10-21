@@ -34,7 +34,7 @@
     <button
       type="button"
       aria-label="More about this Trackable"
-      class="more {is.truthy(value) && compact ? 'has-value text-white' : 'no-value text-ios-label2'}"
+      class="more {is.truthy(value) ? 'has-value text-white' : 'no-value text-ios-label2'}"
       on:click={(evt) => {
         evt.preventDefault()
         evt.stopPropagation()
@@ -66,7 +66,7 @@
       clickSkip = undefined
     }}
   >
-    <div class="emoji-holder" style={`color:${color}`}>
+    <div class="emoji-holder" style={is.truthy(value) ? 'color:#FFF' : `color:${color}`}>
       {#if emoji || avatar || title}
         {#key emoji || avatar || title}
           <Avatar label={title} {emoji} src={avatar} size={emojiSize} />
@@ -260,7 +260,7 @@
     @apply justify-center;
   }
 
-  .shortcut-button.compact.has-value .subtitle-slot .letter-ticker {
+  .shortcut-button.has-value .subtitle-slot .letter-ticker {
     color: #fff;
   }
   .shortcut-button.compact .n-counter {
@@ -305,11 +305,11 @@
   /* Experiment check-in trackers: a soft tint with a dashed tint border */
   /* A value today: a small value in the top-right corner, and a soft tint glow around the card */
   /* iOS look: a tile with a value gets a light tint of its colour, and the glow. Both sizes (normal and compact) share this rule. */
-  .shortcut-button.compact.has-value {
+  .shortcut-button.has-value {
     background: color-mix(in srgb, var(--tracker-color) 12%, var(--ios-card));
     box-shadow: 0 0 10px 0 color-mix(in srgb, var(--tracker-color) 22%, transparent);
   }
-  :global(html.dark) .shortcut-button.compact.has-value {
+  :global(html.dark) .shortcut-button.has-value {
     background: color-mix(in srgb, var(--tracker-color) 22%, var(--ios-card));
     box-shadow: 0 0 14px 2px color-mix(in srgb, var(--tracker-color) 40%, transparent);
   }
