@@ -273,7 +273,7 @@ html.mode-dark {
 
 
 .hover-primary {
-  @apply hover:text-primary-500;
+  @apply hover:text-ios-tint;
   @apply transition-colors duration-200;
 }
 
@@ -437,11 +437,11 @@ html {
   min-height: 50vh;
 }
 .tap-icon {
-  @apply text-primary-500;
+  @apply text-ios-tint;
   @apply bg-transparent;
   @apply focus:outline-none;
   @apply rounded-full;
-  @apply focus:ring-1 ring-primary-500 ring-opacity-25;
+  @apply focus:ring-1 ring-ios-tint ring-opacity-25;
 }
 
 .delete-button {
@@ -471,7 +471,7 @@ html {
 }
 
 ::-webkit-calendar-picker-indicator {
-  @apply bg-primary-500;
+  @apply bg-ios-tint;
   @apply rounded-md;
 }
 

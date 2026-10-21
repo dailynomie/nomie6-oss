@@ -256,7 +256,7 @@
     @apply rounded-l-none rounded-r-2xl;
   }
   .shortcut-button.in-note {
-    @apply ring-2 ring-primary-500 ring-offset-4 ring-offset-gray-300 dark:ring-offset-gray-600;
+    @apply ring-2 ring-ios-tint ring-offset-4 ring-offset-ios-card;
     @apply animate-pulse;
   }
   .shortcut-button .highlight {

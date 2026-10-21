@@ -202,7 +202,7 @@
     {#if step === 1}
       <div class="space-y-2">
         {#each EXPERIMENT_PRESETS as preset}
-          <button class="w-full text-left p-4 ios-card hover:ring-2 hover:ring-ios-tint dark:hover:ring-primary-800 transition" onclick={() => choosePreset(preset)}>
+          <button class="w-full text-left p-4 ios-card hover:ring-2 hover:ring-ios-tint transition" onclick={() => choosePreset(preset)}>
             <div class="font-semibold">{preset.title}</div>
             <div class="text-xs text-ios-label2 mt-1">{preset.durationDays} days · {preset.outcomes.length} {preset.outcomes.length === 1 ? 'tracker' : 'trackers'}</div>
           </button>

@@ -219,7 +219,7 @@
     @apply text-ios-label;
   }
   .calendar-3 .calendar-days .day:focus {
-    @apply ring-2 ring-primary-300 ring-inset;
+    @apply ring-2 ring-ios-tint ring-inset;
   }
   .calendar-3 .calendar-days .day.today span {
     @apply text-ios-good font-bold;
