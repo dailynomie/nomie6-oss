@@ -17,7 +17,7 @@
   import { IncludedTrackableStore } from './types/included-trackable-store'
   import Spinner from '../../../components/spinner/spinner.svelte'
   import type NLog from '../../nomie-log/nomie-log'
-  import { MoreVertical } from '../../../components/icon/nicons'
+  import { MoreVertical, ResizeOutline } from '../../../components/icon/nicons'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { timeFrames } from './widget-timeframe'
   import { openDropMenu } from '../../../components/menu/useDropmenu'
@@ -267,12 +267,8 @@
             showSizeMenu(evt.target)
           }}
         >
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect y="6" width="7" height="7" fill="#868686" fill-opacity="0.31"/>
-          <rect x="0.5" y="6.5" width="6" height="6" stroke="white" stroke-opacity="0.34"/>
-          <rect x="3" width="10" height="10" fill="#868686" fill-opacity="0.31"/>
-          <rect x="3.5" y="0.5" width="9" height="9" stroke="white" stroke-opacity="0.34"/>
-          </svg>
+          <!-- iOS look: the size control is the outline resize icon in the secondary label colour -->
+          <IonIcon icon={ResizeOutline} size={16} className="text-ios-label2" />
 
         </button>
       {/if}
