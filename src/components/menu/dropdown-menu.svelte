@@ -131,13 +131,13 @@
     @apply bg-transparent;
   }
 
-  /* iOS look: the menu's backdrop is a light, blurred layer over the page (not a grey sheet) */
+  /* iOS look: the same backdrop as the widget options sheet (backdrop2): a translucent grey over the blurred page */
   .drop-menu-background {
     @apply fixed top-0 bottom-0 left-0 right-0;
     @apply z-50;
-    background: color-mix(in srgb, var(--ios-bg) 25%, transparent);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
+    background: rgba(107, 114, 128, 0.5);
+    -webkit-backdrop-filter: blur(4px) saturate(1.5);
+    backdrop-filter: blur(4px) saturate(1.5);
   }
 
   .dropmenu {
