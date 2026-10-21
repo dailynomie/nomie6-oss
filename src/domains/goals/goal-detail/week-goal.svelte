@@ -275,7 +275,7 @@
   }
   .day-score-button .success-check {
     @apply absolute;
-    @apply bg-white;
+    background-color: var(--ios-card);
     @apply h-5 w-5 rounded-full;
     @apply leading-none;
   }

@@ -99,7 +99,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
       />
     </ToolbarGrid>
 
-    <Panel className="bg-gray-100 rounded-none dark:bg-gray-900 stiff shadow-2xl z-30 overflow-hidden">
+    <Panel className="bg-ios-bg rounded-none stiff shadow-2xl z-30 overflow-hidden">
       <TrackableUsageCalendar
         on:input={(evt) => {
           activeDate = dayjs(evt.detail)

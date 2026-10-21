@@ -221,7 +221,7 @@
 </script>
 
 <BackdropModal className="h-full bg-ios-card w-full">
-  <header slot="header" class="bg-white relative dark:bg-black pb-2 shadow-md z-40">
+  <header slot="header" class="bg-ios-card relative pb-2 shadow-md z-40">
     <ToolbarGrid className="w-full stiff">
       <div slot="left">
         <Button on:click={close} primary clear>{Lang.t('general.close', 'Close')}</Button>

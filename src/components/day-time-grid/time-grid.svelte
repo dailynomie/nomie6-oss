@@ -47,7 +47,7 @@
         <div class="day-label">{gridDay.daykey}</div>
         {#each gridDay.day as hour}
           <div
-            class="hour bg-white w-full {hour === 0 ? 'empty-hour' : 'active-hour'} "
+            class="hour bg-ios-card w-full {hour === 0 ? 'empty-hour' : 'active-hour'} "
             style="--percent:{math.percentage(max, hour) / 100};"
           />
         {/each}

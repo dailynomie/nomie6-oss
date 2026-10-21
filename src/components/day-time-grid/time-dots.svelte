@@ -56,7 +56,7 @@
     @apply items-center;
     @apply relative;
     @apply w-full;
-    @apply bg-white;
+    background-color: var(--ios-card);
     @apply bg-opacity-20;
     height: calc(var(--timedot-size) * 2.1);
     @apply rounded-full;
@@ -78,7 +78,7 @@
   }
   .time-dots .unit .active {
     @apply z-10;
-    @apply bg-white;
+    background-color: var(--ios-card);
     @apply rounded-full;
     width: var(--timedot-size);
     height: var(--timedot-size);
