@@ -10,6 +10,7 @@
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import Input from '../../../components/input/input.svelte'
   import ListItem from '../../../components/list-item/list-item.svelte'
+  import List from '../../../components/list/list.svelte'
 
   import Spinner from '../../../components/spinner/spinner.svelte'
   import { showToast } from '../../../components/toast/ToastStore'
@@ -407,7 +408,8 @@
   {/if}
 
   {#if workingTrackable}
-    <section class="mt-4 bg-ios-card pb-10">
+    <!-- iOS look: the actions are an inset grouped list, like the other lists in the editor -->
+    <List solo className="mt-4 mb-10">
       <ListItem
         bottomLine={16}
         clickable
@@ -446,6 +448,6 @@
         <span class="text-ios-danger">Delete Trackable</span>
         <IonIcon slot="right" icon={TrashOutline} className="text-ios-danger" />
       </ListItem>
-    </section>
+    </List>
   {/if}
 </BackdropModal>
