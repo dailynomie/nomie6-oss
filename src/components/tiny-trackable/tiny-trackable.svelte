@@ -76,8 +76,9 @@
     @apply font-normal;
     color: var(--ios-label);
   }
+  /* iOS look: the value is the label colour on the fill (4.5:1 in both modes) */
   .tiny-trackable .value {
     @apply font-bold;
-    color: var(--ios-label2);
+    color: var(--ios-label);
   }
 </style>
