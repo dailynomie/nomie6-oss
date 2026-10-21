@@ -5,6 +5,8 @@
   import type { AIResponse } from './profiles/types'
   import { marked } from 'marked'
   import dayjs from 'dayjs'
+  import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { ChatboxOutline, PaperPlaneSolid } from '../../components/icon/nicons'
   import { Prefs } from '../preferences/Preferences'
 
   interface ChatMessage {
@@ -127,9 +129,9 @@
 
       // Format error message for OpenRouter account setup
       if (errorMsg.includes('openrouter.ai/settings/credits')) {
-        messages[messageIndex].content = `⚠️ **Account Setup Required**\n\n${errorMsg}`
+        messages[messageIndex].content = `⚠︎ **Account Setup Required**\n\n${errorMsg}`
       } else {
-        messages[messageIndex].content = `❌ Error: ${errorMsg}`
+        messages[messageIndex].content = `Error: ${errorMsg}`
       }
 
       messages[messageIndex].loading = false
@@ -161,7 +163,9 @@
       <div class="flex items-center justify-center h-full text-center">
         <!-- iOS look (contrast): the welcome sits on a card, so its text keeps 4.5:1 on the brand background -->
         <div class="rounded-2xl bg-ios-card shadow-md px-6 py-6 mx-4">
-          <p class="text-5xl mb-6">💬</p>
+          <div class="mb-6 flex justify-center">
+            <IonIcon icon={ChatboxOutline} size={48} className="text-ios-tint" />
+          </div>
           <p class="font-bold text-2xl text-ios-label">Start a conversation</p>
           <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap text-ios-label2">
             <span>Ask</span>
@@ -178,7 +182,7 @@
           class={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg break-words backdrop-blur-sm border ${
             message.role === 'user'
               ? 'bg-ios-tint text-ios-ontint rounded-br-none border-ios-tint'
-              : 'bg-white/80 dark:bg-white/10 text-ios-label rounded-bl-none border-white/30'
+              : 'bg-ios-card text-ios-label rounded-bl-none border-ios-separator'
           }`}
           style="backdrop-filter: blur(10px);"
         >
@@ -193,7 +197,7 @@
           {:else}
             <p class="text-sm leading-relaxed">{message.content}</p>
           {/if}
-          <p class={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-ios-label2'}`}>
+          <p class={`text-xs mt-1 ${message.role === 'user' ? 'text-ios-ontint opacity-80' : 'text-ios-label2'}`}>
             {dayjs(message.timestamp).format('HH:mm')}
           </p>
         </div>
@@ -219,7 +223,7 @@
         class="ai-send-btn flex-shrink-0"
         title={aiState.loading ? 'Waiting for response...' : 'Send message'}
       >
-        <span class="send-icon">{aiState.loading ? '⏳' : '✉️'}</span>
+        <span class="send-icon">{#if aiState.loading}…{:else}<IonIcon icon={PaperPlaneSolid} size={18} />{/if}</span>
       </button>
     </div>
     {#if aiState.error}
@@ -227,7 +231,7 @@
         <p class="text-sm leading-tight whitespace-pre-wrap">
           <span aria-hidden="true">⚠︎</span>
           {#if aiState.error.includes('openrouter.ai/settings/credits')}
-            <span class="font-semibold block mb-1">🔗 OpenRouter Setup Needed</span>
+            <span class="font-semibold block mb-1">OpenRouter Setup Needed</span>
           {/if}
           {aiState.error}
         </p>

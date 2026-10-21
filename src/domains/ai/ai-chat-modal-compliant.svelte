@@ -41,14 +41,14 @@
         clear
         icon
         on:click={closeChat}
-        className="text-white dark:text-gray-100 relative z-10"
+        className="text-ios-ontint relative z-10"
       >
-        <IonIcon icon={CloseOutline} className="text-white dark:text-gray-100" size={24} />
+        <IonIcon icon={CloseOutline} className="text-ios-ontint" size={24} />
       </Button>
 
       <div slot="main" class="flex items-center justify-center gap-2 relative z-10">
-        <Text bold size="md" className="text-white dark:text-gray-100">
-          💬 Chat with
+        <Text bold size="md" className="text-ios-ontint">
+          Chat with
         </Text>
         <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo" />
       </div>
