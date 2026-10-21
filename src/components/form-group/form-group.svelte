@@ -19,7 +19,7 @@
     @apply mx-3;
   }
   .form-group.solid {
-    @apply bg-white dark:bg-black dark:bg-opacity-50;
+    @apply bg-ios-card dark:bg-opacity-50;
   }
   .form-group.tint {
     @apply bg-ios-card;

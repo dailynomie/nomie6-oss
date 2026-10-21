@@ -264,7 +264,7 @@
       {#if showHeader}
         <div class="header flex">
           <div class="month filler pr-3">
-            <span class="text-black dark:text-white text-sm">{selectedMonthName} {selectedYear}</span>
+            <span class="text-ios-label text-sm">{selectedMonthName} {selectedYear}</span>
           </div>
           {#if showControls && !compact}
             <NextPrevCal

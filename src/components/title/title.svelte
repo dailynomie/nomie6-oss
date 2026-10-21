@@ -7,7 +7,7 @@
 </script>
 
 {#if listHeader}
-  <h2 class="text-xl md:text-2xl lg:text-3xl pl-1 dark:text-white text-black font-bold leading-tight"><slot /></h2>
+  <h2 class="text-xl md:text-2xl lg:text-3xl pl-1 text-ios-label font-bold leading-tight"><slot /></h2>
 {:else if h1}
   <h1 class="ntitle {className}" {style}><slot /></h1>
 {:else}

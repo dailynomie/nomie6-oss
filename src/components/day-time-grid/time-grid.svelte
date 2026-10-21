@@ -53,7 +53,7 @@
         {/each}
       </div>
     {/each}
-    <div class="day-legend flex items-center ml-6 mt-1 text-opacity-50 text-black dark:text-white">
+    <div class="day-legend flex items-center ml-6 mt-1 text-opacity-50 text-ios-label">
       {#each Array(24).fill(0) as count, index}
         <div class="hour-label overflow-hidden">
           {formatHour(index)}

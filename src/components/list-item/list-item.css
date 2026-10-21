@@ -26,7 +26,7 @@
   padding-bottom: 0;
   @apply relative;
   color: var(--ios-label);
-  /* @apply bg-white dark:bg-black dark:bg-opacity-50; */
+  /* @apply bg-ios-card dark:bg-opacity-50; */
 
   min-height: 44px;
   transition: all 0.2s ease-in-out;

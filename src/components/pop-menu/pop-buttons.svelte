@@ -152,7 +152,7 @@
     @apply z-10;
     @apply transition-all transform duration-200 ease-in-out;
     border-bottom: solid 1px rgba(155, 155, 155, 0.3);
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply text-left;
   }
   .n-list.pop-buttons .nbtn:focus {
@@ -174,7 +174,7 @@
     @apply text-center;
     @apply font-light;
     @apply items-center justify-end;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply rounded-none;
     @apply line-clamp-none;
 
@@ -203,7 +203,7 @@
   }
 
   .pop-buttons.list-grid .nbtn:focus {
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
   }
   .pop-buttons.list-grid .nbtn .main {
     @apply text-left;
@@ -220,6 +220,6 @@
     @apply text-base;
     @apply text-center;
     @apply block w-full line-clamp-1;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 </style>

@@ -110,7 +110,7 @@
     box-shadow: none;
     background: var(--ios-card);
     @apply overflow-visible;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     overflow:hidden;
   }
   .shortcut-button.normal {
@@ -123,7 +123,7 @@
     @apply leading-tight;
   }
   .shortcut-button.compact .title-value {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply absolute;
     @apply left-12 right-3 top-0 bottom-0;
     @apply text-base;
@@ -187,7 +187,7 @@
   }
 
   .shortcut-button .value-sub {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply line-clamp-1;
     @apply leading-none;
   }
@@ -239,7 +239,7 @@
   }
   .shortcut-button.compact .n-counter {
     @apply text-xs;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply z-40;
     @apply border border-black dark:border-white border-opacity-20 dark:border-opacity-40;
     @apply rounded-full;

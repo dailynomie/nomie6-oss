@@ -267,7 +267,7 @@
   .calendar-4 .calendar-days .day span {
     @apply block;
     @apply relative;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
   .calendar-4 .calendar-days .day:focus {
     @apply ring-2 ring-primary-300 ring-inset;

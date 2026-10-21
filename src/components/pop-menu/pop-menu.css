@@ -1,7 +1,7 @@
 .pop-menu {
   @apply px-3 pt-3 pb-4 lg:pb-3;
   @apply backdrop-filter backdrop-saturate-150 backdrop-blur-sm;
-  @apply text-gray-900 dark:text-gray-50;
+  @apply text-ios-label;
   /* @apply bg-gray-200 dark:bg-gray-700 bg-opacity-70 dark:bg-opacity-50 backdrop-filter backdrop-saturate-150 backdrop-blur-sm; */
   @apply rounded-t-2xl lg:rounded-b-2xl;
   @apply bg-gray-200 dark:bg-gray-900;
@@ -28,7 +28,7 @@
   @apply rounded-2xl;
   @apply overflow-y-auto;
   @apply bg-opacity-50;
-  @apply bg-white dark:bg-black;
+  @apply bg-ios-card;
   @apply shadow-lg;
   @apply my-2;
 }

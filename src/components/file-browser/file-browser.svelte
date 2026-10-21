@@ -437,7 +437,7 @@
     width: 100%;
     border: none;
     @apply bg-ios-bg;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     padding: 16px;
     background: url(/images/editor-background.png);
     background-attachment: local;
@@ -450,7 +450,7 @@
 
   .code-view {
     @apply bg-ios-bg;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
   pre {
     font-size: 12px;

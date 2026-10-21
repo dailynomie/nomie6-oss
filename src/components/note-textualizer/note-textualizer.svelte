@@ -68,7 +68,7 @@
 
 {#if actual}
   <div
-    class="n-note-textualized  {className || 'leading-snug text-black dark:text-white'}
+    class="n-note-textualized  {className || 'leading-snug text-ios-label'}
     {state.words.length > 20 ? 'text-size-sm' : ''}
     {state.words.length < 20 ? 'text-size-big' : ''}"
   >

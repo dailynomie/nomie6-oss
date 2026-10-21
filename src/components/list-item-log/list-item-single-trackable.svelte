@@ -40,7 +40,7 @@
         {trackable.label}
         <span class="text-base font-normal text-ios-label2">{log.endDayjs().format(dateFormats.tinyDate)}</span>
       </h3>
-      <p class="text-black dark:text-white font-bold text-xl text-right mr-4 leading-none whitespace-nowrap">
+      <p class="text-ios-label font-bold text-xl text-right mr-4 leading-none whitespace-nowrap">
         {trackable.formatValue(value)}
       </p>
     </div>

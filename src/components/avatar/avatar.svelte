@@ -74,7 +74,7 @@
     overflow: hidden;
     letter-spacing: normal;
     @apply rounded-xl;
-    @apply text-gray-900 dark:text-gray-100;
+    @apply text-ios-label;
   }
 
   .n-avatar.rounded {

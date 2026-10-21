@@ -101,7 +101,7 @@ html.dark .nbtn-group button.active {
   @apply shadow-md;
   @apply bg-white dark:bg-gray-600;
   @apply font-bold;
-  @apply text-black dark:text-white;
+  @apply text-ios-label;
   @apply text-primary-500;
   @apply rounded-full;
 }

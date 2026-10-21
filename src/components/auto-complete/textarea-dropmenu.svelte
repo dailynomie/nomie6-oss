@@ -45,7 +45,7 @@
 <style lang="postcss" global>
   .dropmenu {
     @apply bg-ios-card;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply rounded-lg;
     @apply shadow-lg;
     @apply absolute;

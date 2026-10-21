@@ -88,7 +88,7 @@ import Divider from '../divider/divider.svelte'
           >
             {#if button.checked}
               <div class="w-5 flex items-center">
-                <IonIcon size={compact ? 20 : 28} className="text-black dark:text-white" icon={CheckmarkCircle} />
+                <IonIcon size={compact ? 20 : 28} className="text-ios-label" icon={CheckmarkCircle} />
               </div>
             {/if}
             <main class="flex-fill w-full">
@@ -108,7 +108,7 @@ import Divider from '../divider/divider.svelte'
                 <span class="ios-menu-badge {button.badge.tone === 'good' ? 'ios-menu-badge-good' : 'ios-menu-badge-tint'}">{button.badge.text}</span>
               {/if}
               {#if button.icon}
-                <IonIcon icon={button.icon} className="text-black dark:text-white" size={accessorySize} />
+                <IonIcon icon={button.icon} className="text-ios-label" size={accessorySize} />
               {:else if button.emoji}
                 <Avatar emoji={button.emoji} size={compact ? 22 : 32} />
               {/if}
@@ -160,7 +160,7 @@ import Divider from '../divider/divider.svelte'
     max-height: 445px;
   }
   .menu-inline .n-menu.isOpen {
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply ring-2 ring-black dark:ring-gray-800 ring-opacity-0;
     /* max-height: calc(100vh-90px); */
   }

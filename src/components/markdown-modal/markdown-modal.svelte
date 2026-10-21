@@ -40,11 +40,11 @@
 </script>
 
 <BackdropModal className="min-h-75vh">
-  <ToolbarGrid slot="header" className="dark:bg-gray-900 bg-white">
+  <ToolbarGrid slot="header" className="bg-ios-card">
     <Button slot="left" primary icon on:click={close}>
       <IonIcon icon={CloseOutline} size={28} />
     </Button>
-    <h2 class="text-black dark:text-white text-sm line-clamp-1 font-bold text-center">{props.title}</h2>
+    <h2 class="text-ios-label text-sm line-clamp-1 font-bold text-center">{props.title}</h2>
     <Button
       slot="right"
       primary
@@ -58,7 +58,7 @@
     </Button>
   </ToolbarGrid>
 
-  <div class="min-h-full pt-4 pb-6 bg-white dark:bg-gray-900">
+  <div class="min-h-full pt-4 pb-6 bg-ios-card">
     {#if loading}
       <Empty>
         <Spinner size={32} />

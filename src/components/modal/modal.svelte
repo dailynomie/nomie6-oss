@@ -200,7 +200,7 @@
     width: 100%;
   }
   .n-modal {
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply shadow-2xl;
     min-width: 320px;
     min-height: 200px;
@@ -244,7 +244,7 @@
     z-index: 2;
   }
   .n-modal-header {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     min-height: 40px;
     border-bottom: solid 1px rgba(0, 0, 0, 0.1);
     display: flex;

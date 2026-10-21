@@ -146,7 +146,7 @@ import Markdown from '../markdown/markdown.svelte'
   }
   .alert-dialog-window .card-title  {
     line-height: 115%;
-    @apply text-gray-900 dark:text-gray-50;
+    @apply text-ios-label;
     @apply font-bold;
     @apply text-base;
     @apply px-3;

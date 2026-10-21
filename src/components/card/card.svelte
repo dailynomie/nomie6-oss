@@ -23,12 +23,12 @@
 <style global>
   .n-card {
     @apply relative;
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-ios-card;
     @apply shadow-md;
     @apply flex flex-col;
     @apply rounded-lg;
     @apply overflow-auto;
-    @apply text-gray-900 dark:text-white;
+    @apply text-ios-label;
   }
   .n-card.compact .title {
     font-size: 0.7em;

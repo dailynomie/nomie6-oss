@@ -50,7 +50,7 @@
           {#if menu.title}
             <h5
               aria-label="Title"
-              class="font-semibold text-black dark:text-white text-lg leading-tight {!menu.description
+              class="font-semibold text-ios-label text-lg leading-tight {!menu.description
                 ? 'pb-1'
                 : 'mt-3'}"
             >

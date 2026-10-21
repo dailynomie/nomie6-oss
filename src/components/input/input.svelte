@@ -440,7 +440,7 @@ import is from '../../utils/is/is';
     flex-direction: column;
     flex-grow: 1;
     flex-shrink: 1;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
   .n-input-container .n-input-wrapper .n-input label {
     transition: all 0.2s ease-in-out;
@@ -474,7 +474,7 @@ import is from '../../utils/is/is';
     padding-left: 8px;
     padding-right: 8px;
     /* background-color: transparent !important; */
-    /* @apply bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-20; */
+    /* @apply bg-ios-card bg-opacity-10 dark:bg-opacity-20; */
     @apply rounded-md;
     @apply bg-transparent;
     outline: none;
@@ -496,7 +496,7 @@ import is from '../../utils/is/is';
     /* @apply appearance-none; */
     @apply px-3;
     @apply rounded-md;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply shadow-md;
     @apply flex items-center justify-center;
     @apply focus:outline-none focus:ring-2 ring-primary-500 ring-inset;

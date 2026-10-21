@@ -62,7 +62,7 @@
       disabled={button.disabled}
       class="pop-button  {button.checked
         ? 'active'
-        : ''} bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-80 nbtn-left pop-button-{index} {button.awardRequired
+        : ''} bg-ios-card bg-opacity-80 dark:bg-opacity-80 nbtn-left pop-button-{index} {button.awardRequired
         ? $AwardStore.awards.find((a) => a.id == button.awardRequired)
           ? 'unlocked'
           : 'locked'
@@ -93,7 +93,7 @@
       </main>
       <div class="flex items-center">
         {#if button.icon}
-          <IonIcon icon={button.icon} className="text-black dark:text-white" size={accessorySize} />
+          <IonIcon icon={button.icon} className="text-ios-label" size={accessorySize} />
         {:else if button.emoji}
           <Avatar emoji={button.emoji} size={32} />
         {/if}

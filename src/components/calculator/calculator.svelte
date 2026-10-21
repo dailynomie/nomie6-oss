@@ -257,7 +257,7 @@
   .n-calculator .nbtn {
     touch-action: manipulation;
     border: none;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply rounded-xl;
     @apply w-full;
     /* @apply h-14 md:h-16; */
@@ -266,7 +266,7 @@
     @apply flex-shrink-0;
     @apply text-lg md:text-xl;
     @apply mx-auto;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply shadow-lg;
     @apply transition-all transform-gpu duration-100;
     min-height: 50px;
@@ -307,7 +307,7 @@
   }
   .n-calculator .nbtn.r-0 {
     color: #fff;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
   }
   .n-calculator .nbtn.r-0.b-0 {
     color: #fff;

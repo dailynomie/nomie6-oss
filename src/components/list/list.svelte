@@ -27,7 +27,7 @@
 >
   {#if title && !outside}
     <div class="flex items-center justify-between">
-      <Text size="xs" className="pt-3 px-3 pb-2 text-gray-700 dark:text-gray-300" bold faded>
+      <Text size="xs" className="pt-3 px-3 pb-2 text-ios-label2" bold faded>
         {title.toUpperCase()}
       </Text>
       <slot name="header-left" />
