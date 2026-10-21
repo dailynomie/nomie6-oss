@@ -45,7 +45,7 @@
         {#if $offlineReady}
           <span>App ready to work offline</span>
         {:else if $needRefresh}
-          <h1 class="mb-2 text-2xl font-bold text-ios-label">🎉 Update Available</h1>
+          <h1 class="mb-2 text-2xl font-bold text-ios-label">Update Available</h1>
           <p>A new version of Nomie is ready to use.</p>
         {/if}
       </div>

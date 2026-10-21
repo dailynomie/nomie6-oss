@@ -2,6 +2,8 @@
 
 <script lang="ts">
   import { Prefs } from './../preferences/Preferences'
+  import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { FlagOutline, StatsChartOutline, TagOutline, TimeOutline } from '../../components/icon/nicons'
 
   import { wait } from '../../utils/tick/tick'
 
@@ -383,7 +385,6 @@
 
       {#if (importLoader.normalized.logs || []).length > 0}
         <ImporterItem
-          emoji="⏰"
           title="Logs"
           count={(importLoader.normalized.logs || []).length.toLocaleString()}
           bind:status={importing.logs}
@@ -397,7 +398,7 @@
         </ImporterItem>
       {:else}
         <ListItem bottomLine={48} title="Notes">
-          <div slot="left">⏰</div>
+          <div slot="left"><IonIcon icon={TimeOutline} className="text-ios-tint" /></div>
           <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
@@ -405,7 +406,6 @@
       <!-- Importable Items -->
       {#if Object.keys(importLoader.normalized.trackers).length > 0}
         <ImporterItem
-          emoji="🤪"
           title="Trackers"
           count={Object.keys(importLoader.normalized.trackers).length.toLocaleString()}
           bind:status={importing.trackers}
@@ -415,7 +415,7 @@
         />
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.trackers')}>
-          <div slot="left">🤪</div>
+          <div slot="left"><IonIcon icon={TagOutline} className="text-ios-tint" /></div>
           <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
@@ -423,7 +423,6 @@
       <!-- Importable Items -->
       {#if importLoader.normalized.pivots?.length > 0}
         <ImporterItem
-          emoji="📈"
           title="Pivots"
           count={importLoader.normalized.pivots?.length.toLocaleString()}
           bind:status={importing.pivots}
@@ -433,14 +432,13 @@
         />
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.pivots', 'Pivots')}>
-          <div slot="left">🏆</div>
+          <div slot="left"><IonIcon icon={FlagOutline} className="text-ios-tint" /></div>
           <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
       <!-- Importable Items -->
       {#if importLoader.normalized.goals?.length > 0}
         <ImporterItem
-          emoji="🏆"
           title="Goals"
           count={importLoader.normalized.goals?.length.toLocaleString()}
           bind:status={importing.goals}
@@ -450,20 +448,19 @@
         />
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.goals', 'Goals')}>
-          <div slot="left">🏆</div>
+          <div slot="left"><IonIcon icon={FlagOutline} className="text-ios-tint" /></div>
           <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
 
       <!-- <ListItem bottomLine={48} title={Lang.t('general.goals', 'Goals')}>
-          <div slot="left">🏆</div>
+          <div slot="left"><IonIcon icon={FlagOutline} className="text-ios-tint" /></div>
           <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem> -->
 
       <!-- Locations -->
       {#if (importLoader.normalized.locations || []).length > 0}
         <ImporterItem
-          emoji="🗺"
           title="Locations"
           count={(importLoader.normalized.locations || []).length.toLocaleString()}
           bind:status={importing.locations}
@@ -481,7 +478,6 @@
       <!-- Board -->
       {#if (importLoader.normalized.boards || []).length > 0}
         <ImporterItem
-          emoji="🗂"
           title={Lang.t('general.boards', 'Boards')}
           count={(importLoader.normalized.boards || []).length.toLocaleString()}
           bind:status={importing.boards}
@@ -499,7 +495,6 @@
       <!-- People -->
       {#if (Object.keys(importLoader.normalized.people) || []).length > 0}
         <ImporterItem
-          emoji="👩🏽‍💼"
           title={Lang.t('general.people', 'People')}
           count={(Object.keys(importLoader.normalized.people) || []).length.toLocaleString()}
           bind:status={importing.people}
@@ -517,7 +512,6 @@
       <!-- People -->
       {#if (importLoader.normalized.context || []).length > 0}
         <ImporterItem
-          emoji="💭"
           title={Lang.t('general.context', 'Context')}
           count={(importLoader.normalized.context || []).length.toLocaleString()}
           bind:status={importing.context}
@@ -534,7 +528,6 @@
      <!-- Pointers -->
       {#if (importLoader.normalized.pointers || []).length > 0}
       <ImporterItem
-        emoji="📍"
         title={Lang.t('general.pointers', 'Pointers')}
         count={(importLoader.normalized.pointers || []).length.toLocaleString()}
         bind:status={importing.pointers}
@@ -552,7 +545,6 @@
       <!-- Plugins -->
       {#if (importLoader.normalized.plugins || []).length > 0}
         <ImporterItem
-          emoji="🔌"
           title="Plugins"
           count={(importLoader.normalized.plugins || []).length.toLocaleString()}
           bind:status={importing.plugins}
@@ -570,7 +562,6 @@
       <!-- Dashboards -->
       {#if (importLoader.normalized.dashboards || []).length > 0}
         <ImporterItem
-          emoji="📊"
           title={Lang.t('general.dashboards', 'Dashboards')}
           count={(importLoader.normalized.dashboards || []).length.toLocaleString()}
           bind:status={importing.dashboards}

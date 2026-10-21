@@ -37,7 +37,7 @@
   import extract from '../../utils/extract/extract'
   import { getEmojiFromScore } from '../../utils/positivity/positivity'
 
-  import { ExpandOutline, ExtensionPuzzleOutline } from '../../components/icon/nicons'
+  import { ExpandOutline, ExtensionPuzzleOutline, MapOutline } from '../../components/icon/nicons'
 
   import CaptureDatePicker from './capture-date-picker.svelte'
 
@@ -444,7 +444,7 @@
                   aria-label="Location and Date settings"
                   on:click={toggleCustomLocation}
                 >
-                  🗺 {#if $ActiveLogStore.lat}<span class="dot far-right positive -right-2" />{/if}
+                  <IonIcon icon={MapOutline} size={16} /> {#if $ActiveLogStore.lat}<span class="dot far-right positive -right-2" />{/if}
                 </button>
 
                 <button

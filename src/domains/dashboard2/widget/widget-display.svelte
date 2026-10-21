@@ -17,7 +17,7 @@
   import { IncludedTrackableStore } from './types/included-trackable-store'
   import Spinner from '../../../components/spinner/spinner.svelte'
   import type NLog from '../../nomie-log/nomie-log'
-  import { MoreVertical, ResizeOutline } from '../../../components/icon/nicons'
+  import { MoreVertical, PricetagOutline, ResizeOutline } from '../../../components/icon/nicons'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { timeFrames } from './widget-timeframe'
   import { openDropMenu } from '../../../components/menu/useDropmenu'
@@ -213,7 +213,7 @@
         {:else if widget.type == 'pointer'}
         <!-- iOS look: the pointer name has the full width, and its tracker sits under it -->
         <div class="flex flex-col min-w-0 gap-0.5">
-          <span class="widget-title break-words">🏷 {titleCase(widget.pointer.id)}</span>
+          <span class="widget-title break-words flex items-center gap-1"><IonIcon icon={PricetagOutline} size={14} className="text-ios-label2" />{titleCase(widget.pointer.id)}</span>
           <div class="flex"><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions} /></div>
         </div>
       {:else if widget.type == 'plugin'}
