@@ -11,6 +11,10 @@
   import { MoreVertical } from '../icon/nicons'
 
   const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon = MoreVertical, oneTap, hoursUsed } = $props()
+  // a habit shows a thumb for its state; any other tracker shows its value
+  const valueLabel = $derived(
+    id.includes('habit') ? (value < -0.5 ? '👎' : value < 0.3 ? '🤙' : '👍') : value
+  )
 
   let clickSkip = $state(undefined)
 
@@ -74,23 +78,18 @@
     <div class="subtitle-slot"><slot name="subtitle" /></div>
 
     <slot />
+    {#if value && !hideValue && !compact}
+      <div class="tile-value {String(value).length > 4 ? 'long' : ''}">
+        <span class="value">{valueLabel}</span>
+      </div>
+    {/if}
     <div class="title-value">
       {#if title}
         <div class="title {title.length > 15 ? 'long' : ''} {compact ? 'line-clamp-1' : 'line-clamp-2'}">{title}</div>
       {/if}
       <div class="value-sub">
-        {#if value && !hideValue}
-          {#if id.includes('habit')}
-            {#if value < -0.5}
-            <span class="value">👎</span>
-            {:else if value <0.3}
-            <span class="value">🤙</span>
-            {:else}
-            <span class="value">👍</span>
-            {/if}
-          {:else}
-          <span class="value">{value}</span>
-          {/if}
+        {#if value && !hideValue && compact}
+          <span class="value">{valueLabel}</span>
         {/if}
         {#if subtitle}
           <span class="subtitle">{subtitle}</span>
@@ -171,6 +170,33 @@
   }
   :global(html.dark) .shortcut-button.compact .emoji-holder {
     background: color-mix(in srgb, var(--tracker-color) 28%, transparent);
+  }
+  /* iOS look (Phase 4, decision B): on a normal tile the value is top right, and the menu button moves to the bottom right */
+  .shortcut-button.normal .tile-value {
+    position: absolute;
+    top: 14px;
+    right: 12px;
+    max-width: calc(100% - 60px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: var(--ios-font-rounded);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ios-label);
+    z-index: 10;
+  }
+  .shortcut-button.normal .tile-value.long {
+    font-size: 18px;
+  }
+  .button-wrapper.normal .more {
+    top: auto;
+    bottom: 0;
+    right: 0;
+  }
+  .shortcut-button.normal .title-value {
+    padding-right: 40px;
   }
   .button-wrapper .more {
     @apply absolute top-0 right-0 flex items-center justify-center z-40 w-10 h-10 rounded-full;
