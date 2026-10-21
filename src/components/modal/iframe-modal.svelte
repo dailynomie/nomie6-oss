@@ -31,7 +31,7 @@ import { onMount } from 'svelte';
 
 <BackdropModal>
   <ToolbarGrid slot="header">
-    <Button icon primary slot="left" on:click={close}>
+    <Button icon clear primary slot="left" on:click={close}>
       <IonIcon icon={CloseOutline} />
     </Button>
     <h2 class="ntitle sm">{title}</h2>

@@ -41,7 +41,7 @@
 
 <BackdropModal className="min-h-75vh">
   <ToolbarGrid slot="header" className="bg-ios-card">
-    <Button slot="left" primary icon on:click={close}>
+    <Button slot="left" clear primary icon on:click={close}>
       <IonIcon icon={CloseOutline} size={28} />
     </Button>
     <h2 class="text-ios-label text-sm line-clamp-1 font-bold text-center">{props.title}</h2>

@@ -124,7 +124,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
 <BackdropModal headerClass="glass mb-2" mainClass="bg-white filler dark:bg-black">
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" primary icon on:click={close}>
+      <Button slot="left" clear primary icon on:click={close}>
         <IonIcon icon={CloseOutline} />
       </Button>
       <h1 class="ntitle capitalize line-clamp-1">

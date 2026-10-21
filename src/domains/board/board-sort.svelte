@@ -57,7 +57,7 @@
 
 <BackdropModal>
   <NToolbarGrid slot="header">
-    <Button slot="left" on:click={close} icon primary><IonIcon icon={CloseOutline} size={28} /></Button>
+    <Button slot="left" on:click={close} icon clear primary><IonIcon icon={CloseOutline} size={28} /></Button>
     <div class="ntitle" slot="main">{Lang.t('board.organize-tabs', 'Organize Tabs')}</div>
     <div slot="right" />
   </NToolbarGrid>
