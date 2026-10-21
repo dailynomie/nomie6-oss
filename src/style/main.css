@@ -737,3 +737,9 @@ body.capture-typing .experiment-check-in-card {
   height: max(100%, 44px);
   transform: translate(-50%, -50%);
 }
+
+/* iOS look (guide 6, layers): the check-in card is hidden while a full-screen prompt is on screen */
+body.check-in-hidden .experiment-check-in-card {
+  display: none;
+}
+

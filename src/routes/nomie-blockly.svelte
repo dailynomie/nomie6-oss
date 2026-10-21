@@ -37,6 +37,13 @@
     })
   }
 
+  // iOS look (guide 6, layers): the check-in card steps aside while the setup prompt is on screen
+  $effect(() => {
+    const prompting = showSetupModal && !!plugin && !plugin.setupComplete
+    document.body.classList.toggle('check-in-hidden', prompting)
+    return () => document.body.classList.remove('check-in-hidden')
+  })
+
   // Adjust height to account for footer position
   $effect(() => {
     if (wrapperElement && typeof window !== 'undefined') {
