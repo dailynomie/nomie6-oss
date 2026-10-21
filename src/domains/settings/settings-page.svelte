@@ -2,7 +2,8 @@
 
 <script lang="ts">
   import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
-  import { HelpCircleOutline, CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline } from '../../components/icon/nicons'
+  import { HelpCircleOutline, CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline, PulseOutline } from '../../components/icon/nicons'
+  import { ExperimentStore } from '../experiments/ExperimentStore'
   import { navigate } from '../../vendor/svelte-navigator'
 
   import SettingsTweakList from './settings-tweak-list.svelte'
@@ -219,6 +220,13 @@
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">
                 <span slot="left"><IconSquare color="#5DAE62"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
+              </ListItem>
+            </List>
+
+            <!-- iOS look (guide 5.11): the Experiments row, with its running count and a chevron -->
+            <List solo className="mt-4">
+              <ListItem detail bottomLine={57} on:click={() => navigate('/experiments')} title="Experiments" description="{$ExperimentStore.filter((e: any) => e.status === 'running').length} running">
+                <span slot="left"><IconSquare color="#1F78D1"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span>
               </ListItem>
             </List>
 

@@ -30,7 +30,7 @@
   import SelectPop from '../../select-pop/select-pop.svelte'
   import ExperimentBoardIcon from '../../n-icons/board-tab-icons/ExperimentBoardIcon.svelte'
   import IconSquare from '../../components/icon-square/icon-square.svelte'
-  import { PulseOutline } from '../../components/icon/nicons'
+  import { FlaskOutline, PulseOutline } from '../../components/icon/nicons'
   import { FeatureVisible, resolveExperience } from '../preferences/features'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
@@ -252,7 +252,7 @@
   {/if}
   <!-- iOS look: teal icon square for the Experiments board -->
   <ListItem bottomLine={57} title="Show Experiments Board">
-    <span slot="left"><IconSquare color="#A86EC8"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#2A9D8F"><IonIcon icon={FlaskOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch
         value={$Prefs.experimentBoard === true}
