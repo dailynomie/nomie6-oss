@@ -120,7 +120,7 @@ import Markdown from '../markdown/markdown.svelte'
     opacity: 0;
   }
   .alert-dialog-window.card {
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply rounded-2xl;
     @apply flex-col;
     @apply m-2;
@@ -136,7 +136,7 @@ import Markdown from '../markdown/markdown.svelte'
     width: 200px;
     min-width: 300px !important;
 
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     border: solid 1px var(--color-faded-1);
     box-shadow: var(--box-shadow);
     display: flex;
@@ -165,7 +165,7 @@ import Markdown from '../markdown/markdown.svelte'
     @apply mt-4;
     @apply rounded-lg;
     @apply focus:ring-2 ring-primary-500 ring-inset;
-    @apply dark:bg-gray-800 dark:text-white;
+    @apply bg-ios-card text-ios-label;
   }
   .alert-dialog-window .message {
     @apply leading-tight;
@@ -198,10 +198,11 @@ import Markdown from '../markdown/markdown.svelte'
     @apply py-2;
     @apply text-base;
     @apply font-semibold;
-    @apply border-t dark:border-gray-700 border-gray-300;
+    @apply border-t border-ios-separator;
   }
+  /* iOS look (D-alert): Cancel is the bold tint, not red. Red is for destructive actions only. */
   .alert-dialog-window .footer button.cancel {
-    @apply text-ios-danger dark:text-red-400
+    @apply text-ios-tint font-semibold;
   }
   .alert-dialog-window .footer button.primary {
     @apply text-ios-tint

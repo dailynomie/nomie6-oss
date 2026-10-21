@@ -115,7 +115,7 @@
     @apply justify-end;
     @apply flex-grow flex-shrink;
     @apply text-ios-label2;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply rounded-lg;
     @apply h-6;
     @apply text-xs;

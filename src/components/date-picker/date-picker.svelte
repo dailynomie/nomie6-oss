@@ -67,9 +67,9 @@
   .native-datetime,
   .n-date-picker {
     @apply text-sm;
-    /* @apply bg-white dark:bg-black; */
+    /* @apply bg-ios-card; */
     @apply bg-transparent;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply px-2 py-1;
     @apply rounded-md;
     @apply flex-grow flex-shrink flex;

@@ -131,7 +131,7 @@
   }
   .date-time-bar {
     @apply flex items-center space-x-2;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
 
     @apply justify-center items-center;
   }

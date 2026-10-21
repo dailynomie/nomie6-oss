@@ -52,7 +52,7 @@
 
 <style global>
   .stepper-button {
-    @apply bg-white dark:bg-gray-500;
+    @apply bg-ios-card;
     @apply text-black;
     @apply shadow-sm;
     @apply rounded-md;

@@ -158,7 +158,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
 <style global lang="postcss">
   .time-picker-wrapper {
     @apply rounded-xl;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
   }
   .time-picker {
     @apply overflow-hidden;
@@ -170,7 +170,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
     @apply flex-shrink;
     @apply flex-grow;
     @apply pr-2;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply shadow-md;
   }
   .time-picker select {
@@ -191,7 +191,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
 
   .time-picker .time-parts {
     @apply rounded-md;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
 
     @apply shadow-none;
   }
