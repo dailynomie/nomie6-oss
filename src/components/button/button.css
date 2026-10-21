@@ -162,17 +162,18 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
 }
 .nbtn-primary,
 .nbtn-primary-bright {
-  @apply bg-primary-500;
-  @apply text-white;
+  /* iOS look (D-primary): primary buttons are the tint with on-tint text */
+  background: var(--ios-tint);
+  color: var(--ios-on-tint);
 }
 .nbtn-danger {
-  @apply bg-red-500;
-  @apply text-white;
+  background: var(--ios-danger);
+  color: var(--ios-on-danger);
 }
 .nbtn-success,
 .nbtn-green {
-  @apply bg-green-500;
-  @apply text-white;
+  background: var(--ios-save);
+  color: var(--ios-on-save);
 }
 .nbtn-orange {
   @apply bg-yellow-500;
@@ -183,8 +184,8 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
   @apply text-white dark:text-black;
 }
 .nbtn-light {
-  @apply text-primary-500;
-  @apply bg-gray-50;
+  color: var(--ios-tint);
+  background: var(--ios-card-2);
 }
 .nbtn-clear,
 .nbtn-transparent,
