@@ -14,9 +14,16 @@
     // iOS look: the chart uses the card and label colours of the app theme (Plotly needs literal colours)
     // The preference can be 'auto', so read the mode the page is actually in (the html.dark class)
     const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
-    let plotbgcolor = $state(isDark ? '#1C1C1E' : '#FFFFFF')
-    let paperbgcolor = $state(isDark ? '#1C1C1E' : '#FFFFFF')
-    let plottextcolor = $state(isDark ? '#FFFFFF' : '#000000')
+    // iOS look (Ronald decision, Phase 7): the chart reads the app's tokens and font, so it matches the rest of the app
+    const themeToken = (name, fallback) => (typeof document !== 'undefined' ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback : fallback);
+    const iosFont = typeof document !== 'undefined' ? getComputedStyle(document.body).fontFamily : 'sans-serif';
+    const iosCard = themeToken('--ios-card', isDark ? '#1C1C1E' : '#FFFFFF');
+    const iosLabel = themeToken('--ios-label', isDark ? '#FFFFFF' : '#000000');
+    const iosLabel2 = themeToken('--ios-label-2', '#6C6C70');
+    const iosSeparator = themeToken('--ios-separator', isDark ? '#48484A' : '#D8D8DC');
+    let plotbgcolor = $state(iosCard)
+    let paperbgcolor = $state(iosCard)
+    let plottextcolor = $state(iosLabel)
     // iOS look: the series colours are the iOS system colours (the dark variants in dark mode)
     const iosSeriesLight = ['#007AFF', '#FF9500', '#34C759', '#FF3B30', '#AF52DE', '#A2845E', '#FF2D55', '#5AC8FA', '#FFCC00', '#5856D6']
     const iosSeriesDark = ['#0A84FF', '#FF9F0A', '#30D158', '#FF453A', '#BF5AF2', '#AC8E68', '#FF375F', '#64D2FF', '#FFD60A', '#5E5CE6']
@@ -113,16 +120,16 @@
             layout = {
                 title: titleText,
                 hovermode: 'closest',
-                xaxis: {fixedrange: true},
-                yaxis: {fixedrange: true},
+                xaxis: {fixedrange: true, gridcolor: iosSeparator, linecolor: iosSeparator, zerolinecolor: iosSeparator, tickfont: {color: iosLabel2}},
+                yaxis: {fixedrange: true, gridcolor: iosSeparator, linecolor: iosSeparator, zerolinecolor: iosSeparator, tickfont: {color: iosLabel2}},
                 /* eslint-disable no-magic-numbers */
                 autosize: true,
                 dragmode:false,
                 colorway: seriesColors,
                 plot_bgcolor: plotbgcolor,
                 paper_bgcolor: paperbgcolor,
-                font: {size:18 / (1400/currentwidth),color:plottextcolor},
-                legend: {"orientation": "h"},
+                font: {family: iosFont, size:18 / (1400/currentwidth),color:plottextcolor},
+                legend: {"orientation": "h", font: {color: iosLabel}},
                 margin: {
         l: 0,
         r: 0,
