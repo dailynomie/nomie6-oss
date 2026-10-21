@@ -118,7 +118,7 @@
   }
 </script>
 
-<div class="streak-2 bg-white dark:bg-black py-1">
+<div class="streak-2 bg-ios-card py-1">
   <!-- {#if `${selectedIndex}`.length}
     <button
       on:click={() => {
@@ -164,7 +164,7 @@
           // openDateOptionPopMenu(item.toDate())
           showDateOptions(item.toDate(), trackableUsage.trackable);
         }}
-        class="mb-1 text-solid border-dotted border-b border-gray-200 dark:border-gray-800 
+        class="mb-1 text-solid border-dotted border-b border-ios-separator 
         "
       >
         <div class="text-xs opacity-70 leading-none">{item.format('ddd')}</div>
