@@ -552,6 +552,13 @@ html.dark .ios-thumb {
   box-shadow: var(--ios-shadow-float);
 }
 
+/* iOS look: a chosen option in a two-way choice group (setup: time, weight, week, location) is the tint.
+   The block button's fill rule would otherwise win over the choice's tint. */
+.big-group .nbtn.bg-ios-tint {
+  background: var(--ios-tint) !important;
+  color: var(--ios-on-tint) !important;
+}
+
 /* iOS look (D-native): number fields show no browser spin buttons; the app's own steppers and keys change values */
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
