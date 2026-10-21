@@ -176,7 +176,7 @@
                       Orphaned plugin folder (not in plugins.json)
                     {/if}
                   </Text>
-                  <Text size="xs" className="text-gray-500 dark:text-gray-500 mt-1">
+                  <Text size="xs" className="text-ios-label2 dark:text-gray-500 mt-1">
                     {issue.fileLocation}
                   </Text>
                 </div>

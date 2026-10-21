@@ -68,7 +68,7 @@
       className="clickable"
     >
       <span slot="right">
-        <IonIcon icon={ChevronForwardOutline} className="text-gray-500" />
+        <IonIcon icon={ChevronForwardOutline} className="text-ios-label2" />
       </span>
     </NItem>
   </div>

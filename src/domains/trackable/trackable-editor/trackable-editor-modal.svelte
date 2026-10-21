@@ -264,8 +264,8 @@
   }
 </script>
 
-<BackdropModal mainClass="bg-gray-200 dark:bg-gray-800">
-  <ToolbarGrid slot="header" className="bg-gray-50 stiff dark:bg-black">
+<BackdropModal mainClass="bg-ios-bg">
+  <ToolbarGrid slot="header" className="bg-ios-card stiff">
     <Button slot="left" id="cancel-button" clear primary on:click={handleCancel}>{Lang.t('general.cancel', 'Cancel')}</Button>
     <h2
       class="font-bold  text-sm flex-grow-0 line-clamp-1 text-black  dark:text-white capitalize flex items-center space-x-2"
@@ -367,7 +367,7 @@
           {#if ogTag || workingTag}
             <div class="tag-control flex justify-end items-center space-x-2">
               {#if tagExists}
-                <div class="text-red-500 text-xs">Tag already exists</div>
+                <div class="text-ios-danger text-xs">Tag already exists</div>
               {/if}
               <button
                 on:click={() => editTag()}
@@ -433,7 +433,7 @@
           }}
         >
           Duplicate Trackable...
-          <IonIcon slot="right" icon={CopyOutline} className="text-primary-500" />
+          <IonIcon slot="right" icon={CopyOutline} className="text-ios-tint" />
         </ListItem>
       {/if}
 
@@ -443,8 +443,8 @@
           close()
         }}
       >
-        <span class="text-red-500">Delete Trackable</span>
-        <IonIcon slot="right" icon={TrashOutline} className="text-red-500" />
+        <span class="text-ios-danger">Delete Trackable</span>
+        <IonIcon slot="right" icon={TrashOutline} className="text-ios-danger" />
       </ListItem>
     </section>
   {/if}

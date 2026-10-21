@@ -404,9 +404,9 @@ function startNew(){
           <div class="py-2">How Many Days Waitingtime?</div>
           <div slot="right">
             {#if waitingtime}
-            <span class="text-primary-500">{waitingtime}</span>
+            <span class="text-ios-tint">{waitingtime}</span>
             {:else}
-              <span class="text-primary-500">Select</span>
+              <span class="text-ios-tint">Select</span>
             {/if}
           </div>
         </ListItem>

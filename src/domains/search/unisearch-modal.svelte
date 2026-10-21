@@ -236,7 +236,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
       class="search-input rounded-t-2xl w-full"
     />
     <button type="button" aria-label="Close search" on:click={close} class="absolute top-3 rounded-full right-3 h-7 w-7 flex items-center justify-center">
-      <IonIcon size={28} icon={CloseOutline} className="text-gray-500" />
+      <IonIcon size={28} icon={CloseOutline} className="text-ios-label2" />
     </button>
   </header>
   <main class="">
@@ -370,7 +370,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
               }}
             >
               <main>
-                <div class="time text-xs text-gray-500">
+                <div class="time text-xs text-ios-label2">
                   {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
                 </div>
                 <p class="text-sm line-clamp-2 ">{log.note}</p>
@@ -423,7 +423,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     </div>
   {:else}
     <div
-      class="text-opacity-80 dark:bg-gray-900 text-gray-500 flex px-4 w-full items-center border-t text-xs leading-tight border-gray-500 border-opacity-20 py-2 pb-3 stiff space-x-4"
+      class="text-opacity-80 dark:bg-gray-900 text-ios-label2 flex px-4 w-full items-center border-t text-xs leading-tight border-gray-500 border-opacity-20 py-2 pb-3 stiff space-x-4"
     >
       Search notes, trackables, and trigger commands (like Create...)
     </div>
@@ -450,7 +450,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     @apply inline-flex;
     @apply text-sm;
     @apply py-1 px-3 rounded-full;
-    @apply bg-primary-50 text-primary-600;
+    @apply bg-primary-50 text-ios-tint;
     @apply dark:bg-primary-800 dark:text-primary-400;
   }
 
@@ -460,7 +460,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
   }
   .unisearch .selectable:focus,
   .unisearch .selectable.selected {
-    @apply bg-primary-500 bg-opacity-20 dark:bg-primary-500 text-black dark:text-black;
+    @apply bg-primary-500 bg-opacity-20 dark:bg-primary-500 text-ios-label dark:text-black;
     @apply outline-none;
   }
   .unisearch button.selectable {
@@ -477,7 +477,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     @apply transition-all duration-100 ease-in-out;
     @apply bg-gray-50 dark:bg-gray-900;
     @apply z-20;
-    @apply text-sm px-4 py-1 text-gray-500;
+    @apply text-sm px-4 py-1 text-ios-label2;
   }
   .unisearch .n-list .list-header:hover {
     @apply bg-gray-200 dark:bg-gray-600;

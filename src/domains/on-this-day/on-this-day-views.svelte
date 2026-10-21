@@ -161,7 +161,7 @@
         >
           <TrackableAvatar trackable={person.toTrackable()} slot="left" size={42} />
           <h2 class="ntitle">{person.displayName}</h2>
-          <div class="text-sm text-gray-500" slot="right">@{person.username}</div>
+          <div class="text-sm text-ios-label2" slot="right">@{person.username}</div>
         </ListItem>
       {/each}
     </Container>

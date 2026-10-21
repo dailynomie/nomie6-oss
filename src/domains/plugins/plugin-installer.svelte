@@ -159,7 +159,7 @@
         emit('cancel')
       }}
     >
-      <div class="text-red-500 w-full text-center">Cancel</div>
+      <div class="text-ios-danger w-full text-center">Cancel</div>
     </ListItem>
   </List>
 {:else}

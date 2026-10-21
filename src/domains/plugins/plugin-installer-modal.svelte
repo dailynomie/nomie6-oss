@@ -41,5 +41,5 @@
     their own privacy policy.
   </p>
   {#if url}<p class="text-xs text-ios-label mt-2 text-center">Source: {new URL(url).origin}</p>{/if}
-  <p class="text-xs text-red-500 mt-2 text-center">Only install plugins from sources that you trust.</p>
+  <p class="text-xs text-ios-danger mt-2 text-center">Only install plugins from sources that you trust.</p>
 </BackdropModal>

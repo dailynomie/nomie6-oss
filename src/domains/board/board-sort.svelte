@@ -76,7 +76,7 @@
           <div slot="left" class="flex-shrink-off">
             <Button
               icon
-              className="text-red-500"
+              className="text-ios-danger"
               on:click={() => {
                 deleteBoard(item)
               }}

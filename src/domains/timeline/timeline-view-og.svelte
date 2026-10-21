@@ -105,7 +105,7 @@
               <IonIcon icon={ChevronForwardOutline} className="opacity-50" size={14} />
             </span>
 
-            <span class="text-sm block font-normal  leading-none text-gray-500">
+            <span class="text-sm block font-normal  leading-none text-ios-label2">
               {item.logs[0].endDayjs().format(`${$Prefs.use24hour ? 'HH:mm' : 'h:mm a'}`)}
             </span>
           </button>
@@ -127,10 +127,10 @@
       {/if}
 
       <div class="timeline-30">
-        <!-- <div class="text-xs  font-semibold leading-none mb-2 text-gray-500">{item.time.format(dateFormats.time)}</div> -->
+        <!-- <div class="text-xs  font-semibold leading-none mb-2 text-ios-label2">{item.time.format(dateFormats.time)}</div> -->
         <div class="bubble my-2 mx-4" class:hidden={!Object.keys(item.usage).length}>
           <div class="flex items-center justify-between text-xs mb-2 px-2">
-            <span class="text-gray-500">{item.logs[0].endDayjs().format(dateFormats.time)}</span>
+            <span class="text-ios-label2">{item.logs[0].endDayjs().format(dateFormats.time)}</span>
             <button
               type="button"
               class="text-gray-800 dark:text-white"
@@ -169,7 +169,7 @@
           <div class="px-4 py-2">
             <div class="note-bubble bubble">
               <div class="flex items-center justify-between text-xs mb-1 -mt-2">
-                <span class="text-gray-500">{log.endDayjs().format(dateFormats.time)}</span>
+                <span class="text-ios-label2">{log.endDayjs().format(dateFormats.time)}</span>
                 <button
                   type="button"
                   class="text-gray-800 dark:text-white"
@@ -210,7 +210,7 @@
 
   .timeline-token {
     @apply dark:bg-black dark:text-white;
-    @apply text-black bg-gray-100 rounded-lg p-0;
+    @apply text-ios-label bg-gray-100 rounded-lg p-0;
   }
   .bubble.note-bubble {
     @apply p-4;

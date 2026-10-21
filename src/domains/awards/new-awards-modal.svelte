@@ -32,7 +32,7 @@
 <BackdropModal>
   <ToolbarGrid slot="header">
     <Button slot="left" type="icon" on:click={close}>
-      <IonIcon icon={CloseOutline} size={28} className="text-primary-500" />
+      <IonIcon icon={CloseOutline} size={28} className="text-ios-tint" />
     </Button>
     <h1 class="ntitle">
       {awardCount == 1 ? Lang.t('awards.new-award', 'New Award!') : Lang.t('awards.new-awards', 'New Awards!')}
@@ -52,8 +52,8 @@
         >
           {$AwardStore.newAwards[0].name}
           {#if $AwardStore.newAwards[0].reason}
-            <p class="text-gray-500 font-medium text-sm mt-2">Reason: {$AwardStore.newAwards[0].reason}</p>
-            <p class="text-gray-500 font-medium text-xs opacity-60 mt-2">
+            <p class="text-ios-label2 font-medium text-sm mt-2">Reason: {$AwardStore.newAwards[0].reason}</p>
+            <p class="text-ios-label2 font-medium text-xs opacity-60 mt-2">
               {$AwardStore.newAwards[0].getHash()}
             </p>
           {/if}

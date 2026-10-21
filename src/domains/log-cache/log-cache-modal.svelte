@@ -101,7 +101,7 @@
             primary
             clear
             className="stiff {ldate.toDateString() != date.toDateString()
-              ? 'text-gray-500'
+              ? 'text-ios-label2'
               : 'bg-ios-card'} whitespace-nowrap"
             on:click={() => {
               newDate(ldate)
@@ -113,9 +113,9 @@
   </header>
   <main class="px-4 py-2">
     {#if !logs.length && !availableDates.length}
-      <Empty className="text-gray-500">Cache Empty</Empty>
+      <Empty className="text-ios-label2">Cache Empty</Empty>
     {:else if !logs.length && availableDates.length}
-      <Empty className="text-gray-500">Select a date above</Empty>
+      <Empty className="text-ios-label2">Select a date above</Empty>
     {/if}
     {#each logs as log}
       <ListItemLog className="mb-2" {log} on:more={() => alert('more')}>
@@ -123,7 +123,7 @@
           class="flex space-x-2 justify-between items-center pt-4  border-t border-gray-500 border-opacity-20"
           slot="item-footer"
         >
-          <Button on:click={() => deleteLog(log)} confirm clear size="sm" className=" text-red-500">Delete</Button>
+          <Button on:click={() => deleteLog(log)} confirm clear size="sm" className=" text-ios-danger">Delete</Button>
 
           <Button
             size="sm"

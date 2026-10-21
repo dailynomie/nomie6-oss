@@ -312,7 +312,7 @@
 
 <div class="compare-view px-2 pt-2 {className}" {style}>
   {#if loading}
-    <div class="p-4 text-center text-gray-500 flex items-center space-x-2">
+    <div class="p-4 text-center text-ios-label2 flex items-center space-x-2">
       <Spinner size={26} />
       <span
         >Comparing {Math.abs(results?.length || 0 - Object.keys(usages || {}).length)} of {Object.keys(usages || {})
@@ -339,7 +339,7 @@
           <TrackableAvatar trackable={trackableRes.trackable} size={20} />
           <span class="ml-2 w-full line-clamp-1 text-xs font-semibold text-ios-label">{trackableRes.trackable.tag}</span>
           <div class="filler" />
-          <span class="text-gray-500 text-sm">{(trackableRes.score * 100).toFixed(1)}</span>
+          <span class="text-ios-label2 text-sm">{(trackableRes.score * 100).toFixed(1)}</span>
         </div>
         <ProgressBar
           className="w-full h-2 dark:bg-gray-900 bg-gray-200"
@@ -351,11 +351,11 @@
       {#key usagesForChart}
         <button class="" on:click={() => toggleChartItem(trackableRes)}>
           {#if usagesForChart.find((tu) => tu.trackable.tag === trackableRes.trackable.tag) ? true : false}
-            <span class="text-primary-500 fill-current">
+            <span class="text-ios-tint fill-current">
               <BarChartSolid />
             </span>
           {:else}
-            <span class="text-gray-500 dark:text-gray-500 fill-current">
+            <span class="text-ios-label2 dark:text-gray-500 fill-current">
               <BarChartOutline />
             </span>
           {/if}

@@ -19,7 +19,7 @@
   }
 </script>
 
-<BackdropModal mainClass="bg-gray-200 dark:bg-gray-800">
+<BackdropModal mainClass="bg-ios-bg">
   <div class="setup-content">
     <div class="plugin-icon">
       {plugin.emoji}

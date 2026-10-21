@@ -325,11 +325,11 @@
       <h2 class="text-lg font-semibold mb-2">Response:</h2>
       <div class="bg-gray-100 dark:bg-gray-800 rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-ios-label">
         {#if aiState.loading}
-          <span class="text-gray-500">Processing...</span>
+          <span class="text-ios-label2">Processing...</span>
         {:else if responseText}
           <pre>{responseText}</pre>
         {:else}
-          <span class="text-gray-500">Click a button to test a profile</span>
+          <span class="text-ios-label2">Click a button to test a profile</span>
         {/if}
       </div>
     </div>

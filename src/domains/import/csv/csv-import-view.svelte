@@ -316,7 +316,7 @@ import Divider from '../../../components/divider/divider.svelte'
     <Button
       primary
       slot="left"
-      className="text-primary-500"
+      className="text-ios-tint"
       on:click={() => {
         closeModal(id)
       }}>Close</Button
@@ -343,7 +343,7 @@ import Divider from '../../../components/divider/divider.svelte'
     {#if view && view.id == 'home'}
       <div class=" p-0 import-csv-home">
         <ListItem bg="transparent">
-          <span class="text-gray-500 text-sm leading-tight"
+          <span class="text-ios-label2 text-sm leading-tight"
             >Select any CSV to begin. You can then map the appropriate fields to turn a row of data into a Note within
             Nomie.</span
           >
@@ -472,11 +472,11 @@ import Divider from '../../../components/divider/divider.svelte'
                 </Text>
               {/if}
               <div slot="right">
-                <Button color="transparent" className="text-primary-500">
+                <Button color="transparent" className="text-ios-tint">
                   {#if is.truthy(activeImporter.config.fieldMap[logField.id])}
                     f{activeImporter.config.fieldMap[logField.id]}
                   {:else}<span class="text-sm font-bold">Map</span>{/if}
-                  <IonIcon icon={ChevronDownOutline} size={14} className="text-primary-500 ml-2 -mr-2" />
+                  <IonIcon icon={ChevronDownOutline} size={14} className="text-ios-tint ml-2 -mr-2" />
                 </Button>
               </div>
             </ListItem>
@@ -513,13 +513,13 @@ import Divider from '../../../components/divider/divider.svelte'
                     {:else}
                       <Button
                         color="clear"
-                        className="text-primary-500"
+                        className="text-ios-tint"
                         on:click={() => {
                           mapField(index)
                         }}
                       >
                         Assign
-                        <IonIcon icon={ChevronDownOutline} className="text-primary-500" size={14} />
+                        <IonIcon icon={ChevronDownOutline} className="text-ios-tint" size={14} />
                       </Button>
                     {/if}
                   {/if}

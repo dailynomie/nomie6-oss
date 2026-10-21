@@ -33,17 +33,17 @@
     <button class="text-xs bg-primary-200 dark:bg-primary-800 text-primary rounded-sm px-2 py-px" on:click={()=>showHowItWorks()} className="text-solid bg-primary" pad>How it works</button>
   </p> -->
     <!-- <br /><br />Learn more <a
-    class=" text-primary-500 "
+    class=" text-ios-tint "
     href="https://docs.nomie.app"
     target="docs">Docs</a
   >,
   <a
-    class=" text-primary-500 "
+    class=" text-ios-tint "
     href="https://reddit.com/r/nomie"
     target="docs">Reddit</a
   >,
   <a
-    class=" text-primary-500 "
+    class=" text-ios-tint "
     href="https://tiktok.com/@nomieapp"
     target="docs">Tiktok</a
   > -->

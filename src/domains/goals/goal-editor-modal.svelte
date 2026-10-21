@@ -123,7 +123,7 @@
         {#if trackable}
           <TrackablePill {trackable} size={32} hideValue />
         {:else}
-          <span class="text-primary-500">Select</span>
+          <span class="text-ios-tint">Select</span>
         {/if}
       </div>
     </ListItem>
@@ -164,7 +164,7 @@
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
         {#if goalTargetValue && trackable}
-          <div class="text-gray-500">{trackable.formatValue(goalTargetValue)}</div>
+          <div class="text-ios-label2">{trackable.formatValue(goalTargetValue)}</div>
         {/if}
         <Button
           clear
@@ -199,7 +199,7 @@
     {/if}
   </List>
 
-  <Button clear className="text-red-500 mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>
+  <Button clear className="text-ios-danger mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>
     {#if goal.duration=== 'day'}
           <div class="text-center text-primary">Delete Daily Goal</div>
           {:else if goal.duration === 'week'}

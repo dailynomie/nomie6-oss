@@ -127,7 +127,7 @@
           {#if $PluginStore.length}
             <Button shape="round" size="sm" on:click={toggleEditMode}>
               {#if editMode}
-                <span class="text-red-500 font-bold">Done</span>
+                <span class="text-ios-danger font-bold">Done</span>
               {:else}
                 <span class="text-primary">Edit</span>
               {/if}
@@ -149,7 +149,7 @@
               <div class="line-clamp-3">
                 {plugin.description}
               </div>
-              <div class="text-gray-500 text-xs line-clamp-1">{getDomain(plugin.url)}</div>
+              <div class="text-ios-label2 text-xs line-clamp-1">{getDomain(plugin.url)}</div>
             </div>
             <div class="description opacity-40 line-clamp-1" />
 
@@ -163,7 +163,7 @@
               {/if}
               {#if editMode && !plugin.buildin}
                 <Button on:click={() => deletePlugin(plugin)} icon
-                  ><IonIcon className="text-red-500" icon={TrashOutline} /></Button
+                  ><IonIcon className="text-ios-danger" icon={TrashOutline} /></Button
                 >
               {/if}
             </div>
@@ -185,7 +185,7 @@
         <div class="h-4 stiff w-full min-h-4" />
         <List solo>
           <Empty emoji="🔌" title="No Plugins Installed">
-            <p class="text-xs text-center text-gray-500 leading-snug">
+            <p class="text-xs text-center text-ios-label2 leading-snug">
               Plugins allow others to create entirely new ways of tracking and monitoring your data within Nomie. <strong
                 >WARNING: This feature is under heavy development.</strong
               >
@@ -230,7 +230,7 @@
       </List>
     {/if}
 
-    <div class="pt-10 px-4 text-center text-gray-500 text-sm">
+    <div class="pt-10 px-4 text-center text-ios-label2 text-sm">
       Want to create a Plugin? <br />
       <a class="text-primary underline" href="https://github.com/open-nomie/plugins" target="_blank" rel="nofollow"
         >Read the Plugin Docs →</a

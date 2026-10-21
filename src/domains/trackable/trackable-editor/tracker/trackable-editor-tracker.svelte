@@ -251,7 +251,7 @@
       <div slot="right" class="flex h-12 items-center">
         <Text bold>{(getTypeDetails(tracker?.type) || {}).label}</Text>
 
-        <IonIcon icon={ChevronDownOutline} className="text-gray-500 mr-3 ml-2" size={16} />
+        <IonIcon icon={ChevronDownOutline} className="text-ios-label2 mr-3 ml-2" size={16} />
       </div>
     </ListItem>
   </List>
@@ -317,7 +317,7 @@
                 getTrackerInput('min')
               }}
             >
-              <IonIcon icon={AddCircleOutline} className="text-gray-500" />
+              <IonIcon icon={AddCircleOutline} className="text-ios-label2" />
             </Button>
           </div>
         </NInput>
@@ -340,7 +340,7 @@
                 getTrackerInput('max')
               }}
             >
-              <IonIcon icon={AddCircleOutline} className="text-gray-500" />
+              <IonIcon icon={AddCircleOutline} className="text-ios-label2" />
             </Button>
           </div>
         </NInput>
@@ -447,11 +447,11 @@
         text
         color="clear"
         size="sm"
-        className="mt-2 mb-3 advanced-toggler text-gray-600 dark:text-gray-200"
+        className="mt-2 mb-3 advanced-toggler text-ios-label2 dark:text-gray-200"
         on:click={() => (forceAdvancedView = !forceAdvancedView)}
       >
         {#if advancedVisible}Less Options{:else}More Options{/if}
-        <IonIcon name={advanced ? ChevronUpOutline : ChevronDownOutline} size={12} className="ml-2 text-gray-500" />
+        <IonIcon name={advanced ? ChevronUpOutline : ChevronDownOutline} size={12} className="ml-2 text-ios-label2" />
       </Button>
     </div>
   {/if}
@@ -489,7 +489,7 @@
                 getTrackerInput('step')
               }}
             >
-              <IonIcon icon={AddCircleOutline} className="text-gray-500" />
+              <IonIcon icon={AddCircleOutline} className="text-ios-label2" />
             </Button>
           </div>
         </NInput>
@@ -522,7 +522,7 @@
       >
         <div slot="right">
           {#if tracker.default}
-            <Text size="xs" className="text-right text-primary-500">
+            <Text size="xs" className="text-right text-ios-tint">
               {tracker.displayValue(tracker.default)}
             </Text>
           {/if}
@@ -533,7 +533,7 @@
               getTrackerInput('default')
             }}
           >
-            <IonIcon icon={AddCircleOutline} className="text-gray-500" />
+            <IonIcon icon={AddCircleOutline} className="text-ios-label2" />
           </Button>
         </div>
       </NInput>

@@ -94,7 +94,7 @@
         dispatch('add')
       }}
     >
-      <IonIcon className="text-gray-500" icon={AddIcon} />
+      <IonIcon className="text-ios-label2" icon={AddIcon} />
     </button>
   {/if}
 </div>

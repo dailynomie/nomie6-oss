@@ -22,7 +22,7 @@
       <Button
         slot="left"
         on:click={() => emit('back')}
-        className="{hideBack ? 'opacity-0' : ''} text-gray-500 whitespace-nowrap"
+        className="{hideBack ? 'opacity-0' : ''} text-ios-label2 whitespace-nowrap"
         clear>← Back</Button
       >
       <Stepper steps={totalSlides} stepClass="primary-bright" current={activeIndex} />

@@ -105,7 +105,7 @@
   <ListItem bottomLine={16}>
     <div class="w-full py-2">
       <label class="block text-sm font-semibold mb-2">API Key</label>
-      <p class="text-xs text-gray-500 mb-2">{getServiceDocs(config.service)}</p>
+      <p class="text-xs text-ios-label2 mb-2">{getServiceDocs(config.service)}</p>
       <Input
         type="password"
         placeholder="Enter your API key"

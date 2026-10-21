@@ -50,7 +50,7 @@
     </ToolbarGrid>
   </header>
   {#if whatsNew && !showUpdates}
-    <div class="p-6 text-gray-800 dark:text-gray-200">
+    <div class="p-6 text-ios-label">
       Nomie {import.meta.env.PACKAGE_VERSION} adds {newfeatures.length} features, and {newfixes.length} bug fixes.
     </div>
   {/if}

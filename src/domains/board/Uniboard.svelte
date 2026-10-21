@@ -305,9 +305,9 @@
 
                 <!-- <p class="max-w-screen-md text-xl text-ios-label text-center">
                   Your {board.label} board is empty!
-                  <span class="text-primary-600 dark:text-primary-400 underline inline">browse the library</span> or
+                  <span class="text-ios-tint underline inline">browse the library</span> or
 
-                  <span class="text-primary-600 dark:text-primary-400 underline inline">create your own</span> from scratch.
+                  <span class="text-ios-tint underline inline">create your own</span> from scratch.
                 </p> -->
 
                 <Menu

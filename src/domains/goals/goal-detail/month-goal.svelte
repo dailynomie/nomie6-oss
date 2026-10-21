@@ -126,7 +126,7 @@
 </script>
 
 {#if goal && totalMonths}
-  <div class="bg-white  dark:bg-black px-4 pb-4  flex flex-col space-y-2">
+  <div class="bg-ios-card px-4 pb-4  flex flex-col space-y-2">
     <h1 class="text-xl font-bold text-ios-label leading-tight mt-4 pb-">
       {trackable.label}
       {getGoalComparisonSymbol(goal.comparison)}
@@ -242,7 +242,7 @@
     percent: number -->
     <!-- <ListItem clickable on:click={() => openDateOptions(item.date.toDate())}>
       <main class="flex flex-col space-y-1">
-        <div class="text-sm text-gray-500 leading-none">{item.date.format(`dddd`)}</div>
+        <div class="text-sm text-ios-label2 leading-none">{item.date.format(`dddd`)}</div>
         <div class="font-semibold text-base">{item.date.format(`${dateFormats.mmm_d_yyyy}`)}</div>
         <div />
         <ProgressBar

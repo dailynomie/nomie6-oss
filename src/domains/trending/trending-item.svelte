@@ -24,7 +24,7 @@
       <h2 class="leading-tight mb-1 space-x-2 flex items-center">
         <div class="font-semibold filler">{uct.trackableUsage.trackable.label}</div>
         <div class="text-sm opacity-80 stiff text-ios-label font-semibold mb-1">
-          <span class="text-primary-500">
+          <span class="text-ios-tint">
             {#if uct.compared.value.direction === 'up'}
               ↑
             {:else}

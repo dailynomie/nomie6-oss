@@ -128,10 +128,10 @@
         }
         dispatch('label-click', selectedIndex)
       }}
-      class="text-center w-full  text-black h-12  hover-primary  dark:text-white py-2 text-xl font-bold border-b border-gray-500 border-opacity-20"
+      class="text-center w-full  text-ios-label h-12  hover-primary  dark:text-white py-2 text-xl font-bold border-b border-gray-500 border-opacity-20"
     >
       <LetterTicker text={selectedLabel || selectedIndex || ''} />
-      <IonIcon icon={ChevronForwardOutline} className="text-gray-500" size={16} />
+      <IonIcon icon={ChevronForwardOutline} className="text-ios-label2" size={16} />
     </button>
     <div class="flex items-center justify-center -mt-2">
       <IonIcon icon={CaretDown} />
@@ -280,7 +280,7 @@
 
   .streak-2 .day label {
     @apply block;
-    @apply text-gray-500 text-sm text-center;
+    @apply text-ios-label2 text-sm text-center;
     @apply pb-1;
   }
 </style>

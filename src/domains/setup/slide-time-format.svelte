@@ -33,7 +33,7 @@ import { Interact } from '../../store/interact';
       <Button
         className="whitespace-no-wrap {!$Prefs.use24hour
           ? 'bg-primary text-white font-bold'
-          : 'bg-ios-card text-gray-500'}"
+          : 'bg-ios-card text-ios-label2'}"
         block
         size="md"
         type="clear"
@@ -47,7 +47,7 @@ import { Interact } from '../../store/interact';
       <Button
         className="whitespace-nowrap {$Prefs.use24hour
           ? 'bg-primary text-white font-bold'
-          : 'bg-ios-card text-gray-500'}"
+          : 'bg-ios-card text-ios-label2'}"
         type="clear"
         block
         size="md"
@@ -62,7 +62,7 @@ import { Interact } from '../../store/interact';
 
     <div class="big-group p-2 mt-4 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
-        className={!$Prefs.useMetric ? 'bg-primary text-white font-bold' : 'bg-ios-card text-gray-500'}
+        className={!$Prefs.useMetric ? 'bg-primary text-white font-bold' : 'bg-ios-card text-ios-label2'}
         block
         size="md"
         type="clear"
@@ -74,7 +74,7 @@ import { Interact } from '../../store/interact';
         10 lbs
       </Button>
       <Button
-        className=" {$Prefs.useMetric ? 'bg-primary text-white font-bold' : 'bg-ios-card text-gray-500'}"
+        className=" {$Prefs.useMetric ? 'bg-primary text-white font-bold' : 'bg-ios-card text-ios-label2'}"
         type="clear"
         block
         size="md"
@@ -93,7 +93,7 @@ import { Interact } from '../../store/interact';
       <Button
       className={$Prefs.weekStarts == 'sunday'
           ? 'bg-primary text-white font-bold'
-          : 'bg-ios-card text-gray-500'}
+          : 'bg-ios-card text-ios-label2'}
         block
         size="md"
         type="clear"
@@ -107,7 +107,7 @@ import { Interact } from '../../store/interact';
     <Button
     className=" {$Prefs.weekStarts == 'monday'
           ? 'bg-primary text-white font-bold'
-          : 'bg-ios-card text-gray-500'}"
+          : 'bg-ios-card text-ios-label2'}"
         type="clear"
         block
         size="md"
@@ -128,7 +128,7 @@ import { Interact } from '../../store/interact';
       <Button
         className="whitespace-no-wrap {!$Prefs.alwaysLocate
           ? 'bg-primary text-white font-bold'
-          : 'bg-ios-card text-gray-500'}"
+          : 'bg-ios-card text-ios-label2'}"
         block
         size="md"
         type="clear"
@@ -142,7 +142,7 @@ import { Interact } from '../../store/interact';
       <Button
         className="whitespace-nowrap {$Prefs.alwaysLocate
           ? 'bg-primary text-white font-bold'
-          : 'bg-ios-card text-gray-500'}"
+          : 'bg-ios-card text-ios-label2'}"
         type="clear"
         block
         size="md"

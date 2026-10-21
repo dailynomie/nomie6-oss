@@ -30,7 +30,7 @@
     {#if status.running}
       <Spinner size={24} />
     {:else if status.done}
-      <IonIcon icon={CheckmarkCircle} className="text-primary-500" />
+      <IonIcon icon={CheckmarkCircle} className="text-ios-tint" />
     {:else}
       <Button
         clear

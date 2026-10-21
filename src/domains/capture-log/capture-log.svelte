@@ -457,7 +457,7 @@
                     // confirmClear()
                   }}
                 >
-                  <IonIcon icon={ExpandOutline} size={22} className="text-gray-500" />
+                  <IonIcon icon={ExpandOutline} size={22} className="text-ios-label2" />
                 </button>
               </div>
 
@@ -466,7 +466,7 @@
                 bind:value={$TodayStore.date}
                 is24Hour={$Prefs.use24hour}
                 showDateButton={true}
-                dateButtonClass={showDateSelector ? 'dark:text-primary-400 text-primary-600' : ''}
+                dateButtonClass={showDateSelector ? 'dark:text-primary-400 text-ios-tint' : ''}
                 on:dateClick={() => {
                   showDateSelector = !showDateSelector
                 }}

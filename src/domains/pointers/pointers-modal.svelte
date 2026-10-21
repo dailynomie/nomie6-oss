@@ -85,7 +85,7 @@
         <List solo>
           {#if pointers.length === 0}
           <Empty emoji="🏷" title="No Pointers Configured">
-            <p class="text-xs text-center text-gray-500 leading-snug">
+            <p class="text-xs text-center text-ios-label2 leading-snug">
               Pointers allow you to tag single Nomie notes. This enables you to zoom in to these Notes later. <small
                 >EXAMPLE: Create a pointer named 'healthcheck'. Add this pointer to the note with your yearly healthcheck measurements..</small>
             </p>

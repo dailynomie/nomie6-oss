@@ -362,7 +362,7 @@
           </List>
 
           {#if state.locations.length == 0}
-            <Empty className="text-gray-500">
+            <Empty className="text-ios-label2">
               {Lang.t('general.no-favorites-found', 'No Favorites Found')}
             </Empty>
           {/if}
@@ -389,7 +389,7 @@
                       <h2 class="ntitle">
                         {item.name}
                         {#if state.active && item.hash == state.active.hash}
-                          <IonIcon icon={CheckmarkCircle} className="text-primary-500" />
+                          <IonIcon icon={CheckmarkCircle} className="text-ios-tint" />
                         {/if}
                       </h2>
 
@@ -409,7 +409,7 @@
                             unfavorite(item)
                           }}
                         >
-                          <IonIcon icon={TrashOutline} className="text-red-500" />
+                          <IonIcon icon={TrashOutline} className="text-ios-danger" />
                         </Button>
                       </div>
                     </NItem>

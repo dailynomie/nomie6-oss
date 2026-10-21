@@ -92,7 +92,7 @@
     Connect to a <a
       href="https://github.com/open-nomie/nomie-server"
       target="_blank"
-      class="text-primary-500">Nomie Server</a
+      class="text-ios-tint">Nomie Server</a
     > instance for storing your data.
   </p>
 </div> -->

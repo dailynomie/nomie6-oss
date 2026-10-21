@@ -251,7 +251,7 @@
       </button>
       {#if workingLog?.lat}
         <button class="flex items-center px-1 rounded-md" on:click={() => removeLocation()}
-          ><IonIcon icon={CloseOutline} size={16} className="text-red-500" /></button
+          ><IonIcon icon={CloseOutline} size={16} className="text-ios-danger" /></button
         >
       {/if}
     </div>
@@ -295,7 +295,7 @@
   }
   .meta-bar .label {
     @apply text-xs;
-    @apply text-gray-800 dark:text-gray-200;
+    @apply text-ios-label;
   }
   .meta-bar .value {
     @apply text-lg text-ios-label;

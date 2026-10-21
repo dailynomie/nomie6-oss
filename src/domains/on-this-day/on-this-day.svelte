@@ -114,7 +114,7 @@
         <h2 class="text-center text-ios-label font-bold leading-none text-sm line-clamp-1">
           {dayjs($OnThisDayModalStore).format('ddd MMM D, YYYY')}
         </h2>
-        <div class="text-xs text-gray-500 font-medium leading-none mt-1">
+        <div class="text-xs text-ios-label2 font-medium leading-none mt-1">
           {dayjs($OnThisDayModalStore).fromNow()}
         </div>
       </div>

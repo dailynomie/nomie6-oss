@@ -156,7 +156,7 @@
   .condition-select {
     @apply text-base lg:text-lg appearance-none font-bold bg-gray-200;
     @apply text-center dark:bg-gray-800;
-    @apply rounded-lg py-1 px-1 lg:px-2 text-primary-500;
+    @apply rounded-lg py-1 px-1 lg:px-2 text-ios-tint;
     @apply focus:outline-none;
     @apply focus:ring-2 ring-primary-400 ring-opacity-75;
   }

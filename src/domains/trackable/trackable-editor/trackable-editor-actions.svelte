@@ -19,19 +19,19 @@
     }}
     className="bottom-line"
   >
-    <div class="text-primary-500">
+    <div class="text-ios-tint">
       {Lang.t('general.download', 'Download')} .tkr
     </div>
-    <div slot="right" class="text-gray-500 text-sm">For Sharing</div>
+    <div slot="right" class="text-ios-label2 text-sm">For Sharing</div>
   </ListItem>
   <!-- <ListItem on:click={duplicate} className="bottom-line">
-    <div class="text-primary-500">
+    <div class="text-ios-tint">
       {Lang.t('tracker.duplicate-tracker', 'Duplicate Tracker')}
     </div>
   </ListItem> -->
 
   <ListItem on:click={remove} className="bottom-line">
-    <div class="text-red-500">
+    <div class="text-ios-danger">
       {Lang.t('tracker.remove-tracker', 'Delete Tracker')}
     </div>
   </ListItem>

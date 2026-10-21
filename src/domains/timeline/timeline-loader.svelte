@@ -256,7 +256,7 @@
     </div>
   {:else if !loading}
     <Empty>
-      <p class="text-gray-500 text-center leading-tight text-sm">
+      <p class="text-ios-label2 text-center leading-tight text-sm">
         No entries found between now and {date.format(dateFormats.date)}
       </p>
     </Empty>

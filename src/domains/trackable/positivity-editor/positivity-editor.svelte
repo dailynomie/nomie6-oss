@@ -161,7 +161,7 @@
               })
             }}
           >
-            <div class="text-center text-primary-500">Edit {tracker.score_calc?.length || ''} Conditions</div>
+            <div class="text-center text-ios-tint">Edit {tracker.score_calc?.length || ''} Conditions</div>
           </ListItem>
         {/if}
       </section>

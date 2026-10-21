@@ -231,7 +231,7 @@
 
 <style global lang="postcss">
   .intro-message {
-    @apply text-gray-500 dark:text-gray-300;
+    @apply text-ios-label2 dark:text-gray-300;
     @apply text-sm;
     @apply leading-tight;
   }

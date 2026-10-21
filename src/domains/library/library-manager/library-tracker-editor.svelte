@@ -94,7 +94,7 @@
   <Panel className="bg-gray-100 dark:bg-gray-800 h-full">
     <ToolbarGrid slot="header">
       <Button icon slot="left" on:click={() => close()}>
-        <IonIcon icon={CloseOutline} className="text-primary-500" />
+        <IonIcon icon={CloseOutline} className="text-ios-tint" />
       </Button>
       <h1 class="ntitle line-clamp-1 w-full">{workingLibTracker.title || 'Create a Library Tracker'}</h1>
       <Button primary clear slot="right" on:click={() => save()} disabled={!canSave}>
@@ -126,7 +126,7 @@
       <div class="wrap">
         <List title="Trackers" outside solo>
           <div slot="header-left" class="flex space-x-2">
-            <Button size="sm" type="clear" className="w-full text-primary-500 " on:click={() => selectTrackers()}
+            <Button size="sm" type="clear" className="w-full text-ios-tint " on:click={() => selectTrackers()}
               >Select...</Button
             >
             <Button size="sm" primary clear on:click={() => createTracker()}>Create</Button>

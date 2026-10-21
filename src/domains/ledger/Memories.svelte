@@ -27,7 +27,7 @@
             <button
               aria-label="View logs from {dayjs(log.end).format('ddd MM YYYY')}"
               class="flex items-center justify-center w-full py-2
-                  font-medium text-black bg-primary-500"
+                  font-medium text-ios-label bg-primary-500"
               on:click={() => {
                 dispatch('date', log.end)
               }}

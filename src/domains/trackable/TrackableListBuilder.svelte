@@ -195,7 +195,7 @@
             <Badge on:click={() => updateDefault(item)} pad value={item.formatValue(item.value)} />
           {/if}
           <div class="trackable-drag-handle cursor-move">
-            <IonIcon icon={MenuOutline} className="text-gray-500" />
+            <IonIcon icon={MenuOutline} className="text-ios-label2" />
           </div>
         </div>
       </ListItem>

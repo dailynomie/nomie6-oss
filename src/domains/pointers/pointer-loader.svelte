@@ -68,13 +68,13 @@ interval = setInterval(async () => {
 {#if toast}
   <div class="install-backdrop" style="z-index:8999">
     <div class="pwa-toast" role="alert">
-      <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-black message">
-          <h1 class="mb-2 text-2xl font-bold text-black">⚠️ Reminders!</h1>
+      <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-ios-label message">
+          <h1 class="mb-2 text-2xl font-bold text-ios-label">⚠️ Reminders!</h1>
           <p>Some reminders are overdue. Would you like to manage your reminders?</p>
       </div>
 
       <div class="flex items-center justify-end space-x-4">
-        <button class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600" on:click={close}>
+        <button class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-ios-tint" on:click={close}>
           Later
         </button>
 
@@ -82,7 +82,7 @@ interval = setInterval(async () => {
           <button
             aria-label="Update the App"
             on:click={() => {close();openPointersModal()}}
-            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-primary-600"
+            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-ios-tint"
           >
             Manage Now
           </button>

@@ -215,7 +215,7 @@
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
         <label class="block text-sm font-semibold mb-2">API Key</label>
-        <p class="text-xs text-gray-500 mb-3">{getServiceDocs(config.selectedService)}</p>
+        <p class="text-xs text-ios-label2 mb-3">{getServiceDocs(config.selectedService)}</p>
         {#if config.apiKey}
           {#if isEncrypted}
             <div class="flex items-center gap-2 mb-3 p-2 bg-green-100 dark:bg-green-900 rounded text-green-800 dark:text-green-200 text-xs">
@@ -248,7 +248,7 @@
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
         <label class="block text-sm font-semibold mb-3">Default Data Timeframe</label>
-        <p class="text-xs text-gray-500 mb-3">Used for AI features that don't have their own timeframe</p>
+        <p class="text-xs text-ios-label2 mb-3">Used for AI features that don't have their own timeframe</p>
         <select
           bind:value={config.defaultTimeframe}
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-ios-label text-sm"

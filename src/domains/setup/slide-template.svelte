@@ -85,7 +85,7 @@
 <Container className="filler  flex items-center  flex-col pt-3 px-5 slide-templates ">
   <div class="max-w-screen-lg mx-auto pt-6">
     <h1 class="leading-tight dark:text-white text-center font-bold px-4 text-lg">Starter Templates</h1>
-    <p class="text-gray-500 text-sm leading-tight text-center px-2 py-1">
+    <p class="text-ios-label2 text-sm leading-tight text-center px-2 py-1">
       Want Nomie to be set up automatically? Use one of the following templates.
     </p>
     <div class="h-4" />
@@ -120,7 +120,7 @@
       on:click={() => {
         showAdvanced = !showAdvanced
       }}
-      class="nbtn-badge bg-gray-500 bg-opacity-10 text-gray-600 dark:text-gray-300 text-xs"
+      class="nbtn-badge bg-gray-500 bg-opacity-10 text-ios-label2 dark:text-gray-300 text-xs"
     >
       {#if showAdvanced}Hide Advanced{:else}Show Advanced{/if}
     </button>

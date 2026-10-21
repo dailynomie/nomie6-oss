@@ -124,7 +124,7 @@
     <ToolbarGrid slot="header">
       <h1 class="ntitle">{activeCategory?.label || 'Select Category'}</h1>
       <Button slot="right" icon on:click={addTrackers}>
-        <IonIcon icon={AddIcon} className="text-primary-500" />
+        <IonIcon icon={AddIcon} className="text-ios-tint" />
       </Button>
     </ToolbarGrid>
     <main class="details">
@@ -144,8 +144,8 @@
                 <!-- <List solo className="">
                   {#if libraryTracker.trackers.length > 1}
                     <ListItem clickable={false}>
-                      <h1 class="font-medium text-gray-500">{libraryTracker.title}</h1>
-                      <Button slot="right" type="clear" className="text-primary-500 whitespace-nowrap"
+                      <h1 class="font-medium text-ios-label2">{libraryTracker.title}</h1>
+                      <Button slot="right" type="clear" className="text-ios-tint whitespace-nowrap"
                         >Add All {libraryTracker.trackers.length}</Button
                       >
                     </ListItem>
@@ -160,7 +160,7 @@
                         className="text-4xl leading-none bg-primary-400 bg-opacity-20 p-2 -ml-2 rounded-lg"
                       />
                       <h1 class="ntitle">{tracker.label}</h1>
-                      <p class="text-sm text-gray-500 leading-tight">
+                      <p class="text-sm text-ios-label2 leading-tight">
                         {tracker.type}
                       </p>
                       <div slot="right">

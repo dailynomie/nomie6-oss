@@ -47,7 +47,7 @@
   <List solo outside title="Custom UOMs" className="mb-4">
     {#if customUoms.length === 0}
       <div class="px-4 pt-2 text-ios-label2">No custom uoms found</div>
-      <ListItem on:click={createUom} clickable><span class="text-primary-500">Add a Custom UOM</span></ListItem>
+      <ListItem on:click={createUom} clickable><span class="text-ios-tint">Add a Custom UOM</span></ListItem>
     {:else}{/if}
   </List>
 

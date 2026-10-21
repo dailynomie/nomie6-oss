@@ -88,7 +88,7 @@
       <div slot="right">
         {#if editMode}
           <Button on:click={() => (editMode = false)} clear primary
-            ><span class="text-red-500">{Lang.t('general.done', 'Done')}</span></Button
+            ><span class="text-ios-danger">{Lang.t('general.done', 'Done')}</span></Button
           >
         {:else}
           <Button on:click={() => (editMode = true)} clear primary>{Lang.t('general.edit', 'Edit')}</Button>
@@ -158,7 +158,7 @@
         <!-- <Input type="text" placeholder="Writing Prompt" listItem bind:value={editing.text} /> -->
         <Divider left={16} />
         <ListItem on:click={() => saveEditing()} clickable disabled={!canSave}>
-          <div class="w-full text-center text-primary-500">Save Prompt</div>
+          <div class="w-full text-center text-ios-tint">Save Prompt</div>
         </ListItem>
         <!-- <Divider left={16} /> -->
         <ListItem
@@ -167,7 +167,7 @@
             editing = undefined
           }}
         >
-          <div class="w-full text-center text-red-500">Cancel</div>
+          <div class="w-full text-center text-ios-danger">Cancel</div>
         </ListItem>
       </List>
     </div>
@@ -186,14 +186,14 @@
     }) as item}
       <ListItem on:click={() => clicked(item)} bottomLine={16} detail={!editMode}>
         <p class="font-medium">{item.text}</p>
-        <p class="text-gray-500 capitalize">{item.time}</p>
+        <p class="text-ios-label2 capitalize">{item.time}</p>
         <div slot="right" class="flex item-center space-x-1 -mr-2">
           {#if editMode}
             <Button
               on:click={() => {
                 deletePrompt(item)
               }}
-              className="text-red-500"
+              className="text-ios-danger"
               icon><IonIcon icon={TrashOutline} /></Button
             >
             <Button icon on:click={() => editPrompt(item)}><IonIcon icon={CreateOutline} /></Button>
@@ -210,7 +210,7 @@
         })
       }}
     >
-      <span class="text-primary-500">Add Custom Prompt</span>
+      <span class="text-ios-tint">Add Custom Prompt</span>
     </ListItem>
   </List>
   <div class="h-4" />

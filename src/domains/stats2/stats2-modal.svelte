@@ -72,7 +72,7 @@
     {#if $Stats2Store.trackable}
       <Toolbar className="space-x-2">
         <Button icon on:click={close}>
-          <IonIcon icon={CloseOutline} size={28} className="text-primary-500" />
+          <IonIcon icon={CloseOutline} size={28} className="text-ios-tint" />
         </Button>
 
         <ButtonGroup
@@ -97,7 +97,7 @@
             openCalendarView({ trackable: $Stats2Store.trackable })
           }}
         >
-          <IonIcon icon={CalendarOutline} size={28} className="text-primary-500" />
+          <IonIcon icon={CalendarOutline} size={28} className="text-ios-tint" />
         </Button>
       </Toolbar>
     {:else}
@@ -110,7 +110,7 @@
       on:next={() => nextStatsPeriod()}
       on:previous={() => previousStatsPeriod()}
      >
-     <h1 class="text-black text-center flex items-center justify-center dark:text-white font-bold leading-none line-clamp-1 w-full">
+     <h1 class="text-ios-label text-center flex items-center justify-center dark:text-white font-bold leading-none line-clamp-1 w-full">
       <TrackableAvatar trackable={$Stats2Store.trackable} size={20} className="mr-2" />
       <span>{$Stats2Store.trackable.label}</span>
     </h1>
@@ -131,7 +131,7 @@
               false
             )}</span
           >
-          <span class="text-gray-500 whitespace-nowrap"
+          <span class="text-ios-label2 whitespace-nowrap"
             >{$Stats2Store.trackable.tracker?.uom ? uomSymbol($Stats2Store.trackable.tracker.uom) : ''}</span
           >
         </div>
@@ -152,10 +152,10 @@
       {:else}
         <button
           on:click={() => (showRelated = true)}
-          class="w-full text-primary-500 py-20"
+          class="w-full text-ios-tint py-20"
           title="Find potentially related trackables"
         >
-          <span class="text-primary-500">Find Related...</span>
+          <span class="text-ios-tint">Find Related...</span>
         </button>
       {/if}
     </div>

@@ -61,7 +61,7 @@ import RelatedView from './related-view.svelte'
       <h1 class="font-bold  text-2xl text-ios-label">
         {trackable?.label || 'Loading...'}
       </h1>
-      <p class="text-opacity-60 text-gray-500 text-sm">is possibly related to...</p>
+      <p class="text-opacity-60 text-ios-label2 text-sm">is possibly related to...</p>
     </main>
   </div>
 

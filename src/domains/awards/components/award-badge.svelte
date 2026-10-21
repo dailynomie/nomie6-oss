@@ -38,7 +38,7 @@
   }
 
   .award-badge .desc {
-    @apply text-gray-500 text-xs leading-tight;
+    @apply text-ios-label2 text-xs leading-tight;
   }
   .award-badge .title {
     @apply leading-tight font-semibold text-sm dark:text-white;

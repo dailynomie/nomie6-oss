@@ -114,7 +114,7 @@
       {#if usageByDay}
         {usageByDay.trackable.formatValue(usageByDay.average)}
       {:else}
-        <span class="text-gray-500">Loading...</span>
+        <span class="text-ios-label2">Loading...</span>
       {/if}
     </div>
   </div>
@@ -124,7 +124,7 @@
       {#if usage}
         {usage.displayValue}
       {:else}
-        <span class="text-gray-500">Loading...</span>
+        <span class="text-ios-label2">Loading...</span>
       {/if}
     </div>
   </div>

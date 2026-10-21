@@ -32,7 +32,7 @@
 <List solo className="">
   {#if libraryTracker.trackers.length > 1}
     <ListItem clickable={false}>
-      <h1 class="font-medium text-gray-500">{libraryTracker.title}</h1>
+      <h1 class="font-medium text-ios-label2">{libraryTracker.title}</h1>
       <Button
         on:click={() => {
           dispatch('addAll', libraryTracker.trackers)
@@ -51,7 +51,7 @@
         <Avatar size={36} emoji={tracker.emoji} className="" />
       </div>
       <h1 class="ntitle">{tracker.label}</h1>
-      <p class="text-sm text-gray-500 leading-tight">
+      <p class="text-sm text-ios-label2 leading-tight">
         {getTypeLabel(tracker.type)}
       </p>
       <div slot="right">
@@ -64,7 +64,7 @@
             clear>Add</Button
           >
         {:else}
-          <Button type="clear" className="text-gray-500" size="xs"
+          <Button type="clear" className="text-ios-label2" size="xs"
             >Added <IonIcon className="ml-2 opacity-50" icon={CheckmarkCircle} /></Button
           >
         {/if}

@@ -201,7 +201,7 @@
             //@ts-ignore
             payload.type = evt.target.value
           }}
-          class="appearance-none text-right text-base text-primary-500 px-4 bg-transparent focus:outline-none rounded-md h-9 ring-inset focus:ring-1 ring-primary-500"
+          class="appearance-none text-right text-base text-ios-tint px-4 bg-transparent focus:outline-none rounded-md h-9 ring-inset focus:ring-1 ring-primary-500"
         >
           <option value="" selected>All Types</option>
           <option value="tracker">{Lang.t('general.trackers', 'Trackers')}</option>
@@ -224,7 +224,7 @@
           <div>
             <h1 class="line-clamp-1">{trackable.label}</h1>
             <div class="flex items-center space-x-2">
-              <div class="text-sm text-gray-500 line-clamp-1">{trackable.tag}</div>
+              <div class="text-sm text-ios-label2 line-clamp-1">{trackable.tag}</div>
             </div>
           </div>
           <RadioButton slot="right" className="pointer-events-none" checked={selected.indexOf(trackable) > -1} />

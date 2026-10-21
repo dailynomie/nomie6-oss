@@ -68,7 +68,7 @@
         .format(dateFormats.tinyDate)}
     </button>
   </Scroller>
-  <button class="bg-white text-red-500 py-1 w-auto  leading-tight px-3 rounded-full mx-2 stiff" on:click={done}
+  <button class="bg-white text-ios-danger py-1 w-auto  leading-tight px-3 rounded-full mx-2 stiff" on:click={done}
     >Done</button
   >
 </div>

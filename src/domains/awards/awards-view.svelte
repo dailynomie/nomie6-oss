@@ -34,12 +34,12 @@
       </div>
       <div slot="right">
         <button
-          class="{$Device.width < 399 ? 'nbtn-icon circle' : 'clear'} flex items-center text-primary-500"
+          class="{$Device.width < 399 ? 'nbtn-icon circle' : 'clear'} flex items-center text-ios-tint"
           on:click={(evt) => resetAll()}
         >
-          <IonIcon icon={RemoveCircleOutline} className="text-primary-500" />
+          <IonIcon icon={RemoveCircleOutline} className="text-ios-tint" />
           {#if $Device.width > 400}
-            <span class="ml-2 text-primary-500">
+            <span class="ml-2 text-ios-tint">
               Reset All
             </span>
           {/if}

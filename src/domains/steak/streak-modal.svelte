@@ -176,7 +176,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
         {!isNaN(values[item.index + 1]?.value) ? 'next-sib-active' : 'next-sib-inactive'}"
       />
       {#if isNaN(item.value)}
-        <div class="streak-item no-activity relative w-full  text-gray-500 font-semibold ">
+        <div class="streak-item no-activity relative w-full  text-ios-label2 font-semibold ">
           {item.date.format(dateFormats.mmm_d_yyyy)}
         </div>
       {:else}

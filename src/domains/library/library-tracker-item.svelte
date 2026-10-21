@@ -42,5 +42,5 @@
     {/if}
   </div>
   <h1 class="font-bold leading-tight line-clamp-2 text-lg">{libraryTracker.title}</h1>
-  <p class="text-sm text-gray-500 line-clamp-2">{libraryTracker.trackers.map((t) => `${t.label}`).join(', ')}</p>
+  <p class="text-sm text-ios-label2 line-clamp-2">{libraryTracker.trackers.map((t) => `${t.label}`).join(', ')}</p>
 </ListItem>

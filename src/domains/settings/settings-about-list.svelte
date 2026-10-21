@@ -109,7 +109,7 @@
     <span slot="left"><IconSquare color="#7DB8F5"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <a href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}>
-        <Badge pad className="bg-gray-300 text-black">Email</Badge>
+        <Badge pad className="bg-gray-300 text-ios-label">Email</Badge>
       </a>
     </div>
   </ListItem>

@@ -124,7 +124,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
             <div class="font-bold text-center">
               {lastUsageData.streak.v}
               {lastUsageData.streak.v <= 1 ? Lang.t('general.days', 'day') : Lang.t('general.days', 'days')}
-              <span class="text-xs text-center text-gray-500">Current</span>
+              <span class="text-xs text-center text-ios-label2">Current</span>
             </div>
             <div class="text-xs opacity-60 py-1 text-center line-clamp-1 whitespace-nowrap">
               {dayjs(lastUsageData.last.d).subtract(lastUsageData.streak.v, 'day').format(dateFormats.shortDate)}
@@ -144,7 +144,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
             <div class="font-bold text-center leading-none">
               {lastUsageData.longest.v}
               {lastUsageData.longest.v <= 1 ? Lang.t('general.days', 'day') : Lang.t('general.days', 'days')}
-              <span class="text-xs text-center text-gray-500">Longest</span>
+              <span class="text-xs text-center text-ios-label2">Longest</span>
             </div>
 
             <div class="text-xs opacity-60 py-1 text-center line-clamp-1 whitespace-nowrap">
@@ -161,7 +161,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
       {#if trackableUsage}
         <div class="px-2 pt-2 lg:px-4 bg-gray-300 dark:bg-gray-800">
           {#if !trackableUsage.logs.length}
-            <div class="text-center p-10 text-gray-500">
+            <div class="text-center p-10 text-ios-label2">
               No {trackableUsage.trackable.label} data for {dayjs(activeDate || starterDate).format(
                 dateFormats.mmm_d_yyyy
               )}
@@ -183,7 +183,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
           {/each}
         </div>
       {:else}
-        <Empty className="text-gray-500">
+        <Empty className="text-ios-label2">
           {#if loading}
             Getting Data...
           {:else}

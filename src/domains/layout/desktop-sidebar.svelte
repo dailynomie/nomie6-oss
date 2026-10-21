@@ -226,14 +226,14 @@
         on:click={() => {
           openUnisearch()
         }}
-        class="focus:outline-none focus:ring-2 ring-primary-500 py-2 rounded-md flex items-center space-x-2 text-sm leading-tight px-4 text-left text-gray-500 my-10"
+        class="focus:outline-none focus:ring-2 ring-primary-500 py-2 rounded-md flex items-center space-x-2 text-sm leading-tight px-4 text-left text-ios-label2 my-10"
       >
         <IonIcon icon={SearchIcon} />
         <span>Super Search</span>
       </button>
     {/if}
   {:else}
-    <div class="text-gray-500 px-4 h-full text-sm flex flex-col  justify-center space-y-4">
+    <div class="text-ios-label2 px-4 h-full text-sm flex flex-col  justify-center space-y-4">
       <!-- <p class="font-bold text-ios-label ">Welcome to Nomie 6!</p>
       <p>
         Nomie was created to enable neurodivergent people keep track of and monitor their lives in whichever way they

@@ -67,7 +67,7 @@
       <List solo>
         <Input listItem type="text" bind:value={uom.displayMath} placeholder="Value Calculation" label="Value Math" />
       </List>
-      <div class="px-4 py-3 text-xs text-gray-500">
+      <div class="px-4 py-3 text-xs text-ios-label2">
         <strong>Optional</strong> - Calculate a new display value based on the provided value. For example:
         <span class="math-examples">{`{value} * 1.5`} </span>
       </div>

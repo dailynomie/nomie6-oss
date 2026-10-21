@@ -26,7 +26,7 @@ import { getDateFormats } from '../../preferences/Preferences'
 <BackdropModal mainClass="overflow-y-auto relative" className="h-full bg-gray-100 dark:bg-gray-900 w-full rounded-2xl">
   <ToolbarGrid slot="header" shadow>
     <Button icon on:click={() => close()} slot="left">
-      <IonIcon icon={CloseOutline} className="text-primary-500" />
+      <IonIcon icon={CloseOutline} className="text-ios-tint" />
     </Button>
     <h2 class="line-clamp-1 text-ios-label whitespace-normal leading-tight text-base font-semibold">
       {log.endDayjs().format(`ddd ${dateFormats.date} ${dateFormats.time}`)}

@@ -9,7 +9,7 @@
 </script>
 
 <Container className="filler  flex items-center justify-center  flex-col px-2 slide-location -mt-14">
-  <p class="px-10 mb-10 text-center text-xl leading-tight text-gray-800 dark:text-gray-200 font-bold">
+  <p class="px-10 mb-10 text-center text-xl leading-tight text-ios-label font-bold">
     🔥 WAIT! For the best experience, install me on your iOS homescreen! 📲
   </p>
 
@@ -18,12 +18,12 @@
       <ListItem bottomLine={48}>
         <span slot="left" class="text-lg font-extrabold"> 1. </span>
         Tap Safari's Share Icon
-        <IonIcon slot="right" icon={ShareOutline} className="text-gray-500" />
+        <IonIcon slot="right" icon={ShareOutline} className="text-ios-label2" />
       </ListItem>
       <ListItem bottomLine={48}>
         <span slot="left" class="text-lg font-extrabold"> 2. </span>
         Scroll to & select <strong>"Add to Home Screen"</strong>
-        <IonIcon slot="right" icon={AddSquareOutline} className="text-gray-500" />
+        <IonIcon slot="right" icon={AddSquareOutline} className="text-ios-label2" />
       </ListItem>
       <ListItem>
         <span slot="left" class="text-lg font-extrabold"> 3. </span>

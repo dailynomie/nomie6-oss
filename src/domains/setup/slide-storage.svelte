@@ -52,7 +52,7 @@
         on:click={() => {
           showAdvanced = !showAdvanced
         }}
-        class="nbtn-badge bg-gray-500 bg-opacity-10 text-gray-600 dark:text-gray-300 text-xs"
+        class="nbtn-badge bg-gray-500 bg-opacity-10 text-ios-label2 dark:text-gray-300 text-xs"
       >
         {#if showAdvanced}Hide Advanced{:else}Show Advanced{/if}
       </button>

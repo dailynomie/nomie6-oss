@@ -134,17 +134,17 @@
             }}
           >
             <Button slot="right" icon className="menu-handle">
-              <IonIcon icon={MenuOutline} className="text-gray-500" />
+              <IonIcon icon={MenuOutline} className="text-ios-label2" />
             </Button>
             <Button slot="left" icon className="" on:click={() => removeCondition(item)}>
-              <IonIcon icon={CloseOutline} className="text-gray-500" />
+              <IonIcon icon={CloseOutline} className="text-ios-label2" />
             </Button>
           </ConditionItem>
         </SortableList2>
       {/if}
     </List>
     <ListItem className="mt-2 pb-2" on:click={() => addCondition()}>
-      <div class="text-center text-primary-500 pb-2">
+      <div class="text-center text-ios-tint pb-2">
         {Lang.t('score.add-condition', 'Add Condition')}...
       </div>
     </ListItem>

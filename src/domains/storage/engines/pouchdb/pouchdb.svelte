@@ -220,7 +220,7 @@
         }}
       >
         <div slot="left" class={!state.syncEnabled ? 'opacity-20' : ''}>♻️</div>
-        <div class="line-clamp-1 text-xs text-gray-500">{connectionString}</div>
+        <div class="line-clamp-1 text-xs text-ios-label2">{connectionString}</div>
         <div slot="right">
           <ToggleSwitch
             bind:value={state.syncEnabled}
@@ -282,7 +282,7 @@
       </div>
       <Divider left={16} />
       <div class="grid grid-cols-1 xl:grid-cols-2 px-4 mt-4 items-center">
-        <div class="connection-string text-gray-500 text-sm py-2">
+        <div class="connection-string text-ios-label2 text-sm py-2">
           {#if connectionString}
             {connectionString}
           {:else}
@@ -305,7 +305,7 @@
             <Button
               disabled
               block
-              className="bg-gray-100 dark:bg-gray-900 text-gray-500 font-bold"
+              className="bg-gray-100 dark:bg-gray-900 text-ios-label2 font-bold"
               on:click={methods.connect}>Connect...</Button
             >
           {/if}
