@@ -60,7 +60,7 @@
     <PickerSelect {tracker} active={selected} on:change={fireChange} />
   {/if}
   <!-- <ListItem
-    className="{mode == 'view' ? 'text-primary-500' : 'text-red-500'} justify-center text-center"
+    className="{mode == 'view' ? 'text-ios-tint' : 'text-ios-danger'} justify-center text-center"
     on:click={toggleMode}
   >
     <div class="text-center w-full font-bold text-sm">

@@ -179,7 +179,7 @@
       </span>
       <div slot="right">
         <Button icon on:click={editTracker}>
-          <IonIcon icon={MoreVertical} size={26} className="text-primary-500" />
+          <IonIcon icon={MoreVertical} size={26} className="text-ios-tint" />
         </Button>
       </div>
     </ToolbarGrid>
@@ -292,7 +292,8 @@
 
 <style global lang="postcss">
   .tracker-input-modal {
-    @apply bg-gray-200 h-full dark:bg-gray-800;
+    @apply h-full;
+    background: var(--ios-bg);
     @apply h-full;
   }
 

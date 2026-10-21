@@ -94,7 +94,7 @@
   <List solo>
     {#each trackables as trackable, index}
       <article class="flex flex-col justify-center items-center" />
-      <ListItem bottomLine={64} className="bg-white dark:bg-gray-900">
+      <ListItem bottomLine={64} className="bg-ios-card">
         <TrackableAvatar slot="left" {trackable} size={46} />
         <main class="filler">
           <header class="flex items-center justify-between">
@@ -141,7 +141,7 @@
                   //@ts-ignore
                   target.select()
                 }}
-                class="bg-gray-100 pr-10 stiff mr-2 dark:bg-gray-800 text-black dark:text-white text-lg rounded-md p-2 flex-shrink text-right w-24 font-bold"
+                class="bg-ios-fill pr-10 stiff mr-2 text-ios-label text-lg rounded-md p-2 flex-shrink text-right w-24 font-bold"
                 type="number"
                 bind:value={trackable.value}
               />
