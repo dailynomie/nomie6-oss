@@ -843,8 +843,8 @@
             </button>
             {#if removalReason}
               <div class="icon-badge lock-badge cursor-help group" title={removalReason}>
-                <IonIcon icon={LockClosedSolid} size={10} className="text-white" />
-                <div class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">
+                <IonIcon icon={LockClosedSolid} size={10} className="text-ios-label2" />
+                <div class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-ios-label text-ios-card text-xs px-2 py-1 rounded whitespace-nowrap z-10">
                   {removalReason}
                 </div>
               </div>
@@ -1198,7 +1198,8 @@
   }
 
   .lock-badge {
-    @apply bg-gray-600 dark:bg-gray-500;
+    /* iOS look: a lock is the fill token with a secondary glyph */
+    @apply bg-ios-fill;
   }
 
   .trash-badge {
