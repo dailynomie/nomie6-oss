@@ -16,7 +16,7 @@
   import nid, { md5 } from '../../modules/nid/nid'
 
   import type { ICondition } from '../../modules/scoring/score-tracker'
-  import CloseOutline from '../../n-icons/CloseOutline.svelte'
+  import RemoveCircle from '../../n-icons/RemoveCircle.svelte'
   import MenuOutline from '../../n-icons/MenuOutline.svelte'
   import { Interact } from '../../store/interact'
   import { Lang } from '../../store/lang'
@@ -136,8 +136,9 @@
             <Button slot="right" icon className="menu-handle">
               <IonIcon icon={MenuOutline} className="text-ios-label2" />
             </Button>
-            <Button slot="left" icon className="" on:click={() => removeCondition(item)}>
-              <IonIcon icon={CloseOutline} className="text-ios-label2" />
+            <!-- iOS look (guide 11.2): removing a row is the red minus on the leading edge -->
+            <Button slot="left" icon className="" ariaLabel="Remove condition" on:click={() => removeCondition(item)}>
+              <IonIcon icon={RemoveCircle} size={24} className="text-ios-danger" />
             </Button>
           </ConditionItem>
         </SortableList2>
