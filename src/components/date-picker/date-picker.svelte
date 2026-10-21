@@ -15,9 +15,10 @@
   const dispatch = createEventDispatcher()
   let { date = $bindable(), time = $bindable(), className, style, size } = $props()
 
-  let localDate = $state<any>(dayjs(new Date()).format('YYYY-MM-DDTHH:mm'))
-  let lastTime = $state(time)
   const dtlFormat = 'YYYY-MM-DDTHH:mm'
+  // An existing entry shows its own date and time; only a new entry starts from now
+  let localDate = $state<any>(dayjs(time ? new Date(time) : new Date()).format(dtlFormat))
+  let lastTime = $state(time)
   let dateTimeFormat = $derived($Prefs.use24hour ? 'dd/mm/yyyy HH:mm' : 'mm/dd/yyyy hh:mm a')
 
   $effect(() => {
