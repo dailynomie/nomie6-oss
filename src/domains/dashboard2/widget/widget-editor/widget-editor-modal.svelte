@@ -389,8 +389,13 @@
         <!-- Prompt Type Selection -->
         <ListItem>
           Prompt Type
+          <!-- iOS look: the widget is a class instance, so the group reads and writes through updateTrigger to re-render -->
           <ButtonGroup
-            bind:value={editingWidget.data.promptType}
+            value={(updateTrigger, editingWidget.data.promptType)}
+            on:change={(evt) => {
+              editingWidget.data.promptType = evt.detail.value
+              updateTrigger = updateTrigger + 1
+            }}
             buttons={[
               { value: 'predefined', label: 'Predefined' },
               { value: 'custom', label: 'Custom' },
@@ -402,12 +407,12 @@
         <Divider left={18} />
 
         <!-- Predefined Prompts Dropdown -->
-        {#if editingWidget.data.promptType === 'predefined'}
+        {#if (updateTrigger, editingWidget.data.promptType) === 'predefined'}
           <Input type="select" listItem bind:value={editingWidget.data.promptValue} label="Select Prompt" placeholder={`${Lang.t('dashboard.select-prompt', 'Select a prompt')}`} options={[{ value: 'patterns', label: 'Patterns' }, { value: 'progress', label: 'Progress' }, { value: 'insights', label: 'Insights' }, { value: 'recommendations', label: 'Recommendations' }, { value: 'trends', label: 'Trends' }, { value: 'wellbeing', label: 'Wellbeing' }, { value: 'productivity', label: 'Productivity' }, { value: 'health', label: 'Health' }, { value: 'mood', label: 'Mood & Emotions' }, { value: 'correlation', label: 'Correlations' }]} />
         {/if}
 
         <!-- Custom Prompt Textarea -->
-        {#if editingWidget.data.promptType === 'custom'}
+        {#if (updateTrigger, editingWidget.data.promptType) === 'custom'}
           <Divider left={18} />
           <Input
             listItem
