@@ -18,6 +18,8 @@
   import { TrackableStore } from '../trackable/TrackableStore'
   import DashbardEditView from './dashbard-edit-view.svelte'
   import dayjs from 'dayjs'
+  import SearchIcon from '../../n-icons/SearchIcon.svelte'
+  import { openUnisearch } from '../search/UnisearchStore'
   import type { DashboardClass } from './dashboard-class'
   import DashboardEmptyView from './dashboard-empty-view.svelte'
   import DashboardTabs from './dashboard-tabs.svelte'
@@ -183,7 +185,10 @@
 <Layout className="h-full">
   <!-- iOS look (same as the Timeline header): action row with the round menu, then the large title, then the dashboard names -->
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
-    <div class="flex items-center justify-end h-9">
+    <div class="flex items-center justify-end h-9 space-x-2">
+      <button type="button" class="ios-round" aria-label="Search Nomie" on:click={() => openUnisearch()}>
+        <IonIcon icon={SearchIcon} size={18} />
+      </button>
       <MenuInline id="dashboard-menu" title="Dashboard options" x="right" y="bottom" menuButtons={mainMenu} buttonClass="ios-round">
         <IonIcon icon={SettingsOutline} size={18} />
       </MenuInline>

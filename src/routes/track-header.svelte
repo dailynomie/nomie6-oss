@@ -70,12 +70,8 @@
 <!-- iOS look: a compact phone header (action row 36 px, toolbar 44 px) to leave more room for the trackers -->
 <div class="glass relative z-50 px-4 pt-1">
   <div class="flex items-center justify-between h-9">
-    <!-- iOS look (guide 6, Track): Edit on the leading edge, search and the board menu on the trailing edge -->
-    {#if !editMode}
-      <Button clear primary size="sm" on:click={onToggleEditMode}>Edit</Button>
-    {:else}
-      <span />
-    {/if}
+    <!-- iOS look (guide 6, Track): search and the board menu on the trailing edge; edit mode is in the board menu -->
+    <span />
     {#if !editMode}
       <div class="flex items-center space-x-2">
         <button type="button" class="ios-round" aria-label="Search Nomie" on:click={onOpenSearch}>
