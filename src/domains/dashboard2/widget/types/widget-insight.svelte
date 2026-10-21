@@ -231,7 +231,7 @@
       </div>
     </div>
   {:else if insight}
-    <div class="insight-container px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition border border-ios-separator rounded h-full" onclick={openFullInsightModal}>
+    <div class="insight-container px-3 py-2 cursor-pointer hover:bg-ios-fill transition border border-ios-separator rounded h-full" onclick={openFullInsightModal}>
       <div class="text-xs leading-relaxed text-ios-label markdown-content">
         {@html renderedInsight}
       </div>
