@@ -25,13 +25,11 @@
 
   const addDate = () => {
     theDate = dayjs(theDate).add(1, 'day').toDate()
-    date = theDate.getTime()
-    dispatch('click', date)
+    dispatch('click', theDate.getTime())
   }
   const subtractDate = () => {
     theDate = dayjs(theDate).subtract(1, 'day').toDate()
-    date = theDate.getTime()
-    dispatch('click', date)
+    dispatch('click', theDate.getTime())
   }
 </script>
 
@@ -40,7 +38,7 @@
     <IonIcon icon={ChevronBackOutline} size={14} />
   </button>
   <div class="w-12 font-semibold leading-none text-center" aria-label={dayjs(theDate).format(`${dayMonth} YYYY`)}>
-    <div class="font-semibold dark:text-white">
+    <div class="font-semibold text-ios-label">
       {dayjs(theDate).format(dayMonth)}
     </div>
     <div class="text-ios-label2">{dayjs(theDate).format('YYYY')}</div>
