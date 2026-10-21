@@ -185,6 +185,7 @@
     onSearchClear={() => {
       searchFor = undefined
     }}
+    onOpenSearch={() => openUnisearch()}
     trackableCount={Object.keys($TrackableStore.trackables).length}
     deviceWidth={$Device.width}
     runningTimers={$RunningTimers}

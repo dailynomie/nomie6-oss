@@ -13,6 +13,8 @@
   import { slide } from 'svelte/transition'
   import appConfig from '../config/appConfig'
   import { SettingsOutline } from '../components/icon/nicons'
+  import SearchIcon from '../n-icons/SearchIcon.svelte'
+  import dayjs from 'dayjs'
 
   const {
     showController = false,
@@ -27,6 +29,7 @@
     searchFor = undefined,
     onSearchChange = () => {},
     onSearchClear = () => {},
+    onOpenSearch = () => {},
     trackableCount = 0,
     deviceWidth = 0,
     runningTimers = [],
@@ -66,14 +69,26 @@
 <!-- iOS look (same as the Timeline header): action row with the round board menu, then the large title -->
 <!-- iOS look: a compact phone header (action row 36 px, toolbar 44 px) to leave more room for the trackers -->
 <div class="glass relative z-50 px-4 pt-1">
-  <div class="flex items-center justify-end h-9">
+  <div class="flex items-center justify-between h-9">
+    <!-- iOS look (guide 6, Track): Edit on the leading edge, search and the board menu on the trailing edge -->
     {#if !editMode}
-      <MenuInline id="add-menu-button" title="Board options" x="right" y="bottom" menuButtons={boardAddMenu} buttonClass="ios-round">
-        <IonIcon icon={SettingsOutline} size={18} />
-      </MenuInline>
+      <Button clear primary size="sm" on:click={onToggleEditMode}>Edit</Button>
+    {:else}
+      <span />
+    {/if}
+    {#if !editMode}
+      <div class="flex items-center space-x-2">
+        <button type="button" class="ios-round" aria-label="Search Nomie" on:click={onOpenSearch}>
+          <IonIcon icon={SearchIcon} size={18} />
+        </button>
+        <MenuInline id="add-menu-button" title="Board options" x="right" y="bottom" menuButtons={boardAddMenu} buttonClass="ios-round">
+          <IonIcon icon={SettingsOutline} size={18} />
+        </MenuInline>
+      </div>
     {/if}
   </div>
   <h1 class="text-ios-large font-bold text-ios-label">Track</h1>
+  <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format('dddd D MMMM')}</p>
 </div>
 
 <div class="collapsible-row">
