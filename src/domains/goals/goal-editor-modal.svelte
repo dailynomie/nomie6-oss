@@ -7,7 +7,7 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import Button from '../../components/button/button.svelte'
   import Divider from '../../components/divider/divider.svelte'
-  import { openDropMenu } from '../../components/menu/useDropmenu'
+  import { openPopMenu } from '../../components/pop-menu/usePopmenu'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { AddCircleOutline, ChevronDownOutline } from '../../components/icon/nicons'
   import Input from '../../components/input/input.svelte'
@@ -120,7 +120,7 @@
     <ListItem clickable on:click={select}>
       <div class="py-2">Which Trackable?</div>
       <div slot="right">
-        {#if trackable}
+        {#if trackable?.label}
           <TrackablePill {trackable} size={32} hideValue />
         {:else}
           <span class="text-ios-tint">Select</span>
@@ -129,18 +129,21 @@
     </ListItem>
     <Divider left={16} />
     <ListItem
-      on:click={(evt) => {
-        openDropMenu(
-          evt.detail.target,
-          GoalComparisonItems.map((item) => {
-            return {
-              title: item.label,
-              click() {
-                comparison = item.id
-              },
-            }
-          })
-        )
+      clickable
+      on:click={() => {
+        // iOS look: the comparison is an action sheet with a tick on the current choice
+        openPopMenu({
+          id: `goal-comparison-${goal.duration}`,
+          title: 'Should be...',
+          show: true,
+          buttons: GoalComparisonItems.map((item) => ({
+            title: item.label,
+            checked: item.id == comparison,
+            click() {
+              comparison = item.id
+            },
+          })),
+        })
       }}
     >
       <div class="py-2">
@@ -201,12 +204,12 @@
 
   <Button clear className="text-ios-danger mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>
     {#if goal.duration=== 'day'}
-          <div class="text-center text-primary">Delete Daily Goal</div>
+          <div class="text-center text-ios-danger">Delete Daily Goal</div>
           {:else if goal.duration === 'week'}
-          <div class="text-center text-primary">Delete Weekly Goal</div>
+          <div class="text-center text-ios-danger">Delete Weekly Goal</div>
           {:else if goal.duration === 'month'}
-          <div class="text-center text-primary">Delete Monthly Goal</div>
+          <div class="text-center text-ios-danger">Delete Monthly Goal</div>
           {:else if goal.duration === 'year'}
-          <div class="text-center text-primary">Delete Yearly Goal</div>
+          <div class="text-center text-ios-danger">Delete Yearly Goal</div>
           {/if}</Button>
 </BackdropModal>
