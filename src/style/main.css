@@ -552,6 +552,17 @@ html.dark .ios-thumb {
   box-shadow: var(--ios-shadow-float);
 }
 
+/* iOS look (D-native): number fields show no browser spin buttons; the app's own steppers and keys change values */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 /* iOS look (D-focus): Tailwind focus:ring utilities show only for keyboard focus. A tap or click
    leaves no ring; selected states (ring classes without focus) are not affected. */
 :focus:not(:focus-visible) {
