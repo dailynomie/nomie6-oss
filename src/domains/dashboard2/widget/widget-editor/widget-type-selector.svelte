@@ -73,7 +73,7 @@ import type { WidgetClass } from '../widget-class';
     {@const isInsightDisabled = widgetType.id === 'insight' && !isAiConfigured()}
     <button
       disabled={isInsightDisabled}
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl {isInsightDisabled ? 'opacity-50 cursor-not-allowed' : ''}"
+      class="flex flex-col self-start shrink-0 w-20 focus:outline-none p-1 rounded-xl {isInsightDisabled ? 'opacity-50 cursor-not-allowed' : ''}"
       aria-label={`${widgetType.label} widget${isInsightDisabled ? ' (requires AI configuration)' : ''}`}
       title={isInsightDisabled ? 'Enable AI in settings and add your API key to use this widget' : ''}
       on:click={() => {
@@ -93,7 +93,7 @@ import type { WidgetClass } from '../widget-class';
           <Avatar size={40} emoji={widgetType.emoji} />
         {/if}
       </div>
-      <div class="text-ios-label filler w-full line-clamp-2 text-center text-xs pt-2 leading-tight">
+      <div class="text-ios-label filler w-full line-clamp-2 text-center text-xs pt-2 leading-tight break-words">
         {widgetType.label}
       </div>
     </button>
