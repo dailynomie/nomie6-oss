@@ -178,9 +178,9 @@
             <button
               on:click={() => openDateOptions(week.date.toDate())}
               style="transform: scale({getPad(week.percent)})"
-              class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-green-500' : ''} {!Number.isNaN(week.og) && week.failure == true
-              ? 'bg-red-500'
-              : ''} {Number.isNaN(week.og) ? 'bg-gray-500' : ''}"
+              class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(week.og) && week.failure == true
+              ? 'bg-ios-danger'
+              : ''} {Number.isNaN(week.og) ? 'bg-ios-fill goal-nodata' : ''}"
           >
               <!--{week.date.format('ddd').substring(0, 1)} -->
               wk{i+1}
@@ -196,9 +196,9 @@
             <button
               on:click={() => openDateOptions(week.date.toDate())}
               style="transform: scale({getPad(week.percent)})"
-              class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-green-500' : ''} {!Number.isNaN(week.og) && week.failure == true
-              ? 'bg-red-500'
-              : ''} {Number.isNaN(week.og) ? 'bg-gray-500' : ''}"
+              class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(week.og) && week.failure == true
+              ? 'bg-ios-danger'
+              : ''} {Number.isNaN(week.og) ? 'bg-ios-fill goal-nodata' : ''}"
           >
               <!--{week.date.format('ddd').substring(0, 1)} -->
               wk{i+1}
@@ -263,7 +263,7 @@
     @apply flex items-center justify-center text-center;
     @apply h-9 w-9;
     @apply flex-grow-0 flex-shrink-0;
-    @apply text-white;
+    color: var(--ios-on-save);
     @apply transition-all duration-100 ease-in-out;
   }
   .day-score-button {
@@ -282,6 +282,10 @@
   .day-score-button .success-check .ion-icon {
     margin-left: -2px;
     margin-top: -2px;
+  }
+  /* iOS look: a day with no data is the fill token with secondary text (contrast 4.5:1) */
+  .goal-nodata {
+    color: var(--ios-label2) !important;
   }
 </style>
 

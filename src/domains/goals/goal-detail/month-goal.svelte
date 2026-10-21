@@ -178,8 +178,8 @@
           <button
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {month.success == true ? 'bg-green-500' : ''} {month.failure == true
-                ? 'bg-red-500'
+              class="goal-ball-month transition-all  {month.success == true ? 'bg-ios-good' : ''} {month.failure == true
+                ? 'bg-ios-danger'
                 : ''}"
             >
               {month.date.format('MMM')}
@@ -190,8 +190,8 @@
             <button
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {month.success == true ? 'bg-green-500' : ''} {month.failure == true
-                ? 'bg-red-500'
+              class="goal-ball-month transition-all  {month.success == true ? 'bg-ios-good' : ''} {month.failure == true
+                ? 'bg-ios-danger'
                 : ''}"
             >
               {month.date.format('MMM')}
@@ -208,9 +208,9 @@
           <button
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-green-500' : ''} {!Number.isNaN(month.og) && month.failure == true
-              ? 'bg-red-500'
-              : ''} {Number.isNaN(month.og) ? 'bg-gray-500' : ''}"
+              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(month.og) && month.failure == true
+              ? 'bg-ios-danger'
+              : ''} {Number.isNaN(month.og) ? 'bg-ios-fill goal-nodata' : ''}"
           >
               {month.date.format('MMM')}
             </button>
@@ -220,9 +220,9 @@
             <button
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-green-500' : ''} {!Number.isNaN(month.og) && month.failure == true
-                ? 'bg-red-500'
-                : ''} {Number.isNaN(month.og) ? 'bg-gray-500' : ''}"
+              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(month.og) && month.failure == true
+                ? 'bg-ios-danger'
+                : ''} {Number.isNaN(month.og) ? 'bg-ios-fill goal-nodata' : ''}"
             >
               {month.date.format('MMM')}
             </button>
@@ -286,7 +286,7 @@
     @apply flex items-center justify-center text-center;
     @apply h-9 w-9;
     @apply flex-grow-0 flex-shrink-0;
-    @apply text-white;
+    color: var(--ios-on-save);
     @apply transition-all duration-100 ease-in-out;
     width:7%;
     font-size: .500rem;
@@ -310,6 +310,10 @@
   .day-score-button .success-check .ion-icon {
     margin-left: -2px;
     margin-top: -2px;
+  }
+  /* iOS look: a day with no data is the fill token with secondary text (contrast 4.5:1) */
+  .goal-nodata {
+    color: var(--ios-label2) !important;
   }
 </style>
 

@@ -173,8 +173,8 @@
             <button
               on:click={() => openDateOptions(day.date.toDate())}
               style="transform: scale({getPad(day.percent)})"
-              class="goal-ball transition-all  {day.success == true ? 'bg-green-500' : ''} {day.failure == true
-                ? 'bg-red-500'
+              class="goal-ball transition-all  {day.success == true ? 'bg-ios-good' : ''} {day.failure == true
+                ? 'bg-ios-danger'
                 : ''}"
             >
               {day.date.format('ddd').substring(0, 1)}
@@ -237,7 +237,7 @@
     @apply flex items-center justify-center text-center;
     @apply h-9 w-9;
     @apply flex-grow-0 flex-shrink-0;
-    @apply text-white;
+    color: var(--ios-on-save);
     @apply transition-all duration-100 ease-in-out;
   }
   .day-score-button {
@@ -256,5 +256,9 @@
   .day-score-button .success-check .ion-icon {
     margin-left: -2px;
     margin-top: -2px;
+  }
+  /* iOS look: a day with no data is the fill token with secondary text (contrast 4.5:1) */
+  .goal-nodata {
+    color: var(--ios-label2) !important;
   }
 </style>
