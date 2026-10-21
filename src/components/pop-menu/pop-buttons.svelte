@@ -122,11 +122,10 @@
     @apply absolute right-5;
     @apply font-semibold;
     @apply text-ios-label2;
-    @apply bg-gray-500 rounded-md;
+    @apply bg-ios-fill rounded-md;
     min-width: 28px;
     @apply py-1;
     @apply text-center;
-    @apply bg-opacity-20;
     @apply -mr-2;
   }
   .pm2-button .title {
@@ -138,9 +137,9 @@
   .pm2-button.locked::after {
     content: 'Locked';
     @apply absolute right-2;
-    @apply bg-red-500 bg-opacity-80;
+    @apply bg-ios-danger;
     @apply flex items-center justify-center;
-    @apply text-xs font-bold text-white;
+    @apply text-xs font-bold text-ios-ondanger;
     @apply rounded-full;
     @apply py-1 px-2;
   }

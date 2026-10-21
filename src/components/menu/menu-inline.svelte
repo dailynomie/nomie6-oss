@@ -216,9 +216,9 @@ import Divider from '../divider/divider.svelte'
   .n-menu .menu-item .pop-button.locked::after {
     content: 'Locked';
     @apply absolute right-2;
-    @apply bg-red-500 bg-opacity-80;
+    @apply bg-ios-danger;
     @apply flex items-center justify-center;
-    @apply text-xs font-bold text-white;
+    @apply text-xs font-bold text-ios-ondanger;
     @apply rounded-full;
     @apply py-1 px-2;
   }
