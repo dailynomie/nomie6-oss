@@ -231,7 +231,8 @@
               >
                 <!-- iOS look: a 29 px tracker square, as on the other lists -->
                 <span class="ios-goal-icon">
-                  <TrackableAvatar trackable={$TrackableStore.trackables[item.goal.tag]} size={18} />
+                  <!-- iOS look (guide 5.8, exception by Ronald): the glyph is 21 px inside the 29 px square -->
+                  <TrackableAvatar trackable={$TrackableStore.trackables[item.goal.tag]} size={21} />
                 </span>
               </button>
             </div>
