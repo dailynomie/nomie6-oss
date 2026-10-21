@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import RadioButton from '../../components/radio-button/radio-button.svelte'
 
       import escapeRegExp from 'lodash/escapeRegExp'
       import PivotTableUI from "./Pivot-table/PivotTableUI.svelte";
@@ -542,18 +543,18 @@
 <div class="pvt-options">
     <fieldset class="col-md-6" >
         <label class="pvt-option">
-            <input type="checkbox" bind:checked={grouping} /> Grouping
+            <RadioButton bind:checked={grouping} /> Grouping
         </label>
 
         <label class="pvt-option">
-            <input type="checkbox" bind:checked={compactRows} disabled={!grouping}/> Compact Rows
+            <RadioButton bind:checked={compactRows} disabled={!grouping} /> Compact Rows
         </label>
 
         <label class="pvt-option">
-            <input type="checkbox" bind:checked={rowGroupBefore} disabled={!grouping}/> Rows totals above
+            <RadioButton bind:checked={rowGroupBefore} disabled={!grouping} /> Rows totals above
         </label>
         <label class="pvt-option">
-            <input type="checkbox" bind:checked={colGroupBefore} disabled={!grouping}/> Cols totals before
+            <RadioButton bind:checked={colGroupBefore} disabled={!grouping} /> Cols totals before
         </label>
     </fieldset>
 </div>
@@ -586,10 +587,5 @@
     font-size: 13px;
     line-height: 18px;
     color: var(--ios-label2);
-  }
-  .pvt-option input[type='checkbox'] {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--ios-tint);
   }
 </style>

@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import RadioButton from '../radio-button/radio-button.svelte'
   import { createEventDispatcher } from 'svelte'
   // Components
   
@@ -127,13 +128,9 @@
       {:else if word.type == 'line-break'}
         <br />
       {:else if word.raw == '[]'}
-        <input type="checkbox" on:change={(evt)=>{
-          toggleCheckbox(index);
-        }} data-index={`${index}`} />
+        <RadioButton onchange={() => toggleCheckbox(index)} checked={false} className="note-checkbox" />
       {:else if word.raw == '[x]'}
-        <input type="checkbox" on:change={(evt)=>{
-          toggleCheckbox(index);
-        }} data-index={`${index}`} checked />
+        <RadioButton onchange={() => toggleCheckbox(index)} checked={true} className="note-checkbox" />
       {:else if word.raw}
         <span>{word.raw + ' '}</span>
       {/if}

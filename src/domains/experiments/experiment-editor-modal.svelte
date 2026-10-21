@@ -1,6 +1,9 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../../components/ios-select/ios-select.svelte'
+  import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
+
   import dayjs from 'dayjs'
 
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
@@ -237,11 +240,17 @@
                 <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}>Choose a tracker</button>
               </div>
             {/if}
-            <select class="w-full p-2.5 rounded-xl bg-ios-fill outline-none" bind:value={outcome.direction} onchange={updatePreviews}>
-              <option value="up">I hope it goes up</option>
-              <option value="down">I hope it goes down</option>
-              <option value="either">I want to see either way</option>
-            </select>
+            <IosSelect
+              className="w-full"
+              title="What do you hope happens?"
+              bind:value={outcome.direction}
+              onchange={updatePreviews}
+              options={[
+                { value: 'up', label: 'I hope it goes up' },
+                { value: 'down', label: 'I hope it goes down' },
+                { value: 'either', label: 'I want to see either way' },
+              ]}
+            />
             {#if outcome.preview}
               <div class="text-xs leading-relaxed text-ios-label2">{outcome.preview}</div>
             {/if}
@@ -254,7 +263,7 @@
 
       {#if $FeatureVisible('experiment-advanced')}
       <label class="flex items-center gap-3 p-4 ios-card text-sm">
-        <input type="checkbox" class="w-4 h-4" checked={lagDays === 1} onchange={(e) => (lagDays = e.currentTarget.checked ? 1 : 0)} />
+        <ToggleSwitch value={lagDays === 1} on:change={(e) => (lagDays = e.detail ? 1 : 0)} />
         <span>The effect shows the next day</span>
       </label>
       {/if}

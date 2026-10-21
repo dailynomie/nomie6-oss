@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
   import { Prefs } from '../preferences/Preferences'
   import { Lang } from '../../store/lang'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -79,11 +80,7 @@
 
 <ListItem bottomLine={16} title="Enable AI Features">
   <div slot="right" class="pr-2">
-    <input
-      type="checkbox"
-      bind:checked={config.enabled}
-      class="w-5 h-5 accent-primary-500 cursor-pointer"
-    />
+    <ToggleSwitch bind:value={config.enabled} />
   </div>
 </ListItem>
 
