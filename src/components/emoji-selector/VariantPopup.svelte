@@ -51,7 +51,7 @@
     @apply text-2xl;
     @apply text-center;
     @apply rounded-lg;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply shadow-xl;
     @apply z-50;
   }

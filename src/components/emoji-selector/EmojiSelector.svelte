@@ -147,7 +147,7 @@
   <!-- {#if searchText}
     <EmojiSearchResults {searchText} on:emojihover={showEmojiDetails} on:emojiclick={onEmojiClick} />
   {:else}
-    <div class="text-black svelte-emoji-picker__emoji-tabs dark:text-gray-200">
+    <div class="text-ios-label svelte-emoji-picker__emoji-tabs">
       <ButtonGroup
         className="text-xl overscroll-y-auto"
         buttons={[

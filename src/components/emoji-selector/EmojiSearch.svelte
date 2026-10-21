@@ -31,7 +31,7 @@
 <div class="svelte-emoji-picker__search">
   <input
     type="text"
-    class="border-gray-500 dark:text-white border border-opacity-20"
+    class="border-ios-separator text-ios-label border"
     autocapitalize="false"
     autocomplete="false"
     placeholder="Search emojis..."
