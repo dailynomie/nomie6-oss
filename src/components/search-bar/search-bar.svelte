@@ -115,6 +115,17 @@
     @apply bg-gray-400 dark:bg-gray-600 bg-opacity-30 dark:bg-opacity-30;
   }
   .search-bar .n-input-container .n-input-wrapper input {
-    @apply placeholder-gray-500;
+    /* iOS look: the placeholder keeps 4.5:1 on the search fill (label-2 is 4.2:1 there) */
+    color: var(--ios-label);
+    opacity: 0.6;
+  }
+  .search-bar .n-input label,
+  .search-bar .n-input-container label {
+    color: var(--ios-label);
+    opacity: 0.6;
+  }
+  .search-bar .n-input-container .n-input-wrapper input::placeholder {
+    color: var(--ios-label);
+    opacity: 0.6;
   }
 </style>

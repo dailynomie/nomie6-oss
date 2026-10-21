@@ -222,7 +222,7 @@
       navigate('/setup')
     }}
   >
-    <span slot="right" class="text-sm text-primary-500">
+    <span slot="right" class="text-sm text-ios-tint">
       {Lang.t('settings.redo-setup', 'Redo Setup')}
     </span>
   </ListItem>
