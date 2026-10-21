@@ -26,7 +26,8 @@
     @apply bg-ios-card;
     @apply shadow-md;
     @apply flex flex-col;
-    @apply rounded-lg;
+    /* iOS look: the same 12 px radius as the grouped lists */
+    @apply rounded-xl;
     @apply overflow-auto;
     @apply text-ios-label;
   }
