@@ -177,7 +177,7 @@ import Markdown from '../markdown/markdown.svelte'
     @apply px-3;
     @apply text-sm;
     @apply leading-snug;
-    @apply text-gray-700 dark:text-ios-label2;
+    @apply text-ios-label2;
     flex-grow: 1;
     flex-shrink: 1;
     overflow-y: auto;

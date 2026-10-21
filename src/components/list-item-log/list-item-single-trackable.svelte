@@ -46,7 +46,7 @@
     </div>
 
     {#if trackable.tracker?.type == 'timer' && !hideTime}
-      <TimeRangeText date={log.end} seconds={value} className=" dark:text-gray-300 leading-tight" />
+      <TimeRangeText date={log.end} seconds={value} className=" text-ios-label2 leading-tight" />
     {/if}
     {#if max && trackable.tracker}
       <div class="pr-2 pt-2 w-full">

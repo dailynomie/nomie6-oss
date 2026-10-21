@@ -95,7 +95,7 @@ import Divider from '../divider/divider.svelte'
               <h1
                 class="{button.title.length > 25
                   ? 'text-sm'
-                  : 'text-lg'} leading-tight line-clamp-1 text-black font-medium dark:text-white"
+                  : 'text-lg'} leading-tight line-clamp-1 text-ios-label font-medium"
               >
                 {button.title}
               </h1>

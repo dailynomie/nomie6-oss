@@ -181,7 +181,7 @@
               on:noteChange={(evt) => {
                 onLogNoteChange(evt.detail, log)
               }}
-              className=" dark:text-gray-300 text-gray-700 leading-snug"
+              className=" text-ios-label2 leading-snug"
               on:textClick={(evt) => {
                 const trackable = tokenToTrackable(evt.detail, $TrackableStore.trackables)
                 showTrackablePopmenu(trackable)

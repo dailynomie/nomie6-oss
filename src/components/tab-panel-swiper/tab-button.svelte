@@ -26,7 +26,7 @@
     @apply text-ios-label dark:text-ios-label2;
   }
   .tab-button.isActive {
-    @apply dark:bg-black dark:text-white bg-white text-black rounded-full;
+    @apply bg-ios-card text-ios-label rounded-full;
     @apply px-4;
     @apply scale-105;
   }

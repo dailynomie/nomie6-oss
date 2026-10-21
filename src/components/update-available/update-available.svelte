@@ -41,11 +41,11 @@
 {#if toast}
   <div class="install-backdrop" style="z-index:8999">
     <div class="pwa-toast" role="alert">
-      <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-black message">
+      <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-ios-label message">
         {#if $offlineReady}
           <span>App ready to work offline</span>
         {:else if $needRefresh}
-          <h1 class="mb-2 text-2xl font-bold text-black">🎉 Update Available</h1>
+          <h1 class="mb-2 text-2xl font-bold text-ios-label">🎉 Update Available</h1>
           <p>A new version of Nomie is ready to use.</p>
         {/if}
       </div>
@@ -60,7 +60,7 @@
         {#if $offlineReady}
           <button
             disabled={$isCheckingForUpdates}
-            class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-ios-tint disabled:opacity-50"
+            class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint disabled:opacity-50"
             title="Check for updates manually"
             on:click={handleManualCheck}
           >
@@ -73,7 +73,7 @@
         {/if}
 
         <button
-          class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-ios-tint"
+          class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint"
           on:click={close}
         >
           Later
@@ -83,7 +83,7 @@
           <button
             aria-label="Update the App"
             on:click={handleUpdate}
-            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-ios-tint"
+            class="px-4 py-2 font-bold filler bg-ios-card shadow-sm rounded-xl text-ios-tint"
           >
             Update Now
           </button>

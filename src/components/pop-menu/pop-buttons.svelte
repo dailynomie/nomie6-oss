@@ -130,7 +130,7 @@
     @apply -mr-2;
   }
   .pm2-button .title {
-    @apply text-black text-base leading-tight dark:text-white font-medium line-clamp-1 block w-full;
+    @apply text-ios-label text-base leading-tight font-medium line-clamp-1 block w-full;
     @apply text-left;
     @apply text-lg;
   }

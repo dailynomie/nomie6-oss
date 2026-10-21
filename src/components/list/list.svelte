@@ -39,8 +39,7 @@
 
 <style global lang="postcss">
   .n-list.bright {
-    @apply bg-white;
-    @apply dark:bg-black;
+    @apply bg-ios-card;
   }
   .n-list {
     background: var(--ios-card);
