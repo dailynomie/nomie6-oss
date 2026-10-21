@@ -68,6 +68,15 @@
     saveSortedBoards(userBoards)
   }
 
+  // iOS look (Ronald decision): deleting All, People, Context or Experiments turns that board off in Settings,
+  // as its toggle does. Main has no delete badge.
+  function disableFixedBoard(id: string) {
+    if (id === '_all') $Prefs.allBoard = false
+    else if (id === '_people') $Prefs.peopleBoard = false
+    else if (id === '_context') $Prefs.contextBoard = false
+    else if (id === EXPERIMENT_BOARD_ID) $Prefs.experimentBoard = false
+  }
+
   async function deleteBoard(board) {
     let confirmed = await Interact.confirm(
       'Delete ' + board.label + ' tab?',
@@ -122,15 +131,21 @@
         let:item
       >
         <div class="px-1 relative">
-          <button
-            on:click|preventDefault={() => {
-              deleteBoard(item)
-            }}
-            class="delete-button tab-delete"
-            aria-label="Delete {item.label} tab"
-          >
-            <IonIcon className="text-ios-ondanger" icon={CloseOutline} size={10} />
-          </button>
+          {#if item.id !== 'main'}
+            <button
+              on:click|preventDefault={() => {
+                if (isFixedBoard(item.id)) {
+                  disableFixedBoard(item.id)
+                } else {
+                  deleteBoard(item)
+                }
+              }}
+              class="delete-button tab-delete"
+              aria-label={isFixedBoard(item.id) ? `Turn off ${item.label} tab` : `Delete ${item.label} tab`}
+            >
+              <IonIcon className="text-ios-ondanger" icon={CloseOutline} size={10} />
+            </button>
+          {/if}
           <button
             class="tab animate-shake-big {isFixedBoard(item.id) ? 'board-fixed' : 'board-tab'} mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
           >

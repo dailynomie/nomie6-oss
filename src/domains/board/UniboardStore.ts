@@ -200,7 +200,9 @@ const combineStoreBoards = (
     boards = [...boards, ...[{ label: 'Experiments', icon: ExperimentBoardIcon, id: EXPERIMENT_BOARD_ID, elements: experimentElements }]]
   }
 
-  boards = [...boards, ...$Uniboard.boards]
+  // Dynamic tabs are never user boards. Earlier builds saved them into the user's boards, so they are ignored here
+  const DYNAMIC_BOARD_IDS = ['_all', '_people', '_context', '_timers', EXPERIMENT_BOARD_ID]
+  boards = [...boards, ...$Uniboard.boards.filter((b) => !DYNAMIC_BOARD_IDS.includes(b.id))]
 
   // Extract and always put 'main' board first for predictable positioning
   const mainBoard = boards.find((b) => b?.id === 'main')
