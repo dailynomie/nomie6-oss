@@ -141,7 +141,7 @@
           <IonIcon className="inactive" icon={AppsOutline} />
           <IonIcon className="active" icon={AppsSolid} />
           {#if $RunningTimers.length}
-            <Dot size={8} className="absolute animate-pulse top-1 bg-red-500 ml-2" />
+            <Dot size={8} className="absolute animate-pulse top-1 bg-ios-tint ml-2" />
           {/if}
         </AppTab>
 

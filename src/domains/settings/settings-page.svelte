@@ -139,7 +139,7 @@
         >
           <IonIcon
             icon={$MessageStore.unseen ? MailUnreadOutline : MailOutline}
-            className={$MessageStore.unseen ? 'text-ios-danger animate-pulse' : 'text-ios-label2'}
+            className={$MessageStore.unseen ? 'text-ios-tint animate-pulse' : 'text-ios-label2'}
           />
         </Button> -->
 

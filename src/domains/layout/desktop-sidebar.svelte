@@ -195,7 +195,7 @@
           : ''}"
       >
         {#if item.path == '/' && $RunningTimers.length}
-          <Dot size={8} className="absolute animate-pulse top-1 bg-red-500 ml-2" />
+          <Dot size={8} className="absolute animate-pulse top-1 bg-ios-tint ml-2" />
         {/if}
 
         <IonIcon icon={item.icon} className="inactive" />

@@ -63,7 +63,7 @@
             {#if button.badge}
               <div
                 style="font-size:9px;"
-                class="badge text-xs text-ios-ondanger bg-ios-danger rounded-full px-2 text-center absolute -right-4 -top-1"
+                class="badge text-xs text-ios-ontint bg-ios-tint rounded-full px-2 text-center absolute -right-4 -top-1"
               >
                 {button.badge}
               </div>
