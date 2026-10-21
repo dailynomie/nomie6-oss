@@ -93,7 +93,7 @@ import type { WidgetClass } from '../widget-class';
           <Avatar size={40} emoji={widgetType.emoji} />
         {/if}
       </div>
-      <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xs pt-2 leading-tight">
+      <div class="text-ios-label filler w-full line-clamp-2 text-center text-xs pt-2 leading-tight">
         {widgetType.label}
       </div>
     </button>
@@ -102,7 +102,7 @@ import type { WidgetClass } from '../widget-class';
 
 <style lang="postcss" global>
   .widget-type-selector .active-type {
-    @apply bg-primary-500 text-white;
+    @apply bg-ios-tint text-ios-ontint;
     @apply ring ring-inset ring-white;
   }
 

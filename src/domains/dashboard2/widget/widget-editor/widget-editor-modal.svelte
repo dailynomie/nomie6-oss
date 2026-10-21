@@ -202,7 +202,7 @@
   }
 </script>
 
-<BackdropModal mainClass="bg-gray-100 dark:bg-gray-800" className="bg-ios-card h-full">
+<BackdropModal mainClass="bg-ios-bg" className="bg-ios-card h-full">
   <div slot="header" class="bg-ios-card w-full">
     <ToolbarGrid>
       <Button slot="left" clear primary on:click={close}>{Lang.t('general.cancel', 'Cancel')}</Button>
@@ -516,7 +516,7 @@
           <ListItem bg="transparent" title="Compare Value">
             <div slot="right" class="flex items-center justify-end">
               <input
-                class="bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1"
+                class="bg-ios-card2 rounded-md px-2 py-1"
                 pattern="[0-9]*"
                 inputmode="numeric"
                 placeholder={activeType.id == 'value' ? 'Value' : activeType.id == 'last-used' ? 'Days' : 'Value'}

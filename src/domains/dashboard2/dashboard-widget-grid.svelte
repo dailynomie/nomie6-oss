@@ -139,7 +139,7 @@
   })
 </script>
 
-<div id="widgets-frame" class={showDate ? 'bg-gray-100 pt-4 dark:bg-gray-800' : ''}>
+<div id="widgets-frame" class={showDate ? 'bg-ios-bg pt-4' : ''}>
   {#if showDate}
     <h1 class="text-lg font-bold text-center mt-2 dark:text-white">
       {dashboard.label} - {dayjs().format(dateFormats.mmm_d_yyyy)}

@@ -59,7 +59,7 @@
 {#if workingDashboard}
 <section class="max-w-full w-96 lg:w-full lg:max-w-screen-xl mx-auto">
   <Container size="md" className="px-4 lg:px-0">
-    <div class="bg-white rounded-md dark:bg-black mt-4 ">
+    <div class="bg-ios-card rounded-md mt-4 ">
       <Input
         listItem
         label="Dashboard Label"
@@ -70,7 +70,7 @@
         <div slot="right">
           {#if workingDashboard.label !== dashboard.label}
             <Button
-              className="bg-primary-500 text-white"
+              className="bg-ios-tint text-ios-ontint"
               shape="round"
               size="sm"
               on:click={() => {

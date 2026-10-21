@@ -196,7 +196,7 @@
         <Button
           shape="round"
           size="sm"
-          className="ml-2 bg-primary-500 text-white w-32"
+          className="ml-2 bg-ios-tint text-ios-ontint w-32"
           on:click={() => {
             toggleDashboardEditMode()
           }}
