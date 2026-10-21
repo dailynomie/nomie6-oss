@@ -241,13 +241,17 @@
     @apply p-0;
   }
   /* iOS look: the value is label text on a card pill, so it reads in light and dark mode */
+  .streak-2 .day-wrapper .progress {
+    max-height: calc(100% - 22px);
+  }
   .streak-2 .day-wrapper .value {
     @apply text-sm;
     @apply leading-none;
     color: var(--ios-label);
     @apply px-1;
     @apply absolute;
-    @apply bottom-1;
+    /* iOS look: the value sits in its own band above the bar, so it never covers the colour */
+    top: 4px;
     background-color: var(--ios-card);
     @apply min-w-0;
     @apply p-1;
