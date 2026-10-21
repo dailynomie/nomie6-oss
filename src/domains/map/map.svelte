@@ -290,15 +290,22 @@
     height: 100%;
   }
 
+  /* iOS look: the search field is a card with label text, in both modes */
   .geocoder-control-input {
-    @apply dark:bg-black bg-white;
-    @apply text-ios-label;
+    background-color: var(--ios-card);
+    color: var(--ios-label);
   }
 
+  /* iOS look: the search glyph is the outline magnifier in the label2 token, not an emoji */
   .leaflet-touch .geocoder-control::after {
-    content: '🔎';
+    content: '';
     display: block;
     z-index: 1000;
+    width: 18px;
+    height: 18px;
+    background-color: var(--ios-label2);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E") no-repeat center / contain;
   }
 
   .n-map-container .n-map-wrapper {
@@ -328,32 +335,36 @@
   }
   .map-lock-cover {
   }
+  /* iOS look: map controls are cards with label text in both modes */
   .leaflet-control-attribution {
-    @apply dark:bg-black dark:text-ios-label2;
+    background-color: color-mix(in srgb, var(--ios-card) 80%, transparent);
+    color: var(--ios-label2);
   }
   .leaflet-control-attribution a {
-    @apply dark:text-ios-tint dark:text-opacity-50;
+    color: var(--ios-tint);
   }
   .leaflet-control-zoom {
-    @apply dark:bg-black;
+    background-color: var(--ios-card);
     @apply rounded-lg;
     @apply overflow-hidden;
   }
   .leaflet-control-zoom a {
     border: none !important;
-    @apply dark:bg-black dark:text-white;
+    background-color: var(--ios-card);
+    color: var(--ios-label);
     @apply border-none;
   }
   .leaflet-control-zoom-in .leaflet-disabled {
-    @apply dark:bg-black dark:text-white;
+    background-color: var(--ios-card);
+    color: var(--ios-label);
     @apply opacity-25;
   }
   .leaflet-control-zoom a.leaflet-disabled {
-    @apply dark:text-gray-700;
+    color: var(--ios-label2);
     @apply border-none;
   }
   .leaflet-container .leaflet-control-attribution {
-    @apply dark:bg-black;
+    background-color: color-mix(in srgb, var(--ios-card) 80%, transparent);
   }
   .n-map-container .n-map {
     width: 100%;
