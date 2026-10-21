@@ -223,7 +223,7 @@
   }
 
   .streak-2 .track-button {
-    @apply bg-ios-bg;
+    background-color: var(--ios-fill);
     @apply w-full rounded-md;
     @apply mt-1;
   }
@@ -232,7 +232,7 @@
     @apply relative;
     @apply h-full;
     @apply overflow-hidden;
-    @apply bg-ios-bg;
+    background-color: var(--ios-fill);
     @apply overflow-hidden;
     @apply w-12 h-14;
     @apply rounded-md;
@@ -240,15 +240,15 @@
     @apply transform transition-all duration-100;
     @apply p-0;
   }
+  /* iOS look: the value is label text on a card pill, so it reads in light and dark mode */
   .streak-2 .day-wrapper .value {
     @apply text-sm;
     @apply leading-none;
-    @apply text-white;
+    color: var(--ios-label);
     @apply px-1;
     @apply absolute;
     @apply bottom-1;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.86);
-    @apply bg-black bg-opacity-10;
+    background-color: var(--ios-card);
     @apply min-w-0;
     @apply p-1;
     @apply rounded-lg;
