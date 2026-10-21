@@ -215,13 +215,4 @@
     height: var(--tab-height);
     flex-shrink: 0;
   }
-  #app-tabs .notification {
-    position: absolute;
-    top: 8px;
-    right: calc(50% - 15px);
-    width: 6px;
-    height: 6px;
-    background-color: var(--color-red);
-    border-radius: 3px;
-  }
 </style>

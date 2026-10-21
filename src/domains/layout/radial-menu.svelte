@@ -256,8 +256,8 @@
     width: 10px;
     height: 10px;
     border-radius: 9999px;
-    background: #ef4444;
-    border: 2px solid #ffffff;
+    background: var(--ios-danger);
+    border: 2px solid var(--ios-card);
   }
 
   .radial-backdrop {
