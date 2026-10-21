@@ -34,19 +34,6 @@ html.dark {
   --ios-shadow-hub: 0 6px 16px rgba(77,179,255,0.30);
 }
 
-@layer base {
-  .bg-primary-gradient,
-  .primary-gradient {
-    @apply bg-gradient-to-tr from-blue-400 via-primary-500 to-indigo-700;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.24);
-  }
-
-  .bg-red-gradient,
-  .red-gradient {
-    @apply bg-gradient-to-tr from-red-600  to-red-500;
-    text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.24);
-  }
-}
 
 body {
   overflow-x: hidden;
@@ -162,7 +149,7 @@ html {
 }
 
 .bg-solid {
-  @apply bg-white dark:bg-black;
+  @apply bg-ios-card;
 }
 
 .dot {
@@ -182,19 +169,19 @@ html {
 }
 
 .dot.positive {
-  @apply border-green-700;
-  @apply bg-green-500;
+  border-color: var(--ios-good);
+  background-color: var(--ios-good);
 }
 .dot.negative {
-  @apply border-red-700;
-  @apply bg-red-500;
+  border-color: var(--ios-label2);
+  background-color: var(--ios-label2);
 }
 
 .faded-badge {
   @apply inline-block;
   @apply px-1 py-px;
-  @apply bg-gray-300 dark:bg-gray-700;
-  @apply text-gray-700 dark:text-white;
+  @apply bg-ios-fill;
+  @apply text-ios-label2;
   @apply font-semibold;
   @apply rounded-md;
   @apply inline-block;
@@ -203,17 +190,17 @@ html {
 
 .note-muted {
   @apply text-xs;
-  @apply dark:text-gray-400 text-gray-500;
+  @apply text-ios-label2;
   @apply leading-tight;
 }
 
 .text-description {
-  @apply dark:text-gray-400 text-gray-500;
+  @apply text-ios-label2;
   @apply leading-tight;
 }
 
 .text-solid {
-  @apply text-black dark:text-white;
+  @apply text-ios-label;
 }
 
 .min-h-fill {
@@ -225,7 +212,7 @@ html {
   @apply text-lg;
   @apply font-extrabold;
   @apply tracking-tight;
-  @apply text-black dark:text-white;
+  @apply text-ios-label;
   @apply leading-tight;
   @apply w-full;
   @apply focus:outline-none;
@@ -290,10 +277,6 @@ html.mode-dark {
   @apply transition-colors duration-200;
 }
 
-.primary-gradient {
-  @apply bg-gradient-to-tr from-primary-400 via-primary-500 to-primary-600;
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.24);
-}
 
 .item-grid {
   /* @apply grid grid-cols-3 md:grid-cols-3 gap-2 p-2 md:gap-3 md:px-2 lg:grid-cols-4 xl:grid-cols-5; */
@@ -328,7 +311,7 @@ html.mode-dark {
 .list-note {
   @apply px-4 py-2;
   @apply text-xs leading-snug;
-  @apply text-gray-600 dark:text-gray-400;
+  @apply text-ios-label2;
 }
 
 .stiff {
@@ -354,9 +337,9 @@ html.mode-dark {
 .skeleton-item {
   @apply animate-pulse;
   @apply shadow-md;
-  @apply bg-white dark:bg-black;
+  @apply bg-ios-card;
   @apply flex items-center justify-center;
-  @apply text-gray-500 text-opacity-25;
+  @apply text-ios-label2;
   @apply relative;
   @apply overflow-hidden;
   content: 'Loading...';
@@ -412,7 +395,7 @@ html.mode-dark {
 }
 
 .basic-select {
-  @apply px-3 bg-gray-200 rounded-lg dark:bg-gray-900 dark:text-white;
+  @apply px-3 bg-ios-fill rounded-lg text-ios-label;
 }
 
 .animate-shake {
@@ -468,7 +451,7 @@ html {
   color: var(--ios-on-danger);
   @apply focus:outline-none;
   @apply h-6 w-6;
-  @apply ring-2 ring-white;
+  box-shadow: 0 0 0 2px var(--ios-card);
   @apply p-0;
   @apply shadow-md;
   @apply absolute top-1 right-1 z-50;
@@ -496,7 +479,7 @@ html {
 hr.divider {
   margin: 0;
   padding: 0;
-  @apply border-t border-gray-200 dark:border-gray-600;
+  @apply border-t border-ios-separator;
   @apply bg-transparent;
 }
 hr.divider.center {

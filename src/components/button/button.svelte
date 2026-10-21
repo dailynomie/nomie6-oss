@@ -101,7 +101,7 @@
   .nbtn.confirming {
     @apply bg-ios-danger;
     @apply animate-pulse;
-    @apply ring-2 ring-white ring-inset ring-opacity-100 focus:ring-opacity-100;
+    box-shadow: inset 0 0 0 2px var(--ios-card);
     color: var(--ios-on-danger);
   }
 

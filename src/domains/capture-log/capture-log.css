@@ -100,11 +100,11 @@
 }
 .capture-log.positive .mask-textarea.focused,
 .capture-log.positive .mask-textarea.populated {
-  @apply ring-green-500;
+  @apply ring-ios-good;
 }
 .capture-log.negative .mask-textarea.focused,
 .capture-log.negative .mask-textarea.populated {
-  @apply ring-red-500;
+  @apply ring-ios-label2;
 }
 .capture-log .mask-textarea .clear-button {
   @apply hidden;
@@ -174,7 +174,7 @@
 
   /* @apply px-4;
   @apply pt-1; */
-  @apply text-black dark:text-white;
+  @apply text-ios-label;
   font-size: 17px;
   line-height: 22px;
   @apply flex;

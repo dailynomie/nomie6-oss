@@ -288,9 +288,4 @@
 </div>
 
 <style lang="postcss" global>
-  .bg-primary-gradient,
-  .priamry-gradient {
-    @apply bg-gradient-to-tr from-primary-400 via-primary-500 to-indigo-600;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.24);
-  }
 </style>

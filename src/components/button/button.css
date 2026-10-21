@@ -58,7 +58,7 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
 
 .nbtn:active  .hit-mark {
   @apply opacity-30;
-  @apply dark:bg-white bg-primary-500;
+  background: var(--ios-fill);
 }
 
 .nbtn .main {
@@ -179,14 +179,6 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
 .nbtn-green {
   background: var(--ios-save);
   color: var(--ios-on-save);
-}
-.nbtn-orange {
-  @apply bg-yellow-500;
-  @apply text-white;
-}
-.nbtn-dark {
-  @apply bg-gray-700 dark:bg-gray-300;
-  @apply text-white dark:text-black;
 }
 .nbtn-light {
   color: var(--ios-tint);

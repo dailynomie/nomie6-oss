@@ -116,7 +116,7 @@
   @apply relative;
 }
 .n-menu .pop-button:hover {
-  @apply bg-black dark:bg-white dark:bg-opacity-5  bg-opacity-10;
+  @apply bg-ios-fill;
 }
 .n-menu a:focus {
   
