@@ -5,9 +5,12 @@ const baseline = ['2026-10-01', '2026-10-02']
 const during = ['2026-10-03', '2026-10-04', '2026-10-05']
 
 describe('outcomeChartConfig', () => {
-  it('labels every baseline and experiment day in order', () => {
+  it('is a stacked bar chart with one bar per day, baseline first', () => {
     const config = outcomeChartConfig(baseline, during, {})
+    expect(config.type).toBe('bar')
     expect(config.data.labels).toEqual(['1 Oct', '2 Oct', '3 Oct', '4 Oct', '5 Oct'])
+    expect(config.options.scales.x.stacked).toBe(true)
+    expect(config.options.scales.y.stacked).toBe(true)
   })
 
   it('puts the baseline values in the Before series only, and the experiment values in During only', () => {
@@ -23,27 +26,15 @@ describe('outcomeChartConfig', () => {
     expect(duringSeries.data).toEqual([null, null, 7, 8, null])
   })
 
-  it('leaves days with no value as gaps, not zeros', () => {
+  it('leaves days with no value as empty space, not zero bars', () => {
     const config = outcomeChartConfig(baseline, during, { '2026-10-03': 0 })
     const [, duringSeries] = config.data.datasets as Array<{ data: Array<number | null> }>
     expect(duringSeries.data).toEqual([null, null, 0, null, null])
   })
-})
 
-describe('outcomeChartConfig averages', () => {
-  it('adds a dashed average line over each window, and none when there is no data', () => {
-    const config = outcomeChartConfig(baseline, during, {}, { before: 6.5, during: 7.2 })
-    const datasets = config.data.datasets as Array<{ label: string; data: Array<number | null>; borderDash?: number[] }>
-    const beforeAvg = datasets.find((d) => d.label === 'Before average')
-    const duringAvg = datasets.find((d) => d.label === 'During average')
-    expect(beforeAvg?.data).toEqual([6.5, 6.5, null, null, null])
-    expect(duringAvg?.data).toEqual([null, null, 7.2, 7.2, 7.2])
-    expect(beforeAvg?.borderDash).toEqual([6, 4])
-  })
-
-  it('leaves out an average for a window without data', () => {
-    const config = outcomeChartConfig(baseline, during, {}, { before: undefined, during: 7 })
+  it('has no average lines: the Before and During boxes carry the averages', () => {
+    const config = outcomeChartConfig(baseline, during, {})
     const labels = (config.data.datasets as Array<{ label: string }>).map((d) => d.label)
-    expect(labels).toEqual(['Before', 'During', 'During average'])
+    expect(labels).toEqual(['Before', 'During'])
   })
 })

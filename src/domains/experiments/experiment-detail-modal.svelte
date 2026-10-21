@@ -46,7 +46,7 @@
   let aiReady = $derived(
     !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[$Prefs.ai?.selectedService || 'claude']?.apiKey)
   )
-  let charts = $state.raw<Record<string, ChartConfiguration<'line'>>>({})
+  let charts = $state.raw<Record<string, ChartConfiguration<'bar'>>>({})
   // Changing the key remounts the charts, so they redraw after each refresh
   let chartKey = $state(0)
 
@@ -72,17 +72,8 @@
     const days = experimentDaysSoFar(experiment.start, experiment.durationDays, input.today)
     const baselineDays = baselineDaysBefore(experiment.start, experiment.baselineDays ?? experiment.durationDays)
     // Charts are built for finished experiments too, so they can show the before and during days
-    // The averages come from the same stats as the cards, so the lines match the numbers
-    const snapshot = frozen ? experiment.result : computeResult(input)
     charts = Object.fromEntries(
-      experiment.outcomes.map((o) => {
-        const stats = snapshot?.outcomes.find((s) => s.tag === o.tag)
-        const averages = {
-          before: stats && stats.nB > 0 ? stats.meanB : undefined,
-          during: stats && stats.nE > 0 ? stats.meanE : undefined,
-        }
-        return [o.tag, outcomeChartConfig(baselineDays, days, input.outcomeValues[o.tag] || {}, averages)]
-      })
+      experiment.outcomes.map((o) => [o.tag, outcomeChartConfig(baselineDays, days, input.outcomeValues[o.tag] || {})])
     )
     chartKey += 1
     if (frozen) return
@@ -287,8 +278,13 @@
               </div>
             </div>
             {#if charts[outcome.tag]}
+              <!-- iOS look (guide 5.6): one bar per day, 64 px high, with the Before and During captions -->
+              <div class="flex justify-between text-ios-caption font-semibold mt-2">
+                <span class="text-ios-label2">Before</span>
+                <span class="text-ios-tint">During</span>
+              </div>
               {#key chartKey}
-                <div class="h-44">
+                <div class="h-16">
                   <Chartjs id="experiment-chart-{outcome.tag}" chartjsPayload={charts[outcome.tag]} />
                 </div>
               {/key}
