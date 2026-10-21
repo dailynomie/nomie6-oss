@@ -462,7 +462,7 @@ Correlation analysis reveals three major relationship clusters with predictive a
     </div>
   {:else if insightSummary}
     <div class="px-2 h-full flex flex-col">
-      <div class="insight-container px-3 py-2 cursor-pointer hover:bg-ios-fill transition border border-ios-tint rounded mb-2" onclick={openFullInsightModal}>
+      <div class="insight-container px-3 py-2 cursor-pointer hover:bg-ios-fill transition border border-ios-separator rounded mb-2" onclick={openFullInsightModal}>
         <div class="text-xs leading-relaxed text-ios-label markdown-content">
           {@html renderedInsight}
         </div>
