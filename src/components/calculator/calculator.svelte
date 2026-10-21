@@ -305,25 +305,18 @@
     animation: numberUp 0.4s ease-in-out;
     -webkit-animation: numberUp 0.4s ease-in-out;
   }
-  .n-calculator .nbtn.r-0 {
-    color: #fff;
-    @apply bg-ios-card;
+  /* iOS look: digits are label text on the card-2 fill; the top row (C, +/-, %) is the fill;
+     the operators in the right column are the tint with on-tint text; delete is plain */
+  .n-calculator .nbtn {
+    background: var(--ios-card-2);
+    color: var(--ios-label);
   }
-  .n-calculator .nbtn.r-0.b-0 {
-    color: #fff;
-    @apply bg-red-500;
-  }
-  .n-calculator .nbtn.r-0.b-1 {
-    color: #fff;
-    @apply bg-gray-500;
-  }
-  .n-calculator .nbtn.r-0.b-2 {
-    color: #fff;
-    @apply bg-gray-500;
+  .n-calculator .nbtn.r-0:not(.b-3) {
+    background: var(--ios-fill);
   }
   .n-calculator .nbtn.b-3 {
-    color: #fff;
-    @apply bg-yellow-600;
+    background: var(--ios-tint);
+    color: var(--ios-on-tint);
   }
   .n-calculator .nbtn.b-0.r-4 {
     background-color: transparent;
