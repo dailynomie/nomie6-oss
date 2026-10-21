@@ -91,7 +91,7 @@
   // onDestroy(() => unsub())
 </script>
 
-<div class="bg-white p-2 dark:bg-black  relative {className}">
+<div class="bg-ios-card p-2  relative {className}">
   {#if localUsage}
     <UsageChart
       id={`usage-${nid(localUsage.trackable.tag)}`}
@@ -101,7 +101,7 @@
       type="bar"
     />
   {:else if $Stats2Store.loading}
-    <div class="skeleton-item h-40 w-full bg-white rounded-lg dark:bg-gray-900" />
+    <div class="skeleton-item h-40 w-full bg-ios-card rounded-lg dark:bg-gray-900" />
   {:else}
     <div class="h-40 flex items-center justify-center text-ios-label2">No Data</div>
   {/if}
@@ -110,7 +110,7 @@
 <main class="grid grid-cols-2 gap-2 dark:text-white">
   <div class="h-auto text-center">
     <strong class="text-sm font-semibold">Daily Avg </strong>
-    <div class="text-2xl line-clamp-1 font-semibold bg-white shadow-md dark:bg-black rounded-md px-4 py-2 mt-1">
+    <div class="text-2xl line-clamp-1 font-semibold bg-ios-card shadow-md rounded-md px-4 py-2 mt-1">
       {#if usageByDay}
         {usageByDay.trackable.formatValue(usageByDay.average)}
       {:else}
@@ -120,7 +120,7 @@
   </div>
   <div class="text-center">
     <strong class="text-sm font-semibold">Total </strong>
-    <div class="text-2xl line-clamp-1 font-semibold bg-white shadow-md dark:bg-black rounded-md px-4 py-2 mt-1">
+    <div class="text-2xl line-clamp-1 font-semibold bg-ios-card shadow-md rounded-md px-4 py-2 mt-1">
       {#if usage}
         {usage.displayValue}
       {:else}
@@ -135,7 +135,7 @@
     {#if lastUsageData}
       <ListItem
         bottomLine={18}
-        className="dark:bg-black bg-white shadow-md h-24 rounded-xl"
+        className="bg-ios-card shadow-md h-24 rounded-xl"
         on:click={() => {
           openLatest(lastUsageData)
         }}

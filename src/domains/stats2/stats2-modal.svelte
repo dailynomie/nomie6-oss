@@ -68,7 +68,7 @@
 </script>
 
 <BackdropModal headerClass="shadow-lg z-40">
-  <header slot="header" class="bg-white dark:bg-gray-800">
+  <header slot="header" class="bg-ios-card">
     {#if $Stats2Store.trackable}
       <Toolbar className="space-x-2">
         <Button icon on:click={close}>
@@ -118,7 +118,7 @@
      
   </header>
 
-  <section class="pt-2 px-3 w-full grid grid-cols-1 pb-4  overflow-y-auto gap-4 relative bg-gray-200 dark:bg-gray-800">
+  <section class="pt-2 px-3 w-full grid grid-cols-1 pb-4  overflow-y-auto gap-4 relative bg-ios-bg">
     <!-- <div  class="flex items-center justify-center pt-1 px-4">
       {#if $Stats2Store.trackable}
         
