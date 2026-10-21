@@ -141,7 +141,7 @@
                   size="sm"
                   icon
                   color="danger"
-                  className="mr-2 text-white bg-red-500"
+                  className="mr-2 text-ios-ondanger bg-ios-danger"
                   on:click={() => {
                     remove(tracker)
                   }}

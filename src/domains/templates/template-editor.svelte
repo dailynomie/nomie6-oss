@@ -1203,6 +1203,7 @@
   }
 
   .trash-badge {
-    @apply bg-red-500;
+    /* iOS look: a remove badge is the danger token (destructive) */
+    background: var(--ios-danger);
   }
 </style>
