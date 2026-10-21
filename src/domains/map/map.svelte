@@ -378,7 +378,7 @@
     top: 10px;
     right: 10px;
     z-index: 200;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: color-mix(in srgb, var(--ios-card) 70%, transparent);
   }
   .geocoder-control {
     display: none;
