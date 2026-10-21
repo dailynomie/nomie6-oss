@@ -68,6 +68,7 @@ module.exports = {
           save: 'var(--ios-save)',
           onsave: 'var(--ios-on-save)',
           danger: 'var(--ios-danger)',
+          ondanger: 'var(--ios-on-danger)',
         },
         primary: {
           DEFAULT: '#00A4E4',

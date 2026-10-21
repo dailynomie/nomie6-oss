@@ -114,7 +114,7 @@
             on:click|preventDefault={() => {
               deleteBoard(item)
             }}
-            class="rounded-full h-4 w-4 absolute z-50 -right-2 bg-red-500 text-white"
+            class="rounded-full h-4 w-4 absolute z-50 -right-2 bg-ios-danger text-ios-ondanger"
           >
             <IonIcon className="text-white" icon={CloseOutline} size={10} />
           </button>

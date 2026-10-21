@@ -99,10 +99,10 @@
     @apply shadow-none;
   }
   .nbtn.confirming {
-    @apply bg-red-500;
+    @apply bg-ios-danger;
     @apply animate-pulse;
     @apply ring-2 ring-white ring-inset ring-opacity-100 focus:ring-opacity-100;
-    color: #fff;
+    color: var(--ios-on-danger);
   }
 
   .btn.btn-inline {
