@@ -76,7 +76,7 @@
     data-scroll="0"
   />
 {:else if $CombinedBoards && $CombinedBoards.length > 1}
-  <div class="n-board-tabs {className}">
+  <div class="n-board-tabs {className} {state.editMode ? 'is-editing' : ''}">
     {#if !state.editMode}
       <NHScroller activeIndex={state.activeIndex} wrapperClass="space-x-2" className="n-board-tabs overflow-y-hidden">
         {#each localBoards as board}
@@ -98,8 +98,8 @@
       </NHScroller>
     {:else if ready}
       <SortableList2
-        containerClass="w-full items-center flex-nowrap flex overflow-x-auto overflow-y-hidden mx-auto max-w-screen-xl border-2 border-ios-separator rounded-full"
-        className="items-center h-10"
+        containerClass="w-full items-center flex-nowrap flex overflow-x-auto overflow-y-visible mx-auto max-w-screen-xl border-2 border-ios-separator rounded-full h-14"
+        className="items-center h-14"
         bind:items={localBoards}
         handleClass="board-tab"
         key="id"
@@ -114,7 +114,7 @@
             on:click|preventDefault={() => {
               deleteBoard(item)
             }}
-            class="rounded-full h-4 w-4 absolute z-50 -right-2 bg-ios-danger text-ios-ondanger"
+            class="tab-delete rounded-full h-4 w-4 absolute z-50 -right-2"
           >
             <IonIcon className="text-ios-ondanger" icon={CloseOutline} size={10} />
           </button>

@@ -61,3 +61,21 @@
   top: -5px;
   bottom: -5px;
 }
+
+/* iOS look: the delete badge on a tab in edit mode is the danger red, the same as a tracker's delete button.
+   It is more specific than the tab button rule above, so the grey fill does not win. */
+.n-board-tabs button.tab-delete {
+  background: var(--ios-danger);
+  color: var(--ios-on-danger);
+  /* the tab rule sets a 34 px height and side padding; the badge stays a 16 px circle */
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border-radius: 9999px;
+}
+
+/* iOS look (Phase 5 fix): in edit mode the strip is taller, so the 37 px tabs and their delete badges are not clipped */
+.n-board-tabs.is-editing {
+  height: 60px;
+  overflow: visible;
+}

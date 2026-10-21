@@ -299,8 +299,11 @@ export const saveBoardsToStorageAndUpdate = async (boards: Array<UniboardType>):
 
 export const saveSortedBoards = async (boards: Array<UniboardType>) => {
   const existing = await getBoardsFromStorage()
+  // iOS look (Phase 5 fix): only the user's own boards are stored. The dynamic tabs (All, People, Context,
+  // Experiments) are not stored, so they never end up in the saved boards. Their place is fixed.
+  const existingIds = existing.map((b) => b.id)
   const updated: Array<UniboardType> = boards.filter((b) => {
-    return b.id !== '_all'
+    return existingIds.includes(b.id)
   })
   const missing = existing.filter((eb) => {
     return !updated.find((ub) => ub.id === eb.id)
