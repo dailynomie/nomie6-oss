@@ -46,8 +46,9 @@
 </script>
 
 {#if mounted && visible === true}
-  <!-- iOS look (section 8): white text on a fixed red, so the contrast holds in light and dark mode -->
-  <div class="flex text-xs space-x-1 items-center justify-center container-sm ios-banner-danger text-white">
+  <!-- iOS look (D-caution): a backup reminder is a caution, so it is a neutral card with a warning glyph; red is only for destructive actions -->
+  <div class="flex text-xs space-x-1 items-center justify-center container-sm ios-caution text-ios-label">
+    <span aria-hidden="true">⚠︎</span>
     <button
       aria-label="Backup your data"
       on:click={generateBackup}
@@ -55,21 +56,21 @@
     >
       <!--- If it's way back - it's not really set-->
       {#if lastBackupDaysBack > 1000}
-        <div class="text-white">
+        <div class="text-ios-label">
           {Lang.t('general.no-known-backups', 'No recent backups')}
         </div>
       {:else}
-        <div class="text-white">
+        <div class="text-ios-label">
           {lastBackupDaysBack} days since last backup
         </div>
       {/if}
-      <div class="ml-2 font-bold">
+      <div class="ml-2 font-bold text-ios-tint">
         {Lang.t('general.download-backup', 'Download Backup')}
       </div>
     </button>
-    or
+    <span class="mx-1">or</span>
     <button
-      class="ml-2 font-bold"
+      class="ml-2 font-bold text-ios-tint"
       on:click={() => {
         backupConfirmed()
       }}>Skip</button

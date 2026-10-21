@@ -610,9 +610,12 @@ input[type='number'] {
   position: absolute;
   inset: -4px;
 }
-/* iOS look (section 8): the backup banner is a fixed red, so white text passes 4.5:1 in both modes */
-.ios-banner-danger {
-  background-color: #d70015;
+/* iOS look (D-caution): a caution banner is a card with label text, not red */
+.ios-caution {
+  background-color: var(--ios-card);
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin: 8px 16px 0;
 }
 /* iOS look (desktop): the header of a list screen sits in the same centred column as its list */
 @media (min-width: 900px) {
