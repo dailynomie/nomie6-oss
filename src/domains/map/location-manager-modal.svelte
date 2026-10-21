@@ -20,7 +20,8 @@
   import List from '../../components/list/list.svelte'
   import Divider from '../../components/divider/divider.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { CheckmarkCircle, MenuOutline, PencilOutline, StarFilled, TrashOutline } from '../../components/icon/nicons'
+  import { CheckmarkCircle, MenuOutline, StarFilled } from '../../components/icon/nicons'
+  import RemoveCircle from '../../n-icons/RemoveCircle.svelte'
   import SortableList2 from '../../components/sortable-list/sortable-list2.svelte'
   import {
     LocationStore,
@@ -337,9 +338,17 @@
                 <div class="item-wrapper">
                   <!-- Edit -->
                   {#if state.mode === 'edit'}
-                    <NItem bottomLine={14} className="bg-ios-card">
-                      <div class="menu" slot="left">
-                        <IonIcon icon={MenuOutline} />
+                    <!-- iOS edit mode (guide 11.2): the red minus removes on the leading edge, the row opens its editor, and the reorder grip is on the trailing edge -->
+                    <NItem bottomLine={14} className="bg-ios-card" clickable on:click={() => rename(item)}>
+                      <div slot="left" class="flex items-center stiff">
+                        <button
+                          type="button"
+                          aria-label="Remove location"
+                          class="mr-3"
+                          on:click|preventDefault|stopPropagation={() => unfavorite(item)}
+                        >
+                          <IonIcon icon={RemoveCircle} size={24} className="text-ios-danger" />
+                        </button>
                       </div>
 
                       <h2 class="text-ios-body font-semibold text-ios-label text-left">
@@ -349,27 +358,8 @@
                         {/if}
                       </h2>
 
-                      <div slot="right" class="flex">
-                        <Button
-                          icon
-                          className="ios-round"
-                          aria-label="Rename location"
-                          on:click={() => {
-                            rename(item)
-                          }}
-                        >
-                          <IonIcon icon={PencilOutline} />
-                        </Button>
-                        <Button
-                          icon
-                          className="ios-round"
-                          aria-label="Remove location"
-                          on:click={(evt) => {
-                            unfavorite(item)
-                          }}
-                        >
-                          <IonIcon icon={TrashOutline} className="text-ios-danger" />
-                        </Button>
+                      <div slot="right" class="menu flex items-center">
+                        <IonIcon icon={MenuOutline} className="text-ios-label2" />
                       </div>
                     </NItem>
                   {:else}
