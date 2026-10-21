@@ -314,14 +314,14 @@
         <Divider left={18} />
         <ListItem>
           Samples: {editingWidget?.data?.pointersamples || 5}
-          <div slot="right" style="flex: 1; padding-right: 1rem; display: flex; align-items: center; min-height: 48px; width: 200px;">
+          <div slot="right" style="flex: 0 0 200px; padding-right: 1rem; display: flex; align-items: center; min-height: 48px;">
             {#if editingWidget?.data}
               <IosRange
                 min={1}
                 max={8}
                 step={1}
                 label="Samples"
-                value={editingWidget.data.pointersamples}
+                value={editingWidget.data.pointersamples ?? 5}
                 onchange={(next) => {
                   editingWidget.data.pointersamples = next
                   updateTrigger = updateTrigger + 1
