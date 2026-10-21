@@ -587,6 +587,8 @@ input[type='number'] {
 /* iOS look (section 8): the 36 px round button keeps its look; its tap area is 44 px */
 .ios-round {
   position: relative;
+  /* the transparent 44 px area sits above its neighbours, so a tap in it reaches the control */
+  z-index: 1;
 }
 .ios-round::after {
   content: '';
@@ -668,4 +670,70 @@ input[type='number'] {
 /* iOS look (Phase 4): the check-in card steps aside while the capture card is being typed in */
 body.capture-typing .experiment-check-in-card {
   display: none;
+}
+
+/* iOS look (guide 8.2): a small control keeps a 44 px touch area. The area is a transparent pseudo-element,
+   so the layout and the look do not change. Absolutely positioned controls keep their own position. */
+.touch-44,
+.more,
+.widget-options,
+.ios-round,
+.search-expand,
+.chart-config-button,
+.log-mood,
+.tiny-trackable,
+.ios-loc,
+.onoffswitch-btn {
+  position: relative;
+  /* the transparent 44 px area sits above its neighbours, so a tap in it reaches the control */
+  z-index: 1;
+}
+.touch-44::after,
+.more::after,
+.widget-options::after,
+.ios-round::after,
+.search-expand::after,
+.chart-config-button::after,
+.log-mood::after,
+.tiny-trackable::after,
+.ios-loc::after,
+.onoffswitch-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
+
+/* iOS look (guide 8.2): the same 44 px touch area for the round "+" buttons, the small text buttons,
+   the widget footer and header controls, and the pin toggle */
+.exp-round,
+.goals-round,
+.nbtn-sm,
+.toggle-pin-button,
+.ios-search,
+.trackable-pill.transparent,
+.dashboard-widget .widget-footer button,
+.dashboard-widget footer button {
+  position: relative;
+  /* the transparent 44 px area sits above its neighbours, so a tap in it reaches the control */
+  z-index: 1;
+}
+.exp-round::after,
+.goals-round::after,
+.nbtn-sm::after,
+.toggle-pin-button::after,
+.ios-search::after,
+.trackable-pill.transparent::after,
+.dashboard-widget .widget-footer button::after,
+.dashboard-widget footer button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
 }
