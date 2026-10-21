@@ -116,9 +116,9 @@
     display: none;
   }
 
-  /* iOS look: negative is the danger token, positive the good token; the unit is a 40% tint of it, the score ball is solid with on-colour text (4.5:1) */
+  /* iOS look (decision 3): positive is the good token; negative is neutral, a fill unit with an outlined ball, not red */
   .positivity-bar .unit.negative {
-    background: color-mix(in srgb, var(--ios-danger) 40%, transparent);
+    background: var(--ios-fill);
     color: var(--ios-label);
     @apply justify-end;
   }
@@ -128,8 +128,9 @@
   }
 
   .positivity-bar .unit.negative .score-ball {
-    background: var(--ios-danger);
-    color: var(--ios-on-danger);
+    background: var(--ios-card);
+    color: var(--ios-label);
+    box-shadow: inset 0 0 0 2px var(--ios-label2);
     @apply z-40;
   }
 

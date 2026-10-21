@@ -243,7 +243,8 @@
   .calendar-3 .calendar-days .day.has-value.is-positive::after {
     @apply bg-green-500;
   }
+  /* iOS look (decision 3): a negative day is the label colour, not red */
   .calendar-3 .calendar-days .day.has-value.is-negative::after {
-    @apply bg-red-500;
+    background-color: var(--ios-label2);
   }
 </style>
