@@ -208,11 +208,12 @@
           {#if goalPercentage}
             <Badge
               className={`${
+                /* iOS look: the progress badge is a soft token: good, tint, or danger text on the card fill (4.5:1) */
                 goalPercentage > 80
-                  ? 'bg-green-300 text-green-900'
+                  ? 'bg-ios-goodsoft text-ios-good'
                   : goalPercentage > 49
-                  ? 'bg-yellow-200 text-yellow-800'
-                  : 'bg-red-200 text-red-800'
+                  ? 'bg-ios-tintsoft text-ios-tint'
+                  : 'bg-ios-card2 text-ios-danger'
               }`}><LetterTicker text={`${goalPercentage}%`} /></Badge
             >
           {/if}
