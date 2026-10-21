@@ -52,7 +52,7 @@
 <Input {className} {placeholder} {label} value={uploadedFileName} disabled>
   <div slot="right" class="pr-2">
     {#if uploadedFileName}
-      <Button color="transparent" className="text-ios-danger" on:click={clear}>Clear</Button>
+      <Button color="transparent" className="text-ios-tint" on:click={clear}>Clear</Button>
     {:else}
       <Button
         on:click={() => {

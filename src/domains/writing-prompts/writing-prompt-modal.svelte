@@ -88,7 +88,7 @@
       <div slot="right">
         {#if editMode}
           <Button on:click={() => (editMode = false)} clear primary
-            ><span class="text-ios-danger">{Lang.t('general.done', 'Done')}</span></Button
+            ><span class="text-ios-tint">{Lang.t('general.done', 'Done')}</span></Button
           >
         {:else}
           <Button on:click={() => (editMode = true)} clear primary>{Lang.t('general.edit', 'Edit')}</Button>
@@ -162,7 +162,7 @@
             editing = undefined
           }}
         >
-          <div class="w-full text-center text-ios-danger">Cancel</div>
+          <div class="w-full text-center text-ios-tint">Cancel</div>
         </ListItem>
       </List>
     </div>

@@ -127,7 +127,7 @@
           {#if $PluginStore.length}
             <Button shape="round" size="sm" on:click={toggleEditMode}>
               {#if editMode}
-                <span class="text-ios-danger font-bold">Done</span>
+                <span class="text-ios-tint font-bold">Done</span>
               {:else}
                 <span class="text-primary">Edit</span>
               {/if}

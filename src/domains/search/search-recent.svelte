@@ -59,7 +59,7 @@
         <Button
           size="sm"
           color="transparent"
-          className="text-ios-danger"
+          className="text-ios-tint"
           on:click={() => {
             toggleEditMode()
           }}
