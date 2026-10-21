@@ -5,23 +5,11 @@
   import { initials } from '../../utils/text/text'
   import { strToColor } from '../dymoji/dymoji'
   import emojiCount from '../../modules/emoji-count/emoji-count'
+  import { readableTextOn } from '../../utils/contrast/readable-text'
 
   const { size = 32, label = undefined, src = undefined, emoji = undefined, transparent = false, style = '', color = undefined, circle = false, className = '' } = $props<{ size?: number; label?: string; src?: string; emoji?: string; transparent?: boolean; style?: string; color?: string; circle?: boolean; className?: string }>()
 
   const dispatch = createEventDispatcher()
-
-  // iOS look (contrast): the initials are black or white, whichever reads better on the avatar colour (4.5:1 for text)
-  const readableText = (color: string) => {
-    const match = /^#?([0-9a-f]{6})$/i.exec(color || '')
-    if (!match) return '#FFF'
-    const n = parseInt(match[1], 16)
-    const channel = (v: number) => {
-      const c = v / 255
-      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
-    }
-    const luminance = 0.2126 * channel((n >> 16) & 255) + 0.7152 * channel((n >> 8) & 255) + 0.0722 * channel(n & 255)
-    return luminance > 0.179 ? '#000' : '#FFF'
-  }
 
   let styles = $derived.by(() => {
     const arr: Array<string> = [`--avatar-size:${size}px`, `height:${size}px; min-width:${size}px; width:${size}px`]
@@ -33,7 +21,7 @@
       }
     } else if (label && label.length) {
       const thisColor = color || strToColor(label)
-      arr.push(`background-color:${thisColor}; text-shadow:0px 2px 2px rgba(0,0,0,0.2); color:${readableText(thisColor)} !important`)
+      arr.push(`background-color:${thisColor}; text-shadow:0px 2px 2px rgba(0,0,0,0.2); color:${readableTextOn(thisColor)} !important`)
       arr.push(`font-size: ${size * 0.5}px`)
     }
     return arr

@@ -247,9 +247,20 @@ import is from '../../utils/is/is';
   .n-input-container.solid {
     background: var(--ios-card);
   }
+  /* iOS look (D-field): a standalone field is a filled rounded box, not an outlined one. The placeholder keeps 4.5:1 on the fill. */
   .n-input-container.outline {
-    border: 0.5px solid var(--ios-separator);
+    background: var(--ios-fill);
+    border: none;
+    border-radius: 10px;
     @apply p-1;
+  }
+  .n-input-container.outline input::placeholder,
+  .n-input-container.outline textarea::placeholder {
+    color: #5c5c60;
+  }
+  html.dark .n-input-container.outline input::placeholder,
+  html.dark .n-input-container.outline textarea::placeholder {
+    color: var(--ios-label2);
   }
   .n-input-container {
     @apply relative;

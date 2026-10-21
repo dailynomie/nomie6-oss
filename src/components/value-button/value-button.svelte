@@ -7,6 +7,7 @@
   const dispatch = createEventDispatcher()
 
 
+  import { readableTextOn } from '../../utils/contrast/readable-text'
   const { percentage, value, color, size, className, wrapperClass, date, topLabel } = $props()
 </script>
 
@@ -21,7 +22,7 @@
       dispatch('click')
     }}
     class="value-button {className}"
-    style="background-color:{color}"
+    style="background-color:{color}; --vb-text:{readableTextOn(color)}"
   >
     <div class="vb-value">
       {value}
@@ -70,7 +71,7 @@
 
     @apply leading-none;
     @apply p-px;
-    @apply text-white;
+    color: var(--vb-text, #FFF);
 
     text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.7);
     font-size: calc(var(--size) * 0.25);
