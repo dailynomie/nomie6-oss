@@ -148,7 +148,7 @@
 <style lang="postcss" global>
   .day-button.active {
     @apply bg-ios-card;
-    @apply text-primary-400;
+    @apply text-ios-tint;
     @apply py-1 px-2 rounded-lg;
     @apply shadow-md;
   }

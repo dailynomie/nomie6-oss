@@ -89,7 +89,7 @@
           <div class="col-span-2" />
           <button
             type="button"
-            class="col-span-8 flex-col items-center font-bold hover:text-primary-500 justify-center"
+            class="col-span-8 flex-col items-center font-bold hover:text-ios-tint justify-center"
             on:click={() => {
               openOnThisDayModal(item.logs[0].end)
             }}

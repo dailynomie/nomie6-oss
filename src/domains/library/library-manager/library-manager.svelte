@@ -157,7 +157,7 @@
                         slot="left"
                         title={tracker.label}
                         emoji={tracker.emoji}
-                        className="text-4xl leading-none bg-primary-400 bg-opacity-20 p-2 -ml-2 rounded-lg"
+                        className="text-4xl leading-none bg-ios-tintsoft p-2 -ml-2 rounded-lg"
                       />
                       <h1 class="ntitle">{tracker.label}</h1>
                       <p class="text-sm text-ios-label2 leading-tight">

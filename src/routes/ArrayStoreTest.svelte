@@ -55,7 +55,7 @@
         {item.name}
         <button
           slot="left"
-          class="text-primary-500"
+          class="text-ios-tint"
           on:click={() => {
             edit(item)
           }}>Edit</button

@@ -292,11 +292,11 @@
         <div class="actions mb-4">
           {#if state.isValidSyncURL}
             {#if !connecting}
-              <Button block className="bg-primary-500 text-white font-bold" on:click={methods.connect}
+              <Button block className="bg-ios-tint text-ios-ontint font-bold" on:click={methods.connect}
                 >Connect...</Button
               >
             {:else}
-              <Button block className="bg-primary-500 text-white font-bold">
+              <Button block className="bg-ios-tint text-ios-ontint font-bold">
                 <NSpinner size={20} />
                 Connecting...
               </Button>

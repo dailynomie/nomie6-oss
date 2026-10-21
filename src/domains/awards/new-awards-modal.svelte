@@ -79,7 +79,7 @@
   <Toolbar slot="footer">
     <Button
       id="accept-award-button"
-      className="w-full bg-primary-600 text-white font-bold"
+      className="w-full bg-ios-tint text-ios-ontint font-bold"
       on:click={async () => {
         await saveNewAwards()
         close()

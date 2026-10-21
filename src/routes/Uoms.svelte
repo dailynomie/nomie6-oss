@@ -13,7 +13,7 @@
   <div slot="header">
     <ToolbarGrid>
       <Button slot="left" icon on:click={() => {}}>
-        <IonIcon icon={PlusIcon} className="text-primary-500" />
+        <IonIcon icon={PlusIcon} className="text-ios-tint" />
       </Button>
     </ToolbarGrid>
     <h1 class="ios-large-title">Units of Measure</h1>

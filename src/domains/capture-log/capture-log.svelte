@@ -466,7 +466,7 @@
                 bind:value={$TodayStore.date}
                 is24Hour={$Prefs.use24hour}
                 showDateButton={true}
-                dateButtonClass={showDateSelector ? 'dark:text-primary-400 text-ios-tint' : ''}
+                dateButtonClass={showDateSelector ? 'dark:text-ios-tint text-ios-tint' : ''}
                 on:dateClick={() => {
                   showDateSelector = !showDateSelector
                 }}

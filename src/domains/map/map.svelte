@@ -331,7 +331,7 @@
     @apply dark:bg-black dark:text-gray-600;
   }
   .leaflet-control-attribution a {
-    @apply dark:text-primary-500 dark:text-opacity-50;
+    @apply dark:text-ios-tint dark:text-opacity-50;
   }
   .leaflet-control-zoom {
     @apply dark:bg-black;

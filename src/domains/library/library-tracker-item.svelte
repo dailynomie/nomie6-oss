@@ -30,14 +30,14 @@
     {#if libraryTracker.trackers.length > 1}
       <ManyEmoji
         size={52}
-        className="bg-primary-500 bg-opacity-20 rounded-lg p-1  -ml-2"
+        className="bg-ios-tintsoft rounded-lg p-1  -ml-2"
         emojis={libraryTracker.trackers.map((t) => t.emoji)}
       />
     {:else if libraryTracker.trackers.length === 1}
       <Emoji
         title={libraryTracker.trackers[0].label}
         emoji={libraryTracker.trackers[0].emoji}
-        className="text-4xl leading-none bg-primary-400 bg-opacity-20 p-2 -ml-2 rounded-lg"
+        className="text-4xl leading-none bg-ios-tintsoft p-2 -ml-2 rounded-lg"
       />
     {/if}
   </div>

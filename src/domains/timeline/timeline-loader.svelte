@@ -266,7 +266,7 @@
   
   {#if atEnd && lastDate.toDate() > firstKnownDate.toDate()}
   <div class="px-4 py-2 absolute z-40 bottom-10 left-10 right-10 flex items-center justify-center">
-    <Button size="sm" className="bg-primary text-white rounded-full"
+    <Button size="sm" className="bg-ios-tint text-ios-ontint rounded-full"
       on:click={() => {
         emptyCalls = 0
         loadMore()

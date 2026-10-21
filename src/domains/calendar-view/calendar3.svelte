@@ -223,7 +223,7 @@
   }
   .calendar-3 .calendar-days .day.today span {
     @apply text-green-500 font-bold;
-    @apply bg-primary-500 text-white;
+    @apply bg-ios-tint text-ios-ontint;
     @apply rounded-full;
     @apply h-6 w-6;
     @apply flex items-center justify-center;

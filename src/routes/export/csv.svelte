@@ -166,7 +166,7 @@
             <IonIcon
               slot="left"
               icon={csvTypeLoop === csvType ? CheckmarkCircle : CircleOutline}
-              className={csvTypeLoop === csvType ? 'text-primary-500' : ''}
+              className={csvTypeLoop === csvType ? 'text-ios-tint' : ''}
             />
             <main>
               <h1 class="ntitle">{csvTypeLoop.label}</h1>
@@ -219,7 +219,7 @@
           <Button
             disabled={generating}
             on:click={methods.generateCSV}
-            className="text-primary-50 w-full bg-primary-500"
+            className="w-full bg-ios-tint text-ios-ontint"
           >
             {#if generating}
               <span class="mr-2"><Spinner size={22} /></span>

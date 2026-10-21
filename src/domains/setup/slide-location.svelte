@@ -24,7 +24,7 @@
   <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
     <Button
       className="whitespace-no-wrap {!$Prefs.alwaysLocate
-        ? 'bg-primary text-white font-bold'
+        ? 'bg-ios-tint text-ios-ontint font-bold'
         : 'bg-ios-card text-ios-label2'}"
       block
       size="lg"
@@ -38,7 +38,7 @@
     </Button>
     <Button
       className="whitespace-nowrap {$Prefs.alwaysLocate
-        ? 'bg-primary text-white font-bold'
+        ? 'bg-ios-tint text-ios-ontint font-bold'
         : 'bg-ios-card text-ios-label2'}"
       type="clear"
       block

@@ -451,16 +451,16 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     @apply text-sm;
     @apply py-1 px-3 rounded-full;
     @apply bg-primary-50 text-ios-tint;
-    @apply dark:bg-primary-800 dark:text-primary-400;
+    @apply dark:bg-ios-tintsoft dark:text-ios-tint;
   }
 
   .unisearch .selectable:focus .action,
   .unisearch .selectable.selected .action {
-    @apply bg-primary-600 text-white;
+    @apply bg-ios-tint text-ios-ontint;
   }
   .unisearch .selectable:focus,
   .unisearch .selectable.selected {
-    @apply bg-primary-500 bg-opacity-20 dark:bg-primary-500 text-ios-label dark:text-black;
+    @apply bg-ios-tintsoft text-ios-label;
     @apply outline-none;
   }
   .unisearch button.selectable {
