@@ -547,7 +547,7 @@
     z-index: 8000;
   }
   .tribute-container ul {
-    @apply bg-white shadow-md rounded-md;
+    @apply bg-ios-card shadow-md rounded-md;
     @apply overflow-hidden;
   }
   .tribute-container ul li {
@@ -556,6 +556,6 @@
   }
   .tribute-container ul li:hover,
   .tribute-container ul li.highlight {
-    @apply bg-blue-500 text-white;
+    @apply bg-ios-tint text-ios-ontint;
   }
 </style>
