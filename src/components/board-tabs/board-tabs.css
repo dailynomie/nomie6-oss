@@ -84,6 +84,7 @@
 }
 
 /* iOS look: in edit mode the label stops before the delete badge in the top right corner */
-.n-board-tabs.is-editing button.board-tab {
+.n-board-tabs.is-editing button.board-tab,
+.n-board-tabs.is-editing button.board-fixed {
   padding-right: 28px;
 }

@@ -91,8 +91,9 @@
   <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format('dddd D MMMM')}</p>
 </div>
 
-<div class="collapsible-row">
-<Toolbar className="stiff h-11 max-h-11 min-h-11">
+<!-- iOS look: in edit mode the row has room for the tab strip outline, which the row would otherwise clip -->
+<div class="collapsible-row {editMode ? 'py-1' : ''}">
+<Toolbar className="stiff {editMode ? 'h-16 max-h-16 min-h-16' : 'h-11 max-h-11 min-h-11'}">
   <div class="flex items-center space-x-1">
     {#if !editMode}
       {#if runningTimers.length}

@@ -11,6 +11,7 @@
   import { ActiveBoard, CombinedBoards, deleteUniboard, saveSortedBoards } from '../../domains/board/UniboardStore'
   import type { UniboardType } from '../../domains/board/UniboardStore'
   import SortableList2 from '../sortable-list/sortable-list2.svelte'
+  import { EXPERIMENT_BOARD_ID } from '../../domains/experiments/experiment-board'
   import CloseOutline from '../../n-icons/CloseOutline.svelte'
 
   import { Interact } from '../../store/interact'
@@ -55,6 +56,17 @@
       })
     }
   })
+
+  // iOS look (Phase 5 decision, Ronald): Main, All, People, Context and Experiments keep their place.
+  // Only the user's own boards have the drag handle class, and a drop keeps the fixed tabs in front.
+  const isFixedBoard = (id: string) => id === 'main' || id.startsWith('_') || id === EXPERIMENT_BOARD_ID
+
+  function onSorted(sorted: Array<UniboardType>) {
+    const fixed = ($CombinedBoards || []).filter((b) => isFixedBoard(b.id))
+    const userBoards = sorted.filter((b) => !isFixedBoard(b.id))
+    localBoards = [...fixed, ...userBoards]
+    saveSortedBoards(userBoards)
+  }
 
   async function deleteBoard(board) {
     let confirmed = await Interact.confirm(
@@ -105,7 +117,7 @@
         key="id"
         direction="x"
         on:update={(evt) => {
-          saveSortedBoards(evt.detail)
+          onSorted(evt.detail)
         }}
         let:item
       >
@@ -120,7 +132,7 @@
             <IonIcon className="text-ios-ondanger" icon={CloseOutline} size={10} />
           </button>
           <button
-            class="tab animate-shake-big board-tab mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
+            class="tab animate-shake-big {isFixedBoard(item.id) ? 'board-fixed' : 'board-tab'} mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
           >
             {#if item.icon}
               <IonIcon icon={item.icon} size={22} />
