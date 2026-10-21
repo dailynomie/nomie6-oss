@@ -170,7 +170,7 @@
             />
             <main>
               <h1 class="ntitle">{csvTypeLoop.label}</h1>
-              <p class="text-gray-500 text-xs leading-tight">{csvTypeLoop.description}</p>
+              <p class="text-ios-label2 text-xs leading-tight">{csvTypeLoop.description}</p>
             </main>
           </NItem>
         {/each}
@@ -229,7 +229,7 @@
             {/if}
           </Button>
           {#if doc.length}
-            <Button disabled={doc.length == 0} on:click={methods.download} className="bg-green-500 text-white w-full">
+            <Button disabled={doc.length == 0} on:click={methods.download} className="bg-ios-save text-ios-onsave w-full">
               <IonIcon icon={DownloadOutline} className="mr-2" />
               <span>{Lang.t('general.download', 'Download')}</span>
             </Button>
@@ -239,11 +239,11 @@
 
       <div class="csv-preview overflow-y-auto py-4 px-2">
         {#if doc.length > 1}
-          <table class="border border-gray-500 p-2 w-full rounded-lg ">
+          <table class="border border-ios-separator p-2 w-full rounded-lg ">
             {#each doc.filter((d, i) => i < 10) as row}
               <tr>
                 {#each row as cell}
-                  <td class="cell text-xs p-2 border border-gray-500 text-gray-600 font-mono dark:text-gray-300"
+                  <td class="cell text-xs p-2 border border-ios-separator text-ios-label2 font-mono"
                     >{cell || ''}</td
                   >
                 {/each}

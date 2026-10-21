@@ -269,7 +269,7 @@
   <ToolbarGrid slot="header" className="bg-ios-card stiff">
     <Button slot="left" id="cancel-button" clear primary on:click={handleCancel}>{Lang.t('general.cancel', 'Cancel')}</Button>
     <h2
-      class="font-bold  text-sm flex-grow-0 line-clamp-1 text-black  dark:text-white capitalize flex items-center space-x-2"
+      class="font-bold  text-sm flex-grow-0 line-clamp-1 text-ios-label capitalize flex items-center space-x-2"
     >
       {#if !saving && workingTrackable}
         {workingTrackable.label} Editor
@@ -285,7 +285,7 @@
   <!-- Trackable Visuals Collector
   Avatar, Emoji, Color, Label  -->
   {#if workingTrackable}
-    <section class="label-emoji-color filler overflow-y-auto  px-4 dark:text-gray-200 py-4 bg-gray-50 dark:bg-black mb-4">
+    <section class="label-emoji-color filler overflow-y-auto  px-4 py-4 bg-ios-bg mb-4">
       <div class="visuals-editor flex items-center space-x-4">
         <button
           class="bg-primary-500 w-20 h-20 stiff"

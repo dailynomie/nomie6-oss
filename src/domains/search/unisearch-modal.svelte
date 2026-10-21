@@ -416,14 +416,14 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     <div
       class="hidden dark:text-gray-500 xl:flex px-4 w-full items-center border-t border-ios-separator py-2 stiff space-x-4"
     >
-      <div class="text-sm">↑↓ <span class="text-gray-400 text-sm">Select</span></div>
-      <div class="text-xs">⮐ <span class="text-gray-400 text-sm">Open</span></div>
+      <div class="text-sm">↑↓ <span class="text-ios-label2 text-sm">Select</span></div>
+      <div class="text-xs">⮐ <span class="text-ios-label2 text-sm">Open</span></div>
       <div class="filler" />
-      <div class="text-xs">esc <span class="text-gray-400 text-sm">Close</span></div>
+      <div class="text-xs">esc <span class="text-ios-label2 text-sm">Close</span></div>
     </div>
   {:else}
     <div
-      class="text-opacity-80 dark:bg-gray-900 text-ios-label2 flex px-4 w-full items-center border-t text-xs leading-tight border-ios-separator py-2 pb-3 stiff space-x-4"
+      class="text-opacity-80 bg-ios-card text-ios-label2 flex px-4 w-full items-center border-t text-xs leading-tight border-ios-separator py-2 pb-3 stiff space-x-4"
     >
       Search notes, trackables, and trigger commands (like Create...)
     </div>
@@ -480,7 +480,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     @apply text-sm px-4 py-1 text-ios-label2;
   }
   .unisearch .n-list .list-header:hover {
-    @apply bg-gray-200 dark:bg-gray-600;
+    @apply bg-ios-fill;
   }
 
   .unisearch button.selectable main {

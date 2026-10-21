@@ -224,7 +224,7 @@
               {/if}
               {plugin.description}
             </div>
-            <div class="lineclamp-1 text-xs text-green-500">{new URL(plugin.url).origin}</div>
+            <div class="lineclamp-1 text-xs text-ios-label2">{new URL(plugin.url).origin}</div>
           </ListItem>
         {/each}
       </List>

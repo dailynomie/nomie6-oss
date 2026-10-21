@@ -98,15 +98,15 @@
 </div> -->
 <div >
   {#if isConnected}
-    <div class="p-4 bg-green-500/20 dark:bg-green-500/10 ">
+    <div class="p-4 bg-ios-goodsoft">
       <div class="flex items-start justify-between">
         <div class="flex-1">
             <div class="flex justify-between items-center">
-                <div class="text-sm font-semibold text-green-700 dark:text-green-300 mb-2">Connected</div>
+                <div class="text-sm font-semibold text-ios-good mb-2">Connected</div>
                 <button
                     on:click={handleDisconnect}
                     type="button"
-                    class="text-xs px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
+                    class="text-xs px-3 py-1 bg-ios-danger text-ios-ondanger rounded-md transition-colors"
                     >
                     Disconnect
                     </button>
@@ -133,7 +133,7 @@
       />
       <hr class="dark:border-ios-separator" />
       {#if error}
-        <div class="p-2 bg-red-500/20 text-red-700 dark:text-red-300 rounded-md text-sm my-4">{error}</div>
+        <div class="p-2 bg-ios-card2 text-ios-label rounded-md text-sm my-4">{error}</div>
       {/if}
       <div class="flex items-center justify-end my-4">
         {#if connecting}
