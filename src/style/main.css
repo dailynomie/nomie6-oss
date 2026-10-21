@@ -610,6 +610,12 @@ input[type='number'] {
   position: absolute;
   inset: -4px;
 }
+/* iOS look (decision 3): a missed goal is a neutral outlined ball, not red; the fill token stays for "no data" */
+.goal-ball.ios-goal-missed {
+  background-color: var(--ios-card2);
+  color: var(--ios-label);
+  box-shadow: inset 0 0 0 2px var(--ios-label2);
+}
 /* iOS look (D-caution): a caution banner is a card with label text, not red */
 .ios-caution {
   background-color: var(--ios-card);

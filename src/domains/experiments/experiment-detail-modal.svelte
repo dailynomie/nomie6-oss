@@ -279,7 +279,7 @@
                 <div class="font-bold" style="font-size: 22px; line-height: 26px">
                   {outcome.meanE.toFixed(1)}
                   {#if outcome.pct !== undefined}
-                    <span class="text-ios-footnote font-bold {outcome.pct >= 0 ? 'text-ios-good' : 'text-ios-danger'}">{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span>
+                    <span class="text-ios-footnote font-bold {outcome.pct >= 0 ? 'text-ios-good' : 'text-ios-label'}">{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span>
                   {/if}
                 </div>
                 <div class="text-xs text-ios-label2">{outcome.nE} days</div>

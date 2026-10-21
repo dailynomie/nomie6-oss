@@ -24,7 +24,7 @@
     {className}
     scores={[
       { label: 'Positive', score: positivity.positive, className: 'bg-ios-good text-ios-onsave' },
-      { label: 'Negative', score: positivity.negative, className: 'bg-ios-danger text-ios-ondanger' },
+      { label: 'Negative', score: positivity.negative, className: 'bg-ios-fill text-ios-label' },
       {
         label: 'Neutral',
         score: positivity.neutral,

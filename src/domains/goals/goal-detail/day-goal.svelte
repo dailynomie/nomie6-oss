@@ -174,7 +174,7 @@
               on:click={() => openDateOptions(day.date.toDate())}
               style="transform: scale({getPad(day.percent)})"
               class="goal-ball transition-all  {day.success == true ? 'bg-ios-good' : ''} {day.failure == true
-                ? 'bg-ios-danger'
+                ? 'ios-goal-missed'
                 : ''}"
             >
               {day.date.format('ddd').substring(0, 1)}

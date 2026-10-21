@@ -179,7 +179,7 @@
               on:click={() => openDateOptions(week.date.toDate())}
               style="transform: scale({getPad(week.percent)})"
               class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(week.og) && week.failure == true
-              ? 'bg-ios-danger'
+              ? 'ios-goal-missed'
               : ''} {Number.isNaN(week.og) ? 'bg-ios-fill goal-nodata' : ''}"
           >
               <!--{week.date.format('ddd').substring(0, 1)} -->
@@ -197,7 +197,7 @@
               on:click={() => openDateOptions(week.date.toDate())}
               style="transform: scale({getPad(week.percent)})"
               class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(week.og) && week.failure == true
-              ? 'bg-ios-danger'
+              ? 'ios-goal-missed'
               : ''} {Number.isNaN(week.og) ? 'bg-ios-fill goal-nodata' : ''}"
           >
               <!--{week.date.format('ddd').substring(0, 1)} -->

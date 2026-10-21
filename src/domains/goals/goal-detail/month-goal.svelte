@@ -179,7 +179,7 @@
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
               class="goal-ball-month transition-all  {month.success == true ? 'bg-ios-good' : ''} {month.failure == true
-                ? 'bg-ios-danger'
+                ? 'ios-goal-missed'
                 : ''}"
             >
               {month.date.format('MMM')}
@@ -191,7 +191,7 @@
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
               class="goal-ball-month transition-all  {month.success == true ? 'bg-ios-good' : ''} {month.failure == true
-                ? 'bg-ios-danger'
+                ? 'ios-goal-missed'
                 : ''}"
             >
               {month.date.format('MMM')}
@@ -209,7 +209,7 @@
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
               class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(month.og) && month.failure == true
-              ? 'bg-ios-danger'
+              ? 'ios-goal-missed'
               : ''} {Number.isNaN(month.og) ? 'bg-ios-fill goal-nodata' : ''}"
           >
               {month.date.format('MMM')}
@@ -221,7 +221,7 @@
               on:click={() => openDateOptions(month.date.toDate())}
               style="transform: scale({getPad(month.percent)})"
               class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(month.og) && month.failure == true
-                ? 'bg-ios-danger'
+                ? 'ios-goal-missed'
                 : ''} {Number.isNaN(month.og) ? 'bg-ios-fill goal-nodata' : ''}"
             >
               {month.date.format('MMM')}
