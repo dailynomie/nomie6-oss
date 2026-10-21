@@ -199,7 +199,7 @@
 
   <div slot="content" class="p-4">
     <div class="mb-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded p-4">
-      <p class="text-sm text-blue-800 dark:text-blue-200">
+      <p class="text-sm text-ios-tint dark:text-blue-200">
         <strong>Tip:</strong> Configure your API key in Settings &gt; AI Integration first!
       </p>
     </div>

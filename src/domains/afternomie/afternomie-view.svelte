@@ -337,19 +337,19 @@ function startNew(){
     {#if view == "step1"}
      <List transparent className="max-w-md mx-auto">
         <Empty icon={QRCode} title="AfterNomie">
-            <div class="my-0 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+            <div class="my-0 text-center text-sm font-normal leading-tight text-ios-label">
               AfterNomie is an opensource tool for creating emergency notes that can be read by your trusted contacts only 
               after your death or if you are seriously injured.
               </div>
-              <div class="my-2 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+              <div class="my-2 text-center text-xs font-normal leading-tight text-ios-label">
                 Directly after you created your note, it will be encrypted and converted into a QR code which you 
                 can give to a person you trust. When this person tries to access your message, AfterNomie will try 
                 to contact you via email as soon as possible; if you do not reply within the period of time you previously 
                 defined, your note will become visible to your trusted person. When you use AfterNomie in combination with 
                 DailyNomie & Sync Service it will enable you to reveal your Nomie tracking history in conjunction with your note.
                 </div>
-              <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
-                More information can be found at <a class="text-blue-800" target="_blank" href="https://www.dailynomie.com/?s=afternomie">DailyNomie-AfterNomie</a>
+              <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
+                More information can be found at <a class="text-ios-tint" target="_blank" href="https://www.dailynomie.com/?s=afternomie">DailyNomie-AfterNomie</a>
                 </div>
                 <Button  className="mt-2" clear primary on:click={()=>GoToStep("step2")}>Create Message →</Button> 
         </Empty>
@@ -467,60 +467,60 @@ function startNew(){
     {#if view =="step3"}
     <List transparent className="max-w-md mx-auto">
       <Empty title="Summary">
-          <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+          <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
             <p><b>Subject:</b></p>
             </div>
-            <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+            <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
               {subject}
               </div>
-            <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+            <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
               <p><b>Message:</b></p>
               </div>
-              <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+              <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
                 {message}
                 </div>
-                <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+                <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
                   <p><b>Primairy Email:</b></p>
                   </div>
-                  <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+                  <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
                     {primaryemail}
                     </div>
                     {#if secondaryemail != ""}
-                    <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+                    <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
                       <p><b>Secondary Email:</b></p>
                       </div>
-                      <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+                      <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
                         {secondaryemail}
                         </div>
                         {/if}
-                        <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+                        <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
                           <p><b>Waiting Time:</b></p>
                           </div>
                           {#if waitingtime != 1}
-                          <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+                          <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
                             {waitingtime} Days
                             </div>
                             {:else}
-                            <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+                            <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
                               {waitingtime} Day
                               </div>
                               {/if}
-              <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+              <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
                 <p><b>Set Expiration Date:</b></p>
               </div>
               {#if expiration}
-              <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+              <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
                 {new Date(expirationdate).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})}
                 </div>
                 {:else}
-                <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+                <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
                  Never Expiring Message
                   </div>
                 {/if}
-              <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+              <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
                 <p><b>Include Nomie Data:</b></p>
               </div>
-              <div class="my-0 text-center text-xs font-normal leading-tight text-gray-800 dark:text-gray-50">
+              <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
                 {#if nomie}
                 Included
                 {:else}
@@ -537,7 +537,7 @@ function startNew(){
     {#if view == "oops"}
      <List transparent className="max-w-md mx-auto">
         <Empty icon={QRCode} title="Oops">
-            <div class="my-0 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+            <div class="my-0 text-center text-sm font-normal leading-tight text-ios-label">
               Something went wrong while creating your QR code. Most likely the connection with the backend Log server failed.
               Please try again. If the issue persists, please go back to your message so you can saveguard your message and try again
               at a later moment.
@@ -552,7 +552,7 @@ function startNew(){
       {#if view =="WaitingRespone"}
       <List transparent className="max-w-md mx-auto">
       <Empty icon={PaperPlaneSolid} title="Connecting">
-        <div class="my-0 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+        <div class="my-0 text-center text-sm font-normal leading-tight text-ios-label">
           Creating QR Code....
           </div>
         </Empty>
@@ -564,33 +564,33 @@ function startNew(){
         <div class="my-2 ">
         <img src="/images/logos/DN-logo_grey_beta.svg" class="logo" alt="AfterNomie">
        </div>
-        <div class="my-0 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+        <div class="my-0 text-center text-sm font-normal leading-tight text-ios-label">
           <div  style="text-align:center">
             {#if !refreshqr}
             <QRCodeImage bind:text={txt} scale={8} displayType="canvas" bind:width={qrwidth}/> 
             {/if}
           </div>
           </div>
-          <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50 width:{innerWidth}">
+          <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label width:{innerWidth}">
             This document was created by AfterNomie.com.
                     In order to read the following emergency note, scan the QR code
                     and then enter this access code: {enckey}
             </div>
             <Divider left={16} />
-            <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50 not-printable">
+            <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label not-printable">
               <p><b>Very important!</b> Add the email address dailynomie@gmail.com 
                 to your email provider's safe senders list to prevent any notification from us 
                 regarding the note you just created from mistakenly ending up in spam.</p>
               </div>
               <Divider left={16} />
               {#if nomiedata_valid}
-              <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+              <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
                 Be aware that this QR-code contains access to the owners Nomie data. 
-                Instructions can be found on <a class="text-blue-800" target="_blank" href="https://www.afternomie.com">AfterNomie</a>
+                Instructions can be found on <a class="text-ios-tint" target="_blank" href="https://www.afternomie.com">AfterNomie</a>
                 </div>
               <Divider left={16} />
               {/if}
-              <div class="my-1 text-center text-sm font-normal leading-tight text-gray-800 dark:text-gray-50">
+              <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
                 This Note was created on: {new Date()}
                 </div>
                 <div class="row not-printable" style="width:350px">

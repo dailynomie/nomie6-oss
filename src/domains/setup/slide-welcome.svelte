@@ -19,11 +19,11 @@
       </p>
     {/if}
     <div>
-      <p style="font-size:0.6rem" class="mt-4  lg:text-sm  text-center text-gray-700 dark:text-gray-400">
+      <p style="font-size:0.6rem" class="mt-4  lg:text-sm  text-center text-ios-label2">
         Nomie is a super fast, and super private way to journal, collect your life's data, and reflect on your life's
         direction.
       </p>
-      <p style="font-size:0.6rem" class="mt-1  lg:text-sm  text-center text-gray-700 dark:text-gray-400">
+      <p style="font-size:0.6rem" class="mt-1  lg:text-sm  text-center text-ios-label2">
         By continuing, you agree to the
         <button on:click={openPrivacyPolicy} class="inline-flex  underline">Privacy Policy</button> and
         <button on:click={openTermsOfService} class="inline-flex  underline">Terms of Service</button>.
