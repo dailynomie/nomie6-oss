@@ -159,12 +159,13 @@
   <div bind:this={scrollContainer} class="flex-1 overflow-y-auto p-4 space-y-4 relative z-10">
     {#if messages.length === 0}
       <div class="flex items-center justify-center h-full text-center">
-        <div>
+        <!-- iOS look (contrast): the welcome sits on a card, so its text keeps 4.5:1 on the brand background -->
+        <div class="rounded-2xl bg-ios-card shadow-md px-6 py-6 mx-4">
           <p class="text-5xl mb-6">💬</p>
-          <p class="font-bold text-2xl" style="color: #0a4f80; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);">Start a conversation</p>
-          <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap px-4" style="color: #ffffff; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);">
+          <p class="font-bold text-2xl text-ios-label">Start a conversation</p>
+          <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap text-ios-label2">
             <span>Ask</span>
-            <img src="/images/nomie-words.svg" alt="Nomie" style="height: 18px; width: auto; filter: brightness(0) invert(1); vertical-align: middle; display: inline-block; margin-top: -2px;" />
+            <img src="/images/nomie-words.svg" alt="Nomie" style="height: 18px; width: auto; vertical-align: middle; display: inline-block; margin-top: -2px;" />
             <span>about your tracking data, goals, and insights</span>
           </div>
         </div>
@@ -176,7 +177,7 @@
         <div
           class={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg break-words backdrop-blur-sm border ${
             message.role === 'user'
-              ? 'bg-blue-500 text-white rounded-br-none border-blue-400'
+              ? 'bg-ios-tint text-ios-ontint rounded-br-none border-ios-tint'
               : 'bg-white/80 dark:bg-white/10 text-ios-label rounded-bl-none border-white/30'
           }`}
           style="backdrop-filter: blur(10px);"
@@ -209,7 +210,7 @@
         on:keydown={handleKeydown}
         placeholder="Ask about your tracking data..."
         disabled={aiState.loading}
-        class="flex-1 px-4 py-2 border border-ios-separator rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+        class="flex-1 px-4 py-2 border border-ios-separator rounded-lg resize-none focus:outline-none bg-ios-card text-ios-label disabled:opacity-50"
         rows={1}
       />
       <button
@@ -222,8 +223,8 @@
       </button>
     </div>
     {#if aiState.error}
-      <div class="mt-3 p-3 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800">
-        <p class="text-red-700 dark:text-red-300 text-sm leading-tight whitespace-pre-wrap">
+      <div class="mt-3 p-3 rounded-lg bg-ios-card2 text-ios-danger">
+        <p class="text-sm leading-tight whitespace-pre-wrap">
           {#if aiState.error.includes('openrouter.ai/settings/credits')}
             <span class="font-semibold block mb-1">🔗 OpenRouter Setup Needed</span>
           {/if}
