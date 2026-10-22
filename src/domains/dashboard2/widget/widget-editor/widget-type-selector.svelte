@@ -126,6 +126,12 @@
     /* iOS look: the tint fill alone marks the selected type; no extra ring */
   }
 
+  /* the row runs past the right edge on a phone; the fade tells the user it scrolls */
+  .widget-type-selector {
+    -webkit-mask-image: linear-gradient(to right, black 88%, transparent);
+    mask-image: linear-gradient(to right, black 88%, transparent);
+  }
+
   /* Blend NomieAiButton colors with background for light/dark themes */
   .widget-type-selector :global(.nomie-ai-btn .sphere) {
     /* Light mode: lighter, more desaturated blues */
