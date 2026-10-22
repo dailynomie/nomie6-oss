@@ -218,7 +218,7 @@
   <div slot="header" class="bg-ios-card w-full">
     <ToolbarGrid>
       <Button slot="left" clear primary on:click={close}>{Lang.t('general.cancel', 'Cancel')}</Button>
-      <h1 class="ntitle">Widget Settings</h1>
+      <h1 class="ntitle">{Lang.t('dashboard.widget-settings', 'Widget Settings')}</h1>
       <div slot="right">
         {#if canSave}
           <Button clear primary on:click={saveWidget}>
@@ -335,13 +335,17 @@
               type="select"
               listItem
               bind:value={editingWidget.timeRange}
-              label="Timeframe"
+              label={Lang.t('dashboard.timeframe', 'Timeframe')}
               placeholder={`${Lang.t('dashboard.select-a-timeframe', 'Select a Timeframe')}`}
               options={[...timeFrames.map((timeFrame) => ({ value: timeFrame.id, label: `${timeFrame.label}` }))]}
             />
             {#if activeType && activeType.id == 'value' && editingWidget.timeRange && ['today', 'yesterday'].indexOf(editingWidget.timeRange) == -1}
               <Divider left={18} />
-              <ListItem bg="transparent" title="Include Daily Average" className="pl-6">
+              <ListItem
+                bg="transparent"
+                title={Lang.t('dashboard.include-daily-average', 'Include Daily Average')}
+                className="pl-6"
+              >
                 <div slot="right">
                   <ToggleSwitch bind:value={editingWidget.includeAvg} />
                 </div>
@@ -360,7 +364,7 @@
                       min={1}
                       max={8}
                       step={1}
-                      label="Samples"
+                      label={Lang.t('dashboard.samples', 'Samples')}
                       value={editingWidget.data.pointersamples ?? 5}
                       onchange={(next) => {
                         editingWidget.data.pointersamples = next
@@ -368,14 +372,16 @@
                       }}
                     />
                   {:else}
-                    <span style="color: #999; font-size: 12px;">initializing...</span>
+                    <span style="color: #999; font-size: 12px;"
+                      >{Lang.t('dashboard.initializing', 'initializing...')}</span
+                    >
                   {/if}
                 </div>
               </ListItem>
             {/if}
             <Divider left={18} />
             <ListItem>
-              Size
+              {Lang.t('dashboard.size', 'Size')}
               <ButtonGroup
                 bind:value={editingWidget.size}
                 buttons={[
@@ -393,9 +399,18 @@
       <!-- Just Note -->
       {#if activeType?.id == 'text'}
         <List solo className="mt-4">
-          <Input listItem placeholder="Message" type="textarea" rows={2} bind:value={editingWidget.description} />
+          <Input
+            listItem
+            placeholder={Lang.t('dashboard.message', 'Message')}
+            type="textarea"
+            rows={2}
+            bind:value={editingWidget.description}
+          />
           <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">
-            Leave yourself a positive message or something!
+            {Lang.t(
+              'dashboard.leave-yourself-a-positive-message-or-something',
+              'Leave yourself a positive message or something!'
+            )}
           </div>
         </List>
       {/if}
@@ -408,7 +423,7 @@
               type="select"
               listItem
               bind:value={editingWidget.data.widgetindex}
-              label="Widget"
+              label={Lang.t('dashboard.widget', 'Widget')}
               placeholder={'Select a Widget'}
               options={[
                 ...pluginWidgets.map((pluginWidget) => ({
@@ -417,10 +432,15 @@
                 })),
               ]}
             />
-            <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">Select your Widget for this Plugin</div>
+            <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">
+              {Lang.t('dashboard.select-your-widget-for-this-plugin', 'Select your Widget for this Plugin')}
+            </div>
           {:else}
             <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">
-              No widget options available for this plugin
+              {Lang.t(
+                'dashboard.no-widget-options-available-for-this-plugin',
+                'No widget options available for this plugin'
+              )}
             </div>
           {/if}
         </List>
@@ -434,17 +454,22 @@
               type="select"
               listItem
               bind:value={editingWidget.data.experimentId}
-              label="Experiment"
+              label={Lang.t('dashboard.experiment', 'Experiment')}
               placeholder={'Select an experiment'}
               options={[
                 ...$ExperimentStore.map((experiment) => ({ value: experiment.id, label: `${experiment.title}` })),
               ]}
             />
             <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">
-              Shows the progress and result of this experiment
+              {Lang.t(
+                'dashboard.shows-the-progress-and-result-of-this-experiment',
+                'Shows the progress and result of this experiment'
+              )}
             </div>
           {:else}
-            <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">No experiments yet. Start one from Goals.</div>
+            <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">
+              {Lang.t('dashboard.no-experiments-yet-start-one-from-goals', 'No experiments yet. Start one from Goals.')}
+            </div>
           {/if}
         </List>
       {/if}
@@ -454,7 +479,7 @@
         <List solo className="mt-4">
           <!-- Prompt Type Selection -->
           <ListItem>
-            Prompt Type
+            {Lang.t('dashboard.prompt-type', 'Prompt Type')}
             <!-- iOS look: the widget is a class instance, so the group reads and writes through updateTrigger to re-render -->
             <ButtonGroup
               value={(updateTrigger, editingWidget.data.promptType ?? 'predefined')}
@@ -478,7 +503,7 @@
               type="select"
               listItem
               bind:value={editingWidget.data.promptValue}
-              label="Select Prompt"
+              label={Lang.t('dashboard.select-prompt', 'Select Prompt')}
               placeholder={`${Lang.t('dashboard.select-prompt', 'Select a prompt')}`}
               options={[
                 { value: 'patterns', label: 'Patterns' },
@@ -500,13 +525,16 @@
             <Divider left={18} />
             <Input
               listItem
-              placeholder="Enter your custom prompt"
+              placeholder={Lang.t('dashboard.enter-your-custom-prompt', 'Enter your custom prompt')}
               type="textarea"
               rows={4}
               bind:value={editingWidget.data.promptValue}
             />
             <div class="text-ios-label2 leading-tight px-4 text-sm pb-4">
-              Describe what insight you'd like Claude to provide based on your tracking data
+              {Lang.t(
+                'dashboard.describe-what-insight-you-d-like-claude-to-provi',
+                "Describe what insight you'd like Claude to provide based on your tracking data"
+              )}
             </div>
           {/if}
         </List>
@@ -515,7 +543,7 @@
       <!-- Start Conditional Styling -->
       {#if activeType && [...activeType.requires, ...activeType.optional].indexOf('cond-style') > -1}
         <List solo className="mt-4">
-          <ListItem title="Conditional Coloring">
+          <ListItem title={Lang.t('dashboard.conditional-coloring', 'Conditional Coloring')}>
             <ToggleSwitch
               slot="right"
               bind:value={conditionalStyling}
@@ -538,7 +566,7 @@
             />
           </ListItem>
           {#if conditionalStyling}
-            <ListItem bg="transparent" title="Compare Value">
+            <ListItem bg="transparent" title={Lang.t('dashboard.compare-value', 'Compare Value')}>
               <div slot="right" class="flex items-center justify-end">
                 <input
                   class="bg-ios-card2 rounded-md px-2 py-1"

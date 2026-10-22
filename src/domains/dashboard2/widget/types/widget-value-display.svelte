@@ -6,6 +6,7 @@
   import type { WidgetClass } from '../widget-class'
   import math from '../../../../utils/math/math'
   import ProgressBar from '../../../../components/progress-bar/progress-bar.svelte'
+  import { Lang } from '../../../../store/lang'
 
   const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable() } = $props()
 </script>
@@ -24,7 +25,8 @@
   </div>
   {#if widget.includeAvg && usage}
     <div class="avg text-ios-tint font-medium text-sm mt-1">
-      Avg <span class="font-bold">{usage.trackable.formatValue(math.average(usage.byDay.values))}</span>
+      {Lang.t('dashboard.avg-2', 'Avg')}
+      <span class="font-bold">{usage.trackable.formatValue(math.average(usage.byDay.values))}</span>
     </div>
   {/if}
 </div>

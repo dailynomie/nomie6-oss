@@ -12,6 +12,7 @@
   import { experimentWidgetView } from '../../../experiments/experiment-widget-lines'
   import ExperimentProgress from '../../../experiments/experiment-progress.svelte'
   import ExperimentChip from '../../../experiments/experiment-chip.svelte'
+  import { Lang } from '../../../../store/lang'
 
   const { widget = $bindable() }: { widget: WidgetClass } = $props()
 
@@ -56,7 +57,9 @@
 
     {#if view.adherence}
       <div class="text-ios-footnote text-ios-label2">
-        Kept to it <span class="font-semibold text-ios-label">{view.adherence.kept}</span> of {view.adherence.total} days
+        {Lang.t('dashboard.kept-to-it', 'Kept to it')}
+        <span class="font-semibold text-ios-label">{view.adherence.kept}</span>
+        of {view.adherence.total} days
       </div>
     {/if}
 
@@ -69,7 +72,9 @@
       </div>
     {/if}
   {:else}
-    <div class="text-ios-footnote text-ios-label2">Experiment not found</div>
+    <div class="text-ios-footnote text-ios-label2">
+      {Lang.t('dashboard.experiment-not-found', 'Experiment not found')}
+    </div>
   {/if}
 </div>
 

@@ -53,7 +53,12 @@
 {:else}
   <div class="note-navigator flex items-start px-2 sm:px-0 h-full space-x-1">
     {#if sortedLogs.length > 1}
-      <Button title="Previous Note" className="tap-icon" icon on:click={previousNote}>
+      <Button
+        title={Lang.t('dashboard.previous-note', 'Previous Note')}
+        className="tap-icon"
+        icon
+        on:click={previousNote}
+      >
         <IonIcon icon={ChevronBackCircleOutline} />
       </Button>
     {/if}
@@ -78,7 +83,7 @@
       </div>
     {/if}
     {#if sortedLogs.length > 1}
-      <Button title="Next note" className="tap-icon" icon on:click={nextNote}>
+      <Button title={Lang.t('dashboard.next-note', 'Next note')} className="tap-icon" icon on:click={nextNote}>
         <IonIcon icon={ChevronForwardCircleOutline} />
       </Button>
     {/if}

@@ -8,6 +8,7 @@
   import { openOnThisDayModal } from '../../../on-this-day/useOnThisDayModal'
   import { getDateFormats } from '../../../preferences/Preferences'
   import { openDateOptionPopMenu } from '../../../../components/pop-menu/usePopmenu'
+  import { Lang } from '../../../../store/lang'
 
   const { trackable = $bindable(), widget = $bindable(), usage = $bindable() } = $props()
 
@@ -18,7 +19,7 @@
   <div class="min mm-block">
     <div class="value">{trackable.formatValue(usage.min.value)}</div>
     <div class="label-date">
-      <span class="label">Min</span>
+      <span class="label">{Lang.t('dashboard.min-2', 'Min')}</span>
       <button on:click={() => openDateOptionPopMenu(usage.min.date.toDate())} class="date"
         >{dayjs(usage.min.date).format(dateFormat.shortDate)}</button
       >
@@ -27,7 +28,7 @@
   <div class="min mm-block">
     <div class="value">{trackable.formatValue(usage.max.value)}</div>
     <div class="label-date">
-      <span class="label">Max</span>
+      <span class="label">{Lang.t('dashboard.max-2', 'Max')}</span>
       <button on:click={() => openDateOptionPopMenu(usage.max.date.toDate())} class="date"
         >{dayjs(usage.max.date).format(dateFormat.shortDate)}</button
       >

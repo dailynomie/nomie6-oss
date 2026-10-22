@@ -11,6 +11,7 @@
 
   import { getDateFormats } from '../../../preferences/Preferences'
   import { UsageStore } from '../../../usage/UsageStore'
+  import { Lang } from '../../../../store/lang'
 
   const { widget = $bindable(), trackable = $bindable(), usage = $bindable() } = $props()
 
@@ -44,7 +45,7 @@
           {dayjs(lastUsedDate).format(`${dateFormat.mmm_d_yyyy} ${dateFormat.time} `)}
         </div>
       {:else}
-        <div>Unknown</div>
+        <div>{Lang.t('dashboard.unknown', 'Unknown')}</div>
       {/if}
     </div>
   </div>

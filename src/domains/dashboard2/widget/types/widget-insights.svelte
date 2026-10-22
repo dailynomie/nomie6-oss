@@ -15,6 +15,7 @@
   import relativeTime from 'dayjs/plugin/relativeTime'
   import type { WidgetClass } from '../widget-class'
   import type { DualInsightResponse } from '../../../ai/profiles/types'
+  import { Lang } from '../../../../store/lang'
 
   dayjs.extend(relativeTime)
 
@@ -440,15 +441,17 @@ Correlation analysis reveals three major relationship clusters with predictive a
   {#if !isAiEnabled()}
     <div class="flex items-center justify-center h-full">
       <div class="text-center px-4">
-        <p class="text-xs text-ios-label2">AI is disabled</p>
-        <p class="text-xs text-ios-label2 mt-1">Enable in settings to use insights</p>
+        <p class="text-xs text-ios-label2">{Lang.t('dashboard.ai-is-disabled', 'AI is disabled')}</p>
+        <p class="text-xs text-ios-label2 mt-1">
+          {Lang.t('dashboard.enable-in-settings-to-use-insights', 'Enable in settings to use insights')}
+        </p>
       </div>
     </div>
   {:else if loading}
     <div class="flex items-center justify-center h-full">
       <div class="text-center">
         <div class="spinner mb-2"></div>
-        <p class="text-xs text-ios-label2">Generating insight...</p>
+        <p class="text-xs text-ios-label2">{Lang.t('dashboard.generating-insight', 'Generating insight...')}</p>
       </div>
     </div>
   {:else if error}
@@ -470,7 +473,7 @@ Correlation analysis reveals three major relationship clusters with predictive a
     </div>
   {:else}
     <div class="flex items-center justify-center h-full">
-      <p class="text-xs text-ios-label2">No insight available</p>
+      <p class="text-xs text-ios-label2">{Lang.t('dashboard.no-insight-available', 'No insight available')}</p>
     </div>
   {/if}
 </div>

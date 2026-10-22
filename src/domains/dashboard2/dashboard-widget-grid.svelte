@@ -18,6 +18,7 @@
   import { WidgetClass } from './widget/widget-class'
   import type NLog from '../nomie-log/nomie-log'
   import WidgetDisplay from './widget/widget-display.svelte'
+  import { Lang } from '../../store/lang'
 
   const { dashboard, showDate = false } = $props<{
     dashboard: DashboardClass
@@ -143,7 +144,7 @@
     <h1 class="text-lg font-bold text-center mt-2 text-ios-label">
       {dashboard.label} - {dayjs().format(dateFormats.mmm_d_yyyy)}
     </h1>
-    <p class="mb-2 text-sm text-center text-primary">Nomie.app</p>
+    <p class="mb-2 text-sm text-center text-primary">{Lang.t('dashboard.nomie-app', 'Nomie.app')}</p>
   {/if}
   <div id="widget-grid" class="grid grid-cols-2 lg:grid-cols-6 gap-3 lg:gap-6 p-4 lg:p-4">
     {#each widgets as widgetWrapper}

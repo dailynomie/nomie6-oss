@@ -13,6 +13,7 @@
 
   import Avatar from '../../../../components/avatar/avatar.svelte'
   import type { WidgetClass } from '../widget-class'
+  import { Lang } from '../../../../store/lang'
   const { widget = $bindable(), onWidgetTypeChange, updateTrigger = 0 } = $props()
 
   function isAiConfigured(): boolean {
@@ -68,7 +69,10 @@
 <!-- Phase 7 (new users): a widget shows a tracker, so say so before the choices -->
 {#if Object.keys($TrackableStore.trackables).length === 0}
   <p class="px-4 pt-1 text-ios-footnote text-ios-label2">
-    Widgets show your trackers. Add a tracker first, then come back here.
+    {Lang.t(
+      'dashboard.widgets-show-your-trackers-add-a-tracker-first-t',
+      'Widgets show your trackers. Add a tracker first, then come back here.'
+    )}
   </p>
 {/if}
 <HScroller

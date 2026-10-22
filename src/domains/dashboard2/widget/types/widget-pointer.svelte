@@ -4,6 +4,7 @@
   import { untrack } from 'svelte'
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   import type { WidgetClass } from '../widget-class'
+  import { Lang } from '../../../../store/lang'
 
   //export let logs: Array<NLog>
   const { widget = $bindable(), trackable = $bindable(), usage = $bindable(), logs = $bindable(undefined) } = $props()
@@ -75,7 +76,7 @@
 
 <div class="current text-ios-label h-full w-full flex items-center justify-center flex-col">
   {#if samples.length === 0}
-    <div class="text-ios-label2">Not enough data</div>
+    <div class="text-ios-label2">{Lang.t('dashboard.not-enough-data', 'Not enough data')}</div>
   {:else}
     <div class="parent" style="font-size:60%">
       {#each samples as sample, i}

@@ -54,6 +54,7 @@
   import ShareOutline from '../../n-icons/ShareOutline.svelte'
   import PrintOutline from '../../n-icons/PrintOutline.svelte'
   import UpgradeMessage from '../../components/upgrade-message/upgrade-message.svelte'
+  import { Lang } from '../../store/lang'
 
   $effect(() => {
     if (Object.keys($TrackableStore.trackables)) {
@@ -107,7 +108,10 @@
   }
 
   const confirmDashboardDelete = async () => {
-    const confirmed = await Interact.confirm('Delete this dashboard?', 'This cannot be undone')
+    const confirmed = await Interact.confirm(
+      Lang.t('dashboard.delete-this-dashboard', 'Delete this dashboard?'),
+      Lang.t('dashboard.this-cannot-be-undone', 'This cannot be undone')
+    )
     if (confirmed) {
       try {
         const deleted = await deleteDashboard($DashStore.activeDashboard)
@@ -193,12 +197,17 @@
   <!-- iOS look (same as the Timeline header): action row with the round menu, then the large title, then the dashboard names -->
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
     <div class="flex items-center justify-end h-9 space-x-2">
-      <button type="button" class="ios-round" aria-label="Search Nomie" on:click={() => openUnisearch()}>
+      <button
+        type="button"
+        class="ios-round"
+        aria-label={Lang.t('dashboard.search-nomie', 'Search Nomie')}
+        on:click={() => openUnisearch()}
+      >
         <IonIcon icon={SearchIcon} size={18} />
       </button>
       <MenuInline
         id="dashboard-menu"
-        title="Dashboard options"
+        title={Lang.t('dashboard.dashboard-options', 'Dashboard options')}
         x="right"
         y="bottom"
         menuButtons={mainMenu}
@@ -207,7 +216,7 @@
         <IonIcon icon={SettingsOutline} size={18} />
       </MenuInline>
     </div>
-    <h1 class="text-ios-large font-bold text-ios-label">Dashboard</h1>
+    <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('dashboard.dashboard-2', 'Dashboard')}</h1>
     <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format('dddd D MMMM')}</p>
     <div class="collapsible-row">
       <Toolbar className="px-0 h-11 max-h-11 min-h-11">
@@ -221,7 +230,7 @@
             on:click={() => {
               toggleDashboardEditMode()
             }}
-            >Done
+            >{Lang.t('dashboard.done', 'Done')}
           </Button>
         {/if}
       </Toolbar>
@@ -253,7 +262,7 @@
       <div class="non-printable">
         <ListItem clickable on:click={() => createNewWidget()} bottomLine={24}>
           <IonIcon icon={AddCircleOutline} slot="left" />
-          <span class="">Add Widget</span></ListItem
+          <span class="">{Lang.t('dashboard.add-widget', 'Add Widget')}</span></ListItem
         >
 
         {#if $DashStore.activeDashboard?.widgets?.length > 0}
@@ -265,7 +274,7 @@
             bottomLine={24}
           >
             <IonIcon icon={ShareOutline} slot="left" />
-            Share Dashboard View</ListItem
+            {Lang.t('dashboard.share-dashboard-view', 'Share Dashboard View')}</ListItem
           >
           <ListItem
             clickable
@@ -275,7 +284,7 @@
             bottomLine={24}
           >
             <IonIcon icon={PrintOutline} slot="left" />
-            Print Dashboard View</ListItem
+            {Lang.t('dashboard.print-dashboard-view', 'Print Dashboard View')}</ListItem
           >
           <ListItem
             bottomLine={24}
@@ -285,16 +294,19 @@
             }}
           >
             <IonIcon icon={PencilOutline} slot="left" />
-            <span>Edit Dashboard</span></ListItem
+            <span>{Lang.t('dashboard.edit-dashboard', 'Edit Dashboard')}</span></ListItem
           >
         {/if}
       </div>
     </Container>
   {:else}
     <Empty
-      title="No Dashboard Selected"
-      description="Create custom dashboards to highlight your data"
-      buttonLabel="Create a Dashboard"
+      title={Lang.t('dashboard.no-dashboard-selected', 'No Dashboard Selected')}
+      description={Lang.t(
+        'dashboard.create-custom-dashboards-to-highlight-your-data',
+        'Create custom dashboards to highlight your data'
+      )}
+      buttonLabel={Lang.t('dashboard.create-a-dashboard', 'Create a Dashboard')}
       buttonClick={() => {
         createNewDashboard()
       }}

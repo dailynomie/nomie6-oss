@@ -116,7 +116,15 @@
           updateTrigger = updateTrigger + 1
           try {
             await upsertWidget(widget)
-            showToast({ message: Lang.t('general.saved', 'Saved') })
+            showToast({
+              message: Lang.t(
+                Lang.t(
+                  Lang.t('dashboard.dashboard-general-saved', 'dashboard.general-saved'),
+                  Lang.t('dashboard.general-saved', 'general.saved')
+                ),
+                Lang.t(Lang.t('dashboard.dashboard-saved', 'dashboard.saved'), Lang.t('dashboard.saved', 'Saved'))
+              ),
+            })
           } catch (e) {
             showToast({ message: e.message })
           }
@@ -246,7 +254,7 @@
         <!-- The three-dot menu as it was: a plain icon, not the round icon button -->
         <button
           type="button"
-          aria-label="Widget options"
+          aria-label={Lang.t('dashboard.widget-options', 'Widget options')}
           class="widget-options"
           on:click={() => {
             showWidgetPopmenu(widget)
@@ -264,7 +272,7 @@
       {:else if usage || logs}
         <WidgetDisplayType {widget} {trackable} {logs} {usage} />
       {:else if loaded && !usage}
-        <div class="flex items-center justify-center px-4 py-6 h-28">No Value</div>
+        <div class="flex items-center justify-center px-4 py-6 h-28">{Lang.t('dashboard.no-value', 'No Value')}</div>
       {/if}
     </div>
     <footer class="px-4 pb-3 flex widget-footer space-x-2 justify-between">
@@ -276,7 +284,7 @@
       {#if !hideTools}
         <button
           class="text-xs px-1"
-          aria-label="Change widget size"
+          aria-label={Lang.t('dashboard.change-widget-size', 'Change widget size')}
           on:click={(evt) => {
             // TODO: Move this to the new drop menu - when it follows better
             showSizeMenu(evt.target)
@@ -290,7 +298,11 @@
       {#if widget.type === 'insight' && widget.data?.cachedDate}
         <div class="flex items-center gap-1">
           <span class="text-xs text-ios-label2">Will refresh in {getInsightRefreshTime()}</span>
-          <button class="text-xs px-1" on:click={clearInsightCache} title="Clear cache and fetch fresh insight">
+          <button
+            class="text-xs px-1"
+            on:click={clearInsightCache}
+            title={Lang.t('dashboard.clear-cache-and-fetch-fresh-insight', 'Clear cache and fetch fresh insight')}
+          >
             ↻
           </button>
         </div>

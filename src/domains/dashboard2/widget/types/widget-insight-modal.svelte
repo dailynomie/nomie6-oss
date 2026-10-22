@@ -8,6 +8,7 @@
   import { marked } from 'marked'
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
+  import { Lang } from '../../../../store/lang'
 
   dayjs.extend(relativeTime)
 
@@ -56,8 +57,8 @@
 
 <BackdropModal mainClass="bg-ios-card flex flex-col">
   <div slot="header" class="flex items-center justify-between p-4 border-b border-ios-separator">
-    <button onclick={close} class="text-ios-tint font-medium transition"> Close </button>
-    <h2 class="text-lg font-semibold text-ios-label">Nomie Insights</h2>
+    <button onclick={close} class="text-ios-tint font-medium transition"> {Lang.t('dashboard.close', 'Close')} </button>
+    <h2 class="text-lg font-semibold text-ios-label">{Lang.t('dashboard.nomie-insights', 'Nomie Insights')}</h2>
     <div class="w-12" />
   </div>
   <div class="flex-1 flex flex-col p-6 overflow-hidden">

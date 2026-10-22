@@ -24,6 +24,7 @@
   import { TrackableStore } from '../../trackable/TrackableStore'
   import type NLog from '../../nomie-log/nomie-log'
   import { IncludedTrackableStore } from './types/included-trackable-store'
+  import { Lang } from '../../../store/lang'
 
   const { trackable: trackableProp = undefined, widget: widgetProp, usage: usageProp, logs: logsProp } = $props()
 
@@ -95,7 +96,7 @@
   {:else}
     <!-- iOS look: the empty state of a widget is readable secondary text -->
     <div class="value -mt-2 text-ios-subhead text-ios-label2 flex w-full justify-center items-center h-full">
-      Not enough data
+      {Lang.t('dashboard.not-enough-data', 'Not enough data')}
     </div>
   {/if}
 {/if}

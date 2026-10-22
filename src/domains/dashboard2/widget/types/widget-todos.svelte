@@ -60,12 +60,20 @@
 {#if !todoLogs || !todoLogs.length}
   <div class="text-center px-4 -mt-2 empty value flex items-center justify-center text-ios-label2 h-full text-xs">
     {Lang.t('general.no-todos-found', 'No todos found.')}
-    <br />Include [] or [x] to turn an entry into a todo
+    <br />{Lang.t(
+      'dashboard.include-or-x-to-turn-an-entry-into-a-todo',
+      'Include [] or [x] to turn an entry into a todo'
+    )}
   </div>
 {:else}
   <div class="note-navigator flex items-start px-2 sm:px-0 h-full space-x-1">
     {#if todoLogs.length > 1}
-      <Button title="Previous Note" className="tap-icon" icon on:click={previousNote}>
+      <Button
+        title={Lang.t('dashboard.previous-note', 'Previous Note')}
+        className="tap-icon"
+        icon
+        on:click={previousNote}
+      >
         <IonIcon icon={ChevronBackCircleOutline} />
       </Button>
     {/if}
@@ -87,7 +95,7 @@
       </div>
     {/if}
     {#if todoLogs.length > 1}
-      <Button title="Next note" className="tap-icon" icon on:click={nextNote}>
+      <Button title={Lang.t('dashboard.next-note', 'Next note')} className="tap-icon" icon on:click={nextNote}>
         <IonIcon icon={ChevronForwardCircleOutline} />
       </Button>
     {/if}

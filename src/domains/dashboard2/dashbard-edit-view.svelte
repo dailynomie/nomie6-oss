@@ -41,7 +41,10 @@
   })
 
   const removeWidget = async (widget) => {
-    const confirmed = await Interact.confirm('Remove Widget?', 'You can always add it back later.')
+    const confirmed = await Interact.confirm(
+      Lang.t('dashboard.remove-widget', 'Remove Widget?'),
+      Lang.t('dashboard.you-can-always-add-it-back-later', 'You can always add it back later.')
+    )
     if (confirmed) {
       //workingDashboard.widgets = dedupArray(workingDashboard.widgets, 'id')
       await deleteWidget(widget)
@@ -60,8 +63,8 @@
       <div class="bg-ios-card rounded-md mt-4">
         <Input
           listItem
-          label="Dashboard Label"
-          placeholder="Dashboard Label"
+          label={Lang.t('dashboard.dashboard-label', 'Dashboard Label')}
+          placeholder={Lang.t('dashboard.dashboard-label', 'Dashboard Label')}
           type="text"
           bind:value={workingDashboard.label}
         >

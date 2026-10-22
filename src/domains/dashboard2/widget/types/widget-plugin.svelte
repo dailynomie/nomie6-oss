@@ -5,6 +5,7 @@
   import { PluginStore } from '../../../plugins/PluginStore'
   import type { PluginClass } from '../../../plugins/plugin-helpers'
   import PluginFrame from '../../../plugins/plugin-frame.svelte'
+  import { Lang } from '../../../../store/lang'
   const {
     widget = $bindable(),
     trackable = $bindable(undefined),
@@ -27,7 +28,9 @@
 {#if plugin}
   <PluginFrame lid="widget-{widget.id}" openAction="onWidget" {plugin} {widgetindexparam} />
 {:else}
-  <div class="w-full h-full flex text-xs text-ios-label2 items-center justify-center">Plugin not found or disabled</div>
+  <div class="w-full h-full flex text-xs text-ios-label2 items-center justify-center">
+    {Lang.t('dashboard.plugin-not-found-or-disabled', 'Plugin not found or disabled')}
+  </div>
 {/if}
 
 <style global lang="postcss">

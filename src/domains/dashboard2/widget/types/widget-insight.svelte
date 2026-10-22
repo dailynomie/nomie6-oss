@@ -14,6 +14,7 @@
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
   import type { WidgetClass } from '../widget-class'
+  import { Lang } from '../../../../store/lang'
 
   dayjs.extend(relativeTime)
 
@@ -229,7 +230,7 @@
     <div class="flex items-center justify-center h-full">
       <div class="text-center">
         <div class="spinner mb-2"></div>
-        <p class="text-xs text-ios-label2">Generating insight...</p>
+        <p class="text-xs text-ios-label2">{Lang.t('dashboard.generating-insight', 'Generating insight...')}</p>
       </div>
     </div>
   {:else if error}
@@ -249,7 +250,7 @@
     </div>
   {:else}
     <div class="flex items-center justify-center h-full">
-      <p class="text-xs text-ios-label2">No insight available</p>
+      <p class="text-xs text-ios-label2">{Lang.t('dashboard.no-insight-available', 'No insight available')}</p>
     </div>
   {/if}
 </div>

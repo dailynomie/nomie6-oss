@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { Lang } from '../../../../store/lang'
   // iOS look (guide 5.10, ring): the habit result is a 10 px ring with round caps, starting at the top.
   // Achieved is the green token, the rest the fill token. The tracker emoji sits in the centre.
   const {
@@ -61,7 +62,7 @@
     </ul>
   </div>
 {:else}
-  <p class="ios-empty">Not enough data</p>
+  <p class="ios-empty">{Lang.t('dashboard.not-enough-data', 'Not enough data')}</p>
 {/if}
 
 <style global lang="postcss">
