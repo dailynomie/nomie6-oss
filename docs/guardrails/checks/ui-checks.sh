@@ -102,14 +102,42 @@ fi
 # UI-11 SHOULD: a file that gates an entry with a Full-mode feature shows the crown (FeatureBadge)
 # The Full-mode features are read from STARTER_HIDDEN in experience.ts, so a profile change is checked too.
 STARTER_IDS=$(perl -0ne 'print "$1\n" while /STARTER_HIDDEN[^=]*=\s*\[(.*?)\]/sg' src/domains/preferences/experience.ts | grep -o "'[a-z-]*'" | tr -d "'")
-for id in $STARTER_IDS; do
-  for f in "${FILES[@]}"; do
-    [[ "$f" == *.svelte ]] || continue
-    if grep -q "FeatureVisible('$id')" "$f" && ! grep -q "FeatureBadge" "$f" && ! grep -q "guardrail-ok: UI-11" "$f"; then
-      echo "[UI-11 SHOULD] full-mode feature '$id' is gated here with no crown (FeatureBadge): $f"
-      SHOULD_HITS=$((SHOULD_HITS + 1))
-    fi
-  done
+# Each {#if ... FeatureVisible('id') ...} block is checked on its own: the block must hold a FeatureBadge for that id.
+for f in "${FILES[@]}"; do
+  [[ "$f" == *.svelte ]] || continue
+  [ -f "$f" ] || continue
+  while IFS= read -r hit; do
+    [ -n "$hit" ] || continue
+    echo "[UI-11 SHOULD] $hit"
+    SHOULD_HITS=$((SHOULD_HITS + 1))
+  done < <(python3 - "$f" "$STARTER_IDS" <<'PY'
+import re, sys
+path, ids = sys.argv[1], sys.argv[2].split()
+s = open(path, encoding='utf8').read()
+for fid in ids:
+    gate = re.compile(r"\{#if[^}]*FeatureVisible\('" + re.escape(fid) + r"'\)[^}]*\}")
+    for m in gate.finditer(s):
+        # walk to the {/if} that closes this block, counting nested {#if} blocks
+        depth, pos = 1, m.end()
+        token = re.compile(r"\{#if\b|\{/if\}")
+        end = len(s)
+        for t in token.finditer(s, pos):
+            depth += 1 if t.group(0).startswith('{#if') else -1
+            if depth == 0:
+                end = t.start()
+                break
+        block = s[m.end():end]
+        # a block whose crown is drawn by another component says so, with a reason, inside the block
+        if 'guardrail-ok: UI-11' in block:
+            continue
+        # one crown per entry: each ListItem in the block needs its own FeatureBadge for this id
+        entries = len(re.findall(r"<ListItem\b", block))
+        crowns = len(re.findall(r"<FeatureBadge[^>]*\b(?:feature|widgetType)=[\"']" + re.escape(fid) + r"[\"']", block, re.S))
+        if crowns < max(entries, 1):
+            line = s.count('\n', 0, m.start()) + 1
+            print(f"full-mode feature '{fid}' is gated at {path}:{line}: {crowns} crown(s) for {entries} entr(y/ies) in that block")
+PY
+)
 done
 
 # UI-12 MUST: the icon squares of one list (one file) are shades of one hue, within 30 degrees

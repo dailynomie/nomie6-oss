@@ -431,6 +431,7 @@
         />
         <Divider center />
         {#if $FeatureVisible('advanced-tracker-options')}
+          <!-- guardrail-ok: UI-11 the field is reached only through the More Options disclosure, which carries the crown -->
           <NInput
             listItem
             type="select"

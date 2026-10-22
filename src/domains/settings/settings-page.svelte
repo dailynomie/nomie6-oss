@@ -336,6 +336,7 @@
             </List> -->
 
             {#if $FeatureVisible('ai')}
+              <!-- guardrail-ok: UI-11 the crown is drawn by SettingsAIList (FeatureBadge feature="ai") -->
               <SettingsAIList />
             {/if}
 
