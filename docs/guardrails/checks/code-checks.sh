@@ -104,6 +104,22 @@ fi
 # ARC-18 logging: console.log is not left in code (warn, error and info are allowed)
 check ARC-18 SHOULD code "console.log left in code (use console.warn, error or info)" '\bconsole\.log\('
 
+# FMT-01 formatting follows .prettierrc. Checked on files changed in the working tree (not the whole branch),
+# so a file is formatted when it is touched. A full reformat is a separate, dedicated commit.
+TOUCHED=$( { git diff --name-only; git ls-files --others --exclude-standard; } | sort -u | grep -E '^src/.*\.(svelte|ts)$' | grep -vE "$EXCLUDE" )
+UNFORMATTED=()
+for f in $TOUCHED; do
+  [ -f "$f" ] || continue
+  npx --no-install prettier --check "$f" >/dev/null 2>&1 || UNFORMATTED+=("$f")
+done
+if [ ${#UNFORMATTED[@]} -gt 0 ]; then
+  echo "[FMT-01 MUST] changed file not formatted with Prettier (run: npx prettier --write <file>) (${#UNFORMATTED[@]})"
+  printf '%s\n' "${UNFORMATTED[@]}" | sed 's/^/    /' | head -n 25
+  MUST_HITS=$((MUST_HITS + ${#UNFORMATTED[@]})); MUST_FAILS=1
+else
+  echo "[FMT-01 MUST] changed files are formatted with Prettier (pass)"
+fi
+
 echo
 echo "MUST violations: $MUST_HITS   SHOULD warnings: $SHOULD_HITS"
 if [ $MUST_FAILS -ne 0 ]; then

@@ -67,7 +67,7 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 - **ARC-14 (MUST)** One logical change per commit. A change that touches storage and UI is two commits.
 - **ARC-15 (MUST)** Nothing is pushed, and no pull request is opened, without an explicit go-ahead from the owner.
 - **ARC-16 (MUST)** `planning/` is local and not committed. A rule that must survive lives in `docs/guardrails/`, not in `planning/`.
-- **ARC-17 (SHOULD)** Formatting follows the file. The Prettier settings (`.prettierrc`: no semicolons, single quotes, width 120) and the ESLint settings (semicolons, double quotes, warnings only) disagree, and the code mixes both. Do not reformat code you are not changing.
+- **ARC-17 (MUST)** Formatting is Prettier with `.prettierrc` (no semicolons, single quotes, width 120, the Svelte plugin). A changed file is formatted before commit: `npx prettier --write <file>`. Check: `FMT-01`, which reads the working tree, so a file is formatted when it is touched. ESLint checks correctness only (`eslint:recommended` with `eslint-config-prettier` on top), so the two tools do not disagree. A full reformat of the tree is a separate commit with no other change in it.
 - **ARC-18 (SHOULD)** `console.log` is not left in code. Use `console.warn`, `console.error` or `console.info`, which ESLint allows.
 
 ---
@@ -96,4 +96,5 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 | ID | Decision |
 | --- | --- |
 | D-svelte-pin | Svelte is pinned at 5.22.0 until the upstream fix is verified (ARC-06, ARC-07). Record any change here. |
+| D-prettier | Formatting is Prettier with `.prettierrc`; ESLint checks correctness only. Chosen because the config already matched most of the code (single quotes, width 120, no semicolons in the newer code). Decided by Ronald, Oct 2026. |
 | D-vitest | Vitest is the test runner; the Jest script is not used (ARC-10). |
