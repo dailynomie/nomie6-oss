@@ -63,6 +63,9 @@ def choose_key(area, text, keys, base):
 def wrap(path, area, keys, base):
     src = open(path, encoding='utf8').read()
     new = src
+    if not path.endswith('.svelte'):
+        # template text and attributes live in Svelte files only; .ts files get the dialog and toast mode
+        return False
     for item in hits(path):
         if item[0] == 'manual':
             print(f'manual (multi-line text, wrap by hand): {path}: {item[1][:70]}')
@@ -159,13 +162,21 @@ def ensure_import(path):
     idx = [i for i, l in enumerate(lines) if re.match(r'\s*import ', l)]
     if idx:
         at = idx[-1] + 1
+    elif path.endswith('.ts'):
+        at = 0
     else:
         # no imports yet: the import goes inside the script block, right after its opening tag
         opener = [i for i, l in enumerate(lines) if re.match(r'\s*<script\b', l)]
         if not opener:
-            raise SystemExit(f'{path}: no script block to add the Lang import to')
+            # a component with no script block gets one, holding only the import
+            lines.insert(0, "<script lang=\"ts\">")
+            lines.insert(1, "  import { Lang } from '" + rel + "'")
+            lines.insert(2, "</script>")
+            open(path, 'w', encoding='utf8').write('\n'.join(lines))
+            return True
         at = opener[0] + 1
-    lines.insert(at, "  import { Lang } from '" + rel + "'")
+    indent = '' if path.endswith('.ts') else '  '
+    lines.insert(at, indent + "import { Lang } from '" + rel + "'")
     open(path, 'w', encoding='utf8').write('\n'.join(lines))
     return True
 
