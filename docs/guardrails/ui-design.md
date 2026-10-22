@@ -169,7 +169,7 @@ Corner radii:
 - **MUST (D-sheet-dismiss)** Sheets dismiss with text in tint, never a round icon:
   - An information sheet (nothing is changed): **Done** on the right.
   - An editor (the data can change): **Cancel** on the left, and the save action (Save, Done, Select) on the right.
-  - Close on the left is allowed only where the right side holds a real action that has to stay, such as an add button or a bulk action. Those sheets are listed in section 11 as exceptions.
+  - A toolbar action (Add, Edit, Clear, a calendar or focus label) goes on the left, and Done goes on the right.
   - Search overlays use Cancel.
 - A centred 17 px semibold title sits between the two buttons, in a 44 px row.
 
@@ -312,7 +312,7 @@ Decisions change a rule. Add one here with a short reason, and change the rule i
 | D-focus | No coloured focus box on touch or mouse focus. Keyboard focus gets a 2 px tint outline. |
 | D-select | Selection circles are 22 px (see section 10). |
 | D-alert | In an alert, Cancel is the bold tint. Red is for destructive actions only. |
-| D-sheet-dismiss | Sheets dismiss with tint text (Apple's sheets guidance, not an icon). Information sheets: Done on the right. Editors: Cancel on the left. Round icons are for toolbar actions only. Decided by Ronald, Oct 2026. Exceptions: sheets whose right side holds an action that must stay (the Pointers, Plugins, Trending, On This Day, Log Cache, Writing Prompts, Location manager and Calendar sheets, and the Goal details sheet, which has Edit on the right). These keep Close on the left until a decision moves their action. Still to convert from a round icon to text: the AI chat, Stats, Unisearch (Cancel) and plugin installer sheets. |
+| D-sheet-dismiss | Sheets dismiss with tint text, never a round icon (Apple's sheets guidance). Information sheets: Done on the right. Editors: Cancel on the left. When a sheet has a toolbar action (Add, Edit, Clear, Calendar, a focus label), the action goes on the left and Done on the right. Round icons are for toolbar actions only (Add, search, settings). Decided by Ronald, Oct 2026. No exceptions remain. |
 | D-press | A pressed list row shows the fill token, with no ring. |
 | D-badge | Count badges use the tint fill and on-tint text. A remove badge uses the danger fill. |
 | D-tab-badge | The unread count on a tab bar item is the danger fill with on-danger text, as UIKit's default tab badge is red (decided by Ronald, Oct 2026). |

@@ -80,7 +80,15 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
 <BackdropModal className="calendar-view-modal">
   <Panel absolute className="overflow-hidden " mainClass="flex flex-col">
     <ToolbarGrid slot="header">
-      <Button slot="left" clear primary on:click={close}>{Lang.t('general.close', 'Close')}</Button>
+      <TrackablePill
+        on:click={() => showTrackablePopmenu(props.trackable)}
+        transparent
+        slot="left"
+        className="rounded-full flex-row-reverse"
+        trackable={props.trackable}
+        hideValue
+        size={32}
+      />
       <div class=" flex items-center space-x-2">
         <h1 class="ntitle">
           {starterDate
@@ -88,15 +96,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
             : 'Loading...'}
         </h1>
       </div>
-      <TrackablePill
-        on:click={() => showTrackablePopmenu(props.trackable)}
-        transparent
-        slot="right"
-        className="rounded-full flex-row-reverse"
-        trackable={props.trackable}
-        hideValue
-        size={32}
-      />
+      <Button slot="right" clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
 
     <Panel className="bg-ios-bg rounded-none stiff shadow-2xl z-30 overflow-hidden">

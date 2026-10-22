@@ -81,15 +81,15 @@
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
-      <Button on:click={closePluginsModal} slot="left" clear primary>{Lang.t('general.close', 'Close')}</Button>
-      <h1 class="ntitle text-sm md:text-base">{Lang.t('general.plugins', 'Plugins')}</h1>
-      <div slot="right">
+      <div slot="left">
         {#if !hasLocked}
           <Button on:click={() => installPlugin()} icon clear primary>
             <IonIcon icon={PlusIcon} />
           </Button>
         {/if}
       </div>
+      <h1 class="ntitle text-sm md:text-base">{Lang.t('general.plugins', 'Plugins')}</h1>
+      <Button slot="right" on:click={closePluginsModal} clear primary>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
     <!-- <Toolbar>
       <ButtonGroup

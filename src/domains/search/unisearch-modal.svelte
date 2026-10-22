@@ -19,7 +19,6 @@
   import TrackerClass from '../../modules/tracker/TrackerClass'
   import AppsOutline from '../../n-icons/AppsOutline.svelte'
 
-  import CloseOutline from '../../n-icons/CloseOutline.svelte'
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
 
   import PulseOutline from '../../n-icons/PulseOutline.svelte'
@@ -233,11 +232,9 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
       }}
       type="text"
       placeholder="Search your Nomie"
-      class="search-input rounded-t-2xl w-full"
+      class="search-input rounded-t-2xl w-full pr-20"
     />
-    <button type="button" aria-label="Close search" on:click={close} class="absolute top-3 rounded-full right-3 h-7 w-7 flex items-center justify-center">
-      <IonIcon size={28} icon={CloseOutline} className="text-ios-label2" />
-    </button>
+    <button type="button" on:click={close} class="absolute top-3 right-3 h-7 flex items-center text-ios-tint text-base font-semibold">Cancel</button>
   </header>
   <main class="">
     <div id="unisearch-scroll-point" />

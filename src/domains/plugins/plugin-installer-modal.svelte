@@ -3,7 +3,7 @@
 <script lang="ts">
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
-  import CloseButton from '../../components/button/close-button.svelte'
+  import Button from '../../components/button/button.svelte'
   import Title from '../../components/title/title.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import { wait } from '../../utils/tick/tick'
@@ -16,15 +16,17 @@
 
 <BackdropModal mainClass="px-4 py-4">
   <ToolbarGrid slot="header">
-    <CloseButton
-      slot="left"
+    <Title>Install a Plugin</Title>
+    <Button
+      slot="right"
+      clear
+      primary
       on:click={() => {
         wait(10).then(() => {
           closeModal(id)
         })
-      }}
-    />
-    <Title>Install a Plugin</Title>
+      }}>{Lang.t('general.done', 'Done')}</Button
+    >
   </ToolbarGrid>
   <PluginInstaller
     {url}

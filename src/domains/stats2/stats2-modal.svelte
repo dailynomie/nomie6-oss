@@ -8,7 +8,6 @@
   import Button from '../../components/button/button.svelte'
   import DateRangeController from '../../components/date-range-controller/date-range-controller.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { CloseOutline } from '../../components/icon/nicons'
 
   import Toolbar from '../../components/toolbar/toolbar.svelte'
   import CalendarOutline from '../../n-icons/CalendarOutline.svelte'
@@ -71,10 +70,6 @@
   <header slot="header" class="bg-ios-card">
     {#if $Stats2Store.trackable}
       <Toolbar className="space-x-2">
-        <Button icon on:click={close}>
-          <IonIcon icon={CloseOutline} size={28} className="text-ios-tint" />
-        </Button>
-
         <ButtonGroup
           className=""
           compact
@@ -99,6 +94,7 @@
         >
           <IonIcon icon={CalendarOutline} size={28} className="text-ios-tint" />
         </Button>
+        <Button clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
       </Toolbar>
     {:else}
       <div class="ntitle">Loading...</div>

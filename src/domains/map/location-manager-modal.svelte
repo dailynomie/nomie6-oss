@@ -226,9 +226,7 @@
 <BackdropModal className="h-full bg-ios-card w-full">
   <header slot="header" class="bg-ios-card relative pb-2 shadow-md z-40">
     <ToolbarGrid className="w-full stiff">
-      <div slot="left">
-        <Button on:click={close} primary clear>{Lang.t('general.close', 'Close')}</Button>
-      </div>
+      <div slot="left"></div>
       <h1 class="ntitle">
         {#if state.active}
           {state.active.name}
@@ -236,11 +234,12 @@
           {state.mapLocation.lat},{state.mapLocation.lng}
         {:else}Locations{/if}
       </h1>
-      <div slot="right">
+      <div slot="right" class="flex items-center space-x-2">
         <!-- iOS look: the empty placeholder action is removed; only the saving spinner shows here -->
         {#if state.mode == 'edit' && saving}
           <Spinner size={24} />
         {/if}
+        <Button on:click={close} clear primary>{Lang.t('general.done', 'Done')}</Button>
       </div>
     </ToolbarGrid>
     <div class="searchbar-results relative">

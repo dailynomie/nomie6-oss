@@ -41,17 +41,15 @@
 
 <BackdropModal mainClass="relative">
   <ToolbarGrid slot="header" className="bg-ios-card">
-    <Button slot="left" primary clear on:click={close}>
-      {Lang.t('general.close', 'Close')}
-    </Button>
-    <div>
-      <TrackablePill hideValue transparent {trackable} />
-    </div>
-    <Button slot="right" primary clear on:click={() => {
+    <Button slot="left" primary clear on:click={() => {
       openGoalEditor(boundGoal)
     }}>
       {Lang.t('general.Edit', 'Edit')}
     </Button>
-  </ToolbarGrid>
+    <div>
+      <TrackablePill hideValue transparent {trackable} />
+    </div>
+    <Button slot="right" primary clear on:click={close}>{Lang.t('general.done', 'Done')}</Button>
+    </ToolbarGrid>
   <GoalDetail bind:goal={boundGoal} />
 </BackdropModal>

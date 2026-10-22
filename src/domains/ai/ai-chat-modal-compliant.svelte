@@ -7,7 +7,6 @@
   import Text from '../../components/text/text.svelte'
   import Button from '../../components/button/button.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { CloseOutline } from '../../components/icon/nicons'
   import AIChat from './ai-chat.svelte'
 
   interface Props {
@@ -36,15 +35,6 @@
     </div>
 
     <ToolbarGrid>
-      <Button
-        slot="left"
-        clear
-        icon
-        on:click={closeChat}
-        className="text-ios-ontint relative z-10"
-      >
-        <IonIcon icon={CloseOutline} className="text-ios-ontint" size={24} />
-      </Button>
 
       <div slot="main" class="flex items-center justify-center gap-2 relative z-10">
         <Text bold size="md" className="text-ios-ontint">
@@ -53,7 +43,7 @@
         <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo" />
       </div>
 
-      <div slot="right" />
+      <Button slot="right" clear primary on:click={closeChat} className="text-ios-ontint relative z-10">{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
   </header>
 

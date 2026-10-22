@@ -87,11 +87,11 @@
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" primary clear on:click={close}>{Lang.t('general.close', 'Close')}</Button>
-      <h1 class="ntitle">Log Cache</h1>
-      <Button slot="right" className="whitespace-nowrap" primary clear on:click={clearAll}
+      <Button slot="left" className="whitespace-nowrap" primary clear on:click={clearAll}
         >{Lang.t('general.clear', 'Clear All')}</Button
       >
+      <h1 class="ntitle">Log Cache</h1>
+      <Button slot="right" primary clear on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
     <Toolbar>
       <HScroller wrapperClass="pl-2 space-x-4 pb-2 pt-1 py-2  w-full flex-nowrap">

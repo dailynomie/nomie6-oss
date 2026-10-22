@@ -81,11 +81,7 @@
 <BackdropModal mainClass="px-2 lg:px-4">
   <header slot="header" class="bg-ios-card shadow-sm">
     <ToolbarGrid>
-      <Button slot="left" on:click={() => closeModal(id)} clear primary>{Lang.t('general.close', 'Close')}</Button>
-      <h1 class="ntitle">
-        {Lang.t('general.writing-prompts', 'Writing Prompts')}
-      </h1>
-      <div slot="right">
+      <div slot="left">
         {#if editMode}
           <Button on:click={() => (editMode = false)} clear primary
             ><span class="text-ios-tint">{Lang.t('general.done', 'Done')}</span></Button
@@ -94,6 +90,12 @@
           <Button on:click={() => (editMode = true)} clear primary>{Lang.t('general.edit', 'Edit')}</Button>
         {/if}
       </div>
+      <h1 class="ntitle">
+        {Lang.t('general.writing-prompts', 'Writing Prompts')}
+      </h1>
+      {#if !editMode}
+        <Button slot="right" on:click={() => closeModal(id)} clear primary>{Lang.t('general.done', 'Done')}</Button>
+      {/if}
     </ToolbarGrid>
     <Toolbar>
       <ButtonGroup

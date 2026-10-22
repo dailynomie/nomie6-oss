@@ -181,17 +181,14 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
 <BackdropModal>
   <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
-      <Button slot="left" clear primary on:click={close}>
-        {Lang.t('general.close', 'Close')}
+      <Button slot="left" clear primary on:click={changeFocal}>
+        {types.find((d) => d.id === activeFocal)?.label}
       </Button>
       <!-- <h2 class="ntitle">{title}</h2> -->
       <NextPrevCal hideCal on:next={onNext} on:previous={onPrev}>
         <h2 class="text-xs text-solid font-bold leading-tight text-center">{title}</h2>
       </NextPrevCal>
-        
-      <Button slot="right" clear primary on:click={changeFocal}>
-        {types.find((d) => d.id === activeFocal)?.label}
-      </Button>
+      <Button slot="right" clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
 
     <div role="menubar" class="px-4 pb-1">

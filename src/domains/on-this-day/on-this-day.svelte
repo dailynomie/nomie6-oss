@@ -106,20 +106,7 @@
 <BackdropModal>
   <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
-      <Button slot="left" primary clear on:click={close}>
-        {Lang.t('general.close', 'Close')}
-      </Button>
-
-      <div class="title">
-        <h2 class="text-center text-ios-label font-bold leading-none text-sm line-clamp-1">
-          {dayjs($OnThisDayModalStore).format('ddd MMM D, YYYY')}
-        </h2>
-        <div class="text-xs text-ios-label2 font-medium leading-none mt-1">
-          {dayjs($OnThisDayModalStore).fromNow()}
-        </div>
-      </div>
-
-      <div class="-mr-2" slot="right">
+      <div class="-ml-2" slot="left">
         <NextPrevCal
           on:previous={() => {
             previousDay()
@@ -134,6 +121,17 @@
           </Button>
         </NextPrevCal>
       </div>
+
+      <div class="title">
+        <h2 class="text-center text-ios-label font-bold leading-none text-sm line-clamp-1">
+          {dayjs($OnThisDayModalStore).format('ddd MMM D, YYYY')}
+        </h2>
+        <div class="text-xs text-ios-label2 font-medium leading-none mt-1">
+          {dayjs($OnThisDayModalStore).fromNow()}
+        </div>
+      </div>
+
+      <Button slot="right" clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
 
     <Toolbar className="px-4">

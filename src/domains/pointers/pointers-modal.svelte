@@ -61,9 +61,7 @@
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
-      <Button on:click={closePointersModal} slot="left" clear primary>{Lang.t('general.close', 'Close')}</Button>
-      <h1 class="ntitle text-sm md:text-base">{Lang.t('general.pointers', 'Pointers')}</h1>
-      <div slot="right">
+      <div slot="left">
         {#if !hasLocked}
           <Button on:click={() => openTrackableEditor(
             new Trackable({
@@ -74,6 +72,8 @@
           </Button>
         {/if}
       </div>
+      <h1 class="ntitle text-sm md:text-base">{Lang.t('general.pointers', 'Pointers')}</h1>
+      <Button slot="right" on:click={closePointersModal} clear primary>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
   </header>
   <section class="px-2 lg:px-4 py-4">
