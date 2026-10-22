@@ -153,7 +153,7 @@
       </div>
     </ListItem>
     <ListItem bottomLine={1} on:click={installPluginDetails}>
-      <div class="text-primary w-full text-center">{Lang.t('plugins.install-plugin', 'Install Plugin')}</div>
+      <div class="text-ios-tint w-full text-center">{Lang.t('plugins.install-plugin', 'Install Plugin')}</div>
     </ListItem>
     <ListItem
       on:click={() => {
@@ -180,7 +180,7 @@
     <Divider left={16} />
     {#if !pluginDetails.name}
       <ListItem clickable on:click={loadPlugin} disabled={!is.url(url) || loading}>
-        <div class="text-primary w-full flex items-center justify-center text-center space-x-2">
+        <div class="text-ios-tint w-full flex items-center justify-center text-center space-x-2">
           {#if loading}
             <Spinner size={20} />
             <span>{Lang.t('plugins.loading-plugin', 'Loading Plugin...')}</span>

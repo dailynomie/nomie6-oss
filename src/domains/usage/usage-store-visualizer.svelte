@@ -9,7 +9,7 @@
   import { Lang } from '../../store/lang'
 </script>
 
-<div class="usage-store-vis bg-pink-500 text-white p-4 rounded-lg">
+<div class="usage-store-vis bg-ios-danger text-ios-ondanger p-4 rounded-lg">
   {#each Object.keys($UsageStore).map((k) => {
     return { key: k, usage: $UsageStore[k] }
   }) as item}

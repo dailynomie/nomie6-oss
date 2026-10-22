@@ -269,7 +269,7 @@
               >
                 <div slot="left">
                   {#if locationType.saved}
-                    <IonIcon icon={StarSolid} className="text-yellow-500" />
+                    <IonIcon icon={StarSolid} className="text-ios-star" />
                   {/if}
                 </div>
                 {locationType.name}
@@ -374,7 +374,7 @@
                       }}
                     >
                       <div slot="left">
-                        <IonIcon icon={StarFilled} className="text-yellow-500" size={22} />
+                        <IonIcon icon={StarFilled} className="text-ios-star" size={22} />
                       </div>
                       <h2 class="text-base font-bold leading-tight text-ios-label">
                         {item.name}

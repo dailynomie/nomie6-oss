@@ -435,13 +435,13 @@
           }}
         >
           {Lang.t('trackable.share-tracker', 'Share Tracker')}
-          <IonIcon slot="right" icon={DownloadOutline} className="text-primary" />
+          <IonIcon slot="right" icon={DownloadOutline} className="text-ios-tint" />
         </ListItem>
 
         {#if $Prefs.betaFeatures}
           <ListItem bottomLine={16} on:click={() => generateCode(workingTrackable)}>
             <span> {Lang.t('trackable.generate-qr-or-nfc', 'Generate QR Code or NFC')} </span>
-            <IonIcon slot="right" icon={ScanOutline} className="text-primary" />
+            <IonIcon slot="right" icon={ScanOutline} className="text-ios-tint" />
           </ListItem>
         {/if}
         {#if workingTrackable.type == 'tracker'}

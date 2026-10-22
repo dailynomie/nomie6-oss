@@ -228,7 +228,7 @@
           {#if updateTrigger >= 0 && workingLog.pinned}
             <IonIcon icon={MagnetSolid} className="text-ios-good" />
           {:else if updateTrigger >= 0}
-            <IonIcon icon={MagnetOutline} className="text-primary opacity-80" />
+            <IonIcon icon={MagnetOutline} className="text-ios-tint opacity-80" />
           {/if}
         </Button>
       </ToolbarGrid>

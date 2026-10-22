@@ -35,7 +35,7 @@
               }}
             >
               <span class="text-sm">{dayjs(log.end).fromNow()}</span>
-              <IonIcon icon={ChevronForwardOutline} className="fill-white" size={16} />
+              <IonIcon icon={ChevronForwardOutline} className="fill-ios-ontint" size={16} />
             </button>
           </div>
           <ListItemLog
