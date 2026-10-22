@@ -90,7 +90,7 @@ Bad: assigning a prop (CMP-03).
 - **353 Svelte files, all with runes.** 0 files use `export let` or `$:`.
 - **Event style:** `on:click` in 189 files, `onclick` in 16. CMP-13 keeps each file consistent.
 - **Global styles:** 58 files use `<style global>`.
-- **Layering:** 1 domain action remains (the log list loader's ledger query, CMP-08). The shared log row is a documented exception (D-log-row-exception), and the feature badge is one (a pure rule over the Starter lists).
+- **Layering:** no domain action remains in components (CMP-08 is clear). The shared log row is the one documented exception (D-log-row-exception), and the feature badge is another (a pure rule over the Starter lists).
 - **Specs:** 0 specs in `src/components/`.
 - **Shared modal wrapper:** 51 files use `backdrop-modal.svelte`.
 - **Virtualised lists:** 4 files use `NvirtualList`; 14 files use `untrack`.
