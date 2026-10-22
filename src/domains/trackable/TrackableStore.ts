@@ -1,6 +1,6 @@
 import type { IPeople, ITrackers } from '../../modules/import/import'
 import { addTrackablesToBoard, getActiveBoardHeavy } from '../board/UniboardStore'
-import { derived, writable } from 'svelte/store'
+import { derived, get, writable } from 'svelte/store'
 
 import { ContextClass } from '../context/context-class'
 import type { PointerClass } from '../pointers/pointer-class'
@@ -272,5 +272,33 @@ export const saveTrackersToStorage = async (trackables: Array<Trackable>): Promi
   } catch (e) {
     console.error(e)
     return false
+  }
+}
+
+/**
+ * Bug 4 fix (Ronald decision): a #tag in a note with no tracker is offered as a new tracker.
+ * If the user says no, the tag stays an unknown tracker, as before. The note is saved either way.
+ */
+export const offerNewTrackersForNote = async (note: { elements: Array<{ type: string; id: string; prefix: string }> }) => {
+  const seen = new Set<string>()
+  for (const token of note.elements) {
+    if (token.type !== 'tracker') continue
+    const key = `${token.prefix}${token.id}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    const known = get(TrackableStore).trackables
+    if (known[key]) continue
+    const create = await Interact.confirm(
+      `Create a tracker for ${key}?`,
+      'Notes with this tag will then be tracked. You can change it later in the tracker editor.'
+    )
+    if (!create) continue
+    const tracker = new TrackerClass({ tag: token.id })
+    await saveTrackable({
+      trackable: tracker.toTrackable(),
+      known: get(TrackableStore).trackables,
+      permissions: {},
+      prompt: false,
+    })
   }
 }

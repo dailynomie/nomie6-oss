@@ -63,6 +63,7 @@
   import Button from '../../components/button/button.svelte'
   import { openPluginModal, PluginStore } from '../plugins/PluginStore'
 
+  import { offerNewTrackersForNote } from '../trackable/TrackableStore'
   import IosDatetimeField from '../../components/ios-date/ios-datetime-field.svelte'
   import CaptureAddonMenuController from './capture-addon-menu-controller.svelte'
   import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
@@ -240,7 +241,15 @@
       saving = true
 
       try {
-        await saveLog(new NLog($ActiveLogStore))
+        // Bug 4 fix: offer a tracker for each unknown #tag before the note is saved (the note is saved either way)
+        try {
+          const note = new NLog($ActiveLogStore)
+          await offerNewTrackersForNote(note)
+          await saveLog(note)
+        } catch (e) {
+          console.error(`Offer new trackers: ${e.message}`)
+          await saveLog(new NLog($ActiveLogStore))
+        }
         saving = false
         await wait(300)
         methods.clear()
