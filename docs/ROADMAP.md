@@ -182,7 +182,7 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 
 | # | Item | Where | Size |
 | --- | --- | --- | --- |
-| W1 | Jargon in the UI. **Partly done 22 October:** the widget editor says "Tracker" instead of "Trackable". The board name "Main" and "Share Tracker" are kept for now. | tracker and board screens | S |
+| W1 | Jargon in the UI. **Done 22 October:** the widget editor says "Tracker"; the first board is named "Track" (was "Main") and the editor action is "Share" (was "Share Tracker"). New installs get the new board name; a board that already exists keeps its saved name. | tracker and board screens | S |
 | W2 | One date format from the locale. **Done 22 October:** every full date uses the language's short date (10/22/2026 in English, 22-10-2026 in Dutch). Compact labels use the same date without the year. Checked in the browser on Track, dashboard and history; Timeline and search were not checked because the test profile has no logs. | Timeline, search, capture, Track | M |
 | W3 | Timeline range message. **Checked 22 October:** the old message is gone from the code; the empty state now says "No entries yet". | timeline | S |
 | W4 | Goal editor: the missing fields are named ("Still needed: …"). **Checked 22 October: done.** | goal editor | S |
