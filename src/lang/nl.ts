@@ -878,6 +878,7 @@ export default {
       'loading': 'Laden...',
     },
     ui: {
+      'page-failed-to-load': 'Deze pagina kon niet worden geladen. Laad de app opnieuw om het nog eens te proberen.',
       'am': 'AM',
       'awful': 'Heel slecht',
       'body': 'Body',

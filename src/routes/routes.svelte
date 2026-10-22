@@ -2,34 +2,17 @@
 
 <script lang="ts">
   import { Router, Route } from '../vendor/svelte-navigator'
-  import FileBrowser from '../domains/storage/file-browser/file-browser.svelte'
   // import DynamicPage from '../DynamicPage.svelte'
   // import Messages from './Messages.svelte'
-  import Csv from './export/csv.svelte'
 
   // import Goals from './Goals.svelte'
   // import Track from './track.svelte'
   import { Prefs } from '../domains/preferences/Preferences'
   import RouteControl from './RouteControl.svelte'
+  import LazyPage from './lazy-page.svelte'
   import FeatureGate from '../domains/preferences/feature-gate.svelte'
-  import Dashboard from './dashboard.svelte'
   import Track from './track.svelte'
   import Timeline from './Timeline.svelte'
-  import Goals from './Goals.svelte'
-  import Experiments from './Experiments.svelte'
-  import Analytics from './Analytics.svelte'
-  import AfterNomie from './AfterNomie.svelte'
-  import Tests from './tests/tests.svelte'
-  import Uoms from './Uoms.svelte'
-  import Awards from './Awards.svelte'
-  import Language from './tests/language.svelte'
-  import Faq from './faq.svelte'
-  import History from './history.svelte'
-  import Settings from './settings.svelte'
-  import Export from './export.svelte'
-  import Setup from './setup.svelte'
-  import TestAi from './test-ai.svelte'
-  import NomieBlockly from './nomie-blockly.svelte'
 </script>
 
 <Router>
@@ -39,13 +22,13 @@
       <!-- <Track /> -->
       <Track />
     {:else if $Prefs.startPage === 'dashboard'}
-      <Dashboard />
+      <LazyPage load={() => import('./dashboard.svelte')} />
     {:else if $Prefs.startPage === 'timeline'}
       <Timeline />
     {:else if $Prefs.startPage === 'history'}
       <Timeline />
     {:else if $Prefs.startPage === 'goals'}
-      <Goals />
+      <LazyPage load={() => import('./Goals.svelte')} />
     {:else}
       <!-- <Track /> -->
       <Track />
@@ -57,74 +40,74 @@
   </Route>
   <Route path="/analytics">
     <FeatureGate feature="analytics">
-      <Analytics />
+      <LazyPage load={() => import('./Analytics.svelte')} />
     </FeatureGate>
   </Route>
   <Route path="/afternomie">
     <FeatureGate feature="afternomie">
-      <AfterNomie />
+      <LazyPage load={() => import('./AfterNomie.svelte')} />
     </FeatureGate>
   </Route>
   <Route path="/nomie-blockly">
     <FeatureGate feature="blockly">
-      <NomieBlockly />
+      <LazyPage load={() => import('./nomie-blockly.svelte')} />
     </FeatureGate>
   </Route>
   <Route path="/timeline">
     <Timeline />
   </Route>
   <Route path="/goals">
-    <Goals />
+    <LazyPage load={() => import('./Goals.svelte')} />
   </Route>
   <Route path="/experiments">
-    <Experiments />
+    <LazyPage load={() => import('./Experiments.svelte')} />
   </Route>
   {#if import.meta.env.DEV}
     <Route path="/test">
-      <Tests />
+      <LazyPage load={() => import('./tests/tests.svelte')} />
     </Route>
   {/if}
 
   <Route path="/uoms">
     <FeatureGate feature="uoms">
-      <Uoms />
+      <LazyPage load={() => import('./Uoms.svelte')} />
     </FeatureGate>
   </Route>
   <Route path="/awards">
-    <Awards />
+    <LazyPage load={() => import('./Awards.svelte')} />
   </Route>
 
   <!-- Translation helpers: the Nomie language editor, reached at /lang -->
   <Route path="/lang">
-    <Language />
+    <LazyPage load={() => import('./tests/language.svelte')} />
   </Route>
   <Route path="/dashboard">
-    <Dashboard />
+    <LazyPage load={() => import('./dashboard.svelte')} />
   </Route>
   <Route path="/faq">
-    <Faq />
+    <LazyPage load={() => import('./faq.svelte')} />
   </Route>
   <Route path="/history">
-    <History />
+    <LazyPage load={() => import('./history.svelte')} />
   </Route>
   <Route path="/history/:date">
-    <History />
+    <LazyPage load={() => import('./history.svelte')} />
   </Route>
 
   <Route path="/settings">
-    <Settings />
+    <LazyPage load={() => import('./settings.svelte')} />
   </Route>
   <Route path="/settings/export">
-    <Export />
+    <LazyPage load={() => import('./export.svelte')} />
   </Route>
   <Route path="/settings/export/csv">
     <FeatureGate feature="csv">
-      <Csv />
+      <LazyPage load={() => import('./export/csv.svelte')} />
     </FeatureGate>
   </Route>
   <Route path="/files">
     <FeatureGate feature="files">
-      <FileBrowser />
+      <LazyPage load={() => import('../domains/storage/file-browser/file-browser.svelte')} />
     </FeatureGate>
   </Route>
 
@@ -134,11 +117,11 @@
     </FeatureGate>
   </Route>
   <Route path="/setup">
-    <Setup />
+    <LazyPage load={() => import('./setup.svelte')} />
   </Route>
   {#if import.meta.env.DEV}
     <Route path="/test-ai">
-      <TestAi />
+      <LazyPage load={() => import('./test-ai.svelte')} />
     </Route>
   {/if}
 </Router>

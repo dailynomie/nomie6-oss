@@ -880,6 +880,7 @@ export default {
       'loading': 'Loading...',
     },
     ui: {
+      'page-failed-to-load': 'This page could not be loaded. Reload the app to try again.',
       'am': 'AM',
       'awful': 'Awful',
       'body': 'Body',
