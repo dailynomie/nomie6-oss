@@ -187,7 +187,7 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 | W3 | Timeline range message. **Checked 22 October:** the old message is gone from the code; the empty state now says "No entries yet". | timeline | S |
 | W4 | Goal editor: the missing fields are named ("Still needed: …"). **Checked 22 October: done.** | goal editor | S |
 | W5 | "No recent backups" banner. **Checked 22 October: done.** It shows only after launch 5, and once a tracker exists. | layout | S |
-| W6 | Setup wording: the "Which looks right?" slide needs plain labels; "Data Storage" needs a hint; "Nomie Server" is greyed out without a reason; "FREE" reads as a stray label. | setup | S |
+| W6 | Setup wording. **Done 22 October:** the preferences groups have labels, the storage slide says "Choose one to continue.", the disabled Nomie Server option gives its reason, and the FREE label is gone. | setup | S |
 | W7 | The "Tap for more" hint on the central button. **Checked 22 October: done.** It is shown once and remembered (`menuHintSeen`). | layout | S |
 | W8 | Track tiles: the subtitle is no longer clipped by the menu button. **Checked 22 October: done** (28 px of padding on the text). | Track tiles | S |
 | W9 | Dashboard empty state: "Add a Widget" appears once. **Checked 22 October: done.** | dashboard | S |
