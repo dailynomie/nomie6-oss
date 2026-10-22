@@ -392,7 +392,7 @@
         },
       },
       {
-        title: `Scale: ${chartScale}`,
+        title: Lang.t('usage.scale-value', { value: chartScale }),
         divider: true,
         click() {
           const buttons: Array<PopMenuButton> = [
@@ -419,7 +419,7 @@
         },
       },
       {
-        title: `Stats: ${chartStats}`,
+        title: Lang.t('usage.stats-value', { value: chartStats }),
         divider: true,
         click() {
           const buttons: Array<PopMenuButton> = [
@@ -587,7 +587,7 @@
         },
       },
       {
-        title: `Include: ${includeAlsoLabel}`,
+        title: Lang.t('usage.include-value', { value: includeAlsoLabel }),
         divider: true,
         click() {
           const buttons: Array<PopMenuButton> = [

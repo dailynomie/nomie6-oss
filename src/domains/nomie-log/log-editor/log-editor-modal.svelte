@@ -127,7 +127,7 @@
         await LedgerStore.updateLog(workingLog, log.end)
         ActiveLogStore.clear()
         showToast({
-          message: `Saved: ${workingLog.note.substring(0, 100)}`,
+          message: Lang.t('log.saved-note', { note: workingLog.note.substring(0, 100) }),
         })
         close()
       } catch (e) {

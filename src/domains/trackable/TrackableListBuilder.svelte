@@ -106,7 +106,7 @@
       manualAdd = ''
     } else {
       showToast({
-        message: `${manualAdd} is not valid`,
+        message: Lang.t('trackable.not-valid', { name: manualAdd }),
       })
     }
   }

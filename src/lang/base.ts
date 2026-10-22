@@ -3,6 +3,7 @@ export default {
   author: 'Brandon',
   translation: {
     settings: {
+      'using-service': 'Using {{name}}',
       'ai-key-notice': 'Requests go straight from this browser to the provider you chose. The key stays on this device. A short PIN gives little protection for the key.',
       'views': 'Views',
       'advanced': 'Advanced',
@@ -304,6 +305,7 @@ export default {
       back: 'Back',
     },
     dashboard: {
+      'date-range': '{{start}} to {{end}}',
       'add-new-dashboard': 'Add New Dashboard',
       'add-new-widget': 'Add New Widget',
       'bar-chart': 'Bar Chart',
@@ -517,6 +519,7 @@ export default {
       'empty-day': 'No data was found',
     },
     export: {
+      'last-backup-included': 'Last backup {{when}} · everything included',
       'fresh-backup-message': 'Backups made before the backup fix did not include your templates, awards, units or settings. A new backup keeps everything.',
       'fresh-backup-title': 'Make a fresh backup',
       'export-date': 'Create a Backup',
@@ -544,6 +547,10 @@ export default {
       locating: 'Locating...',
     },
     import: {
+      'step-of': 'Step {{step}} of {{total}}',
+      'which-field-maps': 'Which field maps to {{title}}?',
+      'importer-starting-large': 'Importer starting. With this many records it might freeze the UI, just give it time...',
+      'importer-starting': 'Importer starting up...',
       'compose-note': 'Compose Note',
       'end-time': 'End Time*',
       'invalid-row-data': 'Invalid row data',
@@ -597,6 +604,9 @@ export default {
       import: 'Import',
     },
     board: {
+      'delete-tab': 'Delete {{name}} tab',
+      'turn-off-tab': 'Turn off {{name}} tab',
+      'delete-name': 'Delete {{name}}',
       'name-updated': '{{name}} updated',
       'calendar': 'Calendar',
       'context': 'Context',
@@ -733,6 +743,7 @@ export default {
       'write-my-own': 'Write my own',
     },
     ai: {
+      'failed-with': 'Failed: {{message}}',
       'advice-2': '💡 Advice',
       'alert-2': '⚠️ Alert',
       'analyze-my-journal-entries-and-notes-from-the-la': 'Analyze my journal entries and notes from the last 30 days',
@@ -1024,6 +1035,8 @@ export default {
       'which-trackables-would-you-like-to-include': 'Which trackables would you like to include?',
     },
     templates: {
+      'duration-goals': '{{duration}} Goals',
+      'no-duration-goals': 'No {{duration}} Goals',
       'name-installed': '{{name}} installed',
       'adhd': '🤔 ADHD',
       'available': 'Available',
@@ -1165,6 +1178,9 @@ export default {
       'waiting-time': 'Waiting Time:',
     },
     trackable: {
+      'n-days': '{{count}} days',
+      'usage-title': '{{name}} Usage...',
+      'not-valid': '{{name}} is not valid',
       'name-saved': '{{name}} saved',
       'name-created': '{{name}} created',
       'name-ignored': '{{name}} ignored',
@@ -1243,6 +1259,7 @@ export default {
       'want-multiple-emojis-do-it-here': 'Want multiple emojis? Do it here:',
     },
     analytics: {
+      'saving-pivot': 'Saving {{name}} pivot...',
       'morning': 'Morning',
       'afternoon': 'Afternoon',
       'evening': 'Evening',
@@ -1345,6 +1362,9 @@ export default {
       'your-preferences': 'Your preferences',
     },
     goals: {
+      'keep-working': 'Keep working on that {{name}} goal!',
+      'congrats-met': '🎉 Congrats! You met your {{name}} goal!',
+      'saving-goal': 'Saving {{name}} goal...',
       'equal': 'Equal',
       'greater-or-equal': 'Greater or Equal',
       'greater-than': 'Greater than',
@@ -1396,6 +1416,9 @@ export default {
       'you-can-always-recreate-it-later': 'You can always recreate it later.',
     },
     search: {
+      'edit-name': 'Edit {{name}}',
+      'track-name': 'Track {{name}}',
+      'name-stats': '{{name}} Stats',
       'browse-the-nomie-library-of-trackers-add-create': 'Browse the nomie library of trackers, add create',
       'create-and-add-a-new-tracker': 'Create and Add a new tracker!',
       'create-custom-tracker': 'Create Custom tracker',
@@ -1423,6 +1446,7 @@ export default {
       'trackables': 'Trackables',
     },
     log: {
+      'saved-note': 'Saved: {{note}}',
       'find-replace-help': 'Find and replace specific content from all of your notes. For example renaming a tag.',
       'found-count': '{{num}} Found',
       'sample-of': 'Sample {{example}} of {{total}}',
@@ -1443,6 +1467,9 @@ export default {
       'with-this': 'with this:',
     },
     uom: {
+      'unit-in-use': 'Unit in use',
+      'in-use-many': '{{count}} trackers count in {{unit}}. Change them to another unit first.',
+      'in-use-one': '1 tracker counts in {{unit}}. Change it to another unit first.',
       'after-the-number': 'After the number',
       'before-the-number': 'Before the number',
       'currency': 'Currency',
@@ -1505,6 +1532,7 @@ export default {
       'value-to-compare-against': 'Value to Compare against',
     },
     map: {
+      'saving-location': 'Saving {{name}} location..',
       'locations': 'Locations',
       'done': 'Done',
       'favorite': 'Favorite',
@@ -1522,6 +1550,8 @@ export default {
       'you-can-add-it-later': 'You can add it later',
     },
     library: {
+      'installing-name': 'Installing {{name}}',
+      'installing-count': 'Installing {{count}}',
       'name-added': '{{name}} added',
       'tracker-library': 'Tracker Library',
       'add-2': 'Add',
@@ -1536,6 +1566,7 @@ export default {
       'you-already-have-them-all': 'You already have them all!',
     },
     capture: {
+      'today-time': 'Today {{time}}',
       'ai-insights': 'AI Insights',
       'change-date-and-time': 'Change date and time',
       'date-time-setting': 'date-time-setting',
@@ -1572,6 +1603,7 @@ export default {
       'trending-up': 'Trending Up',
     },
     layout: {
+      'page-title': '{{title}} → Daily Nomie',
       'analytics': 'Analytics',
       'daily-nomie': 'Daily Nomie',
       'experiments': 'Experiments',
@@ -1609,6 +1641,9 @@ export default {
       'reset-all-awards-they-will-be-rebuild-with-next-': 'Reset all Awards, they will be rebuild with next app restart',
     },
     usage: {
+      'include-value': 'Include: {{value}}',
+      'stats-value': 'Stats: {{value}}',
+      'scale-value': 'Scale: {{value}}',
       '15-days-exponential-moving-average': '15 days Exponential Moving Average',
       '15-days-simple-moving-average': '15 days Simple Moving Average',
       '30-days-exponential-moving-average': '30 days Exponential Moving Average',

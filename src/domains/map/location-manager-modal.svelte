@@ -183,7 +183,7 @@
         loc.name = name
       }
       if (loc.name) {
-        Interact.blocker(`Saving ${loc.name} location..`)
+        Interact.blocker(Lang.t('map.saving-location', { name: loc.name }))
         await LocationStore.upsert(loc)
         Interact.stopBlocker()
         showToast({ message: Lang.t('map.location-saved', 'Location Saved') })

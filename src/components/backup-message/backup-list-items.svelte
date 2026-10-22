@@ -53,7 +53,7 @@
 
   let lastBackupText = $derived(
     $Prefs.lastBackup
-      ? `Last backup ${dayjs($Prefs.lastBackup).fromNow()} · everything included`
+      ? Lang.t('export.last-backup-included', { when: dayjs($Prefs.lastBackup).fromNow() })
       : Lang.t('ui.never-backed-up-everything-included', 'Never backed up · everything included')
   )
 </script>

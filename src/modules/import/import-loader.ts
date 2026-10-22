@@ -1,3 +1,4 @@
+import { Lang } from '../../store/lang'
 import { getDashboards, saveDashboards } from '../../domains/dashboard2/DashStore'
 
 import { ContextClass } from '../../domains/context/context-class'
@@ -167,7 +168,7 @@ export default class ImportLoader {
         }
         if (onProgress) {
           onProgress({
-            message: `Step ${status.step} of ${status.total}`,
+            message: Lang.t('import.step-of', { step: status.step, total: status.total }),
             progress,
             step: status.step,
             total: status.total,

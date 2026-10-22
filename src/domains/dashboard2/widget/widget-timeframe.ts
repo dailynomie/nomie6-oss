@@ -31,7 +31,7 @@ export class WidgetTimeFrame {
    */
   public getLabel(): string {
     let defaultDate = this.start.date
-      ? `${this.start.date.format(getDateFormats().shortDate)} to ${this.end.date.format(getDateFormats().shortDate)}`
+      ? Lang.t('dashboard.date-range', { start: this.start.date.format(getDateFormats().shortDate), end: this.end.date.format(getDateFormats().shortDate) })
       : Lang.t('dashboard.unknown', 'Unknown')
     return this.label || defaultDate
   }

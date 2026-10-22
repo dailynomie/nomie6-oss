@@ -163,7 +163,7 @@
     </div>
     <div class="text-xs text-ios-label2 line-clamp-2 leading-tight mt-1">
       {config.enabled
-        ? `Using ${config.selectedService}`
+        ? Lang.t('settings.using-service', { name: config.selectedService })
         : Lang.t('settings.click-to-enable-ai-integration', 'Click to enable AI integration')}
     </div>
     <div slot="right" class="flex items-center gap-3">

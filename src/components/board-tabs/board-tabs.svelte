@@ -151,7 +151,7 @@
                 }
               }}
               class="delete-button tab-delete"
-              aria-label={isFixedBoard(item.id) ? `Turn off ${item.label} tab` : `Delete ${item.label} tab`}
+              aria-label={isFixedBoard(item.id) ? Lang.t('board.turn-off-tab', { name: item.label }) : Lang.t('board.delete-tab', { name: item.label })}
             >
               <IonIcon className="text-ios-ondanger" icon={CloseOutline} size={10} />
             </button>

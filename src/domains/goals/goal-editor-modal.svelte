@@ -87,7 +87,7 @@
       target: goalTargetValue,
       usedailyaverage: goalUseDailyAverage,
     })
-    Interact.blocker(`Saving ${trackable.label} goal...`)
+    Interact.blocker(Lang.t('goals.saving-goal', { name: trackable.label }))
     await GoalStore.upsert(newGoal)
     Interact.stopBlocker()
     showToast({ message: Lang.t('goals.goal-saved', 'Goal Saved') })

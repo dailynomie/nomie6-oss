@@ -94,7 +94,7 @@ export const getLogPopButtons = (log: NLog, includeDescription: boolean = true):
 export const getTrackableDetailPopButton = (trackable: Trackable): Array<PopMenuButton> => {
   return [
     {
-      title: `${capitalize(trackable.label)} Usage...`,
+      title: Lang.t('trackable.usage-title', { name: capitalize(trackable.label) }),
       icon: SparklesOutline,
       async click() {
         await wait(400)

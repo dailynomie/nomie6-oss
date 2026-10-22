@@ -107,11 +107,11 @@ export const loadGoalsForToday = async (
   // Update the Score Store
   // GoalScoreStore.update((s) => [successes, total])
   const showSuccess = (goal: GoalClass) => {
-    showToast({ type: 'success', message: `🎉 Congrats! You met your ${goal.tag} goal!` })
+    showToast({ type: 'success', message: Lang.t('goals.congrats-met', { name: goal.tag }) })
     showConfetti()
   }
   const showFailure = (goal) => {
-    showToast({ type: 'failure', message: `Keep working on that ${goal.tag} goal!` })
+    showToast({ type: 'failure', message: Lang.t('goals.keep-working', { name: goal.tag }) })
   }
 
   /**

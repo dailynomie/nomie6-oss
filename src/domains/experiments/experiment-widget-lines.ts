@@ -33,7 +33,7 @@ export const experimentWidgetView = (
 ): ExperimentWidgetView => {
   const running = experiment.status === 'running'
   const status = running
-    ? `Day ${Math.min(daysSoFar, experiment.durationDays)} of ${experiment.durationDays}`
+    ? Lang.t('experiments.day-of', { day: Math.min(daysSoFar, experiment.durationDays), total: experiment.durationDays })
     : experiment.status === 'stopped'
       ? Lang.t('experiments.stopped-early', 'Stopped early')
       : Lang.t('experiments.finished', 'Finished')

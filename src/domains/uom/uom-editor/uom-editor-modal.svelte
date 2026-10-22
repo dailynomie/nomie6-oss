@@ -72,8 +72,10 @@
     if (!unit) return
     if (usage > 0) {
       await Interact.alert(
-        'Unit in use',
-        `${usage === 1 ? '1 tracker counts' : `${usage} trackers count`} in ${unit.plural}. Change ${usage === 1 ? 'it' : 'them'} to another unit first.`
+        Lang.t('uom.unit-in-use', 'Unit in use'),
+        usage === 1
+          ? Lang.t('uom.in-use-one', { unit: unit.plural })
+          : Lang.t('uom.in-use-many', { count: usage, unit: unit.plural })
       )
       return
     }

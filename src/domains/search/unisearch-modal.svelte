@@ -143,14 +143,14 @@
   const getExactMatchButtons = (): Array<PopMenuButton> => {
     return [
       {
-        title: `${results?.exactTrackable?.label} Stats`,
+        title: Lang.t('search.name-stats', { name: results?.exactTrackable?.label }),
         icon: PulseOutline,
         click() {
           openStats2(results?.exactTrackable, { date: new Date(), known: $TrackableStore.trackables })
         },
       },
       {
-        title: `Track ${results?.exactTrackable?.tag}`,
+        title: Lang.t('search.track-name', { name: results?.exactTrackable?.tag }),
         icon: AppsOutline,
         click() {
           if (results.exactTrackable?.type === 'tracker') {
@@ -165,7 +165,7 @@
         },
       },
       {
-        title: `Edit ${results?.exactTrackable?.label}`,
+        title: Lang.t('search.edit-name', { name: results?.exactTrackable?.label }),
         icon: CreateOutline,
         click() {
           if (results.exactTrackable.type == 'tracker') {

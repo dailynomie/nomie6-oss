@@ -18,7 +18,7 @@
     label={Lang.t('trackable.duration', 'Duration')}
     placeholder={Lang.t('trackable.duration-in-days', 'Duration (in Days)')}
     value={`${trackable.ctx.duration || 1}`}
-    options={Array.from({ length: 30 }, (_, index) => ({ value: `${index + 1}`, label: `${index + 1} days` }))}
+    options={Array.from({ length: 30 }, (_, index) => ({ value: `${index + 1}`, label: Lang.t('trackable.n-days', { count: index + 1 }) }))}
     on:change={(evt) => {
       trackable.ctx.duration = parseNumber(evt.detail)
     }}

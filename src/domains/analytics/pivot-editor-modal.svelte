@@ -99,7 +99,7 @@
     })
     newPivot.options.data = []
     newPivot.options.valueFilter = $state.snapshot(filters)
-    Interact.blocker(`Saving ${workingPivot.tag} pivot...`)
+    Interact.blocker(Lang.t('analytics.saving-pivot', { name: workingPivot.tag }))
     try {
       await PivotStore.upsert(newPivot)
     } catch (e) {

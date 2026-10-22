@@ -67,7 +67,7 @@
         ? experiment.status === 'stopped'
           ? Lang.t('experiments.stopped-early', 'Stopped early')
           : Lang.t('experiments.finished', 'Finished')
-        : `Day ${Math.min(daysSoFar, experiment.durationDays)} of ${experiment.durationDays}`
+        : Lang.t('experiments.day-of', { day: Math.min(daysSoFar, experiment.durationDays), total: experiment.durationDays })
   )
 
   const refresh = async () => {

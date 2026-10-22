@@ -378,7 +378,7 @@
       rowsDuplicates: newPivot.options.rows?.filter((item, index) => newPivot.options.rows.indexOf(item) !== index),
       colsDuplicates: newPivot.options.cols?.filter((item, index) => newPivot.options.cols.indexOf(item) !== index),
     })
-    Interact.blocker(`Saving ${newPivot.emoji}${newPivot.tag} pivot...`)
+    Interact.blocker(Lang.t('analytics.saving-pivot', { name: `${newPivot.emoji}${newPivot.tag}` }))
     try {
       await PivotStore.upsert(newPivot)
     } catch (e) {

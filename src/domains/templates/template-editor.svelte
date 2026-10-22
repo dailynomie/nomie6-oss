@@ -513,7 +513,7 @@
     if (buttons.length === 0) {
       openPopMenu({
         id: 'import-goal-empty',
-        title: `No ${getDurationLabel(duration)} Goals`,
+        title: Lang.t('templates.no-duration-goals', { duration: getDurationLabel(duration) }),
         buttons: [
           {
             title: Lang.t('templates.go-back', 'Go Back'),
@@ -559,7 +559,7 @@
 
     openPopMenu({
       id: 'import-goal-by-duration',
-      title: `${getDurationLabel(duration)} Goals`,
+      title: Lang.t('templates.duration-goals', { duration: getDurationLabel(duration) }),
       buttons: buttons,
     })
   }

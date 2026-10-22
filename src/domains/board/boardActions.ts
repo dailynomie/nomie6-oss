@@ -235,7 +235,7 @@ export const removeTrackable = async (trackable: Trackable) => {
   Interact.popmenu({
     id: `delete-${trackable.tag}`,
     trackable: trackable,
-    title: `Delete ${trackable.label}`,
+    title: Lang.t('board.delete-name', { name: trackable.label }),
     buttons,
   })
 

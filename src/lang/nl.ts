@@ -3,6 +3,7 @@ export default {
   author: 'Daily Nomie',
   translation: {
     settings: {
+      'using-service': 'Gebruikt {{name}}',
       'ai-key-notice': 'Aanvragen gaan rechtstreeks vanuit deze browser naar de aanbieder die je hebt gekozen. De sleutel blijft op dit apparaat. Een korte PIN biedt weinig bescherming voor de sleutel.',
       'views': 'Weergaven',
       'advanced': 'Geavanceerd',
@@ -303,6 +304,7 @@ export default {
       back: 'Terug',
     },
     dashboard: {
+      'date-range': '{{start}} tot {{end}}',
       'add-new-dashboard': 'Nieuw dashboard toevoegen',
       'add-new-widget': 'Nieuwe widget toevoegen',
       'bar-chart': 'Staafdiagram',
@@ -516,6 +518,7 @@ export default {
       'empty-day': 'Er zijn geen gegevens gevonden',
     },
     export: {
+      'last-backup-included': 'Laatste back-up {{when}} · alles inbegrepen',
       'fresh-backup-title': 'Maak een nieuwe back-up',
       'fresh-backup-message': 'Back-ups die je eerder maakte, bevatten je templates, prijzen, eenheden of instellingen niet. Een nieuwe back-up bewaart alles.',
       'export-date': 'Een back-up maken',
@@ -542,6 +545,10 @@ export default {
       locating: 'Locatie bepalen...',
     },
     import: {
+      'step-of': 'Stap {{step}} van {{total}}',
+      'which-field-maps': 'Welk veld hoort bij {{title}}?',
+      'importer-starting-large': 'Import begint. Bij zoveel records kan de app even vastlopen, geef het even de tijd...',
+      'importer-starting': 'Import wordt gestart...',
       'compose-note': 'Compose Note',
       'end-time': 'Eindtijd*',
       'invalid-row-data': 'Ongeldige rijgegevens',
@@ -595,6 +602,9 @@ export default {
       import: 'Importeren',
     },
     board: {
+      'delete-tab': 'Verwijder de {{name}}-tab',
+      'turn-off-tab': 'Zet de {{name}}-tab uit',
+      'delete-name': 'Verwijder {{name}}',
       'name-updated': '{{name}} bijgewerkt',
       'calendar': 'Kalender',
       'context': 'Context',
@@ -731,6 +741,7 @@ export default {
       'write-my-own': 'Zelf schrijven',
     },
     ai: {
+      'failed-with': 'Mislukt: {{message}}',
       'advice-2': '💡 Advies',
       'alert-2': '⚠️ Melding',
       'analyze-my-journal-entries-and-notes-from-the-la': 'Analyseer mijn journal-logs en notes van de afgelopen 30 dagen',
@@ -1022,6 +1033,8 @@ export default {
       'which-trackables-would-you-like-to-include': 'Welke trackers wil je opnemen?',
     },
     templates: {
+      'duration-goals': '{{duration}}-doelen',
+      'no-duration-goals': 'Geen {{duration}}-doelen',
       'name-installed': '{{name}} geïnstalleerd',
       'adhd': '🤔 ADHD',
       'available': 'Beschikbaar',
@@ -1163,6 +1176,9 @@ export default {
       'waiting-time': 'Wachttijd:',
     },
     trackable: {
+      'n-days': '{{count}} dagen',
+      'usage-title': '{{name}} gebruik...',
+      'not-valid': '{{name}} is niet geldig',
       'name-saved': '{{name}} opgeslagen',
       'name-created': '{{name}} aangemaakt',
       'name-ignored': '{{name}} genegeerd',
@@ -1241,6 +1257,7 @@ export default {
       'want-multiple-emojis-do-it-here': 'Meerdere emoji nodig? Doe het hier:',
     },
     analytics: {
+      'saving-pivot': 'Pivot {{name}} opslaan...',
       'morning': 'Ochtend',
       'afternoon': 'Middag',
       'evening': 'Avond',
@@ -1343,6 +1360,9 @@ export default {
       'your-preferences': 'Je voorkeuren',
     },
     goals: {
+      'keep-working': 'Blijf werken aan je {{name}}-doel!',
+      'congrats-met': '🎉 Gefeliciteerd! Je hebt je {{name}}-doel gehaald!',
+      'saving-goal': 'Doel {{name}} opslaan...',
       'equal': 'Gelijk',
       'greater-or-equal': 'Groter of gelijk',
       'greater-than': 'Groter dan',
@@ -1394,6 +1414,9 @@ export default {
       'you-can-always-recreate-it-later': 'Je kunt hem later altijd opnieuw maken.',
     },
     search: {
+      'edit-name': 'Bewerk {{name}}',
+      'track-name': 'Track {{name}}',
+      'name-stats': '{{name}} statistieken',
       'browse-the-nomie-library-of-trackers-add-create': 'Blader door de Nomie-bibliotheek van trackers, voeg toe of maak aan',
       'create-and-add-a-new-tracker': 'Maak een nieuwe tracker aan en voeg hem toe!',
       'create-custom-tracker': 'Eigen tracker maken',
@@ -1421,6 +1444,7 @@ export default {
       'trackables': 'Trackers',
     },
     log: {
+      'saved-note': 'Opgeslagen: {{note}}',
       'find-replace-help': 'Zoek en vervang specifieke tekst in al je notes. Bijvoorbeeld een tag hernoemen.',
       'found-count': '{{num}} gevonden',
       'sample-of': 'Voorbeeld {{example}} van {{total}}',
@@ -1441,6 +1465,9 @@ export default {
       'with-this': 'door dit:',
     },
     uom: {
+      'unit-in-use': 'Eenheid in gebruik',
+      'in-use-many': '{{count}} trackers tellen mee in {{unit}}. Wijzig ze eerst naar een andere eenheid.',
+      'in-use-one': '1 tracker telt mee in {{unit}}. Wijzig die eerst naar een andere eenheid.',
       'after-the-number': 'Na het getal',
       'before-the-number': 'Voor het getal',
       'currency': 'Valuta',
@@ -1503,6 +1530,7 @@ export default {
       'value-to-compare-against': 'Waarde om mee te vergelijken',
     },
     map: {
+      'saving-location': 'Locatie {{name}} opslaan..',
       'locations': 'Locaties',
       'done': 'Klaar',
       'favorite': 'Favoriet',
@@ -1520,6 +1548,8 @@ export default {
       'you-can-add-it-later': 'Je kunt hem later toevoegen',
     },
     library: {
+      'installing-name': 'Installeren {{name}}',
+      'installing-count': 'Installeren {{count}}',
       'name-added': '{{name}} toegevoegd',
       'tracker-library': 'Trackerbibliotheek',
       'add-2': 'Toevoegen',
@@ -1534,6 +1564,7 @@ export default {
       'you-already-have-them-all': 'Je hebt ze al allemaal!',
     },
     capture: {
+      'today-time': 'Vandaag {{time}}',
       'ai-insights': 'AI-inzichten',
       'change-date-and-time': 'Datum en tijd wijzigen',
       'date-time-setting': 'instelling datum en tijd',
@@ -1570,6 +1601,7 @@ export default {
       'trending-up': 'Stijgende trend',
     },
     layout: {
+      'page-title': '{{title}} → Daily Nomie',
       'analytics': 'Analytics',
       'daily-nomie': 'Daily Nomie',
       'experiments': 'Experiments',
@@ -1607,6 +1639,9 @@ export default {
       'reset-all-awards-they-will-be-rebuild-with-next-': 'Alle awards resetten; ze worden bij de volgende start van de app opnieuw opgebouwd',
     },
     usage: {
+      'include-value': 'Inclusief: {{value}}',
+      'stats-value': 'Statistieken: {{value}}',
+      'scale-value': 'Schaal: {{value}}',
       '7-days-simple-moving-average': '7 dagen eenvoudig voortschrijdend gemiddelde',
       '15-days-simple-moving-average': '15 dagen eenvoudig voortschrijdend gemiddelde',
       '30-days-simple-moving-average': '30 dagen eenvoudig voortschrijdend gemiddelde',

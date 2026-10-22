@@ -77,10 +77,10 @@
   async function installAll(trackers: Array<TrackerClass> = []) {
     const filtered = trackers.filter((t) => !$TrackableStore.trackables[`#${t.tag}`])
     if (filtered.length) {
-      Interact.blocker(`Installing ${filtered.length}`)
+      Interact.blocker(Lang.t('library.installing-count', { count: filtered.length }))
       await wait(300)
       for (let i = 0; i < filtered.length; i++) {
-        Interact.blocker(`Installing ${filtered[i].emoji} ${filtered[i].label}`)
+        Interact.blocker(Lang.t('library.installing-name', { name: `${filtered[i].emoji} ${filtered[i].label}` }))
         await install(filtered[i])
         await wait(300)
       }

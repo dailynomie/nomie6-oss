@@ -93,7 +93,7 @@
       contextSummary = context.summary
     } catch (error) {
       console.error('Error loading test data:', error)
-      testDataInfo = { error: `Failed: ${(error as Error).message}` }
+      testDataInfo = { error: Lang.t('ai.failed-with', { message: (error as Error).message }) }
     }
   }
 

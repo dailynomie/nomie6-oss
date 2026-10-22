@@ -349,7 +349,7 @@
     const date = dayjs($TodayStore.date)
     const time = date.format($Prefs.use24hour ? 'HH:mm' : 'h:mm A')
     return date.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')
-      ? `Today ${time}`
+      ? Lang.t('capture.today-time', { time })
       : `${date.format(`ddd ${getDateFormats().shortDate}`)} ${time}`
   })
 

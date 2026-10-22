@@ -188,9 +188,9 @@
     )
     if (confirmed) {
       if (activeImporter.length() > 1000) {
-        Interact.blocker(`Importer starting. With this many records it might freeze the UI, just give it time...`)
+        Interact.blocker(Lang.t('import.importer-starting-large', 'Importer starting. With this many records it might freeze the UI, just give it time...'))
       } else {
-        Interact.blocker(`Importer starting up...`)
+        Interact.blocker(Lang.t('import.importer-starting', 'Importer starting up...'))
       }
 
       let importer = new ImportLoader()
@@ -246,7 +246,7 @@
       Interact.popmenu({
         id: 'field-map-menu',
         title: title,
-        description: `Which field maps to ${title}?`,
+        description: Lang.t('import.which-field-maps', { title }),
         buttons,
       })
     })

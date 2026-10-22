@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import AppTabs from '../../domains/layout/tabs.svelte'
+  import { Lang } from '../../store/lang'
   import ExperimentCheckInCard from '../experiments/ExperimentCheckInCard.svelte'
 
   import './layout.css'
@@ -76,7 +77,7 @@
 </script>
 
 <svelte:head>
-  <title>{pageTitle ? `${pageTitle} → Daily Nomie` : `Daily Nomie`}</title>
+  <title>{pageTitle ? Lang.t('layout.page-title', { title: pageTitle }) : `Daily Nomie`}</title>
 </svelte:head>
 
 <div
