@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { Prefs } from './../preferences/Preferences'
+  import { getDateFormats, Prefs } from './../preferences/Preferences'
   import Button from '../../components/button/button.svelte'
 
   import Container from '../../components/container/container.svelte'
@@ -217,7 +217,7 @@
       </MenuInline>
     </div>
     <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('dashboard.dashboard-2', 'Dashboard')}</h1>
-    <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format('dddd D MMMM')}</p>
+    <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format(getDateFormats().dateDay)}</p>
     <div class="collapsible-row">
       <Toolbar className="px-0 h-11 max-h-11 min-h-11">
         {#if !$DashStore.editMode}

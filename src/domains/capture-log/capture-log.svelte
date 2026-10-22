@@ -41,7 +41,7 @@
 
   import CaptureDatePicker from './capture-date-picker.svelte'
 
-  import { Prefs } from '../preferences/Preferences'
+  import { getDateFormats, Prefs } from '../preferences/Preferences'
   import type { Token } from '../../modules/tokenizer/lite'
   import { loadToday, TodayStore } from '../usage/today/TodayStore'
 
@@ -350,7 +350,7 @@
     const time = date.format($Prefs.use24hour ? 'HH:mm' : 'h:mm A')
     return date.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')
       ? `Today ${time}`
-      : `${date.format('ddd D MMM')} ${time}`
+      : `${date.format(`ddd ${getDateFormats().shortDate}`)} ${time}`
   })
 
   // iOS look (Phase 4): the check-in card is hidden while the capture card is being typed in

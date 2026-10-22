@@ -16,6 +16,7 @@
   import { SettingsOutline } from '../components/icon/nicons'
   import SearchIcon from '../n-icons/SearchIcon.svelte'
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../domains/preferences/Preferences'
   import { Lang } from '../store/lang'
 
   const {
@@ -93,7 +94,7 @@
     {/if}
   </div>
   <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('routes.track', 'Track')}</h1>
-  <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format('dddd D MMMM')}</p>
+  <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format(getDateFormats().dateDay)}</p>
 </div>
 
 <!-- iOS look: in edit mode the row has room for the tab strip outline, which the row would otherwise clip -->
