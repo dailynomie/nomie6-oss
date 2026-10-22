@@ -1,5 +1,4 @@
 import { PivotClass } from './pivot-class'
-import PivotEditorModal from './pivot-editor-modal.svelte'
 import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import { openModal } from '../../components/backdrop/BackdropStore2'
@@ -36,7 +35,8 @@ let masterPivots: Array<PivotClass> = []
  * Open Editor Modal
  * @param pivot
  */
-export const openPivotEditor = (pivot?: PivotClass) => {
+export const openPivotEditor = async (pivot?: PivotClass) => {
+  const { default: PivotEditorModal } = await import('./pivot-editor-modal.svelte')
   openModal({
     id: `pivot-${pivot.id}-editor`,
     position: 'fullscreen',

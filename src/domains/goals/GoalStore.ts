@@ -2,8 +2,6 @@ import { getDurationFromGoals, getTimespanFromGoal } from './goal-utils'
 
 import type { Dayjs } from 'dayjs'
 import { GoalClass } from './goal-class'
-import GoalDetailModal from './goal-details-modal.svelte'
-import GoalEditorModal from './goal-editor-modal.svelte'
 import type { GoalScoreType } from './goal-class'
 import type { GoalType } from './goal-class'
 import type { ITrackables } from '../trackable/trackable-utils'
@@ -185,7 +183,8 @@ export const loadGoalsForToday = async (
  * Open a Goal Detail Modal
  * @param goal
  */
-export const openGoalDetail = (goal: GoalClass) => {
+export const openGoalDetail = async (goal: GoalClass) => {
+  const { default: GoalDetailModal } = await import('./goal-details-modal.svelte')
   openModal({
     id: `goal-${goal.id}`,
     position: 'fullscreen',
@@ -200,7 +199,8 @@ export const openGoalDetail = (goal: GoalClass) => {
  * Open Editor Modal
  * @param goal
  */
-export const openGoalEditor = (goal?: GoalClass) => {
+export const openGoalEditor = async (goal?: GoalClass) => {
+  const { default: GoalEditorModal } = await import('./goal-editor-modal.svelte')
   openModal({
     id: `goal-${goal.id}-editor`,
     position: 'fullscreen',

@@ -7,9 +7,6 @@ import Storage from '../storage/storage'
 
 import type { PluginType, PluginUseTypes } from './plugin-helpers'
 import { PluginClass } from './plugin-helpers'
-import PluginInstallerModal from './plugin-installer-modal.svelte'
-import pluginModalSvelte from './plugin-modal.svelte'
-import pluginsModalSvelte from './plugins-modal.svelte'
 import { createBlocklyPlugin } from './buildin-plugins'
 import { Lang } from '../../store/lang'
 
@@ -22,7 +19,8 @@ export const getAvailablePlugins = async (): Promise<Array<PluginType>> => {
   return []
 }
 
-export const openPluginsModal = () => {
+export const openPluginsModal = async () => {
+  const { default: pluginsModalSvelte } = await import('./plugins-modal.svelte')
   openModal({
     id: 'plugins',
     component: pluginsModalSvelte,
@@ -32,13 +30,14 @@ export const openPluginsModal = () => {
 
 export const OpenedPluginStore = writable<Array<string>>([])
 
-export const openPluginModal = (plugin: PluginClass) => {
+export const openPluginModal = async (plugin: PluginClass) => {
   // OpenedPluginStore.update(s => {
   //   if (!s.includes(plugin.id)) {
   //     s.push(plugin.id)
   //   }
   //   return s;
   // })
+  const { default: pluginModalSvelte } = await import('./plugin-modal.svelte')
   openModal({
     id: plugin.id,
     component: pluginModalSvelte,
@@ -54,7 +53,8 @@ export const openPluginModal = (plugin: PluginClass) => {
 
 export const closePluginModal = () => {}
 
-export const openPluginInstaller = (url?: string) => {
+export const openPluginInstaller = async (url?: string) => {
+  const { default: PluginInstallerModal } = await import('./plugin-installer-modal.svelte')
   openModal({
     id: 'plugin-installer',
     component: PluginInstallerModal,

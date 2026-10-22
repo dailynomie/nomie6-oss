@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store'
 import { openModal } from '../../../../components/backdrop/BackdropStore2'
 import { WidgetClass } from '../widget-class'
-import WidgetEditorModal from './widget-editor-modal.svelte'
 export type WidgetEditorProps = {
   widget?: WidgetClass
   onSave?: Function
@@ -10,7 +9,8 @@ export type WidgetEditorProps = {
 const initialState: WidgetEditorProps = {}
 export const WidgetEditorStore = writable(initialState)
 
-export const openWidgetEditor = (props: WidgetEditorProps) => {
+export const openWidgetEditor = async (props: WidgetEditorProps) => {
+  const { default: WidgetEditorModal } = await import('./widget-editor-modal.svelte')
   openModal({
     id: `widget-editor-${props.widget.id || ''}`,
     component: WidgetEditorModal,

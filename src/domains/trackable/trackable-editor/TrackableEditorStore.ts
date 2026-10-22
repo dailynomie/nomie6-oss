@@ -1,5 +1,4 @@
 import type { Trackable } from '../Trackable.class'
-import TrackableEditorModal from '../trackable-editor/trackable-editor-modal.svelte'
 import { openModal } from '../../../components/backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
 
@@ -11,7 +10,8 @@ const initialState = {
 }
 export const TrackableEditorStore = writable(initialState)
 
-export const openTrackableEditor = (trackable: Trackable, saveByPass?: Function) => {
+export const openTrackableEditor = async (trackable: Trackable, saveByPass?: Function) => {
+  const { default: TrackableEditorModal } = await import('../trackable-editor/trackable-editor-modal.svelte')
   openModal({
     id: `trackable-editor-${trackable.tag}`,
     componentProps: {

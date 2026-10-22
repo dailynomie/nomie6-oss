@@ -2,7 +2,6 @@ import { closeModal, openModal } from '../../components/backdrop/BackdropStore2'
 import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import { openLogEditor } from '../nomie-log/LogEditorStore'
-import WritingPromptModal from './writing-prompt-modal.svelte'
 
 import prompts2 from './writing-prompts-v2.json'
 import nid from '../../modules/nid/nid'
@@ -73,7 +72,8 @@ export const closeWritingPromptModal = () => {
   closeModal('writing-prompt-modal')
 }
 
-export const openWritingPromptModal = (props?: any) => {
+export const openWritingPromptModal = async (props?: any) => {
+  const { default: WritingPromptModal } = await import('./writing-prompt-modal.svelte')
   openModal({
     id: 'writing-prompt-modal',
     component: WritingPromptModal,

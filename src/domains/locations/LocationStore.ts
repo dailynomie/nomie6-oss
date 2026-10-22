@@ -3,7 +3,6 @@ import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import distance from '../../modules/locate/distance'
 import { closeModal, openModal } from '../../components/backdrop/BackdropStore2'
-import locationsModalSvelte from '../../domains/map/location-manager-modal.svelte'
 import { Lang } from '../../store/lang'
 
 export const LocationStore = createArrayStore(NPaths.storage.locations(), {
@@ -17,7 +16,8 @@ export const LocationStore = createArrayStore(NPaths.storage.locations(), {
   },
 })
 
-export const openLocationModal = () => {
+export const openLocationModal = async () => {
+  const { default: locationsModalSvelte } = await import('../../domains/map/location-manager-modal.svelte')
   openModal({
     id: 'locations',
     component: locationsModalSvelte,
