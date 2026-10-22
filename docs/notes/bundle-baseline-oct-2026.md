@@ -93,3 +93,9 @@ What Lighthouse reports for the first screen:
 - Start chunks: the main file 392 kB gzipped, the Svelte, dayjs and PouchDB files 69 kB. Total about **461 kB gzipped** (from about 582).
 - **Lighthouse, mobile performance: 71** (target 80). First contentful paint 3.8 s, largest contentful paint 4.9 s, total blocking time 150 ms, total transfer 638 kB.
 - What is still unused on the Track screen: 244 kB of the main file (transferred) and 36 kB of PouchDB. Next step: split the components the Track screen does not show first (the log editor, the tile editor and similar), and check what the render-blocking CSS (35 kB) holds that the first screen does not use.
+
+## The Timeline on demand: Lighthouse 80 and up (22 October)
+
+The Timeline screen was in the first load, although Track is the start page. It is now a lazy page. Lighthouse mobile performance on the Track start page, three runs: **98, 87 and 97** (target 80). The first contentful paint is 1.6 s in each run. The variation between runs is in the largest contentful paint (2.0 s to 4.0 s).
+
+Still in the first load: about 240 kB of unused JavaScript in the main file, and 36 kB of PouchDB. These are not needed for the score target now, but they remain the next step for the first load.
