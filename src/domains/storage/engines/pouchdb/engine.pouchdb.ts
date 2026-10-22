@@ -83,10 +83,7 @@ export const PouchDBEngine: IStorage = {
     this.syncing = false
   },
   onError(error) {
-    Interact.alert(
-      Lang.t(Lang.t('storage.sync-error', 'sync.error'), Lang.t('storage.sync-error-2', 'Sync Error')),
-      error.message
-    )
+    Interact.alert(Lang.t('storage.sync-error-2', 'Sync Error'), error.message)
     console.error(error)
     this.syncing = false
   },

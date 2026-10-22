@@ -117,13 +117,7 @@
           try {
             await upsertWidget(widget)
             showToast({
-              message: Lang.t(
-                Lang.t(
-                  Lang.t('dashboard.dashboard-general-saved', 'dashboard.general-saved'),
-                  Lang.t('dashboard.general-saved', 'general.saved')
-                ),
-                Lang.t(Lang.t('dashboard.dashboard-saved', 'dashboard.saved'), Lang.t('dashboard.saved', 'Saved'))
-              ),
+              message: Lang.t('dashboard.saved', 'Saved'),
             })
           } catch (e) {
             showToast({ message: e.message })

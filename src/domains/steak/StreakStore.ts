@@ -80,7 +80,6 @@ export const trackOnThisDay = async (trackable: Trackable, date: Date, known: IT
 //       if (trackerInput) {
 //         const log = new NLog({ end: newDate.toDate().getTime(), note: `${trackerInput.raw}` })
 //         await saveLog(log)
-//         showToast({ message: Lang.t(Lang.t('steak.general-saved', 'general.saved'), Lang.t('steak.saved', 'Saved')) })
 //       }
 //     } catch (e) {
 //       Interact.error(e)

@@ -109,7 +109,7 @@
       if (saved) {
         dispatch('save', tracker)
         showToast({
-          message: Lang.t(Lang.t('tracker.general-saved', 'general.saved'), Lang.t('tracker.saved', 'Saved')),
+          message: Lang.t('tracker.saved', 'Saved'),
         })
       }
     },

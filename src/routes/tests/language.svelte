@@ -27,7 +27,7 @@
 
   async function save() {
     sideStore.put('active-lang', activeLang)
-    showToast({ message: Lang.t(Lang.t('routes.general-saved', 'general.saved'), Lang.t('routes.saved', 'Saved')) })
+    showToast({ message: Lang.t('routes.saved', 'Saved') })
   }
 
   async function reset() {

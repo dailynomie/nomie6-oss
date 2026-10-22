@@ -117,13 +117,7 @@
         connecting = false
       } catch (e) {
         console.error('error connecting', e.message)
-        Interact.alert(
-          Lang.t(
-            Lang.t('storage.general-error-connecting', 'general.error-connecting'),
-            Lang.t('storage.error-connecting', 'Error Connecting')
-          ),
-          e.message
-        )
+        Interact.alert(Lang.t('storage.error-connecting', 'Error Connecting'), e.message)
         connecting = false
       }
     },

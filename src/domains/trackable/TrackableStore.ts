@@ -258,7 +258,7 @@ export const deleteTrackableFromNomie = async (trackable: Trackable, prompt: boo
       await PointerStore.remove(trackable.ptr)
     }
     showToast({
-      message: Lang.t(Lang.t('trackable.general-removed', 'general.removed'), Lang.t('trackable.removed', 'Removed')),
+      message: Lang.t('trackable.removed', 'Removed'),
     })
   }
 }

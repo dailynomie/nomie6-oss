@@ -141,9 +141,7 @@
         select(location)
       }
     } catch (e) {
-      Interact.error(
-        `${Lang.t(Lang.t('map.location-unable-to-get-your-location', 'location.unable-to-get-your-location'), Lang.t('map.unable-to-get-your-location', 'Unable to get your location'))}`
-      )
+      Interact.error(Lang.t('map.unable-to-get-your-location', 'Unable to get your location'))
     }
     state.locating = false
   }

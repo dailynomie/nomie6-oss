@@ -47,7 +47,7 @@
       removeBoard(board)
 
       showToast({
-        message: Lang.t(Lang.t('board.general-deleted', 'general.deleted'), Lang.t('board.deleted', 'Deleted')),
+        message: Lang.t('board.deleted', 'Deleted'),
       })
     }
   }
