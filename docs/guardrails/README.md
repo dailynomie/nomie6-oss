@@ -2,13 +2,13 @@
 
 Guardrails are the rules that new and changed code must follow. They are written for people and for Claude. Each area has one document:
 
-| Area | Document | Status |
+| Area | Document | Checks |
 | --- | --- | --- |
-| UI design (iOS look and feel) | [ui-design.md](ui-design.md) | written |
-| Storage | storage.md | not written yet |
-| Domain | domain.md | not written yet |
-| Components | components.md | not written yet |
-| Architecture | architecture.md | not written yet |
+| UI design (iOS look and feel) | [ui-design.md](ui-design.md) | `checks/ui-checks.sh` |
+| Storage | [storage.md](storage.md) | `checks/code-checks.sh` (STO-) |
+| Domain | [domain.md](domain.md) | manual, plus `ARC-01` |
+| Components | [components.md](components.md) | `checks/code-checks.sh` (CMP-) |
+| Architecture | [architecture.md](architecture.md) | `checks/code-checks.sh` (ARC-) |
 
 Checks that enforce rules live in [checks/](checks/). Decisions that change a rule are recorded in the rule's document, with a short reason.
 
@@ -29,11 +29,15 @@ Checks that enforce rules live in [checks/](checks/). Decisions that change a ru
 ## Running the checks
 
 ```bash
-bash docs/guardrails/checks/ui-checks.sh          # files changed on this branch and in the working tree
-bash docs/guardrails/checks/ui-checks.sh --all    # every source file, including legacy code
+bash docs/guardrails/checks/ui-checks.sh          # UI rules, changed files only
+bash docs/guardrails/checks/ui-checks.sh --all    # UI rules, every source file
+bash docs/guardrails/checks/code-checks.sh        # storage, component and architecture rules, changed files only
+bash docs/guardrails/checks/code-checks.sh --all  # the same rules on every source file
 ```
 
-The default run is the one to use before a commit. It exits with code 1 when a MUST rule fails in the checked files. The `--all` run lists the legacy items, which is useful for planning a clean-up. It does not fail the build.
+The default run is the one to use before a commit. Each script exits with code 1 when a MUST rule fails in the checked files. The `--all` run lists the legacy items, which is useful for planning a clean-up. It does not fail the build.
+
+Some rules cannot be checked by a pattern (for example "the domain logic has a spec" or "the entry carries the crown"). Those are marked as manual in their document and checked by review.
 
 The checks look at patterns in the text of the files. They cannot tell whether a colour is a deliberate exception or whether a click handler is on a real control. Use a reviewer's eye on the hits.
 

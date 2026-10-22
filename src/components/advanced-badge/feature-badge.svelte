@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import AdvancedBadge from './advanced-badge.svelte'
+  // guardrail-ok: CMP-02 the crown rule (CROWN-02) is one pure function over the Starter lists in experience.ts
   import { isFullOnlyItem, type FeatureId } from '../../domains/preferences/experience'
 
   // The crown follows the Starter lists in experience.ts: an item is a Full-mode item when its feature is in
