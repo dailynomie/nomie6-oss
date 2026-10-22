@@ -309,7 +309,8 @@
       <Spinner size={26} />
       <span
         >{Lang.t('related.comparing', {
-          num: Math.abs(results?.length || 0 - Object.keys(usages || {}).length),
+          // compared so far, starting at 0 (D17: the count was briefly the total when nothing was compared)
+          num: results?.length || 0,
           total: Object.keys(usages || {}).length,
         })}</span
       >
