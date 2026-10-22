@@ -169,10 +169,14 @@
     @apply border-none;
   }
 
-  /* iOS look: the 1 px gap between cells is the divider, so the grid's background is the separator token */
+  /* iOS look: the 1 px gap between cells is the divider, so the grid's background is the separator token.
+     The 1 px padding shows the same token as an outline on all four sides, with the outer corner just outside the cells' 20 px corners. */
   .pop-buttons.list-grid {
     @apply grid grid-cols-2 gap-px;
     background: var(--ios-separator);
+    padding: 1px;
+    border-radius: 21px;
+    overflow: hidden;
   }
   .pop-buttons.list-grid .nbtn {
     @apply flex flex-row-reverse;
