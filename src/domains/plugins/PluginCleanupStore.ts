@@ -3,9 +3,10 @@ import dayjs from 'dayjs'
 import { Prefs } from '../preferences/Preferences'
 import { cleanupPluginDuplicates, scanForPluginDuplicates, type DedupResult } from './plugin-dedup'
 import { showToast } from '../../components/toast/ToastStore'
+import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 
-const CLEANUP_STORAGE_KEY = 'last-plugin-cleanup-date'
-const CLEANUP_LOG_KEY = 'last-plugin-cleanup-log'
+const CLEANUP_STORAGE_KEY = DEVICE_KEYS.lastPluginCleanupDate
+const CLEANUP_LOG_KEY = DEVICE_KEYS.lastPluginCleanupLog
 
 export type CleanupLogEntry = {
   date: string
@@ -15,11 +16,11 @@ export type CleanupLogEntry = {
   totalPlugins: number
 }
 
-export const PluginCleanupStore = writable<undefined | string>(localStorage.getItem(CLEANUP_STORAGE_KEY))
+export const PluginCleanupStore = writable<undefined | string>(getDeviceSetting(CLEANUP_STORAGE_KEY))
 
 PluginCleanupStore.subscribe((s) => {
   if (s) {
-    localStorage.setItem(CLEANUP_STORAGE_KEY, s)
+    setDeviceSetting(CLEANUP_STORAGE_KEY, s)
   }
 })
 
@@ -44,7 +45,7 @@ export const cleanupConfirmed = async () => {
  * Get the last cleanup log entry
  */
 export const getLastCleanupLog = (): CleanupLogEntry | null => {
-  const log = localStorage.getItem(CLEANUP_LOG_KEY)
+  const log = getDeviceSetting(CLEANUP_LOG_KEY)
   return log ? JSON.parse(log) : null
 }
 
@@ -59,7 +60,7 @@ export const saveCleanupLog = (result: DedupResult, type: 'manual' | 'scheduled'
     rogueFoldersFound: result.totalRogueFolders,
     totalPlugins: result.totalPluginsInMainList,
   }
-  localStorage.setItem(CLEANUP_LOG_KEY, JSON.stringify(logEntry))
+  setDeviceSetting(CLEANUP_LOG_KEY, JSON.stringify(logEntry))
   console.info(`[PluginCleanup] Saved ${type} cleanup log:`, logEntry)
 }
 
@@ -86,7 +87,7 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
     console.info(`[PluginCleanup] Auto-cleanup interval: ${prefs.pluginCleanupDays} days`)
 
     // Get days since last cleanup
-    const lastCleanup = localStorage.getItem(CLEANUP_STORAGE_KEY)
+    const lastCleanup = getDeviceSetting(CLEANUP_STORAGE_KEY)
     if (!lastCleanup) {
       // First cleanup, run it
       console.info('[PluginCleanup] No previous cleanup found - running initial cleanup')

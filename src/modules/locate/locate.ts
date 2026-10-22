@@ -1,8 +1,9 @@
 import Logger from '../../utils/log/log'
+import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 
 // consts
 const console = new Logger('🗺 locate.js')
-const LOC_CACHE_KEY = 'loc-cache'
+const LOC_CACHE_KEY = DEVICE_KEYS.locationCache
 
 type LocationLookupResponse = {
   time: number
@@ -23,7 +24,7 @@ export default (): Promise<LocationLookupResponse> => {
               longitude: pos.coords.longitude,
               lng: pos.coords.longitude,
             }
-            localStorage.setItem(LOC_CACHE_KEY, JSON.stringify(payload))
+            setDeviceSetting(LOC_CACHE_KEY, JSON.stringify(payload))
             resolve(payload)
           },
           (e) => {
@@ -41,7 +42,7 @@ export default (): Promise<LocationLookupResponse> => {
   }
 
   return new Promise((resolve, reject) => {
-    let cachedRaw = JSON.parse(localStorage.getItem(LOC_CACHE_KEY) || 'null')
+    let cachedRaw = JSON.parse(getDeviceSetting(LOC_CACHE_KEY) || 'null')
 
     try {
       if (cachedRaw) {

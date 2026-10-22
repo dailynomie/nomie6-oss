@@ -23,6 +23,7 @@ import { openWidgetEditor } from './widget/widget-editor/useWidgetEditorModal'
 import { wait } from '../../utils/tick/tick'
 import { writable } from 'svelte/store'
 import { dedupArray } from '../../utils/array/array_utils'
+import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 
 type InitialState = {
   dashboards: Array<DashboardClass>
@@ -33,10 +34,10 @@ type InitialState = {
 }
 
 const getLastSelectedIndex = () => {
-  return parseInt(localStorage.getItem('last-dash-index') || '0')
+  return parseInt(getDeviceSetting(DEVICE_KEYS.lastDashIndex) || '0')
 }
 const setLastSelectedIndex = (index) => {
-  localStorage.setItem('last-dash-index', index)
+  setDeviceSetting(DEVICE_KEYS.lastDashIndex, index)
 }
 
 const dashboardInitialState: InitialState = {

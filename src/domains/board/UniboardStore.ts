@@ -23,6 +23,7 @@ import AllBoardIcon from '../../n-icons/board-tab-icons/AllBoardIcon.svelte'
 import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelte'
 import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
 import { isFeatureVisible } from '../preferences/experience'
+import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 // Define the Prop Typese
 export type UniboardType = {
   id: string
@@ -54,12 +55,12 @@ type UniboardStoreProps = {
  * Keep Last Board in LocalStorage as to avoid
  * conflict with multiple device users.
  */
-const LAST_BOARD_KEY = 'last-known-board'
+const LAST_BOARD_KEY = DEVICE_KEYS.lastBoard
 export const getLastBoardId = (): string => {
-  return localStorage.getItem(LAST_BOARD_KEY) || 'main'
+  return getDeviceSetting(LAST_BOARD_KEY) || 'main'
 }
 export const saveLastBoardId = (id: string) => {
-  localStorage.setItem(LAST_BOARD_KEY, id)
+  setDeviceSetting(LAST_BOARD_KEY, id)
 }
 
 export const deleteUniboard = async (board: UniboardType) => {
