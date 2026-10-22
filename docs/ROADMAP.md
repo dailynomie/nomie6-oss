@@ -192,7 +192,7 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 | W8 | Track tiles: the subtitle is no longer clipped by the menu button. **Checked 22 October: done** (28 px of padding on the text). | Track tiles | S |
 | W9 | Dashboard empty state: "Add a Widget" appears once. **Checked 22 October: done.** | dashboard | S |
 | W10 | Widget picker: a fade at the right edge shows that the row of types scrolls, and the no-tracker line is shown when there are no trackers. **Done 22 October.** | widget editor | S |
-| W11 | Settings for a new user: move "Update Usage and Streak Data", "Clean Plugin Database" and "Auto Cleanup" under an Advanced heading. Hide "Toggle People Board" text when the board is hidden. Fewer rows in Starter. | settings | M |
+| W11 | Settings for a new user. **Partly done 22 October:** "Update Last-Used Dates", "Clean Plugin Database" and "Auto Cleanup" are under an Advanced heading; the People board toggle is already hidden for starters. Still open: fewer rows in Starter. | settings | M |
 | W12 | Typo in the backup dialog. **Checked 22 October: done.** The text reads "how much data". | backup | S |
 | W13 | Experiment wizard, step 2: a suggested tracker the user does not have is shown as chosen (the fix "Tracker not added yet" is in place, check the flow end to end). Replace the two overlapping actions with one clear choice. | experiments | S |
 | W14 | Capture: the "No Match Found!" bubble is gone; a new tag is offered when the note is saved. **Done 22 October.** | capture | S |
