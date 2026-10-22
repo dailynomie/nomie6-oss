@@ -8,7 +8,7 @@
   import { onMount, createEventDispatcher } from 'svelte'
 
   import tick from '../../utils/tick/tick'
-  import { Prefs } from '../../domains/preferences/Preferences'
+  import { Prefs, getDateFormats } from '../../domains/preferences/Preferences'
 
   import TimeSelect from '../time-select/time-select.svelte'
   import Calendar from '../calendar/calendar.svelte'
@@ -79,7 +79,7 @@
             toggleOpen()
           }}
         >
-          {$Prefs.use24hour ? _date.format('ddd D MMM YYYY') : _date.format('ddd MMM D YYYY')}
+          {_date.format(`ddd ${getDateFormats().shortDate}`)}
         </button>
       </div>
 

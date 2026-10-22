@@ -3,6 +3,7 @@
 <script lang="ts">
   import { LedgerStore } from '../ledger/LedgerStore'
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
   import Button from '../../components/button/button.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
@@ -124,7 +125,7 @@
 
       <div class="title">
         <h2 class="text-center text-ios-label font-bold leading-none text-sm line-clamp-1">
-          {dayjs($OnThisDayModalStore).format('ddd MMM D, YYYY')}
+          {dayjs($OnThisDayModalStore).format(`ddd ${getDateFormats().shortDate}`)}
         </h2>
         <div class="text-xs text-ios-label2 font-medium leading-none mt-1">
           {dayjs($OnThisDayModalStore).fromNow()}

@@ -19,6 +19,7 @@
   import type { CleanupLogEntry } from './PluginCleanupStore'
   import { getLastCleanupLog, saveCleanupLog } from './PluginCleanupStore'
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
   import { Lang } from '../../store/lang'
 
   const id = 'plugin-dedup-modal'
@@ -132,7 +133,7 @@
         <div class="last-cleanup-box p-3 rounded-lg bg-ios-card">
           <Text bold size="sm" className="text-ios-label mb-1">{Lang.t('plugins.last-cleanup', 'Last Cleanup')}</Text>
           <Text size="xs" className="text-ios-label">
-            {dayjs(lastCleanupLog.date).format('MMM D, YYYY [at] h:mm A')} ({lastCleanupLog.type})
+            {dayjs(lastCleanupLog.date).format(`${getDateFormats().mmm_d_yyyy} ${getDateFormats().time}`)} ({lastCleanupLog.type})
           </Text>
           <Text size="xs" className="text-ios-label2 mt-1">
             {Lang.t('plugins.cleanup-found', {

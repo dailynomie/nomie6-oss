@@ -5,6 +5,7 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import ListItemLog from '../../components/list-item-log/list-item-log.svelte'
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
   import ChevronForwardOutline from '../../n-icons/ChevronForwardOutline.svelte'
   import { createEventDispatcher, onMount } from 'svelte'
 
@@ -26,7 +27,7 @@
         {#each $LedgerStore.memories as log}
           <div class="py-3 text-center memories-log-header">
             <button
-              aria-label={Lang.t('ledger.view-logs-from', { date: dayjs(log.end).format('ddd MM YYYY') })}
+              aria-label={Lang.t('ledger.view-logs-from', { date: dayjs(log.end).format(`ddd ${getDateFormats().shortDate}`) })}
               class="flex items-center justify-center w-full py-2
                   font-medium text-ios-label bg-ios-tint"
               on:click={() => {

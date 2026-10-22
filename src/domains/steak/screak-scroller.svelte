@@ -157,7 +157,7 @@
     <div
       class="day {selectedIndex === index ? 'active' : ''}"
       data-index={index}
-      data-label={item.format('dddd, MMMM D')}
+      data-label={item.format(dateFormats.dateDay)}
       aria-controls="form"
     >
       <button

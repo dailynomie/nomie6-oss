@@ -295,7 +295,7 @@
         <Container className="flex items-center justify-center max-h-full h-75vh">
           <Empty
             icon={CalendarOutline}
-            title={state.date.format($Prefs.use24hour ? 'ddd Do MMM YYYY' : 'ddd MMM Do YYYY')}
+            title={state.date.format(`ddd ${dateFormats.date}`)}
             description={`${Lang.t('history.empty-day', 'No data was found on this day')}`}
             buttonLabel={Lang.t('history.add-a-note', 'Add a Note...')}
             buttonClick={composeHere}

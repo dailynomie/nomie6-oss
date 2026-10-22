@@ -4,6 +4,7 @@
   // iOS look (D-native): an app-native date field, so it looks the same in every browser.
   // The value is 'YYYY-MM-DD' (the same string a native date input uses). A tap opens the iOS sheet with a month grid.
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../../domains/preferences/Preferences'
   import { openPopMenu } from '../pop-menu/usePopmenu'
   import IosCalendarSheet from './ios-calendar-sheet.svelte'
   import { Lang } from '../../store/lang'
@@ -27,7 +28,7 @@
   const id = `date-${Math.random().toString(36).slice(2, 9)}`
 
   let label = $derived(
-    value && dayjs(value).isValid() ? dayjs(value).format('ddd D MMM YYYY') : Lang.t('ui.pick-a-date', 'Pick a date')
+    value && dayjs(value).isValid() ? dayjs(value).format(`ddd ${getDateFormats().shortDate}`) : Lang.t('ui.pick-a-date', 'Pick a date')
   )
 
   function pick(next: string) {

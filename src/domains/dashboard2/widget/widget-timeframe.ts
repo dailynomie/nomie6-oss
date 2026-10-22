@@ -2,6 +2,7 @@ import nid from '../../../modules/nid/nid'
 import { WidgetDate } from './widget-date-class'
 import type { WidgetDateConfig } from './widget-date-class'
 import { Lang } from '../../../store/lang'
+import { getDateFormats } from '../../preferences/Preferences'
 
 export type WidgetTimeFrameConfig = {
   id?: TimeFramesType
@@ -30,7 +31,7 @@ export class WidgetTimeFrame {
    */
   public getLabel(): string {
     let defaultDate = this.start.date
-      ? `${this.start.date.format('MMM DD')} to ${this.end.date.format('MMM DD YYYY')}`
+      ? `${this.start.date.format(getDateFormats().shortDate)} to ${this.end.date.format(getDateFormats().shortDate)}`
       : Lang.t('dashboard.unknown', 'Unknown')
     return this.label || defaultDate
   }

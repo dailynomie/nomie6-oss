@@ -8,7 +8,8 @@ describe('outcomeChartConfig', () => {
   it('is a stacked bar chart with one bar per day, baseline first', () => {
     const config = outcomeChartConfig(baseline, during, {})
     expect(config.type).toBe('bar')
-    expect(config.data.labels).toEqual(['1 Oct', '2 Oct', '3 Oct', '4 Oct', '5 Oct'])
+    // the day labels use the app's locale date without the year (English here: 10/01)
+    expect(config.data.labels).toEqual(['10/01', '10/02', '10/03', '10/04', '10/05'])
     expect(config.options.scales.x.stacked).toBe(true)
     expect(config.options.scales.y.stacked).toBe(true)
   })

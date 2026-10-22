@@ -178,6 +178,9 @@ export const setDocumentTheme = (theme: ThemeTypes) => {
  */
 const localeShortDate = (): string => dayjs.Ls[dayjs.locale()]?.formats?.L ?? 'MM/DD/YYYY'
 
+/** The same locale date without the year, for compact labels where the year is clear from context (W2). */
+const localeDayMonth = (): string => localeShortDate().replace(/\W*Y+\W*/, '')
+
 export const getDateFormats = (): {
   time: string
   date: string
@@ -191,6 +194,7 @@ export const getDateFormats = (): {
   monthYear: string
 } => {
   const shortDate = localeShortDate()
+  const dayMonth = localeDayMonth()
   let format: {
     time: string
     date: string
@@ -210,9 +214,9 @@ export const getDateFormats = (): {
     date: shortDate,
     dateDay: `dddd ${shortDate}`,
     shortDate,
-    tinyDate: 'MMM D',
+    tinyDate: dayMonth,
     mmm_d_yyyy: shortDate,
-    tinyNumber: 'M/D',
+    tinyNumber: dayMonth,
     monthYear: 'MMM YYYY',
   }
   if (localPrefs.use24hour) {
@@ -223,9 +227,9 @@ export const getDateFormats = (): {
       dateDay: `dddd ${shortDate}`,
       hourCompact: 'HH',
       shortDate,
-      tinyDate: 'D MMM',
+      tinyDate: dayMonth,
       mmm_d_yyyy: shortDate,
-      tinyNumber: 'D/M',
+      tinyNumber: dayMonth,
       monthYear: 'MMM YYYY',
     }
   }

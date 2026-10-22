@@ -23,7 +23,7 @@
   import { serializeExperiment } from './experiment-class'
   import { buildExperimentExplainPrompt } from './experiment-explain-prompt'
   import { query } from '../ai/engine.svelte'
-  import { Prefs } from '../preferences/Preferences'
+  import { Prefs, getDateFormats } from '../preferences/Preferences'
   import { FeatureVisible } from '../preferences/features'
   import Chartjs from '../../components/charts/chartjs.svelte'
   import { outcomeChartConfig } from './experiment-chart'
@@ -41,7 +41,7 @@
     experiment
       ? dayjs(experiment.start)
           .add(experiment.durationDays - 1, 'day')
-          .format('dddd D MMMM')
+          .format(getDateFormats().dateDay)
       : ''
   )
   let liveResult = $state<ExperimentResultSnapshot | undefined>(undefined)
@@ -195,7 +195,7 @@
     }
   }
 
-  const dayLabel = (day: string) => dayjs(day).format('ddd D MMM')
+  const dayLabel = (day: string) => dayjs(day).format(`ddd ${getDateFormats().tinyNumber}`)
 
   $effect(() => {
     if (experiment) refresh()

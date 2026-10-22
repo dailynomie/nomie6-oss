@@ -109,11 +109,11 @@
     if (activeFocal === 'day') {
       title = dayjs(activeDate).format(dateFormats.mmm_d_yyyy)
     } else if (activeFocal === 'week') {
-      title = `${dayjs(activeDate).startOf('week').format(dateFormats.tinyDate)} - ${dayjs(activeDate)
+      title = `${dayjs(activeDate).startOf('week').format(dateFormats.shortDate)} - ${dayjs(activeDate)
         .endOf('week')
-        .format(`${dateFormats.tinyDate} YYYY`)}`
+        .format(dateFormats.shortDate)}`
     } else if (activeFocal === 'month') {
-      title = `${dayjs(activeDate).format('MMM YYYY')}`
+      title = `${dayjs(activeDate).format(dateFormats.monthYear)}`
     }
   })
 

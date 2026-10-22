@@ -3,6 +3,7 @@
 <script lang="ts">
   // iOS look (D-native): a month grid inside the action sheet. A tap on a day picks it and closes the sheet.
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../../domains/preferences/Preferences'
   import { closeModal } from '../backdrop/BackdropStore2'
   import { Lang } from '../../store/lang'
 
@@ -90,7 +91,7 @@
         <button
           type="button"
           class="ios-cal-day {isSelected ? 'is-selected' : ''} {isToday ? 'is-today' : ''}"
-          aria-label={cell.date.format('dddd D MMMM YYYY')}
+          aria-label={cell.date.format(getDateFormats().dateDay)}
           aria-pressed={isSelected}
           onclick={() => pick(cell.date)}
         >

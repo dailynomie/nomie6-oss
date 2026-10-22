@@ -6,6 +6,7 @@
   import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
 
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
 
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
@@ -369,7 +370,7 @@
         </div>
         <div class="font-semibold">{title}</div>
         <div class="text-sm text-ios-label2">
-          {Lang.t('experiments.days-from', { days: durationDays, date: startDay().format('D MMM YYYY') })}
+          {Lang.t('experiments.days-from', { days: durationDays, date: startDay().format(getDateFormats().shortDate) })}
         </div>
         <div class="flex flex-wrap gap-1.5">
           {#each outcomes as o}

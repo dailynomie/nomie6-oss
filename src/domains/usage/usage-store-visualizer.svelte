@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
 
   import Divider from '../../components/divider/divider.svelte'
   import { UsageStore, UsageStreak } from './UsageStore'
@@ -18,7 +19,7 @@
         <div class="font-bold">{Lang.t('usage.last', 'Last')}</div>
         <div>
           {#if item.usage.last}
-            {dayjs(item.usage.last.d).format('YYYY-MM-DD hh:mm a')}
+            {dayjs(item.usage.last.d).format(`${getDateFormats().shortDate} ${getDateFormats().time}`)}
           {:else}
             {Lang.t('usage.no-last', 'No Last')}
           {/if}
@@ -27,7 +28,7 @@
         <div>
           {#if item.usage.streak}
             {item.usage.streak.v}
-            {dayjs(item.usage.streak.d).format('YYYY-MM-DD hh:mm a')}
+            {dayjs(item.usage.streak.d).format(`${getDateFormats().shortDate} ${getDateFormats().time}`)}
           {:else}
             {Lang.t('usage.no-last', 'No Last')}
           {/if}

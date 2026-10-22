@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { getDateFormats } from '../preferences/Preferences'
 import type { ChartConfiguration, ChartDataset } from 'chart.js'
 import type { DailyValues } from './experiment-data'
 import { Lang } from '../../store/lang'
@@ -16,7 +17,7 @@ export const outcomeChartConfig = (
   experimentDays: Array<string>,
   values: DailyValues
 ): ChartConfiguration<'bar'> => {
-  const labels = [...baselineDays, ...experimentDays].map((day) => dayjs(day).format('D MMM'))
+  const labels = [...baselineDays, ...experimentDays].map((day) => dayjs(day).format(getDateFormats().tinyDate))
   const beforeData = [...baselineDays.map((day) => values[day] ?? null), ...experimentDays.map(() => null)]
   const duringData = [...baselineDays.map(() => null), ...experimentDays.map((day) => values[day] ?? null)]
 

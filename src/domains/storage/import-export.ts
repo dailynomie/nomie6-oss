@@ -4,6 +4,7 @@ import { AppVersion } from '../../modules/app-version/app-version'
 import { Interact } from '../../store/interact'
 import Storage from './storage'
 import dayjs from 'dayjs'
+import { getDateFormats } from '../preferences/Preferences'
 import math from '../../utils/math/math'
 
 import { hideImportModal, showCSVImportModal, showImportModal } from '../import-export/ImporterStore'
@@ -276,7 +277,7 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
     Object.keys(archive.files)
       .filter(isBookPath)
       .reduce((total, path) => total + (Array.isArray(archive.files[path]) ? archive.files[path].length : 0), 0)
-  const created = archive.created ? ` from ${dayjs(archive.created).format('D MMM YYYY HH:mm')}` : ''
+  const created = archive.created ? ` from ${dayjs(archive.created).format(`${getDateFormats().shortDate} ${getDateFormats().time}`)}` : ''
 
   let confirmed = props.silent
     ? true

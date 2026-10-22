@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { CheckmarkCircle } from '../../components/icon/nicons'
@@ -46,7 +47,7 @@
           {/if}
         </div>
         <Text size="xxs" faded={!loopDate.used}>
-          {loopDate.date.format('MM/DD')}
+          {loopDate.date.format(getDateFormats().tinyNumber)}
         </Text>
       </div>
     {/each}
