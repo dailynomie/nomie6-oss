@@ -195,7 +195,7 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 | W14 | Capture: a "#walk" with no tracker shows "No Match Found!" over the tool row. Show the hint below the field, once. | capture | S |
 | W15 | Splash: the logo and the "Daily Nomie 7" title overlap while the app loads. **Parked by Ronald**; the overlap is in `public/images/nomie-splash-on-blue-ai.svg` and needs the designer. | splash | parked |
 | W16 | **CouchDB sync is not encrypted.** Add a notice on the sync setup screen: the data is readable by the server operator, use `https`, and protect the server. Link to the privacy text. Decide with D13 whether the encrypted sync (N4) moves up into 7.0 or stays in 7.2. | sync setup | S (notice); decision on N4 |
-| W17 | **AI key notice:** where the key is entered, say that the requests are sent from the browser and that the key stays on the device; a short PIN gives little protection (C1). | AI settings | S |
+| W17 | **AI key notice:** under the key field: the requests go straight from this browser to the provider, the key stays on this device, and a short PIN gives little protection. | AI settings | **Done 22 October** (English and Dutch; checked in the browser). |
 
 ---
 

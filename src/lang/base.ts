@@ -3,6 +3,7 @@ export default {
   author: 'Brandon',
   translation: {
     settings: {
+      'ai-key-notice': 'Requests go straight from this browser to the provider you chose. The key stays on this device. A short PIN gives little protection for the key.',
       'views': 'Views',
       'ai-features-disabled': 'AI Features Disabled',
       'ai-features-enabled': 'AI Features Enabled',

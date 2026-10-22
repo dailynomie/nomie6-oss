@@ -257,6 +257,12 @@
           bind:value={config.apiKey}
           className="mb-3"
         />
+        <p class="text-xs text-ios-label2 mb-3">
+          {Lang.t(
+            'settings.ai-key-notice',
+            'Requests go straight from this browser to the provider you chose. The key stays on this device. A short PIN gives little protection for the key.'
+          )}
+        </p>
         {#if config.apiKey}
           <!-- iOS look (D-destructive-row): clearing the saved key removes data, so it is the red text control -->
           <Button size="sm" clear className="text-ios-danger mr-2" on:click={clearApiKey}

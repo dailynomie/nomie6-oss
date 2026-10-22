@@ -3,6 +3,7 @@ export default {
   author: 'Daily Nomie',
   translation: {
     settings: {
+      'ai-key-notice': 'Aanvragen gaan rechtstreeks vanuit deze browser naar de aanbieder die je hebt gekozen. De sleutel blijft op dit apparaat. Een korte PIN biedt weinig bescherming voor de sleutel.',
       'views': 'Weergaven',
       'ai-features-disabled': 'AI-functies uitgeschakeld',
       'ai-features-enabled': 'AI-functies ingeschakeld',
