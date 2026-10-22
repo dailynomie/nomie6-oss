@@ -242,7 +242,7 @@
       }}
     >
       {#each $CombinedBoards.filter((t) => t) as board}
-        <section class="min-w-full w-full text-white" id={`b-${board?.id}`} style="min-height:45vh">
+        <section class="min-w-full w-full text-ios-white" id={`b-${board?.id}`} style="min-height:45vh">
           {#if $ActiveBoard && $ActiveBoard.id === board?.id}
             {#if !$UniboardStore.editMode}
               <UniboardTrackableGrid

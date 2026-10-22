@@ -108,7 +108,7 @@
           />
           <div class="py-4 px-4 text-center">
             <p class="text-ios-label2 text-sm mb-2">{Lang.t('templates.or-2', 'Or')}</p>
-            <button class="text-primary py-2 px-4" on:click={() => uploadTemplate()}>
+            <button class="text-ios-tint py-2 px-4" on:click={() => uploadTemplate()}>
               {Lang.t('templates.upload-template', 'Upload Template')}
             </button>
           </div>
@@ -119,10 +119,10 @@
 
       {#if $TemplateStore.length}
         <div class="py-2 px-4 flex justify-center gap-4">
-          <button class="text-primary py-2 px-4" on:click={() => newTemplate()}>
+          <button class="text-ios-tint py-2 px-4" on:click={() => newTemplate()}>
             {Lang.t('templates.create-template', 'Create Template')}
           </button>
-          <button class="text-primary py-2 px-4" on:click={() => uploadTemplate()}>
+          <button class="text-ios-tint py-2 px-4" on:click={() => uploadTemplate()}>
             {Lang.t('templates.upload-template', 'Upload Template')}
           </button>
         </div>

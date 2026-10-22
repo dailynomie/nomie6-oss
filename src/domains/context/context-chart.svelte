@@ -146,7 +146,7 @@
     {/if}
     {#each contextMap as contextItem}
       <div
-        class="text-white cc-item-holder"
+        class="text-ios-white cc-item-holder"
         on:click={() => {
           dispatch('click', contextItem.trackable)
         }}
@@ -317,7 +317,7 @@
     @apply items-center;
     @apply pl-1;
     content: '';
-    /* @apply bg-green-500; */
+    /* @apply bg-ios-good; */
     background-color: var(--trackable-color);
     background: linear-gradient(
       45deg,

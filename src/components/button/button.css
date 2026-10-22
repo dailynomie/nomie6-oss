@@ -294,7 +294,7 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
 .nbtn.clear.text-ios-danger {
   color: var(--ios-danger);
 }
-.nbtn.text-primary:not(.clear):not(.nbtn-icon) {
+.nbtn.nbtn-tint:not(.clear):not(.nbtn-icon) {
   background: var(--ios-tint);
   color: var(--ios-on-tint);
   border-radius: 12px;
@@ -302,7 +302,7 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
   font-size: 17px;
   font-weight: 600;
 }
-.nbtn-block:not(.clear):not(.text-primary):not(.nbtn-icon) {
+.nbtn-block:not(.clear):not(.nbtn-tint):not(.nbtn-icon) {
   background: var(--ios-fill);
   color: var(--ios-label);
   border-radius: 12px;

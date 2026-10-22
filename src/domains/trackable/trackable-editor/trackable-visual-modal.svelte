@@ -145,7 +145,7 @@
               refresh()
               // fireChange()
             }}
-            class="text-xs absolute top-2 right-3 py-1 px-3 rounded-full bg-black text-white"
+            class="text-xs absolute top-2 right-3 py-1 px-3 rounded-full bg-ios-black text-ios-white"
           >
             {Lang.t('trackable.remove-image', 'Remove Image')}
           </button>

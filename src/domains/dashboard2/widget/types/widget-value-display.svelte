@@ -35,7 +35,7 @@
   .dashboard-widget.type-value .widget-main {
     @apply items-center;
     @apply justify-center;
-    /* @apply bg-pink-500; */
+    /* @apply bg-ios-danger; */
     @apply flex;
     @apply flex-col;
   }

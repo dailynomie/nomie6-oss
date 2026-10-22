@@ -113,7 +113,7 @@
             })
           )
         }}
-        titleClass="text-center text-primary"
+        titleClass="text-center text-ios-tint"
         title={Lang.t('pointers.add-a-pointer', 'Add a Pointer')}
       />
     </List>

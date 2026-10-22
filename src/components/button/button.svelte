@@ -64,7 +64,8 @@
   {disabled}
   type="button"
   class:confirming
-  class:text-primary={primary}
+  class:text-ios-tint={primary}
+  class:nbtn-tint={primary}
   class:clear
   class={`${className} nbtn ${block ? 'nbtn-block' : ''} ${
     icon ? 'nbtn-icon' : ''

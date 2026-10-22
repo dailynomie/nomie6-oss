@@ -81,7 +81,7 @@
     {#if toast.buttonLabel}
       <div class="progress h-1 absolute bottom-1 left-1 right-1 overflow-hidden;">
         {#if percentage}
-          <ProgressBar percentage={100 - percentage} className="bg-black h-1" barClass="h-1 bg-gray-800 w-full" />
+          <ProgressBar percentage={100 - percentage} className="bg-ios-black h-1" barClass="h-1 bg-ios-label2 w-full" />
         {/if}
       </div>
     {/if}
@@ -90,7 +90,7 @@
 
 <style lang="postcss" global>
   .toast-type {
-    @apply h-7 w-7 rounded-full bg-black;
+    @apply h-7 w-7 rounded-full bg-ios-black;
     @apply absolute -top-2 -left-2;
     @apply flex items-center justify-center;
   }

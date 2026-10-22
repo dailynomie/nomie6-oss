@@ -342,7 +342,7 @@
   }
 
   .shortcut-button.has-value .highlight.one-tap {
-    @apply bg-white bg-opacity-20;
+    @apply bg-ios-white bg-opacity-20;
   }
 
   .shortcut-button.compact .highlight {

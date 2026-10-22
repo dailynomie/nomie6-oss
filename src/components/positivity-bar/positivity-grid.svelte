@@ -63,9 +63,9 @@
     @apply bg-ios-fill;
   }
   .score-grid .hour.positive {
-    @apply from-green-600 via-green-500 to-green-400 bg-gradient-to-t;
+    @apply from-ios-good via-ios-good to-ios-good bg-gradient-to-t;
   }
   .score-grid .hour.negative {
-    @apply from-red-600 via-red-500 to-red-400 bg-gradient-to-t;
+    @apply from-ios-danger via-ios-danger to-ios-danger bg-gradient-to-t;
   }
 </style>

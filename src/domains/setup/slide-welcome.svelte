@@ -38,7 +38,7 @@
       </p>
     </div>
     <!-- <p class="text-center flex items-center justify-center">
-    <button class="text-xs bg-ios-tintsoft dark:bg-ios-tintsoft text-primary rounded-sm px-2 py-px" on:click={()=>showHowItWorks()} className="text-solid bg-primary" pad>How it works</button>
+    <button class="text-xs bg-ios-tintsoft dark:bg-ios-tintsoft text-ios-tint rounded-sm px-2 py-px" on:click={()=>showHowItWorks()} className="text-solid bg-ios-tint" pad>How it works</button>
   </p> -->
     <!-- <br /><br />Learn more <a
     class=" text-ios-tint "

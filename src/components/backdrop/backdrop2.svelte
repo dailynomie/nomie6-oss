@@ -58,7 +58,7 @@
     {#if index < $BackdropStore2.length - 1}
       <div
         transition:fade|global
-        class="background-cover pointer-events-none absolute top-0 right-0 left-0 bottom-0 bg-black bg-opacity-10 backdrop-filter backdrop-blur-sm"
+        class="background-cover pointer-events-none absolute top-0 right-0 left-0 bottom-0 bg-ios-black bg-opacity-10 backdrop-filter backdrop-blur-sm"
         style="z-index:{zIndex + (index + 3)}"
       />
     {/if}
@@ -76,7 +76,7 @@
     @apply flex-col;
     @apply justify-center;
     @apply items-center;
-    @apply bg-gray-500;
+    @apply bg-ios-label2;
     @apply bg-opacity-50;
     @apply flex-shrink-0;
     @apply flex-grow-0;
@@ -153,7 +153,7 @@
   }
   .backdrop2 .backdrop-modal.in-background::before {
     /* content: '';
-    @apply bg-red-500 bg-opacity-40 backdrop-blur-sm backdrop-filter;
+    @apply bg-ios-danger bg-opacity-40 backdrop-blur-sm backdrop-filter;
     @apply absolute -top-2 -left-4 right-0 bottom-0;
     box-shadow: none;
     z-index: 20; */

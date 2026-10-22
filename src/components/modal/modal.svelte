@@ -133,7 +133,7 @@
     width: 100%;
   }
   .n-modal-frame {
-    @apply bg-gray-700 bg-opacity-50;
+    @apply bg-ios-black bg-opacity-50;
     @apply backdrop-filter backdrop-blur-md backdrop-saturate-150;
     position: fixed;
     top: 0;

@@ -32,7 +32,7 @@
             >
           {:else}
             <span
-              class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-ios-separator bg-blue-500 text-blue-500"
+              class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-ios-separator bg-ios-tint text-ios-tint"
               >✓</span
             >
           {/if}

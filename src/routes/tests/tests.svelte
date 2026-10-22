@@ -22,7 +22,7 @@
     <h1 class="ntitle">{Lang.t('routes.ui-tests-n6', 'UI Tests N6')}</h1>
   </ToolbarGrid>
   <main class="p-4">
-    <Button className="bg-primary-500" size="lg">{Lang.t('routes.ripple-test', 'Ripple Test')}</Button>
+    <Button className="bg-ios-tint" size="lg">{Lang.t('routes.ripple-test', 'Ripple Test')}</Button>
 
     <div class="h-12" />
 
@@ -47,13 +47,13 @@
         itemClass=""
       >
         <div class="item p-2 P" style="width:10vw">
-          <div class="text-center {item === centerPosItem ? 'bg-green-400' : 'bg-blue-500'} rounded-lg h-10">
+          <div class="text-center {item === centerPosItem ? 'bg-ios-good' : 'bg-ios-tint'} rounded-lg h-10">
             {item}
           </div>
         </div>
       </Scroller>
 
-      <div class="h-80 bg-green-800 max-h-80 flex flex-col">
+      <div class="h-80 bg-ios-good max-h-80 flex flex-col">
         <Scroller
           snapToItem="end"
           start="center"
@@ -65,7 +65,7 @@
           itemClass=""
         >
           <div class="item p-2">
-            <div class="text-center {item === centerPosItem ? 'bg-green-400' : 'bg-blue-500'} h-12 rounded-lg">
+            <div class="text-center {item === centerPosItem ? 'bg-ios-good' : 'bg-ios-tint'} h-12 rounded-lg">
               {item}}
             </div>
           </div>

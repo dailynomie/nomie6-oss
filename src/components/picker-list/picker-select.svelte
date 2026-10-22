@@ -99,7 +99,7 @@
         <div slot="right" class="stiff flex items-center">
           <ToggleSwitch title={pick} value={active.indexOf(pick) > -1} />
           <!-- {#if active.indexOf(pick) > -1}
-            <IonIcon icon={CheckmarkCircle} className="text-white" size={28} />
+            <IonIcon icon={CheckmarkCircle} className="text-ios-white" size={28} />
           {:else}
             <IonIcon
               icon={CircleOutline}

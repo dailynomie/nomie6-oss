@@ -129,7 +129,7 @@
   margin-top: 10px;
   padding-top: 1px;
   padding-bottom: 10px;
-  @apply bg-green-500;
+  @apply bg-ios-good;
 } */
 .capture-wrapper .mask-textarea .action-button {
   margin-bottom: 7px;

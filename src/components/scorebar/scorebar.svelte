@@ -44,7 +44,7 @@
       style="width:{score.score}%; {score.color ? `background-color:${score.color}` : ''}"
     >
       <div class="sb-label whitespace-nowrap">
-        <span class="sb-score bg-white bg-opacity-20 px-1 leading-3 rounded-md">{scores[index].score}</span>
+        <span class="sb-score bg-ios-white bg-opacity-20 px-1 leading-3 rounded-md">{scores[index].score}</span>
         {score.label}
       </div>
     </div>

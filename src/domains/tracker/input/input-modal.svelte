@@ -303,7 +303,7 @@
     align-items: stretch;
     flex-grow: 1;
     height: 100%;
-    @apply border-2 border-pink-500; */
+    @apply border-2 border-ios-danger; */
   }
   .tracker-input .btn.w-25 {
     width: 30% !important;

@@ -38,7 +38,7 @@
     @apply flex;
     @apply flex-col;
     @apply justify-center;
-    @apply bg-black bg-opacity-25 backdrop-filter backdrop-blur-sm;
+    @apply bg-ios-black bg-opacity-25 backdrop-filter backdrop-blur-sm;
   }
 
   .svelte-emoji-picker__variants {

@@ -145,7 +145,7 @@
 
   {#if editing}
     <div
-      class="p-4 lg:rounded-2xl absolute z-10 top-0 right-0 left-0 bottom-0 bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm"
+      class="p-4 lg:rounded-2xl absolute z-10 top-0 right-0 left-0 bottom-0 bg-ios-black bg-opacity-30 backdrop-filter backdrop-blur-sm"
     >
       <List solo>
         <ListItem>

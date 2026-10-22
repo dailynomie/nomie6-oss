@@ -202,7 +202,7 @@
               : Lang.t('routes.trackables', 'Trackables')}
             on:click={methods.selectTrackers}
           >
-            <div class="text-primary" slot="right">
+            <div class="text-ios-tint" slot="right">
               {Lang.t('general.add', 'Add')}
             </div>
           </NItem>

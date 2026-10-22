@@ -29,7 +29,7 @@
     on:click={methods.onChange}
   >
     <span class="sr-only">{title || 'Toggle'}</span>
-    <span class="ball w-5 h-5 block bg-white rounded-full" />
+    <span class="ball w-5 h-5 block bg-ios-white rounded-full" />
   </button>
 </div>
 

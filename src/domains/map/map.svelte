@@ -254,7 +254,7 @@
       on:click={() => {
         lock = false
       }}
-      class="map-lock-cover absolute top-0 left-0 right-0 bottom-0 w-full flex bg-opacity-10 p-5 justify-end items-start bg-black z-10"
+      class="map-lock-cover absolute top-0 left-0 right-0 bottom-0 w-full flex bg-opacity-10 p-5 justify-end items-start bg-ios-black z-10"
     >
       <IonIcon icon={LockClosedSolid} />
     </button>

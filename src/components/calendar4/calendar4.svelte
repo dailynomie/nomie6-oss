@@ -215,9 +215,9 @@
           <ProgressBar
             className=" h-1 absolute bottom-1 left-1 right-1"
             barClass="h-1 {dayItem.positivity === 'positive'
-              ? 'bg-green-500'
+              ? 'bg-ios-good'
               : dayItem.positivity == 'negative'
-                ? 'bg-red-500'
+                ? 'bg-ios-danger'
                 : 'bg-ios-tint'}"
             percentage={dayItem.percentage}
           />
@@ -273,10 +273,10 @@
     @apply text-ios-label;
   }
   .calendar-4 .calendar-days .day:focus {
-    @apply ring-2 ring-primary-300 ring-inset;
+    @apply ring-2 ring-ios-tint ring-inset;
   }
   .calendar-4 .calendar-days .day.today span {
-    @apply text-green-500 font-bold;
+    @apply text-ios-good font-bold;
     @apply bg-ios-tint text-ios-ontint;
     @apply rounded-full;
     @apply h-6 w-6;
@@ -295,9 +295,9 @@
   }
 
   .calendar-4 .calendar-days .day.has-value.is-positive::after {
-    @apply bg-green-500;
+    @apply bg-ios-good;
   }
   .calendar-4 .calendar-days .day.has-value.is-negative::after {
-    @apply bg-red-500;
+    @apply bg-ios-danger;
   }
 </style>

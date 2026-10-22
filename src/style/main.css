@@ -9,7 +9,7 @@
   --ios-fill: #E5E5EA; --ios-separator: #D8D8DC;
   --ios-tint: #0A6CC9; --ios-on-tint: #FFFFFF; --ios-tint-soft: #E3EFFB;
   --ios-good: #1E7A34; --ios-good-soft: #DDF3E2;
-  --ios-save: #1E7A34; --ios-on-save: #FFFFFF; --ios-danger: #D70015; --ios-on-danger: #FFFFFF; --ios-star: #F5C542;
+  --ios-save: #1E7A34; --ios-on-save: #FFFFFF; --ios-danger: #D70015; --ios-on-danger: #FFFFFF; --ios-white: #FFFFFF; --ios-black: #000000; --ios-star: #F5C542;
   --ios-switch-on: #34C759; --ios-switch-off: #E3E3E8;
   --ios-bar: rgba(249,249,249,0.92); --ios-bar-border: rgba(0,0,0,0.2);
   --ios-scrim: rgba(0,0,0,0.38);
@@ -25,7 +25,7 @@ html.dark {
   --ios-fill: #2C2C2E; --ios-separator: #48484A;
   --ios-tint: #4DB3FF; --ios-on-tint: #000000; --ios-tint-soft: #0B2236;
   --ios-good: #30D158; --ios-good-soft: #123620;
-  --ios-save: #30D158; --ios-on-save: #000000; --ios-danger: #FF6961; --ios-on-danger: #000000; --ios-star: #F5C542;
+  --ios-save: #30D158; --ios-on-save: #000000; --ios-danger: #FF6961; --ios-on-danger: #000000; --ios-white: #FFFFFF; --ios-black: #000000; --ios-star: #F5C542;
   --ios-switch-off: #39393D;
   --ios-bar: rgba(22,22,24,0.92); --ios-bar-border: rgba(255,255,255,0.16);
   --ios-scrim: rgba(0,0,0,0.55);
@@ -142,10 +142,6 @@ html {
 /* iOS look: the danger text is the danger token (light and dark) */
 .text-danger {
   color: var(--ios-danger);
-}
-/* iOS look: the accent text is the tint token (light and dark), as in the rest of the design */
-.text-primary {
-  color: var(--ios-tint);
 }
 
 .bg-solid {

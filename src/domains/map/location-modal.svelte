@@ -291,7 +291,7 @@
               >
                 <div slot="left">
                   {#if locationType.saved}
-                    <IonIcon icon={StarSolid} className="text-yellow-500" />
+                    <IonIcon icon={StarSolid} className="text-ios-star" />
                   {/if}
                 </div>
                 {locationType.name}
@@ -344,7 +344,7 @@
           <List solo className="mb-2">
             <NItem
               clickable
-              className="clickable py-1 bg-ios-card text-primary {state.locating ? 'opacity-50' : ''}"
+              className="clickable py-1 bg-ios-card text-ios-tint {state.locating ? 'opacity-50' : ''}"
               on:click={() => {
                 currentLocation()
               }}
@@ -423,12 +423,12 @@
                       }}
                     >
                       <div slot="left">
-                        <IonIcon icon={StarFilled} className="text-yellow-500" size={22} />
+                        <IonIcon icon={StarFilled} className="text-ios-star" size={22} />
                       </div>
                       <h2 class="text-base font-bold leading-tight text-ios-label">
                         {item.name}
                         {#if state.active && item.hash == state.active.hash}
-                          <IonIcon icon={CheckmarkCircle} className="fill-primary" />
+                          <IonIcon icon={CheckmarkCircle} className="fill-ios-tint" />
                         {/if}
                       </h2>
                     </NItem>

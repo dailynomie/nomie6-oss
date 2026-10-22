@@ -129,7 +129,7 @@
               {#if editMode}
                 <span class="text-ios-tint font-bold">{Lang.t('plugins.done', 'Done')}</span>
               {:else}
-                <span class="text-primary">{Lang.t('plugins.edit', 'Edit')}</span>
+                <span class="text-ios-tint">{Lang.t('plugins.edit', 'Edit')}</span>
               {/if}
             </Button>
           {/if}
@@ -174,7 +174,7 @@
           <ListItem
             on:click={showNomieConnectPopup}
             clickable
-            titleClass="text-primary"
+            titleClass="text-ios-tint"
             title={Lang.t('plugins.upgrade', 'Upgrade')}
             description={Lang.t('plugins.plugin-limit-reached', 'Plugin limit reached.')}
           />
@@ -203,7 +203,7 @@
             on:click={() => {
               openPluginInstaller()
             }}
-            titleClass="text-center text-primary"
+            titleClass="text-center text-ios-tint"
             title={Lang.t('plugins.add-a-custom-plugin', 'Add a Custom Plugin')}
           />
         </List>
@@ -239,7 +239,7 @@
 
     <div class="pt-10 px-4 text-center text-ios-label2 text-sm">
       {Lang.t('plugins.want-to-create-a-plugin', 'Want to create a Plugin?')} <br />
-      <a class="text-primary underline" href="https://github.com/open-nomie/plugins" target="_blank" rel="nofollow"
+      <a class="text-ios-tint underline" href="https://github.com/open-nomie/plugins" target="_blank" rel="nofollow"
         >{Lang.t('plugins.read-the-plugin-docs', 'Read the Plugin Docs →')}</a
       >
     </div>

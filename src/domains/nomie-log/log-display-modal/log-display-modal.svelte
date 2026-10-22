@@ -34,7 +34,7 @@
     <div class="sticky top-0 left-0 right-0 w-full z-40 stiff">
       <Map className="shadow-md" records={[log]} height={152} />
     </div>
-    <!-- <div class="flex-shrink-0 bg-green-500 stiff" style="min-height:152px; max-height:152px;">Hi there</div> -->
+    <!-- <div class="flex-shrink-0 bg-ios-good stiff" style="min-height:152px; max-height:152px;">Hi there</div> -->
   {/if}
   <div class="p-4 relative z-50">
     <ListItemLog {log} />

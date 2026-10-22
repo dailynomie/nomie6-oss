@@ -52,7 +52,7 @@
               on:click={() => dispatch('stopTimer')}
               class="action-button action-stop"
             >
-              <IonIcon icon={StopSolid} size={32} className="text-white" />
+              <IonIcon icon={StopSolid} size={32} className="text-ios-white" />
             </button>
           {:else if !tracker.started && !value}
             <button

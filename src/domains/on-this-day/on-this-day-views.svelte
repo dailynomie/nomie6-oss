@@ -91,7 +91,7 @@
               score: fs.score,
               color: fs.focus.color,
               label: fs.focus.label,
-              className: 'text-white',
+              className: 'text-ios-white',
             }
           })}
         />

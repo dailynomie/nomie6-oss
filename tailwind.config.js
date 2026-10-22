@@ -70,6 +70,8 @@ module.exports = {
           danger: 'var(--ios-danger)',
           ondanger: 'var(--ios-on-danger)',
           star: 'var(--ios-star)',
+          white: 'var(--ios-white)',
+          black: 'var(--ios-black)',
         },
         primary: {
           DEFAULT: '#00A4E4',
