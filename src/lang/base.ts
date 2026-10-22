@@ -3,7 +3,6 @@ export default {
   author: 'Brandon',
   translation: {
     settings: {
-      'nomie-connect-placeholder': 'Remove me - settings-helper.ts',
       'using-service': 'Using {{name}}',
       'ai-key-notice': 'Requests go straight from this browser to the provider you chose. The key stays on this device. A short PIN gives little protection for the key.',
       'views': 'Views',
@@ -854,7 +853,6 @@ export default {
       'official-plugins': 'Official Plugins',
       'plugin-database-cleaned-successfully': 'Plugin database cleaned successfully',
       'plugin-iframe': 'plugin iframe',
-      'plugin-limit-reached': 'Plugin limit reached.',
       'plugin-url': 'Plugin URL',
       'plugins-allow-others-to-create-entirely-new-ways': 'Plugins allow others to create entirely new ways of tracking and monitoring your data within Nomie.',
       'plugins-are-created-by-different-developers-and-': 'Plugins are created by different developers and may store data differently. Over time, duplicate entries can accumulate in your plugin database—especially if you\'ve synced data across devices.',
@@ -863,7 +861,6 @@ export default {
       'scan-again': 'Scan Again',
       'this-plugin-cannot-be-removed': 'This plugin cannot be removed',
       'this-tool-safely-removes-these-duplicates-and-cl': 'This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their functionality are never affected—only the background storage is tidied up.',
-      'upgrade': 'Upgrade',
       'want-to-create-a-plugin': 'Want to create a Plugin?',
       'warning-this-feature-is-under-heavy-development': 'WARNING: This feature is under heavy development.',
       'what-this-does': 'What This Does',

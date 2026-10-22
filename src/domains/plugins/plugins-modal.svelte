@@ -20,7 +20,6 @@
   import TrashOutline from '../../n-icons/TrashOutline.svelte'
   import { Interact } from '../../store/interact'
   import { Lang } from '../../store/lang'
-  import { showNomieConnectPopup } from '../settings/settings-helpers'
   import type { PluginClass } from './plugin-helpers'
   import PluginInstaller from './plugin-installer.svelte'
   import { closePluginsModal, openPluginInstaller, PluginStore } from './PluginStore'
@@ -33,7 +32,6 @@
   })
 
   let editMode = $state(false)
-  let hasLocked = $state(false)
 
   const toggleEditMode = () => {
     editMode = !editMode
@@ -82,11 +80,9 @@
   <header slot="header">
     <ToolbarGrid>
       <div slot="left">
-        {#if !hasLocked}
-          <Button on:click={() => installPlugin()} icon clear primary>
-            <IonIcon icon={PlusIcon} />
-          </Button>
-        {/if}
+        <Button on:click={() => installPlugin()} icon clear primary>
+          <IonIcon icon={PlusIcon} />
+        </Button>
       </div>
       <h1 class="ntitle text-sm md:text-base">{Lang.t('general.plugins', 'Plugins')}</h1>
       <Button slot="right" on:click={closePluginsModal} clear primary>{Lang.t('general.done', 'Done')}</Button>
@@ -170,15 +166,6 @@
           </ListItem>
         {/each}
 
-        {#if hasLocked}
-          <ListItem
-            on:click={showNomieConnectPopup}
-            clickable
-            titleClass="text-ios-tint"
-            title={Lang.t('plugins.upgrade', 'Upgrade')}
-            description={Lang.t('plugins.plugin-limit-reached', 'Plugin limit reached.')}
-          />
-        {/if}
       </List>
 
       {#if $PluginStore.length === 0}

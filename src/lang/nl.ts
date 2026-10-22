@@ -3,7 +3,6 @@ export default {
   author: 'Daily Nomie',
   translation: {
     settings: {
-      'nomie-connect-placeholder': 'Remove me - settings-helper.ts',
       'using-service': 'Gebruikt {{name}}',
       'ai-key-notice': 'Aanvragen gaan rechtstreeks vanuit deze browser naar de aanbieder die je hebt gekozen. De sleutel blijft op dit apparaat. Een korte PIN biedt weinig bescherming voor de sleutel.',
       'views': 'Weergaven',
@@ -852,7 +851,6 @@ export default {
       'official-plugins': 'Officiële plugins',
       'plugin-database-cleaned-successfully': 'Plugindatabase succesvol opgeschoond',
       'plugin-iframe': 'plugin-iframe',
-      'plugin-limit-reached': 'Limiet van plugins bereikt.',
       'plugin-url': 'Plugin-URL',
       'plugins-allow-others-to-create-entirely-new-ways': 'Met plugins kunnen anderen geheel nieuwe manieren maken om je gegevens in Nomie bij te houden en te volgen.',
       'plugins-are-created-by-different-developers-and-': 'Plugins worden door verschillende ontwikkelaars gemaakt en slaan gegevens mogelijk anders op. Na verloop van tijd kunnen dubbele logs zich opstapelen in je plugindatabase, vooral als je gegevens over apparaten hebt gesynchroniseerd.',
@@ -861,7 +859,6 @@ export default {
       'scan-again': 'Opnieuw zoeken',
       'this-plugin-cannot-be-removed': 'Deze plugin kan niet worden verwijderd',
       'this-tool-safely-removes-these-duplicates-and-cl': 'Deze tool verwijdert veilig de dubbelen en ruimt verweesde pluginmappen op. Je echte plugins en hun werking worden nooit aangetast, alleen de achtergrondopslag wordt opgeruimd.',
-      'upgrade': 'Upgraden',
       'want-to-create-a-plugin': 'Wil je een plugin maken?',
       'warning-this-feature-is-under-heavy-development': 'WAARSCHUWING: Deze functie is nog volop in ontwikkeling.',
       'what-this-does': 'Wat dit doet',
