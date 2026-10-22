@@ -58,12 +58,14 @@
     menuShowMinLength: 1,
     autocompleteMode: false,
     menuItemLimit: 3,
-    noMatchTemplate: null,
+    // no "No Match Found!" bubble: a tag without a tracker is offered when the note is saved
+    noMatchTemplate: () => '',
     // menuContainer: captureWrapper,
     collection: [
       {
         trigger: '#',
-        noMatchTemplate: null,
+        // no "No Match Found!" bubble: a tag without a tracker is offered when the note is saved
+        noMatchTemplate: () => '',
         values: $AllTrackerTrackables.map((trackable) => {
           return {
             key: trackable.tag,
@@ -73,7 +75,8 @@
       },
       {
         trigger: '@',
-        noMatchTemplate: null,
+        // no "No Match Found!" bubble: a tag without a tracker is offered when the note is saved
+        noMatchTemplate: () => '',
         values: $AllPeopleTrackables.map((trackable) => {
           return {
             key: trackable.tag,
