@@ -23,7 +23,7 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 - **LANG-04 (MUST)** A new key goes into `base.ts` in the same commit that uses it, under the area that owns the screen (`settings`, `tracker`, `timeline`, and so on). The key names are lowercase words joined with hyphens.
 - **LANG-05 (MUST)** Text built from parts uses one key with placeholders (`{{name}}`), not string joins. The placeholder names are the same in every language.
 - **LANG-06 (SHOULD)** Names of things the user owns (tracker names, notes, people, places) are never translated. Brand and technical terms (Nomie, API, PIN, CSV, URL) are kept as they are, unless a language file says otherwise.
-- **LANG-07 (MUST)** A language file has every key of the base file before it is shipped. Keys that are not yet translated carry the English text. Check: run the `LANG-02` check against the language file (planned).
+- **LANG-07 (MUST)** A language file has every key of the base file before it is shipped. Keys that are not yet translated carry the English text. Check: `LANG-07` in `lang-checks.sh`. Dutch (`nl`) is enforced; the other languages are reported until they are translated.
 - **LANG-08 (MUST)** Dates and numbers are formatted with the user's settings, not with text. Check by review.
 
 ---
@@ -47,3 +47,7 @@ Zero violations is the completion condition for this area.
 | --- | --- |
 | D-lang-base | English in `base.ts` is the baseline. Other languages translate it, and a missing key falls back to English. |
 | D-lang-names | User content and brand names are not translated (LANG-06). |
+
+## Known gaps
+
+- The template scan (LANG-01) does not read text inside `{...}` expressions, and it does not read labels in script objects, such as `value: 'Weekly'` in the settings lists. Those are visible text that the check does not see. They need a scan of the script side, which is not built yet.
