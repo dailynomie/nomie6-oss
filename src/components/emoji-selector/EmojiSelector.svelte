@@ -11,12 +11,13 @@
   import emojiData from './data/emoji-light'
   import ButtonGroup from '../button-group/button-group.svelte'
   import Panel from '../panel/panel.svelte'
+  import { RecentEmojiStore, addRecentEmoji } from '../../store/recent-emojis'
 
   let variantsVisible = $state(false)
   let variants = $state(undefined)
   let currentEmoji = $state(undefined)
   let searchText = $state(undefined)
-  let recentEmojis = $state(JSON.parse(localStorage.getItem('recent-emojis')) || [])
+  let recentEmojis = $derived($RecentEmojiStore)
 
   const dispatch = createEventDispatcher()
 
@@ -76,8 +77,7 @@
   }
 
   function saveRecent(emoji) {
-    recentEmojis = [emoji, ...recentEmojis.filter((recent) => recent.e !== emoji.e)].slice(0, maxRecents)
-    localStorage.setItem('recent-emojis', JSON.stringify(recentEmojis))
+    addRecentEmoji(emoji, maxRecents)
   }
 
   function hideVariants() {
