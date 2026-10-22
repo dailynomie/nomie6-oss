@@ -9,7 +9,6 @@ import { LocationStore } from './domains/locations/LocationStore'
 import { CustomUomStore } from './domains/uom/custom-uom-store'
 import { TemplateStore } from './domains/templates/templates-svelte-helpers'
 import type { PreferencesStateType } from './domains/preferences/Preferences'
-import { SearchStore } from './domains/search/search-store'
 import Storage from './domains/storage/storage'
 import { UsageStore } from './domains/usage/UsageStore'
 import { closeModal } from './components/backdrop/BackdropStore2'
@@ -69,7 +68,6 @@ export const bootCoreComponents = async (trackables: ITrackables) => {
   GoalStore.init()
   PivotStore.init()
   ExperimentStore.init()
-  SearchStore.init()
   WritingPromptStore.init();
   initAwardStore()
   return true

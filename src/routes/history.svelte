@@ -163,7 +163,6 @@
       methods.scrollTop()
     },
     search() {
-      // SearchStore.view('history')
       openUnisearch()
     },
     trackerTapped(tracker, log) {

@@ -24,7 +24,6 @@
   import PulseOutline from '../../n-icons/PulseOutline.svelte'
   import SearchIcon from '../../n-icons/SearchIcon.svelte'
 
-  import { SearchStore } from './search-store'
 
   import { addNewPerson, showTrackablePopmenu } from '../board/boardActions'
 
@@ -382,7 +381,6 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
                   search: searchTerm,
                   notes: true
                 })
-              // SearchStore.view('history', escapeRegExp(searchTerm))
             }}
           >
             <main class="text-sm leading-tight">Search all notes for: {searchTerm}</main>

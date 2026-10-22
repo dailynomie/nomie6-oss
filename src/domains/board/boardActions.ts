@@ -347,7 +347,6 @@ export const showTrackablePopmenu = async (
           search: trackable.tag,
           notes: true
         })
-        // SearchStore.view('history', trackable.tag)
       }
     }, 
     // {
@@ -366,7 +365,6 @@ export const showTrackablePopmenu = async (
       skipClosing: true,
       click() {
         openCalendarView({ trackable: options.trackable })
-        // SearchStore.search(trackable.tag)
         // click()
       },
     },
