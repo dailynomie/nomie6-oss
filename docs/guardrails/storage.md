@@ -41,7 +41,7 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 - **STO-09 (MUST)** Every list of records has an identifier field: `_id`, `key`, `id` or `tag` (the `KEYS` in `smart-merge.ts`). Restores merge records by that field, so a record without one is merged by value and can duplicate.
 - **STO-10 (MUST)** A new file is added to a restore path. The archive picks it up automatically (`buildStorageArchive` reads every path), so the rule is: a new file must merge correctly on restore, and the merge is tested in `smart-merge.spec.ts` and `backup-roundtrip.spec.ts`, or in the store's own spec.
 - **STO-11 (MUST)** A change to the archive format bumps `STORAGE_ARCHIVE_SCHEMA` in `import-export.ts`, and the import handles the old schema.
-- **STO-12 (SHOULD)** The legacy JSON export (`modules/export/export.ts`) and its import (`import-loader.ts`) list their files by hand. A new data type is added there, or the omission is recorded in section 4 as a known gap.
+- **STO-12 (SHOULD)** The storage archive is the only backup export. The older JSON export was removed (decided by Ronald, Oct 2026). Old JSON backups can still be imported: the import loader reads the shape it defines (`IBackupItems`).
 
 ### 2.4 Engines
 
@@ -81,7 +81,7 @@ Run `bash docs/guardrails/checks/code-checks.sh --all` for the full list.
 - **STO-02:** 5 literal file names in stores: `open-streak.json` (`AwardsStore.ts`) and `chart-options.json` (`ChartOptionsStore.ts`). Move them to `NPaths`.
 - **STO-04:** 2 un-awaited writes in `engine.pouchdb.ts` (lines around 182 and 184). A failed write does not reach the caller's catch. **Known bug, not yet fixed:** fixing it changes what the user sees on a failed save, so it needs a decision.
 - **STO-06:** the call sites outside the exceptions above now go through the device settings module. Remaining raw calls are the documented exceptions only.
-- **Known gap for STO-12:** the custom units (`custom-uoms.json`) are in the storage archive, but not in the legacy JSON export.
+- **STO-12:** the legacy JSON export is removed, so the custom units gap no longer applies. Custom units are in the storage archive.
 
 ---
 
