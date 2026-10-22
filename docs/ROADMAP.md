@@ -37,7 +37,7 @@ The rules for working on a task, and the rules for backups, Starter mode and AI,
 | D7 | Collapsing large title | Open |
 | D8 | "Don't do it" goals count days without logs as successes | **Answered: yes**, by the test and the code. |
 | D9 | Naming and the Nomie trademark | Open. Needed before the announcement. |
-| D10 | Privacy policy text | **Extended, waiting for approval.** Draft in `public/content/privacy.md`. |
+| D10 | Privacy policy text | **Approved 22 October.** The text is in `public/content/privacy.md`. |
 | D11 | CSP strictness and allowed origins | Report-only is in place. Enforcing needs the reports. |
 | D12 | Plotly: lazy-load or replace | Open |
 | D13 | Hosted sync | Open |
@@ -114,7 +114,7 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | --- | --- | --- | --- |
 | C1 | **AI key in the browser: decided, keep the browser calls (D16).** Remove the unused `src/routes/api/ai/+server.ts`. Add a short notice where the key is entered: the key is used from the browser, and the request goes straight to the provider. | S | **Decided 22 October.** The file is removed and the notice is in the AI settings. |
 | C2 | Remove the Netlify configuration. **Done:** Netlify is not used, `netlify.toml` is removed. `nginx.conf` already has `try_files` for deep links and gzip. | S | **Partly done.** A container check (`docker build`, then a refresh on `/goals`, and gzip in the response headers) is still to do on a machine with Docker. |
-| C3 | Ronald approves the privacy text (D10). The draft was extended on 22 October: sync is not end-to-end encrypted, the AI calls go from the browser, the key is on the device, and the PIN is weak protection. | S | The approved text is in `public/content/privacy.md`. |
+| C3 | Ronald approves the privacy text (D10). | S | **Done 22 October.** The approved text is in `public/content/privacy.md`. |
 | C4 | **Decided: no pinch zoom (D6).** `maximum-scale=1` stays; the rule is UI-09 and the check enforces it. | S | **Done.** Close. |
 | C5 | `npm audit`: the non-breaking fixes are applied (`fc4f99a7`). 73 findings remain. Shipped: `plotly.js` and `maplibre-gl` (critical), and the `uuid` chain under PouchDB 6. The rest are development tools. | S–M | **Partly done.** Plotly is tied to P4; PouchDB to the sync work (see W16). Development tools: upgrade in a separate pass. |
 | C6 | Branch protection on `dev` and `master`: the "test" check must pass. | S | Set on GitHub, and tested with a failing branch. |
@@ -247,7 +247,7 @@ Ask when a task reaches the decision. Record the answer in the commit message or
 | D6 | Pinch zoom | **Answered: no pinch zoom** (UI-09). |
 | D7 | Collapsing large title | M2 |
 | D9 | Naming and the Nomie trademark | M3 |
-| D10 | Privacy policy text | **Extended, waiting for approval** (C3). |
+| D10 | Privacy policy text | **Approved 22 October** (C3). |
 | D11 | CSP strictness and allowed origins | C2 and the enforcing CSP |
 | D12 | Plotly: lazy or Chart.js | P4, and C5 (critical findings in plotly.js) |
 | D13 | Hosted sync or self-hosted only | 7.2 N4 |
