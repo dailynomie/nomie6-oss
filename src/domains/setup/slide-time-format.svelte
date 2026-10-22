@@ -7,8 +7,6 @@
   import Button from '../../components/button/button.svelte'
   import { Prefs } from '../preferences/Preferences'
   import Container from '../../components/container/container.svelte'
-  import Badge from '../../components/badge/badge.svelte'
-  import { Interact } from '../../store/interact'
 
   let initialized = $state(false)
 
@@ -28,6 +26,7 @@
   <div class="pt-3 mx-auto top center-grow min-w-full max-w-xl">
     <p class="mb-4 text-ios-label2 text-center text-sm">{Lang.t('setup.your-preferences', 'Your preferences')}</p>
 
+    <p class="mb-1 text-ios-label2 text-center text-sm">{Lang.t('setup.time', 'Time')}</p>
     <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
         className="whitespace-no-wrap {!$Prefs.use24hour
@@ -59,7 +58,8 @@
       </Button>
     </div>
 
-    <div class="big-group p-2 mt-4 bg-ios-card flex items-center shadow-lg rounded-2xl">
+    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">{Lang.t('setup.units', 'Units')}</p>
+    <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
         className={!$Prefs.useMetric ? 'bg-ios-tint text-ios-ontint font-bold' : 'bg-ios-card text-ios-label2'}
         block
@@ -86,7 +86,7 @@
       </Button>
     </div>
 
-    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">{Lang.t('setup.week-starts-on', 'Week Starts On:')}</p>
+    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">{Lang.t('setup.week-starts-on', 'Week starts on')}</p>
 
     <div class="big-group p-2 mt-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
@@ -119,16 +119,10 @@
       </Button>
     </div>
     <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">
-      {Lang.t('setup.location-tracking', 'Location Tracking')}
-      <Badge
-        on:click={() => {
-          Interact.alert(
-            `Location Tracking`,
-            'Have Nomie save your current location (lat,long) each time you record data.'
-          )
-        }}
-        value="?"
-      />
+      {Lang.t('setup.location-tracking', 'Location tracking')}
+    </p>
+    <p class="mb-1 text-ios-label2 text-center text-xs">
+      {Lang.t('setup.location-tracking-help', 'Nomie saves where you are each time you record data.')}
     </p>
 
     <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">

@@ -19,13 +19,13 @@
     return engines
       .map((engine) => {
         return {
-          // the price is part of the title, and a disabled option says why (Phase 7 wording pass)
-          title: `${engine.name} · ${engine.price}`,
+          // every engine is free, so the price is not shown; a disabled option says why
+          title: engine.name,
           id: engine.id,
           disabled: ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures,
           description:
             ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures
-              ? `${engine.description}. Not available yet`
+              ? `${engine.description}. ${Lang.t('setup.not-available-yet', 'Not available in this version yet.')}`
               : engine.description,
           checked: `${selected}` == `${engine.id}`,
           click() {
@@ -53,6 +53,11 @@
     <p class="text-description text-center text-sm pt-1 px-1">
       {Lang.t('setup.where-would-you-like-your-data-stored', 'Where would you like your data stored?')}
     </p>
+    {#if !$Prefs.storageType}
+      <p class="text-center text-xs text-ios-label2 pt-2">
+        {Lang.t('setup.choose-one-to-continue', 'Choose one to continue.')}
+      </p>
+    {/if}
     <div class="h-4" />
     <Menu size="sm" className="border border-ios-separator" {buttons} />
 
