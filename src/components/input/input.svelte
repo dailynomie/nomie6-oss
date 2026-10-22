@@ -390,6 +390,13 @@
     padding-bottom: 0px;
     /* font-size: 1.05em; */
   }
+  /* iOS look: the app's date field sits in an input box, so it gets the same height and inset as a text field */
+  .n-input-container .n-input-wrapper .n-input .ios-date-field {
+    width: 100%;
+    min-height: 47px;
+    padding: 16px 10px 0;
+    box-sizing: border-box;
+  }
   .n-input-container.solo .n-input-wrapper {
     min-height: 48px;
   }
