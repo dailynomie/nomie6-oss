@@ -115,7 +115,6 @@ done
 # UI-12 MUST: the icon squares of one list (one file) are shades of one hue, within 30 degrees
 for f in "${FILES[@]}"; do
   [[ "$f" == *.svelte ]] || continue
-  grep -q "guardrail-ok: UI-12" "$f" && continue
   if ! python3 - "$f" <<'PY'
 import colorsys, re, sys
 s = open(sys.argv[1], encoding='utf8').read()

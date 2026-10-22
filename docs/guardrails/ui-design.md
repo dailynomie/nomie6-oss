@@ -79,7 +79,7 @@ Chip tones (status pills) use these pairs. Light background / text, then dark ba
 
 Icon squares use a white glyph on a solid colour. They are for icons only: never put text on them, because green and amber are under 4.5:1 with white.
 
-- **MUST (UI-12)** A grouped list (one settings section, or one group on a page) has one colour base. Its icon squares are shades of that base, from dark to light down the list, and no square in it is another hue. A new row takes the next free shade of its list's base; never pick a colour for one row. Check: `ui-checks.sh` reads the icon square colours of each file and fails when they span more than 30 degrees of hue. Exception: a feature's own icon keeps its colour wherever it appears. The Experiments flask is purple (`#A96BC9`) in the More page too; the list that holds it is marked `guardrail-ok: UI-12`.
+- **MUST (UI-12)** A grouped list (one settings section, or one group on a page) has one colour base. Its icon squares are shades of that base, from dark to light down the list, and no square in it is another hue. A new row takes the next free shade of its list's base; never pick a colour for one row. Check: `ui-checks.sh` reads the icon square colours of each file and fails when they span more than 30 degrees of hue.
 
 ### 2.3 Tailwind classes
 
