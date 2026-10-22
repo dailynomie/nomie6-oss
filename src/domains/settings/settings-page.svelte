@@ -9,7 +9,7 @@
     ExtensionPuzzleOutline,
     LocationOutline,
     PricetagOutline,
-    PulseOutline,
+    FlaskOutline,
     CubeOutline,
   } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
@@ -269,6 +269,7 @@
                 </ListItem>
               {/if}
 
+              <!-- guardrail-ok: UI-12 the Experiments icon is a flask in its purple square everywhere, so this row keeps that colour -->
               <ListItem
                 detail
                 bottomLine={57}
@@ -279,7 +280,7 @@
                 })}
               >
                 <span slot="left"
-                  ><IconSquare color="#5DAE62"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span
+                  ><IconSquare color="#A96BC9"><IonIcon icon={FlaskOutline} size={17} /></IconSquare></span
                 >
               </ListItem>
 

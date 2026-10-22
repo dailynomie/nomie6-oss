@@ -17,7 +17,7 @@
     CalendarOutline,
     CalendarSolid,
     MapOutline,
-    PulseOutline,
+    FlaskOutline,
     TagOutline,
     EaselOutline,
     EaselSolid,
@@ -54,7 +54,7 @@
     {
       id: 'experiments',
       label: Lang.t('layout.experiments', 'Experiments'),
-      icon: PulseOutline,
+      icon: FlaskOutline,
       link: '/experiments',
       notify: runningExperiments > 0 ? `${runningExperiments}` : undefined,
     },

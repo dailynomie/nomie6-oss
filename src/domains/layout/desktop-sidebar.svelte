@@ -4,7 +4,7 @@
   import EaselOutline from '../../n-icons/EaselOutline.svelte'
 
   import RibbonOutline from '../../n-icons/RibbonOutline.svelte'
-  import PulseOutline from '../../n-icons/PulseOutline.svelte'
+  import FlaskOutline from '../../n-icons/FlaskOutline.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
@@ -126,8 +126,8 @@
       id: 'experiments',
       path: '/experiments',
       title: Lang.t('tabs.experiments', 'Experiments'),
-      icon: PulseOutline,
-      activeIcon: PulseOutline,
+      icon: FlaskOutline,
+      activeIcon: FlaskOutline,
     },
     {
       id: 'analytics',

@@ -6,6 +6,7 @@ import {
   MapOutline,
   PieChartOutline,
   PulseOutline,
+  FlaskOutline,
   SparklesOutline,
   TextOutline,
   ThermometerIcon,
@@ -181,7 +182,7 @@ export const widgetTypes: Array<IWidgetType> = [
     id: 'experiment',
     requires: [],
     optional: [],
-    icon: PulseOutline,
+    icon: FlaskOutline,
     emoji: '🧪',
   },
 ]

@@ -9,7 +9,7 @@
   import Empty from '../../components/empty/empty.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { Lang } from '../../store/lang'
-  import { AddIcon, PulseOutline } from '../../components/icon/nicons'
+  import { AddIcon, FlaskOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from './ExperimentStore'
   import { experimentWidgetView } from './experiment-widget-lines'
   import ExperimentProgress from './experiment-progress.svelte'
@@ -79,7 +79,7 @@
   <main class="py-4 relative z-10 px-2 lg:px-4">
     {#if $ExperimentStore.length === 0}
       <List transparent className="max-w-md mx-auto">
-        <Empty icon={PulseOutline} title={Lang.t('experiments.no-experiments-yet', 'No experiments yet')}>
+        <Empty icon={FlaskOutline} title={Lang.t('experiments.no-experiments-yet', 'No experiments yet')}>
           <div class="text-center px-6 text-ios-label2">
             {Lang.t(
               'experiments.test-whether-one-change-such-as-no-coffee-after-',
@@ -155,11 +155,11 @@
       {/if}
       {#if view === 'running' && !running.length}
         <!-- iOS look: the same empty state as the page, with its icon -->
-        <Empty icon={PulseOutline} title={Lang.t('experiments.no-running-experiments', 'No running experiments')} />
+        <Empty icon={FlaskOutline} title={Lang.t('experiments.no-running-experiments', 'No running experiments')} />
       {/if}
       {#if view === 'finished' && !finished.length}
         <Empty
-          icon={PulseOutline}
+          icon={FlaskOutline}
           title={Lang.t('experiments.no-finished-experiments-yet', 'No finished experiments yet')}
         />
       {/if}
