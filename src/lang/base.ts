@@ -1592,6 +1592,13 @@ export default {
       'you-already-have-them-all': 'You already have them all!',
     },
     capture: {
+      'suggest-tags': 'Suggest tags',
+      'suggest-title': 'Suggested note',
+      'suggest-intro': 'Check the suggestion. Nothing is saved until you choose Save.',
+      'keep-my-words': 'Keep my words',
+      'save-suggestion': 'Save this note',
+      'recognised': 'Found: {{items}}',
+      'nothing-recognised': 'No trackers or people were recognised.',
       'today-time': 'Today {{time}}',
       'ai-insights': 'AI Insights',
       'change-date-and-time': 'Change date and time',

@@ -1590,6 +1590,13 @@ export default {
       'you-already-have-them-all': 'Je hebt ze al allemaal!',
     },
     capture: {
+      'suggest-tags': 'Labels voorstellen',
+      'suggest-title': 'Voorgestelde notitie',
+      'suggest-intro': 'Controleer het voorstel. Er wordt niets opgeslagen tot je Opslaan kiest.',
+      'keep-my-words': 'Behoud mijn tekst',
+      'save-suggestion': 'Sla deze notitie op',
+      'recognised': 'Herkend: {{items}}',
+      'nothing-recognised': 'Er zijn geen trackers of personen herkend.',
       'today-time': 'Vandaag {{time}}',
       'ai-insights': 'AI-inzichten',
       'change-date-and-time': 'Datum en tijd wijzigen',

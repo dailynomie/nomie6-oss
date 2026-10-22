@@ -69,6 +69,8 @@
   import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
   import { navigate } from '../../vendor/svelte-navigator'
   import { openModal } from '../../components/backdrop/BackdropStore2'
+  import { suggestNote, type Known } from './quick-suggest'
+  import QuickSuggestModal from './quick-suggest-modal.svelte'
 
   // Consts
 
@@ -324,6 +326,27 @@
 
   //   }, 10)
   // })
+  // I2: a suggestion from the words typed; the user checks it in a sheet, and only then is it saved
+  const suggestTags = () => {
+    const known: Known = { trackers: [], people: [] }
+    Object.values($TrackableStore.trackables).forEach((t: any) => {
+      const name = { tag: `${t.tag}`.replace(/^[#@]/, ''), label: `${t.label}` }
+      if (t.type === 'tracker') known.trackers.push(name)
+      if (t.type === 'person') known.people.push(name)
+    })
+    openModal({
+      id: 'quick-suggest',
+      component: QuickSuggestModal,
+      componentProps: {
+        suggestion: suggestNote($ActiveLogStore.note || '', known),
+        onConfirm: async (note: string) => {
+          ActiveLogStore.update((s) => ({ ...s, note }))
+          await methods.logSave()
+        },
+      },
+    })
+  }
+
   const confirmClear = async () => {
     if ($ActiveLogStore.note?.length > 0) {
       const confirmed = await Interact.confirm(Lang.t('capture.discard-this-note', 'Discard this note?'))
@@ -538,6 +561,13 @@
     <!-- transition:slide|global={{ delay: 75, duration: 75, easing: quintOut }} -->
     <div class="glass relative z-40 w-full pt-2 pb-2">
       <Container>
+        {#if $ActiveLogStore.note && !$LedgerStoreSaving}
+          <div class="text-center pb-2">
+            <button type="button" class="text-sm font-medium text-ios-tint" on:click={suggestTags}>
+              {Lang.t('capture.suggest-tags', 'Suggest tags')}
+            </button>
+          </div>
+        {/if}
         <div class=" xl:ml-auto xl:w-80 grid grid-cols-2 justify-center gap-4 items-center px-4">
           <Button className="bg-ios-fill text-ios-label" on:click={() => confirmClear()}
             >{Lang.t('general.cancel', 'Cancel')}</Button
