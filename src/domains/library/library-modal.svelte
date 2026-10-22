@@ -159,7 +159,7 @@
       <h1 class="ntitle">{Lang.t('library.tracker-library', 'Tracker Library')}</h1>
     </ToolbarGrid>
     <SearchBar bind:searchTerm />
-    <div class="h-1">{Lang.t('library.nbsp', '&nbsp;')}</div>
+    <div class="h-1">&nbsp;</div>
   </header>
   {#if libraryTrackers.length == 0}
     <div class="flex-grow flex-shrink justify-center items-center flex h-75vh">

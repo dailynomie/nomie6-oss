@@ -16,7 +16,7 @@
       <NBackButton slot="left" />
     </ToolbarGrid>
     <h1 class="ios-large-title">
-      <span>{Lang.t('routes.afternomie', 'AfterNomie')}</span>{Lang.t('routes.nbsp', '&nbsp;')}<span class="redText"
+      <span>{Lang.t('routes.afternomie', 'AfterNomie')}</span>&nbsp;<span class="redText"
         >{Lang.t('routes.beta', 'BETA')}</span
       >
     </h1>
