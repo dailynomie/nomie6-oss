@@ -122,7 +122,7 @@
       if (saved) {
         await addTrackablesToBoard([trackable], $ActiveBoard)
         UniboardStore.update((b) => b)
-        showToast({ message: `${trackable.tag} added` })
+        showToast({ message: Lang.t('library.name-added', { name: trackable.tag }) })
       }
     }
   }

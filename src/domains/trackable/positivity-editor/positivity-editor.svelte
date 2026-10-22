@@ -112,7 +112,7 @@
       })
       if (saved) {
         dispatch('save', tracker)
-        showToast({ message: `${tracker.label} saved` })
+        showToast({ message: Lang.t('trackable.name-saved', { name: tracker.label }) })
       }
     },
     removeCondition(index) {

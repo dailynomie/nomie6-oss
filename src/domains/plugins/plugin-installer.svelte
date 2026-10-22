@@ -106,7 +106,7 @@
       if (confirmEnabled) {
         plugin.active = true
         await PluginStore.upsert(plugin)
-        showToast({ message: `${plugin.name} enabled` })
+        showToast({ message: Lang.t('plugins.name-enabled', { name: plugin.name }) })
       }
       emit('installed')
       clearPluginDetail(true)

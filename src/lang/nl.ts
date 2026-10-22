@@ -595,6 +595,7 @@ export default {
       import: 'Importeren',
     },
     board: {
+      'name-updated': '{{name}} bijgewerkt',
       'calendar': 'Kalender',
       'context': 'Context',
       'edit': 'Bewerken',
@@ -786,6 +787,7 @@ export default {
       'chat-with': 'Chat met',
     },
     plugins: {
+      'name-enabled': '{{name}} ingeschakeld',
       'available': 'Beschikbaar',
       'plugins-2': 'Plugins',
       'rogue-folder-count': '{{num}} losse map',
@@ -1020,6 +1022,7 @@ export default {
       'which-trackables-would-you-like-to-include': 'Welke trackers wil je opnemen?',
     },
     templates: {
+      'name-installed': '{{name}} geïnstalleerd',
       'adhd': '🤔 ADHD',
       'available': 'Beschikbaar',
       'back-to-duration-selection': '← Terug naar de duurkeuze',
@@ -1160,6 +1163,10 @@ export default {
       'waiting-time': 'Wachttijd:',
     },
     trackable: {
+      'name-saved': '{{name}} opgeslagen',
+      'name-created': '{{name}} aangemaakt',
+      'name-ignored': '{{name}} genegeerd',
+      'name-back-in-list': '{{name}} staat weer in de lijst',
       'all-types': 'Alle typen',
       'color': 'Kleur',
       'contexts': 'Contexts',
@@ -1513,6 +1520,7 @@ export default {
       'you-can-add-it-later': 'Je kunt hem later toevoegen',
     },
     library: {
+      'name-added': '{{name}} toegevoegd',
       'tracker-library': 'Trackerbibliotheek',
       'add-2': 'Toevoegen',
       'add-all': 'Alles toevoegen',

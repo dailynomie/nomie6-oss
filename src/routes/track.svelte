@@ -159,7 +159,7 @@
     await saveBoard(savingBoard)
     edittedUniboard = undefined
     disableBoardEditMode()
-    showToast({ message: `${savingBoard.label} updated` })
+    showToast({ message: Lang.t('board.name-updated', { name: savingBoard.label }) })
   }
 </script>
 

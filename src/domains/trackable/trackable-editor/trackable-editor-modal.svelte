@@ -193,7 +193,7 @@
 
       saving = false
       if (saved) {
-        showToast({ message: `${workingTrackable.label} saved` })
+        showToast({ message: Lang.t('trackable.name-saved', { name: workingTrackable.label }) })
         setTimeout(async () => {
           let awards = getAwardChain()
           if (awards && !awards.getById('award-creator')) {

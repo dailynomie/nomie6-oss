@@ -55,19 +55,19 @@
     busy = true
     const saved = await createUnknownTrackable(item)
     busy = false
-    if (saved) showToast({ message: `${item.key} created` })
+    if (saved) showToast({ message: Lang.t('trackable.name-created', { name: item.key }) })
     await load()
   }
 
   // Ignore: the user confirmed this tag is not a tracker. Nothing in the notes changes.
   const ignore = (item: UnknownItem) => {
     setUnknownTagIgnored(item.key, true)
-    showToast({ message: `${item.key} ignored` })
+    showToast({ message: Lang.t('trackable.name-ignored', { name: item.key }) })
   }
 
   const restore = (item: UnknownItem) => {
     setUnknownTagIgnored(item.key, false)
-    showToast({ message: `${item.key} is back in the list` })
+    showToast({ message: Lang.t('trackable.name-back-in-list', { name: item.key }) })
   }
 
   const remove = async (item: UnknownItem) => {

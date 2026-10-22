@@ -597,6 +597,7 @@ export default {
       import: 'Import',
     },
     board: {
+      'name-updated': '{{name}} updated',
       'calendar': 'Calendar',
       'context': 'Context',
       'edit': 'Edit',
@@ -788,6 +789,7 @@ export default {
       'chat-with': 'Chat with',
     },
     plugins: {
+      'name-enabled': '{{name}} enabled',
       'available': 'Available',
       'plugins-2': 'Plugins',
       'rogue-folder-count': '{{num}} rogue folder',
@@ -1022,6 +1024,7 @@ export default {
       'which-trackables-would-you-like-to-include': 'Which trackables would you like to include?',
     },
     templates: {
+      'name-installed': '{{name}} installed',
       'adhd': '🤔 ADHD',
       'available': 'Available',
       'back-to-duration-selection': '← Back to Duration Selection',
@@ -1162,6 +1165,10 @@ export default {
       'waiting-time': 'Waiting Time:',
     },
     trackable: {
+      'name-saved': '{{name}} saved',
+      'name-created': '{{name}} created',
+      'name-ignored': '{{name}} ignored',
+      'name-back-in-list': '{{name}} is back in the list',
       'all-types': 'All Types',
       'color': 'Color',
       'contexts': 'Contexts',
@@ -1515,6 +1522,7 @@ export default {
       'you-can-add-it-later': 'You can add it later',
     },
     library: {
+      'name-added': '{{name}} added',
       'tracker-library': 'Tracker Library',
       'add-2': 'Add',
       'add-all': 'Add All',

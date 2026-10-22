@@ -163,7 +163,7 @@ export const useTemplate = async (template: Template, closeModalId: string = 'te
       )
       return
     }
-    showToast({ message: `${template.name} installed` })
+    showToast({ message: Lang.t('templates.name-installed', { name: template.name }) })
     closeModal(closeModalId)
 
     // Reinitialize all stores to load newly imported data
