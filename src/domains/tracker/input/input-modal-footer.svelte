@@ -145,7 +145,7 @@
   }
   .tracker-input-footer .action-button.action-stop {
     background: var(--ios-danger);
-    color: #ffffff;
+    color: var(--ios-white);
   }
   .tracker-input-footer .action-button {
     border-radius: 999px;

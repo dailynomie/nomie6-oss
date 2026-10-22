@@ -19,7 +19,7 @@
     justify-content: center;
     flex-shrink: 0;
     border-radius: 7px;
-    color: #ffffff;
+    color: var(--ios-white);
     line-height: 1;
   }
 </style>

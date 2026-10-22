@@ -95,6 +95,8 @@ Font size classes: `text-ios-large`, `text-ios-title1`, `text-ios-title3`, `text
 - **MUST (UI-04)** Use token classes. No Tailwind palette classes (`bg-gray-100`, `text-red-500`, `bg-white`, `text-white`, `bg-black`, `bg-primary-500`) in new or changed code. A white or black surface is a card or the page background.
 - **MUST (UI-03 and UI-04)** Text on a tint fill is `text-ios-ontint`. Text on a danger fill is `text-ios-ondanger`.
 - **SHOULD (UI-07)** Component styles use `var(--ios-*)`, not hex values. Chart series colours are the exception; they live in the chart code.
+  Documented exceptions (each line carries `guardrail-ok: UI-07` with its reason): the pointer colours, which are fixed by the pointer design and have no token; the amber state of the experiment chip, which has no token; and the iOS orange for a don't-do goal near its limit. Add an exception only with a reason, on the line itself.
+  Fixed colours that do not change with the theme are `--ios-white` and `--ios-black`; use them for white text on a colour and for black scrims.
 - **SHOULD (UI-08)** Do not add `dark:` variants. The tokens switch on `html.dark`, so the same class works in both modes. Dark mode is class-based: `setDocumentTheme()` in `src/domains/preferences/Preferences.ts` sets `dark` or `light` on `<html>`.
 - **MUST** Use `--ios-bar` with blur only for the tab bar and bottom action bars (and the Track and Timeline bars where the content behind is meant to show through).
 - **MUST** Modal and sheet surfaces use `--ios-card` or `--ios-bg` in both modes. A modal scrim is black with alpha over the content; it is not a surface.

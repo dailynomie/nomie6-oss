@@ -416,10 +416,10 @@
     z-index: 1;
   }
   .dashboard-widget.over .widget-footer .n-text {
-    color: #fff !important;
+    color: var(--ios-white) !important;
   }
   .dashboard-widget.under .widget-footer .n-text {
-    color: #fff !important;
+    color: var(--ios-white) !important;
   }
   .dashboard-widget.widget-red .widget-footer .n-text {
     color: var(--color-red) !important;

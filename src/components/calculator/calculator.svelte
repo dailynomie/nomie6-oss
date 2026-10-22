@@ -290,14 +290,14 @@
     top: 4pt;
     left: 8pt;
     opacity: 0.8;
-    color: #999;
+    color: var(--ios-label2);
     font-size: 0.8em;
   }
   .calc-screen .buffer {
     height: 20px;
     min-height: 22px;
     font-size: 0.8em;
-    color: #999;
+    color: var(--ios-label2);
   }
   .numberUp {
     display: inline-block;

@@ -78,7 +78,7 @@
     @apply focus:outline-none;
   }
   .trackable-pill.filled {
-    @apply bg-ios-bg bg-opacity-60 dark:bg-opacity-60;
+    @apply bg-ios-bg bg-opacity-60;
   }
   .trackable-pill.solid {
     @apply bg-ios-card;
@@ -87,7 +87,7 @@
     @apply border-ios-separator border;
   }
   .trackable-pill.transparent {
-    @apply bg-opacity-0 dark:bg-opacity-0;
+    @apply bg-opacity-0;
   }
   .trackable-pill:active {
     @apply ring ring-ios-tint ring-opacity-100;

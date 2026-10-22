@@ -134,7 +134,7 @@
         required
         placeholder={Lang.t('storage.https-your-server-com', 'https://your-server.com')}
       />
-      <hr class="dark:border-ios-separator" />
+      <hr class="border-ios-separator" />
       <Input
         bind:value={server.token}
         name="token"
@@ -142,7 +142,7 @@
         required
         placeholder={Lang.t('storage.sk-live', 'sk_live_...')}
       />
-      <hr class="dark:border-ios-separator" />
+      <hr class="border-ios-separator" />
       {#if error}
         <div class="p-2 bg-ios-card2 text-ios-label rounded-md text-sm my-4">{error}</div>
       {/if}

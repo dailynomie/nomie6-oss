@@ -460,7 +460,7 @@
   }
   /* warning for a don't-do goal near its limit: iOS orange, which is readable in both modes */
   :global(.ios-bar-warn) {
-    background: #ff9f0a !important;
+    background: #ff9f0a !important; /* guardrail-ok: UI-07 iOS orange for a warning near its limit; no token */
   }
   /* iOS look (decision 3): a goal that failed is a neutral bar, not red; red is only for destructive actions */
   :global(.ios-bar-bad) {

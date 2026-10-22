@@ -151,7 +151,7 @@
   }
   .ios-menu-badge-good {
     background: var(--ios-good);
-    color: #ffffff;
+    color: var(--ios-white);
   }
   .ios-menu-badge-tint {
     background: var(--ios-tint);

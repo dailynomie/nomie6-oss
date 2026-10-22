@@ -69,7 +69,7 @@
 
   .svelte-emoji-picker__search input:focus {
     outline: none;
-    border-color: #4f81e5;
+    border-color: var(--ios-tint);
   }
 
   .icon {

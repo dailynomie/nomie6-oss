@@ -336,6 +336,6 @@
 <style>
   /* iOS look: the board icons are white glyphs on the purple square */
   .board-white :global(path) {
-    fill: #ffffff !important;
+    fill: var(--ios-white) !important;
   }
 </style>

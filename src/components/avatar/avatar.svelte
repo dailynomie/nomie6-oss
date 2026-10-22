@@ -112,7 +112,7 @@
     height: var(--avatar-size);
   }
   .n-avatar.label {
-    color: #fff;
+    color: var(--ios-white);
     text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
     font-size: calc(var(--avatar-size) * 0.55);
     font-weight: bold;

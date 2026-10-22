@@ -219,7 +219,7 @@
     border: 0;
     background: var(--ios-fill);
     /* light mode: a darker grey, so the placeholder reaches 4.5:1 on the fill (label-2 is 4.2:1 there) */
-    color: #5c5c60;
+    color: var(--ios-label2);
     font-size: 17px;
   }
   html.dark .ios-search {

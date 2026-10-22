@@ -35,7 +35,7 @@
     margin: 0;
     font-size: 0.9em;
     margin: 0 auto;
-    color: #999999;
+    color: var(--ios-label2);
   }
 
   .svelte-emoji-picker__no-results {
@@ -48,6 +48,6 @@
   .svelte-emoji-picker__no-results .icon {
     margin: 0 auto;
     font-size: 3em;
-    color: #999999;
+    color: var(--ios-label2);
   }
 </style>

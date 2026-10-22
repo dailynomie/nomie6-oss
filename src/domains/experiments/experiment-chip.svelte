@@ -34,35 +34,23 @@
     border-radius: 10px;
   }
   .chip-running {
-    background: #e3effb;
-    color: #0a5ba8;
+    background: var(--ios-tint-soft);
+    color: var(--ios-tint);
   }
   .chip-positive {
-    background: #ddf3e2;
-    color: #1e6b30;
+    background: var(--ios-good-soft);
+    color: var(--ios-good);
   }
   .chip-possible {
-    background: #fdf0d5;
-    color: #7a4d00;
+    background: #fdf0d5; /* guardrail-ok: UI-07 the amber state has no token; light and dark values kept */
+    color: #7a4d00; /* guardrail-ok: UI-07 the amber state has no token; light and dark values kept */
   }
   .chip-neutral {
-    background: #eeeef2;
-    color: #55555a;
-  }
-  :global(html.dark) .chip-running {
-    background: #0b2236;
-    color: #7cc6ff;
-  }
-  :global(html.dark) .chip-positive {
-    background: #123620;
-    color: #5be07f;
+    background: var(--ios-fill);
+    color: var(--ios-label2);
   }
   :global(html.dark) .chip-possible {
-    background: #3a2a06;
-    color: #ffd60a;
-  }
-  :global(html.dark) .chip-neutral {
-    background: #2c2c2e;
-    color: #c7c7cc;
+    background: #3a2a06; /* guardrail-ok: UI-07 the amber state has no token; light and dark values kept */
+    color: #ffd60a; /* guardrail-ok: UI-07 the amber state has no token; light and dark values kept */
   }
 </style>

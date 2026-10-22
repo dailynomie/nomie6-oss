@@ -117,34 +117,34 @@
   }
 
   #first {
-    background-color: #ed2527;
+    background-color: #ed2527; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #second {
-    background-color: #3db549;
+    background-color: #3db549; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #third {
-    background-color: #2289b4;
+    background-color: #2289b4; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #fourth {
-    background-color: #f79321;
+    background-color: #f79321; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #five {
-    background-color: #94afdc;
+    background-color: #94afdc; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #six {
-    background-color: #ff5f75;
+    background-color: #ff5f75; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #seven {
-    background-color: #00adef;
+    background-color: #00adef; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #eight {
-    background-color: #935fa7;
+    background-color: #935fa7; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 </style>

@@ -211,8 +211,8 @@
     transform: translateX(-50%);
     padding: 4px 12px;
     border-radius: 9999px;
-    background: #1c1c1e;
-    color: #ffffff;
+    background: var(--ios-label);
+    color: var(--ios-card);
     font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
@@ -228,7 +228,7 @@
     bottom: -4px;
     width: 8px;
     height: 8px;
-    background: #1c1c1e;
+    background: var(--ios-label);
     transform: translateX(-50%) rotate(45deg);
   }
 
@@ -253,16 +253,9 @@
       0 0 0 3px #161618,
       var(--ios-shadow-hub);
   }
-  :global(html.dark) .radial-hint {
-    background: #f2f2f7;
-    color: #000000;
-  }
-  :global(html.dark) .radial-hint::after {
-    background: #f2f2f7;
-  }
   :global(html.dark) .radial-notify {
-    background: #c7c7cc;
-    color: #000000;
+    background: var(--ios-label2);
+    color: var(--ios-black);
   }
 
   .radial-dot {
@@ -320,8 +313,8 @@
     height: 20px;
     padding: 0 6px;
     border-radius: 10px;
-    background: #48484a;
-    color: #ffffff;
+    background: var(--ios-label2);
+    color: var(--ios-white);
     font-size: 12px;
     font-weight: 700;
     line-height: 20px;
@@ -330,8 +323,8 @@
   }
 
   .radial-label {
-    background: #1c1c1e;
-    color: #ffffff;
+    background: var(--ios-label);
+    color: var(--ios-card);
     font-size: 12px;
     font-weight: 600;
     line-height: 1;

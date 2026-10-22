@@ -607,7 +607,7 @@
       </Empty>
     </List>
   {:else}
-    <Container className="py-4 shadow shadow-black/10 dark:shadow-black/40 bg-ios-card filler rounded-md" size="xl">
+    <Container className="py-4 shadow shadow-black/10 bg-ios-card filler rounded-md" size="xl">
       <!-- iOS look: the options are a row of tinted checkboxes with 13 px labels -->
       {#if !viewOnly}
         <div class="pvt-options">

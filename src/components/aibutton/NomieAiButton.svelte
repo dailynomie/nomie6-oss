@@ -198,7 +198,7 @@
     transform: translateX(-50%);
     font-size: clamp(9px, calc(var(--btn-size) * 0.15), 12px);
     font-weight: 500;
-    color: #1a80b6;
+    color: var(--ios-tint);
     white-space: nowrap;
     letter-spacing: 0.04em;
     opacity: 0;

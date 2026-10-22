@@ -42,7 +42,7 @@
         clear
         primary
         on:click={closeChat}
-        style="color: #ffffff; font-weight: 600; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);"
+        style="color: var(--ios-white); font-weight: 600; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);"
       >
         {Lang.t('ai.close', 'Close')}
       </Button>
@@ -83,7 +83,7 @@
   }
 
   :global(.ai-chat-header .main.title) {
-    color: #0a4f80 !important;
+    color: var(--ios-tint) !important;
     text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
   }
 
@@ -133,7 +133,7 @@
     z-index: 20;
     font-size: 1.3rem;
     font-weight: 700;
-    color: #0a4f80;
+    color: var(--ios-tint);
     text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
     /* Small screens: align right */
     position: absolute;

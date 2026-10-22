@@ -135,7 +135,7 @@
     margin-left: -14px;
     margin-top: -14px;
     border-radius: 50%;
-    background: #ffffff;
+    background: var(--ios-white);
     box-shadow:
       0 1px 3px rgba(0, 0, 0, 0.3),
       0 0 0 0.5px rgba(0, 0, 0, 0.04);

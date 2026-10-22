@@ -77,7 +77,7 @@
   }
   .n-list.disabled:after {
     content: '';
-    @apply bg-ios-card bg-opacity-50 dark:bg-opacity-50;
+    @apply bg-ios-card bg-opacity-50;
     @apply absolute;
     @apply top-0 left-0 right-0 bottom-0;
   }

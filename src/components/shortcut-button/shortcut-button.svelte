@@ -83,7 +83,7 @@
       clickSkip = undefined
     }}
   >
-    <div class="emoji-holder" style={is.truthy(value) ? 'color:#FFF' : `color:${color}`}>
+    <div class="emoji-holder" style={is.truthy(value) ? 'color:var(--ios-white)' : `color:${color}`}>
       {#if emoji || avatar || title}
         {#key emoji || avatar || title}
           <Avatar label={title} {emoji} src={avatar} size={emojiSize} />
@@ -308,7 +308,7 @@
   }
 
   .shortcut-button.has-value .subtitle-slot .letter-ticker {
-    color: #fff;
+    color: var(--ios-white);
   }
   .shortcut-button.compact .n-counter {
     @apply text-xs;

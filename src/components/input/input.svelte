@@ -318,7 +318,7 @@
   }
   .n-input-container.outline input::placeholder,
   .n-input-container.outline textarea::placeholder {
-    color: #5c5c60;
+    color: var(--ios-label2);
   }
   html.dark .n-input-container.outline input::placeholder,
   html.dark .n-input-container.outline textarea::placeholder {
@@ -509,7 +509,7 @@
     padding-left: 8px;
     padding-right: 8px;
     /* background-color: transparent !important; */
-    /* @apply bg-ios-card bg-opacity-10 dark:bg-opacity-20; */
+    /* @apply bg-ios-card bg-opacity-10; */
     @apply rounded-md;
     @apply bg-transparent;
     outline: none;

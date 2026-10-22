@@ -34,8 +34,8 @@
     width: 16px;
     height: 16px;
     border-radius: 8px;
-    background: #636366;
-    color: #f5c542;
+    background: var(--ios-label2);
+    color: var(--ios-star);
     box-shadow: 0 0 0 2px var(--ios-card);
     line-height: 1;
   }

@@ -484,17 +484,11 @@ Correlation analysis reveals three major relationship clusters with predictive a
     width: 20px;
     height: 20px;
     border: 3px solid #e5e7eb;
-    border-top-color: #3b82f6;
+    border-top-color: var(--ios-tint);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .spinner {
-      border-color: #374151;
-      border-top-color: #60a5fa;
-    }
-  }
 
   @keyframes spin {
     to {

@@ -33,7 +33,7 @@
     size="sm"
     className="w-full max-w-xs my-4">{Lang.t('templates.use-this-template', 'Use this Template')}</Button
   >
-  <hr class="mt-2 mb-4 dark:border-ios-separator" />
+  <hr class="mt-2 mb-4 border-ios-separator" />
   {#if template.trackables.length}
     <section>
       <Title
