@@ -13,12 +13,12 @@ import { string } from 'rollup-plugin-string'
 
 // Polyfill structuredClone for vite-plugin-pwa
 if (!globalThis.structuredClone) {
-  globalThis.structuredClone = (obj) => JSON.parse(JSON.stringify(obj));
+  globalThis.structuredClone = (obj) => JSON.parse(JSON.stringify(obj))
 }
 
 export default defineConfig({
   define: {
-    'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version)
+    'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version),
   },
   optimizeDeps: {
     allowNodeBuiltins: ['pouchdb-browser', 'pouchdb-utils'],
@@ -32,10 +32,18 @@ export default defineConfig({
         //   'aws-sdk': 'AWS',
         //   'S3': 'aws-sdk/clients/S3'
         // },
+        // Libraries that change rarely get their own files, so they stay cached after an app update
+        manualChunks(id) {
+          if (id.includes('/node_modules/svelte/')) return 'vendor-svelte'
+          if (id.includes('/node_modules/dayjs/')) return 'vendor-dayjs'
+          if (id.includes('/node_modules/pouchdb')) return 'vendor-pouchdb'
+        },
       },
       plugins: [
         // ANALYZE=1 npm run vbuild writes the bundle report (raw data, for the size baseline)
-        ...(process.env.ANALYZE ? [visualizer({ filename: process.env.ANALYZE, template: 'raw-data', gzipSize: true })] : []),
+        ...(process.env.ANALYZE
+          ? [visualizer({ filename: process.env.ANALYZE, template: 'raw-data', gzipSize: true })]
+          : []),
         rollupPluginsSvelte,
       ],
     },
@@ -46,22 +54,30 @@ export default defineConfig({
     },
   },
   plugins: [
-    svelte({
-
-    }),
+    svelte({}),
     svelteSVG({
       svgoConfig: {}, // See https://github.com/svg/svgo#configuration
     }),
 
     VitePWA({
       manifest: manifest,
-      maximumFileSizeToCacheInBytes: 20 * 1024 ** 2, // 20 MB (for 7.15 MB main JS bundle)
+      maximumFileSizeToCacheInBytes: 4 * 1024 ** 2, // the largest file that is cached in advance (the app chunk is about 1.7 MB)
 
       // Workbox configuration for intelligent caching strategies
       workbox: {
         // HTML - always network first (want latest version)
         navigateFallback: '/index.html',
-        maximumFileSizeToCacheInBytes: 20 * 1024 * 1024, // 20 MB for large JS bundle
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        // Only the shell and the start pages are cached in advance. Every other page is cached (CacheFirst, the /assets/ rule
+        // below) the first time it is opened, so the first install stays small.
+        globPatterns: [
+          '*.{html,webmanifest,ico}',
+          'app-icons/**/*.png',
+          'images/*.{png,svg}',
+          'assets/*.css',
+          'assets/index-*.js',
+          'assets/vendor-*.js',
+        ],
 
         // Caching strategies for different asset types
         runtimeCaching: [
