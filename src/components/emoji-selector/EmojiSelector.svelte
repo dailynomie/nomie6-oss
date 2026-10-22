@@ -12,7 +12,6 @@
   import ButtonGroup from '../button-group/button-group.svelte'
   import Panel from '../panel/panel.svelte'
 
-
   let variantsVisible = $state(false)
   let variants = $state(undefined)
   let currentEmoji = $state(undefined)
