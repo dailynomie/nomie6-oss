@@ -52,12 +52,19 @@
 
   let topItem: TimelineItemType | undefined = $state(undefined)
 
+  // iOS look (Phase 7 date pass): Today, Yesterday, a weekday within the last week, then the medium date
+  const isRelativeTitle = (day: Dayjs) => {
+    const today = dayjs().startOf('day')
+    const target = day.startOf('day')
+    return target.isSame(today, 'day') || target.isSame(today.subtract(1, 'day'), 'day') || target.isAfter(today.subtract(7, 'day'))
+  }
   const dayTitle = (day: Dayjs) => {
     const today = dayjs().startOf('day')
     const target = day.startOf('day')
     if (target.isSame(today, 'day')) return 'Today'
     if (target.isSame(today.subtract(1, 'day'), 'day')) return 'Yesterday'
-    return target.format('dddd')
+    if (isRelativeTitle(day)) return target.format('dddd')
+    return target.format(dateFormats.mmm_d_yyyy)
   }
 
   $effect(() => {
@@ -102,9 +109,11 @@
           <IonIcon icon={ChevronForwardOutline} className="opacity-50" size={14} />
         </h2>
       </button>
-      <div class="text-ios-footnote text-ios-label2 whitespace-nowrap">
-        {item.logs[0].endDayjs().format(dateFormats.mmm_d_yyyy)}
-      </div>
+      {#if isRelativeTitle(item.logs[0].endDayjs())}
+        <div class="text-ios-footnote text-ios-label2 whitespace-nowrap">
+          {item.logs[0].endDayjs().format(dateFormats.mmm_d_yyyy)}
+        </div>
+      {/if}
     </header>
 
     {#if filters.trackables}

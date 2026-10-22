@@ -371,7 +371,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
             >
               <main>
                 <div class="time text-xs text-ios-label2">
-                  {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
+                  {log.endDayjs().format(`${dateFormats.mmm_d_yyyy} ${dateFormats.time}`)}
                 </div>
                 <p class="text-sm line-clamp-2 ">{log.note}</p>
               </main>
