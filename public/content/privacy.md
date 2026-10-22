@@ -12,7 +12,7 @@ Daily Nomie is an open source app. This policy explains what happens to your dat
 
 ## 1. Your data on this device
 
-Daily Nomie stores your logs, trackers, goals, experiments, dashboards, notes and settings in the storage of your browser (IndexedDB and localStorage). Nothing is sent to us, because we run no server that receives your data.
+Daily Nomie stores your logs, trackers, goals, experiments, dashboards, notes and settings in the storage of your browser (IndexedDB and localStorage). Nothing is sent to us unless you turn on sync (section 2).
 
 - The app does not encrypt this storage. Anyone who can use your browser profile or your device can read it.
 - The PIN lock keeps the app closed until the PIN is entered. It is not encryption of your data.
