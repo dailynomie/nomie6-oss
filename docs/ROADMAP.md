@@ -150,7 +150,7 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | F8 | **Bugs found on the way:** the related-view count (`Math.abs(results?.length || 0 - …)`, see N2) and the three old UI violations that are on screens we touched. | S | Fixed or recorded. |
 | F9 | **Playwright smoke tests** (old T9): log a note, see it on the timeline, backup and restore round trip. In CI. | M | Green in CI. |
 | F10 | **Encrypted sync, opt-in (N4).** Documents are encrypted on the device before PouchDB replicates them; the server stores ciphertext. Users who choose it know the limits: a lost key means lost data, and the server cannot search the data. Needs a key design (passphrase or key per device, key recovery), a migration path for existing plain sync, and a test with existing CouchDB users. Depends on C5 (the PouchDB upgrade). | M2 | XL |
-| F11 | **Privacy text for the hosted service (W18).** The current text says "We do not run that server" and "We do not have access to it"; both are wrong for the hosted option. The text describes only what exists today: no encryption of the sync data, and the operator of the hosted server can read it. Encrypted sync is not named until F10 is built. Ronald approves the new text. | M2 | S (text), then approval |
+| F11 | **Privacy text for the hosted service.** **Done 22 October:** the sync section names the hosted service and says the sync data is not encrypted. Approved by the maintainer. | M2 | S |
 
 ### M3. Release 7.0 · S
 
@@ -198,7 +198,7 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 | W15 | Splash: the logo and the "Daily Nomie 7" title overlap while the app loads. **Parked by Ronald**; the overlap is in `public/images/nomie-splash-on-blue-ai.svg` and needs the designer. | splash | parked |
 | W16 | **CouchDB sync is not encrypted:** the notice is on the sync form (not encrypted, the operator can read it, use https, protect the server), and an http:// address shows a warning. Still open: whether the encrypted sync (N4) moves up into 7.0 (D13). | sync setup | **Notice done 22 October** (checked for compile and text, not yet in the browser). D13 open. |
 | W17 | **AI key notice:** under the key field: the requests go straight from this browser to the provider, the key stays on this device, and a short PIN gives little protection. | AI settings | **Done 22 October** (English and Dutch; checked in the browser). |
-| W18 | **Privacy text for the hosted sync service (F11).** Reopens C3 and D10. The new text names only today's situation; encrypted sync is mentioned after F10 ships. | privacy text | S, approval needed |
+| W18 | **Privacy text for the hosted sync service (F11).** **Done 22 October**, approved. | privacy text | S |
 
 ---
 
