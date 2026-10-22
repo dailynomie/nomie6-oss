@@ -10,11 +10,12 @@ import { addNewPerson, getAddPersonButton } from '../board/boardActions'
 import { generateBackup } from '../backup/BackupStore'
 import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
 import { closeUnisearch } from './UnisearchStore'
+import { Lang } from '../../store/lang'
 
 export const unisearchCommands: Array<PopMenuButton> = [
   {
-    title: 'Create Custom tracker',
-    description: 'Create and Add a new tracker! ',
+    title: Lang.t('search.create-custom-tracker', 'Create Custom tracker'),
+    description: Lang.t('search.create-and-add-a-new-tracker', 'Create and Add a new tracker!'),
     click() {
       openTrackableEditor(
         new Trackable({
@@ -25,22 +26,28 @@ export const unisearchCommands: Array<PopMenuButton> = [
   },
   getAddPersonButton(),
   {
-    title: 'Write Journal Entry',
+    title: Lang.t('search.write-journal-entry', 'Write Journal Entry'),
     icon: CreateOutline,
-    description: 'Browse the nomie library of trackers, add create',
+    description: Lang.t(
+      'search.browse-the-nomie-library-of-trackers-add-create',
+      'Browse the nomie library of trackers, add create'
+    ),
     click() {
       ActiveLogStore.journal(new NLog({}))
     },
   },
   {
-    title: 'Open Library',
-    description: 'Browse the nomie library of trackers, add create',
+    title: Lang.t('search.open-library', 'Open Library'),
+    description: Lang.t(
+      'search.browse-the-nomie-library-of-trackers-add-create',
+      'Browse the nomie library of trackers, add create'
+    ),
     click() {
       TrackerLibrary.toggle()
     },
   },
   {
-    title: 'Dark Theme',
+    title: Lang.t('search.dark-theme', 'Dark Theme'),
     click() {
       Prefs.update((s) => {
         s.theme = 'dark'
@@ -51,7 +58,7 @@ export const unisearchCommands: Array<PopMenuButton> = [
     },
   },
   {
-    title: 'Light Theme',
+    title: Lang.t('search.light-theme', 'Light Theme'),
     click() {
       Prefs.update((s) => {
         s.theme = 'light'
@@ -62,7 +69,7 @@ export const unisearchCommands: Array<PopMenuButton> = [
     },
   },
   {
-    title: 'System Theme',
+    title: Lang.t('search.system-theme', 'System Theme'),
     click() {
       Prefs.update((s) => {
         s.theme = 'auto'
@@ -73,7 +80,7 @@ export const unisearchCommands: Array<PopMenuButton> = [
     },
   },
   {
-    title: 'Generate Backup',
+    title: Lang.t('search.generate-backup', 'Generate Backup'),
     click() {
       generateBackup()
     },

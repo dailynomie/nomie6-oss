@@ -91,7 +91,7 @@
         ...addDividerToFirst(getBoardMenu($ActiveBoard)),
         ...[
           {
-            title: 'Search Nomie',
+            title: Lang.t('routes.search-nomie', 'Search Nomie'),
             divider: true,
             icon: SearchIcon,
             click() {

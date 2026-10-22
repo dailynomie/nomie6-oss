@@ -51,11 +51,11 @@
 
   const advancedButtons = [
     {
-      title: 'Open Template URL...',
+      title: Lang.t('ui.open-template-url', 'Open Template URL...'),
       click: openExternalTemplate,
     },
     {
-      title: 'Upload Template File...',
+      title: Lang.t('ui.upload-template-file', 'Upload Template File...'),
       click: uploadTemplate,
     },
     // {

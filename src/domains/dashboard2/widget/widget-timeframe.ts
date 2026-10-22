@@ -1,6 +1,7 @@
 import nid from '../../../modules/nid/nid'
 import { WidgetDate } from './widget-date-class'
 import type { WidgetDateConfig } from './widget-date-class'
+import { Lang } from '../../../store/lang'
 
 export type WidgetTimeFrameConfig = {
   id?: TimeFramesType
@@ -30,7 +31,7 @@ export class WidgetTimeFrame {
   public getLabel(): string {
     let defaultDate = this.start.date
       ? `${this.start.date.format('MMM DD')} to ${this.end.date.format('MMM DD YYYY')}`
-      : 'Unknown'
+      : Lang.t('dashboard.unknown', 'Unknown')
     return this.label || defaultDate
   }
 }
@@ -62,7 +63,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   {
     id: 'today',
     dayCount: 0,
-    label: 'Today',
+    label: Lang.t('dashboard.today', 'Today'),
     start: {
       startOf: 'day',
     },
@@ -73,7 +74,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   {
     id: 'yesterday',
     dayCount: 1,
-    label: 'Yesterday',
+    label: Lang.t('dashboard.yesterday', 'Yesterday'),
     start: {
       subtract: [1, 'day'],
       startOf: 'day',
@@ -85,7 +86,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   },
   {
     id: 'last-7',
-    label: 'Last 7 days',
+    label: Lang.t('dashboard.last-7-days', 'Last 7 days'),
     dayCount: 7,
     start: {
       subtract: [6, 'day'],
@@ -97,7 +98,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   },
   {
     id: 'last-30',
-    label: 'Last 30 days',
+    label: Lang.t('dashboard.last-30-days', 'Last 30 days'),
     dayCount: 30,
     start: {
       subtract: [29, 'day'],
@@ -109,7 +110,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   },
   {
     id: 'last-90',
-    label: 'Last 90 days',
+    label: Lang.t('dashboard.last-90-days', 'Last 90 days'),
     dayCount: 90,
     start: {
       subtract: [89, 'day'],
@@ -121,7 +122,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   },
   {
     id: 'last-365',
-    label: 'Last 365 days',
+    label: Lang.t('dashboard.last-365-days', 'Last 365 days'),
     dayCount: 365,
     start: {
       subtract: [365, 'day'],
@@ -134,7 +135,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   {
     id: 'this-week',
     dayCount: 7,
-    label: 'This Week',
+    label: Lang.t('dashboard.this-week', 'This Week'),
     start: {
       startOf: 'week',
     },
@@ -145,7 +146,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   {
     id: 'last-week',
     dayCount: 7,
-    label: 'Last Week',
+    label: Lang.t('dashboard.last-week', 'Last Week'),
     start: {
       subtract: [1, 'week'],
       startOf: 'week',
@@ -158,7 +159,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   {
     id: 'this-month',
     dayCount: 30,
-    label: 'This Month',
+    label: Lang.t('dashboard.this-month', 'This Month'),
     start: {
       startOf: 'month',
     },
@@ -169,7 +170,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   {
     id: 'this-year',
     dayCount: 365,
-    label: 'This Year',
+    label: Lang.t('dashboard.this-year', 'This Year'),
     start: {
       startOf: 'year',
     },
@@ -180,7 +181,7 @@ export const timeFrames: Array<WidgetTimeFrameConfig> = [
   {
     id: 'last-month',
     dayCount: 30,
-    label: 'Last Month',
+    label: Lang.t('dashboard.last-month', 'Last Month'),
     start: {
       subtract: [1, 'month'],
       startOf: 'month',

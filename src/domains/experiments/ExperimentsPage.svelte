@@ -94,8 +94,8 @@
           bind:value={view}
           className="max-w-sm mx-auto"
           buttons={[
-            { label: 'Running', value: 'running' },
-            { label: 'Finished', value: 'finished' },
+            { label: Lang.t('experiments.running', 'Running'), value: 'running' },
+            { label: Lang.t('experiments.finished', 'Finished'), value: 'finished' },
           ]}
         />
       </div>
@@ -130,7 +130,9 @@
                   <div class="shrink-0">
                     <ExperimentChip
                       tone="neutral"
-                      label={experiment.status === 'stopped' ? 'Stopped early' : 'Finished'}
+                      label={experiment.status === 'stopped'
+                        ? Lang.t('experiments.stopped-early', 'Stopped early')
+                        : Lang.t('experiments.finished', 'Finished')}
                     />
                   </div>
                 </div>

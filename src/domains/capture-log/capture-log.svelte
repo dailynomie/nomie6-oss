@@ -89,7 +89,7 @@
         return [
           ...getPromptMenu(),
           {
-            title: 'Integrated Blockly',
+            title: Lang.t('ui.integrated-blockly', 'Integrated Blockly'),
             icon: ExtensionPuzzleOutline,
             divider: true,
             click() {

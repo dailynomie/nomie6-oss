@@ -14,6 +14,7 @@
   import { MenuBlockerStore } from './useDropmenu'
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
   import Divider from '../divider/divider.svelte'
+  import { Lang } from '../../store/lang'
 
   const { x, y, buttonClass, buttonStyle, id, title, compact, menuButtons } = $props()
 

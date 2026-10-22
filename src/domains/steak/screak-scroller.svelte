@@ -23,6 +23,7 @@
   import { getDateFormats } from '../preferences/Preferences'
   import { openDateOptionPopMenu } from '../../components/pop-menu/usePopmenu'
   import LetterTicker from '../../components/letter-ticker/letter-ticker.svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   let { endDate, trackable, loading = $bindable() } = $props()
@@ -109,7 +110,7 @@
   const showDateOptions = (date: Date, trackable: Trackable) => {
     openDateOptionPopMenu(date, [
       {
-        title: 'Track on this Day',
+        title: Lang.t('steak.track-on-this-day', 'Track on this Day'),
         click() {
           trackOnThisDay(trackable, dayjs(date).hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
         },

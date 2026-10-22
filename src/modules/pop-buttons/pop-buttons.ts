@@ -22,6 +22,7 @@ import { showTrackablePopmenu } from '../../domains/board/boardActions'
 import { wait } from '../../utils/tick/tick'
 import MagnetOutlineSvelte from '../../n-icons/MagnetOutline.svelte'
 import { LedgerStore, saveLog } from '../../domains/ledger/LedgerStore'
+import { Lang } from '../../store/lang'
 
 const dateFormats = getDateFormats()
 
@@ -53,7 +54,7 @@ export const addDividerToFirst = (buttons: Array<PopMenuButton>): Array<PopMenuB
 export const getLogPopButtons = (log: NLog, includeDescription: boolean = true): Array<PopMenuButton> => {
   const buttons = [
     {
-      title: 'View Note',
+      title: Lang.t('ui.view-note', 'View Note'),
       description: includeDescription ? `${log.note.substring(0, 200)}` : undefined,
       icon: EyeSolid,
       click() {
@@ -61,7 +62,7 @@ export const getLogPopButtons = (log: NLog, includeDescription: boolean = true):
       },
     },
     {
-      title: 'Edit Note',
+      title: Lang.t('ui.edit-note', 'Edit Note'),
       icon: CreateOutline,
       click() {
         openLogEditor(log)
@@ -70,7 +71,7 @@ export const getLogPopButtons = (log: NLog, includeDescription: boolean = true):
   ]
   if (log.pinned) {
     buttons.push({
-      title: 'Unpin Note',
+      title: Lang.t('ui.unpin-note', 'Unpin Note'),
       icon: MagnetOutlineSvelte,
       click() {
         delete log.pinned
@@ -79,7 +80,7 @@ export const getLogPopButtons = (log: NLog, includeDescription: boolean = true):
     })
   } else {
     buttons.push({
-      title: 'Pin Note',
+      title: Lang.t('ui.pin-note', 'Pin Note'),
       icon: MagnetOutlineSvelte,
       click() {
         log.pinned = true

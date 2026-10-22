@@ -111,7 +111,11 @@ export const getDashboards = async (): Promise<Array<DashboardClass>> => {
   )
   // If no boards - lets add one
   if (dashboards.length === 0) {
-    const firstDasboard = new DashboardClass({ id: 'mystats-first-board', label: 'My Stats', widgets: [] })
+    const firstDasboard = new DashboardClass({
+      id: 'mystats-first-board',
+      label: Lang.t('dashboard.my-stats', 'My Stats'),
+      widgets: [],
+    })
     dashboards = [firstDasboard]
     setLastSelectedIndex(0)
   }
@@ -214,7 +218,10 @@ export const deleteWidget = async (widget: WidgetClass) => {
     board.widgets = board.widgets.filter((w) => w.id !== widget.id)
     return saveDashboard(board)
   } else {
-    Interact.alert(Lang.t('dashboard.widget-not-found', 'Widget not found'), Lang.t('dashboard.widget-no-longer-exists', 'That widget no longer exists.'))
+    Interact.alert(
+      Lang.t('dashboard.widget-not-found', 'Widget not found'),
+      Lang.t('dashboard.widget-no-longer-exists', 'That widget no longer exists.')
+    )
   }
 }
 
@@ -252,7 +259,7 @@ const fuse = (addOn: any = {}) => {
  */
 export const createNewDashboard = async () => {
   let name = await Interact.prompt(Lang.t('dashboard.create-new-dashboard', 'Create new Dashboard'), null, {
-    placeholder: 'Dashboard Label',
+    placeholder: Lang.t('dashboard.dashboard-label', 'Dashboard Label'),
   })
   if (name) {
     let dashboard = new DashboardClass({ id: nid(), label: name, widgets: [] })
@@ -359,7 +366,7 @@ export const moveWidget = async (widget: WidgetClass) => {
 export const showWidgetPopmenu = (widget: WidgetClass) => {
   const buttons: Array<PopMenuButton> = [
     {
-      title: 'Edit Widget',
+      title: Lang.t('dashboard.edit-widget', 'Edit Widget'),
       icon: PencilOutline,
       async click() {
         await wait(300)
@@ -371,7 +378,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
       },
     },
     {
-      title: 'Move Widget',
+      title: Lang.t('dashboard.move-widget', 'Move Widget'),
       icon: SwapOutline,
       divider: true,
       async click() {
@@ -380,7 +387,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
       },
     },
     {
-      title: 'Duplicate',
+      title: Lang.t('dashboard.duplicate', 'Duplicate'),
       icon: DuplicateOutline,
       async click() {
         await wait(200)
@@ -390,7 +397,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
   ]
 
   buttons.push({
-    title: 'Delete Widget',
+    title: Lang.t('dashboard.delete-widget', 'Delete Widget'),
     danger: true,
     icon: TrashOutline,
     divider: true,

@@ -213,7 +213,10 @@ export const saveTrackable = async ({
       if (activeBoard && !activeBoard.elements.find((tag) => tag == trackable.tag)) {
         if (prompt === true && activeBoard?.id?.substring(0, 1) !== '_') {
           // iOS look (Phase 7 bug fix): plain words instead of the tag and the internal board name
-          const where = activeBoard.id === 'main' ? 'your Track screen' : `the ${activeBoard.label} board`
+          const where =
+            activeBoard.id === 'main'
+              ? Lang.t('trackable.your-track-screen', 'your Track screen')
+              : `the ${activeBoard.label} board`
           const confirmed = await Interact.confirm(
             `Show ${trackable.label} on ${where}?`,
             'You can change this later in the board editor.'

@@ -25,7 +25,10 @@ let dbKey = 'nomie6-pouch'
 export const PouchDBEngine: IStorage = {
   name: 'PouchDB',
   syncValid: false,
-  description: 'Stored locally, with CouchDB Syncing support',
+  description: Lang.t(
+    'storage.stored-locally-with-couchdb-syncing-support',
+    'Stored locally, with CouchDB Syncing support'
+  ),
   authRequired: false,
   remote: null, // object to store username, password, host
   sync: false, // if we should sync

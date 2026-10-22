@@ -113,7 +113,7 @@
       })
       showToast({
         type: 'success',
-        message: '🎁  Secret Beta Features Unlocked',
+        message: Lang.t('settings.secret-beta-features-unlocked', '🎁 Secret Beta Features Unlocked'),
       })
     },
     locations() {

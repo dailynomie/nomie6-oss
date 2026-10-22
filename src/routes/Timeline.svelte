@@ -102,7 +102,7 @@
   const showFilterMenu = () => {
     let options = [
       {
-        title: 'Notes',
+        title: Lang.t('routes.notes', 'Notes'),
         checked: filters.notes,
         icon: CreateOutline,
         click() {
@@ -111,7 +111,7 @@
         },
       },
       {
-        title: 'Trackables',
+        title: Lang.t('routes.trackables', 'Trackables'),
         checked: filters.trackables,
         icon: AppsOutline,
         click() {
@@ -120,7 +120,7 @@
         },
       },
       {
-        title: 'Context Chart',
+        title: Lang.t('routes.context-chart', 'Context Chart'),
         icon: BarChartOutline,
         checked: filters.context,
         click() {

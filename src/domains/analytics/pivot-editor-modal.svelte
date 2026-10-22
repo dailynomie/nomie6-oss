@@ -120,7 +120,7 @@
   const selectdays = () => {
     let createlist = [
       {
-        title: '30 Days',
+        title: Lang.t('analytics.30-days', '30 Days'),
         checked: 30 == days,
         click() {
           if (days !== 30) {
@@ -129,7 +129,7 @@
         },
       },
       {
-        title: '60 Days',
+        title: Lang.t('analytics.60-days', '60 Days'),
         checked: 60 == days,
         click() {
           if (days !== 60) {
@@ -138,7 +138,7 @@
         },
       },
       {
-        title: '90 Days',
+        title: Lang.t('analytics.90-days', '90 Days'),
         checked: 90 == days,
         click() {
           if (days !== 90) {
@@ -147,7 +147,7 @@
         },
       },
       {
-        title: '120 Days',
+        title: Lang.t('analytics.120-days', '120 Days'),
         checked: 120 == days,
         click() {
           if (days !== 120) {
@@ -156,7 +156,7 @@
         },
       },
       {
-        title: '150 Days',
+        title: Lang.t('analytics.150-days', '150 Days'),
         checked: 150 == days,
         click() {
           if (days !== 150) {
@@ -165,7 +165,7 @@
         },
       },
       {
-        title: '180 Days',
+        title: Lang.t('analytics.180-days', '180 Days'),
         checked: 180 == days,
         click() {
           if (days !== 180) {
@@ -174,7 +174,7 @@
         },
       },
       {
-        title: '270 Days',
+        title: Lang.t('analytics.270-days', '270 Days'),
         checked: 270 == days,
         click() {
           if (days !== 270) {
@@ -183,7 +183,7 @@
         },
       },
       {
-        title: '365 Days',
+        title: Lang.t('analytics.365-days', '365 Days'),
         checked: 365 == days,
         click() {
           if (days !== 365) {
@@ -192,7 +192,7 @@
         },
       },
       {
-        title: '2 Years',
+        title: Lang.t('analytics.2-years', '2 Years'),
         checked: 730 == days,
         click() {
           if (days !== 730) {
@@ -201,7 +201,7 @@
         },
       },
       {
-        title: '3 Years',
+        title: Lang.t('analytics.3-years', '3 Years'),
         checked: 1095 == days,
         click() {
           if (days !== 1095) {

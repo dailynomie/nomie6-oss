@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import type { ChartConfiguration, ChartDataset } from 'chart.js'
 import type { DailyValues } from './experiment-data'
+import { Lang } from '../../store/lang'
 
 const BEFORE_COLOR = '#9ca3af' // grey, the baseline (guide 5.6)
 const DURING_COLOR = '#00aaff' // tint, the experiment (guide 5.6)
@@ -21,7 +22,7 @@ export const outcomeChartConfig = (
 
   const datasets: Array<ChartDataset<'bar'>> = [
     {
-      label: 'Before',
+      label: Lang.t('experiments.before', 'Before'),
       data: beforeData,
       backgroundColor: BEFORE_COLOR,
       borderRadius: 3,
@@ -29,7 +30,7 @@ export const outcomeChartConfig = (
       categoryPercentage: 0.85,
     },
     {
-      label: 'During',
+      label: Lang.t('experiments.during', 'During'),
       data: duringData,
       backgroundColor: DURING_COLOR,
       borderRadius: 3,

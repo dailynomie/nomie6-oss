@@ -53,27 +53,40 @@
     },
     {
       id: 'experiments',
-      label: 'Experiments',
+      label: Lang.t('layout.experiments', 'Experiments'),
       icon: PulseOutline,
       link: '/experiments',
       notify: runningExperiments > 0 ? `${runningExperiments}` : undefined,
     },
     // Analytics is a full-mode option (starter hides it). guardrail-ok: UI-11 the crown is drawn by radial-menu.svelte from `feature`
     ...($FeatureVisible('analytics')
-      ? [{ id: 'analytics', label: 'Analytics', icon: CubeOutline, link: '/analytics', feature: 'analytics' }]
+      ? [
+          {
+            id: 'analytics',
+            label: Lang.t('layout.analytics', 'Analytics'),
+            icon: CubeOutline,
+            link: '/analytics',
+            feature: 'analytics',
+          },
+        ]
       : []),
     ...($FeatureVisible('pointers')
       ? [
           {
             id: 'pointers',
-            label: 'Pointers',
+            label: Lang.t('layout.pointers', 'Pointers'),
             icon: TagOutline,
             action: () => openPointersModal(),
             feature: 'pointers',
           },
         ]
       : []),
-    { id: 'locations', label: 'Locations', icon: MapOutline, action: () => openLocationModal() },
+    {
+      id: 'locations',
+      label: Lang.t('layout.locations', 'Locations'),
+      icon: MapOutline,
+      action: () => openLocationModal(),
+    },
   ])
 
   let state = $state({

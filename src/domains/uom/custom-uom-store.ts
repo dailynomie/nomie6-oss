@@ -1,9 +1,10 @@
 import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import { setCustomUoms, type CustomUomItem } from './uom-registry'
+import { Lang } from '../../store/lang'
 
 export const CustomUomStore = createArrayStore(NPaths.storage.customUoms(), {
-  label: 'Custom units',
+  label: Lang.t('uom.custom-units', 'Custom units'),
   key: 'key',
 })
 

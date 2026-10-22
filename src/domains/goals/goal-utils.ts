@@ -2,6 +2,7 @@ import type { GoalClass, GoalComparisonType } from './goal-class'
 
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
+import { Lang } from '../../store/lang'
 
 type GoalComparisonItemType = {
   id: GoalComparisonType
@@ -20,27 +21,27 @@ export const getGoalComparisonSymbol = (id: GoalComparisonType) => {
 export const GoalComparisonItems: Array<GoalComparisonItemType> = [
   {
     id: 'lt',
-    label: 'Less than',
+    label: Lang.t('goals.less-than', 'Less than'),
     symbol: '<',
   },
   {
     id: 'lte',
-    label: 'Less or Equal',
+    label: Lang.t('goals.less-or-equal', 'Less or Equal'),
     symbol: '<=',
   },
   {
     id: 'eq',
-    label: 'Equal',
+    label: Lang.t('goals.equal', 'Equal'),
     symbol: '=',
   },
   {
     id: 'gt',
-    label: 'Greater than',
+    label: Lang.t('goals.greater-than', 'Greater than'),
     symbol: '>',
   },
   {
     id: 'gte',
-    label: 'Greater or Equal',
+    label: Lang.t('goals.greater-or-equal', 'Greater or Equal'),
     symbol: '>=',
   },
 ]

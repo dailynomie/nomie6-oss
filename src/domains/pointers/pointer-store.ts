@@ -47,7 +47,7 @@ const searchForPointer = async () => {
 
 export const PointerStore = createArrayStore(NPaths.storage.pointers(), {
   key: 'tag',
-  label: 'Pointer',
+  label: Lang.t('pointers.pointer', 'Pointer'),
   itemInitializer: (item) => {
     return new PointerClass(item)
   },

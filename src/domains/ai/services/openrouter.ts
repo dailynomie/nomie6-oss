@@ -1,3 +1,4 @@
+import { Lang } from '../../../store/lang'
 /**
  * OpenRouter.ai Service
  * Unified API for accessing multiple LLMs through OpenRouter
@@ -102,7 +103,7 @@ export async function queryOpenRouter(
       model: data.model,
     }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error'
+    const message = error instanceof Error ? error.message : Lang.t('ai.unknown-error', 'Unknown error')
     console.error('OpenRouter API call failed:', message)
     throw new Error(message)
   }
@@ -208,7 +209,7 @@ export async function streamOpenRouter(
       throw new Error('The model returned no answer. Try again, or pick another model in AI settings.')
     }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error'
+    const message = error instanceof Error ? error.message : Lang.t('ai.unknown-error', 'Unknown error')
     console.error('OpenRouter streaming failed:', message)
     throw new Error(message)
   }

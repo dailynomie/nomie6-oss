@@ -7,27 +7,27 @@ export const selectFuzzyDate = (startDate: Dayjs, isToday: boolean): Promise<Day
   let ranges: Array<any> = [
     {
       time: 30,
-      title: '1 Month Back',
+      title: Lang.t('timeline.1-month-back', '1 Month Back'),
       unit: 'day',
     },
     {
       time: 90,
-      title: '90 Days Back',
+      title: Lang.t('timeline.90-days-back', '90 Days Back'),
       unit: 'day',
     },
     {
       time: 180,
-      title: '6 Months Back',
+      title: Lang.t('timeline.6-months-back', '6 Months Back'),
       unit: 'day',
     },
     {
       time: 1,
-      title: '1 Year Back',
+      title: Lang.t('timeline.1-year-back', '1 Year Back'),
       unit: 'year',
     },
     {
       time: 2,
-      title: '2 Years Back',
+      title: Lang.t('timeline.2-years-back', '2 Years Back'),
       unit: 'year',
     },
     {

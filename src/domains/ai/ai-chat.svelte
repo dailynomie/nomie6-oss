@@ -231,7 +231,9 @@
         on:click={sendMessage}
         disabled={!inputText.trim() || aiState.loading}
         class="ai-send-btn flex-shrink-0"
-        title={aiState.loading ? 'Waiting for response...' : 'Send message'}
+        title={aiState.loading
+          ? Lang.t('ai.waiting-for-response', 'Waiting for response...')
+          : Lang.t('ai.send-message', 'Send message')}
       >
         <span class="send-icon"
           >{#if aiState.loading}…{:else}<IonIcon icon={PaperPlaneSolid} size={18} />{/if}</span

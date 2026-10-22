@@ -1,3 +1,4 @@
+import { Lang } from '../store/lang'
 export default {
   primary_color: '#07B2F5',
   green_color: '#48bb78',
@@ -17,11 +18,11 @@ export default {
   apiDocumentation: 'https://spectacular-collard-13a.notion.site/Nomie-API-4c29294776524e84bdafed6251abb20c',
 
   positivity: [
-    { emoji: '🔴', label: 'Awful', score: -2 },
-    { emoji: '🟠', label: 'Not Good', score: -1 },
-    { emoji: 'Ⓞ', label: 'Neutral', score: 0 },
-    { emoji: '🟢', label: 'Good', score: 1 },
-    { emoji: '💚', label: 'Great', score: 2 },
+    { emoji: '🔴', label: Lang.t('ui.awful', 'Awful'), score: -2 },
+    { emoji: '🟠', label: Lang.t('ui.not-good', 'Not Good'), score: -1 },
+    { emoji: 'Ⓞ', label: Lang.t('ui.neutral', 'Neutral'), score: 0 },
+    { emoji: '🟢', label: Lang.t('ui.good', 'Good'), score: 1 },
+    { emoji: '💚', label: Lang.t('ui.great', 'Great'), score: 2 },
   ] as Array<PositivityType>,
 }
 

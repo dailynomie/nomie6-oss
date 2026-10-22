@@ -1,5 +1,6 @@
 import type { ExperimentResultSnapshot, ExperimentType } from './experiment-class'
 import { verdictText } from './experiment-result'
+import { Lang } from '../../store/lang'
 
 export type OutcomeTone = 'positive' | 'possible' | 'neutral'
 
@@ -34,8 +35,8 @@ export const experimentWidgetView = (
   const status = running
     ? `Day ${Math.min(daysSoFar, experiment.durationDays)} of ${experiment.durationDays}`
     : experiment.status === 'stopped'
-      ? 'Stopped early'
-      : 'Finished'
+      ? Lang.t('experiments.stopped-early', 'Stopped early')
+      : Lang.t('experiments.finished', 'Finished')
   const progress = running ? Math.min(1, daysSoFar / experiment.durationDays) : 1
 
   const view: ExperimentWidgetView = { title: experiment.title, status, progress, outcomes: [] }

@@ -92,7 +92,7 @@
         <h1 class="ntitle">
           {starterDate
             ? `${activeDate ? dayjs(activeDate).format(dateFormats.mmm_d_yyyy) : dayjs(starterDate).format('MMM YYYY')}`
-            : 'Loading...'}
+            : Lang.t('calendar.loading', 'Loading...')}
         </h1>
       </div>
       <Button slot="right" clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>

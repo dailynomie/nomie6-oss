@@ -16,6 +16,7 @@ import { LocalForageEngine } from './engines/localforage/engine.localforage'
 import { NomieServierStorage } from './engines/nomie-server/engine.nomie-server'
 import { PouchDBEngine } from './engines/pouchdb/engine.pouchdb'
 import { SideStore } from './side-storage'
+import { Lang } from '../../store/lang'
 // import { S3Engine } from "./engines/engine.s3";
 
 export type StorageTypes = 'local' | 'dumb' | 'pouchdb' | any
@@ -36,7 +37,7 @@ export const StorageEngines: Array<StorageEngineType> = [
     id: 'local',
     name: 'Local Only',
     shortName: 'Local',
-    description: 'Data is stored on this device only.',
+    description: Lang.t('storage.data-is-stored-on-this-device-only', 'Data is stored on this device only.'),
     price: 'FREE',
     multipleDevices: false,
     engine: LocalForageEngine,
@@ -45,7 +46,7 @@ export const StorageEngines: Array<StorageEngineType> = [
     id: 'pouchdb',
     name: 'CouchDB',
     shortName: 'CouchDB',
-    description: 'Sync to your own CouchDB server',
+    description: Lang.t('storage.sync-to-your-own-couchdb-server', 'Sync to your own CouchDB server'),
     price: 'FREE',
     multipleDevices: false,
     engine: PouchDBEngine,
@@ -55,7 +56,7 @@ export const StorageEngines: Array<StorageEngineType> = [
     id: 'nomie-server',
     name: 'Nomie Server',
     shortName: 'Nomie Server',
-    description: 'Sync to your own Nomie Server',
+    description: Lang.t('storage.sync-to-your-own-nomie-server', 'Sync to your own Nomie Server'),
     price: 'FREE',
     multipleDevices: true,
     engine: NomieServierStorage,

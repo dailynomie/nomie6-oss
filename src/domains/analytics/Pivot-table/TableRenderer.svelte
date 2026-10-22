@@ -243,7 +243,7 @@
               on:click={clickable && colKey[j] ? (_) => fold([colKey.slice(0, j + 1)]) : null}
             >
               {#if grouping && colKey[j] === undefined}
-                {colKey[j] ?? 'Total'} <!-- RdL changed null to Total -->
+                {colKey[j] ?? Lang.t('analytics.total', 'Total')} <!-- RdL changed null to Total -->
               {:else}
                 {colKey[j] ?? 'null'} <!-- RdL changed null to Null -->
               {/if}
@@ -273,7 +273,7 @@
           </th>
         {/each}
         <th class="pvtTotalLabel">
-          {colAttrs.length === 0 ? 'Totals' : ''}
+          {colAttrs.length === 0 ? Lang.t('analytics.totals', 'Totals') : ''}
         </th>
       </tr>
     {/if}

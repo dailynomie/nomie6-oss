@@ -94,8 +94,8 @@
     <ButtonGroup
       value={resolveExperience($Prefs)}
       buttons={[
-        { label: 'Starter', value: 'starter' },
-        { label: 'Full', value: 'full' },
+        { label: Lang.t('settings.starter', 'Starter'), value: 'starter' },
+        { label: Lang.t('settings.full', 'Full'), value: 'full' },
       ]}
       on:change={(evt) => {
         $Prefs.experience = evt.detail.value
@@ -103,8 +103,14 @@
     />
     <div class="text-ios-footnote text-ios-label2">
       {resolveExperience($Prefs) === 'full'
-        ? 'Full shows everything. Switching never deletes data.'
-        : 'Starter shows the essentials. Nothing is deleted.'}
+        ? Lang.t(
+            'settings.full-shows-everything-switching-never-deletes-da',
+            'Full shows everything. Switching never deletes data.'
+          )
+        : Lang.t(
+            'settings.starter-shows-the-essentials-nothing-is-deleted',
+            'Starter shows the essentials. Nothing is deleted.'
+          )}
     </div>
   </div>
 

@@ -4,9 +4,10 @@ import { createArrayStore } from '../../store/ArrayStore'
 import distance from '../../modules/locate/distance'
 import { closeModal, openModal } from '../../components/backdrop/BackdropStore2'
 import locationsModalSvelte from '../../domains/map/location-manager-modal.svelte'
+import { Lang } from '../../store/lang'
 
 export const LocationStore = createArrayStore(NPaths.storage.locations(), {
-  label: 'Locations',
+  label: Lang.t('ui.locations', 'Locations'),
   key: 'id',
   itemInitializer: (item) => {
     return new Location(item)

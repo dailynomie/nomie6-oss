@@ -4,6 +4,7 @@
   import Draggable from './Draggable.svelte'
   import FilterBox from './FilterBox.svelte'
   import { Prefs } from '../../../preferences/Preferences'
+  import { Lang } from '../../../../store/lang'
 
   const is_empty = (obj) => !obj || Object.keys(obj).length === 0
 

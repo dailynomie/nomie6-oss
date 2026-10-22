@@ -108,8 +108,8 @@
           bind:value={ampm}
           onchange={() => onChange()}
           options={[
-            { value: 'am', label: 'AM' },
-            { value: 'pm', label: 'PM' },
+            { value: 'am', label: Lang.t('ui.am', 'AM') },
+            { value: 'pm', label: Lang.t('ui.pm', 'PM') },
           ]}
         />
       {/if}

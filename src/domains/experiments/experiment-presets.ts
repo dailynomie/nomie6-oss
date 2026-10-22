@@ -1,4 +1,5 @@
 import type { ExpectedDirection } from './experiment-class'
+import { Lang } from '../../store/lang'
 
 export type ExperimentPresetOutcome = { tag: string; direction: ExpectedDirection }
 
@@ -15,7 +16,7 @@ export type ExperimentPreset = {
 export const EXPERIMENT_PRESETS: Array<ExperimentPreset> = [
   {
     id: 'no-caffeine-after-14',
-    title: 'No caffeine after 14:00',
+    title: Lang.t('experiments.no-caffeine-after-14-00', 'No caffeine after 14:00'),
     change: 'No caffeine after 14:00',
     outcomes: [{ tag: 'sleep_quality', direction: 'up' }],
     lagDays: 1,
@@ -34,7 +35,7 @@ export const EXPERIMENT_PRESETS: Array<ExperimentPreset> = [
   },
   {
     id: 'no-screens-before-bed',
-    title: 'No screens in the last hour before bed',
+    title: Lang.t('experiments.no-screens-in-the-last-hour-before-bed', 'No screens in the last hour before bed'),
     change: 'No screens in the last hour before bed',
     outcomes: [{ tag: 'sleep_quality', direction: 'up' }],
     lagDays: 1,
@@ -42,7 +43,7 @@ export const EXPERIMENT_PRESETS: Array<ExperimentPreset> = [
   },
   {
     id: 'no-alcohol',
-    title: 'No alcohol',
+    title: Lang.t('experiments.no-alcohol', 'No alcohol'),
     change: 'No alcohol',
     outcomes: [
       { tag: 'sleep_quality', direction: 'up' },

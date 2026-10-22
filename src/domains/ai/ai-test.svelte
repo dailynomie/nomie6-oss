@@ -37,7 +37,7 @@
       console.info('📊 Logs from last 30 days:', logs?.length)
 
       if (!logs || logs.length === 0) {
-        testDataInfo = { info: 'No tracking data available yet' }
+        testDataInfo = { info: Lang.t('ai.no-tracking-data-available-yet', 'No tracking data available yet') }
         return
       }
 
@@ -105,7 +105,7 @@
         await streamQuery(
           {
             profile: 'insight',
-            prompt: 'How am I doing overall based on my data?',
+            prompt: Lang.t('ai.how-am-i-doing-overall-based-on-my-data', 'How am I doing overall based on my data?'),
           },
           (chunk) => {
             responseText += chunk
@@ -114,7 +114,7 @@
       } else {
         const res = await query<string>({
           profile: 'insight',
-          prompt: 'How am I doing overall based on my data?',
+          prompt: Lang.t('ai.how-am-i-doing-overall-based-on-my-data', 'How am I doing overall based on my data?'),
         })
         responseText = res.content
       }
@@ -128,7 +128,10 @@
     try {
       const res = await query<AdviceItem[]>({
         profile: 'advice',
-        prompt: 'What actionable advice do you have for me this week?',
+        prompt: Lang.t(
+          'ai.what-actionable-advice-do-you-have-for-me-this-w',
+          'What actionable advice do you have for me this week?'
+        ),
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -141,7 +144,10 @@
     try {
       const res = await query<ChartDataset>({
         profile: 'data',
-        prompt: 'Create a chart showing my top tracked metrics over the last week',
+        prompt: Lang.t(
+          'ai.create-a-chart-showing-my-top-tracked-metrics-ov',
+          'Create a chart showing my top tracked metrics over the last week'
+        ),
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -154,7 +160,7 @@
     try {
       const res = await query<JournalPrompt>({
         profile: 'journal',
-        prompt: 'Generate reflection prompts for today',
+        prompt: Lang.t('ai.generate-reflection-prompts-for-today', 'Generate reflection prompts for today'),
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -167,7 +173,7 @@
     try {
       const res = await query<AlertItem[]>({
         profile: 'alert',
-        prompt: 'Detect any anomalies in my tracking data',
+        prompt: Lang.t('ai.detect-any-anomalies-in-my-tracking-data', 'Detect any anomalies in my tracking data'),
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -180,7 +186,10 @@
     try {
       const res = await query<NarrativeAnalysis>({
         profile: 'narrative',
-        prompt: 'Analyze my journal entries and notes from the last 30 days',
+        prompt: Lang.t(
+          'ai.analyze-my-journal-entries-and-notes-from-the-la',
+          'Analyze my journal entries and notes from the last 30 days'
+        ),
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -286,7 +295,7 @@
           disabled={aiState.loading}
           class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? 'Loading...' : '💬 Insight'}
+          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.insight-2', '💬 Insight')}
         </button>
 
         <button
@@ -294,7 +303,7 @@
           disabled={aiState.loading}
           class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? 'Loading...' : '💡 Advice'}
+          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.advice-2', '💡 Advice')}
         </button>
 
         <button
@@ -302,7 +311,7 @@
           disabled={aiState.loading}
           class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? 'Loading...' : '📊 Data'}
+          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.data-2', '📊 Data')}
         </button>
 
         <button
@@ -310,7 +319,7 @@
           disabled={aiState.loading}
           class="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? 'Loading...' : '📝 Journal'}
+          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.journal-2', '📝 Journal')}
         </button>
 
         <button
@@ -318,7 +327,7 @@
           disabled={aiState.loading}
           class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? 'Loading...' : '⚠️ Alert'}
+          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.alert-2', '⚠️ Alert')}
         </button>
 
         <button
@@ -326,7 +335,7 @@
           disabled={aiState.loading}
           class="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? 'Loading...' : '📖 Narrative'}
+          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.narrative-2', '📖 Narrative')}
         </button>
       </div>
     </div>

@@ -5,6 +5,7 @@ import appConfig from '../../config/appConfig'
 import type { PositivityType } from '../../config/appConfig'
 import { openDropMenu } from '../../components/menu/useDropmenu'
 import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
+import { Lang } from '../../store/lang'
 
 export interface IPositivityResults {
   positive: number
@@ -35,7 +36,7 @@ export const getPositivityMenu = (onSelect: Function): Array<PopMenuButton> => {
 export const selectPositivityPopmenu = (score: number) => {
   return new Promise((resolve) => {
     openPopMenu({
-      title: 'Select Positivity',
+      title: Lang.t('ui.select-positivity', 'Select Positivity'),
       id: 'select-positivity',
       buttons: getPositivityMenu(resolve),
     })

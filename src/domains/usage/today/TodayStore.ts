@@ -9,6 +9,7 @@ import { LedgerStore } from '../../ledger/LedgerStore'
 
 import logsToTrackableUsage from '../usage-utils'
 import type { TrackableUsageMap } from '../trackable-usage.class'
+import { Lang } from '../../../store/lang'
 
 type TodayStoreStateType = {
   date: Dayjs
@@ -42,7 +43,10 @@ export const goBackInTime = () => {
 export const loadToday = async (props: LoadTodayProps) => {
   const date = dayjs(props.date || new Date())
   const logs = await LedgerStore.query({ start: date.startOf('day'), end: date.endOf('day'), caller: 'today-store' })
-  const usage = logsToTrackableUsage(logs, { trackables: props.knownTrackables || {}, caller: '$TodayStore.loadToday' })
+  const usage = logsToTrackableUsage(logs, {
+    trackables: props.knownTrackables || {},
+    caller: '$TodayStore.loadToday',
+  })
 
   // Update Store
   TodayStore.update((s) => {

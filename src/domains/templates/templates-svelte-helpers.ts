@@ -26,7 +26,7 @@ import { Lang } from '../../store/lang'
 /* Creating a store for the templates. */
 export const TemplateStore = createArrayStore(NPaths.storage.templates(), {
   key: 'id',
-  label: 'Template',
+  label: Lang.t('templates.template', 'Template'),
   itemInitializer: (item) => {
     return new Template(item)
   },

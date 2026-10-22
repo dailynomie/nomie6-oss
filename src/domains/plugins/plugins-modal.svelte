@@ -95,14 +95,14 @@
       <ButtonGroup
         buttons={[
           {
-            label: 'Installed',
+            label: Lang.t('plugins.installed', 'Installed'),
             active: tab == 'installed',
             click() {
               tab = 'installed'
             },
           },
           {
-            label: 'Available',
+            label: Lang.t('plugins.available', 'Available'),
             active: tab == 'avail',
             click() {
               tab = 'avail'

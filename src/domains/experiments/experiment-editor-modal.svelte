@@ -125,7 +125,7 @@
         const enough = logged >= 7
         return {
           ...o,
-          preview: `You logged ${o.label} on ${logged} of the last ${durationDays} days.${enough ? ' Good baseline.' : ' Less than 7 days: results will be uncertain.'}`,
+          preview: `You logged ${o.label} on ${logged} of the last ${durationDays} days.${enough ? Lang.t('experiments.good-baseline', 'Good baseline.') : Lang.t('experiments.less-than-7-days-results-will-be-uncertain', 'Less than 7 days: results will be uncertain.')}`,
         }
       })
     )
@@ -212,10 +212,10 @@
     </div>
     <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 -mt-3">
       {step === 1
-        ? 'Step 1 of 3 · Choose a change'
+        ? Lang.t('experiments.step-1-of-3-choose-a-change', 'Step 1 of 3 · Choose a change')
         : step === 2
-          ? 'Step 2 of 3 · What to watch'
-          : 'Step 3 of 3 · Start'}
+          ? Lang.t('experiments.step-2-of-3-what-to-watch', 'Step 2 of 3 · What to watch')
+          : Lang.t('experiments.step-3-of-3-start', 'Step 3 of 3 · Start')}
     </div>
 
     {#if step === 1}
@@ -272,7 +272,7 @@
           <div class="p-4 ios-card space-y-3">
             <div class="flex items-center justify-between gap-2">
               <div class="font-semibold truncate {outcome.found ? '' : 'text-ios-label2'}">
-                {outcome.found ? outcome.label : 'Tracker not added yet'}
+                {outcome.found ? outcome.label : Lang.t('experiments.tracker-not-added-yet', 'Tracker not added yet')}
               </div>
               <button class="text-xs font-medium text-ios-danger" onclick={() => removeOutcome(index)}
                 >{Lang.t('experiments.remove', 'Remove')}</button
@@ -296,9 +296,9 @@
               bind:value={outcome.direction}
               onchange={updatePreviews}
               options={[
-                { value: 'up', label: 'I hope it goes up' },
-                { value: 'down', label: 'I hope it goes down' },
-                { value: 'either', label: 'I want to see either way' },
+                { value: 'up', label: Lang.t('experiments.i-hope-it-goes-up', 'I hope it goes up') },
+                { value: 'down', label: Lang.t('experiments.i-hope-it-goes-down', 'I hope it goes down') },
+                { value: 'either', label: Lang.t('experiments.i-want-to-see-either-way', 'I want to see either way') },
               ]}
             />
             {#if outcome.preview}

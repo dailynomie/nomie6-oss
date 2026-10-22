@@ -24,6 +24,7 @@ import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelt
 import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
 import { isFeatureVisible } from '../preferences/experience'
 import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
+import { Lang } from '../../store/lang'
 // Define the Prop Typese
 export type UniboardType = {
   id: string
@@ -141,7 +142,7 @@ export const getBoardsFromStorage = async (): Promise<Array<UniboardType>> => {
   if (!uniboards.length) {
     const mainBoard: UniboardType = {
       id: 'main',
-      label: 'Main',
+      label: Lang.t('board.main', 'Main'),
       elements: [],
     }
     uniboards.push(mainBoard)
@@ -200,7 +201,14 @@ const combineStoreBoards = (
   if ($Prefs.experimentBoard && experimentElements.length) {
     boards = [
       ...boards,
-      ...[{ label: 'Experiments', icon: ExperimentBoardIcon, id: EXPERIMENT_BOARD_ID, elements: experimentElements }],
+      ...[
+        {
+          label: Lang.t('board.experiments', 'Experiments'),
+          icon: ExperimentBoardIcon,
+          id: EXPERIMENT_BOARD_ID,
+          elements: experimentElements,
+        },
+      ],
     ]
   }
 
@@ -249,19 +257,19 @@ export const initUniboardStore = async (knownTrackables: ITrackables) => {
     s.hash = objectHash(boards)
 
     s.dynamicBoards.people = {
-      label: 'People',
+      label: Lang.t('board.people', 'People'),
       icon: PeopleBoardIcon,
       id: '_people',
       elements: trackables.filter((t) => t.person).map((t) => t.tag),
     }
     s.dynamicBoards.context = {
-      label: 'Context',
+      label: Lang.t('board.context', 'Context'),
       icon: ContextBoardIcon,
       id: '_context',
       elements: trackables.filter((t) => t.type === 'context').map((t) => t.tag),
     }
     s.dynamicBoards.all = {
-      label: 'All',
+      label: Lang.t('board.all', 'All'),
       icon: AllBoardIcon,
       id: '_all',
       elements: trackables.filter((t) => t.type === 'tracker').map((t) => t.tag),

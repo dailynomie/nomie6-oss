@@ -73,14 +73,14 @@
   const getMainActionMenu = (): Array<PopMenuButton> => {
     return [
       {
-        title: 'Add New Widget',
+        title: Lang.t('dashboard.add-new-widget', 'Add New Widget'),
         icon: AddCircleOutline,
         click() {
           createNewWidget()
         },
       },
       {
-        title: 'Add New Dashboard',
+        title: Lang.t('dashboard.add-new-dashboard', 'Add New Dashboard'),
         icon: EaselOutline,
         click() {
           createNewDashboard()
@@ -97,7 +97,7 @@
       },
       {
         // iOS look (Phase 7 bug fix): delete lives in the menu, not beside Add Widget on an empty dashboard
-        title: 'Delete Dashboard',
+        title: Lang.t('dashboard.delete-dashboard', 'Delete Dashboard'),
         disabled: !$DashStore.activeDashboard,
         icon: TrashOutline,
         click() {
@@ -147,12 +147,12 @@
       Interact.stopBlocker()
 
       Interact.popmenu({
-        title: 'Dashboard Report Generated',
-        description: 'You can now share this as an image',
+        title: Lang.t('dashboard.dashboard-report-generated', 'Dashboard Report Generated'),
+        description: Lang.t('dashboard.you-can-now-share-this-as-an-image', 'You can now share this as an image'),
         id: 'share-dashboard',
         buttons: [
           {
-            title: navigator.share ? 'Share...' : 'Download...',
+            title: navigator.share ? Lang.t('dashboard.share', 'Share...') : 'Download...',
             click() {
               shareOptions($DashStore.activeDashboard.label, undefined, screenshotImage)
             },

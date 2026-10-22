@@ -1,3 +1,4 @@
+import { Lang } from '../../store/lang'
 /**
  * Browser Crypto Storage
  * Encrypts and decrypts sensitive data using Web Crypto API
@@ -54,7 +55,7 @@ export async function encryptValue(value: string, password: string): Promise<str
     // Return as base64 for storage
     return btoa(String.fromCharCode(...combined))
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error'
+    const message = error instanceof Error ? error.message : Lang.t('ui.unknown-error', 'Unknown error')
     console.error('Encryption failed:', message)
     throw new Error(`Failed to encrypt value: ${message}`)
   }
@@ -97,7 +98,7 @@ export async function decryptValue(encrypted: string, password: string): Promise
 
     return new TextDecoder().decode(decrypted)
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error'
+    const message = error instanceof Error ? error.message : Lang.t('ui.unknown-error', 'Unknown error')
     console.error('Decryption failed:', message)
     throw new Error(`Failed to decrypt value. Incorrect PIN or corrupted data: ${message}`)
   }

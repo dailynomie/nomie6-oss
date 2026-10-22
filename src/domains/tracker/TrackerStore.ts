@@ -4,12 +4,13 @@ import NPaths from '../../paths'
 import TrackerClass from '../../modules/tracker/TrackerClass'
 import { createKVStore } from '../../store/KVStore'
 import { derived } from 'svelte/store'
+import { Lang } from '../../store/lang'
 
 /**
  * Create the Tracker KV Store
  */
 export const TrackerStore = createKVStore(NPaths.storage.trackers(), {
-  label: 'Trackers',
+  label: Lang.t('tracker.trackers', 'Trackers'),
   key: 'tag',
   itemSerializer: (item: TrackerClass) => {
     return item.asObject

@@ -261,7 +261,10 @@
           </span>
         </NItem>
       {:else if state.finding}
-        <NItem className="pb-2" title={`${state.finishedFinding ? 'Find Complete' : 'Finding...'}`}>
+        <NItem
+          className="pb-2"
+          title={`${state.finishedFinding ? Lang.t('ui.find-complete', 'Find Complete') : Lang.t('ui.finding', 'Finding...')}`}
+        >
           <span slot="left">
             {#if state.finishedFinding}
               <IonIcon icon={CheckmarkCircle} className="text-ios-good" />

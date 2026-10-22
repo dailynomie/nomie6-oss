@@ -390,7 +390,7 @@ const ledgerInit = () => {
             message: `${Lang.t('general.saved', 'Saved')}: ${textUtils.truncate(log.note, 100)}`,
             timeout: 2200,
             type: 'success',
-            buttonLabel: 'Undo',
+            buttonLabel: Lang.t('ledger.undo', 'Undo'),
             buttonClick: () => {
               LedgerStore.deleteLogs([log]).then(async () => {
                 // Push the Last Known Ones back to the UsageStore
@@ -653,7 +653,10 @@ export const prepareLog = async (log: NLog, knownTrackers?: ITrackers) => {
  */
 export const queryToUsageMap = async (query: IQueryOptions, known: ITrackables): Promise<TrackableUsageMap> => {
   const logs: Array<NLog> = await LedgerStore.query(query)
-  const usage = logsToTrackableUsage(logs, { trackables: known, caller: 'queryToUsageMap' })
+  const usage = logsToTrackableUsage(logs, {
+    trackables: known,
+    caller: 'queryToUsageMap',
+  })
   return usage
 }
 

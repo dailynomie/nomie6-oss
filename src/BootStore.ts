@@ -34,7 +34,7 @@ const presentLockScreen = async ($Prefs): Promise<boolean> => {
   return new Promise((resolve) => {
     openPinLock({
       canClose: false,
-      title: 'Pin to Unlock',
+      title: Lang.t('ui.pin-to-unlock', 'Pin to Unlock'),
       isMatch(pin) {
         return pin === $Prefs.usePin
       },

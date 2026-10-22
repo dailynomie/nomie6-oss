@@ -85,9 +85,9 @@
 
   const showSizeMenu = (htmlTarget) => {
     const buttons = [
-      { id: 'sm', label: 'Small' },
-      { id: 'md', label: 'Medium' },
-      { id: 'lg', label: 'Large' },
+      { id: 'sm', label: Lang.t('dashboard.small', 'Small') },
+      { id: 'md', label: Lang.t('dashboard.medium', 'Medium') },
+      { id: 'lg', label: Lang.t('dashboard.large', 'Large') },
     ].map((b) => {
       return {
         title: b.label,
@@ -127,7 +127,7 @@
     })
     Interact.popmenu({
       id: `widget-time-frame`,
-      title: 'Time Frame',
+      title: Lang.t('dashboard.time-frame', 'Time Frame'),
       buttons,
     })
   }

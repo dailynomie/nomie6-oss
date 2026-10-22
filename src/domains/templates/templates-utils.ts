@@ -12,6 +12,7 @@ import type { Trackable } from '../trackable/Trackable.class'
 import { UOMClass } from '../uom/uom.class'
 import type { ILocation } from '../locations/LocationClass'
 import type { PluginType } from '../plugins/plugin-helpers'
+import { Lang } from '../../store/lang'
 
 export type TemplateType = {
   id: string
@@ -80,19 +81,19 @@ export interface TemplateRef extends PopMenuButton {
 
 export const templateRefs: Array<TemplateRef> = [
   {
-    title: '🤔 ADHD',
+    title: Lang.t('templates.adhd', '🤔 ADHD'),
     url: '/templates/adhd-template.json',
   },
   {
-    title: '😵‍💫 Mood',
+    title: Lang.t('templates.mood', '😵‍💫 Mood'),
     url: '/templates/mood-template.json',
   },
   {
-    title: '🔴 Period',
+    title: Lang.t('templates.period', '🔴 Period'),
     url: '/templates/period-template.json',
   },
   {
-    title: '💝 Self Care',
+    title: Lang.t('templates.self-care', '💝 Self Care'),
     url: '/templates/care-template.json',
   },
 ]

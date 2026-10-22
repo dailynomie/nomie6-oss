@@ -385,9 +385,9 @@
               <ButtonGroup
                 bind:value={editingWidget.size}
                 buttons={[
-                  { value: 'sm', label: 'Small' },
-                  { value: 'md', label: 'Medium' },
-                  { value: 'lg', label: 'Large' },
+                  { value: 'sm', label: Lang.t('dashboard.small', 'Small') },
+                  { value: 'md', label: Lang.t('dashboard.medium', 'Medium') },
+                  { value: 'lg', label: Lang.t('dashboard.large', 'Large') },
                 ]}
                 slot="right"
               />
@@ -488,8 +488,8 @@
                 updateTrigger = updateTrigger + 1
               }}
               buttons={[
-                { value: 'predefined', label: 'Predefined' },
-                { value: 'custom', label: 'Custom' },
+                { value: 'predefined', label: Lang.t('dashboard.predefined', 'Predefined') },
+                { value: 'custom', label: Lang.t('dashboard.custom', 'Custom') },
               ]}
               slot="right"
             />
@@ -506,16 +506,16 @@
               label={Lang.t('dashboard.select-prompt', 'Select Prompt')}
               placeholder={`${Lang.t('dashboard.select-prompt', 'Select a prompt')}`}
               options={[
-                { value: 'patterns', label: 'Patterns' },
-                { value: 'progress', label: 'Progress' },
-                { value: 'insights', label: 'Insights' },
+                { value: 'patterns', label: Lang.t('dashboard.patterns', 'Patterns') },
+                { value: 'progress', label: Lang.t('dashboard.progress', 'Progress') },
+                { value: 'insights', label: Lang.t('dashboard.insights', 'Insights') },
                 { value: 'recommendations', label: 'Recommendations' },
-                { value: 'trends', label: 'Trends' },
-                { value: 'wellbeing', label: 'Wellbeing' },
-                { value: 'productivity', label: 'Productivity' },
-                { value: 'health', label: 'Health' },
-                { value: 'mood', label: 'Mood & Emotions' },
-                { value: 'correlation', label: 'Correlations' },
+                { value: 'trends', label: Lang.t('dashboard.trends', 'Trends') },
+                { value: 'wellbeing', label: Lang.t('dashboard.wellbeing', 'Wellbeing') },
+                { value: 'productivity', label: Lang.t('dashboard.productivity', 'Productivity') },
+                { value: 'health', label: Lang.t('dashboard.health', 'Health') },
+                { value: 'mood', label: Lang.t('dashboard.mood-emotions', 'Mood & Emotions') },
+                { value: 'correlation', label: Lang.t('dashboard.correlations', 'Correlations') },
               ]}
             />
           {/if}
@@ -572,7 +572,11 @@
                   class="bg-ios-card2 rounded-md px-2 py-1"
                   pattern="[0-9]*"
                   inputmode="numeric"
-                  placeholder={activeType.id == 'value' ? 'Value' : activeType.id == 'last-used' ? 'Days' : 'Value'}
+                  placeholder={activeType.id == 'value'
+                    ? Lang.t('dashboard.value', Lang.t('dashboard.value', 'Value'))
+                    : activeType.id == 'last-used'
+                      ? Lang.t('dashboard.days', 'Days')
+                      : Lang.t('dashboard.value', Lang.t('dashboard.value', 'Value'))}
                   style="max-width:140px;"
                   bind:value={editingWidget.compareValue}
                 />

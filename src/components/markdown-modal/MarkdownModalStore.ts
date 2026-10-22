@@ -2,6 +2,7 @@ import MarkdownModal from './markdown-modal.svelte'
 import { objectHash } from '../../modules/object-hash/object-hash'
 import { openModal } from '../backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
+import { Lang } from '../../store/lang'
 
 export type MarkdownModalStoreProps = {
   title?: string
@@ -29,14 +30,14 @@ export const closeMarkdownModal = () => {
 
 export const openTermsOfService = () => {
   openMarkdownModal({
-    title: 'Terms of Service',
+    title: Lang.t('ui.terms-of-service', 'Terms of Service'),
     path: '/content/terms.md',
   })
 }
 
 export const openPrivacyPolicy = () => {
   openMarkdownModal({
-    title: 'Privacy Policy',
+    title: Lang.t('ui.privacy-policy', 'Privacy Policy'),
     path: '/content/privacy.md',
     replyTo: 'dailynomie@gmail.com',
   })

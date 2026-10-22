@@ -1,5 +1,6 @@
 import { Interact } from '../../store/interact'
 import download from '../download/download'
+import { Lang } from '../../store/lang'
 
 let _fallback = (service, title, url) => {
   let launchURL = ''
@@ -30,13 +31,13 @@ let _fallback = (service, title, url) => {
 export default (title: string, url?: string, file?: File) => {
   let buttons = [
     {
-      title: 'Twitter',
+      title: Lang.t('ui.twitter', 'Twitter'),
       click() {
         _fallback('twitter', title, url)
       },
     },
     {
-      title: 'Facebook',
+      title: Lang.t('ui.facebook', 'Facebook'),
       click() {
         _fallback('facebook', title, url)
       },
@@ -48,13 +49,13 @@ export default (title: string, url?: string, file?: File) => {
       },
     },
     {
-      title: 'Reddit',
+      title: Lang.t('ui.reddit', 'Reddit'),
       click() {
         _fallback('reddit', title, url)
       },
     },
     {
-      title: 'Email',
+      title: Lang.t('ui.email', 'Email'),
       click() {
         _fallback('email', title, url)
       },

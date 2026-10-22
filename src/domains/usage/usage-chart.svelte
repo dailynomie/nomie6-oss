@@ -399,7 +399,7 @@
           const buttons: Array<PopMenuButton> = [
             {
               id: 'linear',
-              title: 'Linear Scale',
+              title: Lang.t('usage.linear-scale', 'Linear Scale'),
               checked: chartScale === 'linear',
               click() {
                 chartScale = 'linear'
@@ -408,7 +408,7 @@
             },
             {
               id: 'log',
-              title: 'Log Scale',
+              title: Lang.t('usage.log-scale', 'Log Scale'),
               checked: chartScale === 'logarithmic',
               click() {
                 chartScale = 'logarithmic'
@@ -426,7 +426,7 @@
           const buttons: Array<PopMenuButton> = [
             {
               id: 'none',
-              title: 'No Stats',
+              title: Lang.t('usage.no-stats', 'No Stats'),
               checked: chartStats === 'none',
               async click() {
                 chartStats = 'none'
@@ -437,7 +437,7 @@
             },
             {
               id: 'avg',
-              title: 'Average',
+              title: Lang.t('usage.average', 'Average'),
               checked: chartStats === 'avg',
               async click() {
                 chartStats = 'avg'
@@ -481,7 +481,7 @@
             },
             {
               id: 'sma-7',
-              title: '7 days Simple Moving Average',
+              title: Lang.t('usage.7-days-simple-moving-average', '7 days Simple Moving Average'),
               checked: chartStats === 'sma-7',
               async click() {
                 chartStats = 'sma-7'
@@ -492,7 +492,7 @@
             },
             {
               id: 'sma-15',
-              title: '15 days Simple Moving Average',
+              title: Lang.t('usage.15-days-simple-moving-average', '15 days Simple Moving Average'),
               checked: chartStats === 'sma-15',
               async click() {
                 chartStats = 'sma-15'
@@ -503,7 +503,7 @@
             },
             {
               id: 'sma-30',
-              title: '30 days Simple Moving Average',
+              title: Lang.t('usage.30-days-simple-moving-average', '30 days Simple Moving Average'),
               checked: chartStats === 'sma-30',
               async click() {
                 chartStats = 'sma-30'
@@ -514,7 +514,7 @@
             },
             {
               id: 'ema-7',
-              title: '7 days Exponential Moving Average',
+              title: Lang.t('usage.7-days-exponential-moving-average', '7 days Exponential Moving Average'),
               checked: chartStats === 'ema-7',
               async click() {
                 chartStats = 'ema-7'
@@ -525,7 +525,7 @@
             },
             {
               id: 'ema-15',
-              title: '15 days Exponential Moving Average',
+              title: Lang.t('usage.15-days-exponential-moving-average', '15 days Exponential Moving Average'),
               checked: chartStats === 'ema-15',
               async click() {
                 chartStats = 'ema-15'
@@ -536,7 +536,7 @@
             },
             {
               id: 'ema-30',
-              title: '30 days Exponential Moving Average',
+              title: Lang.t('usage.30-days-exponential-moving-average', '30 days Exponential Moving Average'),
               checked: chartStats === 'ema-30',
               async click() {
                 chartStats = 'ema-30'
@@ -579,7 +579,7 @@
         },
       },
       {
-        title: 'Show Context',
+        title: Lang.t('usage.show-context', 'Show Context'),
         icon: showContext ? CheckmarkCircle : undefined,
         divider: true,
         click() {
@@ -594,7 +594,7 @@
           const buttons: Array<PopMenuButton> = [
             {
               id: 'none',
-              title: 'No Other Trackable',
+              title: Lang.t('usage.no-other-trackable', 'No Other Trackable'),
               checked: includeAlsoLabel === 'None',
               async click() {
                 includeAlso = undefined
@@ -605,7 +605,7 @@
             },
             {
               id: 'trackable',
-              title: 'Select Trackable',
+              title: Lang.t('usage.select-trackable', 'Select Trackable'),
               checked: includeAlsoLabel != 'None',
               async click() {
                 //await wait(10)

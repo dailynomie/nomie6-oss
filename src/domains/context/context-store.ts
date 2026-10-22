@@ -46,7 +46,7 @@ const searchForContext = async () => {
 
 export const ContextStore = createKVStore(NPaths.storage.context(), {
   key: 'tag',
-  label: 'Context',
+  label: Lang.t('context.context', 'Context'),
   itemInitializer: (item: any) => {
     return new ContextClass(item)
   },

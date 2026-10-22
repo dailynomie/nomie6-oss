@@ -261,7 +261,7 @@
     const buttons = [
       {
         id: 'edit',
-        title: 'Edit Trackable',
+        title: Lang.t('templates.edit-trackable', 'Edit Trackable'),
         click() {
           openTrackableEditor(trackable, (trackable) => {
             template.trackables = template.trackables.map((t) => {
@@ -299,7 +299,7 @@
       }
     })
     openPopMenu({
-      title: 'Which Tab would you like to import?',
+      title: Lang.t('templates.which-tab-would-you-like-to-import', 'Which Tab would you like to import?'),
       id: 'existing-boards',
       buttons: boardButtons,
     })
@@ -328,7 +328,7 @@
   const trackerAddButtons: Array<PopMenuButton> = [
     {
       id: 'existing',
-      title: 'Pick from my Trackables',
+      title: Lang.t('templates.pick-from-my-trackables', 'Pick from my Trackables'),
       async click() {
         const selected = await selectTrackables()
 
@@ -342,7 +342,7 @@
     },
     {
       id: 'new',
-      title: 'Create a Tracker',
+      title: Lang.t('templates.create-a-tracker', 'Create a Tracker'),
       async click() {
         openTrackableEditor(new Trackable({ type: 'tracker' }), (trackable) => {
           template.trackables = [...template.trackables, trackable]
@@ -351,7 +351,7 @@
     },
     {
       id: 'new',
-      title: 'Create a Person',
+      title: Lang.t('templates.create-a-person', 'Create a Person'),
       async click() {
         openTrackableEditor(new Trackable({ type: 'person' }), (trackable) => {
           template.trackables = [...template.trackables, trackable]
@@ -360,7 +360,7 @@
     },
     {
       id: 'new',
-      title: 'Create a Context',
+      title: Lang.t('templates.create-a-context', 'Create a Context'),
       async click() {
         openTrackableEditor(new Trackable({ type: 'context' }), (trackable) => {
           template.trackables = [...template.trackables, trackable]
@@ -369,7 +369,7 @@
     },
     {
       id: 'new',
-      title: 'Create a Pointer',
+      title: Lang.t('templates.create-a-pointer', 'Create a Pointer'),
       async click() {
         openTrackableEditor(new Trackable({ type: 'pointer' }), (trackable) => {
           template.trackables = [...template.trackables, trackable]
@@ -436,7 +436,7 @@
       }
     })
     openPopMenu({
-      title: 'Which dashboard would you like to import?',
+      title: Lang.t('templates.which-dashboard-would-you-like-to-import', 'Which dashboard would you like to import?'),
       id: 'existing-dsahboards',
       buttons: boardButtons,
     })
@@ -516,7 +516,7 @@
         title: `No ${getDurationLabel(duration)} Goals`,
         buttons: [
           {
-            title: 'Go Back',
+            title: Lang.t('templates.go-back', 'Go Back'),
             id: 'back',
             click() {
               openGoalImporter($GoalStore)
@@ -550,7 +550,7 @@
 
     // Add back button
     buttons.unshift({
-      title: '← Back to Duration Selection',
+      title: Lang.t('templates.back-to-duration-selection', '← Back to Duration Selection'),
       id: 'back',
       click() {
         openGoalImporter($GoalStore)
@@ -604,7 +604,7 @@
 
     openPopMenu({
       id: 'import-goal',
-      title: 'Select Goal Period',
+      title: Lang.t('templates.select-goal-period', 'Select Goal Period'),
       buttons: buttons,
     })
   }
@@ -695,7 +695,7 @@
 
     openPopMenu({
       id: 'import-pivot',
-      title: 'Which pivot would you like to import?',
+      title: Lang.t('templates.which-pivot-would-you-like-to-import', 'Which pivot would you like to import?'),
       buttons: buttons,
     })
   }
@@ -730,8 +730,8 @@
     if (buttons.length === 0) {
       openPopMenu({
         id: 'import-location-empty',
-        title: 'No Saved Locations',
-        buttons: [{ title: 'Go Back', id: 'back', click() {} }],
+        title: Lang.t('templates.no-saved-locations', 'No Saved Locations'),
+        buttons: [{ title: Lang.t('templates.go-back', 'Go Back'), id: 'back', click() {} }],
       })
       return
     }
@@ -756,7 +756,7 @@
 
     openPopMenu({
       id: 'import-location',
-      title: 'Saved Locations',
+      title: Lang.t('templates.saved-locations', 'Saved Locations'),
       buttons: buttons,
     })
   }
@@ -805,7 +805,7 @@
 
     openPopMenu({
       id: 'import-plugin',
-      title: 'Saved Plugins',
+      title: Lang.t('templates.saved-plugins', 'Saved Plugins'),
       buttons: buttons,
     })
   }

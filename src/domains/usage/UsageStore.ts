@@ -12,6 +12,7 @@ import { parseNumber } from '../../utils/parseNumber/parseNumber'
 import logsToTrackableUsage, { lastUsedCompareAndMerge } from './usage-utils'
 import { derived } from 'svelte/store'
 import type { Trackable } from '../trackable/Trackable.class'
+import { Lang } from '../../store/lang'
 
 export type LastUsedCountUnit = { v: number; d: Date | string }
 export type TrackableLastUsedType = {
@@ -34,7 +35,7 @@ export type LastUsedStoreState = {
  * A Key Value Store for holding the last usage data for a trackable
  */
 export const UsageStore = createKVStore(NPaths.storage.trackableUsage(), {
-  label: 'Usage Store',
+  label: Lang.t('usage.usage-store', 'Usage Store'),
   key: 'tag',
   itemInitializer: (item, key) => {
     item.tag = key

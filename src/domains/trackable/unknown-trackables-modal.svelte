@@ -21,10 +21,10 @@
 
   // Locations are not trackables in the app (they are places on a note, not a type of trackable), so they are not listed.
   const GROUPS: Array<{ type: UnknownType; label: string }> = [
-    { type: 'tracker', label: 'Trackers' },
-    { type: 'person', label: 'People' },
-    { type: 'context', label: 'Contexts' },
-    { type: 'pointer', label: 'Pointers' },
+    { type: 'tracker', label: Lang.t('trackable.trackers', 'Trackers') },
+    { type: 'person', label: Lang.t('trackable.people', 'People') },
+    { type: 'context', label: Lang.t('trackable.contexts', 'Contexts') },
+    { type: 'pointer', label: Lang.t('trackable.pointers', 'Pointers') },
   ]
 
   let items: Array<UnknownItem> = $state([])
@@ -80,7 +80,9 @@
     const changed = await deleteUnknownTrackable(item)
     setUnknownTagIgnored(item.key, false)
     busy = false
-    showToast({ message: `Removed from ${changed} ${changed === 1 ? Lang.t('trackable.note', 'note') : Lang.t('trackable.notes-2', 'notes')}` })
+    showToast({
+      message: `Removed from ${changed} ${changed === 1 ? Lang.t('trackable.note', 'note') : Lang.t('trackable.notes-2', 'notes')}`,
+    })
     await load()
   }
 </script>
@@ -117,7 +119,7 @@
         )}
       </p>
     {:else}
-      {#each [{ section: 'active' as const, list: activeItems, title: 'To set up' }] as block}
+      {#each [{ section: 'active' as const, list: activeItems, title: Lang.t('trackable.to-set-up', 'To set up') }] as block}
         {#each GROUPS as group}
           {@const groupItems = block.list.filter((i) => i.type === group.type)}
           {#if groupItems.length}

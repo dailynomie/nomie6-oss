@@ -87,7 +87,12 @@
         ? 'opacity-50 cursor-not-allowed'
         : ''}"
       aria-label={`${widgetType.label} widget${isInsightDisabled ? ' (requires AI configuration)' : ''}`}
-      title={isInsightDisabled ? 'Enable AI in settings and add your API key to use this widget' : ''}
+      title={isInsightDisabled
+        ? Lang.t(
+            'dashboard.enable-ai-in-settings-and-add-your-api-key-to-us',
+            'Enable AI in settings and add your API key to use this widget'
+          )
+        : ''}
       on:click={() => {
         select(widgetType)
       }}

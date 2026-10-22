@@ -123,7 +123,7 @@
   const selectdays = () => {
     let createlist = [
       {
-        title: '1 Day',
+        title: Lang.t('afternomie.1-day', '1 Day'),
         checked: 1 == waitingtime,
         click() {
           if (waitingtime !== 1) {
@@ -132,7 +132,7 @@
         },
       },
       {
-        title: '2 Days',
+        title: Lang.t('afternomie.2-days', '2 Days'),
         checked: 2 == waitingtime,
         click() {
           if (waitingtime !== 2) {
@@ -141,7 +141,7 @@
         },
       },
       {
-        title: '3 Days',
+        title: Lang.t('afternomie.3-days', '3 Days'),
         checked: 3 == waitingtime,
         click() {
           if (waitingtime !== 3) {
@@ -150,7 +150,7 @@
         },
       },
       {
-        title: '4 Days',
+        title: Lang.t('afternomie.4-days', '4 Days'),
         checked: 4 == waitingtime,
         click() {
           if (waitingtime !== 4) {
@@ -159,7 +159,7 @@
         },
       },
       {
-        title: '5 Days',
+        title: Lang.t('afternomie.5-days', '5 Days'),
         checked: 5 == waitingtime,
         click() {
           if (waitingtime !== 5) {
@@ -168,7 +168,7 @@
         },
       },
       {
-        title: '6 Days',
+        title: Lang.t('afternomie.6-days', '6 Days'),
         checked: 6 == waitingtime,
         click() {
           if (waitingtime !== 6) {
@@ -177,7 +177,7 @@
         },
       },
       {
-        title: '7 Days',
+        title: Lang.t('afternomie.7-days', '7 Days'),
         checked: 7 == waitingtime,
         click() {
           if (waitingtime !== 7) {
@@ -186,7 +186,7 @@
         },
       },
       {
-        title: '10 Days',
+        title: Lang.t('afternomie.10-days', '10 Days'),
         checked: 10 == waitingtime,
         click() {
           if (waitingtime !== 10) {
@@ -195,7 +195,7 @@
         },
       },
       {
-        title: '14 Days',
+        title: Lang.t('afternomie.14-days', '14 Days'),
         checked: 14 == waitingtime,
         click() {
           if (waitingtime !== 14) {
@@ -204,7 +204,7 @@
         },
       },
       {
-        title: '15 Days',
+        title: Lang.t('afternomie.15-days', '15 Days'),
         checked: 15 == waitingtime,
         click() {
           if (waitingtime !== 15) {
@@ -213,7 +213,7 @@
         },
       },
       {
-        title: '20 Days',
+        title: Lang.t('afternomie.20-days', '20 Days'),
         checked: 20 == waitingtime,
         click() {
           if (waitingtime !== 20) {
@@ -222,7 +222,7 @@
         },
       },
       {
-        title: '30 Days',
+        title: Lang.t('afternomie.30-days', '30 Days'),
         checked: 30 == waitingtime,
         click() {
           if (waitingtime !== 30) {
@@ -231,7 +231,7 @@
         },
       },
       {
-        title: '60 Days',
+        title: Lang.t('afternomie.60-days', '60 Days'),
         checked: 60 == waitingtime,
         click() {
           if (waitingtime !== 60) {
@@ -240,7 +240,7 @@
         },
       },
       {
-        title: '90 Days',
+        title: Lang.t('afternomie.90-days', '90 Days'),
         checked: 90 == waitingtime,
         click() {
           if (waitingtime !== 90) {
@@ -249,7 +249,7 @@
         },
       },
       {
-        title: '120 Days',
+        title: Lang.t('afternomie.120-days', '120 Days'),
         checked: 120 == waitingtime,
         click() {
           if (waitingtime !== 120) {

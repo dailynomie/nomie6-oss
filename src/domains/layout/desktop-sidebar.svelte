@@ -148,7 +148,7 @@
       id: 'blockly',
       feature: 'blockly',
       path: '/nomie-blockly',
-      title: 'Nomie Blockly',
+      title: Lang.t('layout.nomie-blockly', 'Nomie Blockly'),
       icon: QRCode,
       activeIcon: QRCodeSolid,
     },

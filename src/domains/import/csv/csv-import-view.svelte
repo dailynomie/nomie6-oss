@@ -86,15 +86,15 @@
 
   let views = $state([
     {
-      title: 'Import CSV',
+      title: Lang.t('import.import-csv', 'Import CSV'),
       id: 'home',
     },
     {
-      title: 'Compose Note',
+      title: Lang.t('import.compose-note', 'Compose Note'),
       id: 'note',
     },
     {
-      title: 'Template',
+      title: Lang.t('import.template', 'Template'),
       id: 'template',
     },
   ])
@@ -110,7 +110,7 @@
 
   const fieldMapButtons = [
     {
-      title: 'End Time*',
+      title: Lang.t('import.end-time', 'End Time*'),
       required: true,
       id: 'end',
       click() {
@@ -118,35 +118,35 @@
       },
     },
     {
-      title: 'Start Time',
+      title: Lang.t('import.start-time', 'Start Time'),
       id: 'start',
       click() {
         setFieldMap('start', activeMapIndex)
       },
     },
     {
-      title: 'Latitude',
+      title: Lang.t('import.latitude', 'Latitude'),
       id: 'lat',
       click() {
         setFieldMap('lat', activeMapIndex)
       },
     },
     {
-      title: 'Longitude',
+      title: Lang.t('import.longitude', 'Longitude'),
       id: 'lng',
       click() {
         setFieldMap('lng', activeMapIndex)
       },
     },
     {
-      title: 'Location Name',
+      title: Lang.t('import.location-name', 'Location Name'),
       id: 'location',
       click() {
         setFieldMap('location', activeMapIndex)
       },
     },
     {
-      title: 'Source',
+      title: Lang.t('import.source', 'Source'),
       id: 'source',
       click() {
         setFieldMap('source', activeMapIndex)
@@ -157,7 +157,7 @@
   function mapField(fieldIndex) {
     activeMapIndex = fieldIndex
     Interact.popmenu({
-      title: `Map ${activeImporter ? activeImporter.getHeaders()[fieldIndex] : 'Unknown'}`,
+      title: `Map ${activeImporter ? activeImporter.getHeaders()[fieldIndex] : Lang.t('import.unknown', 'Unknown')}`,
       buttons: fieldMapButtons,
       id: 'field-map',
     })

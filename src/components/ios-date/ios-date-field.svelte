@@ -6,6 +6,7 @@
   import dayjs from 'dayjs'
   import { openPopMenu } from '../pop-menu/usePopmenu'
   import IosCalendarSheet from './ios-calendar-sheet.svelte'
+  import { Lang } from '../../store/lang'
 
   let {
     value = $bindable(''),
@@ -25,7 +26,9 @@
 
   const id = `date-${Math.random().toString(36).slice(2, 9)}`
 
-  let label = $derived(value && dayjs(value).isValid() ? dayjs(value).format('ddd D MMM YYYY') : 'Pick a date')
+  let label = $derived(
+    value && dayjs(value).isValid() ? dayjs(value).format('ddd D MMM YYYY') : Lang.t('ui.pick-a-date', 'Pick a date')
+  )
 
   function pick(next: string) {
     value = next

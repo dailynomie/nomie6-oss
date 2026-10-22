@@ -24,14 +24,14 @@
   const getDowChartData = () => {
     return {
       labels: [
-        $Prefs.weekStarts == 'sunday' ? 'Sun' : null,
+        $Prefs.weekStarts == 'sunday' ? Lang.t('stats.sun', 'Sun') : null,
         'Mon',
         'Tue',
         'Wed',
         'Thu',
         'Fri',
         'Sat',
-        $Prefs.weekStarts == 'monday' ? 'Sun' : null,
+        $Prefs.weekStarts == 'monday' ? Lang.t('stats.sun', 'Sun') : null,
       ].filter((d) => d),
       datasets: [
         {

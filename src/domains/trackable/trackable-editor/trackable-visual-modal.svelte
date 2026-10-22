@@ -100,21 +100,21 @@
         id="visualizer-btn-group"
         buttons={[
           {
-            label: 'Emoji',
+            label: Lang.t('trackable.emoji', 'Emoji'),
             active: emojiOrColor === 'emoji',
             click() {
               emojiOrColor = 'emoji'
             },
           },
           {
-            label: 'Color',
+            label: Lang.t('trackable.color', 'Color'),
             active: emojiOrColor === 'color',
             click() {
               emojiOrColor = 'color'
             },
           },
           {
-            label: 'Image',
+            label: Lang.t('trackable.image', 'Image'),
             active: emojiOrColor === 'image',
             click() {
               emojiOrColor = 'image'

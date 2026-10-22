@@ -1,5 +1,6 @@
 import Logger from '../../utils/log/log'
 import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
+import { Lang } from '../../store/lang'
 
 // consts
 const console = new Logger('🗺 locate.js')
@@ -54,7 +55,7 @@ export default (): Promise<LocationLookupResponse> => {
           })
         } else {
           if (!navigator.geolocation) {
-            reject({ message: 'No geolocation service found' })
+            reject({ message: Lang.t('ui.no-geolocation-service-found', 'No geolocation service found') })
           } else {
             getRealLocation().then(resolve).catch(reject)
           } // end if have geo lookup

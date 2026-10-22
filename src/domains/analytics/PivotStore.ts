@@ -5,9 +5,10 @@ import { createArrayStore } from '../../store/ArrayStore'
 import { openModal } from '../../components/backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
 import Storage from '../storage/storage'
+import { Lang } from '../../store/lang'
 
 export const PivotStore = createArrayStore(NPaths.storage.pivots(), {
-  label: 'Pivots',
+  label: Lang.t('analytics.pivots', 'Pivots'),
   key: 'id',
   itemInitializer: (item) => {
     return new PivotClass(item)

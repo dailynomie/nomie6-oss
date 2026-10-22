@@ -4,6 +4,7 @@ import NLog from '../../nomie-log/nomie-log'
 import nid from '../../../modules/nid/nid'
 import NPaths from '../../../paths'
 import { createArrayStore } from '../../../store/ArrayStore'
+import { Lang } from '../../../store/lang'
 
 export const CsvTemplateStore = createArrayStore(NPaths.storage.csvTemplates(), {
   key: 'id',
@@ -131,7 +132,7 @@ class CSVRImport {
       }
     } catch (e) {
       console.error('toLog Error', e.message)
-      log = new NLog({ note: `Invalid row data` })
+      log = new NLog({ note: `Invalid row data` }) // lang-ok: this text is saved in the log, it is data
     }
     return log
   }

@@ -109,7 +109,7 @@
         await writeStorageFile(filePath, payload)
         showToast({
           message: Lang.t('storage.file-saved', 'File Saved'),
-          buttonLabel: 'Reload',
+          buttonLabel: Lang.t('storage.reload', 'Reload'),
           timeout: 2500,
           buttonClick() {
             // Navigate to file browser and reload to refresh all stores

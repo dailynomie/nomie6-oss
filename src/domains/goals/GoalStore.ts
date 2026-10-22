@@ -21,6 +21,7 @@ import { showConfetti } from '../../components/confetti/ConfettiStore'
 import { showToast } from '../../components/toast/ToastStore'
 import { wait } from '../../utils/tick/tick'
 import { writable } from 'svelte/store'
+import { Lang } from '../../store/lang'
 
 export type GoalUsageResponseType = {
   id: string
@@ -38,7 +39,7 @@ export type TodaysGoalsType = { today: undefined | 'success' | 'failure'; goal: 
 // export const GoalStore = writable<Array<TodaysGoalsType> | undefined>(undefined)
 
 export const GoalStore = createArrayStore(NPaths.storage.goals(), {
-  label: 'Goals',
+  label: Lang.t('goals.goals', 'Goals'),
   key: 'id',
   itemInitializer: (item) => {
     return new GoalClass(item)

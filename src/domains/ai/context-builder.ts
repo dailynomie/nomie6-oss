@@ -15,6 +15,7 @@ import { GoalStore } from '../goals/GoalStore'
 import { LocationStore, findNearestLocation } from '../locations/LocationStore'
 import dayjs from 'dayjs'
 import { tokenizeLite } from '../../modules/tokenizer/lite'
+import { Lang } from '../../store/lang'
 
 interface ContextHints {
   metrics?: string[]
@@ -560,7 +561,10 @@ export async function buildCorrelationContext(hints?: ContextHints): Promise<Cor
               metric1: metricKeys[i],
               metric2: metricKeys[j],
               correlation: corr,
-              description: trend1 === trend2 ? 'Both trending together' : 'Trending in opposite directions',
+              description:
+                trend1 === trend2
+                  ? Lang.t('ai.both-trending-together', 'Both trending together')
+                  : 'Trending in opposite directions',
             })
           }
         }

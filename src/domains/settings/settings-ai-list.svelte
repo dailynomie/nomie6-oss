@@ -33,7 +33,7 @@
   let isEncrypted = $state(false)
 
   const services = [
-    { label: 'Claude', value: 'claude' as AIServiceType },
+    { label: Lang.t('settings.claude', 'Claude'), value: 'claude' as AIServiceType },
     { label: 'OpenRouter', value: 'openrouter' as AIServiceType },
   ]
 
@@ -68,7 +68,7 @@
     try {
       if (config.enabled && !config.apiKey) {
         showToast({
-          message: 'API key is required',
+          message: Lang.t('settings.api-key-is-required', 'API key is required'),
           type: 'error',
         })
         isSaving = false
@@ -84,12 +84,16 @@
           apiKeyToSave = await encryptValue(config.apiKey, $Prefs.usePin)
           shouldEncrypt = true
           showToast({
-            message: 'API key will be encrypted with your PIN',
+            message: Lang.t(
+              'settings.api-key-will-be-encrypted-with-your-pin',
+              'API key will be encrypted with your PIN'
+            ),
             type: 'info',
           })
         } catch (error) {
           showToast({
-            message: 'Failed to encrypt API key: ' + (error as Error).message,
+            message:
+              Lang.t('settings.failed-to-encrypt-api-key', 'Failed to encrypt API key:') + (error as Error).message,
             type: 'error',
           })
           isSaving = false
@@ -121,7 +125,7 @@
       })
 
       showToast({
-        message: 'AI settings saved successfully',
+        message: Lang.t('settings.ai-settings-saved-successfully', 'AI settings saved successfully'),
         type: 'success',
       })
     } finally {
@@ -140,7 +144,7 @@
       return p
     })
     showToast({
-      message: 'API key cleared',
+      message: Lang.t('settings.api-key-cleared', 'API key cleared'),
       type: 'success',
     })
   }
@@ -153,10 +157,14 @@
       <FeatureBadge feature="ai" />
     </span>
     <div class="leading-tight">
-      {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}
+      {config.enabled
+        ? Lang.t('settings.ai-features-enabled', 'AI Features Enabled')
+        : Lang.t('settings.ai-features-disabled', 'AI Features Disabled')}
     </div>
     <div class="text-xs text-ios-label2 line-clamp-2 leading-tight mt-1">
-      {config.enabled ? `Using ${config.selectedService}` : 'Click to enable AI integration'}
+      {config.enabled
+        ? `Using ${config.selectedService}`
+        : Lang.t('settings.click-to-enable-ai-integration', 'Click to enable AI integration')}
     </div>
     <div slot="right" class="flex items-center gap-3">
       {#if config.enabled}
@@ -164,7 +172,7 @@
           type="button"
           class="p-1 hover:opacity-70 transition-opacity flex-shrink-0"
           on:click={() => (isExpanded = !isExpanded)}
-          title={isExpanded ? 'Collapse' : 'Expand'}
+          title={isExpanded ? Lang.t('settings.collapse', 'Collapse') : Lang.t('settings.expand', 'Expand')}
         >
           <IonIcon icon={isExpanded ? ChevronUpOutline : ChevronDownOutline} size={20} />
         </button>
@@ -285,7 +293,9 @@
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
         <Button primary disabled={isSaving || !config.apiKey} className="w-full" on:click={saveConfig}>
-          {isSaving ? 'Saving...' : 'Save Configuration'}
+          {isSaving
+            ? Lang.t('settings.saving', 'Saving...')
+            : Lang.t('settings.save-configuration', 'Save Configuration')}
         </Button>
       </div>
     </ListItem>

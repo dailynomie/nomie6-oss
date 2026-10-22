@@ -207,7 +207,7 @@
               payload.type = next
             }}
             options={[
-              { value: '', label: 'All Types' },
+              { value: '', label: Lang.t('trackable.all-types', 'All Types') },
               { value: 'tracker', label: Lang.t('general.trackers', 'Trackers') },
               { value: 'person', label: Lang.t('general.people') },
               { value: 'context', label: Lang.t('general.context') },

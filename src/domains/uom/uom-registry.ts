@@ -1,5 +1,6 @@
 import type { IUOM, UOMElement, UOMGroupingTypes } from './uom-types'
 import UOMS from './uom.config'
+import { Lang } from '../../store/lang'
 
 /**
  * A unit the user made. It is stored as data (no functions), so the display
@@ -17,13 +18,13 @@ export type CustomUomItem = {
 
 // Time and timer units are not offered: they have their own tracker types and behaviour.
 export const CUSTOM_UOM_TYPES: Array<{ value: UOMGroupingTypes; label: string }> = [
-  { value: 'general', label: 'General' },
-  { value: 'currency', label: 'Currency' },
-  { value: 'distance', label: 'Distance' },
-  { value: 'temperature', label: 'Temperature' },
-  { value: 'weight', label: 'Weight' },
-  { value: 'volume', label: 'Volume' },
-  { value: 'health', label: 'Health' },
+  { value: 'general', label: Lang.t('uom.general', 'General') },
+  { value: 'currency', label: Lang.t('uom.currency', 'Currency') },
+  { value: 'distance', label: Lang.t('uom.distance', 'Distance') },
+  { value: 'temperature', label: Lang.t('uom.temperature', 'Temperature') },
+  { value: 'weight', label: Lang.t('uom.weight', 'Weight') },
+  { value: 'volume', label: Lang.t('uom.volume', 'Volume') },
+  { value: 'health', label: Lang.t('uom.health', 'Health') },
 ]
 
 export const CUSTOM_UOM_KEY_PREFIX = 'custom-'

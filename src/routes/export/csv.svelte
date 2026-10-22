@@ -41,14 +41,20 @@
     {
       type: 'column',
       required: ['trackables'],
-      label: 'Trackable Per Column',
-      description: 'Each day is a row, with each trackable and its value a column',
+      label: Lang.t('routes.trackable-per-column', 'Trackable Per Column'),
+      description: Lang.t(
+        'routes.each-day-is-a-row-with-each-trackable-and-its-va',
+        'Each day is a row, with each trackable and its value a column'
+      ),
     },
     {
       type: 'detailed',
       required: [],
-      label: 'Note View',
-      description: `Each Note containing any matching trackables`,
+      label: Lang.t('routes.note-view', 'Note View'),
+      description: Lang.t(
+        'routes.each-note-containing-any-matching-trackables',
+        'Each Note containing any matching trackables'
+      ),
     },
   ])
 
@@ -191,7 +197,9 @@
         {#if !useAllTrackables}
           <NItem
             disabled={useAllTrackables}
-            title={csvType.required.indexOf('trackables') > -1 ? 'Select Trackables (required)' : 'Trackables'}
+            title={csvType.required.indexOf('trackables') > -1
+              ? 'Select Trackables (required)'
+              : Lang.t('routes.trackables', 'Trackables')}
             on:click={methods.selectTrackers}
           >
             <div class="text-primary" slot="right">

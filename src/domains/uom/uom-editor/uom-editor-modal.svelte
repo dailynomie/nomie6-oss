@@ -32,8 +32,8 @@
 
   const typeOptions = CUSTOM_UOM_TYPES.map((t) => ({ value: t.value, label: t.label }))
   const affixOptions = [
-    { value: 'post', label: 'After the number' },
-    { value: 'pre', label: 'Before the number' },
+    { value: 'post', label: Lang.t('uom.after-the-number', 'After the number') },
+    { value: 'pre', label: Lang.t('uom.before-the-number', 'Before the number') },
   ]
 
   // The plural defaults to the name with an "s" added (Bottle, Bottles). Type it to override, e.g. for irregular words.
@@ -93,7 +93,7 @@
       <div slot="left">
         <Button clear primary on:click={() => closeModal(id)}>{Lang.t('uom.cancel', 'Cancel')}</Button>
       </div>
-      <h2 class="ntitle">{unit ? 'Edit Unit' : 'New Unit'}</h2>
+      <h2 class="ntitle">{unit ? Lang.t('uom.edit-unit-2', 'Edit Unit') : Lang.t('uom.new-unit', 'New Unit')}</h2>
       <div slot="right">
         <Button clear primary disabled={!canSave} on:click={save}>{Lang.t('uom.save', 'Save')}</Button>
       </div>

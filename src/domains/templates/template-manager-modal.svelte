@@ -80,14 +80,14 @@
       <ButtonGroup
         buttons={[
           {
-            label: 'Available',
+            label: Lang.t('templates.available', 'Available'),
             active: view == 'templates',
             click() {
               view = 'templates'
             },
           },
           {
-            label: 'Build',
+            label: Lang.t('templates.build', 'Build'),
             active: view == 'mine',
             click() {
               view = 'mine'

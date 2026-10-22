@@ -196,11 +196,11 @@
       <ButtonGroup
         bind:value={onlyShow}
         buttons={[
-          { label: 'All', value: 'all' },
-          { label: 'Trackers', value: 'tracker' },
-          { label: 'People', value: 'person' },
-          { label: 'Context', value: 'context' },
-          { label: 'Pointer', value: 'pointer' },
+          { label: Lang.t('trending.all', 'All'), value: 'all' },
+          { label: Lang.t('trending.trackers', 'Trackers'), value: 'tracker' },
+          { label: Lang.t('trending.people', 'People'), value: 'person' },
+          { label: Lang.t('trending.context', 'Context'), value: 'context' },
+          { label: Lang.t('trending.pointer', 'Pointer'), value: 'pointer' },
         ]}
       />
     </div>

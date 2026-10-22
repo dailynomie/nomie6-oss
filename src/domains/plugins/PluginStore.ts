@@ -11,6 +11,7 @@ import PluginInstallerModal from './plugin-installer-modal.svelte'
 import pluginModalSvelte from './plugin-modal.svelte'
 import pluginsModalSvelte from './plugins-modal.svelte'
 import { createBlocklyPlugin } from './buildin-plugins'
+import { Lang } from '../../store/lang'
 
 export type PluginAction = {
   name: string
@@ -72,7 +73,7 @@ export const closePluginsModal = () => {
 }
 
 export const PluginStore = createArrayStore(NPaths.storage.plugins(), {
-  label: 'Plugins',
+  label: Lang.t('plugins.plugins-2', 'Plugins'),
   key: 'id',
   onInitalized(items, perms) {
     // Perms comes from the data passed

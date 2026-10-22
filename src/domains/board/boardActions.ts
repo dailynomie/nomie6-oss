@@ -217,13 +217,13 @@ export const removeTrackable = async (trackable: Trackable) => {
 
   const buttons = [
     {
-      title: `Remove from Current Tab`,
+      title: Lang.t('board.remove-from-current-tab', 'Remove from Current Tab'),
       click() {
         removeTrackableFromBoard(trackable, currentBoardId)
       },
     },
     {
-      title: 'Remove this tracker',
+      title: Lang.t('board.remove-this-tracker', 'Remove this tracker'),
       danger: true,
       click() {
         removeTrackableFromNomie(trackable)
@@ -249,7 +249,7 @@ export const removeTrackable = async (trackable: Trackable) => {
 export const showLogTrackablePopmenu = (log: NLog, trackable: Trackable) => {
   const buttons: Array<PopMenuButton> = [
     {
-      title: 'View Full Note',
+      title: Lang.t('board.view-full-note', 'View Full Note'),
       click() {
         openLogDisplay(log)
       },
@@ -269,7 +269,7 @@ export const showLogTrackablePopmenu = (log: NLog, trackable: Trackable) => {
   ]
   Interact.popmenu({
     id: `calendar-mode-${log._id}`,
-    title: 'What would you like to do?',
+    title: Lang.t('board.what-would-you-like-to-do', 'What would you like to do?'),
     buttons,
   })
 }
@@ -358,7 +358,7 @@ export const showTrackablePopmenu = async (
     //   },
     // },
     {
-      title: `Calendar`,
+      title: Lang.t('board.calendar', 'Calendar'),
       icon: CalendarOutline,
       skipClosing: true,
       click() {
@@ -552,7 +552,7 @@ export const getBoardMenu = (board?: UniboardType): Array<PopMenuButton> => {
   })
 
   buttons.push({
-    title: 'Edit',
+    title: Lang.t('board.edit', 'Edit'),
     divider: true,
     icon: FilterCircleOutline,
     click() {

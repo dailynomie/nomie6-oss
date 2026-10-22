@@ -3,6 +3,7 @@ import type { Trackable } from '../../domains/trackable/Trackable.class'
 import { getDatePopButtons } from '../../modules/pop-buttons/pop-buttons'
 import { openModal } from '../backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
+import { Lang } from '../../store/lang'
 
 export type PopMenuButton = {
   id?: string
@@ -86,7 +87,7 @@ export const openDateOptionPopMenu = (date: Date, extraButtons: Array<PopMenuBut
   const buttons = getDatePopButtons(date)
   openPopMenu({
     id: `date-options-${date.toDateString()}`,
-    title: `Date Options`,
+    title: Lang.t('ui.date-options', 'Date Options'),
     buttons: [...buttons, ...extraButtons],
   })
 }

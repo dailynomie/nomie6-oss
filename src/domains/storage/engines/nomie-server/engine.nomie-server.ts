@@ -15,19 +15,19 @@ let apiToken: string
 
 const buttons: PopMenuButton[] = [
   {
-    title: 'Try again',
+    title: Lang.t('storage.try-again', 'Try again'),
     click() {
       window.location.reload()
     },
   },
   {
-    title: 'Switch to Local Storage',
+    title: Lang.t('storage.switch-to-local-storage', 'Switch to Local Storage'),
     click() {
       switchToLocal()
     },
   },
   {
-    title: 'Erase Nomie Server Config',
+    title: Lang.t('storage.erase-nomie-server-config', 'Erase Nomie Server Config'),
     click() {
       localStorage.removeItem('nomie-server-url')
       localStorage.removeItem('nomie-server-token')
@@ -42,7 +42,10 @@ const buttons: PopMenuButton[] = [
 const cannotConnect = async () => {
   openPopMenu({
     id: 'cannot-connect',
-    title: 'Unable to Connect to Nomie Server with the current Configuration',
+    title: Lang.t(
+      'storage.unable-to-connect-to-nomie-server-with-the-curre',
+      'Unable to Connect to Nomie Server with the current Configuration'
+    ),
     buttons,
   })
 }

@@ -104,7 +104,13 @@
       click: () => selectPivot({ detail: p }),
     })),
     ...(pivots.length && !viewOnly
-      ? [{ title: 'Make default', divider: true, click: () => setDefault({ detail: { id: workingPivotId } }) }]
+      ? [
+          {
+            title: Lang.t('analytics.make-default', 'Make default'),
+            divider: true,
+            click: () => setDefault({ detail: { id: workingPivotId } }),
+          },
+        ]
       : []),
   ])
   let countpivots = $state(0)
@@ -350,7 +356,7 @@
   })
 
   const createPivot = () => {
-    const pivot = new PivotClass({ tag: 'New Pivot' })
+    const pivot = new PivotClass({ tag: Lang.t('analytics.new-pivot-2', 'New Pivot') })
     openPivotEditor(pivot)
   }
 

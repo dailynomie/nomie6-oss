@@ -65,8 +65,8 @@
       ? ''
       : frozen
         ? experiment.status === 'stopped'
-          ? 'Stopped early'
-          : 'Finished'
+          ? Lang.t('experiments.stopped-early', 'Stopped early')
+          : Lang.t('experiments.finished', 'Finished')
         : `Day ${Math.min(daysSoFar, experiment.durationDays)} of ${experiment.durationDays}`
   )
 
@@ -111,7 +111,10 @@
 
   const finish = async (status: 'completed' | 'stopped') => {
     if (!experiment || busy) return
-    const question = status === 'completed' ? 'Finish this experiment?' : 'Stop this experiment early?'
+    const question =
+      status === 'completed'
+        ? Lang.t('experiments.finish-this-experiment', 'Finish this experiment?')
+        : Lang.t('experiments.stop-this-experiment-early', 'Stop this experiment early?')
     const confirmed = await Interact.confirm(
       question,
       'The result is saved as it is now, and a summary is written to your journal.'
@@ -364,7 +367,9 @@
               </blockquote>
               {#if overflowing || expanded}
                 <button class="mt-2 text-sm font-medium text-ios-tint" onclick={toggleExpanded}>
-                  {expanded ? 'Show less' : 'Read more'}
+                  {expanded
+                    ? Lang.t('experiments.show-less', 'Show less')
+                    : Lang.t('experiments.read-more', 'Read more')}
                 </button>
               {/if}
             </div>
