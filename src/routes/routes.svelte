@@ -12,7 +12,6 @@
   import LazyPage from './lazy-page.svelte'
   import FeatureGate from '../domains/preferences/feature-gate.svelte'
   import Track from './track.svelte'
-  import Timeline from './Timeline.svelte'
 </script>
 
 <Router>
@@ -24,9 +23,9 @@
     {:else if $Prefs.startPage === 'dashboard'}
       <LazyPage load={() => import('./dashboard.svelte')} />
     {:else if $Prefs.startPage === 'timeline'}
-      <Timeline />
+      <LazyPage load={() => import('./Timeline.svelte')} />
     {:else if $Prefs.startPage === 'history'}
-      <Timeline />
+      <LazyPage load={() => import('./Timeline.svelte')} />
     {:else if $Prefs.startPage === 'goals'}
       <LazyPage load={() => import('./Goals.svelte')} />
     {:else}
@@ -54,7 +53,7 @@
     </FeatureGate>
   </Route>
   <Route path="/timeline">
-    <Timeline />
+    <LazyPage load={() => import('./Timeline.svelte')} />
   </Route>
   <Route path="/goals">
     <LazyPage load={() => import('./Goals.svelte')} />
