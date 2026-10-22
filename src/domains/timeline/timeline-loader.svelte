@@ -256,9 +256,8 @@
     </div>
   {:else if !loading}
     <Empty>
-      <p class="text-ios-label2 text-center leading-tight text-sm">
-        No entries found between now and {date.format(dateFormats.date)}
-      </p>
+      <!-- The date the search stopped at is not shown: it is where the search gave up, not a range the user chose -->
+      <p class="text-ios-label2 text-center leading-tight text-sm">No entries yet. Notes you add will appear here.</p>
     </Empty>
   {/if}
 
