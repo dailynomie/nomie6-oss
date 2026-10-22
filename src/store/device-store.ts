@@ -80,7 +80,7 @@ const DeviceStoreInit = () => {
 
   const { update, subscribe, set } = writable(baseState)
 
-  ;(document.documentElement.style.fontSize = fontSizes[baseState.fontSize] || '16px'),
+  ;((document.documentElement.style.fontSize = fontSizes[baseState.fontSize] || '16px'),
     function state(s: any) {
       let _state
       update((state) => {
@@ -88,7 +88,7 @@ const DeviceStoreInit = () => {
         return _state
       })
       return _state
-    }
+    })
 
   const state = (updatedState: any) => {
     update((s: any) => {
@@ -120,15 +120,11 @@ const DeviceStoreInit = () => {
       return document.body.scrollWidth >= 900
     },
     iOS() {
-
       if (/iPad|iPhone|iPod/.test(navigator.platform)) {
-        return true;
+        return true
       } else {
-        return navigator.maxTouchPoints &&
-          navigator.maxTouchPoints > 2 &&
-          /MacIntel/.test(navigator.platform);
+        return navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)
       }
-
     },
     scrollToTop() {
       document.body.scrollTop = document.documentElement.scrollTop = 0
