@@ -654,3 +654,12 @@
   {/if} -->
   </main>
 {/key}
+
+<!-- Phase 7 (cramped editor): the 'Measure By' label sits above its value, so the select needs room for it -->
+<style lang="postcss" global>
+  .tracker-uom select {
+    padding-top: 18px;
+    padding-bottom: 4px;
+    min-height: 52px;
+  }
+</style>

@@ -367,7 +367,7 @@
             {label}
           />
           {#if ogTag || workingTag}
-            <div class="tag-control flex justify-end items-center space-x-2">
+            <div class="tag-control flex flex-wrap justify-end items-center gap-x-2 whitespace-nowrap">
               {#if tagExists}
                 <div class="text-ios-label2 text-xs"><span aria-hidden="true">⚠︎</span> Tag already exists</div>
               {/if}

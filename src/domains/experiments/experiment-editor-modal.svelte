@@ -237,9 +237,9 @@
             {#if !outcome.found}
               <div class="flex flex-wrap gap-3">
                 {#if hasLibraryTracker(outcome.tag)}
-                  <button class="text-sm font-medium text-ios-tint" onclick={() => installFromLibrary(index)}>Add {libraryTrackerLabel(outcome.tag)} from library</button>
+                  <button class="text-sm font-medium text-ios-tint" onclick={() => installFromLibrary(index)}>Add {libraryTrackerLabel(outcome.tag)} from the library</button>
                 {/if}
-                <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}>Choose a tracker</button>
+                <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}>Pick one of my trackers</button>
               </div>
             {/if}
             <IosSelect
