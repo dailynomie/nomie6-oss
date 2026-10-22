@@ -38,7 +38,7 @@ def hits(path):
             continue
         if re.search(r'[A-Za-z]{2,}', t) and t not in BRANDS:
             out.append(('text', t))
-    for m in re.finditer(r'\b(title|description|placeholder|label|aria-label)="([^"{}]*[A-Za-z]{2,}[^"{}]*)"', scan):
+    for m in re.finditer(r'\b(title|description|placeholder|label|aria-label|buttonLabel)="([^"{}]*[A-Za-z]{2,}[^"{}]*)"', scan):
         if m.group(2) not in BRANDS:
             out.append(('attr', m.group(1), m.group(2)))
     return out
@@ -146,7 +146,54 @@ def wrap_script(path, area, keys, base):
         open(path, 'w', encoding='utf8').write(new)
     return changed[0]
 
+
+def ensure_import(path):
+    """A file that calls Lang.t must import Lang (LANG-09)."""
+    s = open(path, encoding='utf8').read()
+    if 'Lang.t(' not in s or re.search(r'import[^;]*\bLang\b[^;]*from', s):
+        return False
+    rel = os.path.relpath('src/store/lang', os.path.dirname(path))
+    if not rel.startswith('.'):
+        rel = './' + rel
+    lines = s.split('\n')
+    idx = [i for i, l in enumerate(lines) if re.match(r'\s*import ', l)]
+    if idx:
+        at = idx[-1] + 1
+    else:
+        # no imports yet: the import goes inside the script block, right after its opening tag
+        opener = [i for i, l in enumerate(lines) if re.match(r'\s*<script\b', l)]
+        if not opener:
+            raise SystemExit(f'{path}: no script block to add the Lang import to')
+        at = opener[0] + 1
+    lines.insert(at, "  import { Lang } from '" + rel + "'")
+    open(path, 'w', encoding='utf8').write('\n'.join(lines))
+    return True
+
+def backfill(files):
+    """Add keys that the code already uses with a literal default but the base file does not have."""
+    values = base_values()
+    found = {}
+    for f in files:
+        s = open(f, encoding='utf8').read()
+        for m in re.finditer(r"Lang\.t\(\s*['\"]([a-z0-9_.-]+)['\"]\s*,\s*(['\"])((?:(?!\2).)*)\2", s):
+            found.setdefault(m.group(1), m.group(3))
+    by_area = {}
+    for key, text in found.items():
+        if key in values or key.startswith('theme.'):
+            continue
+        area, leaf = key.split('.', 1)
+        by_area.setdefault(area, {})[text] = key
+    total = 0
+    for area, items in by_area.items():
+        total += add_keys(area, items)
+    return total
+
 if __name__ == '__main__':
+    if sys.argv[1] == '--backfill':
+        print(f'added {backfill(sys.argv[2:])} key(s) from the code defaults')
+        for f in sys.argv[2:]:
+            ensure_import(f)
+        raise SystemExit(0)
     area, files = sys.argv[1], sys.argv[2:]
     keys = {}
     changed = []
@@ -157,4 +204,6 @@ if __name__ == '__main__':
         if wrap_script(f, area, keys, base):
             changed.append(f)
     added = add_keys(area, keys)
+    for f in files:
+        ensure_import(f)
     print(f'wrapped {len(changed)} file(s); added {added} key(s) to {area} in {BASE}')

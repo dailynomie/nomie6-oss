@@ -72,7 +72,16 @@ fi
 NOIMPORT=""
 for f in $(printf '%s\n' $LIST); do
   [ -f "$f" ] || continue
-  if grep -qE "^[^/]*Lang\.t\(" "$f" && ! grep -qE "import[^;]*\bLang\b[^;]*from" "$f"; then NOIMPORT="$NOIMPORT$f\n"; fi
+  if grep -qE "^[^/]*Lang\.t\(" "$f" && ! python3 -c "
+import re,sys
+s=open(sys.argv[1],encoding='utf8').read()
+st=s.find('<script'); en=s.find('</script>')
+ok=False
+if st!=-1 and en!=-1 and st<en:
+    ok=bool(re.search(r'import[^;]*\\bLang\\b[^;]*from', s[st:en]))
+elif st==-1:
+    ok=bool(re.search(r'import[^;]*\\bLang\\b[^;]*from', s))
+sys.exit(0 if ok else 1)" "$f"; then NOIMPORT="$NOIMPORT$f\n"; fi
 done
 if [ -n "$NOIMPORT" ]; then
   n=$(printf "$NOIMPORT" | grep -c .)
