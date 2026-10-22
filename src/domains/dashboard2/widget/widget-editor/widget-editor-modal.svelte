@@ -379,19 +379,21 @@
                 </div>
               </ListItem>
             {/if}
-            <Divider left={18} />
-            <ListItem>
-              {Lang.t('dashboard.size', 'Size')}
-              <ButtonGroup
-                bind:value={editingWidget.size}
-                buttons={[
-                  { value: 'sm', label: Lang.t('dashboard.small', 'Small') },
-                  { value: 'md', label: Lang.t('dashboard.medium', 'Medium') },
-                  { value: 'lg', label: Lang.t('dashboard.large', 'Large') },
-                ]}
-                slot="right"
-              />
-            </ListItem>
+            {#if activeType?.id != 'text'}
+              <Divider left={18} />
+              <ListItem>
+                {Lang.t('dashboard.size', 'Size')}
+                <ButtonGroup
+                  bind:value={editingWidget.size}
+                  buttons={[
+                    { value: 'sm', label: Lang.t('dashboard.small', 'Small') },
+                    { value: 'md', label: Lang.t('dashboard.medium', 'Medium') },
+                    { value: 'lg', label: Lang.t('dashboard.large', 'Large') },
+                  ]}
+                  slot="right"
+                />
+              </ListItem>
+            {/if}
           {/if}
         {/if}
       </List>

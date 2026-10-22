@@ -308,7 +308,7 @@
 {:else}
   <div
     {id}
-    class="dashboard-text type-text text-center widget-size-{widget.size}"
+    class="dashboard-text type-text text-center widget-size-md"
     on:click={() => {
       dispatch('click')
     }}
@@ -336,13 +336,9 @@
     line-height: 1.1em;
     @apply text-ios-label2;
   }
-  .dashboard-text.widget-size-lg {
-    padding: 8px 16px;
-    font-size: 1.6em;
-    line-height: 1.7em;
-    font-weight: 700;
-    padding: 16px;
-    @apply text-ios-label2;
+  /* a text widget always spans the full width of the dashboard, it has no size */
+  .dashboard-text.type-text {
+    @apply col-span-2 lg:col-span-6;
   }
   /* iOS look (guide 5.10): the tracker name in a card header is the series colour, 15 px weight 600 */
   .dashboard-widget .widget-header .trackable-pill.transparent h3 {
