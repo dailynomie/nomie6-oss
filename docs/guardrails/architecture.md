@@ -66,7 +66,7 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 - **ARC-13 (MUST)** Commit messages follow Conventional Commits (`type(scope): summary`), as enforced by `commitlint` (`commitlint.config.js`, run from the husky `commit-msg` hook). A commit made with AI assistance has the `Co-Authored-By` trailer the session asks for.
 - **ARC-14 (MUST)** One logical change per commit. A change that touches storage and UI is two commits.
 - **ARC-15 (MUST)** Nothing is pushed, and no pull request is opened, without an explicit go-ahead from the owner.
-- **ARC-16 (MUST)** `planning/` is local and not committed. A rule that must survive lives in `docs/guardrails/`, not in `planning/`.
+- **ARC-16 (MUST)** A rule that must survive lives in `docs/guardrails/` or `docs/design/`, in the repository. Notes and history go to `docs/notes/`.
 - **ARC-17 (MUST)** Formatting is Prettier with `.prettierrc` (no semicolons, single quotes, width 120, the Svelte plugin). A changed file is formatted before commit: `npx prettier --write <file>`. Check: `FMT-01`, which reads the working tree, so a file is formatted when it is touched. ESLint checks correctness only (`eslint:recommended` with `eslint-config-prettier` on top), so the two tools do not disagree. A full reformat of the tree is a separate commit with no other change in it.
 - **ARC-18 (SHOULD)** `console.log` is not left in code. Use `console.warn`, `console.error` or `console.info`, which ESLint allows.
 

@@ -671,7 +671,7 @@ Open:
 Decisions taken later:
 - Viewport: keep `maximum-scale=1` in `index.html`. The font size setting in Settings covers the need (Ronald, Oct 2026).
 
-Component decisions (overnight audit, Oct 2026; full log in `planning/components-ios-audit.md`):
+Component decisions (overnight audit, Oct 2026; full log in `docs/notes/components-ios-audit-oct-2026.md`):
 - **D-focus:** no coloured focus box on touch or mouse focus. Text fields show focus with the caret. Keyboard focus (`:focus-visible`) gets a 2 px tint outline. One global rule in `main.css`.
 - **D-select:** selection circles are 22 px. Unselected: a clear 2 px outline. Selected: tint fill with a white tick (iOS multi-select).
 - **D-alert:** in an alert, Cancel is the bold tint. Red is for destructive actions only (none of the current callers use a destructive style yet; to add when a caller needs it).
