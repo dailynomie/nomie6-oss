@@ -1,5 +1,6 @@
 import type { Writable, Readable } from 'svelte/store'
 import { writable, readonly } from 'svelte/store'
+import { DEVICE_KEYS, getDeviceSetting, removeDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 
 export interface PWAStatus {
   isSupported: boolean
@@ -194,7 +195,7 @@ export class PWAService {
   dismissUpdateNotification(): void {
     this.needRefresh.set(false)
     try {
-      localStorage.removeItem('nomie_pwa_update_state')
+      removeDeviceSetting(DEVICE_KEYS.pwaUpdateState)
     } catch (e) {
       console.warn('[PWA] Failed to clear persisted update state', e)
     }
@@ -309,7 +310,7 @@ export class PWAService {
         updateAvailable: true,
         timestamp: Date.now(),
       }
-      localStorage.setItem('nomie_pwa_update_state', JSON.stringify(state))
+      setDeviceSetting(DEVICE_KEYS.pwaUpdateState, JSON.stringify(state))
     } catch (e) {
       console.warn('[PWA] Failed to persist update state', e)
     }
@@ -320,7 +321,7 @@ export class PWAService {
    */
   private loadPersistedState(): void {
     try {
-      const stored = localStorage.getItem('nomie_pwa_update_state')
+      const stored = getDeviceSetting(DEVICE_KEYS.pwaUpdateState)
       if (stored) {
         const state = JSON.parse(stored)
         if (state.updateAvailable) {
@@ -329,7 +330,7 @@ export class PWAService {
         }
         // Clean up old persisted state (older than 7 days)
         if (Date.now() - state.timestamp > 7 * 24 * 60 * 60 * 1000) {
-          localStorage.removeItem('nomie_pwa_update_state')
+          removeDeviceSetting(DEVICE_KEYS.pwaUpdateState)
         }
       }
     } catch (e) {

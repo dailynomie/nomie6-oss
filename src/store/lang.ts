@@ -13,6 +13,7 @@ import Logger from '../utils/log/log'
 import i18next from 'i18next'
 
 import langs from '../lang/lang'
+import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from './device-settings'
 // import testLang from '../lang/test';
 
 // Stores
@@ -23,7 +24,7 @@ const console = new Logger('🚦 Lang')
 
 const LangInit = () => {
   let base = {
-    lang: localStorage.getItem('n4-lang') || 'en',
+    lang: getDeviceSetting(DEVICE_KEYS.language) || 'en',
   }
   const { update, subscribe, set } = writable(base)
 
@@ -55,7 +56,7 @@ const LangInit = () => {
         d.lang = langKey
         return d
       })
-      localStorage.setItem('n4-lang', langKey)
+      setDeviceSetting(DEVICE_KEYS.language, langKey)
       setTimeout(() => {
         // window.location.reload();
         window.location.href = '/'

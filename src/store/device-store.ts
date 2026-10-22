@@ -11,6 +11,7 @@ import clipboard from '../utils/clipboard/clipboard'
 import { showToast } from '../components/toast/ToastStore'
 // Svelte
 import { writable } from 'svelte/store'
+import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from './device-settings'
 
 // Vendors
 const console = new Logger('📲 Device Store')
@@ -75,7 +76,7 @@ const DeviceStoreInit = () => {
     pwa: window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches,
     info: DeviceInfo,
     size: getDeviceSize(window.innerWidth),
-    fontSize: localStorage.getItem('fontSize') || 'md',
+    fontSize: getDeviceSetting(DEVICE_KEYS.fontSize) || 'md',
   }
 
   const { update, subscribe, set } = writable(baseState)
@@ -189,7 +190,7 @@ export const Device = DeviceStoreInit()
 
 export const setFontSize = (size: 'sm' | 'md' | 'lg' | 'xl' | 'xs' | string) => {
   const pixels = fontSizes[size] || '16px'
-  localStorage.setItem('fontSize', size)
+  setDeviceSetting(DEVICE_KEYS.fontSize, size)
   document.documentElement.style.fontSize = pixels
   Device.update((s) => {
     s.fontSize = size
