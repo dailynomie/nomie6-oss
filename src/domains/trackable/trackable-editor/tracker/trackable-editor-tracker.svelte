@@ -58,7 +58,11 @@
   } from '../../../../components/icon/nicons'
 
   import type { Trackable } from '../../Trackable.class'
-  import { getTrackerInputAsString, useTrackerInputModal } from '../../../tracker/input/TrackerInputStore'
+  import {
+    dismissTrackerInputModal,
+    getTrackerInputAsString,
+    useTrackerInputModal,
+  } from '../../../tracker/input/TrackerInputStore'
   import type TrackerClass from '../../../../modules/tracker/TrackerClass'
   import PositivityEditor from '../../positivity-editor/positivity-editor.svelte'
   import TrackableListBuilder from '../../TrackableListBuilder.svelte'
@@ -597,6 +601,15 @@
             />
             <AutoComplete
               input={tracker.include}
+              askTrackerValue={async (trackable) => {
+                const response = await getTrackerInputAsString({
+                  trackables: $TrackableStore.trackables,
+                  tracker: trackable.tracker,
+                  expandNote: true,
+                })
+                dismissTrackerInputModal()
+                return response
+              }}
               scroller
               on:select={async (evt) => {
                 tracker.include = evt.detail.note + ''

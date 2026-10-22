@@ -3,7 +3,6 @@
 <script lang="ts">
   import tick from '../../utils/tick/tick'
   import { createEventDispatcher } from 'svelte'
-  import { dismissTrackerInputModal, getTrackerInputAsString } from '../../domains/tracker/input/TrackerInputStore'
   import { TrackableStore } from '../../domains/trackable/TrackableStore'
   import type { Trackable } from '../../domains/trackable/Trackable.class'
   import TrackableAvatar from '../avatar/trackable-avatar.svelte'
@@ -14,7 +13,9 @@
   import { slide } from 'svelte/transition'
 
   const dispatch = createEventDispatcher()
-  const { input, scroller, className, style } = $props()
+  // askTrackerValue(trackable) opens the value input for a tracker and resolves with its response.
+  // The parent screen supplies it, so this component does not call a domain action (CMP-08).
+  const { input, scroller, className, style, askTrackerValue = undefined } = $props()
 
   let state = $state({
     partialTag: null,
@@ -51,15 +52,9 @@
   const onSelect = async (trackable: Trackable) => {
     let note: string = ''
     if (trackable.type == 'tracker') {
-      const inputResponse = await getTrackerInputAsString({
-        trackables: $TrackableStore.trackables,
-        tracker: trackable.tracker,
-        expandNote: true
-      })
-      
-      dismissTrackerInputModal()
+      const inputResponse = await askTrackerValue(trackable)
       // note = trackable.tracker.toNoteString(inputResponse.value)
-      note = inputResponse.raw;
+      note = inputResponse.raw
     } else if (trackable.type == 'person') {
       note = trackable.tag
     } else if (trackable.type == 'context') {
@@ -105,7 +100,7 @@
         } else if (tag.charAt(0) === '+' && tag.length > 1) {
           state.partialTag = tag
           state.results = autoCompleteSearch(tag, 'context')
-           // If it's pointer
+          // If it's pointer
         } else if (tag.charAt(0) === '^' && tag.length > 1) {
           state.partialTag = tag
           state.results = autoCompleteSearch(tag, 'pointer')
@@ -139,7 +134,8 @@
 </script>
 
 {#if state.results && state.results.length}
-  <div style={style}
+  <div
+    {style}
     transition:slide|global={{ duration: 100 }}
     class="{scroller ? 'scroller' : 'no-scroller'} autocomplete-results animate {className}"
   >
