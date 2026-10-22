@@ -29,7 +29,7 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 
 ### 2.2 Layering
 
-- **CMP-08 (MUST)** A component in `src/components/` does not import from `src/domains/`. Pass the data in as props, or make the domain code a pure function the component can take as a prop. A documented exception is a line marked `guardrail-ok: CMP-08 <reason>`. Check: `CMP-08`.
+- **CMP-08 (MUST)** A component in `src/components/` does not import a domain **action**: a function or store that changes data or opens a domain modal. Allowed without an exception: type-only imports (`import type`), the read-only global state `Prefs` and `getDateFormats` (`domains/preferences/Preferences`), `TrackableStore` reads, and `experience.ts` (the Starter rule). The action is passed in as a prop or an event; the parent screen (in a domain) makes the call. A documented exception is a line marked `guardrail-ok: CMP-08 <reason>`. Check: `CMP-08`.
 - **CMP-09 (MUST)** A component does not call `Storage`, `LedgerStore` or any store's write functions. It emits an event, or calls an action passed in as a prop. Check: `STO-01` (storage guardrails) covers the calls.
 - **CMP-10 (MUST)** A component does not read `window.location` or the router to decide its data. The route passes the data in.
 - **CMP-11 (SHOULD)** Global stores that every screen needs (`Prefs`, `FeatureVisible`, `TrackableStore`) may be read directly. Other stores are passed in as props.
@@ -90,7 +90,7 @@ Bad: assigning a prop (CMP-03).
 - **353 Svelte files, all with runes.** 0 files use `export let` or `$:`.
 - **Event style:** `on:click` in 189 files, `onclick` in 16. CMP-13 keeps each file consistent.
 - **Global styles:** 58 files use `<style global>`.
-- **Layering:** 33 component files import from `domains/`. The check `CMP-08` lists them; each needs a prop or a documented exception. The feature badge is one documented exception (its function is a pure rule over the Starter lists).
+- **Layering:** 22 domain actions are imported by components (CMP-08 check). Type-only imports and read-only global state are allowed. The feature badge is one documented exception (a pure rule over the Starter lists).
 - **Specs:** 0 specs in `src/components/`.
 - **Shared modal wrapper:** 51 files use `backdrop-modal.svelte`.
 - **Virtualised lists:** 4 files use `NvirtualList`; 14 files use `untrack`.
