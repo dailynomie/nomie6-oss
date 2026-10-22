@@ -37,7 +37,7 @@ given=sys.argv[3:]
 def files_to_scan():
     if given:
         for p in given:
-            if p.endswith('.svelte') and os.path.isfile(p): yield p
+            if p.endswith('.svelte') and os.path.isfile(p) and 'n-icons' not in p: yield p
         return
     for dp,dn,fn in os.walk(root):
         if any(x in dp for x in ['vendor','n-icons','/lang','node_modules']): continue

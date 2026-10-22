@@ -59,7 +59,7 @@ fi
 # LANG-03 toast and dialog messages are wrapped
 MSG=""
 if [ -n "$LIST" ]; then
-MSG=$(grep -nE "showToast\(\{ *message: *['\"\`][^'\"\`{]*[A-Za-z]|Interact\.(alert|confirm|prompt|error|success)\(\s*['\"\`][^'\"\`]*[A-Za-z]" $(printf '%s\n' $LIST) 2>/dev/null | grep -v "Lang\.t" || true)
+MSG=$(grep -nE "showToast\(\{ *message: *['\"\`][^'\"\`{]*[A-Za-z]|Interact\.(alert|confirm|prompt|error|success)\(\s*['\"\`][^'\"\`]*[A-Za-z]" $(printf '%s\n' $LIST) 2>/dev/null | grep -v "Lang\.t" | python3 docs/guardrails/checks/lang-msg-filter.py || true)
 fi
 if [ -n "$MSG" ]; then
   n=$(printf '%s\n' "$MSG" | wc -l | tr -d ' ')
