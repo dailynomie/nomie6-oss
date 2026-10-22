@@ -278,10 +278,10 @@
   }
 
   async function determineDay(date) {
-    // determine Day
-    var days = ['7.Sunday', '1.Monday', '2.Tuesday', '3.Wednesday', '4.Thursday', '5.Friday', '6.Saturday']
-    var day = days[date.getDay()]
-    return day
+    // determine Day: the number keeps Monday first in the pivot, and the name follows the language (W2, F7)
+    var order = [7, 1, 2, 3, 4, 5, 6]
+    var name = dayjs(date).format('dddd')
+    return `${order[date.getDay()]}.${name.charAt(0).toUpperCase()}${name.slice(1)}`
   }
 
   async function determineDayPeriod(date) {
@@ -289,11 +289,11 @@
     var curHr = date.getHours()
     var time = null
     if (curHr < 12) {
-      time = 'Morning'
+      time = Lang.t('analytics.morning', 'Morning')
     } else if (curHr < 18) {
-      time = 'Afternoon'
+      time = Lang.t('analytics.afternoon', 'Afternoon')
     } else {
-      time = 'Evening'
+      time = Lang.t('analytics.evening', 'Evening')
     }
     return time
   }

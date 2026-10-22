@@ -1236,6 +1236,9 @@ export default {
       'want-multiple-emojis-do-it-here': 'Want multiple emojis? Do it here:',
     },
     analytics: {
+      'morning': 'Morning',
+      'afternoon': 'Afternoon',
+      'evening': 'Evening',
       '120-days': '120 Days',
       '150-days': '150 Days',
       '180-days': '180 Days',

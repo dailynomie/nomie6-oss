@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 /*
  * decaffeinate suggestions:
  * DS101: Remove unnecessary use of Array.from
@@ -21,12 +22,18 @@ const addSeparators = function (nStr, thousandsSep, decimalSep) {
   return x1 + x2;
 };
 
+// The separators of the app's language (en 1,234.50; nl 1.234,50). Read when a number is shown, so the
+// language is the one in use then.
+const localeSeparators = function () {
+  const parts = new Intl.NumberFormat(dayjs.locale(), { useGrouping: true }).formatToParts(1234.5);
+  const part = (type) => (parts.find((p) => p.type === type) || {}).value;
+  return { thousandsSep: part("group") || ",", decimalSep: part("decimal") || "." };
+};
+
 const numberFormat = function (opts_in) {
   const defaults = {
     digitsAfterDecimal: 2,
     scaler: 1,
-    thousandsSep: ",",
-    decimalSep: ".",
     prefix: "",
     suffix: "",
   };
@@ -35,10 +42,11 @@ const numberFormat = function (opts_in) {
     if (isNaN(x) || !isFinite(x)) {
       return "";
     }
+    const separators = Object.assign({}, localeSeparators(), opts_in);
     const result = addSeparators(
       (opts.scaler * x).toFixed(opts.digitsAfterDecimal),
-      opts.thousandsSep,
-      opts.decimalSep
+      separators.thousandsSep,
+      separators.decimalSep
     );
     return `${opts.prefix}${result}${opts.suffix}`;
   };

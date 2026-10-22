@@ -1234,6 +1234,9 @@ export default {
       'want-multiple-emojis-do-it-here': 'Meerdere emoji nodig? Doe het hier:',
     },
     analytics: {
+      'morning': 'Ochtend',
+      'afternoon': 'Middag',
+      'evening': 'Avond',
       '30-days': '30 dagen',
       '60-days': '60 dagen',
       '90-days': '90 dagen',
