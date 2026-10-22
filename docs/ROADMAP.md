@@ -132,6 +132,7 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | P4 | **Plotly decision (D12).** Lazy loading is in place (P3). Replacing Plotly with Chart.js is still open. | M | **Partly done.** The status "decided" was wrong; D12 is still open. |
 | P5 | **Vendor chunks** with `manualChunks` for Svelte, dayjs and PouchDB. | S | **Done 22 October.** See `docs/notes/bundle-baseline-oct-2026.md`. |
 | P6 | **Service worker precache.** Only the shell and the start files are precached; the rest is cached on first use. | S | **Done 22 October.** Offline checked after visiting Track, Goals, Analytics and Settings. |
+| P8 | **Unused code in the first load.** Twelve modals load on demand (done). Lighthouse mobile score is 71, the target is 80. Still unused on the Track screen: 244 kB of the main file. Next: split the components the Track screen does not show first, and check the render-blocking CSS. | M | **Open.** See `docs/notes/bundle-baseline-oct-2026.md`. |
 | P7 | **Pivot and widget cost.** Check the analytics and dashboard render times on a phone with 5 years of logs. | M | Recorded, with the slow parts fixed. |
 
 **Done when:** first-load gzipped JS is under 600 kB, Lighthouse mobile performance is at least 80, and offline works after the first visit.

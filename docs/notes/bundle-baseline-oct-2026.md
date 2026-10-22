@@ -86,3 +86,10 @@ What Lighthouse reports for the first screen:
 - **Unused JavaScript:** about 307 kB in the main chunk. Code that the Track screen does not use is still loaded at start: modal components that are imported by the stores. This is the largest item.
 - **Render-blocking CSS:** the main stylesheet (35 kB gzipped) delays the first paint by about 150 ms, and about 32 kB of its rules are unused.
 - **Fonts:** the Nunito font is named in the splash SVG files, and Lighthouse counts it as a request on the start page. It is not loaded by the app's code.
+
+## Modals on demand, and the Lighthouse score after it (22 October)
+
+- Twelve modals (the tracker editor and selector, the importer and CSV import, unisearch, the location manager, the plugin screens, the streak, goal and pivot editors, the writing prompts, the widget editor and the tracker library) now load when they open. Their stores no longer import them at the top.
+- Start chunks: the main file 392 kB gzipped, the Svelte, dayjs and PouchDB files 69 kB. Total about **461 kB gzipped** (from about 582).
+- **Lighthouse, mobile performance: 71** (target 80). First contentful paint 3.8 s, largest contentful paint 4.9 s, total blocking time 150 ms, total transfer 638 kB.
+- What is still unused on the Track screen: 244 kB of the main file (transferred) and 36 kB of PouchDB. Next step: split the components the Track screen does not show first (the log editor, the tile editor and similar), and check what the render-blocking CSS (35 kB) holds that the first screen does not use.
