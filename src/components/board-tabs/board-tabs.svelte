@@ -148,12 +148,16 @@
             </button>
           {/if}
           <button
-            class="tab relative animate-shake-big {isFixedBoard(item.id) ? 'board-fixed' : 'board-tab'} mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
+            class="tab relative animate-shake-big {isFixedBoard(item.id)
+              ? 'board-fixed'
+              : 'board-tab'} mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
           >
             {#if item.icon}
               <IonIcon icon={item.icon} size={22} />
             {:else}{item.label}{/if}
-            <FeatureBadge feature={item.id === '_people' ? 'people-board' : item.id === '_context' ? 'context-board' : undefined} />
+            <FeatureBadge
+              feature={item.id === '_people' ? 'people-board' : item.id === '_context' ? 'context-board' : undefined}
+            />
           </button>
         </div>
       </SortableList2>

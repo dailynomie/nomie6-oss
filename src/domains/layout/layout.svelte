@@ -18,9 +18,17 @@
   import { Device } from '../../store/device-store'
   import DesktopSidebar from './desktop-sidebar.svelte'
   import { hideMenuBlocker, MenuBlockerStore } from '../../components/menu/useDropmenu'
-import appConfig from '../../config/appConfig';
+  import appConfig from '../../config/appConfig'
 
-  const { style = '', className = '', pageTitle, showTabs = true, checkIn = true, headerClassNames = '', showCapture = true } = $props<{
+  const {
+    style = '',
+    className = '',
+    pageTitle,
+    showTabs = true,
+    checkIn = true,
+    headerClassNames = '',
+    showCapture = true,
+  } = $props<{
     style?: string
     className?: string
     pageTitle?: string
@@ -81,12 +89,12 @@ import appConfig from '../../config/appConfig';
     {/if}
     <section class="xl:ml-56 layout-section-wrap">
       {#if hasHeader}
-        <header class=" non-printable z-50 sticky top-0  glass {headerClassNames}">
+        <header class=" non-printable z-50 sticky top-0 glass {headerClassNames}">
           <BackupMessage />
           <slot name="header" />
         </header>
       {/if}
-      <main id="nomie-main" bind:this={mainEle} class="layout-main  z-20" style="--mainHeight:{mainEleHeight}">
+      <main id="nomie-main" bind:this={mainEle} class="layout-main z-20" style="--mainHeight:{mainEleHeight}">
         {#if hasContent}
           <slot name="content" />
         {:else}
@@ -95,9 +103,9 @@ import appConfig from '../../config/appConfig';
       </main>
     </section>
     {#if $Device.width > 899}
-    <div class="non-printable">
-      <DesktopSidebar loggedIn={showTabs} />
-    </div>
+      <div class="non-printable">
+        <DesktopSidebar loggedIn={showTabs} />
+      </div>
     {/if}
   </div>
   <!-- Today's experiment check-ins: main screens only (not pushed screens such as Awards or the file list), and not while a dialogue or modal is open -->
@@ -113,7 +121,7 @@ import appConfig from '../../config/appConfig';
   <!-- <div id="footer-buffer" class="sticky bottom-0" bind:this={footerBuffer} /> -->
   <footer
     bind:this={footerEle}
-    class="non-printable xl:ml-56  sticky self-justify-start left-0 right-0 bottom-0 z-50 border-t border-ios-separator layout-footer glass dark:border-ios-separator"
+    class="non-printable xl:ml-56 sticky self-justify-start left-0 right-0 bottom-0 z-50 border-t border-ios-separator layout-footer glass dark:border-ios-separator"
   >
     <slot name="footer" />
 
@@ -132,6 +140,8 @@ import appConfig from '../../config/appConfig';
 
 <style>
   @media print {
-      .non-printable { display: none; }
+    .non-printable {
+      display: none;
+    }
   }
 </style>

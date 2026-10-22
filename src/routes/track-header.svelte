@@ -54,12 +54,7 @@
       <span class="text-base">Close</span>
     </Button>
     {#if editedUniboard}
-      <Button
-        size="sm"
-        shape="round"
-        className="ml-2 bg-ios-tint text-ios-ontint w-32"
-        on:click={onSaveEdits}
-      >
+      <Button size="sm" shape="round" className="ml-2 bg-ios-tint text-ios-ontint w-32" on:click={onSaveEdits}>
         <span class="text-base">Save</span>
       </Button>
     {/if}
@@ -77,7 +72,14 @@
         <button type="button" class="ios-round" aria-label="Search Nomie" on:click={onOpenSearch}>
           <IonIcon icon={SearchIcon} size={18} />
         </button>
-        <MenuInline id="add-menu-button" title="Board options" x="right" y="bottom" menuButtons={boardAddMenu} buttonClass="ios-round">
+        <MenuInline
+          id="add-menu-button"
+          title="Board options"
+          x="right"
+          y="bottom"
+          menuButtons={boardAddMenu}
+          buttonClass="ios-round"
+        >
           <IonIcon icon={SettingsOutline} size={18} />
         </MenuInline>
       </div>
@@ -89,37 +91,27 @@
 
 <!-- iOS look: in edit mode the row has room for the tab strip outline, which the row would otherwise clip -->
 <div class="collapsible-row {editMode ? 'py-1' : ''}">
-<Toolbar className="stiff {editMode ? 'h-16 max-h-16 min-h-16' : 'h-11 max-h-11 min-h-11'}">
-  <div class="flex items-center space-x-1">
-    {#if !editMode}
-      {#if runningTimers.length}
-        <Button icon on:click={onShowRunningTimers}>
-          <IonIcon className="text-ios-danger flex justify-center animate-pulse" size={30} icon={alarmIcon} />
-        </Button>
+  <Toolbar className="stiff {editMode ? 'h-16 max-h-16 min-h-16' : 'h-11 max-h-11 min-h-11'}">
+    <div class="flex items-center space-x-1">
+      {#if !editMode}
+        {#if runningTimers.length}
+          <Button icon on:click={onShowRunningTimers}>
+            <IonIcon className="text-ios-danger flex justify-center animate-pulse" size={30} icon={alarmIcon} />
+          </Button>
+        {/if}
       {/if}
+    </div>
+
+    {#if combinedBoards && combinedBoards.length > 1}
+      <BoardTabs {editMode} className="w-full filler" on:tabTap={onBoardTabTap} />
+    {:else}
+      <div class="filler lg:hidden" />
+      <Logo color={appConfig.primary_color} className="-mt-2 ml-2 mr-10" size={20} />
+      <div class="filler" />
     {/if}
-  </div>
 
-  {#if combinedBoards && combinedBoards.length > 1}
-    <BoardTabs
-      editMode={editMode}
-      className="w-full filler"
-      on:tabTap={onBoardTabTap}
-    />
-  {:else}
-    <div class="filler lg:hidden" />
-    <Logo color={appConfig.primary_color} className="-mt-2 ml-2 mr-10" size={20} />
-    <div class="filler" />
-  {/if}
-
-  {#if !editMode && trackableCount > 5 && deviceWidth > 699}
-    <SearchBar
-      style="max-width:220px;"
-      compact
-      on:clear={onSearchClear}
-      on:change={onSearchChange}
-    />
-  {/if}
-
-</Toolbar>
+    {#if !editMode && trackableCount > 5 && deviceWidth > 699}
+      <SearchBar style="max-width:220px;" compact on:clear={onSearchClear} on:change={onSearchChange} />
+    {/if}
+  </Toolbar>
 </div>

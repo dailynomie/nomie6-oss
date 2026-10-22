@@ -2,7 +2,13 @@
 
 <script lang="ts">
   import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
-  import { DocumentTextOutline, FolderOutline, RefreshOutline, TimeOutline, TrashOutline } from '../../components/icon/nicons'
+  import {
+    DocumentTextOutline,
+    FolderOutline,
+    RefreshOutline,
+    TimeOutline,
+    TrashOutline,
+  } from '../../components/icon/nicons'
   import { ServerOutline } from '../../components/icon/nicons'
   import { useStorageSelectMenu } from './settings-functions'
 
@@ -66,7 +72,7 @@
     openModal({
       id: 'plugin-dedup-modal',
       component: PluginDedupModal,
-      componentProps: {}
+      componentProps: {},
     })
   }
 
@@ -163,7 +169,7 @@
     <Divider left={32} />
     <PouchdbSettings />
   {/if}
-  {#if $Prefs.storageType === "nomie-server"}
+  {#if $Prefs.storageType === 'nomie-server'}
     <Divider left={32} />
     <NomieServer />
   {/if}
@@ -193,22 +199,30 @@
 
   {#if $FeatureVisible('csv')}
     <ListItem bottomLine={57} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
-      <span slot="left" class="adv-corner"><IconSquare color="#2A8E97"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare><FeatureBadge feature="csv" /></span>
+      <span slot="left" class="adv-corner"
+        ><IconSquare color="#2A8E97"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare><FeatureBadge
+          feature="csv"
+        /></span
+      >
     </ListItem>
   {/if}
 </List>
 <List solo className="mb-3" outside>
   {#if $FeatureVisible('files')}
-  <ListItem
-    bottomLine={57}
-    detail
-    title={Lang.t('general.browse-files', 'Browse Files')}
-    on:click={() => {
-      navigate('/files')
-    }}
-  >
-    <span slot="left" class="adv-corner"><IconSquare color="#3FA0A9"><IonIcon icon={FolderOutline} size={17} /></IconSquare><FeatureBadge feature="files" /></span>
-  </ListItem>
+    <ListItem
+      bottomLine={57}
+      detail
+      title={Lang.t('general.browse-files', 'Browse Files')}
+      on:click={() => {
+        navigate('/files')
+      }}
+    >
+      <span slot="left" class="adv-corner"
+        ><IconSquare color="#3FA0A9"><IonIcon icon={FolderOutline} size={17} /></IconSquare><FeatureBadge
+          feature="files"
+        /></span
+      >
+    </ListItem>
   {/if}
 
   <ListItem
