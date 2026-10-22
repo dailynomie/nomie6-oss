@@ -295,10 +295,9 @@
                     {Lang.t('general.get-started', 'Get Started!')}
                   </h1> -->
                   <div class="text-center  text-ios-label2 leading-snug px-6 mb-6 lg:mb-10 flex-fill ">
-                    <h1 class="text-ios-label font-bold mb-1">Empty.</h1>
+                    <h1 class="text-ios-label font-bold mb-1">No trackers yet</h1>
                     <p class="text-xs">
-                      This is your {board.label} board; used to display your trackable buttons. Get started by adding a trackable
-                      below.
+                      Your {board.label} board shows your trackers. Add one below to get started.
                     </p>
                   </div>
                 </div>

@@ -119,7 +119,7 @@
 
   <List solo>
     <ListItem clickable on:click={select}>
-      <div class="py-2">Which Trackable?</div>
+      <div class="py-2">Which tracker?</div>
       <div slot="right">
         {#if trackable?.label}
           <TrackablePill {trackable} size={32} hideValue />

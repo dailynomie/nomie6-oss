@@ -437,7 +437,7 @@
             duplicateTrackable()
           }}
         >
-          Duplicate Trackable...
+          Duplicate Tracker...
           <IonIcon slot="right" icon={CopyOutline} className="text-ios-tint" />
         </ListItem>
       {/if}
@@ -448,7 +448,7 @@
           close()
         }}
       >
-        <span class="text-ios-danger">Delete Trackable</span>
+        <span class="text-ios-danger">Delete Tracker</span>
         <IonIcon slot="right" icon={TrashOutline} className="text-ios-danger" />
       </ListItem>
     </List>

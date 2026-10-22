@@ -233,7 +233,7 @@ export const saveTrackable = async ({
  */
 export const deleteTrackableFromNomie = async (trackable: Trackable, prompt: boolean) => {
   let allowed = prompt
-    ? await Interact.confirm('Remove Official Trackable?', 'No tracked data will be deleted, only this trackable.')
+    ? await Interact.confirm('Remove this tracker?', 'No tracked data will be deleted, only this tracker.')
     : true
   if (allowed) {
     if (trackable.type == 'tracker' && trackable.tracker) {

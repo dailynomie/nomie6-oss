@@ -139,7 +139,7 @@ export const getAddTrackerButton = (board: UniboardType) => {
  */
 export const removeTrackableFromNomie = async (trackable: Trackable) => {
   const confirmed = await Interact.confirm(
-    `${Lang.t('general.remove-official', 'Remove Official Trackable')}`,
+    `${Lang.t('general.remove-official', 'Remove this tracker')}`,
     `${Lang.t(
       'tracker.delete-description',
       'No tracked data will be deleted, and you can always recreate this tracker'
@@ -224,7 +224,7 @@ export const removeTrackable = async (trackable: Trackable) => {
       },
     },
     {
-      title: 'Remove official Trackable',
+      title: 'Remove this tracker',
       danger: true,
       click() {
         removeTrackableFromNomie(trackable)

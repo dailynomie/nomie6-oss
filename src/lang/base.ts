@@ -35,7 +35,7 @@ export default {
       'join-the-community': 'Join the Community',
       'redo-setup': 'Redo Setup',
       'export-title': 'Generate a Backup',
-      'export-confirm': 'Depending on how long much data you have, this might take a while.',
+      'export-confirm': 'Depending on how much data you have, this might take a while.',
       'export-complete': 'Export Complete',
       sunday: 'Sunday',
       monday: 'Monday',

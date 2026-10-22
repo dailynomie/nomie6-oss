@@ -18,10 +18,13 @@
     return engines
       .map((engine) => {
         return {
-          title: engine.name,
+          // the price is part of the title, and a disabled option says why (Phase 7 wording pass)
+          title: `${engine.name} · ${engine.price}`,
           id: engine.id,
           disabled: ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures,
-          description: `${engine.description}  ${engine.price}`,
+          description: ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures
+            ? `${engine.description}. Not available yet`
+            : engine.description,
           checked: `${selected}` == `${engine.id}`,
           click() {
             //@ts-ignore

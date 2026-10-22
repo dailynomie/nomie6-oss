@@ -27,7 +27,7 @@ import { Interact } from '../../store/interact';
 <Container className="filler px-5 flex items-center justify-center flex-col slide-location -mt-10">
   <div class="pt-3 mx-auto top center-grow min-w-full max-w-xl">
     
-    <p class="mb-4 text-ios-label2 text-center text-sm">Which looks right?</p>
+    <p class="mb-4 text-ios-label2 text-center text-sm">Your preferences</p>
 
     <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
