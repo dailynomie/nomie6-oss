@@ -6,15 +6,19 @@ def strip_script_style(s):
     s=re.sub(r'<style[\s\S]*?</style>', lambda m: '\n'*m.group(0).count('\n'), s)
     s=re.sub(r'<!--[\s\S]*?-->', lambda m: '\n'*m.group(0).count('\n'), s)
     return s
+# text that is not translated: brand names, web addresses and the app's own name
+NOT_TEXT = re.compile(r'^(Nomie|DailyNomie|DailyNomie\.com|Daily Nomie 7|/r/nomie|https?://\S+|www\.\S+|\S+\.(com|org|app))$')
 def text_hits(s):
     hits=[]
     # text between > and <, not containing { or } expressions, with at least two letters
     for m in re.finditer(r'>([^<>{}]*)<', s):
         t=m.group(1).strip()
-        if re.search(r'[A-Za-z]{2,}', t):
+        if re.search(r'[A-Za-z]{2,}', t) and not NOT_TEXT.match(t):
             line=s.count('\n',0,m.start())+1
             hits.append((line,t[:70]))
     for m in re.finditer(ATTRS+r'="([^"{}]*[A-Za-z]{2,}[^"{}]*)"', s):
+        if NOT_TEXT.match(m.group(2)):
+            continue
         line=s.count('\n',0,m.start())+1
         hits.append((line,f'{m.group(1)}="{m.group(2)[:60]}"'))
     return hits
