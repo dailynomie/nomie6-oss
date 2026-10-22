@@ -11,7 +11,14 @@
   import { parseNumber } from '../../utils/parseNumber/parseNumber'
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
-  let { date = $bindable(), weekStarts, trackableUsage = $bindable(), size, loading = $bindable(), hidePrevNext } = $props()
+  let {
+    date = $bindable(),
+    weekStarts,
+    trackableUsage = $bindable(),
+    size,
+    loading = $bindable(),
+    hidePrevNext,
+  } = $props()
 
   let now = dayjs().format('YYYY-MM-DD')
 
@@ -80,50 +87,65 @@
         <!-- Month Selector -->
         <div class="divide-x-2 divide-opacity-30 divide-ios-separator flex items-center nselect-group">
           <IosSelect
-  compact
-  title="Month"
-  value={month}
-  options={Array.from({ length: 12 }, (_, index) => ({ value: index, label: dayjs().month(index).startOf('month').format('MMM') }))}
-  onchange={(next) => {
-    let newDate = datejs.month(parseNumber(`${next}`))
-    date = newDate.toDate()
-    dispatch('dateChange', newDate.toDate())
-  }}
-/>
+            compact
+            title="Month"
+            value={month}
+            options={Array.from({ length: 12 }, (_, index) => ({
+              value: index,
+              label: dayjs().month(index).startOf('month').format('MMM'),
+            }))}
+            onchange={(next) => {
+              let newDate = datejs.month(parseNumber(`${next}`))
+              date = newDate.toDate()
+              dispatch('dateChange', newDate.toDate())
+            }}
+          />
 
           <!-- Year Selector -->
           <IosSelect
-  compact
-  title="Year"
-  value={year}
-  options={Array.from({ length: 12 }, (_, index) => {
-    const y = parseNumber(dayjs().format('YYYY')) - index
-    return { value: y, label: `${y}` }
-  })}
-  onchange={(next) => {
-    let newDate = datejs.year(parseNumber(`${next}`))
-    date = newDate.toDate()
-    dispatch('dateChange', newDate)
-  }}
-/>
+            compact
+            title="Year"
+            value={year}
+            options={Array.from({ length: 12 }, (_, index) => {
+              const y = parseNumber(dayjs().format('YYYY')) - index
+              return { value: y, label: `${y}` }
+            })}
+            onchange={(next) => {
+              let newDate = datejs.year(parseNumber(`${next}`))
+              date = newDate.toDate()
+              dispatch('dateChange', newDate)
+            }}
+          />
         </div>
         <div class="filler" />
         {#if !hidePrevNext}
-        <button type="button" aria-label="Previous" class="nselect" class:sm={size == 'sm'} on:click={() => nextPrev('previous')}>
-          <IonIcon icon={ChevronBackOutline} size={14} />
-        </button>
+          <button
+            type="button"
+            aria-label="Previous"
+            class="nselect"
+            class:sm={size == 'sm'}
+            on:click={() => nextPrev('previous')}
+          >
+            <IonIcon icon={ChevronBackOutline} size={14} />
+          </button>
         {/if}
         <button
           class:sm={size == 'sm'}
-          class="nselect "
+          class="nselect"
           on:click={() => {
             date = new Date()
           }}>Today</button
         >
         {#if !hidePrevNext}
-        <button type="button" aria-label="Next" class="nselect" class:sm={size == 'sm'} on:click={() => nextPrev('next')}>
-          <IonIcon icon={ChevronForwardOutline} size={14} />
-        </button>
+          <button
+            type="button"
+            aria-label="Next"
+            class="nselect"
+            class:sm={size == 'sm'}
+            on:click={() => nextPrev('next')}
+          >
+            <IonIcon icon={ChevronForwardOutline} size={14} />
+          </button>
         {/if}
       </div>
       <div class="header-days grid grid-cols-7 w-full">

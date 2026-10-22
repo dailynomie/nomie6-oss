@@ -63,7 +63,7 @@ export class TrackableUsage {
     this.displayValue = starter.displayValue
     this.hours = starter.hours || []
     this.groupedBy = starter.groupedBy
-    
+
     this.logs = starter.logs || []
     this.positivity = starter.positivity || []
   }
@@ -74,31 +74,29 @@ export class TrackableUsage {
    * the game.
    * @returns The total score of the game.
    */
-  public getTotalScore(trackers:ITrackers):number {
-    return math.sum((this.logs || []).map((note)=>{
-      return ScoreNote(note.note, note.end, trackers);
-    }))
+  public getTotalScore(trackers: ITrackers): number {
+    return math.sum(
+      (this.logs || []).map((note) => {
+        return ScoreNote(note.note, note.end, trackers)
+      })
+    )
   }
-
 
   /**
    * It returns the middle date of the array of dates.
    * @returns The middle date of the array of dates.
    */
-  get middleDate():Date {
-    return new Date((this.dates[0].toDate().getTime() + this.dates[this.dates.length-1].toDate().getTime()) / 2);
+  get middleDate(): Date {
+    return new Date((this.dates[0].toDate().getTime() + this.dates[this.dates.length - 1].toDate().getTime()) / 2)
   }
 
   get firstDate(): Date {
     return this.logs.sort((a, b) => (a.end > b.end ? 1 : -1))[0].end
   }
-  
+
   get lastDate(): Date {
     return this.logs.sort((a, b) => (a.end < b.end ? 1 : -1))[0].end
   }
-
-
-
 
   /**
    * It takes a trackable usage object, and returns a new trackable usage object, but with the values
@@ -151,21 +149,19 @@ export class TrackableUsage {
         return noScoring
           ? 0
           : this.trackable.tracker
-          ? this.trackable.tracker?.calculateScore(v, dates[index].toDate())
-          : 0
+            ? this.trackable.tracker?.calculateScore(v, dates[index].toDate())
+            : 0
       }),
     })
   }
 
- /**
-  * It returns the sum of the values in the values array
-  * @returns The total of the values in the values array.
-  */
+  /**
+   * It returns the sum of the values in the values array
+   * @returns The total of the values in the values array.
+   */
   get total(): number {
     return this.trackable.tallyValues(this.values)
   }
-
-
 
   formatValue(value: number, includeSymbol: boolean = true): string {
     if (this.trackable.tracker) {

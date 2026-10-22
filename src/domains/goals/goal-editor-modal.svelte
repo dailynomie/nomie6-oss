@@ -49,7 +49,9 @@
   let mounted = $state(false)
   const isSaved = $derived(!!goal?.id && $GoalStore.some((g: GoalClass) => g.id === goal.id))
   // Phase 7: Save stays off until the goal is complete; this line says what is still missing
-  const stillNeeded = $derived([!trackable && 'a tracker', !comparison && 'how it should compare', !goalTargetValue && 'a target'].filter(Boolean))
+  const stillNeeded = $derived(
+    [!trackable && 'a tracker', !comparison && 'how it should compare', !goalTargetValue && 'a target'].filter(Boolean)
+  )
 
   $effect(() => {
     if (goal && mounted && !workingGoal) {
@@ -186,39 +188,40 @@
           <IonIcon icon={AddCircleOutline} />
         </Button>
       </div>
-      </Input>
-      {#if goal.duration == undefined}
+    </Input>
+    {#if goal.duration == undefined}
       <Divider left={16} />
       <ListItem>
         <div class="py-2">Use Daily Average</div>
         <div slot="right">
-      <ToggleSwitch
-      title="Daily Average"
-      bind:value={goalUseDailyAverage}
-      on:change={(event) => {
-        if (event.detail == false) {
-          goalUseDailyAverage = false
-        } else if (event.detail === true) {
-          goalUseDailyAverage = true
-        }
-      }}
-    />
-    </div>
-    </ListItem>
+          <ToggleSwitch
+            title="Daily Average"
+            bind:value={goalUseDailyAverage}
+            on:change={(event) => {
+              if (event.detail == false) {
+                goalUseDailyAverage = false
+              } else if (event.detail === true) {
+                goalUseDailyAverage = true
+              }
+            }}
+          />
+        </div>
+      </ListItem>
     {/if}
   </List>
 
   <!-- iOS look (Phase 7 bug fix): a goal that is not saved yet has nothing to delete -->
   {#if isSaved}
-  <Button clear className="text-ios-danger mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>
-    {#if goal.duration=== 'day'}
-          <div class="text-center text-ios-danger">Delete Daily Goal</div>
-          {:else if goal.duration === 'week'}
-          <div class="text-center text-ios-danger">Delete Weekly Goal</div>
-          {:else if goal.duration === 'month'}
-          <div class="text-center text-ios-danger">Delete Monthly Goal</div>
-          {:else if goal.duration === 'year'}
-          <div class="text-center text-ios-danger">Delete Yearly Goal</div>
-          {/if}</Button>
+    <Button clear className="text-ios-danger mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>
+      {#if goal.duration === 'day'}
+        <div class="text-center text-ios-danger">Delete Daily Goal</div>
+      {:else if goal.duration === 'week'}
+        <div class="text-center text-ios-danger">Delete Weekly Goal</div>
+      {:else if goal.duration === 'month'}
+        <div class="text-center text-ios-danger">Delete Monthly Goal</div>
+      {:else if goal.duration === 'year'}
+        <div class="text-center text-ios-danger">Delete Yearly Goal</div>
+      {/if}</Button
+    >
   {/if}
 </BackdropModal>

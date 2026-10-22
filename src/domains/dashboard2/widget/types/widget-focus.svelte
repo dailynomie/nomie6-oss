@@ -9,7 +9,12 @@
   import type NLog from '../../../nomie-log/nomie-log'
 
   // export let widget: WidgetClass
-  const { logs = $bindable(), widget = $bindable(undefined), trackable = $bindable(undefined), usage = $bindable(undefined) } = $props()
+  const {
+    logs = $bindable(),
+    widget = $bindable(undefined),
+    trackable = $bindable(undefined),
+    usage = $bindable(undefined),
+  } = $props()
   let scores = $state<Array<IFocusResults>>([])
   let lastLogsLength = $state(0)
   let lastTrackableCount = $state(0)

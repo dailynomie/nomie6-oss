@@ -45,8 +45,8 @@
     class="positivity-bar cursor-pointer {className} {score < 0
       ? 'is-negative'
       : score > 0
-      ? 'is-positive'
-      : 'is-neutral'}"
+        ? 'is-positive'
+        : 'is-neutral'}"
     {style}
     on:click={() => whatsThis()}
   >

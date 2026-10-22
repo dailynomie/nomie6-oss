@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { LockClosedOutline } from '../../components/icon/nicons'
-	import { LaunchCount } from './../preferences/LaunchCount.ts';
+  import { LaunchCount } from './../preferences/LaunchCount.ts'
   import { navigate } from '../../vendor/svelte-navigator'
 
   import { Device } from '../../store/device-store'
@@ -26,7 +26,13 @@
   import config from '../../config/appConfig'
   import { AppVersion } from '../../modules/app-version/app-version'
   import Badge from '../../components/badge/badge.svelte'
-  import { BookOutline, ChatbubblesOutline, GlobeOutline, HelpCircleOutline, LanguageOutline } from '../../components/icon/nicons'
+  import {
+    BookOutline,
+    ChatbubblesOutline,
+    GlobeOutline,
+    HelpCircleOutline,
+    LanguageOutline,
+  } from '../../components/icon/nicons'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
@@ -115,7 +121,13 @@
   </ListItem>
 
   <!-- The translation editor (/lang): help translating Nomie -->
-  <ListItem bottomLine={16} title={Lang.t('settings.help-translate', 'Help translate Nomie')} detail clickable on:click={() => navigate('/lang')}>
+  <ListItem
+    bottomLine={16}
+    title={Lang.t('settings.help-translate', 'Help translate Nomie')}
+    detail
+    clickable
+    on:click={() => navigate('/lang')}
+  >
     <span slot="left"><IconSquare color="#9CCBF8"><IonIcon icon={LanguageOutline} size={17} /></IconSquare></span>
   </ListItem>
 
@@ -160,7 +172,13 @@
   </ListItem>
 
   <!-- Counts is a section that opens and closes; the rows show when it is open -->
-  <ListItem bottomLine={countsOpen ? 16 : undefined} clickable title="Counts" description="{totalCounted} items in total" on:click={() => (countsOpen = !countsOpen)}>
+  <ListItem
+    bottomLine={countsOpen ? 16 : undefined}
+    clickable
+    title="Counts"
+    description="{totalCounted} items in total"
+    on:click={() => (countsOpen = !countsOpen)}
+  >
     <div slot="right"><IonIcon icon={countsOpen ? ChevronUpOutline : ChevronDownOutline} size={16} /></div>
   </ListItem>
   {#if countsOpen}

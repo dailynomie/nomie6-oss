@@ -13,8 +13,8 @@ import { getRawPrefs } from '../preferences/Preferences'
  */
 export async function logAppendLocationIfNeeded(log: NLog): Promise<NLog> {
   // Should we locate?
-  let prefs = getRawPrefs();
-  let shouldLocate = prefs.alwaysLocate;
+  let prefs = getRawPrefs()
+  let shouldLocate = prefs.alwaysLocate
   if (shouldLocate) {
     try {
       // Get the Location

@@ -7,7 +7,6 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { CalendarOutline, ChevronBackOutline, ChevronForwardOutline } from '../icon/nicons'
 
-
   const dispatch = createEventDispatcher()
 
   const { isToday, hideCal, style, className } = $props()

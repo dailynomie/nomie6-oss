@@ -16,7 +16,6 @@ import { TrackerStore, repairPrefixedTrackerKeys } from '../tracker/TrackerStore
 import { showToast } from '../../components/toast/ToastStore'
 import type { PermissionsState } from '../my-account/PermissionsStore'
 
-
 type ITrackables = {
   [key: string]: Trackable
 }
@@ -43,40 +42,47 @@ export const AllTrackables = derived(TrackableStore, ($TrackableStore) => {
 })
 
 export const AllTrackablesAsArray = derived(TrackableStore, ($TrackableStore) => {
-  let all = $TrackableStore.trackables;
-  return Object.keys(all).map(tag => {
-    return all[tag];
+  let all = $TrackableStore.trackables
+  return Object.keys(all).map((tag) => {
+    return all[tag]
   })
 })
 
 export const AllTrackerTrackables = derived(TrackableStore, ($TrackableStore) => {
-  const all = Object.keys($TrackableStore.trackables).map((tag) => {
-    return $TrackableStore.trackables[tag];
-  }).filter(t => t);
+  const all = Object.keys($TrackableStore.trackables)
+    .map((tag) => {
+      return $TrackableStore.trackables[tag]
+    })
+    .filter((t) => t)
 
-  return all.filter(t => t.type == 'tracker');
+  return all.filter((t) => t.type == 'tracker')
 })
 
 export const AllPeopleTrackables = derived(TrackableStore, ($TrackableStore) => {
-  const all = Object.keys($TrackableStore.trackables).map((tag) => $TrackableStore.trackables[tag]);
-  return all.filter(t => t.type == 'person');
+  const all = Object.keys($TrackableStore.trackables).map((tag) => $TrackableStore.trackables[tag])
+  return all.filter((t) => t.type == 'person')
 })
 
 export const AllContextTrackables = derived(TrackableStore, ($TrackableStore) => {
-  const all = Object.keys($TrackableStore.trackables).map((tag) => $TrackableStore.trackables[tag]);
-  return all.filter(t => t.type == 'context');
+  const all = Object.keys($TrackableStore.trackables).map((tag) => $TrackableStore.trackables[tag])
+  return all.filter((t) => t.type == 'context')
 })
 
 export const AllPointersTrackables = derived(TrackableStore, ($TrackableStore) => {
-  const all = Object.keys($TrackableStore.trackables).map((tag) => $TrackableStore.trackables[tag]);
-  return all.filter(t => t.type == 'pointer');
+  const all = Object.keys($TrackableStore.trackables).map((tag) => $TrackableStore.trackables[tag])
+  return all.filter((t) => t.type == 'pointer')
 })
 
 export const MasterTrackables: ITrackables = {}
 
 export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
   // Get Poeple Trackers Pointers and Context
-  const finished: Array<any> = await Promise.all([PeopleStore.init(), TrackerStore.init(), ContextStore.init(), PointerStore.init()])
+  const finished: Array<any> = await Promise.all([
+    PeopleStore.init(),
+    TrackerStore.init(),
+    ContextStore.init(),
+    PointerStore.init(),
+  ])
 
   const people: IPeople = await normalizePersonKeys(finished[0] || {})
   const trackers: ITrackers = await repairPrefixedTrackerKeys(finished[1] || {})
@@ -94,9 +100,7 @@ export const getTrackablesFromStorage = async (): Promise<ITrackables> => {
     })
     ctxs = migratedCtxs
     // Persist the migrated data by upserting back to ContextStore
-    await Promise.all(Object.entries(migratedCtxs).map(([tag, ctx]) =>
-      ContextStore.upsert(ctx.asObject)
-    ))
+    await Promise.all(Object.entries(migratedCtxs).map(([tag, ctx]) => ContextStore.upsert(ctx.asObject)))
   }
 
   // Convert into Arrays of the Real Things
@@ -183,7 +187,6 @@ export const saveTrackable = async ({
   saveToActiveBoard = true,
 }: SaveTrackableProps) => {
   try {
-
     // if (permissions.canWrite && permissions.trackables <= Object.keys(known).length) {
     //   // Maxed out. lets see if it already exists
     //   if (!known[trackable.tag]) {
@@ -205,13 +208,16 @@ export const saveTrackable = async ({
     } else if (trackable.type === 'pointer') {
       complete = await PointerStore.upsert(trackable.ptr)
     }
-    if (saveToActiveBoard && trackable.type != "pointer") {
+    if (saveToActiveBoard && trackable.type != 'pointer') {
       const activeBoard = getActiveBoardHeavy()
       if (activeBoard && !activeBoard.elements.find((tag) => tag == trackable.tag)) {
         if (prompt === true && activeBoard?.id?.substring(0, 1) !== '_') {
           // iOS look (Phase 7 bug fix): plain words instead of the tag and the internal board name
           const where = activeBoard.id === 'main' ? 'your Track screen' : `the ${activeBoard.label} board`
-          const confirmed = await Interact.confirm(`Show ${trackable.label} on ${where}?`, 'You can change this later in the board editor.')
+          const confirmed = await Interact.confirm(
+            `Show ${trackable.label} on ${where}?`,
+            'You can change this later in the board editor.'
+          )
           if (confirmed) {
             addTrackablesToBoard([trackable], activeBoard)
           }
@@ -241,9 +247,9 @@ export const deleteTrackableFromNomie = async (trackable: Trackable, prompt: boo
     } else if (trackable.type == 'person' && trackable.person) {
       await PeopleStore.remove(trackable.person)
     } else if (trackable.type == 'context' && trackable.ctx) {
-      await ContextStore.remove(trackable.ctx);
+      await ContextStore.remove(trackable.ctx)
     } else if (trackable.type == 'pointer' && trackable.ptr) {
-      await PointerStore.remove(trackable.ptr);
+      await PointerStore.remove(trackable.ptr)
     }
     showToast({ message: Lang.t('general.removed', 'Removed') })
   }
@@ -279,7 +285,9 @@ export const saveTrackersToStorage = async (trackables: Array<Trackable>): Promi
  * Bug 4 fix (Ronald decision): a #tag in a note with no tracker is offered as a new tracker.
  * If the user says no, the tag stays an unknown tracker, as before. The note is saved either way.
  */
-export const offerNewTrackersForNote = async (note: { elements: Array<{ type: string; id: string; prefix: string }> }) => {
+export const offerNewTrackersForNote = async (note: {
+  elements: Array<{ type: string; id: string; prefix: string }>
+}) => {
   const seen = new Set<string>()
   for (const token of note.elements) {
     if (token.type !== 'tracker') continue

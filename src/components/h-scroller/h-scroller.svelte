@@ -9,8 +9,6 @@
 
   import { wait } from '../../utils/tick/tick'
 
-
-
   const dispatch = createEventDispatcher()
 
   // Locals
@@ -20,7 +18,18 @@
   let centered = $state(true)
   let localActiveIndex = $state(undefined)
 
-  const { activeIndex = undefined, activeClass, className, centerIfPossible, wrapperClass, wrapperStyle, captureCenter, captureCenterWindow, style, id } = $props()
+  const {
+    activeIndex = undefined,
+    activeClass,
+    className,
+    centerIfPossible,
+    wrapperClass,
+    wrapperStyle,
+    captureCenter,
+    captureCenterWindow,
+    style,
+    id,
+  } = $props()
 
   // Commenting out all effects to isolate the infinite loop source
   // $effect(() => {

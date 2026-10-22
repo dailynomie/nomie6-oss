@@ -37,7 +37,6 @@
 
   const { trackable, usage, className = '' } = $props()
 
-
   const dateFormats = getDateFormats()
 
   let usageByDay = $state<TrackableUsage | undefined>(undefined)
@@ -60,7 +59,6 @@
     usageByDay = chartUsage.byDay
     if ($Stats2Store.time === '1y') {
       chartUsage = chartUsage.groupBy('month', 'MMM YYYY')
-
     } else {
       chartUsage = chartUsage.byDay
     }
@@ -91,7 +89,7 @@
   // onDestroy(() => unsub())
 </script>
 
-<div class="bg-ios-card p-2  relative {className}">
+<div class="bg-ios-card p-2 relative {className}">
   {#if localUsage}
     <UsageChart
       id={`usage-${nid(localUsage.trackable.tag)}`}

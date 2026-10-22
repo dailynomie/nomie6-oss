@@ -25,7 +25,7 @@
   import { base } from '../../../modules/colors/colors'
   import type { Trackable } from '../Trackable.class'
 
-  const { id, trackable, onComplete } = $props<{ id: string, trackable: Trackable, onComplete: Function }>()
+  const { id, trackable, onComplete } = $props<{ id: string; trackable: Trackable; onComplete: Function }>()
 
   let emojiOrColor: 'color' | 'emoji' | 'image' = $state('emoji')
 
@@ -42,7 +42,9 @@
   }
 
   const manualEmoji = async () => {
-    const multiEmoji = await Interact.prompt('Multiple emojis', 'Want multiple emojis? Do it here:', { value: trackable.emoji })
+    const multiEmoji = await Interact.prompt('Multiple emojis', 'Want multiple emojis? Do it here:', {
+      value: trackable.emoji,
+    })
     if (multiEmoji) {
       trackable.emoji = multiEmoji
     }

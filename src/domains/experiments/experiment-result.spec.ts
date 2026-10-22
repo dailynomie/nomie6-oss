@@ -66,10 +66,27 @@ describe('live result', () => {
   })
 
   it('states the other verdicts in plain words', () => {
-    const base = { tag: 'x', direction: 'up' as const, nB: 14, nE: 14, meanB: 0, meanE: 0, sdB: 0, sdE: 0, diff: 0, ciLow: 0, ciHigh: 0, p: 1, d: 0, effect: 'negligible' as const }
+    const base = {
+      tag: 'x',
+      direction: 'up' as const,
+      nB: 14,
+      nE: 14,
+      meanB: 0,
+      meanE: 0,
+      sdB: 0,
+      sdE: 0,
+      diff: 0,
+      ciLow: 0,
+      ciHigh: 0,
+      p: 1,
+      d: 0,
+      effect: 'negligible' as const,
+    }
     expect(verdictText({ ...base, verdict: 'hint' })).toBe('Possibly a difference. Keep going to be sure.')
     expect(verdictText({ ...base, verdict: 'no-clear-difference' })).toBe('No clear difference.')
-    expect(verdictText({ ...base, verdict: 'clear', matchesExpectation: false })).toBe('A clear change, the opposite of what you hoped.')
+    expect(verdictText({ ...base, verdict: 'clear', matchesExpectation: false })).toBe(
+      'A clear change, the opposite of what you hoped.'
+    )
   })
 })
 

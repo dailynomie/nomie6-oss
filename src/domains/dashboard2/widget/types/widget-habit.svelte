@@ -3,13 +3,17 @@
 <script lang="ts">
   // iOS look (guide 5.10, ring): the habit result is a 10 px ring with round caps, starting at the top.
   // Achieved is the green token, the rest the fill token. The tracker emoji sits in the centre.
-  const { widget = $bindable(), usage = $bindable(), trackable = $bindable(undefined), logs = $bindable(undefined) } = $props()
+  const {
+    widget = $bindable(),
+    usage = $bindable(),
+    trackable = $bindable(undefined),
+    logs = $bindable(undefined),
+  } = $props()
 
   const RADIUS = 50
   const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
-  const countOccurrences = (arr: Array<number>, val: number) =>
-    arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
+  const countOccurrences = (arr: Array<number>, val: number) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
 
   let total = $derived(usage ? usage.values.length : 0)
   let kept = $derived(usage ? countOccurrences(usage.values, 1) : 0)

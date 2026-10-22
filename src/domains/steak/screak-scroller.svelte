@@ -51,7 +51,7 @@
     }, 200)
   }
 
-  let dateFormats = getDateFormats();
+  let dateFormats = getDateFormats()
 
   onMount(async () => {
     await loadLogs()
@@ -64,8 +64,6 @@
   onDestroy(() => {
     unsubLastUsedStore()
   })
-
-  
 
   /**
    * Track an event on a given day
@@ -108,13 +106,15 @@
     return true
   }
 
-  const showDateOptions = (date:Date, trackable:Trackable)=>{
-    openDateOptionPopMenu(date, [{
-      title: 'Track on this Day',
-      click() {
-        trackOnThisDay(trackable, dayjs(date).hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
-      }
-    }])
+  const showDateOptions = (date: Date, trackable: Trackable) => {
+    openDateOptionPopMenu(date, [
+      {
+        title: 'Track on this Day',
+        click() {
+          trackOnThisDay(trackable, dayjs(date).hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
+        },
+      },
+    ])
   }
 </script>
 
@@ -162,19 +162,19 @@
       <button
         on:click={() => {
           // openDateOptionPopMenu(item.toDate())
-          showDateOptions(item.toDate(), trackableUsage.trackable);
+          showDateOptions(item.toDate(), trackableUsage.trackable)
         }}
-        class="mb-1 text-solid border-dotted border-b border-ios-separator 
+        class="mb-1 text-solid border-dotted border-b border-ios-separator
         "
       >
         <div class="text-xs opacity-70 leading-none">{item.format('ddd')}</div>
         <div class="leading-tight">{item.format(dateFormats.tinyNumber)}</div>
       </button>
-      
+
       <button
-      on:click={() => {
-        showDateOptions(item.toDate(), trackableUsage.trackable);
-      }}
+        on:click={() => {
+          showDateOptions(item.toDate(), trackableUsage.trackable)
+        }}
         class="day-wrapper"
       >
         {#if !isNaN(trackableUsage.values[index])}
@@ -194,9 +194,12 @@
           )}`}%;background-color:{trackableUsage.trackable.color}"
         />
       </button>
-      <button class="track-button" on:click={() => {
-        trackOnThisDay(trackableUsage.trackable, item.hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
-      }}>
+      <button
+        class="track-button"
+        on:click={() => {
+          trackOnThisDay(trackableUsage.trackable, item.hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
+        }}
+      >
         +
       </button>
     </div>

@@ -50,7 +50,7 @@ export const switchStorage = async (type, ignoreConfirm: boolean = false) => {
 /**
  * Select Storage Menu
  * Display a popmenu of storage options
- * @param props 
+ * @param props
  */
 export const useStorageSelectMenu = async (props: selectNewStorageProps) => {
   const prefs = getRawPrefs()
@@ -58,10 +58,8 @@ export const useStorageSelectMenu = async (props: selectNewStorageProps) => {
 
   // perfs.betaFeatures
 
-
   let buttons = StorageEngines.map((storageEngine) => {
-    let disabled: boolean = false;
-
+    let disabled: boolean = false
 
     return {
       title: storageEngine.name,

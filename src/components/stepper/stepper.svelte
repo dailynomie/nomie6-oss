@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   const { steps, current, dark, stepClass, single, style } = $props()
 
   let _steps = $derived.by(() => {

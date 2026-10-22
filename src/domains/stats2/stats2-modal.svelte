@@ -105,16 +105,17 @@
       end={$Stats2DateRange.end}
       on:next={() => nextStatsPeriod()}
       on:previous={() => previousStatsPeriod()}
-     >
-     <h1 class="text-ios-label text-center flex items-center justify-center font-bold leading-none line-clamp-1 w-full">
-      <TrackableAvatar trackable={$Stats2Store.trackable} size={20} className="mr-2" />
-      <span>{$Stats2Store.trackable.label}</span>
-    </h1>
+    >
+      <h1
+        class="text-ios-label text-center flex items-center justify-center font-bold leading-none line-clamp-1 w-full"
+      >
+        <TrackableAvatar trackable={$Stats2Store.trackable} size={20} className="mr-2" />
+        <span>{$Stats2Store.trackable.label}</span>
+      </h1>
     </DateRangeController>
-     
   </header>
 
-  <section class="pt-2 px-3 w-full grid grid-cols-1 pb-4  overflow-y-auto gap-4 relative bg-ios-bg">
+  <section class="pt-2 px-3 w-full grid grid-cols-1 pb-4 overflow-y-auto gap-4 relative bg-ios-bg">
     <!-- <div  class="flex items-center justify-center pt-1 px-4">
       {#if $Stats2Store.trackable}
         

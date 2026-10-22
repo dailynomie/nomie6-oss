@@ -1,9 +1,16 @@
 <svelte:options runes={true} />
 
-<script lang="ts">  import IosSelect from '../../components/ios-select/ios-select.svelte'
+<script lang="ts">
+  import IosSelect from '../../components/ios-select/ios-select.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { CalendarOutline, GlobeOutline, LanguageOutline, ResizeOutline, TimeOutline } from '../../components/icon/nicons'
+  import {
+    CalendarOutline,
+    GlobeOutline,
+    LanguageOutline,
+    ResizeOutline,
+    TimeOutline,
+  } from '../../components/icon/nicons'
   import ListItem from '../../components/list-item/list-item.svelte'
   import IconSquare from '../../components/icon-square/icon-square.svelte'
 

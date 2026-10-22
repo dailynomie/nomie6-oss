@@ -47,7 +47,7 @@ export const closeTrackableSelector = () => {
  */
 export const selectTrackables = async (
   type?: TrackableTypes | undefined,
-  subtype? : ITrackerType | undefined,
+  subtype?: ITrackerType | undefined,
   multiple: boolean = true
 ): Promise<Array<Trackable>> => {
   return new Promise((resolve) => {

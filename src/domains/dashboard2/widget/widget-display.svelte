@@ -24,7 +24,7 @@
   import { Interact } from '../../../store/interact'
   import { Lang } from '../../../store/lang'
   import { showToast } from '../../../components/toast/ToastStore'
-  import { PluginStore } from "../../plugins/PluginStore"
+  import { PluginStore } from '../../plugins/PluginStore'
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
   import { saveDashboard, DashStore } from '../DashStore'
@@ -35,7 +35,14 @@
 
   const dispatch = createEventDispatcher()
   const id = nid()
-  const { widget, trackable, loaded = $bindable(), usage, logs, hideTools = false } = $props<{
+  const {
+    widget,
+    trackable,
+    loaded = $bindable(),
+    usage,
+    logs,
+    hideTools = false,
+  } = $props<{
     widget: WidgetClass
     trackable: Trackable
     loaded: boolean
@@ -73,8 +80,8 @@
   }
 
   function titleCase(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+  }
 
   const showSizeMenu = (htmlTarget) => {
     const buttons = [
@@ -134,7 +141,7 @@
       if (widget.type == 'last-used') {
         value = new Date().getTime() - usage.lastDate.getTime()
       } else {
-        value = usage.displayValue;
+        value = usage.displayValue
       }
     }
     value = value || 0
@@ -158,11 +165,11 @@
 
   $effect(() => {
     if (widget.type == 'plugin') {
-      const plugin = $PluginStore.find(p => p.id == widget.data.pluginId)
+      const plugin = $PluginStore.find((p) => p.id == widget.data.pluginId)
       if (plugin) {
         label = `${plugin.emoji} ${plugin.name}`
       } else {
-        label = "Unknown Plugin"
+        label = 'Unknown Plugin'
       }
     }
   })
@@ -192,14 +199,15 @@
       }
     }
   }
-
-
 </script>
 
 {#if widget && widget.type !== 'text'}
   <div class="dashboard-widget {getClass(widget, updateTrigger)}" {id}>
     <!-- iOS look (guide 5.10): the card name is in the series colour (the tracker colour), 15 px weight 600 -->
-    <div class="flex widget-header px-4 pt-3 pb-1 items-center gap-1" style={trackable ? `--series-color:${trackable.color}` : ''}>
+    <div
+      class="flex widget-header px-4 pt-3 pb-1 items-center gap-1"
+      style={trackable ? `--series-color:${trackable.color}` : ''}
+    >
       {#if trackable && widget.type != 'pointer'}
         <div class="flex items-center gap-1">
           {#if includedTrackable && ['barchart', 'linechart'].includes(widget.type)}
@@ -213,10 +221,14 @@
             <TrackablePill hideValue size={30} transparent trackable={includedTrackable} on:click={widgetActions} />
           </div>
         {/if}
-        {:else if widget.type == 'pointer'}
+      {:else if widget.type == 'pointer'}
         <!-- iOS look: the pointer name has the full width, and its tracker sits under it -->
         <div class="flex flex-col min-w-0 gap-0.5">
-          <span class="widget-title break-words flex items-center gap-1"><IonIcon icon={PricetagOutline} size={14} className="text-ios-label2" />{titleCase(widget.pointer.id)}</span>
+          <span class="widget-title break-words flex items-center gap-1"
+            ><IonIcon icon={PricetagOutline} size={14} className="text-ios-label2" />{titleCase(
+              widget.pointer.id
+            )}</span
+          >
           <div class="flex"><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions} /></div>
         </div>
       {:else if widget.type == 'plugin'}
@@ -256,14 +268,14 @@
       {/if}
     </div>
     <footer class="px-4 pb-3 flex widget-footer space-x-2 justify-between">
-      {#if widget.timeRange &&  widget.type !== 'plugin'}
+      {#if widget.timeRange && widget.type !== 'plugin'}
         <button on:click={(evt) => showTimeframeMenu(evt)} class="">
-          {updateTrigger, widgetInstance.getLabel().replace('days', '')}
+          {(updateTrigger, widgetInstance.getLabel().replace('days', ''))}
         </button>
       {/if}
       {#if !hideTools}
         <button
-          class="text-xs  px-1 "
+          class="text-xs px-1"
           aria-label="Change widget size"
           on:click={(evt) => {
             // TODO: Move this to the new drop menu - when it follows better
@@ -272,18 +284,13 @@
         >
           <!-- iOS look: the size control is the outline resize icon in the secondary label colour -->
           <IonIcon icon={ResizeOutline} size={16} className="text-ios-label2" />
-
         </button>
       {/if}
       <div class="filler pointer-events-none" />
       {#if widget.type === 'insight' && widget.data?.cachedDate}
         <div class="flex items-center gap-1">
           <span class="text-xs text-ios-label2">Will refresh in {getInsightRefreshTime()}</span>
-          <button
-            class="text-xs px-1"
-            on:click={clearInsightCache}
-            title="Clear cache and fetch fresh insight"
-          >
+          <button class="text-xs px-1" on:click={clearInsightCache} title="Clear cache and fetch fresh insight">
             ↻
           </button>
         </div>
@@ -374,14 +381,13 @@
   }
 
   .dashboard-widget .usage-chart-tools .filler {
-    display:none !important;
+    display: none !important;
   }
 
-  .dashboard-widget footer button:hover ,
-  .dashboard-widget .usage-chart-tools button:hover { 
-    
+  .dashboard-widget footer button:hover,
+  .dashboard-widget .usage-chart-tools button:hover {
   }
-  
+
   .dashboard-text + .dashboard-text {
     padding-top: 0px !important;
     padding-bottom: 16px;
@@ -392,7 +398,6 @@
     position: relative;
     @apply text-ios-label;
   }
-
 
   .dashboard-widget:after {
     /* iOS look: no colour wash on the card; the colour lives in the values */

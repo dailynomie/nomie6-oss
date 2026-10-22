@@ -31,8 +31,7 @@
 
   import ListItem from '../../components/list-item/list-item.svelte'
 
-
-  const { logs = [], filters = $bindable({}) } = $props<{ logs?: Array<NLog>, filters?: TimelineFilterProps }>()
+  const { logs = [], filters = $bindable({}) } = $props<{ logs?: Array<NLog>; filters?: TimelineFilterProps }>()
   const dispatch = createEventDispatcher()
 
   let timeline: Array<TimelineItemType> = $state([])
@@ -125,7 +124,8 @@
                   value={usageMapItem.usage.trackable.formatValue(
                     usageMapItem.usage.trackable.tallyValues(usageMapItem.usage.values)
                   )}
-                  hideValue={usageMapItem.usage.trackable.type === 'person' || usageMapItem.usage.trackable.type === 'pointer'}
+                  hideValue={usageMapItem.usage.trackable.type === 'person' ||
+                    usageMapItem.usage.trackable.type === 'pointer'}
                   trackable={usageMapItem.usage.trackable}
                   size={29}
                   className="stiff z-10 hover:scale-105 focus:scale-95 transition-all transform duration-200 mb-1 mr-1  lg:mr-2 shadow-md lg:col-span-3 md:col-span-6 col-span-6 timeline-pill w-full"
@@ -163,16 +163,18 @@
 
     {#if filters.notes}
       <div class="notes mx-4 rounded-group bg-ios-card">
-        {#each item.logs.filter((nlog) => {
-          if (filters.trackables) return nlog.hasNote
-          return true
-        }).sort((a,b)=>{
-          if(a.pinned || b.pinned) {
-            return a.pinned < b.pinned ? 1 : -1
-          } else {
-            return a.end < b.end ? 1 : -1
-          }
-        }) as log}
+        {#each item.logs
+          .filter((nlog) => {
+            if (filters.trackables) return nlog.hasNote
+            return true
+          })
+          .sort((a, b) => {
+            if (a.pinned || b.pinned) {
+              return a.pinned < b.pinned ? 1 : -1
+            } else {
+              return a.end < b.end ? 1 : -1
+            }
+          }) as log}
           <div class="log-row">
             <ListItemLog {log} hideTrackables={filters.trackables} />
           </div>

@@ -54,7 +54,14 @@
 >
   <span class="ios-date-value">{label}</span>
   <svg class="ios-date-chevron" width="10" height="14" viewBox="0 0 10 14" aria-hidden="true">
-    <path d="M1 5l4-4 4 4M1 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path
+      d="M1 5l4-4 4 4M1 9l4 4 4-4"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
   </svg>
 </button>
 

@@ -18,10 +18,10 @@
   const methods = {
     init() {
       setInterval(() => {
-        let ms = initialDuration*1000 + new Date().getTime() - started
+        let ms = initialDuration * 1000 + new Date().getTime() - started
         value = methods.secondsToTime(methods.msToSecond(ms))
       }, 1000)
-      let ms = initialDuration*1000 + new Date().getTime() - started
+      let ms = initialDuration * 1000 + new Date().getTime() - started
       value = methods.secondsToTime(methods.msToSecond(ms))
     },
     normalizeTime(time) {
@@ -57,9 +57,7 @@
   class="n-counter {className}
   {lg ? 'large' : 'small'}
   {filled ? 'filled' : ''}"
-  style={filled
-    ? `color:${readableTextOn(color)}; background-color:${color}`
-    : `color:${accessibleTint(color)}`}
+  style={filled ? `color:${readableTextOn(color)}; background-color:${color}` : `color:${accessibleTint(color)}`}
 >
   <LetterTicker text={value} />
 </div>

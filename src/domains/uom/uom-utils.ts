@@ -53,7 +53,10 @@ export const uomFormat = (value: number, uomKey: string, include?: boolean) => {
  * Units grouped by type, each group sorted by plural name.
  * Pass the custom unit list (from CustomUomStore) so a component re-runs when it changes.
  */
-export const getGroupedUoms = (hideTimer: boolean = true, customUoms: Array<CustomUomItem> = getCustomUoms()): GroupUOMS => {
+export const getGroupedUoms = (
+  hideTimer: boolean = true,
+  customUoms: Array<CustomUomItem> = getCustomUoms()
+): GroupUOMS => {
   let items: GroupUOMS = {}
   const units = { ...UOMS, ...Object.fromEntries(customUoms.map((item) => [item.key, toUomElement(item)])) }
   Object.keys(units).forEach((key) => {

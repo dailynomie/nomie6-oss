@@ -29,11 +29,13 @@ export type IWidgetType = {
   data?: any
 }
 
-export const getWidgetTypes = ($PluginStore:Array<PluginClass>):Array<IWidgetType> => {
-    const allWidgetTypes = [...widgetTypes];
-    $PluginStore.filter(p=>{
+export const getWidgetTypes = ($PluginStore: Array<PluginClass>): Array<IWidgetType> => {
+  const allWidgetTypes = [...widgetTypes]
+  $PluginStore
+    .filter((p) => {
       return p.active && p.addToWidgets
-    }).forEach((plugin:PluginClass)=>{
+    })
+    .forEach((plugin: PluginClass) => {
       allWidgetTypes.push({
         id: `plugin`,
         label: plugin.name,
@@ -41,15 +43,14 @@ export const getWidgetTypes = ($PluginStore:Array<PluginClass>):Array<IWidgetTyp
         optional: [],
         emoji: plugin.emoji,
         data: {
-          pluginId: plugin.id
-        }
+          pluginId: plugin.id,
+        },
       })
     })
-    // Starter mode only offers the starter widget types. Existing widgets keep working.
-    const prefs = getRawPrefs()
-    return allWidgetTypes.filter((widgetType) => isWidgetTypeVisible(prefs, widgetType.id));
+  // Starter mode only offers the starter widget types. Existing widgets keep working.
+  const prefs = getRawPrefs()
+  return allWidgetTypes.filter((widgetType) => isWidgetTypeVisible(prefs, widgetType.id))
 }
-
 
 export const widgetTypes: Array<IWidgetType> = [
   {
@@ -109,16 +110,18 @@ export const widgetTypes: Array<IWidgetType> = [
     image: '/images/widget-types/latest-note.svg',
     icon: CheckmarkCircleOutlineSvelte,
   },
-  {label: 'Habits',
+  {
+    label: 'Habits',
     id: 'habit',
     requires: ['timeframe', 'token'],
     optional: [],
     image: '/images/widget-types/display-value.svg',
     icon: PieChartOutline,
   },
-  {label: 'Pointers',
+  {
+    label: 'Pointers',
     id: 'pointer',
-    requires: ['timeframe','token', 'pointer'],
+    requires: ['timeframe', 'token', 'pointer'],
     optional: [],
     image: '/images/widget-types/display-value.svg',
     icon: TagOutline,

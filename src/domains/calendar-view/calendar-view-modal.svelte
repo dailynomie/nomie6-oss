@@ -13,14 +13,13 @@
   import { Interact } from '../../store/interact'
   import { Lang } from '../../store/lang'
 
-  import {  showLogTrackablePopmenu, showTrackablePopmenu } from '../board/boardActions'
+  import { showLogTrackablePopmenu, showTrackablePopmenu } from '../board/boardActions'
 
   import { getDateFormats } from '../preferences/Preferences'
   import { trackOnThisDay } from '../steak/StreakStore'
   import TrackablePill from '../trackable/trackable-pill.svelte'
 
   import { TrackableStore } from '../trackable/TrackableStore'
-  
 
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
@@ -32,7 +31,7 @@
 
   import Panel from '../../components/panel/panel.svelte'
   import ListItemLog from '../../components/list-item-log/list-item-log.svelte'
-import ListItemSingleTrackable from '../../components/list-item-log/list-item-single-trackable.svelte';
+  import ListItemSingleTrackable from '../../components/list-item-log/list-item-single-trackable.svelte'
 
   let starterDate = $state<Date>(undefined)
   let activeDate = $state<Dayjs>(undefined)
@@ -117,7 +116,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
       />
     </Panel>
 
-    <section id="calendar-view-list" class="flex flex-col h-auto overflow-y-auto  bg-ios-card">
+    <section id="calendar-view-list" class="flex flex-col h-auto overflow-y-auto bg-ios-card">
       <!-- <div class="bg-transparent grid grid-cols-2 px-4 mt-2 rounded-md h-auto mb-2">
         {#if lastUsageData?.streak}
           <ListItem className="">

@@ -24,7 +24,7 @@
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
 
-import RelatedView from './related-view.svelte'
+  import RelatedView from './related-view.svelte'
 
   const { id } = $props()
 
@@ -58,14 +58,14 @@ import RelatedView from './related-view.svelte'
       <TrackableAvatar size={44} {trackable} />
     {/if}
     <main class="ml-3">
-      <h1 class="font-bold  text-2xl text-ios-label">
+      <h1 class="font-bold text-2xl text-ios-label">
         {trackable?.label || 'Loading...'}
       </h1>
       <p class="text-opacity-60 text-ios-label2 text-sm">is possibly related to...</p>
     </main>
   </div>
 
-  <RelatedView className="" style="" trackable={trackable} />
+  <RelatedView className="" style="" {trackable} />
 </BackdropModal>
 
 <style global lang="postcss">

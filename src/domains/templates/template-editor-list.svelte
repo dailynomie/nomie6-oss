@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-import { onMount } from 'svelte';
+  import { onMount } from 'svelte'
 
   import Button from '../../components/button/button.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
@@ -22,20 +22,18 @@ import { onMount } from 'svelte';
   }
 
   const removeTemplate = async (template: Template) => {
+    await TemplateStore.remove(template)
+    showToast({ message: 'Template removed' })
+  }
 
-   await TemplateStore.remove(template)
-   showToast({ message: 'Template removed' })
- }
+  $effect(() => {
+    if ($TemplateStore) {
+      TemplateStore.init()
+    }
+  })
 
- $effect(() => {
-   if ($TemplateStore) {
-     TemplateStore.init();
-   }
- })
-
-  onMount(()=>{
-    TemplateStore.init();
-
+  onMount(() => {
+    TemplateStore.init()
   })
 </script>
 

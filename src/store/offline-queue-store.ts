@@ -96,7 +96,9 @@ const InitOfflineQueueStore = () => {
 
   async function removeLog(log: NLog) {
     try {
-      const confirmed = await Interact.confirm(Lang.t('board.delete-log-from-offline-queue', 'Delete this note from offline queue?'))
+      const confirmed = await Interact.confirm(
+        Lang.t('board.delete-log-from-offline-queue', 'Delete this note from offline queue?')
+      )
       if (confirmed) {
         const _state = methods.state()
         _state.logs = _state.logs.filter((loopLog: NLog) => {

@@ -3,7 +3,6 @@
 <script lang="ts">
   import Emoji from './Emoji.svelte'
 
-
   const { emojis } = $props()
 </script>
 

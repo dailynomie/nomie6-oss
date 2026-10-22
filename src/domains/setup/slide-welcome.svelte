@@ -10,23 +10,23 @@
   <div class="max-w-xl flex items-center justify-center flex-col space-y-4">
     <Logo size={32} />
     {#if !$Prefs.storageType}
-      <p class="text-2xl leading-none font-extrabold  text-center md:text-3xl text-ios-label">
+      <p class="text-2xl leading-none font-extrabold text-center md:text-3xl text-ios-label">
         Daily Journal for short attention spans.
       </p>
     {:else}
-      <p class="text-2xl leading-none font-extrabold  text-center md:text-3xl text-ios-label">
+      <p class="text-2xl leading-none font-extrabold text-center md:text-3xl text-ios-label">
         👋 Nomie has been updated.
       </p>
     {/if}
     <div>
-      <p style="font-size:0.6rem" class="mt-4  lg:text-sm  text-center text-ios-label2">
+      <p style="font-size:0.6rem" class="mt-4 lg:text-sm text-center text-ios-label2">
         Nomie is a super fast, and super private way to journal, collect your life's data, and reflect on your life's
         direction.
       </p>
-      <p style="font-size:0.6rem" class="mt-1  lg:text-sm  text-center text-ios-label2">
+      <p style="font-size:0.6rem" class="mt-1 lg:text-sm text-center text-ios-label2">
         By continuing, you agree to the
-        <button on:click={openPrivacyPolicy} class="inline-flex  underline">Privacy Policy</button> and
-        <button on:click={openTermsOfService} class="inline-flex  underline">Terms of Service</button>.
+        <button on:click={openPrivacyPolicy} class="inline-flex underline">Privacy Policy</button> and
+        <button on:click={openTermsOfService} class="inline-flex underline">Terms of Service</button>.
       </p>
     </div>
     <!-- <p class="text-center flex items-center justify-center">

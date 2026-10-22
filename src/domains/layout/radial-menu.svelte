@@ -10,8 +10,11 @@
 
   type RadialItem = { id: string; label: string; icon: any; link?: string; action?: () => void; notify?: string }
 
-  const { items = [], label = 'Actions', dot = false }: { items: Array<RadialItem>; label?: string; dot?: boolean } =
-    $props()
+  const {
+    items = [],
+    label = 'Actions',
+    dot = false,
+  }: { items: Array<RadialItem>; label?: string; dot?: boolean } = $props()
 
   // The options fan out on an arc above the button, from upper left to upper right
   const RADIUS = 118
@@ -132,7 +135,11 @@
       {@const offset = offsetFor(index)}
       <button
         class="radial-item"
-        style="z-index: 9999; left: {origin.x}px; top: {origin.y}px; opacity: {expanded ? 1 : 0}; transform: translate(calc(-50% + {expanded ? offset.x : 0}px), calc(-50% + {expanded ? offset.y : 0}px)) scale({expanded ? 1 : 0.4}); transition-delay: {index * 35}ms"
+        style="z-index: 9999; left: {origin.x}px; top: {origin.y}px; opacity: {expanded
+          ? 1
+          : 0}; transform: translate(calc(-50% + {expanded ? offset.x : 0}px), calc(-50% + {expanded
+          ? offset.y
+          : 0}px)) scale({expanded ? 1 : 0.4}); transition-delay: {index * 35}ms"
         onclick={() => choose(item)}
       >
         <span class="radial-icon">
@@ -170,8 +177,12 @@
     border-radius: 9999px;
     overflow: hidden;
     background: none;
-    box-shadow: 0 0 0 3px #f9f9f9, var(--ios-shadow-hub);
-    transition: opacity 0.2s ease, transform 0.15s ease;
+    box-shadow:
+      0 0 0 3px #f9f9f9,
+      var(--ios-shadow-hub);
+    transition:
+      opacity 0.2s ease,
+      transform 0.15s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -237,7 +248,9 @@
 
   /* Dark mode: the hint, the badge and the ring use the inverted colours from the design guide */
   :global(html.dark) .radial-hub {
-    box-shadow: 0 0 0 3px #161618, var(--ios-shadow-hub);
+    box-shadow:
+      0 0 0 3px #161618,
+      var(--ios-shadow-hub);
   }
   :global(html.dark) .radial-hint {
     background: #f2f2f7;
@@ -278,7 +291,9 @@
     border: none;
     background: none;
     padding: 0;
-    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms ease;
+    transition:
+      transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 200ms ease;
     -webkit-tap-highlight-color: transparent;
   }
 

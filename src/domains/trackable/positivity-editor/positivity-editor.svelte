@@ -30,7 +30,7 @@
   import { wait } from '../../../utils/tick/tick'
   import { showToast } from '../../../components/toast/ToastStore'
 
-  const { tracker = undefined, className = '' } = $props<{ tracker?: TrackerClass, className?: string }>()
+  const { tracker = undefined, className = '' } = $props<{ tracker?: TrackerClass; className?: string }>()
 
   const dispatch = createEventDispatcher()
 
@@ -135,7 +135,10 @@
         on:change={methods.change}
         label={Lang.t('tracker.positivity', 'Positivity')}
         options={[
-          ...appConfig.positivity.map((positivity) => ({ value: `${positivity.score}`, label: `${positivity.emoji} ${positivity.label}` })),
+          ...appConfig.positivity.map((positivity) => ({
+            value: `${positivity.score}`,
+            label: `${positivity.emoji} ${positivity.label}`,
+          })),
           { value: 'custom', label: Lang.t('general.customize', 'Custom') },
         ]}
       />

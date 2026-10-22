@@ -136,6 +136,8 @@
     margin-top: -14px;
     border-radius: 50%;
     background: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 0 0 0.5px rgba(0, 0, 0, 0.04);
   }
 </style>

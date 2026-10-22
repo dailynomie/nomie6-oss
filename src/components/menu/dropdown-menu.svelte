@@ -79,7 +79,7 @@
 
 {#if $DropdownMenuStore.visible}
   <div
-    class="drop-menu-background cursor-pointer "
+    class="drop-menu-background cursor-pointer"
     id="drop-menu"
     on:click|self={() => {
       wait(200).then(() => {

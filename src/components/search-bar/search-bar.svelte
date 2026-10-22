@@ -48,7 +48,17 @@
   //   }
   // }
 
-  let { searchTerm = $bindable(), placeholder, style, className, inputClass, compact, showClose, autofocus, searchButton } = $props()
+  let {
+    searchTerm = $bindable(),
+    placeholder,
+    style,
+    className,
+    inputClass,
+    compact,
+    showClose,
+    autofocus,
+    searchButton,
+  } = $props()
 </script>
 
 <Toolbar className="search-bar {className}" {style}>
@@ -99,7 +109,7 @@
     @apply flex-grow flex-shrink;
   }
   .search-bar input {
-    background:transparent !important;
+    background: transparent !important;
   }
 
   .search-bar .btn-action-clear {

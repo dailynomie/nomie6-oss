@@ -1,13 +1,18 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
-
   // onchange runs after the user changes the box; disabled greys it out
   let { checked = $bindable(), className, sm, onchange = undefined, disabled = false } = $props()
 </script>
 
-<input type="checkbox" class:sm bind:checked {disabled} class="n-radio {className}" onchange={() => onchange?.(checked)} />
+<input
+  type="checkbox"
+  class:sm
+  bind:checked
+  {disabled}
+  class="n-radio {className}"
+  onchange={() => onchange?.(checked)}
+/>
 
 <style lang="postcss" global>
   /* iOS look: a 22 px selection circle. Unselected: a clear outline (3:1 contrast on the card). Selected: tint, with a white tick. */

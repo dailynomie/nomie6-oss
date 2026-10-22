@@ -13,11 +13,11 @@
 
   // Font size mapping from preference to rem values
   const fontSizeMap: Record<string, number> = {
-    xs: 0.75,    // 12px
-    sm: 0.875,   // 14px
-    md: 1,       // 16px (base)
-    lg: 1.125,   // 18px
-    xl: 1.25     // 20px
+    xs: 0.75, // 12px
+    sm: 0.875, // 14px
+    md: 1, // 16px (base)
+    lg: 1.125, // 18px
+    xl: 1.25, // 20px
   }
 
   function calculateInsightFontSize(prefFontSize: string): string {
@@ -53,6 +53,34 @@
     }
   }
 </script>
+
+<BackdropModal mainClass="bg-ios-card flex flex-col">
+  <div slot="header" class="flex items-center justify-between p-4 border-b border-ios-separator">
+    <button onclick={close} class="text-ios-tint font-medium transition"> Close </button>
+    <h2 class="text-lg font-semibold text-ios-label">Nomie Insights</h2>
+    <div class="w-12" />
+  </div>
+  <div class="flex-1 flex flex-col p-6 overflow-hidden">
+    <div class="flex-1 overflow-y-auto border border-ios-tint rounded p-4" style="font-size: {insightFontSize}">
+      <div class="leading-relaxed text-ios-label markdown-content">
+        {@html renderedInsight}
+      </div>
+    </div>
+    <div class="mt-4 space-y-2">
+      {#if lastFetchDate}
+        <p class="text-xs text-ios-label2">
+          Will refresh in {getRefreshTime()}
+        </p>
+      {/if}
+      <p class="text-xs text-ios-label2" style="font-size: 0.625rem;">
+        Generated with {aiProvider}
+        {#if aiModel}
+          • <span class="font-mono">{aiModel}</span>
+        {/if}
+      </p>
+    </div>
+  </div>
+</BackdropModal>
 
 <style lang="postcss" global>
   .markdown-content p {
@@ -91,37 +119,3 @@
     }
   }
 </style>
-
-<BackdropModal mainClass="bg-ios-card flex flex-col">
-  <div slot="header" class="flex items-center justify-between p-4 border-b border-ios-separator">
-    <button
-      onclick={close}
-      class="text-ios-tint font-medium transition"
-    >
-      Close
-    </button>
-    <h2 class="text-lg font-semibold text-ios-label">Nomie Insights</h2>
-    <div class="w-12" />
-  </div>
-  <div class="flex-1 flex flex-col p-6 overflow-hidden">
-    <div class="flex-1 overflow-y-auto border border-ios-tint rounded p-4" style="font-size: {insightFontSize}">
-      <div class="leading-relaxed text-ios-label markdown-content">
-        {@html renderedInsight}
-      </div>
-    </div>
-    <div class="mt-4 space-y-2">
-      {#if lastFetchDate}
-        <p class="text-xs text-ios-label2">
-          Will refresh in {getRefreshTime()}
-        </p>
-      {/if}
-      <p class="text-xs text-ios-label2" style="font-size: 0.625rem;">
-        Generated with {aiProvider}
-        {#if aiModel}
-          • <span class="font-mono">{aiModel}</span>
-        {/if}
-      </p>
-    </div>
-  </div>
-</BackdropModal>
-

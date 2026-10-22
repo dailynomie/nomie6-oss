@@ -35,7 +35,7 @@
   function fireChange(evt: any) {
     date = new Date(evt.target.value)
     time = date.getTime()
-    dispatch('change', date);
+    dispatch('change', date)
   }
 </script>
 

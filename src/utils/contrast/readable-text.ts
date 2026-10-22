@@ -49,7 +49,13 @@ export const accessibleTint = (color: string, surface?: string): string => {
     const t = step / 20
     const mixed = rgb.map((v, i) => Math.round(v + (target[i] - v) * t)) as [number, number, number]
     if (contrastOf(mixed, bg) >= 4.5) {
-      return '#' + mixed.map((v) => v.toString(16).padStart(2, '0')).join('').toUpperCase()
+      return (
+        '#' +
+        mixed
+          .map((v) => v.toString(16).padStart(2, '0'))
+          .join('')
+          .toUpperCase()
+      )
     }
   }
   return luminanceOf(bg) > 0.179 ? '#000000' : '#FFFFFF'

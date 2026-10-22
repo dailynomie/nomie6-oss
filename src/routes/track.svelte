@@ -171,14 +171,14 @@
     editedUniboard={edittedUniboard}
     onToggleEditMode={() => toggleBoardEditMode()}
     onSaveEdits={() => saveBoardEdits()}
-    boardAddMenu={boardAddMenu}
+    {boardAddMenu}
     onBoardTabTap={async (evt) => {
       const newActiveBoard = evt.detail
       setActiveBoard(newActiveBoard)
       Device.scrollToTop()
     }}
     combinedBoards={$CombinedBoards}
-    searchFor={searchFor}
+    {searchFor}
     onSearchChange={(evt) => {
       searchFor = evt.detail
     }}
@@ -206,7 +206,13 @@
       }}
     >
       <!-- iOS look: a plain icon, not a round button -->
-      <button type="button" slot="right-inside" aria-label="Open search" class="search-expand" on:click={() => openUnisearch(searchFor)}>
+      <button
+        type="button"
+        slot="right-inside"
+        aria-label="Open search"
+        class="search-expand"
+        on:click={() => openUnisearch(searchFor)}
+      >
         <IonIcon icon={ExpandOutline} size={18} />
       </button>
     </SearchBar>

@@ -1,15 +1,11 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   import Layout from '../domains/layout/layout.svelte'
 
   import AnalyticsView from '../domains/afternomie/afternomie-view.svelte'
   import ToolbarGrid from '../components/toolbar/toolbar-grid.svelte'
   import NBackButton from '../components/back-button/back-button.svelte'
-
-
-  
 </script>
 
 <Layout pageTitle="AfterNomie" checkIn={false}>
@@ -26,13 +22,11 @@
 </Layout>
 
 <style>
-  .redText
-  {
-      color:rgb(33, 147, 214);
+  .redText {
+    color: rgb(33, 147, 214);
   }
-  .blackText
-  {
-      color:black;
-      font-weight:bold;
+  .blackText {
+    color: black;
+    font-weight: bold;
   }
 </style>

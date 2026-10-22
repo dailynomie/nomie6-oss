@@ -31,7 +31,6 @@
 
   // Prosp
 
-
   // consts
   const dispatch = createEventDispatcher()
 
@@ -133,7 +132,10 @@
       on:change={methods.change}
       label={Lang.t('tracker.positivity', 'Positivity')}
       options={[
-        ...appConfig.positivity.map((positivity) => ({ value: `${positivity.score}`, label: `${positivity.emoji} ${positivity.label}` })),
+        ...appConfig.positivity.map((positivity) => ({
+          value: `${positivity.score}`,
+          label: `${positivity.emoji} ${positivity.label}`,
+        })),
         { value: 'custom', label: Lang.t('general.customize', 'Custom') },
       ]}
     />

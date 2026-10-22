@@ -7,10 +7,7 @@ export const POST: RequestHandler = async ({ request }) => {
     const { apiKey, ...aiRequest } = body
 
     if (!apiKey) {
-      return json(
-        { error: 'API key not provided' },
-        { status: 400 }
-      )
+      return json({ error: 'API key not provided' }, { status: 400 })
     }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -18,27 +15,21 @@ export const POST: RequestHandler = async ({ request }) => {
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
+        'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify(aiRequest)
+      body: JSON.stringify(aiRequest),
     })
 
     if (!response.ok) {
       const err = await response.text()
       console.error('Anthropic API error:', err)
-      return json(
-        { error: 'AI service error' },
-        { status: response.status }
-      )
+      return json({ error: 'AI service error' }, { status: response.status })
     }
 
     const data = await response.json()
     return json(data)
   } catch (err) {
     console.error('AI endpoint error:', err)
-    return json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return json({ error: 'Internal server error' }, { status: 500 })
   }
 }

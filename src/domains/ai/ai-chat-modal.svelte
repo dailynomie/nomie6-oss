@@ -22,7 +22,11 @@
   headerClass="ai-chat-header"
   mainClass="ai-chat-main flex flex-col"
 >
-  <div slot="header" class="ai-chat-header" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem;">
+  <div
+    slot="header"
+    class="ai-chat-header"
+    style="display: flex; align-items: center; justify-content: space-between; padding: 1rem;"
+  >
     <!-- Twinkling stars background -->
     <div class="stars-background" aria-hidden="true">
       <span class="star" style="width:6px;height:6px;top:15%;left:10%;animation-delay:0s"></span>
@@ -56,14 +60,7 @@
 
 <style>
   :global(.ai-chat-modal) {
-    background: linear-gradient(
-      135deg,
-      #b8eafc 0%,
-      #72d0f5 20%,
-      #2aa8e0 50%,
-      #1480b8 80%,
-      #0a4f80 100%
-    ) !important;
+    background: linear-gradient(135deg, #b8eafc 0%, #72d0f5 20%, #2aa8e0 50%, #1480b8 80%, #0a4f80 100%) !important;
   }
 
   :global(.ai-chat-header) {
@@ -90,11 +87,7 @@
   }
 
   :global(.ai-chat-main) {
-    background: linear-gradient(
-      to bottom,
-      rgba(42, 168, 224, 0.1),
-      rgba(10, 79, 128, 0.15)
-    );
+    background: linear-gradient(to bottom, rgba(42, 168, 224, 0.1), rgba(10, 79, 128, 0.15));
     position: relative;
     overflow: hidden;
   }
@@ -124,7 +117,8 @@
   }
 
   @keyframes twinkle {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.3;
       transform: scale(1);
     }

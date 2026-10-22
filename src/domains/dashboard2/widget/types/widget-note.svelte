@@ -11,8 +11,8 @@
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
   import { ChevronBackCircleOutline, ChevronForwardCircleOutline } from '../../../../components/icon/nicons'
   import { getDateFormats } from '../../../preferences/Preferences'
-import { onLogNoteChange } from '../../../ledger/LedgerStore';
-import type NLog from '../../../nomie-log/nomie-log';
+  import { onLogNoteChange } from '../../../ledger/LedgerStore'
+  import type NLog from '../../../nomie-log/nomie-log'
 
   const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable(), logs = $bindable([]) } = $props()
   // export let trackable: Trackable
@@ -23,8 +23,8 @@ import type NLog from '../../../nomie-log/nomie-log';
   $effect(() => {
     if (usage && usage.logs.length > 0) {
       activeIndex = 0
-      sortedLogs = usage.logs.sort((a,b)=>{
-        return a.end < b.end ? 1 : -1;
+      sortedLogs = usage.logs.sort((a, b) => {
+        return a.end < b.end ? 1 : -1
       })
     }
   })
@@ -59,13 +59,13 @@ import type NLog from '../../../nomie-log/nomie-log';
     {/if}
     {#if activeIndex > -1}
       <div
-        class="note-wrapper flex flex-col h-full w-full max-h-full items-center justify-center "
+        class="note-wrapper flex flex-col h-full w-full max-h-full items-center justify-center"
         style="font-size:12px;"
       >
         <div class="text-center overflow-y-auto max-h-36">
           <NoteTextualizer
-            on:noteChange={(evt)=>{
-              onLogNoteChange(evt.detail, sortedLogs[activeIndex]);
+            on:noteChange={(evt) => {
+              onLogNoteChange(evt.detail, sortedLogs[activeIndex])
             }}
             className="{widget.size === 'sm' ? 'text-xs' : 'text-sm'} leading-tight"
             note={sortedLogs[activeIndex].note}

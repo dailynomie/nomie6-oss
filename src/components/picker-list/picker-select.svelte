@@ -11,7 +11,7 @@
   import Empty from '../empty/empty.svelte'
   import { Lang } from '../../store/lang'
   import type TrackerClass from '../../modules/tracker/TrackerClass'
-import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
+  import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -57,7 +57,7 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
   let { tracker, active = $bindable() } = $props()
 </script>
 
-<div class="w-full p-2 bg-ios-card ">
+<div class="w-full p-2 bg-ios-card">
   {#if tracker.picks.length > 10}
     <SearchBar
       autocomplete
@@ -123,7 +123,6 @@ import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
   <div class="flex">
     <slot name="bottom" />
   </div>
-
 </div>
 
 <style lang="postcss" global>

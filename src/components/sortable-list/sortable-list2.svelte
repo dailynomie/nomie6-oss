@@ -28,7 +28,7 @@
     handleClass = undefined,
     key,
     id = `sl2-${nid()}`,
-    enabled = true
+    enabled = true,
   } = $props()
 
   $effect(() => {

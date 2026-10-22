@@ -184,7 +184,7 @@
         })
         loc.name = name
       }
-      if(loc.name) {
+      if (loc.name) {
         await LocationStore.upsert(loc)
       }
     }
@@ -311,11 +311,12 @@
         </div>
       {/if}
       <!-- List Panel -->
-      <div class="flex-grow flex-shrink h-full overflow-y-auto ">
+      <div class="flex-grow flex-shrink h-full overflow-y-auto">
         <div class="list-wrapper px-2 lg:px-4 space-y-4">
           {#if mapLocation && mapLocation.lat}
             <List solo className="mb-2">
-              <NItem bottomLine={18}
+              <NItem
+                bottomLine={18}
                 clickable
                 aria-label="Save this Location"
                 on:click={() => {
@@ -328,7 +329,6 @@
                 clickable
                 aria-label="Use this area"
                 on:click={() => {
-                  
                   select(mapLocation)
                 }}
               >

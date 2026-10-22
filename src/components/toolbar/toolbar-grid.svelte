@@ -6,7 +6,7 @@
   const { className = '', style = '', mainClass = '', shadow = false } = $props()
 </script>
 
-<div  class="n-toolbar-grid {shadow ? 'shadow' : ''} {className}" {style}>
+<div class="n-toolbar-grid {shadow ? 'shadow' : ''} {className}" {style}>
   <div class="left">
     <slot name="left" />
   </div>

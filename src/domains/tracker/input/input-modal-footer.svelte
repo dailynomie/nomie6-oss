@@ -13,10 +13,17 @@
 
   const dispatch = createEventDispatcher()
 
-  const { tracker, value = $bindable(), allowSave = $bindable(), saving = $bindable(), saveLabel = $bindable(), nextLabel = $bindable() } = $props()
+  const {
+    tracker,
+    value = $bindable(),
+    allowSave = $bindable(),
+    saving = $bindable(),
+    saveLabel = $bindable(),
+    nextLabel = $bindable(),
+  } = $props()
 </script>
 
-<footer class=" tracker-input-footer py-3 stiff  glass-lite z-50 w-full rounded-b-2xl">
+<footer class=" tracker-input-footer py-3 stiff glass-lite z-50 w-full rounded-b-2xl">
   <ToolbarGrid>
     <div slot="left" class="pr-2">
       <Button

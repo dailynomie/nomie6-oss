@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  
   import type { NLog } from './../../nomie-log/nomie-log'
 
   import { wait } from './../../../utils/tick/tick'
@@ -30,11 +29,11 @@
   import ListItemLog from '../../../components/list-item-log/list-item-log.svelte'
   import { showToast } from '../../../components/toast/ToastStore'
   import is from '../../../utils/is/is'
-  
+
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../../../components/toolbar/toolbar-grid.svelte'
-import Divider from '../../../components/divider/divider.svelte'
+  import Divider from '../../../components/divider/divider.svelte'
 
   let { id, fileUpload = $bindable() } = $props()
 
@@ -556,8 +555,8 @@ import Divider from '../../../components/divider/divider.svelte'
       </div>
     {/if}
     {#if previewLog && is.truthy(previewIndex) && activeImporter.parsed}
-      {#if previewLog.note && previewLog.note !== "null"}
-      <Divider />
+      {#if previewLog.note && previewLog.note !== 'null'}
+        <Divider />
         <div class="examples bg-inverse-2 p-2 px-4">
           <div class="n-toolbar flex pl-2">
             <div class="main text-ios-label text-sm">

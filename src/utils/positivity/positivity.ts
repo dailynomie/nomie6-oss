@@ -18,41 +18,38 @@ export interface IPositivityEmoji {
   score: number
 }
 
-export const getPositivityMenu = (onSelect:Function):Array<PopMenuButton>=>{
+export const getPositivityMenu = (onSelect: Function): Array<PopMenuButton> => {
   return appConfig.positivity
-        .sort((a, b) => (a.score < b.score ? 1 : -1))
-        .map((pos) => {
-          return {
-            title: pos.label,
-            emoji: pos.emoji,
-            click() {
-              onSelect(pos)
-            },
-          }
-        })
+    .sort((a, b) => (a.score < b.score ? 1 : -1))
+    .map((pos) => {
+      return {
+        title: pos.label,
+        emoji: pos.emoji,
+        click() {
+          onSelect(pos)
+        },
+      }
+    })
 }
 
-export const selectPositivityPopmenu = (score:number)=>{
- return new Promise((resolve)=>{
-   openPopMenu({
-    title: 'Select Positivity',
-    id: 'select-positivity',
-    buttons: getPositivityMenu(resolve)
-   })
- })
+export const selectPositivityPopmenu = (score: number) => {
+  return new Promise((resolve) => {
+    openPopMenu({
+      title: 'Select Positivity',
+      id: 'select-positivity',
+      buttons: getPositivityMenu(resolve),
+    })
+  })
 }
 
 export const selectPositivity = (target): Promise<PositivityType> => {
   return new Promise((resolve) => {
-    openDropMenu(
-      target,
-      getPositivityMenu(resolve)
-    )
+    openDropMenu(target, getPositivityMenu(resolve))
   })
 }
 
 export function getEmojiFromScore(_score: number, onlyEmoji: boolean = false): IPositivityEmoji | string {
-  let score = typeof _score == 'number' ? _score : 0;
+  let score = typeof _score == 'number' ? _score : 0
   if (score < -2) {
     score = -2
   } else if (score > 2) {
@@ -74,7 +71,7 @@ export function positivityFromLogs(logs: Array<any>, trackers: ITrackers): IPosi
   let neutral = 0
   let total = 0
 
-  let byHour = Array(24).fill(0);
+  let byHour = Array(24).fill(0)
 
   logs.forEach((row: Record) => {
     let score = row.score || ScoreNote(row.note, row.end, trackers)
@@ -86,8 +83,8 @@ export function positivityFromLogs(logs: Array<any>, trackers: ITrackers): IPosi
       negative = negative + Math.abs(score)
     }
     total++
-    let hour = row.endDayjs().hour();
-    byHour[hour] = byHour[hour]+score;
+    let hour = row.endDayjs().hour()
+    byHour[hour] = byHour[hour] + score
   })
   return { positive, negative, neutral, total, byHour }
 }

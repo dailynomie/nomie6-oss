@@ -181,7 +181,7 @@ export const getDateFormats = (): {
   let format: {
     time: string
     date: string
-    dateDay: string,
+    dateDay: string
     shortDate: string
     tinyDate: string
     mmm_d_yyyy: string
@@ -199,7 +199,7 @@ export const getDateFormats = (): {
     tinyDate: 'MMM D',
     mmm_d_yyyy: 'MMM D, YYYY',
     tinyNumber: 'M/D',
-    monthYear: 'MMM YYYY'
+    monthYear: 'MMM YYYY',
   }
   if (localPrefs.use24hour) {
     format = {
@@ -212,7 +212,7 @@ export const getDateFormats = (): {
       tinyDate: 'D MMM',
       mmm_d_yyyy: 'D MMM, YYYY',
       tinyNumber: 'D/M',
-      monthYear: 'MMM YYYY'
+      monthYear: 'MMM YYYY',
     }
   }
   return format

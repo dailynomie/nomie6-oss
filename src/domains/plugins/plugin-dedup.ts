@@ -215,9 +215,7 @@ export const scanForPluginDuplicates = async (): Promise<DedupResult> => {
 
       // Extract plugin folder IDs from the file list
       // Storage paths don't include data_root prefix
-      const patterns = [
-        new RegExp(`^plugins/([^/]+)(?:/|$)`),
-      ]
+      const patterns = [new RegExp(`^plugins/([^/]+)(?:/|$)`)]
 
       const foundPluginIds = new Set<string>()
 

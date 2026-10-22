@@ -3,15 +3,15 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import type TrackerClass from '../../../modules/tracker/TrackerClass'
-  import Toolbar from '../../../components/toolbar/toolbar.svelte';
-  import ButtonGroup from '../../../components/button-group/button-group.svelte';
+  import Toolbar from '../../../components/toolbar/toolbar.svelte'
+  import ButtonGroup from '../../../components/button-group/button-group.svelte'
 
   const dispatch = createEventDispatcher()
   const { tracker, value } = $props()
 
   let tempValue = $state<number>(value)
-  let habittrue = $state(tracker?.habitChoice?.[0] || "Missed")
-  let habitfalse = $state(tracker?.habitChoice?.[1] || "Achieved")
+  let habittrue = $state(tracker?.habitChoice?.[0] || 'Missed')
+  let habitfalse = $state(tracker?.habitChoice?.[1] || 'Achieved')
 
   $effect(() => {
     tempValue = value
@@ -19,8 +19,8 @@
 
   $effect(() => {
     if (tracker?.habitChoice) {
-      habittrue = tracker.habitChoice[0] || "Missed"
-      habitfalse = tracker.habitChoice[1] || "Achieved"
+      habittrue = tracker.habitChoice[0] || 'Missed'
+      habitfalse = tracker.habitChoice[1] || 'Achieved'
     }
   })
 
@@ -42,7 +42,6 @@
       ]}
     />
   </Toolbar>
- 
 </div>
 
 <style lang="postcss" global>

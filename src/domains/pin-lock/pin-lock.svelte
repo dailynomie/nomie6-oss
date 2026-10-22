@@ -55,7 +55,7 @@
     aria-modal
     aria-label="Lock Screen"
     style="zIndex: 10000"
-    class="lock-screen relative p-4 w-full ios-card 
+    class="lock-screen relative p-4 w-full ios-card
     flex-col full-screen"
   >
     <Text center size="sm" faded className="lock-hint mb-2">

@@ -72,10 +72,7 @@
           </button>
         {/if}
 
-        <button
-          class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint"
-          on:click={close}
-        >
+        <button class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint" on:click={close}>
           Later
         </button>
 

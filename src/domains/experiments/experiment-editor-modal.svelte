@@ -198,28 +198,43 @@
       {/each}
     </div>
     <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 -mt-3">
-      {step === 1 ? 'Step 1 of 3 · Choose a change' : step === 2 ? 'Step 2 of 3 · What to watch' : 'Step 3 of 3 · Start'}
+      {step === 1
+        ? 'Step 1 of 3 · Choose a change'
+        : step === 2
+          ? 'Step 2 of 3 · What to watch'
+          : 'Step 3 of 3 · Start'}
     </div>
 
     {#if step === 1}
       <div class="space-y-2">
         {#each EXPERIMENT_PRESETS as preset}
-          <button class="w-full text-left p-4 ios-card hover:ring-2 hover:ring-ios-tint transition" onclick={() => choosePreset(preset)}>
+          <button
+            class="w-full text-left p-4 ios-card hover:ring-2 hover:ring-ios-tint transition"
+            onclick={() => choosePreset(preset)}
+          >
             <div class="font-semibold">{preset.title}</div>
-            <div class="text-xs text-ios-label2 mt-1">{preset.durationDays} days · {preset.outcomes.length} {preset.outcomes.length === 1 ? 'tracker' : 'trackers'}</div>
+            <div class="text-xs text-ios-label2 mt-1">
+              {preset.durationDays} days · {preset.outcomes.length}
+              {preset.outcomes.length === 1 ? 'tracker' : 'trackers'}
+            </div>
           </button>
         {/each}
         {#if $FeatureVisible('experiment-advanced')}
-        <button class="relative w-full text-left p-4 rounded-2xl border-2 border-dashed border-ios-separator hover:border-ios-tint transition" onclick={writeOwn}>
-          <FeatureBadge feature="experiment-advanced" />
-          <div class="font-semibold">Write my own</div>
-          <div class="text-xs text-ios-label2 mt-1">Pick any change and the trackers it should affect</div>
-        </button>
+          <button
+            class="relative w-full text-left p-4 rounded-2xl border-2 border-dashed border-ios-separator hover:border-ios-tint transition"
+            onclick={writeOwn}
+          >
+            <FeatureBadge feature="experiment-advanced" />
+            <div class="font-semibold">Write my own</div>
+            <div class="text-xs text-ios-label2 mt-1">Pick any change and the trackers it should affect</div>
+          </button>
         {/if}
       </div>
     {:else if step === 2}
       <section class="space-y-2">
-        <label class="block text-xs font-semibold uppercase tracking-wide text-ios-label2" for="experiment-title">The change</label>
+        <label class="block text-xs font-semibold uppercase tracking-wide text-ios-label2" for="experiment-title"
+          >The change</label
+        >
         <input
           id="experiment-title"
           class="w-full p-3 rounded-xl ios-card outline-none focus:ring-2 focus:ring-ios-tint"
@@ -229,19 +244,27 @@
       </section>
 
       <section class="space-y-2">
-        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">What should it affect? (1 to 3 trackers)</div>
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">
+          What should it affect? (1 to 3 trackers)
+        </div>
         {#each outcomes as outcome, index}
           <div class="p-4 ios-card space-y-3">
             <div class="flex items-center justify-between gap-2">
-              <div class="font-semibold truncate {outcome.found ? '' : 'text-ios-label2'}">{outcome.found ? outcome.label : 'Tracker not added yet'}</div>
+              <div class="font-semibold truncate {outcome.found ? '' : 'text-ios-label2'}">
+                {outcome.found ? outcome.label : 'Tracker not added yet'}
+              </div>
               <button class="text-xs font-medium text-ios-danger" onclick={() => removeOutcome(index)}>Remove</button>
             </div>
             {#if !outcome.found}
               <div class="flex flex-wrap gap-3">
                 {#if hasLibraryTracker(outcome.tag)}
-                  <button class="text-sm font-medium text-ios-tint" onclick={() => installFromLibrary(index)}>Add {libraryTrackerLabel(outcome.tag)} from the library</button>
+                  <button class="text-sm font-medium text-ios-tint" onclick={() => installFromLibrary(index)}
+                    >Add {libraryTrackerLabel(outcome.tag)} from the library</button
+                  >
                 {/if}
-                <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}>Pick one of my trackers</button>
+                <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}
+                  >Pick one of my trackers</button
+                >
               </div>
             {/if}
             <IosSelect
@@ -261,16 +284,19 @@
           </div>
         {/each}
         {#if outcomes.length < 3}
-          <button class="w-full p-3 rounded-2xl border-2 border-dashed border-ios-separator text-sm font-medium text-ios-tint" onclick={addOutcome}>+ Add a tracker to watch</button>
+          <button
+            class="w-full p-3 rounded-2xl border-2 border-dashed border-ios-separator text-sm font-medium text-ios-tint"
+            onclick={addOutcome}>+ Add a tracker to watch</button
+          >
         {/if}
       </section>
 
       {#if $FeatureVisible('experiment-advanced')}
-      <label class="relative flex items-center gap-3 p-4 ios-card text-sm">
-        <FeatureBadge feature="experiment-advanced" />
-        <ToggleSwitch value={lagDays === 1} on:change={(e) => (lagDays = e.detail ? 1 : 0)} />
-        <span>The effect shows the next day</span>
-      </label>
+        <label class="relative flex items-center gap-3 p-4 ios-card text-sm">
+          <FeatureBadge feature="experiment-advanced" />
+          <ToggleSwitch value={lagDays === 1} on:change={(e) => (lagDays = e.detail ? 1 : 0)} />
+          <span>The effect shows the next day</span>
+        </label>
       {/if}
 
       <Button block primary on:click={toStepThree}>Next</Button>

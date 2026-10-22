@@ -27,7 +27,7 @@ let _fallback = (service, title, url) => {
   }
 }
 
-export default (title:string, url?:string, file?:File) => {
+export default (title: string, url?: string, file?: File) => {
   let buttons = [
     {
       title: 'Twitter',
@@ -61,22 +61,22 @@ export default (title:string, url?:string, file?:File) => {
     },
   ]
   if (navigator.share) {
-    if(url) {
+    if (url) {
       return navigator.share({
         title: title,
         url: url,
       })
-    } else if(file) {
-      let fileArray = [file];
+    } else if (file) {
+      let fileArray = [file]
       navigator.share({
         files: fileArray,
         title: title,
-      });
+      })
     }
-  } else if(url && !file) {
+  } else if (url && !file) {
     Interact.popmenu({ id: 'share', buttons: buttons })
-  } else if(file) {
-    download.file(file);
+  } else if (file) {
+    download.file(file)
   }
   return Promise.resolve(null)
 }

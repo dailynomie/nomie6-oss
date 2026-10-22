@@ -24,7 +24,12 @@
     getTrackableDetailPopButton,
   } from '../../modules/pop-buttons/pop-buttons'
 
-  let { date = $bindable(new Date()), height = 320, className = '', size = 'sm' } = $props<{
+  let {
+    date = $bindable(new Date()),
+    height = 320,
+    className = '',
+    size = 'sm',
+  } = $props<{
     date?: Date
     height?: number
     className?: string

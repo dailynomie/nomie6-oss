@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   import { dedupArray } from '../../utils/array/array_utils'
   import { getDateFormats, Prefs } from '../preferences/Preferences'
   import { LedgerStore } from '../ledger/LedgerStore'

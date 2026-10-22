@@ -79,7 +79,7 @@ export default {
     const url = window.URL.createObjectURL(file)
     const link = document.createElement('a')
     link.href = url
-    link.setAttribute('download', file.name);
+    link.setAttribute('download', file.name)
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)

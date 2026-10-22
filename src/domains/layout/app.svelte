@@ -4,7 +4,11 @@
   import AppTabs from './tabs.svelte'
   import { Device } from '../../store/device-store'
 
-  const { title = 'Welcome', refresh = undefined, showTabs = true } = $props<{
+  const {
+    title = 'Welcome',
+    refresh = undefined,
+    showTabs = true,
+  } = $props<{
     title?: string
     refresh?: any
     showTabs?: boolean

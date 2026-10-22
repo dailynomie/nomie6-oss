@@ -87,7 +87,18 @@
   let lastLocations = $state(undefined)
   let markers = $state<Array<any>>([])
 
-  let { locations = $bindable(), records = $bindable(), small, picker, height, className, style, lock = $bindable(), hideFavorite, methods } = $props()
+  let {
+    locations = $bindable(),
+    records = $bindable(),
+    small,
+    picker,
+    height,
+    className,
+    style,
+    lock = $bindable(),
+    hideFavorite,
+    methods,
+  } = $props()
 
   $effect(() => {
     if (locations && JSON.stringify(locations) !== lastLocations) {
@@ -127,14 +138,14 @@
 
               // Add markers for each location
               locations.forEach((loc) => {
-                L.marker([loc.lat, loc.lng]).addTo(MAP).bindPopup(loc.name || 'Location')
+                L.marker([loc.lat, loc.lng])
+                  .addTo(MAP)
+                  .bindPopup(loc.name || 'Location')
               })
 
               // Fit map to show all locations
               if (locations.length > 1) {
-                const bounds = L.latLngBounds(
-                  locations.map((loc) => [loc.lat, loc.lng])
-                )
+                const bounds = L.latLngBounds(locations.map((loc) => [loc.lat, loc.lng]))
                 MAP.fitBounds(bounds, { padding: [50, 50] })
               }
             }
@@ -205,7 +216,6 @@
     })
   }
 
-
   // Reactive Location Lookup
   // $: getLocation = () => {
   //   return new Promise(resolve => {
@@ -244,7 +254,7 @@
       on:click={() => {
         lock = false
       }}
-      class="map-lock-cover absolute top-0 left-0 right-0 bottom-0 w-full flex bg-opacity-10 p-5 justify-end items-start bg-black  z-10"
+      class="map-lock-cover absolute top-0 left-0 right-0 bottom-0 w-full flex bg-opacity-10 p-5 justify-end items-start bg-black z-10"
     >
       <IonIcon icon={LockClosedSolid} />
     </button>
@@ -306,8 +316,10 @@
     width: 18px;
     height: 18px;
     background-color: var(--ios-label2);
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E") no-repeat center / contain;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E") no-repeat center / contain;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E")
+      no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E")
+      no-repeat center / contain;
   }
 
   .n-map-container .n-map-wrapper {

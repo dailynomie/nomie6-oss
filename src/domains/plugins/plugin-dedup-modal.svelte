@@ -89,9 +89,7 @@
   <header slot="header">
     <ToolbarGrid>
       <Button slot="left" clear primary on:click={handleClose}>Cancel</Button>
-      <Text bold slot="main" className="text-ios-label">
-        Clean Plugin Database
-      </Text>
+      <Text bold slot="main" className="text-ios-label">Clean Plugin Database</Text>
     </ToolbarGrid>
   </header>
 
@@ -100,10 +98,12 @@
       <div class="info-box p-4 rounded-lg">
         <Text bold className="text-ios-label mb-2">What This Does</Text>
         <Text className="text-ios-label2" size="sm">
-          Plugins are created by different developers and may store data differently. Over time, duplicate entries can accumulate in your plugin database—especially if you've synced data across devices.
+          Plugins are created by different developers and may store data differently. Over time, duplicate entries can
+          accumulate in your plugin database—especially if you've synced data across devices.
         </Text>
         <Text className="text-ios-label2 mt-2" size="sm">
-          This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their functionality are never affected—only the background storage is tidied up.
+          This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their
+          functionality are never affected—only the background storage is tidied up.
         </Text>
         <Text className="text-ios-label2 mt-2" size="sm">
           No changes are made until you confirm. You can always scan again to verify the results.
@@ -117,16 +117,13 @@
             {dayjs(lastCleanupLog.date).format('MMM D, YYYY [at] h:mm A')} ({lastCleanupLog.type})
           </Text>
           <Text size="xs" className="text-ios-label2 mt-1">
-            Found {lastCleanupLog.duplicatesFound} duplicate{lastCleanupLog.duplicatesFound === 1 ? '' : 's'} and {lastCleanupLog.rogueFoldersFound} rogue folder{lastCleanupLog.rogueFoldersFound === 1 ? '' : 's'}
+            Found {lastCleanupLog.duplicatesFound} duplicate{lastCleanupLog.duplicatesFound === 1 ? '' : 's'} and {lastCleanupLog.rogueFoldersFound}
+            rogue folder{lastCleanupLog.rogueFoldersFound === 1 ? '' : 's'}
           </Text>
         </div>
       {/if}
 
-      <Button
-        primary
-        on:click={handleScan}
-        disabled={isScanning}
-      >
+      <Button primary on:click={handleScan} disabled={isScanning}>
         {isScanning ? 'Scanning...' : 'Scan for Duplicates'}
       </Button>
     {:else if scanResult}
@@ -137,14 +134,22 @@
           </div>
           <div class="flex-grow">
             <Text bold className="text-ios-label">
-              {scanResult.totalDuplicateEntries + scanResult.totalRogueFolders} Issue{scanResult.totalDuplicateEntries + scanResult.totalRogueFolders === 1 ? '' : 's'} Found
+              {scanResult.totalDuplicateEntries + scanResult.totalRogueFolders} Issue{scanResult.totalDuplicateEntries +
+                scanResult.totalRogueFolders ===
+              1
+                ? ''
+                : 's'} Found
             </Text>
             <Text size="sm" className="text-ios-label2">
               {#if scanResult.totalDuplicateEntries > 0}
-                {scanResult.totalDuplicateEntries} duplicate {scanResult.totalDuplicateEntries === 1 ? 'entry' : 'entries'}
+                {scanResult.totalDuplicateEntries} duplicate {scanResult.totalDuplicateEntries === 1
+                  ? 'entry'
+                  : 'entries'}
               {/if}
               {#if scanResult.totalRogueFolders > 0}
-                {#if scanResult.totalDuplicateEntries > 0} • {/if}
+                {#if scanResult.totalDuplicateEntries > 0}
+                  •
+                {/if}
                 {scanResult.totalRogueFolders} rogue folder{scanResult.totalRogueFolders === 1 ? '' : 's'}
               {/if}
             </Text>
@@ -184,11 +189,7 @@
         </div>
 
         <div class="mt-6 space-y-2">
-          <Button
-            primary
-            on:click={handleCleanup}
-            disabled={isLoading}
-          >
+          <Button primary on:click={handleCleanup} disabled={isLoading}>
             {isLoading ? 'Cleaning...' : 'Clean Database'}
           </Button>
           <Button
@@ -207,11 +208,10 @@
             <IonIcon icon={CheckmarkCircle} className="text-ios-good" size={20} />
           </div>
           <div class="flex-grow">
-            <Text bold className="text-ios-good">
-              No Issues Found
-            </Text>
+            <Text bold className="text-ios-good">No Issues Found</Text>
             <Text size="sm" className="text-ios-good">
-              Your plugin database is clean ({scanResult.totalPluginsInMainList} {scanResult.totalPluginsInMainList === 1 ? 'plugin' : 'plugins'}) with no duplicates or rogue folders
+              Your plugin database is clean ({scanResult.totalPluginsInMainList}
+              {scanResult.totalPluginsInMainList === 1 ? 'plugin' : 'plugins'}) with no duplicates or rogue folders
             </Text>
           </div>
         </div>

@@ -22,9 +22,10 @@
           title: `${engine.name} · ${engine.price}`,
           id: engine.id,
           disabled: ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures,
-          description: ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures
-            ? `${engine.description}. Not available yet`
-            : engine.description,
+          description:
+            ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures
+              ? `${engine.description}. Not available yet`
+              : engine.description,
           checked: `${selected}` == `${engine.id}`,
           click() {
             //@ts-ignore

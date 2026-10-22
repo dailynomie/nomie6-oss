@@ -20,14 +20,14 @@
   if (typeof window !== 'undefined') {
     // First check immediately without waiting for subscription
     const currentPlugins = PluginStore.rawState()
-    const blocklyImmediate = currentPlugins.find(p => p.id === 'nomie-blockly') as PluginClass | undefined
+    const blocklyImmediate = currentPlugins.find((p) => p.id === 'nomie-blockly') as PluginClass | undefined
     if (blocklyImmediate) {
       plugin = blocklyImmediate
       showSetupModal = !blocklyImmediate.setupComplete
     }
 
     unsubscribe = PluginStore.subscribe((plugins) => {
-      const blockly = plugins.find(p => p.id === 'nomie-blockly') as PluginClass | undefined
+      const blockly = plugins.find((p) => p.id === 'nomie-blockly') as PluginClass | undefined
 
       // Update when plugin is found
       if (blockly) {
@@ -82,10 +82,8 @@
 
   // Check for duplicate Blockly plugins on page load
   onMount(() => {
-    const blocklyPlugins = $PluginStore.filter(p =>
-      p.name.toLowerCase().includes('blockly') &&
-      p.id !== 'nomie-blockly' &&
-      p.active
+    const blocklyPlugins = $PluginStore.filter(
+      (p) => p.name.toLowerCase().includes('blockly') && p.id !== 'nomie-blockly' && p.active
     )
 
     if (blocklyPlugins.length > 0) {
@@ -109,11 +107,7 @@
   {#if plugin}
     <div class="plugin-wrapper" bind:this={wrapperElement}>
       <div class="plugin-container">
-        <PluginFrame
-          lid="blockly"
-          openAction="onUIOpened"
-          {plugin}
-        />
+        <PluginFrame lid="blockly" openAction="onUIOpened" {plugin} />
       </div>
     </div>
   {/if}
@@ -122,11 +116,7 @@
   {#if showSetupModal && plugin && !plugin.setupComplete}
     <div class="modal-overlay">
       <div class="modal-content">
-        <PluginSetupModal
-          {plugin}
-          on:confirm={handleSetupConfirm}
-          on:cancel={handleSetupCancel}
-        />
+        <PluginSetupModal {plugin} on:confirm={handleSetupConfirm} on:cancel={handleSetupCancel} />
       </div>
     </div>
   {/if}

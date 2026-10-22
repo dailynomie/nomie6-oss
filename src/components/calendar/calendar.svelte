@@ -33,7 +33,23 @@
   let firstDayOfWeek = $state<'sunday' | 'monday'>('sunday')
 
   // Extract props first - initialDate is needed below
-  const { initialDate, size, className, style, height, width, events, offDays, showHeader, showControls, showCalControl, showDetails, tracker, compact, color = appConfig.primary_color } = $props()
+  const {
+    initialDate,
+    size,
+    className,
+    style,
+    height,
+    width,
+    events,
+    offDays,
+    showHeader,
+    showControls,
+    showCalControl,
+    showDetails,
+    tracker,
+    compact,
+    color = appConfig.primary_color,
+  } = $props()
 
   // Updating to be react...
   $effect(() => {

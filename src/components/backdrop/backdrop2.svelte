@@ -15,18 +15,17 @@
   // We do this because we use fly:out -
   // this keeps the component alive, so we need
   // to manually $destroy it.
-  let modalComponent: any = $state();
+  let modalComponent: any = $state()
   $effect(() => {
-    if(last && focusedId !== last.id) {
-      focusedId = last.id;
-    } else if(!last && focusedId) {
+    if (last && focusedId !== last.id) {
+      focusedId = last.id
+    } else if (!last && focusedId) {
       try {
         // Svelte 5: $destroy() no longer exists, handled by lifecycle
         // modalComponent.$destroy();
-      } catch(e) {}
+      } catch (e) {}
     }
   })
-  
 </script>
 
 {#if $BackdropStore2.length}
@@ -35,16 +34,14 @@
 
 <div
   on:click|self={() => {
-    
     if (last.tappable) {
       $BackdropStore2 = $BackdropStore2.slice(0, -1)
     }
   }}
   class="backdrop2 {last.transparent ? 'bg-transparent' : 'bg-nnormal'}"
-
   style="--zIndex: {zIndex}"
 >
-<!-- -->
+  <!-- -->
 
   {#each $BackdropStore2 as modal, index (modal.id)}
     <div
@@ -56,7 +53,7 @@
       id={modal.id}
       style="--zIndex:{zIndex + (index + 2)}; --index:{index + 2}"
     >
-      <svelte:component bind:this={modalComponent} this={modal.component} id={modal.id} {...modal.componentProps} />
+      <svelte:component this={modal.component} bind:this={modalComponent} id={modal.id} {...modal.componentProps} />
     </div>
     {#if index < $BackdropStore2.length - 1}
       <div
@@ -130,7 +127,7 @@
   }
 
   .backdrop2.bg-transparent {
-    background:transparent !important;
+    background: transparent !important;
     @apply backdrop-filter-none;
   }
 

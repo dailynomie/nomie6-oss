@@ -19,14 +19,9 @@
 
   import ProgressBar from '../../components/progress-bar/progress-bar.svelte'
 
-  
-
   import UsageChart from '../usage/usage-chart.svelte'
-  
 
   import Spinner from '../../components/spinner/spinner.svelte'
-
-
 
   import RelatedWorker from './related-worker?worker'
   import { BarChartOutline } from '../../components/icon/nicons'
@@ -41,12 +36,14 @@
 
   let mounted = $state(false)
   let loading = $state(false)
-  let results = $state<Array<{
-    trackable: Trackable
-    score: number
-    percent: number
-    usage: TrackableUsage
-  }>>([])
+  let results = $state<
+    Array<{
+      trackable: Trackable
+      score: number
+      percent: number
+      usage: TrackableUsage
+    }>
+  >([])
 
   let lastTrackable = $state<Trackable>(undefined)
   let selfUsage = $state<TrackableUsage>(undefined) // this gets normalized
@@ -88,7 +85,6 @@
    * devices
    */
   const scoresToResults = (scores) => {
-    
     // Get the Max from all the Scores
     const scoresArray = Object.keys(scores).map((d) => scores[d].score)
     let max = math.max(scoresArray)
@@ -131,7 +127,6 @@
         // }
         // return true
       })
-    
   }
 
   let usages = $state<TrackableUsageMap>(undefined)
@@ -298,10 +293,7 @@
 </script>
 
 {#key usagesForChart}
-  <div
-    class="chart sticky bg-ios-bg top-0  pb-2 flex items-center justify-center w-full"
-    style="min-height:180px;"
-  >
+  <div class="chart sticky bg-ios-bg top-0 pb-2 flex items-center justify-center w-full" style="min-height:180px;">
     {#if !chartLoading}
       <UsageChart className="w-full h-32" hideValues id="related-chart" usages={usagesForChart} isstatsview={true} />
     {:else}
@@ -337,7 +329,8 @@
       >
         <div class="flex items-center justify-center mb-1 w-full">
           <TrackableAvatar trackable={trackableRes.trackable} size={20} />
-          <span class="ml-2 w-full line-clamp-1 text-xs font-semibold text-ios-label">{trackableRes.trackable.tag}</span>
+          <span class="ml-2 w-full line-clamp-1 text-xs font-semibold text-ios-label">{trackableRes.trackable.tag}</span
+          >
           <div class="filler" />
           <span class="text-ios-label2 text-sm">{(trackableRes.score * 100).toFixed(1)}</span>
         </div>

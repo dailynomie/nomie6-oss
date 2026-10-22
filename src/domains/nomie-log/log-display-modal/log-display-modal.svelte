@@ -6,14 +6,14 @@
 
   import Button from '../../../components/button/button.svelte'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
-    import ListItemLog from '../../../components/list-item-log/list-item-log.svelte'
-  
+  import ListItemLog from '../../../components/list-item-log/list-item-log.svelte'
+
   import ToolbarGrid from '../../../components/toolbar/toolbar-grid.svelte'
   import Map from '../../map/map.svelte'
-import { getDateFormats } from '../../preferences/Preferences'
+  import { getDateFormats } from '../../preferences/Preferences'
   import type NLog from '../nomie-log'
 
-  let dateFormats = getDateFormats();
+  let dateFormats = getDateFormats()
 
   const close = async () => {
     closeModal(id)

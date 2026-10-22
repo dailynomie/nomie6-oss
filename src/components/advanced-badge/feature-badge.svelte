@@ -7,7 +7,11 @@
 
   // The crown follows the Starter lists in experience.ts: an item is a Full-mode item when its feature is in
   // STARTER_HIDDEN, or its widget type is not in STARTER_WIDGET_TYPES. Change a list and the crown follows.
-  const { feature = undefined, widgetType = undefined, low = false } = $props<{
+  const {
+    feature = undefined,
+    widgetType = undefined,
+    low = false,
+  } = $props<{
     feature?: FeatureId | string
     widgetType?: string
     low?: boolean

@@ -13,7 +13,15 @@
   import Downloader from '../../../modules/download/download'
   import tick from '../../../utils/tick/tick'
 
-  import { deleteStorageFile, initStorage, listStorageFiles, onStorageReady, readStorageFile, storageRootPath, writeStorageFile } from '../storage-files'
+  import {
+    deleteStorageFile,
+    initStorage,
+    listStorageFiles,
+    onStorageReady,
+    readStorageFile,
+    storageRootPath,
+    writeStorageFile,
+  } from '../storage-files'
 
   import { Interact } from '../../../store/interact'
 
@@ -31,7 +39,7 @@
   import { DocumentTextOutline, DownloadOutline, FolderOutline, TrashOutline } from '../../../components/icon/nicons'
   import { showToast } from '../../../components/toast/ToastStore'
 
-  const { path = "" } = $props()
+  const { path = '' } = $props()
 
   let browserTitle = $state('File Browser')
   let browserPath = $state([])
@@ -63,7 +71,7 @@
       normalizedPath = normalizedPath.substring(1)
     }
     normalizedPath = normalizedPath.replace(/\/\//g, '/')
-    let ogPath = normalizedPath ? normalizedPath.split('/').filter(p => p) : []
+    let ogPath = normalizedPath ? normalizedPath.split('/').filter((p) => p) : []
 
     if (ogPath.length > 0) {
       let fileName = ogPath[ogPath.length - 1]

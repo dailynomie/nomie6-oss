@@ -149,7 +149,9 @@
    * Active Dates Formatted
    */
   let dateTimeFormat = $state($Prefs.use24hour ? 'HH:mm' : 'h:mm a')
-  let selectedDateFormated = $derived(dayjs(new Date($ActiveLogStore.end || new Date().getTime())).format(dateTimeFormat))
+  let selectedDateFormated = $derived(
+    dayjs(new Date($ActiveLogStore.end || new Date().getTime())).format(dateTimeFormat)
+  )
 
   const setFocused = () => {
     showCaptureTextarea = true
@@ -190,7 +192,6 @@
     }
   }
 
-
   /**
    * Monitor Note Change
    *
@@ -203,13 +204,13 @@
     clearTimeout(clearMonitor)
     clearMonitor = setTimeout(() => {
       showCaptureTextarea = true
-      let parsed: Array<Token>;
+      let parsed: Array<Token>
       ActiveLogStore.update((s) => {
         parsed = extract.parse(s.note)
         // Calculate Score
         s.score = ScoreNote(s.note, new Date(), $TrackerStore)
         return s
-      });
+      })
       // Highligh any visuble tracker buttons
       highlightSelectedTrackers(parsed || [])
     }, 500)
@@ -348,7 +349,9 @@
   const captureLabel = $derived.by(() => {
     const date = dayjs($TodayStore.date)
     const time = date.format($Prefs.use24hour ? 'HH:mm' : 'h:mm A')
-    return date.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD') ? `Today ${time}` : `${date.format('ddd D MMM')} ${time}`
+    return date.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')
+      ? `Today ${time}`
+      : `${date.format('ddd D MMM')} ${time}`
   })
 
   // iOS look (Phase 4): the check-in card is hidden while the capture card is being typed in
@@ -366,7 +369,7 @@
       position: 'fullscreen',
       component: AIChatModal,
       componentProps: { id: 'ai-chat-modal' },
-      tappable: true
+      tappable: true,
     })
   }
 </script>
@@ -385,7 +388,7 @@
     <div class="capture-log" class:negative={$ActiveLogStore.score < 0} class:positive={$ActiveLogStore.score > 0}>
       <div class="p-0 relative">
         {#if !isPopulated}
-          <div class="absolute right-1 -top-1 flex items-center gap-0 ">
+          <div class="absolute right-1 -top-1 flex items-center gap-0">
             <MenuInline
               compact
               buttonStyle="width:40px !important;{!$Prefs.ai?.enabled ? 'position: relative; top: 8px;' : ''}"
@@ -400,11 +403,7 @@
             </MenuInline>
             {#if $Prefs.ai?.enabled}
               <div class="-ml-3">
-                <NomieAiButton
-                  size="36px"
-                  label="AI Insights"
-                  onclick={goToAiInsights}
-                />
+                <NomieAiButton size="36px" label="AI Insights" onclick={goToAiInsights} />
               </div>
             {/if}
           </div>
@@ -412,14 +411,14 @@
 
         <!-- Note Input -->
         <div
-          class="mask-textarea min-h-10  {isFocused ? 'focused' : 'blurred'}
+          class="mask-textarea min-h-10 {isFocused ? 'focused' : 'blurred'}
           {isPopulated ? 'populated' : 'empty'}"
         >
           <!-- Date Time Selection -->
 
           <div
             data-placeholder={Lang.t('general.whats-up', "What's up?")}
-            class=" mask-textarea-wrapper  top-section mock-textarea"
+            class=" mask-textarea-wrapper top-section mock-textarea"
           >
             <CaptureTextarea
               bind:value={$ActiveLogStore.note}
@@ -468,7 +467,8 @@
                   aria-label="Location and Date settings"
                   on:click={toggleCustomLocation}
                 >
-                  <IonIcon icon={MapOutline} size={16} /> {#if $ActiveLogStore.lat}<span class="dot far-right positive -right-2" />{/if}
+                  <IonIcon icon={MapOutline} size={16} />
+                  {#if $ActiveLogStore.lat}<span class="dot far-right positive -right-2" />{/if}
                 </button>
 
                 <button
@@ -534,9 +534,8 @@
     <div class="glass relative z-40 w-full pt-2 pb-2">
       <Container>
         <div class=" xl:ml-auto xl:w-80 grid grid-cols-2 justify-center gap-4 items-center px-4">
-          <Button
-            className="bg-ios-fill text-ios-label"
-            on:click={() => confirmClear()}>{Lang.t('general.cancel', 'Cancel')}</Button
+          <Button className="bg-ios-fill text-ios-label" on:click={() => confirmClear()}
+            >{Lang.t('general.cancel', 'Cancel')}</Button
           >
           {#if $LedgerStoreSaving}
             <Button className="bg-ios-save text-ios-onsave" disabled>{Lang.t('general.saving', 'Saving')}...</Button>

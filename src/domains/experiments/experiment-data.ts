@@ -19,7 +19,8 @@ export const daysFrom = (start: string, count: number): Array<string> =>
   Array.from({ length: count }, (_, i) => shiftDay(start, i))
 
 /** The `count` days immediately before `start`. */
-export const baselineDaysBefore = (start: string, count: number): Array<string> => daysFrom(shiftDay(start, -count), count)
+export const baselineDaysBefore = (start: string, count: number): Array<string> =>
+  daysFrom(shiftDay(start, -count), count)
 
 /**
  * One value per day for the given days.
@@ -65,7 +66,10 @@ export const selectExperimentDays = (
     .filter((value): value is number => value !== undefined)
 
 /** How often the user kept to the change over the experiment days. */
-export const summarizeAdherence = (days: Array<string>, adherence: Adherence): { kept: number; missed: number; unchecked: number } => {
+export const summarizeAdherence = (
+  days: Array<string>,
+  adherence: Adherence
+): { kept: number; missed: number; unchecked: number } => {
   let kept = 0
   let missed = 0
   let unchecked = 0
@@ -93,7 +97,12 @@ export const outcomeWindows = (input: {
 }): { before: Array<number>; during: Array<number> } => {
   const lag = input.lagDays ?? 0
   const shift = (days: Array<string>) => days.map((day) => shiftDay(day, lag))
-  const series = dailySeries([...shift(input.baselineDays), ...shift(input.days)], input.values, input.activeDays, input.missingAs)
+  const series = dailySeries(
+    [...shift(input.baselineDays), ...shift(input.days)],
+    input.values,
+    input.activeDays,
+    input.missingAs
+  )
   return {
     before: valuesInOrder(shift(input.baselineDays), series),
     during: selectExperimentDays(input.days, input.adherence, series, lag),

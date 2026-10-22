@@ -50,7 +50,6 @@ import textUtils from '../../utils/text/text'
 
 import { writable } from 'svelte/store'
 
-
 // Get the Geo Location module
 // Utils
 
@@ -520,7 +519,6 @@ const ledgerInit = () => {
       })
     },
 
-
     async getDay(date) {
       return methods.query({
         start: dayjs(date).startOf('day'),
@@ -720,7 +718,6 @@ export const promptForUpgrade = async () => {
     'You need to have a valid subscription to write to the Nomie encrypted cloud',
     'Upgrade'
   )
-
 }
 
 /**

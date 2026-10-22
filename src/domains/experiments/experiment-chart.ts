@@ -20,8 +20,22 @@ export const outcomeChartConfig = (
   const duringData = [...baselineDays.map(() => null), ...experimentDays.map((day) => values[day] ?? null)]
 
   const datasets: Array<ChartDataset<'bar'>> = [
-    { label: 'Before', data: beforeData, backgroundColor: BEFORE_COLOR, borderRadius: 3, barPercentage: 0.85, categoryPercentage: 0.85 },
-    { label: 'During', data: duringData, backgroundColor: DURING_COLOR, borderRadius: 3, barPercentage: 0.85, categoryPercentage: 0.85 },
+    {
+      label: 'Before',
+      data: beforeData,
+      backgroundColor: BEFORE_COLOR,
+      borderRadius: 3,
+      barPercentage: 0.85,
+      categoryPercentage: 0.85,
+    },
+    {
+      label: 'During',
+      data: duringData,
+      backgroundColor: DURING_COLOR,
+      borderRadius: 3,
+      barPercentage: 0.85,
+      categoryPercentage: 0.85,
+    },
   ]
 
   return {

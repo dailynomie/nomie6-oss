@@ -108,7 +108,6 @@
     @apply flex-grow-0;
     @apply backdrop-filter backdrop-saturate-150 backdrop-blur-sm;
     padding-bottom: calc(env(safe-area-inset-bottom));
- 
   }
   .nui-backdrop.nui-pos-center {
     @apply justify-center;
@@ -129,7 +128,7 @@
     @apply flex-shrink-0;
     @apply flex-grow-0;
     background-color: transparent;
-    
+
     @apply transition-all;
   }
   .nui-backdrop--children.nui-pos-bottom {

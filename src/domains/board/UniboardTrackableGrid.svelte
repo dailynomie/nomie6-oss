@@ -21,7 +21,12 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import AddIcon from '../../n-icons/AddIcon.svelte'
 
-  const { trackables = [], hideMore = false, hideAdd = false, searching = false } = $props<{
+  const {
+    trackables = [],
+    hideMore = false,
+    hideAdd = false,
+    searching = false,
+  } = $props<{
     trackables?: Array<Trackable>
     hideMore?: boolean
     hideAdd?: boolean
@@ -77,7 +82,11 @@
       >
         <div slot="subtitle">
           {#if trackable.tracker?.started}
-            <Counter initialDuration={trackable.tracker.timeTracked} started={trackable.tracker.started} color={trackable.tracker.color} />
+            <Counter
+              initialDuration={trackable.tracker.timeTracked}
+              started={trackable.tracker.started}
+              color={trackable.tracker.color}
+            />
           {/if}
         </div>
       </ShortcutButton>

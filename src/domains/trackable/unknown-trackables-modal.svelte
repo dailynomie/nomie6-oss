@@ -36,7 +36,8 @@
   const activeItems = $derived(items.filter((i) => !ignoredKeys.includes(i.key)))
   const ignoredItems = $derived(items.filter((i) => ignoredKeys.includes(i.key)))
 
-  const isOpen = (section: 'active' | 'ignored', type: UnknownType) => open[`${section}-${type}`] ?? section === 'active'
+  const isOpen = (section: 'active' | 'ignored', type: UnknownType) =>
+    open[`${section}-${type}`] ?? section === 'active'
   const toggle = (section: 'active' | 'ignored', type: UnknownType) => {
     open = { ...open, [`${section}-${type}`]: !isOpen(section, type) }
   }
@@ -93,13 +94,16 @@
 
   <main class="px-4 pb-10 space-y-6">
     <p class="text-ios-footnote text-ios-label2">
-      Tags in your notes that have no tracker, person, context or pointer yet. Create one to keep tracking it, ignore it if it should stay as it is, or delete the tag from the notes that use it.
+      Tags in your notes that have no tracker, person, context or pointer yet. Create one to keep tracking it, ignore it
+      if it should stay as it is, or delete the tag from the notes that use it.
     </p>
 
     {#if loading}
       <p class="text-ios-label2 text-center py-8">Looking through your notes…</p>
     {:else if items.length === 0}
-      <p class="text-ios-label2 text-center py-8">Nothing to set up. Every tag in your notes has a tracker, person, context or pointer.</p>
+      <p class="text-ios-label2 text-center py-8">
+        Nothing to set up. Every tag in your notes has a tracker, person, context or pointer.
+      </p>
     {:else}
       {#each [{ section: 'active' as const, list: activeItems, title: 'To set up' }] as block}
         {#each GROUPS as group}
@@ -121,12 +125,30 @@
                     <div class="p-4 space-y-3">
                       <div class="min-w-0">
                         <div class="font-semibold text-ios-label truncate">{item.key}</div>
-                        <div class="text-ios-footnote text-ios-label2">{item.count} {item.count === 1 ? 'note' : 'notes'}</div>
+                        <div class="text-ios-footnote text-ios-label2">
+                          {item.count}
+                          {item.count === 1 ? 'note' : 'notes'}
+                        </div>
                       </div>
                       <div class="flex flex-wrap gap-2">
-                        <button type="button" class="h-9 px-3 rounded-full bg-ios-tint text-ios-ontint text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => create(item)}>Create</button>
-                        <button type="button" class="h-9 px-3 rounded-full bg-ios-fill text-ios-label text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => ignore(item)}>Ignore</button>
-                        <button type="button" class="h-9 px-3 rounded-full bg-ios-fill text-ios-danger text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => remove(item)}>Delete</button>
+                        <button
+                          type="button"
+                          class="h-9 px-3 rounded-full bg-ios-tint text-ios-ontint text-sm font-medium disabled:opacity-50"
+                          disabled={busy}
+                          onclick={() => create(item)}>Create</button
+                        >
+                        <button
+                          type="button"
+                          class="h-9 px-3 rounded-full bg-ios-fill text-ios-label text-sm font-medium disabled:opacity-50"
+                          disabled={busy}
+                          onclick={() => ignore(item)}>Ignore</button
+                        >
+                        <button
+                          type="button"
+                          class="h-9 px-3 rounded-full bg-ios-fill text-ios-danger text-sm font-medium disabled:opacity-50"
+                          disabled={busy}
+                          onclick={() => remove(item)}>Delete</button
+                        >
                       </div>
                     </div>
                   {/each}
@@ -158,11 +180,24 @@
                     <div class="p-4 space-y-3">
                       <div class="min-w-0">
                         <div class="font-semibold text-ios-label2 truncate">{item.key}</div>
-                        <div class="text-ios-footnote text-ios-label2">{item.count} {item.count === 1 ? 'note' : 'notes'}</div>
+                        <div class="text-ios-footnote text-ios-label2">
+                          {item.count}
+                          {item.count === 1 ? 'note' : 'notes'}
+                        </div>
                       </div>
                       <div class="flex flex-wrap gap-2">
-                        <button type="button" class="h-9 px-3 rounded-full bg-ios-fill text-ios-label text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => restore(item)}>Restore</button>
-                        <button type="button" class="h-9 px-3 rounded-full bg-ios-fill text-ios-danger text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => remove(item)}>Delete</button>
+                        <button
+                          type="button"
+                          class="h-9 px-3 rounded-full bg-ios-fill text-ios-label text-sm font-medium disabled:opacity-50"
+                          disabled={busy}
+                          onclick={() => restore(item)}>Restore</button
+                        >
+                        <button
+                          type="button"
+                          class="h-9 px-3 rounded-full bg-ios-fill text-ios-danger text-sm font-medium disabled:opacity-50"
+                          disabled={busy}
+                          onclick={() => remove(item)}>Delete</button
+                        >
                       </div>
                     </div>
                   {/each}

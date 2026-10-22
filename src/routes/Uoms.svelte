@@ -12,9 +12,7 @@
 
   // iOS look (Phase 7): the units a tracker can measure by, grouped by type.
   // Built-in units are read-only; custom units are marked and can be edited or deleted.
-  const groups = $derived(
-    Object.entries(getGroupedUoms(true, $CustomUomStore)).sort(([a], [b]) => a.localeCompare(b))
-  )
+  const groups = $derived(Object.entries(getGroupedUoms(true, $CustomUomStore)).sort(([a], [b]) => a.localeCompare(b)))
   const groupLabel = (type: string) => type.charAt(0).toUpperCase() + type.slice(1)
 
   const editUnit = (unit: any) => {
@@ -59,7 +57,10 @@
                 <div class="min-w-0">
                   <div class="flex items-center gap-2">
                     <span class="font-semibold text-ios-label truncate">{unit.plural}</span>
-                    <span class="text-ios-caption2 font-semibold rounded-md px-1.5 py-0.5 bg-ios-tintsoft text-ios-tint shrink-0">Custom</span>
+                    <span
+                      class="text-ios-caption2 font-semibold rounded-md px-1.5 py-0.5 bg-ios-tintsoft text-ios-tint shrink-0"
+                      >Custom</span
+                    >
                   </div>
                   <div class="text-ios-footnote text-ios-label2 truncate">{unit.singular}</div>
                 </div>

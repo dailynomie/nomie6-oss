@@ -13,7 +13,7 @@
   import MenuBlocker from './menu-blocker.svelte'
   import { MenuBlockerStore } from './useDropmenu'
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
-import Divider from '../divider/divider.svelte'
+  import Divider from '../divider/divider.svelte'
 
   const { x, y, buttonClass, buttonStyle, id, title, compact, menuButtons } = $props()
 
@@ -34,7 +34,7 @@ import Divider from '../divider/divider.svelte'
 
 <div {id} class="id-{id} {compact ? 'compact' : ''} relative menu-inline">
   <button
-    title={title}
+    {title}
     aria-label={title}
     id="{id}-button"
     style={buttonStyle}
@@ -73,53 +73,61 @@ import Divider from '../divider/divider.svelte'
           role="menuitem"
         >
           {#if button.component}
-            <svelte:component closeEvent={()=>{
-              button.click()
-              open = false
-            }} this={button.component} />
+            <svelte:component
+              this={button.component}
+              closeEvent={() => {
+                button.click()
+                open = false
+              }}
+            />
           {:else}
-          <button
-            disabled={button.disabled}
-            class="pop-button {activeIndex === index ? 'focused' : ''} nbtn-left pop-button-{index} {button.awardRequired
-              ? $AwardStore.awards.find((a) => a.id == button.awardRequired)
-                ? 'unlocked'
-                : 'locked'
-              : ''} {button.description ? 'nbtn-desc' : ''}"
-          >
-            {#if button.checked}
-              <div class="w-5 flex items-center">
-                <IonIcon size={compact ? 20 : 28} className="text-ios-label" icon={CheckmarkCircle} />
+            <button
+              disabled={button.disabled}
+              class="pop-button {activeIndex === index
+                ? 'focused'
+                : ''} nbtn-left pop-button-{index} {button.awardRequired
+                ? $AwardStore.awards.find((a) => a.id == button.awardRequired)
+                  ? 'unlocked'
+                  : 'locked'
+                : ''} {button.description ? 'nbtn-desc' : ''}"
+            >
+              {#if button.checked}
+                <div class="w-5 flex items-center">
+                  <IonIcon size={compact ? 20 : 28} className="text-ios-label" icon={CheckmarkCircle} />
+                </div>
+              {/if}
+              <main class="flex-fill w-full">
+                <h1
+                  class="{button.title.length > 25
+                    ? 'text-sm'
+                    : 'text-lg'} leading-tight line-clamp-1 text-ios-label font-medium"
+                >
+                  {button.title}
+                </h1>
+                {#if button.description}
+                  <p class="text-sm text-ios-label2 leading-snug">{button.description}</p>
+                {/if}
+              </main>
+              <div class="flex items-center">
+                {#if button.badge}
+                  <span
+                    class="ios-menu-badge {button.badge.tone === 'good'
+                      ? 'ios-menu-badge-good'
+                      : 'ios-menu-badge-tint'}">{button.badge.text}</span
+                  >
+                {/if}
+                {#if button.icon}
+                  <IonIcon icon={button.icon} className="text-ios-label" size={accessorySize} />
+                {:else if button.emoji}
+                  <Avatar emoji={button.emoji} size={compact ? 22 : 32} />
+                {/if}
               </div>
-            {/if}
-            <main class="flex-fill w-full">
-              <h1
-                class="{button.title.length > 25
-                  ? 'text-sm'
-                  : 'text-lg'} leading-tight line-clamp-1 text-ios-label font-medium"
-              >
-                {button.title}
-              </h1>
-              {#if button.description}
-                <p class="text-sm text-ios-label2 leading-snug">{button.description}</p>
-              {/if}
-            </main>
-            <div class="flex items-center">
-              {#if button.badge}
-                <span class="ios-menu-badge {button.badge.tone === 'good' ? 'ios-menu-badge-good' : 'ios-menu-badge-tint'}">{button.badge.text}</span>
-              {/if}
-              {#if button.icon}
-                <IonIcon icon={button.icon} className="text-ios-label" size={accessorySize} />
-              {:else if button.emoji}
-                <Avatar emoji={button.emoji} size={compact ? 22 : 32} />
-              {/if}
-            </div>
-          </button>
+            </button>
           {/if}
         </div>
         {#if index < menuButtons.length - 1}
-        <Divider left={16} />
+          <Divider left={16} />
         {/if}
-
       {/each}
     </div>
   {/if}
@@ -196,11 +204,11 @@ import Divider from '../divider/divider.svelte'
   .menu-inline .n-menu .pop-button {
     @apply overflow-hidden;
     @apply rounded-none;
-    @apply border-b border-ios-separator
+    @apply border-b border-ios-separator;
   }
   .menu-inline.compact .n-menu .pop-button,
   .menu-inline.compact .n-menu .pop-button h1 {
-    font-size:0.9rem !important;
+    font-size: 0.9rem !important;
   }
   .menu-inline .n-menu .pop-button:hover {
     @apply bg-ios-fill;

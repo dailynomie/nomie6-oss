@@ -1,4 +1,3 @@
-
 // import type NLog from '../../nomie-log/nomie-log'
 // import dayjs from 'dayjs'
 import { it, describe, expect } from 'vitest'
@@ -14,8 +13,8 @@ Peed,2020-08-12T08:28:00.000-04:00
 Peed,2020-08-11T08:28:00.000-04:00`
 
 describe('CSVR Import Tests', () => {
-  it('should', ()=>{
-    expect(1).toBe(1);
+  it('should', () => {
+    expect(1).toBe(1)
   })
   // const importer = new CSVRImport({
   //   template: '#{f0} #zeno imported #{f1}',

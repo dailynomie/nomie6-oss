@@ -5,7 +5,10 @@
   const { color = '#0A6CC9', size = 29 } = $props<{ color?: string; size?: number }>()
 </script>
 
-<span class="icon-square" style="background:{color}; width:{size}px; height:{size}px; font-size:{Math.round(size * 0.56)}px">
+<span
+  class="icon-square"
+  style="background:{color}; width:{size}px; height:{size}px; font-size:{Math.round(size * 0.56)}px"
+>
   <slot />
 </span>
 

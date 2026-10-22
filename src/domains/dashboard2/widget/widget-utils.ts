@@ -1,7 +1,7 @@
 import type { WidgetClass } from './widget-class'
 import type { IWidgetType } from './widget-types'
 
-export function canSaveWidget(testWidget: WidgetClass, widgetTypes:Array<IWidgetType>): boolean {
+export function canSaveWidget(testWidget: WidgetClass, widgetTypes: Array<IWidgetType>): boolean {
   let type = widgetTypes.find((wdgt) => wdgt.id == testWidget.type)
   if (type) {
     let required = type.requires

@@ -56,7 +56,7 @@ export async function queryOpenRouter(
   const {
     model = 'openrouter/free', // OpenRouter free tier - auto-selects best available free model
     maxTokens = 1024,
-    temperature = 0.7
+    temperature = 0.7,
   } = options
 
   try {
@@ -66,14 +66,14 @@ export async function queryOpenRouter(
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
         'HTTP-Referer': 'https://nomie.dailynomie.com',
-        'X-Title': 'Nomie - Personal Analytics'
+        'X-Title': 'Nomie - Personal Analytics',
       },
       body: JSON.stringify({
         model,
         messages,
         temperature,
-        max_tokens: maxTokens
-      })
+        max_tokens: maxTokens,
+      }),
     })
 
     if (!response.ok) {
@@ -85,11 +85,13 @@ export async function queryOpenRouter(
     const data: OpenRouterResponse = await response.json()
 
     const responseContent = data.choices?.[0]?.message?.content
-    
+
     if (!responseContent) {
       const finishReason = data.choices?.[0]?.finish_reason
       if (finishReason === 'length') {
-        throw new Error('OpenRouter response was cut off due to token limit. The response is too large for the free model. Try using fewer days or simplify your request.')
+        throw new Error(
+          'OpenRouter response was cut off due to token limit. The response is too large for the free model. Try using fewer days or simplify your request.'
+        )
       }
       console.error('OpenRouter response:', JSON.stringify(data, null, 2))
       throw new Error(`Invalid response from OpenRouter API: no content generated (finish_reason: ${finishReason})`)
@@ -97,7 +99,7 @@ export async function queryOpenRouter(
 
     return {
       content: responseContent,
-      model: data.model
+      model: data.model,
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
@@ -120,7 +122,7 @@ export async function streamOpenRouter(
   const {
     model = 'openrouter/free', // OpenRouter free tier - auto-selects best available free model
     maxTokens = 1024,
-    temperature = 0.7
+    temperature = 0.7,
   } = options
 
   try {
@@ -130,15 +132,15 @@ export async function streamOpenRouter(
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
         'HTTP-Referer': 'https://nomie.dailynomie.com',
-        'X-Title': 'Nomie - Personal Analytics'
+        'X-Title': 'Nomie - Personal Analytics',
       },
       body: JSON.stringify({
         model,
         messages,
         temperature,
         max_tokens: maxTokens,
-        stream: true
-      })
+        stream: true,
+      }),
     })
 
     if (!response.ok) {
@@ -180,7 +182,7 @@ export async function streamOpenRouter(
             const chunk = json.choices?.[0]?.delta?.content
             if (chunk) {
               gotContent = true
-          onChunk(chunk)
+              onChunk(chunk)
             }
           } catch (e) {
             // Ignore JSON parse errors in streaming

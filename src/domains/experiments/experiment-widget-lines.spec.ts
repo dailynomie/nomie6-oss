@@ -62,9 +62,7 @@ describe('experimentWidgetView', () => {
   it('shows adherence and a positive tone for a clear change as hoped', () => {
     const view = experimentWidgetView(experiment(), snapshot(), 9)
     expect(view.adherence).toEqual({ kept: 5, total: 8 })
-    expect(view.outcomes).toEqual([
-      { label: 'sleep quality', text: 'A clear change, as you hoped.', tone: 'positive' },
-    ])
+    expect(view.outcomes).toEqual([{ label: 'sleep quality', text: 'A clear change, as you hoped.', tone: 'positive' }])
   })
 
   it('uses a possible tone for a hint and neutral otherwise', () => {

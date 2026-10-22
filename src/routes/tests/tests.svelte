@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   import Scroller from '../../components/scroller/scroller.svelte'
 
   import dayjs from 'dayjs'
@@ -46,7 +45,7 @@
           .map((d, i) => i)}
         itemClass=""
       >
-        <div class="item  p-2 P " style="width:10vw">
+        <div class="item p-2 P" style="width:10vw">
           <div class="text-center {item === centerPosItem ? 'bg-green-400' : 'bg-blue-500'} rounded-lg h-10">
             {item}
           </div>

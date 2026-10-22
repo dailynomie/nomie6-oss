@@ -44,7 +44,6 @@
   })
 
   const generateWeeksFromScores = () => {
-    
     let weekMap: any = {}
     scores
       .sort((a, b) => {
@@ -62,7 +61,7 @@
         weekMap[startOfWeek] = weekMap[startOfWeek] || []
         weekMap[startOfWeek].push(score)
       })
-    
+
     return Object.keys(weekMap)
       .map((id) => {
         return weekMap[id]
@@ -73,7 +72,6 @@
   }
 
   const getPast = async () => {
-    
     showLoading = true
     const start = dayjs(startDate).subtract(2, 'month')
     const end = dayjs(startDate).endOf('day')
@@ -123,7 +121,7 @@
 </script>
 
 {#if goal && totalDays}
-  <div class="bg-ios-card px-4 pb-4  flex flex-col space-y-2">
+  <div class="bg-ios-card px-4 pb-4 flex flex-col space-y-2">
     <h1 class="text-xl font-bold text-ios-label leading-tight mt-4 pb-">
       {trackable.label}
       {getGoalComparisonSymbol(goal.comparison)}
@@ -131,9 +129,7 @@
     </h1>
     {#if scores}
       <p class="text-ios-label2 leading-snug pb-2">
-        Goal hit <strong class="text-ios-label"
-          >{math.round(math.percentage(totalDays, totalSuccess))}%</strong
-        >
+        Goal hit <strong class="text-ios-label">{math.round(math.percentage(totalDays, totalSuccess))}%</strong>
         <strong>{totalSuccess}</strong> out of {totalDays} days.
         <br />
       </p>
@@ -173,7 +169,7 @@
             <button
               on:click={() => openDateOptions(day.date.toDate())}
               style="transform: scale({getPad(day.percent)})"
-              class="goal-ball transition-all  {day.success == true ? 'bg-ios-good' : ''} {day.failure == true
+              class="goal-ball transition-all {day.success == true ? 'bg-ios-good' : ''} {day.failure == true
                 ? 'ios-goal-missed'
                 : ''}"
             >
@@ -228,7 +224,6 @@
     @apply leading-tight;
     @apply w-full;
     @apply max-w-md;
-
   }
   .goal-ball {
     @apply rounded-full;

@@ -58,13 +58,16 @@
   import { checkStarterNudge } from './domains/preferences/starter-nudge'
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
   import PointerLoader from './domains/pointers/pointer-loader.svelte'
-  import { PluginStore, initializeBuildinPlugins, registerPluginPreferencesListeners } from './domains/plugins/PluginStore'
+  import {
+    PluginStore,
+    initializeBuildinPlugins,
+    registerPluginPreferencesListeners,
+  } from './domains/plugins/PluginStore'
   import { registerChartOptionsListener } from './domains/usage/ChartOptionsStore'
   import { autoCleanupPlugins } from './domains/plugins/PluginCleanupStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
 
-  
   // initiailze gestures
   gestures()
 
@@ -79,9 +82,7 @@
    * Fire off the MinuteChecker30 every 30 minutes
    * This will check if the day changed
    */
-  let todayCheckPeriod = 1000 * 60 * 2 
-  
-  
+  let todayCheckPeriod = 1000 * 60 * 2
 
   let todayCheckFormat = 'YYYY-MM-DD'
   // let todayKey = dayjs().format(todayCheckFormat)
@@ -99,7 +100,7 @@
    */
   const checkIfNewDay = () => {
     let checkKey = dayjs().format(todayCheckFormat)
-    
+
     // Compare now key to today key
     if (todayKey !== checkKey) {
       showToast({ message: `It's ${dayjs().format('dddd')}!` })
@@ -123,7 +124,6 @@
     setDocParams()
   }, todayCheckPeriod)
 
-  
   const hideSplashScreen = () => {
     document.querySelectorAll('.delete-on-app').forEach((d) => {
       d.classList.add('deleted')

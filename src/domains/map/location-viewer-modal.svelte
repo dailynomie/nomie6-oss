@@ -10,7 +10,7 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import type NLog from '../nomie-log/nomie-log'
-import Title from '../../components/title/title.svelte';
+  import Title from '../../components/title/title.svelte'
 
   // export let show = false
 

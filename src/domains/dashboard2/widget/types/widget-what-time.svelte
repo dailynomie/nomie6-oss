@@ -9,7 +9,12 @@
 
   import type { WidgetClass } from '../widget-class'
 
-  const { widget = $bindable(), trackable = $bindable(undefined), usage = $bindable(undefined), logs = $bindable(undefined) } = $props()
+  const {
+    widget = $bindable(),
+    trackable = $bindable(undefined),
+    usage = $bindable(undefined),
+    logs = $bindable(undefined),
+  } = $props()
   // // export let trackable: Trackable
   // export let usage: TrackableUsage
 

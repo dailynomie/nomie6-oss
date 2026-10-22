@@ -6,7 +6,25 @@
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
   import type { Trackable } from './Trackable.class'
 
-  const { trackable, size = 40, className = '', transparent = false, outlined = false, value = undefined, hideValue = false, solid = false } = $props<{ trackable: Trackable, size?: number, className?: string, transparent?: boolean, outlined?: boolean, value?: string | number, hideValue?: boolean, solid?: boolean }>()
+  const {
+    trackable,
+    size = 40,
+    className = '',
+    transparent = false,
+    outlined = false,
+    value = undefined,
+    hideValue = false,
+    solid = false,
+  } = $props<{
+    trackable: Trackable
+    size?: number
+    className?: string
+    transparent?: boolean
+    outlined?: boolean
+    value?: string | number
+    hideValue?: boolean
+    solid?: boolean
+  }>()
 
   const dispatch = createEventDispatcher()
 </script>
@@ -17,19 +35,19 @@
     on:click={(evt) => {
       dispatch('click', evt)
     }}
-    class:solid={solid}
+    class:solid
     class="trackable-pill {className} {transparent
       ? 'transparent shadow-none'
       : outlined
-      ? 'outlined'
-      : 'filled shadow-md'}"
+        ? 'outlined'
+        : 'filled shadow-md'}"
     style="--pill-size: {size}px"
   >
     <TrackableAvatar {trackable} size={size * 0.8} />
     <div class="title-value">
       {#if !hideValue && (value || trackable.value)}
         <h3 class="font-semibold line-clamp-1" style="font-size:80%; margin-bottom:{size * 0.08}px">
-          {trackable.label} 
+          {trackable.label}
         </h3>
         <div class="font-bold line-clamp-1" style="font-size:110%;">{value || trackable.value}</div>
       {:else}

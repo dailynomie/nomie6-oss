@@ -4,38 +4,36 @@
   import RadioButton from '../radio-button/radio-button.svelte'
   import { createEventDispatcher } from 'svelte'
   // Components
-  
+
   //Utils
   import extractor from '../../utils/extract/extract'
-  
+
   // Modules
   import Tracker from '../../modules/tracker/TrackerClass'
 
-  
   // Props
-
 
   const dispatch = createEventDispatcher()
   const { note, trackers, className, tokenClass } = $props()
 
   const state = $state({
     words: [],
-    note: ``
+    note: ``,
   })
 
   let actual = $state(0)
 
   const toggleCheckbox = (index) => {
-     const check = state.words[index];
-     if(check.raw == '[x]') {
-      state.words[index].raw = '[]';
-      state.words[index].id = '[]';
+    const check = state.words[index]
+    if (check.raw == '[x]') {
+      state.words[index].raw = '[]'
+      state.words[index].id = '[]'
     } else {
-       state.words[index].raw = '[x]';
-       state.words[index].id = '[x]';
-     }
-     state.words = state.words;
-     dispatch('noteChange', state.words.map((s=>s.raw)).join(' '))
+      state.words[index].raw = '[x]'
+      state.words[index].id = '[x]'
+    }
+    state.words = state.words
+    dispatch('noteChange', state.words.map((s) => s.raw).join(' '))
   }
 
   const methods = {
@@ -48,12 +46,12 @@
     textElementClick(element) {
       dispatch('textClick', element)
     },
-   
+
     linkClick(link) {
       window.open(link, '_system')
     },
     note_to_array(str) {
-      let parsed = extractor.parse(str, { includeGeneric: true }) || [];
+      let parsed = extractor.parse(str, { includeGeneric: true }) || []
       let matches = parsed.filter((trackableElement) => {
         return ['person', 'context', 'pointer', 'generic'].indexOf(trackableElement.type) > -1
       })
@@ -69,12 +67,11 @@
 
 {#if actual}
   <div
-    class="n-note-textualized  {className || 'leading-snug text-ios-label'}
+    class="n-note-textualized {className || 'leading-snug text-ios-label'}
     {state.words.length > 20 ? 'text-size-sm' : ''}
     {state.words.length < 20 ? 'text-size-big' : ''}"
   >
     {#each state.words as word, index}
-      
       {#if word.type === 'tracker'}
         <button
           type="button"
@@ -105,7 +102,7 @@
         >
           {` ${word.raw} `}
         </button>
-        {:else if word.type == 'pointer'}
+      {:else if word.type == 'pointer'}
         <button
           type="button"
           class="context token {tokenClass || 'default-token-class'}"
@@ -142,16 +139,15 @@
   {state.note}
 {/if}
 
-<style lang="postcss" global> 
-
-  .n-note-textualized input[type=checkbox] {
+<style lang="postcss" global>
+  .n-note-textualized input[type='checkbox'] {
     @apply cursor-pointer;
     /* @apply appearance-none; */
     @apply h-4 w-4 rounded-sm;
     @apply border border-ios-separator;
     @apply mx-px;
     @apply text-center;
-    font-size:10px;
+    font-size: 10px;
   }
 
   .n-note-textualized.inherit {

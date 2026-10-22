@@ -13,7 +13,7 @@
   import TimeSelect from '../time-select/time-select.svelte'
   import Calendar from '../calendar/calendar.svelte'
   import { quintOut } from 'svelte/easing'
-// import Calendar4 from '../calendar4/calendar4.svelte';
+  // import Calendar4 from '../calendar4/calendar4.svelte';
 
   const dispatch = createEventDispatcher()
 
@@ -69,7 +69,7 @@
 </script>
 
 {#if _date}
-  <div class="date-time-bar-wrapper  {calendarPosition == 'top' ? 'calendar-top' : 'calendar-bottom'}">
+  <div class="date-time-bar-wrapper {calendarPosition == 'top' ? 'calendar-top' : 'calendar-bottom'}">
     <div class="date-time-bar" {style}>
       <div class="flex">
         <slot name="left" />

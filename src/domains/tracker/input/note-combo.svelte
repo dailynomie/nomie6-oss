@@ -104,7 +104,7 @@
             {/if}
           </header>
           {#if trackable.tracker?.type === 'note'}
-            <div class="text-ios-label filler  py-1 text-sm ">Nested Combos are currently not supported</div>
+            <div class="text-ios-label filler py-1 text-sm">Nested Combos are currently not supported</div>
           {/if}
           {#if trackable.tracker?.type === 'range'}
             <div class="">
@@ -126,7 +126,7 @@
             </div>
           {/if}
         </main>
-        <div slot="right" class="pr-2 text-right ">
+        <div slot="right" class="pr-2 text-right">
           {#if trackable.tracker?.type === 'value'}
             <div class="flex items-center">
               <input
@@ -165,7 +165,6 @@
                 fireChange()
               }}
             />
-            
           {:else if trackable.tracker?.type === 'timer'}
             <ManualTime size="sm" bind:value={trackable.value} />
             <!-- {:else if trackable.tracker?.type === 'note'} -->

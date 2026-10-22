@@ -58,7 +58,7 @@
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ['class'],
     })
 
     return () => observer.disconnect()
@@ -169,15 +169,14 @@
   ]
 </script>
 
-<aside
-  class="desktop-sidebar px-4 z-50 not-printable"
-  role="menu"
-  aria-hidden="false"
-  title="Nomie Navigation"
->
+<aside class="desktop-sidebar px-4 z-50 not-printable" role="menu" aria-hidden="false" title="Nomie Navigation">
   <div class="logo-container">
     {#if loggedIn}
-      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} alt="app-logo" class="nomie-logo" />
+      <img
+        src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'}
+        alt="app-logo"
+        class="nomie-logo"
+      />
       <!-- <Logo size={22} className="-mt-2" /> -->
     {/if}
   </div>
@@ -216,8 +215,8 @@
                 goalPercentage > 80
                   ? 'bg-ios-goodsoft text-ios-good'
                   : goalPercentage > 49
-                  ? 'bg-ios-tintsoft text-ios-tint'
-                  : 'bg-ios-card2 text-ios-danger'
+                    ? 'bg-ios-tintsoft text-ios-tint'
+                    : 'bg-ios-card2 text-ios-danger'
               }`}><LetterTicker text={`${goalPercentage}%`} /></Badge
             >
           {/if}
@@ -238,7 +237,7 @@
       </button>
     {/if}
   {:else}
-    <div class="text-ios-label2 px-4 h-full text-sm flex flex-col  justify-center space-y-4">
+    <div class="text-ios-label2 px-4 h-full text-sm flex flex-col justify-center space-y-4">
       <!-- <p class="font-bold text-ios-label ">Welcome to Nomie 6!</p>
       <p>
         Nomie was created to enable neurodivergent people keep track of and monitor their lives in whichever way they
@@ -250,7 +249,9 @@
 
 <style lang="postcss" global>
   @media print {
-      .not-printable { display: none; }
+    .not-printable {
+      display: none;
+    }
   }
   /* iOS look: the sidebar is a card with a hairline on its right edge, no shadow */
   .desktop-sidebar {

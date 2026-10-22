@@ -84,7 +84,7 @@
     closeModal(id)
   }
 
-  const gotoDate = (date:Date)=>{
+  const gotoDate = (date: Date) => {
     if (date) {
       changeOnThisDay(date)
       loadDay()
@@ -93,7 +93,7 @@
 
   const jumpTo = async () => {
     let date = await selectFuzzyDate(dayjs($OnThisDayModalStore), false)
-    gotoDate(date.toDate());
+    gotoDate(date.toDate())
   }
 
   onMount(async () => {
@@ -155,9 +155,13 @@
 
   <main class="h-full relative min-h-full h-50vh pt-3">
     {#if !loading}
-      <OnThisDayViews {view} on:date={(evt)=>{
-        gotoDate(evt.detail);
-      }} logs={state.records} />
+      <OnThisDayViews
+        {view}
+        on:date={(evt) => {
+          gotoDate(evt.detail)
+        }}
+        logs={state.records}
+      />
     {:else if loading}
       <Empty>
         <Spinner />

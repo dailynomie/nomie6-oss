@@ -6,7 +6,7 @@
   import Button from '../../components/button/button.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  
+
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
 
@@ -44,9 +44,7 @@
           src="/images/awards/{$AwardStore.newAwards[0].id}.svg"
           alt={$AwardStore.newAwards[0].name}
         />
-        <div
-          class="text-4xl my-4 font-bold  w-11/12 mx-auto relative text-ios-label2  text-center leading-tight "
-        >
+        <div class="text-4xl my-4 font-bold w-11/12 mx-auto relative text-ios-label2 text-center leading-tight">
           {$AwardStore.newAwards[0].name}
           {#if $AwardStore.newAwards[0].reason}
             <p class="text-ios-label2 font-medium text-sm mt-2">Reason: {$AwardStore.newAwards[0].reason}</p>
@@ -64,7 +62,7 @@
           <div class="award-badge">
             <img src="/images/awards/{award.id}.svg" alt={award.name} />
             <div
-              class="text-xs -top-2 w-11/12 mx-auto relative text-ios-label2 rounded-full py-1 text-center line-clamp-1 leading-tight "
+              class="text-xs -top-2 w-11/12 mx-auto relative text-ios-label2 rounded-full py-1 text-center line-clamp-1 leading-tight"
             >
               {award.name}
             </div>

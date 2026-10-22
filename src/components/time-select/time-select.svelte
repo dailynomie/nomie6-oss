@@ -4,12 +4,19 @@
   import dayjs from 'dayjs'
   import type { Dayjs } from 'dayjs'
   import { createEventDispatcher } from 'svelte'
-import { getDateFormats } from '../../domains/preferences/Preferences';
+  import { getDateFormats } from '../../domains/preferences/Preferences'
   import IosSelect from '../ios-select/ios-select.svelte'
-  
 
   const dispatch = createEventDispatcher()
-  let { time = $bindable(), className, style, is24Hour, showDateButton, dateButtonClass, value = $bindable() } = $props()
+  let {
+    time = $bindable(),
+    className,
+    style,
+    is24Hour,
+    showDateButton,
+    dateButtonClass,
+    value = $bindable(),
+  } = $props()
 
   let lastValue = $state<any>(undefined) // Value to hold last reaction
   let hour = $state(0) // local hour
@@ -55,7 +62,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
     }
   })
 
-  const dateFormats = getDateFormats();
+  const dateFormats = getDateFormats()
 
   function onChange(evt?: Event) {
     let ogDate = value
@@ -84,9 +91,12 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
       <div class="flex items-center time-parts">
         {#if showDateButton}
           <div class="section {dateButtonClass} border-r border-ios-separator mr-1">
-            <button on:click={()=>{
-              dispatch('dateClick');
-            }} class="text-sm font-bold px-2 uppercase">{value.format(dateFormats.tinyDate)}</button>
+            <button
+              on:click={() => {
+                dispatch('dateClick')
+              }}
+              class="text-sm font-bold px-2 uppercase">{value.format(dateFormats.tinyDate)}</button
+            >
           </div>
         {/if}
         {#if is24Hour}
@@ -178,7 +188,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
     @apply h-7;
     @apply text-sm;
     @apply font-semibold;
-    padding-left:4px; 
+    padding-left: 4px;
     padding-right: 4px;
     @apply bg-transparent;
     @apply appearance-none;

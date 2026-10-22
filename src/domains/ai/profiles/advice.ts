@@ -7,8 +7,8 @@ export const adviceProfile: Profile = {
   systemPrompt: (ctx: UserContext) => {
     const contextsList = ctx.contexts
       ? Object.entries(ctx.contexts)
-        .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count}x`)
-        .join(', ')
+          .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count}x`)
+          .join(', ')
       : ''
 
     return `
@@ -49,5 +49,5 @@ Prioritize by direct impact on goal achievement. Be specific: reference actual m
   parseResponse(raw: string): AdviceItem[] {
     const clean = raw.replace(/```json|```/g, '').trim()
     return JSON.parse(clean) as AdviceItem[]
-  }
+  },
 }

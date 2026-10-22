@@ -8,7 +8,7 @@
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import Button from '../../components/button/button.svelte'
   import List from '../../components/list/list.svelte'
-import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
+  import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
 
   import Spinner from '../../components/spinner/spinner.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
@@ -121,22 +121,23 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
     closeModal(id)
   }
 
-  const changeDate = (dir: 'forward'|'backward') => {
-    let wDate = dayjs(activeDate);
-    if(activeFocal === 'day') {
-      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1,'day').toDate() : wDate.subtract(1,'day').toDate()
-    } else if(activeFocal == 'week') {
-      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1,'week').toDate() : wDate.subtract(1,'week').toDate()
-    }  else if(activeFocal == 'month') {
-      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1,'month').toDate() : wDate.subtract(1,'month').toDate()
-    } 
+  const changeDate = (dir: 'forward' | 'backward') => {
+    let wDate = dayjs(activeDate)
+    if (activeFocal === 'day') {
+      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1, 'day').toDate() : wDate.subtract(1, 'day').toDate()
+    } else if (activeFocal == 'week') {
+      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1, 'week').toDate() : wDate.subtract(1, 'week').toDate()
+    } else if (activeFocal == 'month') {
+      $AroundThisTimeStore.date =
+        dir == 'forward' ? wDate.add(1, 'month').toDate() : wDate.subtract(1, 'month').toDate()
+    }
   }
 
-  const onNext = ()=>{
-    changeDate('forward');
+  const onNext = () => {
+    changeDate('forward')
   }
-  const onPrev = ()=>{
-    changeDate('backward');
+  const onPrev = () => {
+    changeDate('backward')
   }
 
   type FocalTypes = Array<{ id: ATTFocalUnit; label: string }>
@@ -205,7 +206,6 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
     </div>
   </header>
   <section class="trending px-1">
-
     {#if loading}
       <div class="w-full h-40 flex items-center justify-center">
         <Spinner size={42} />

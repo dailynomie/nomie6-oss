@@ -10,7 +10,14 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
-  import { closeWritingPromptModal, openWritingPrompt, StaticWritingPrompts, WritingPrompt, WritingPromptStore, type WritingPromptType } from './useWritingPrompts'
+  import {
+    closeWritingPromptModal,
+    openWritingPrompt,
+    StaticWritingPrompts,
+    WritingPrompt,
+    WritingPromptStore,
+    type WritingPromptType,
+  } from './useWritingPrompts'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import List from '../../components/list/list.svelte'
@@ -62,9 +69,9 @@
 
   const clicked = async (item) => {
     if (!editMode) {
-      closeWritingPromptModal();
-      openWritingPrompt(item);
-      if(onSelect) onSelect(item);
+      closeWritingPromptModal()
+      openWritingPrompt(item)
+      if (onSelect) onSelect(item)
     }
   }
 
@@ -145,7 +152,18 @@
           <h1 class="font-bold text-lg">Create a Writing Prompt</h1>
         </ListItem>
 
-        <Input type="select" listItem label="Time frame" bind:value={editing.time} options={[{ value: 'any', label: 'Anytime' }, { value: 'morning', label: 'Morning' }, { value: 'afternoon', label: 'Afternoon' }, { value: 'evening', label: 'Evening' }]} />
+        <Input
+          type="select"
+          listItem
+          label="Time frame"
+          bind:value={editing.time}
+          options={[
+            { value: 'any', label: 'Anytime' },
+            { value: 'morning', label: 'Morning' },
+            { value: 'afternoon', label: 'Afternoon' },
+            { value: 'evening', label: 'Evening' },
+          ]}
+        />
         <Divider left={16} />
         <Textarea
           class="bg-ios-card text-ios-label px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-ios-tint ring-opacity-20"

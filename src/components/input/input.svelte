@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte'
-import is from '../../utils/is/is';
+  import is from '../../utils/is/is'
   // iOS look (D-native): browser-native date, datetime and select controls are replaced by app-native ones
   import IosSelect from '../ios-select/ios-select.svelte'
   import IosDateField from '../ios-date/ios-date-field.svelte'
@@ -10,7 +10,59 @@ import is from '../../utils/is/is';
 
   const dispatch = createEventDispatcher()
 
-  let { label = null, placeholder = null, inputmode = undefined, value = $bindable(), type = 'text', help = null, className = '', id = '', style = '', inputStyle = '', inputClass = '', pattern = '', width = '', disabled = undefined, solo = undefined, listItem = undefined, compact = undefined, rows = 2, accept = 'png,jpeg,jpg,csv', name = undefined, autocomplete = undefined, autocorrect = undefined, autocapitalize = undefined, autofocus = undefined, options = [] } = $props<{ options?: Array<{ value: any; label: string }>; label?: any; placeholder?: any; inputmode?: any; value?: any; type?: string; help?: any; className?: string; id?: string; style?: string; inputStyle?: string; inputClass?: string; pattern?: string; width?: string; disabled?: any; solo?: any; listItem?: any; compact?: any; rows?: number; accept?: string; name?: any; autocomplete?: any; autocorrect?: any; autocapitalize?: any; autofocus?: any }>()
+  let {
+    label = null,
+    placeholder = null,
+    inputmode = undefined,
+    value = $bindable(),
+    type = 'text',
+    help = null,
+    className = '',
+    id = '',
+    style = '',
+    inputStyle = '',
+    inputClass = '',
+    pattern = '',
+    width = '',
+    disabled = undefined,
+    solo = undefined,
+    listItem = undefined,
+    compact = undefined,
+    rows = 2,
+    accept = 'png,jpeg,jpg,csv',
+    name = undefined,
+    autocomplete = undefined,
+    autocorrect = undefined,
+    autocapitalize = undefined,
+    autofocus = undefined,
+    options = [],
+  } = $props<{
+    options?: Array<{ value: any; label: string }>
+    label?: any
+    placeholder?: any
+    inputmode?: any
+    value?: any
+    type?: string
+    help?: any
+    className?: string
+    id?: string
+    style?: string
+    inputStyle?: string
+    inputClass?: string
+    pattern?: string
+    width?: string
+    disabled?: any
+    solo?: any
+    listItem?: any
+    compact?: any
+    rows?: number
+    accept?: string
+    name?: any
+    autocomplete?: any
+    autocorrect?: any
+    autocapitalize?: any
+    autofocus?: any
+  }>()
 
   let focused = $state(false)
   let _elInput = $state<any>(undefined)
@@ -40,7 +92,7 @@ import is from '../../utils/is/is';
   }
 
   let hasInput = $derived.by(() => {
-    if (value !== "" && (value === 0 || is.truthy(value))) {
+    if (value !== '' && (value === 0 || is.truthy(value))) {
       return true
     } else {
       return false
@@ -145,7 +197,12 @@ import is from '../../utils/is/is';
           on:blur={blur}
         />
       {:else if type == 'datetime-local'}
-        <IosDateTimeField bind:value {disabled} title={label || placeholder || 'Date and time'} onchange={() => dispatch('input', value)} />
+        <IosDateTimeField
+          bind:value
+          {disabled}
+          title={label || placeholder || 'Date and time'}
+          onchange={() => dispatch('input', value)}
+        />
       {:else if type == 'number'}
         <!-- svelte-ignore a11y-autofocus -->
         <input
@@ -167,7 +224,12 @@ import is from '../../utils/is/is';
           on:blur={blur}
         />
       {:else if type == 'date'}
-        <IosDateField bind:value {disabled} title={label || placeholder || 'Date'} onchange={() => dispatch('input', value)} />
+        <IosDateField
+          bind:value
+          {disabled}
+          title={label || placeholder || 'Date'}
+          onchange={() => dispatch('input', value)}
+        />
       {:else if type == 'select'}
         <IosSelect
           bind:value
@@ -267,7 +329,7 @@ import is from '../../utils/is/is';
     @apply w-full;
     @apply flex flex-col flex-grow flex-shrink;
     @apply mb-px;
-    
+
     border-radius: 10px;
   }
   /* iOS look: touch focus shows the caret, not a coloured box. Keyboard users still get a visible focus ring (tint). */
@@ -279,9 +341,8 @@ import is from '../../utils/is/is';
   }
 
   .n-input-container input:invalid {
-      border-color: red !important;
+    border-color: red !important;
   }
-
 
   .n-input-container .helper {
     font-size: 0.65em;
@@ -407,7 +468,6 @@ import is from '../../utils/is/is';
   .n-input-container .n-input-wrapper textarea,
   .n-input-container .n-input-wrapper input {
     border: none;
-
   }
   .n-input-container .n-input-wrapper .n-input {
     transition: all 0.2s ease-in-out;

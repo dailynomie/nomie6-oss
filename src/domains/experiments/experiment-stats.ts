@@ -133,7 +133,12 @@ export const effectLabel = (d: number): EffectLabel => {
  * Never returns NaN: a window without variation gives p = 1, d = 0 when nothing changed,
  * and p = 0 with an infinite d when it did.
  */
-export const compareWindows = (tag: string, direction: ExpectedDirection, b: Array<number>, e: Array<number>): OutcomeResult => {
+export const compareWindows = (
+  tag: string,
+  direction: ExpectedDirection,
+  b: Array<number>,
+  e: Array<number>
+): OutcomeResult => {
   const nB = b.length
   const nE = e.length
   const meanB = meanOf(b)
@@ -146,7 +151,8 @@ export const compareWindows = (tag: string, direction: ExpectedDirection, b: Arr
   const vB = (sdB * sdB) / nB
   const vE = (sdE * sdE) / nE
   const se = Math.sqrt(vB + vE)
-  const df = nB < 2 || nE < 2 ? Math.max(1, nB + nE - 2) : (vB + vE) ** 2 / ((vB * vB) / (nB - 1) + (vE * vE) / (nE - 1))
+  const df =
+    nB < 2 || nE < 2 ? Math.max(1, nB + nE - 2) : (vB + vE) ** 2 / ((vB * vB) / (nB - 1) + (vE * vE) / (nE - 1))
 
   const pooledSd = Math.sqrt(((nB - 1) * sdB * sdB + (nE - 1) * sdE * sdE) / Math.max(1, nB + nE - 2))
 
@@ -170,8 +176,7 @@ export const compareWindows = (tag: string, direction: ExpectedDirection, b: Arr
 
   const enough = nB >= MIN_DAYS_PER_WINDOW && nE >= MIN_DAYS_PER_WINDOW
   const verdict: Verdict = !enough ? 'not-enough-data' : p < 0.05 ? 'clear' : p < 0.2 ? 'hint' : 'no-clear-difference'
-  const matchesExpectation =
-    direction === 'either' || diff === 0 ? undefined : direction === 'up' ? diff > 0 : diff < 0
+  const matchesExpectation = direction === 'either' || diff === 0 ? undefined : direction === 'up' ? diff > 0 : diff < 0
 
   return {
     tag,

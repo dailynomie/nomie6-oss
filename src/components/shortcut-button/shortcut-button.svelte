@@ -10,13 +10,27 @@
 
   import { CheckmarkOutline, MoreVertical } from '../icon/nicons'
 
-  const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon = MoreVertical, oneTap, hoursUsed } = $props()
+  const {
+    title,
+    subtitle,
+    value,
+    color,
+    emoji,
+    avatar,
+    style,
+    id,
+    hideMore,
+    hideValue,
+    className,
+    compact,
+    moreIcon = MoreVertical,
+    oneTap,
+    hoursUsed,
+  } = $props()
   // a habit shows a thumb for its state; any other tracker shows its value
   // a habit that is done shows a green check in a soft circle (guide 5.2)
   const habitDone = $derived(id.includes('habit') && value >= 0.3)
-  const valueLabel = $derived(
-    id.includes('habit') ? (value < -0.5 ? '👎' : value < 0.3 ? '🤙' : '👍') : value
-  )
+  const valueLabel = $derived(id.includes('habit') ? (value < -0.5 ? '👎' : value < 0.3 ? '🤙' : '👍') : value)
 
   let clickSkip = $state(undefined)
 
@@ -31,7 +45,7 @@
   }
 </script>
 
-<div class="button-wrapper relative w-full flex-grow flex-shrink  {compact ? 'compact' : 'normal'}">
+<div class="button-wrapper relative w-full flex-grow flex-shrink {compact ? 'compact' : 'normal'}">
   {#if !hideMore}
     <button
       type="button"
@@ -83,10 +97,10 @@
     {#if value && !hideValue && !compact}
       <div class="tile-value {String(value).length > 4 ? 'long' : ''}">
         {#if habitDone}
-            <span class="habit-done"><IonIcon icon={CheckmarkOutline} size={16} /></span>
-          {:else}
-            <span class="value">{valueLabel}</span>
-          {/if}
+          <span class="habit-done"><IonIcon icon={CheckmarkOutline} size={16} /></span>
+        {:else}
+          <span class="value">{valueLabel}</span>
+        {/if}
       </div>
     {/if}
     <div class="title-value">
@@ -120,7 +134,7 @@
     background: var(--ios-card);
     @apply overflow-visible;
     @apply text-ios-label;
-    overflow:hidden;
+    overflow: hidden;
   }
   .shortcut-button.normal {
     height: 112px;

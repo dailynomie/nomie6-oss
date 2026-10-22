@@ -28,9 +28,7 @@
   let loading: boolean = $state(true)
   let showLoading: boolean = $state(true)
 
-
   let years: Array<Array<GoalScoreType>> = $state([])
-
 
   let totalMonths: number | undefined = $state(undefined)
   let totalSuccess: number | undefined = $state(undefined)
@@ -46,7 +44,6 @@
   })
 
   const generateYearsFromScores = () => {
-    
     let yearMap: any = {}
     scores
       .sort((a, b) => {
@@ -64,7 +61,7 @@
         yearMap[startOfYear] = yearMap[startOfYear] || []
         yearMap[startOfYear].push(score)
       })
-    
+
     return Object.keys(yearMap)
       .map((id) => {
         return yearMap[id]
@@ -75,7 +72,6 @@
   }
 
   const getPast = async () => {
-    
     showLoading = true
     const start = dayjs(startDate).subtract(2, 'year')
     const end = dayjs(startDate).endOf('day')
@@ -84,7 +80,6 @@
     let backFilled = usage.byDay.backfill(start.toDate(), end.toDate())
     scores = [...scores, ...goal.calculateScores(backFilled)]
 
-    
     totalMonths = scores.length
     totalSuccess = scores.filter((s) => s.success).length
 
@@ -126,7 +121,7 @@
 </script>
 
 {#if goal && totalMonths}
-  <div class="bg-ios-card px-4 pb-4  flex flex-col space-y-2">
+  <div class="bg-ios-card px-4 pb-4 flex flex-col space-y-2">
     <h1 class="text-xl font-bold text-ios-label leading-tight mt-4 pb-">
       {trackable.label}
       {getGoalComparisonSymbol(goal.comparison)}
@@ -134,9 +129,7 @@
     </h1>
     {#if scores}
       <p class="text-ios-label2 leading-snug pb-2">
-        Goal hit <strong class="text-ios-label"
-          >{math.round(math.percentage(totalMonths, totalSuccess))}%</strong
-        >
+        Goal hit <strong class="text-ios-label">{math.round(math.percentage(totalMonths, totalSuccess))}%</strong>
         <strong>{totalSuccess}</strong> out of {totalMonths} months.
         <br />
       </p>
@@ -171,65 +164,67 @@
           {item[0].date.format(dateFormats.monthYear)} → {item[item.length - 1].date.format(dateFormats.monthYear)}
         </h2>
         {#if item.length < 4}
-         <div class="goal-balls">
-          
-          {#each item as month, i}
-          {#if i < 1}
-          <button
-              on:click={() => openDateOptions(month.date.toDate())}
-              style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {month.success == true ? 'bg-ios-good' : ''} {month.failure == true
-                ? 'ios-goal-missed'
-                : ''}"
-            >
-              {month.date.format('MMM')}
-            </button>
-
-          {:else if item[i].date.format('MMM') != item[i-1].date.format('MMM')}
-          
-            <button
-              on:click={() => openDateOptions(month.date.toDate())}
-              style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {month.success == true ? 'bg-ios-good' : ''} {month.failure == true
-                ? 'ios-goal-missed'
-                : ''}"
-            >
-              {month.date.format('MMM')}
-            </button>
-            {/if}
-            
-          {/each}
-        </div>
+          <div class="goal-balls">
+            {#each item as month, i}
+              {#if i < 1}
+                <button
+                  on:click={() => openDateOptions(month.date.toDate())}
+                  style="transform: scale({getPad(month.percent)})"
+                  class="goal-ball-month transition-all {month.success == true ? 'bg-ios-good' : ''} {month.failure ==
+                  true
+                    ? 'ios-goal-missed'
+                    : ''}"
+                >
+                  {month.date.format('MMM')}
+                </button>
+              {:else if item[i].date.format('MMM') != item[i - 1].date.format('MMM')}
+                <button
+                  on:click={() => openDateOptions(month.date.toDate())}
+                  style="transform: scale({getPad(month.percent)})"
+                  class="goal-ball-month transition-all {month.success == true ? 'bg-ios-good' : ''} {month.failure ==
+                  true
+                    ? 'ios-goal-missed'
+                    : ''}"
+                >
+                  {month.date.format('MMM')}
+                </button>
+              {/if}
+            {/each}
+          </div>
         {:else}
-        <div class="goal-balls">
-          
-          {#each item as month, i}
-          {#if i < 1}
-          <button
-              on:click={() => openDateOptions(month.date.toDate())}
-              style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(month.og) && month.failure == true
-              ? 'ios-goal-missed'
-              : ''} {Number.isNaN(month.og) ? 'bg-ios-fill goal-nodata' : ''}"
-          >
-              {month.date.format('MMM')}
-            </button>
-
-          {:else if item[i].date.format('MMM') != item[i-1].date.format('MMM')}
-          
-            <button
-              on:click={() => openDateOptions(month.date.toDate())}
-              style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(month.og) && month.failure == true
-                ? 'ios-goal-missed'
-                : ''} {Number.isNaN(month.og) ? 'bg-ios-fill goal-nodata' : ''}"
-            >
-              {month.date.format('MMM')}
-            </button>
-           
-            {/if}
-          { /each}
-        </div>
+          <div class="goal-balls">
+            {#each item as month, i}
+              {#if i < 1}
+                <button
+                  on:click={() => openDateOptions(month.date.toDate())}
+                  style="transform: scale({getPad(month.percent)})"
+                  class="goal-ball-month transition-all {!Number.isNaN(month.og) && month.success == true
+                    ? 'bg-ios-good'
+                    : ''} {!Number.isNaN(month.og) && month.failure == true ? 'ios-goal-missed' : ''} {Number.isNaN(
+                    month.og
+                  )
+                    ? 'bg-ios-fill goal-nodata'
+                    : ''}"
+                >
+                  {month.date.format('MMM')}
+                </button>
+              {:else if item[i].date.format('MMM') != item[i - 1].date.format('MMM')}
+                <button
+                  on:click={() => openDateOptions(month.date.toDate())}
+                  style="transform: scale({getPad(month.percent)})"
+                  class="goal-ball-month transition-all {!Number.isNaN(month.og) && month.success == true
+                    ? 'bg-ios-good'
+                    : ''} {!Number.isNaN(month.og) && month.failure == true ? 'ios-goal-missed' : ''} {Number.isNaN(
+                    month.og
+                  )
+                    ? 'bg-ios-fill goal-nodata'
+                    : ''}"
+                >
+                  {month.date.format('MMM')}
+                </button>
+              {/if}
+            {/each}
+          </div>
         {/if}
       </div>
     {/if}
@@ -276,8 +271,7 @@
     @apply flex items-center justify-between;
     @apply leading-tight;
     @apply w-full;
-    @apply max-w-md;  
-
+    @apply max-w-md;
   }
   .goal-ball-month {
     @apply rounded-full;
@@ -288,11 +282,10 @@
     @apply flex-grow-0 flex-shrink-0;
     color: var(--ios-on-save);
     @apply transition-all duration-100 ease-in-out;
-    width:7%;
-    font-size: .500rem;
+    width: 7%;
+    font-size: 0.5rem;
     flex-shrink: 1;
     flex-grow: 1;
-
   }
   .day-score-button {
     @apply relative;
@@ -316,4 +309,3 @@
     color: var(--ios-label2) !important;
   }
 </style>
-

@@ -11,10 +11,15 @@
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
   import { ChevronBackCircleOutline, ChevronForwardCircleOutline } from '../../../../components/icon/nicons'
   import { getDateFormats } from '../../../preferences/Preferences'
-import { onLogNoteChange } from '../../../ledger/LedgerStore';
-import type NLog from '../../../nomie-log/nomie-log';
+  import { onLogNoteChange } from '../../../ledger/LedgerStore'
+  import type NLog from '../../../nomie-log/nomie-log'
 
-  const { widget = $bindable(), logs = $bindable([]), trackable = $bindable(undefined), usage = $bindable(undefined) } = $props()
+  const {
+    widget = $bindable(),
+    logs = $bindable([]),
+    trackable = $bindable(undefined),
+    usage = $bindable(undefined),
+  } = $props()
   // export let trackable: Trackable
   // export let usage: TrackableUsage
 
@@ -24,7 +29,7 @@ import type NLog from '../../../nomie-log/nomie-log';
   let todoLogs = $state<Array<NLog>>([])
 
   $effect(() => {
-    todoLogs = logs.filter((l)=>{
+    todoLogs = logs.filter((l) => {
       return l.hasTodo
     })
   })
@@ -65,14 +70,11 @@ import type NLog from '../../../nomie-log/nomie-log';
       </Button>
     {/if}
     {#if activeIndex > -1}
-      <div
-        class="note-wrapper pb-4 px-2 lg:px-4 pt-2 flex flex-col h-full w-full max-h-full "
-        style="font-size:12px;"
-      >
+      <div class="note-wrapper pb-4 px-2 lg:px-4 pt-2 flex flex-col h-full w-full max-h-full" style="font-size:12px;">
         <div class="text-xs overflow-y-auto max-h-36">
           <NoteTextualizer
-            on:noteChange={(evt)=>{
-              onLogNoteChange(evt.detail, todoLogs[activeIndex]);
+            on:noteChange={(evt) => {
+              onLogNoteChange(evt.detail, todoLogs[activeIndex])
             }}
             className="{widget.size === 'sm' ? 'text-xs' : 'text-sm'} leading-1"
             note={todoLogs[activeIndex].note}

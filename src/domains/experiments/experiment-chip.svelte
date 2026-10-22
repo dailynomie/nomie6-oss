@@ -3,7 +3,11 @@
 <script lang="ts">
   // running: blue, positive: green (clear change as hoped), possible: amber (a hint), neutral: grey
   type ChipTone = 'running' | 'positive' | 'possible' | 'neutral'
-  const { tone = 'neutral', label = '', title = undefined }: { tone?: ChipTone; label: string; title?: string } = $props()
+  const {
+    tone = 'neutral',
+    label = '',
+    title = undefined,
+  }: { tone?: ChipTone; label: string; title?: string } = $props()
 
   const classes: Record<ChipTone, string> = {
     running: 'chip-running',

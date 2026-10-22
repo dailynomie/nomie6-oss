@@ -24,10 +24,9 @@
   }
 
   const remove = async () => {
-   
-   await TemplateStore.remove(template)
-   showToast({ message: 'Template removed' })
- }
+    await TemplateStore.remove(template)
+    showToast({ message: 'Template removed' })
+  }
 
   let { id, template = $bindable() } = $props()
 
@@ -47,6 +46,6 @@
     <Button slot="right" primary clear on:click={() => save()} disabled={!isValidName}>Save</Button>
   </ToolbarGrid>
   <main class="lg:p-6 p-4">
-    <TemplateEditor bind:template onNameChange={() => (templateVersion++)} />
+    <TemplateEditor bind:template onNameChange={() => templateVersion++} />
   </main>
 </BackdropModal>

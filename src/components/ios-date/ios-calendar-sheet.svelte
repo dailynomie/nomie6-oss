@@ -5,7 +5,11 @@
   import dayjs from 'dayjs'
   import { closeModal } from '../backdrop/BackdropStore2'
 
-  const { value = '', onpick = undefined, closeId = '' } = $props<{
+  const {
+    value = '',
+    onpick = undefined,
+    closeId = '',
+  } = $props<{
     value?: string
     onpick?: (value: string) => void
     closeId?: string
@@ -36,12 +40,35 @@
 
 <div class="ios-cal">
   <div class="ios-cal-head">
-    <button type="button" class="ios-cal-nav" aria-label="Previous month" onclick={() => (shown = shown.subtract(1, 'month'))}>
-      <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M8 2L2 8l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    <button
+      type="button"
+      class="ios-cal-nav"
+      aria-label="Previous month"
+      onclick={() => (shown = shown.subtract(1, 'month'))}
+    >
+      <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"
+        ><path
+          d="M8 2L2 8l6 6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        /></svg
+      >
     </button>
     <span class="ios-cal-title">{shown.format('MMMM YYYY')}</span>
     <button type="button" class="ios-cal-nav" aria-label="Next month" onclick={() => (shown = shown.add(1, 'month'))}>
-      <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"
+        ><path
+          d="M2 2l6 6-6 6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        /></svg
+      >
     </button>
   </div>
   <div class="ios-cal-grid ios-cal-weekdays">

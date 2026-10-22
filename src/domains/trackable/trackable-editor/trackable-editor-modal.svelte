@@ -49,7 +49,7 @@
   import CopyOutline from '../../../n-icons/CopyOutline.svelte'
   import { openTrackableEditor } from './TrackableEditorStore'
 
-  const { trackable, id, saveByPass } = $props<{ trackable: Trackable, id: string, saveByPass: Function }>()
+  const { trackable, id, saveByPass } = $props<{ trackable: Trackable; id: string; saveByPass: Function }>()
 
   let workingTrackable: Trackable | undefined = $state(undefined)
   let ogTag: string | undefined = $state(undefined)
@@ -66,7 +66,9 @@
   $effect(() => {
     if (trackable && !workingTrackable) {
       workingTrackable = new Trackable(trackable)
-      workingTag = (workingTrackable.tag && removePrefix(workingTrackable.tag).replace(/^\^/, '')) || strToTagSafe(workingTrackable.label)
+      workingTag =
+        (workingTrackable.tag && removePrefix(workingTrackable.tag).replace(/^\^/, '')) ||
+        strToTagSafe(workingTrackable.label)
       ogTag = workingTag
 
       // Set editing label based on type
@@ -100,18 +102,21 @@
     // Don't constantly sync during editing, as that prevents deleting to empty string
     if (workingTrackable && !initializedLabel && editingLabel === '') {
       const currentLabel =
-        workingTrackable.type === 'pointer' ? workingTrackable.ptr?.label :
-        workingTrackable.type === 'context' ? workingTrackable.ctx?.label :
-        workingTrackable.type === 'person' ? workingTrackable.person?.displayName :
-        workingTrackable.type === 'tracker' ? workingTrackable.tracker?.label :
-        workingTrackable.label
+        workingTrackable.type === 'pointer'
+          ? workingTrackable.ptr?.label
+          : workingTrackable.type === 'context'
+            ? workingTrackable.ctx?.label
+            : workingTrackable.type === 'person'
+              ? workingTrackable.person?.displayName
+              : workingTrackable.type === 'tracker'
+                ? workingTrackable.tracker?.label
+                : workingTrackable.label
 
       if (currentLabel && currentLabel !== '') {
         editingLabel = currentLabel
       }
     }
   })
-
 
   let canSave = $derived.by(() => {
     if (!workingTrackable) return false
@@ -154,7 +159,6 @@
    * Save the Working Trackable
    */
   const save = async () => {
-
     if (!workingTrackable.id) workingTrackable.id = `${workingTrackable.prefix}${workingTag}`
     if (!ogTag) {
       workingTrackable.tag = workingTag
@@ -268,10 +272,10 @@
 
 <BackdropModal mainClass="bg-ios-bg">
   <ToolbarGrid slot="header" className="bg-ios-card stiff">
-    <Button slot="left" id="cancel-button" clear primary on:click={handleCancel}>{Lang.t('general.cancel', 'Cancel')}</Button>
-    <h2
-      class="font-bold  text-sm flex-grow-0 line-clamp-1 text-ios-label capitalize flex items-center space-x-2"
+    <Button slot="left" id="cancel-button" clear primary on:click={handleCancel}
+      >{Lang.t('general.cancel', 'Cancel')}</Button
     >
+    <h2 class="font-bold text-sm flex-grow-0 line-clamp-1 text-ios-label capitalize flex items-center space-x-2">
       {#if !saving && workingTrackable}
         {workingTrackable.label} Editor
       {:else if saving}
@@ -286,7 +290,7 @@
   <!-- Trackable Visuals Collector
   Avatar, Emoji, Color, Label  -->
   {#if workingTrackable}
-    <section class="label-emoji-color filler overflow-y-auto  px-4 py-4 bg-ios-bg mb-4">
+    <section class="label-emoji-color filler overflow-y-auto px-4 py-4 bg-ios-bg mb-4">
       <div class="visuals-editor flex items-center space-x-4">
         <button
           class="bg-ios-tint w-20 h-20 stiff"
@@ -376,7 +380,8 @@
                 class="flex items-center focus:outline-none focus:ring ring-ios-tint rounded-md"
               >
                 {#if ogTag && ogTag.length}
-                  <span class="opacity-50 ">Tag:</span> <span>{truncateText(`${workingTrackable.prefix}${ogTag}`, $Device.size == 'lg' ? 40 : 20)}</span>
+                  <span class="opacity-50">Tag:</span>
+                  <span>{truncateText(`${workingTrackable.prefix}${ogTag}`, $Device.size == 'lg' ? 40 : 20)}</span>
                   <IonIcon icon={LockClosedSolid} size={12} />
                 {:else if workingTag}
                   <span class="opacity-50">Tag:</span>
@@ -392,7 +397,7 @@
   {/if}
 
   {#if workingTrackable}
-    <section class="px-2 h-50vh ">
+    <section class="px-2 h-50vh">
       {#if workingTrackable.type == 'context'}
         <TrackableEditorContext bind:trackable={workingTrackable} />
       {/if}
@@ -411,47 +416,47 @@
   {#if workingTrackable}
     <!-- iOS look (Phase 7 bug fix): an unsaved tracker has no share, duplicate or delete actions -->
     {#if isSaved}
-    <!-- iOS look: the actions are an inset grouped list, like the other lists in the editor -->
-    <List solo className="mt-4 mb-10">
-      <ListItem
-        bottomLine={16}
-        clickable
-        on:click={() => {
-          downloadTrackables([workingTrackable], `${AppVersion}`)
-        }}
-      >
-        Share Tracker
-        <IonIcon slot="right" icon={DownloadOutline} className="text-primary" />
-      </ListItem>
-
-      {#if $Prefs.betaFeatures}
-        <ListItem bottomLine={16} on:click={() => generateCode(workingTrackable)}>
-          <span> Generate QR Code or NFC </span>
-          <IonIcon slot="right" icon={ScanOutline} className="text-primary" />
-        </ListItem>
-      {/if}
-      {#if workingTrackable.type == 'tracker'}
+      <!-- iOS look: the actions are an inset grouped list, like the other lists in the editor -->
+      <List solo className="mt-4 mb-10">
         <ListItem
           bottomLine={16}
+          clickable
           on:click={() => {
-            duplicateTrackable()
+            downloadTrackables([workingTrackable], `${AppVersion}`)
           }}
         >
-          Duplicate Tracker...
-          <IonIcon slot="right" icon={CopyOutline} className="text-ios-tint" />
+          Share Tracker
+          <IonIcon slot="right" icon={DownloadOutline} className="text-primary" />
         </ListItem>
-      {/if}
 
-      <ListItem
-        on:click={async () => {
-          await removeTrackableFromNomie(workingTrackable)
-          close()
-        }}
-      >
-        <span class="text-ios-danger">Delete Tracker</span>
-        <IonIcon slot="right" icon={TrashOutline} className="text-ios-danger" />
-      </ListItem>
-    </List>
+        {#if $Prefs.betaFeatures}
+          <ListItem bottomLine={16} on:click={() => generateCode(workingTrackable)}>
+            <span> Generate QR Code or NFC </span>
+            <IonIcon slot="right" icon={ScanOutline} className="text-primary" />
+          </ListItem>
+        {/if}
+        {#if workingTrackable.type == 'tracker'}
+          <ListItem
+            bottomLine={16}
+            on:click={() => {
+              duplicateTrackable()
+            }}
+          >
+            Duplicate Tracker...
+            <IonIcon slot="right" icon={CopyOutline} className="text-ios-tint" />
+          </ListItem>
+        {/if}
+
+        <ListItem
+          on:click={async () => {
+            await removeTrackableFromNomie(workingTrackable)
+            close()
+          }}
+        >
+          <span class="text-ios-danger">Delete Tracker</span>
+          <IonIcon slot="right" icon={TrashOutline} className="text-ios-danger" />
+        </ListItem>
+      </List>
     {/if}
   {/if}
 </BackdropModal>

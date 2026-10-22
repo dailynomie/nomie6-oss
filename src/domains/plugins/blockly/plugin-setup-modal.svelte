@@ -29,24 +29,11 @@
       {plugin.name}
     </h2>
 
-    <p class="confirmation-text">
-      Enable this plugin?
-    </p>
+    <p class="confirmation-text">Enable this plugin?</p>
 
     <div class="button-group">
-      <Button
-        outline
-        primary
-        on:click={handleCancel}
-      >
-        Cancel
-      </Button>
-      <Button
-        primary
-        on:click={handleConfirm}
-      >
-        Enable
-      </Button>
+      <Button outline primary on:click={handleCancel}>Cancel</Button>
+      <Button primary on:click={handleConfirm}>Enable</Button>
     </div>
   </div>
 </BackdropModal>

@@ -12,9 +12,20 @@
   const dispatch = createEventDispatcher()
   // Props
 
-
-
-  const { padding, title, allowClose, fullscreen, flexBody, show, className, type, bodyClass, closeOnBackgroundTap, ariaLabel, level } = $props()
+  const {
+    padding,
+    title,
+    allowClose,
+    fullscreen,
+    flexBody,
+    show,
+    className,
+    type,
+    bodyClass,
+    closeOnBackgroundTap,
+    ariaLabel,
+    level,
+  } = $props()
 
   const has_header = !!$$slots.header
   const has_raw_header = !!$$slots['raw-header']

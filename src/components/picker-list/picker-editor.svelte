@@ -17,7 +17,7 @@
   let picks = $state([])
 
   function textListChanged(evt) {
-    picks = (evt.detail || '').split('\n').filter(item => item.trim())
+    picks = (evt.detail || '').split('\n').filter((item) => item.trim())
     list = picks
     dispatch('change', picks)
   }

@@ -80,7 +80,7 @@
                 useLocation: $Prefs.alwaysLocate,
                 weekStarts: $Prefs.weekStarts,
                 theme: actualTheme,
-                language: $Prefs.language
+                language: $Prefs.language,
               },
             },
           },
@@ -107,7 +107,7 @@
   on:load={(evt) => {
     broadcastReadystate()
   }}
-  class="h-full w-full "
+  class="h-full w-full"
   title={plugin.name}
   src="{plugin.urlWithParams}{widgetindexparam}"
   id="plugin-{lid}-{plugin.id}"

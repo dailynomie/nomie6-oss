@@ -25,7 +25,6 @@
 
   // Props
 
-
   const { value, tracker, manual } = $props()
 </script>
 

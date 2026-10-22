@@ -43,7 +43,11 @@
     context: false,
   }
 
-  let { filters = $bindable(baseFilters), daysToLoad = 30, startingDate = $bindable(new Date()) } = $props<{ filters?: TimelineFilterProps, daysToLoad?: number, startingDate?: Date }>()
+  let {
+    filters = $bindable(baseFilters),
+    daysToLoad = 30,
+    startingDate = $bindable(new Date()),
+  } = $props<{ filters?: TimelineFilterProps; daysToLoad?: number; startingDate?: Date }>()
 
   const maxEmptyCalls = 15 // Number of calls that come back empty before we stop looking
 
@@ -88,7 +92,6 @@
         start: lastDate,
       }
       if (filters.search) {
-
         query.search = filters.search
         query.fuzzy = true
       }
@@ -113,7 +116,6 @@
       loading = false
     }
   }
-
 
   /**
    * Get Logs
@@ -234,7 +236,6 @@
     </Container>
   {/if} -->
 {#if mounted}
-
   {#if logs.length}
     <TimelineView
       {logs}
@@ -261,16 +262,16 @@
     </Empty>
   {/if}
 
-
-  
   {#if atEnd && lastDate.toDate() > firstKnownDate.toDate()}
-  <div class="px-4 py-2 absolute z-40 bottom-10 left-10 right-10 flex items-center justify-center">
-    <Button size="sm" className="bg-ios-tint text-ios-ontint rounded-full"
-      on:click={() => {
-        emptyCalls = 0
-        loadMore()
-      }}>Load futher back...</Button
-    >
-  </div>
+    <div class="px-4 py-2 absolute z-40 bottom-10 left-10 right-10 flex items-center justify-center">
+      <Button
+        size="sm"
+        className="bg-ios-tint text-ios-ontint rounded-full"
+        on:click={() => {
+          emptyCalls = 0
+          loadMore()
+        }}>Load futher back...</Button
+      >
+    </div>
   {/if}
 {/if}

@@ -43,8 +43,6 @@ const searchForContext = async () => {
   return array_utils.unique(contexts)
 }
 
-
-
 export const ContextStore = createKVStore(NPaths.storage.context(), {
   key: 'tag',
   label: 'Context',

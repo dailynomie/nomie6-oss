@@ -6,7 +6,6 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { CloseOutline, SearchIcon } from '../icon/nicons'
 
-
   let searchField
 
   onMount(() => {

@@ -44,7 +44,7 @@
       target.value = '' // Reset file input
     } catch (error) {
       console.error('Failed to upload template:', error)
-      Interact.alert('Upload failed', 'Please ensure it\'s a valid template JSON file.')
+      Interact.alert('Upload failed', "Please ensure it's a valid template JSON file.")
     }
   }
 
@@ -107,13 +107,7 @@
       {/each}
     </List>
 
-    <input
-      bind:this={fileInput}
-      type="file"
-      accept=".json"
-      style="display: none"
-      on:change={handleFileUpload}
-    />
+    <input bind:this={fileInput} type="file" accept=".json" style="display: none" on:change={handleFileUpload} />
   </div>
 
   <!-- <div class="flex items-center justify-center pt-6">

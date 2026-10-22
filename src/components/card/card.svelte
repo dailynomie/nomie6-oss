@@ -4,7 +4,6 @@
   import Toolbar from '../toolbar/toolbar.svelte'
   import Text from '../text/text.svelte'
 
-
   const { className, style, title, pad, compact, shadow, bodyClass } = $props()
 </script>
 

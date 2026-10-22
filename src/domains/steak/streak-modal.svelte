@@ -14,11 +14,11 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import ListItemSingleTrackable from '../../components/list-item-log/list-item-single-trackable.svelte'
   import { openDateOptionPopMenu } from '../../components/pop-menu/usePopmenu'
-import Spinner from '../../components/spinner/spinner.svelte'
+  import Spinner from '../../components/spinner/spinner.svelte'
 
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-import { wait } from '../../utils/tick/tick';
+  import { wait } from '../../utils/tick/tick'
   import { onMount } from 'svelte'
   import Calendar3 from '../calendar-view/calendar3.svelte'
 
@@ -32,7 +32,7 @@ import { wait } from '../../utils/tick/tick';
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
   import { UsageStore } from '../usage/UsageStore'
-import { streakSummary, type StreakSummaryResults } from './streak-helper';
+  import { streakSummary, type StreakSummaryResults } from './streak-helper'
 
   let { trackable, date = $bindable(), id } = $props()
 
@@ -68,7 +68,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
   let rawUsage = $state<TrackableUsage>(undefined)
   let loading = $state(false)
   const loadUsage = async () => {
-    loading = true;
+    loading = true
     rawUsage = await queryToTrackableUsage(
       trackable,
       {
@@ -135,17 +135,14 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
         loading={false}
         date={_startDate}
         bind:trackableUsage={rawUsage}
-        on:input={(evt) => {
-          
-        }}
+        on:input={(evt) => {}}
         on:dateChange={(evt) => {
-          date = new Date(evt.detail)          
+          date = new Date(evt.detail)
         }}
       />
-     
     {/if}
     {#if streak}
-      <section class="flex w-full  py-2">
+      <section class="flex w-full py-2">
         <div class="rounded-full flex space-x-4 items-center mx-auto w-auto">
           <div class="leading-tight text-center flex items-center space-x-2 text-xs text-description">
             <div class="">Current</div>
@@ -162,7 +159,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
 
   <VirtualList bind:end={listEndIndex} bind:start={listStartIndex} items={values} let:item>
     <div
-      class="px-4 flex bg-ios-card justify-items-stretch  items-center {isNaN(item.value)
+      class="px-4 flex bg-ios-card justify-items-stretch items-center {isNaN(item.value)
         ? 'no-activity'
         : 'has-activity'}"
       style="--trackable-color:{trackable.color}"
@@ -173,7 +170,7 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
         {!isNaN(values[item.index + 1]?.value) ? 'next-sib-active' : 'next-sib-inactive'}"
       />
       {#if isNaN(item.value)}
-        <div class="streak-item no-activity relative w-full  text-ios-label2 font-semibold ">
+        <div class="streak-item no-activity relative w-full text-ios-label2 font-semibold">
           {item.date.format(dateFormats.mmm_d_yyyy)}
         </div>
       {:else}
@@ -213,16 +210,16 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
           log={trackable.type === 'person' && item.logs && item.logs.length
             ? new NLog({ note: item.logs[0].note })
             : item.logs.length == 1
-            ? new NLog(item.logs[0])
-            : new NLog({ note: `${trackable.tag}(${item.value})`, end: item.date })}
+              ? new NLog(item.logs[0])
+              : new NLog({ note: `${trackable.tag}(${item.value})`, end: item.date })}
         />
       {/if}
     </div>
   </VirtualList>
   {#if loading}
-  <div class="absolute bottom-4 right-4 z-50">
-    <Spinner size={20} />
-  </div>
+    <div class="absolute bottom-4 right-4 z-50">
+      <Spinner size={20} />
+    </div>
   {/if}
 </BackdropModal>
 

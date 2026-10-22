@@ -1,44 +1,44 @@
 class Remote {
-  url: any;
-  syncEnabled: boolean;
-  username: any;
-  password: any;
-  dbPrefix: any;
-  database: any;
-  _dirty: boolean;
+  url: any
+  syncEnabled: boolean
+  username: any
+  password: any
+  dbPrefix: any
+  database: any
+  _dirty: boolean
   constructor(starter) {
-    starter = starter || {};
-    this.url = starter.url ? new URL(starter.url) : null;
+    starter = starter || {}
+    this.url = starter.url ? new URL(starter.url) : null
     if (starter.host) {
-      this.url = new URL(starter.host);
+      this.url = new URL(starter.host)
     }
     if (starter.valid) {
-      this.syncEnabled = true;
+      this.syncEnabled = true
     }
-    this.username = starter.username || null;
-    this.password = starter.password || null;
-    this.dbPrefix = starter.dbPrefix || "";
-    this.database = starter.database || "nomie";
-    this.syncEnabled = starter.syncEnabled || false;
+    this.username = starter.username || null
+    this.password = starter.password || null
+    this.dbPrefix = starter.dbPrefix || ''
+    this.database = starter.database || 'nomie'
+    this.syncEnabled = starter.syncEnabled || false
   }
   setURL(url) {
     try {
-      this.url = new URL(url);
-      this._dirty = false;
+      this.url = new URL(url)
+      this._dirty = false
     } catch (e) {
-      console.error("Set URL error", e.message);
+      console.error('Set URL error', e.message)
     }
-    return this;
+    return this
   }
   isValid() {
-    return this.url;
+    return this.url
   }
   getURL() {
-    this.url;
+    this.url
   }
   auth() {
-    return btoa(`${this.username}:${this.password}`);
+    return btoa(`${this.username}:${this.password}`)
   }
 }
 
-export default Remote;
+export default Remote

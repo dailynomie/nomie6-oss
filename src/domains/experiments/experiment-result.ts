@@ -1,5 +1,12 @@
 import type { ExperimentResultSnapshot, ExperimentType } from './experiment-class'
-import { baselineDaysBefore, daysFrom, outcomeWindows, summarizeAdherence, type Adherence, type DailyValues } from './experiment-data'
+import {
+  baselineDaysBefore,
+  daysFrom,
+  outcomeWindows,
+  summarizeAdherence,
+  type Adherence,
+  type DailyValues,
+} from './experiment-data'
 import { compareWindows, type OutcomeResult } from './experiment-stats'
 
 export const CAVEAT =

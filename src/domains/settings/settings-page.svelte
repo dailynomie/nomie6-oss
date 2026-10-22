@@ -2,7 +2,16 @@
 
 <script lang="ts">
   import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
-  import { HelpCircleOutline, CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline, PulseOutline, CubeOutline } from '../../components/icon/nicons'
+  import {
+    HelpCircleOutline,
+    CopyOutline,
+    DocumentTextOutline,
+    ExtensionPuzzleOutline,
+    LocationOutline,
+    PricetagOutline,
+    PulseOutline,
+    CubeOutline,
+  } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
   import { navigate } from '../../vendor/svelte-navigator'
 
@@ -64,7 +73,7 @@
   import { openPointersModal } from '../pointers/pointer-store'
   import PluginsMoreMenu from '../plugins/plugins-more-menu.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import ChevronUpOutline from '../../n-icons/ChevronUpOutline.svelte';
+  import ChevronUpOutline from '../../n-icons/ChevronUpOutline.svelte'
 
   import ChevronDownOutline from '../../n-icons/ChevronDownOutline.svelte'
   import { openLocationModal } from '../locations/LocationStore'
@@ -83,8 +92,11 @@
   }
 
   const toggleshowplugins = () => {
-    if (showplugins) {showplugins = false}
-    else {showplugins = true}
+    if (showplugins) {
+      showplugins = false
+    } else {
+      showplugins = true
+    }
   }
 
   let methods = {
@@ -146,7 +158,11 @@
 
         <!-- <Logo size={22} /> -->
 
-        <span slot="left" title="Daily Nomie 7" class="rounded-full bg-ios-tint text-ios-ontint text-xs font-bold px-2 py-0.5 leading-none">v7</span>
+        <span
+          slot="left"
+          title="Daily Nomie 7"
+          class="rounded-full bg-ios-tint text-ios-ontint text-xs font-bold px-2 py-0.5 leading-none">v7</span
+        >
 
         <div slot="right">
           <!-- {#if !hasChatInstalled} -->
@@ -167,7 +183,7 @@
     </Container>
   </div>
 
-  <div slot="content" class="pt-2 z-10 relative  lg:px-4">
+  <div slot="content" class="pt-2 z-10 relative lg:px-4">
     <Container>
       {#if $Prefs}
         <div class="page page-settings">
@@ -205,59 +221,97 @@
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openLocationModal()} title="Locations">
-                <span slot="left"><IconSquare color="#5A9CF0"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
+                <span slot="left"
+                  ><IconSquare color="#5A9CF0"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span
+                >
               </ListItem>
             </List>
-            
+
             {#if $FeatureVisible('pointers')}
-            <List solo className="mt-4">
-              <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
-                <span slot="left" class="adv-corner"><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><FeatureBadge feature="pointers" /></span>
-              </ListItem>
+              <List solo className="mt-4">
+                <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
+                  <span slot="left" class="adv-corner"
+                    ><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><FeatureBadge
+                      feature="pointers"
+                    /></span
+                  >
+                </ListItem>
               </List>
             {/if}
 
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">
-                <span slot="left"><IconSquare color="#5DAE62"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
+                <span slot="left"
+                  ><IconSquare color="#5DAE62"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span
+                >
               </ListItem>
             </List>
 
             {#if $FeatureVisible('uoms')}
-            <List solo className="mt-4">
-              <ListItem detail bottomLine={57} on:click={() => navigate('/uoms')} title="Units of Measure" description="What a tracker can count in">
-                <span slot="left" class="adv-corner"><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare><FeatureBadge feature="uoms" /></span>
-              </ListItem>
-            </List>
+              <List solo className="mt-4">
+                <ListItem
+                  detail
+                  bottomLine={57}
+                  on:click={() => navigate('/uoms')}
+                  title="Units of Measure"
+                  description="What a tracker can count in"
+                >
+                  <span slot="left" class="adv-corner"
+                    ><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare><FeatureBadge
+                      feature="uoms"
+                    /></span
+                  >
+                </ListItem>
+              </List>
             {/if}
 
             <!-- iOS look (guide 5.11): the Experiments row, with its running count and a chevron -->
             <List solo className="mt-4">
-              <ListItem detail bottomLine={57} on:click={() => navigate('/experiments')} title="Experiments" description="{$ExperimentStore.filter((e: any) => e.status === 'running').length} running">
-                <span slot="left"><IconSquare color="#1F78D1"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span>
+              <ListItem
+                detail
+                bottomLine={57}
+                on:click={() => navigate('/experiments')}
+                title="Experiments"
+                description="{$ExperimentStore.filter((e: any) => e.status === 'running').length} running"
+              >
+                <span slot="left"
+                  ><IconSquare color="#1F78D1"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span
+                >
               </ListItem>
             </List>
 
             <!-- Plugins are a group of their own, with the same spacing as the other groups -->
             {#if $FeatureVisible('plugins')}
-            <List solo className="mt-4">
-              <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left" class="adv-corner"><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><FeatureBadge feature="plugins" /></span>
-              </ListItem>
-              <ListItem clickable bottomLine={showplugins ? 57 : undefined} title="Show Plugins" description="Click to show or hide the installed Plugins" on:click={toggleshowplugins}>
-                <span slot="left" class="adv-corner"><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><FeatureBadge feature="plugins" /></span>
-                <div slot="right">
-                  {#if showplugins}
-                    <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
-                  {:else}
-                  <span><IonIcon icon={ChevronDownOutline} size={16} /></span>
-                  {/if}
-                </div>
-              </ListItem>
-              {#if showplugins}
-              <PluginsMoreMenu />
-              {/if}
-            </List>
+              <List solo className="mt-4">
+                <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
+                  <span slot="left" class="adv-corner"
+                    ><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
+                    ><FeatureBadge feature="plugins" /></span
+                  >
+                </ListItem>
+                <ListItem
+                  clickable
+                  bottomLine={showplugins ? 57 : undefined}
+                  title="Show Plugins"
+                  description="Click to show or hide the installed Plugins"
+                  on:click={toggleshowplugins}
+                >
+                  <span slot="left" class="adv-corner"
+                    ><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
+                    ><FeatureBadge feature="plugins" /></span
+                  >
+                  <div slot="right">
+                    {#if showplugins}
+                      <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
+                    {:else}
+                      <span><IonIcon icon={ChevronDownOutline} size={16} /></span>
+                    {/if}
+                  </div>
+                </ListItem>
+                {#if showplugins}
+                  <PluginsMoreMenu />
+                {/if}
+              </List>
             {/if}
 
             <!-- <List solo className="mt-4">

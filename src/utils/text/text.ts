@@ -3,10 +3,10 @@ import camelCase from 'lodash/camelCase'
 
 /**
  * Truncate a String
- * @param str 
- * @param len 
- * @param showEnd 
- * @returns string 
+ * @param str
+ * @param len
+ * @param showEnd
+ * @returns string
  */
 export function truncateText(str: string, len: number, showEnd: number = 0) {
   if (str.length <= len) {
@@ -22,11 +22,10 @@ export function truncateText(str: string, len: number, showEnd: number = 0) {
   }
 }
 
-
 /**
  * Convert string to Dash Case
- * @param str 
- * @returns 
+ * @param str
+ * @returns
  */
 export const textToId = (str: string): string => {
   return `id-${camelCase(str)}`
@@ -34,7 +33,7 @@ export const textToId = (str: string): string => {
 
 /**
  * Is String an Email
- * @param email 
+ * @param email
  * @returns boolean
  */
 export const isEmail = (email: string): boolean => {
@@ -49,9 +48,9 @@ export const isEmail = (email: string): boolean => {
 
 /**
  * Open Email Client
- * @param to 
- * @param subject 
- * @param body 
+ * @param to
+ * @param subject
+ * @param body
  */
 export const composeEmail = (to: string, subject: string, body: string) => {
   window.open(
@@ -60,11 +59,10 @@ export const composeEmail = (to: string, subject: string, body: string) => {
   )
 }
 
-
 /**
  * Remove a Token Prefix from a string
- * @param str 
- * @returns 
+ * @param str
+ * @returns
  */
 export const removePrefix = (str: string): string => {
   return str.replace(/(\#|\@|\+)/gi, '')
@@ -72,8 +70,8 @@ export const removePrefix = (str: string): string => {
 
 /**
  * Get Initials from a string
- * @param str 
- * @returns 
+ * @param str
+ * @returns
  */
 export function initials(str: string): string {
   str = `${str}`
@@ -89,20 +87,19 @@ export function initials(str: string): string {
 
 /**
  * Replace a chunk of text at a specific location
- * @param text 
- * @param replaceThis 
- * @param withThis 
- * @param pos 
+ * @param text
+ * @param replaceThis
+ * @param withThis
+ * @param pos
  * @returns string
  */
-export const replaceTextAt = (text:string, replaceThis:string, withThis:string, pos: number) => {
-  let base = `${text}`;
-  let first = base.substring(0, pos);
-  let second = base.substring(pos, base.length);
+export const replaceTextAt = (text: string, replaceThis: string, withThis: string, pos: number) => {
+  let base = `${text}`
+  let first = base.substring(0, pos)
+  let second = base.substring(pos, base.length)
   let reg = new RegExp(escapeRegExp(replaceThis), 'gi')
-  return `${first}${second.replace(reg, withThis)}`;
+  return `${first}${second.replace(reg, withThis)}`
 }
-
 
 export default {
   truncate: truncateText,

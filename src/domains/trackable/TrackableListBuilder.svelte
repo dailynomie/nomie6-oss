@@ -21,7 +21,11 @@
   import SortableList2 from '../../components/sortable-list/sortable-list2.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
 
-  let { value = $bindable(), className = '', onValueChange } = $props<{ value?: string, className?: string, onValueChange?: (newValue: string) => void }>()
+  let {
+    value = $bindable(),
+    className = '',
+    onValueChange,
+  } = $props<{ value?: string; className?: string; onValueChange?: (newValue: string) => void }>()
 
   let trackables: Array<Trackable> = $state([])
   let manualAdd: string = $state('')
@@ -184,7 +188,13 @@
     >
       <ListItem compact bottomLine={62}>
         <div slot="left">
-          <Button size="sm" icon color="danger" className="mr-4 text-ios-ondanger bg-ios-danger" on:click={() => remove(item)}>
+          <Button
+            size="sm"
+            icon
+            color="danger"
+            className="mr-4 text-ios-ondanger bg-ios-danger"
+            on:click={() => remove(item)}
+          >
             -
           </Button>
           <TrackableAvatar trackable={item} size={24} />

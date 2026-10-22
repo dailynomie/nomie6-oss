@@ -1,76 +1,83 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-import { onMount } from 'svelte'
-import { AllTrackablesAsArray } from '../trackable/TrackableStore'
-import { openPointersModal } from '../pointers/pointer-store'
+  import { onMount } from 'svelte'
+  import { AllTrackablesAsArray } from '../trackable/TrackableStore'
+  import { openPointersModal } from '../pointers/pointer-store'
 
-let pointers: string | any[] = $state([])
-let reminderCheckPeriod = $state(1000 * 5 * 2)
-let modalview = $state(false)
-let overdues = $state(false)
-let interval: any = $state()
+  let pointers: string | any[] = $state([])
+  let reminderCheckPeriod = $state(1000 * 5 * 2)
+  let modalview = $state(false)
+  let overdues = $state(false)
+  let interval: any = $state()
 
-let toast = $derived(overdues)
+  let toast = $derived(overdues)
 
-const checkReminders = () => {
+  const checkReminders = () => {
     if (!modalview) {
-    const reminders =  pointers.filter((pointer) => {
-        return pointer.ptr.reminder == true;})
-    const remindermessages = pointers.filter((pointer) => {
-        return pointer.ptr.reminder == true && new Date(pointer.ptr.reminderdate) < new Date();})
-    if (remindermessages.length > 0 && toast == false) {overdues = true}
+      const reminders = pointers.filter((pointer) => {
+        return pointer.ptr.reminder == true
+      })
+      const remindermessages = pointers.filter((pointer) => {
+        return pointer.ptr.reminder == true && new Date(pointer.ptr.reminderdate) < new Date()
+      })
+      if (remindermessages.length > 0 && toast == false) {
+        overdues = true
+      }
     }
-}
+  }
 
   $effect(() => {
-    if($AllTrackablesAsArray) {
+    if ($AllTrackablesAsArray) {
       const trackables = $AllTrackablesAsArray
-      pointers =  trackables.filter((trackable) => {
-      return trackable.type == 'pointer';});
+      pointers = trackables.filter((trackable) => {
+        return trackable.type == 'pointer'
+      })
     }
   })
 
   onMount(async () => {
     const trackables = $AllTrackablesAsArray
-    pointers =  trackables.filter((trackable) => {
-    return trackable.type == 'pointer';
-    
-});
-// Check every X minutes reminders
-interval = setInterval(async () => {
-    checkReminders()
-  }, reminderCheckPeriod)
-   
+    pointers = trackables.filter((trackable) => {
+      return trackable.type == 'pointer'
+    })
+    // Check every X minutes reminders
+    interval = setInterval(async () => {
+      checkReminders()
+    }, reminderCheckPeriod)
   })
 
   function delaymessage() {
-    clearInterval(interval);
+    clearInterval(interval)
     // we will delay for 2 hours (1000 * 60 * 120)
-    reminderCheckPeriod = 1000 * 60 * 120;
+    reminderCheckPeriod = 1000 * 60 * 120
     interval = setInterval(async () => {
-    checkReminders()
-  }, reminderCheckPeriod)
+      checkReminders()
+    }, reminderCheckPeriod)
 
-    setTimeout(()=>{reminderCheckPeriod = 1000 * 5 * 2;interval = setInterval(async () => {
-    checkReminders()
-  }, reminderCheckPeriod)},1000 * 60 * 120 )
-
+    setTimeout(
+      () => {
+        reminderCheckPeriod = 1000 * 5 * 2
+        interval = setInterval(async () => {
+          checkReminders()
+        }, reminderCheckPeriod)
+      },
+      1000 * 60 * 120
+    )
   }
 
   function close() {
-    overdues = false;
+    overdues = false
     delaymessage()
   }
-
 </script>
 
 {#if toast}
   <div class="install-backdrop" style="z-index:8999">
     <div class="pwa-toast" role="alert">
       <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-ios-label message">
-          <h1 class="mb-2 text-2xl font-bold text-ios-label">⚠️ Reminders!</h1>
-          <p>Some reminders are overdue. Would you like to manage your reminders?</p>
+        <h1 class="mb-2 text-2xl font-bold text-ios-label">⚠️ Reminders!</h1>
+        <p>Some reminders are overdue. Would you like to manage your reminders?</p>
       </div>
 
       <div class="flex items-center justify-end space-x-4">
@@ -78,14 +85,16 @@ interval = setInterval(async () => {
           Later
         </button>
 
-        
-          <button
-            aria-label="Update the App"
-            on:click={() => {close();openPointersModal()}}
-            class="px-4 py-2 font-bold filler bg-ios-card shadow-sm rounded-xl text-ios-tint"
-          >
-            Manage Now
-          </button>
+        <button
+          aria-label="Update the App"
+          on:click={() => {
+            close()
+            openPointersModal()
+          }}
+          class="px-4 py-2 font-bold filler bg-ios-card shadow-sm rounded-xl text-ios-tint"
+        >
+          Manage Now
+        </button>
       </div>
     </div>
   </div>

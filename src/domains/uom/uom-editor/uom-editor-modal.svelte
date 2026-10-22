@@ -141,7 +141,12 @@
         </div>
         <div class="px-4 py-3 flex items-center justify-between gap-3">
           <span class="shrink-0">Symbol position</span>
-          <IosSelect bind:value={symbolAffix} options={affixOptions} title="Symbol position" ariaLabel="Symbol position" />
+          <IosSelect
+            bind:value={symbolAffix}
+            options={affixOptions}
+            title="Symbol position"
+            ariaLabel="Symbol position"
+          />
         </div>
         <div class="px-4 py-3 flex items-center justify-between gap-3">
           <span class="shrink-0">Space before symbol</span>

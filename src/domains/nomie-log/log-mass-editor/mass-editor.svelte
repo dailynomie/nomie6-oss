@@ -28,7 +28,6 @@
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { CheckmarkCircle, ChevronBackOutline, ChevronForwardOutline } from '../../../components/icon/nicons'
 
-
   let state = {
     replace: null,
     with: null,

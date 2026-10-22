@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   import { onMount } from 'svelte'
 
   import type NLog from '../../domains/nomie-log/nomie-log'
@@ -38,7 +37,7 @@
 </script>
 
 {#if score}
-  <div  class="score-grid {className || 'h-4'}">
+  <div class="score-grid {className || 'h-4'}">
     <div class="score flex items-center bg-ios-card px-1 text-xs">
       {score}
     </div>
@@ -50,7 +49,6 @@
 
 <style lang="postcss" global>
   .score-grid {
-    
     @apply bg-ios-fill;
     @apply flex leading-none rounded-md overflow-hidden space-x-px w-full;
   }
@@ -61,7 +59,7 @@
   .score-grid .hour {
     @apply transition-all duration-100;
     width: calc(100% / 24 + 1px);
-    
+
     @apply bg-ios-fill;
   }
   .score-grid .hour.positive {

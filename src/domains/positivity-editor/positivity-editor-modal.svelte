@@ -28,25 +28,27 @@
   let workingCalc = $state<Array<ICondition>>([])
   let mounted = $state(false)
 
-  const dedupCalcs = (base):Array<ICondition>=>{
-    return base.filter((c,index)=>{
-        let foundIndex = base.findIndex(fc=>fc.key==c.key);
-        if(foundIndex > -1 && foundIndex !== index) {
-          return false;
-        } else {
-          return true;
-        }
-      })
+  const dedupCalcs = (base): Array<ICondition> => {
+    return base.filter((c, index) => {
+      let foundIndex = base.findIndex((fc) => fc.key == c.key)
+      if (foundIndex > -1 && foundIndex !== index) {
+        return false
+      } else {
+        return true
+      }
+    })
   }
 
   onMount(() => {
     if (props.calc.length) {
-      workingCalc = dedupCalcs([...props.calc]
-      .filter((c) => c)
-      .map((calc) => {
-        calc.key = md5(JSON.stringify(calc))
-        return calc
-      }));
+      workingCalc = dedupCalcs(
+        [...props.calc]
+          .filter((c) => c)
+          .map((calc) => {
+            calc.key = md5(JSON.stringify(calc))
+            return calc
+          })
+      )
     }
 
     if (workingCalc.length == 0) {
@@ -108,7 +110,7 @@
     </h1>
     <Button clear primary slot="right" on:click={saveChanges}>Done</Button>
   </ToolbarGrid>
-  <div class=" lg:px-2 md:px-1 py-4  filler">
+  <div class=" lg:px-2 md:px-1 py-4 filler">
     <List solo>
       {#if mounted}
         <SortableList2
@@ -129,7 +131,7 @@
             trackable={props.trackable}
             on:change={(evt) => {
               workingCalc[index] = evt.detail
-              workingCalc = workingCalc;
+              workingCalc = workingCalc
               // refresh()
             }}
           >

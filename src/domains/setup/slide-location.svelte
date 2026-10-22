@@ -10,7 +10,7 @@
 </script>
 
 <Container className="filler  flex items-center justify-center  flex-col pt-3 px-5 slide-location -mt-8">
-  <h1 class="mb-1 text-xl font-bold text-center leading-tight  text-ios-label">
+  <h1 class="mb-1 text-xl font-bold text-center leading-tight text-ios-label">
     {Lang.t('setup.use-location-tracking', `Track Location?`)}
   </h1>
   <div

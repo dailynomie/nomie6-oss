@@ -1,8 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
-
   const { className, mainClass, headerClass, style } = $props()
 </script>
 
@@ -41,11 +39,10 @@
   }
   .bd-modal > main {
     @apply overflow-y-auto;
-    @apply z-0; 
+    @apply z-0;
     @apply relative;
     max-height: calc(100vh - 50px);
     @apply flex-grow flex-shrink;
-
   }
 
   .bd-modal > header,

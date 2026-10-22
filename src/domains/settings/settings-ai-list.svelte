@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
-<script lang="ts">  import IosSelect from '../../components/ios-select/ios-select.svelte'
+<script lang="ts">
+  import IosSelect from '../../components/ios-select/ios-select.svelte'
 
   import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
   import { Prefs } from '../preferences/Preferences'
@@ -143,7 +144,6 @@
       type: 'success',
     })
   }
-
 </script>
 
 <List solo className="mb-4" title={Lang.t('settings.ai', 'AI Integration')} outside>
@@ -180,11 +180,10 @@
         <div class="flex gap-2">
           <span class="flex-shrink-0 text-lg">⚠️</span>
           <div class="flex-grow min-w-0">
-            <p class="text-sm font-semibold text-ios-label mb-1">
-              API Key Encryption Available
-            </p>
+            <p class="text-sm font-semibold text-ios-label mb-1">API Key Encryption Available</p>
             <p class="text-xs text-ios-label2 leading-tight">
-              Your Nomie data always stays local on your device, which provides strong security. You can add an additional layer of protection by enabling a PIN in
+              Your Nomie data always stays local on your device, which provides strong security. You can add an
+              additional layer of protection by enabling a PIN in
               <span class="font-semibold">More Settings → Security → Use PIN</span>
               to encrypt your API key.
             </p>
@@ -231,17 +230,10 @@
             </div>
           {/if}
         {/if}
-        <Input
-          type="password"
-          placeholder="Enter your API key"
-          bind:value={config.apiKey}
-          className="mb-3"
-        />
+        <Input type="password" placeholder="Enter your API key" bind:value={config.apiKey} className="mb-3" />
         {#if config.apiKey}
           <!-- iOS look (D-destructive-row): clearing the saved key removes data, so it is the red text control -->
-          <Button size="sm" clear className="text-ios-danger mr-2" on:click={clearApiKey}>
-            Clear Key
-          </Button>
+          <Button size="sm" clear className="text-ios-danger mr-2" on:click={clearApiKey}>Clear Key</Button>
         {/if}
       </div>
     </ListItem>
@@ -265,12 +257,7 @@
 
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
-        <Button
-          primary
-          disabled={isSaving || !config.apiKey}
-          className="w-full"
-          on:click={saveConfig}
-        >
+        <Button primary disabled={isSaving || !config.apiKey} className="w-full" on:click={saveConfig}>
           {isSaving ? 'Saving...' : 'Save Configuration'}
         </Button>
       </div>

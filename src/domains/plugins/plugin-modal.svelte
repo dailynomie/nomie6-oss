@@ -11,7 +11,6 @@
   import PluginFrame from './plugin-frame.svelte'
   import type { PluginClass } from './plugin-helpers'
 
-
   const { plugin, id } = $props()
 </script>
 

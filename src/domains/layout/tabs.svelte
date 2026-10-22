@@ -11,7 +11,20 @@
 
   import NPaths from '../../paths'
 
-  import { AppsOutline, AppsSolid, CalendarOutline, CalendarSolid, MapOutline, PulseOutline, TagOutline, EaselOutline, EaselSolid, RibbonOutline, RibbonSolid, CubeOutline } from '../../components/icon/nicons'
+  import {
+    AppsOutline,
+    AppsSolid,
+    CalendarOutline,
+    CalendarSolid,
+    MapOutline,
+    PulseOutline,
+    TagOutline,
+    EaselOutline,
+    EaselSolid,
+    RibbonOutline,
+    RibbonSolid,
+    CubeOutline,
+  } from '../../components/icon/nicons'
   import { Prefs } from '../../domains/preferences/Preferences'
   import { Device } from '../../store/device-store'
   import { RunningTimers } from '../tracker/TrackerStore'
@@ -50,7 +63,15 @@
       ? [{ id: 'analytics', label: 'Analytics', icon: CubeOutline, link: '/analytics', feature: 'analytics' }]
       : []),
     ...($FeatureVisible('pointers')
-      ? [{ id: 'pointers', label: 'Pointers', icon: TagOutline, action: () => openPointersModal(), feature: 'pointers' }]
+      ? [
+          {
+            id: 'pointers',
+            label: 'Pointers',
+            icon: TagOutline,
+            action: () => openPointersModal(),
+            feature: 'pointers',
+          },
+        ]
       : []),
     { id: 'locations', label: 'Locations', icon: MapOutline, action: () => openLocationModal() },
   ])
@@ -130,7 +151,6 @@
           <IonIcon className="inactive" icon={BarChartOutline} />
           <IonIcon className="active" icon={BarChartSolid} />
         </AppTab> -->
-
 
         <AppTab
           id="track"

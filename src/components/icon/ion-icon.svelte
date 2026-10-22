@@ -1,11 +1,9 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   // export let name: string | undefined = undefined
   // export let dynamicIcon: any | undefined = undefined
   // export let title: string = 'Icon'
-
 
   const { icon, className, style, size } = $props()
 </script>

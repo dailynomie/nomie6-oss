@@ -18,7 +18,12 @@
   import { wait } from '../../utils/tick/tick'
 
   let textarea: any
-  let { value = $bindable(), id, class: classAttr = '', placeholder = '' } = $props<{ value?: string; id: string; class?: string; placeholder?: string }>()
+  let {
+    value = $bindable(),
+    id,
+    class: classAttr = '',
+    placeholder = '',
+  } = $props<{ value?: string; id: string; class?: string; placeholder?: string }>()
   const emit = createEventDispatcher()
 </script>
 
@@ -96,7 +101,7 @@
     ],
   }}
   class={classAttr}
-  placeholder={placeholder}
+  {placeholder}
   bind:value
   bind:this={textarea}
   on:input={(e) => emit('input', e.detail)}

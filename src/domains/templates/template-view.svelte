@@ -10,7 +10,6 @@
   import type { Template } from './templates-utils'
   import { useTemplate } from './templates-svelte-helpers'
 
-
   const { template = $bindable() } = $props()
 </script>
 
@@ -36,7 +35,10 @@
   <hr class="mt-2 mb-4 dark:border-ios-separator" />
   {#if template.trackables.length}
     <section>
-      <Title className="mb-2 uppercase text-sm font-semibold tracking-wide" style="text-align:left; color: var(--ios-label2)">Trackables</Title>
+      <Title
+        className="mb-2 uppercase text-sm font-semibold tracking-wide"
+        style="text-align:left; color: var(--ios-label2)">Trackables</Title
+      >
       <div class="flex flex-wrap">
         {#each template.trackables as trackable}
           <TrackablePill solid hideValue size={32} trackable={new Trackable(trackable)} className="m-1" />
@@ -46,7 +48,10 @@
   {/if}
   {#if template.boards.length}
     <section>
-      <Title className="mb-2 uppercase text-sm font-semibold tracking-wide" style="text-align:left; color: var(--ios-label2)">Tabs</Title>
+      <Title
+        className="mb-2 uppercase text-sm font-semibold tracking-wide"
+        style="text-align:left; color: var(--ios-label2)">Tabs</Title
+      >
 
       <div class="flex flex-wrap">
         {#each template.boards as board}
@@ -62,7 +67,10 @@
   {/if}
   {#if template.dashboards.length}
     <section>
-      <Title className="mb-2 uppercase text-sm font-semibold tracking-wide" style="text-align:left; color: var(--ios-label2)">Dashboards</Title>
+      <Title
+        className="mb-2 uppercase text-sm font-semibold tracking-wide"
+        style="text-align:left; color: var(--ios-label2)">Dashboards</Title
+      >
 
       <div class="flex flex-wrap">
         {#each template.dashboards as board}
@@ -78,7 +86,10 @@
   {/if}
   {#if template.goals.length}
     <section>
-      <Title className="mb-2 uppercase text-sm font-semibold tracking-wide" style="text-align:left; color: var(--ios-label2)">Goals</Title>
+      <Title
+        className="mb-2 uppercase text-sm font-semibold tracking-wide"
+        style="text-align:left; color: var(--ios-label2)">Goals</Title
+      >
 
       <div class="flex flex-wrap">
         {#each template.goals as goal}
@@ -92,7 +103,10 @@
   {/if}
   {#if template.pivots.length}
     <section>
-      <Title className="mb-2 uppercase text-sm font-semibold tracking-wide" style="text-align:left; color: var(--ios-label2)">Pivots</Title>
+      <Title
+        className="mb-2 uppercase text-sm font-semibold tracking-wide"
+        style="text-align:left; color: var(--ios-label2)">Pivots</Title
+      >
 
       <div class="flex flex-wrap">
         {#each template.pivots as pivot}

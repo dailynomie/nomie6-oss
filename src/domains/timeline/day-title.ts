@@ -7,7 +7,11 @@ import dayjs, { type Dayjs } from 'dayjs'
 export const isRelativeDayTitle = (day: Dayjs, now: Dayjs = dayjs()): boolean => {
   const today = now.startOf('day')
   const target = day.startOf('day')
-  return target.isSame(today, 'day') || target.isSame(today.subtract(1, 'day'), 'day') || target.isAfter(today.subtract(7, 'day'))
+  return (
+    target.isSame(today, 'day') ||
+    target.isSame(today.subtract(1, 'day'), 'day') ||
+    target.isAfter(today.subtract(7, 'day'))
+  )
 }
 
 export const dayTitle = (day: Dayjs, mediumFormat: string, now: Dayjs = dayjs()): string => {

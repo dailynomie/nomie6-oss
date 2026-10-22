@@ -45,8 +45,8 @@
       await NomieServierStorage.init({
         server: {
           url: server.url,
-          token: server.token
-        }
+          token: server.token,
+        },
       })
       isConnected = true
       storedUrl = server.url
@@ -96,41 +96,33 @@
     > instance for storing your data.
   </p>
 </div> -->
-<div >
+<div>
   {#if isConnected}
     <div class="p-4 bg-ios-goodsoft">
       <div class="flex items-start justify-between">
         <div class="flex-1">
-            <div class="flex justify-between items-center">
-                <div class="text-sm font-semibold text-ios-good mb-2">Connected</div>
-                <button
-                    on:click={handleDisconnect}
-                    type="button"
-                    class="text-xs px-3 py-1 bg-ios-danger text-ios-ondanger rounded-md transition-colors"
-                    >
-                    Disconnect
-                    </button>
-            </div>
+          <div class="flex justify-between items-center">
+            <div class="text-sm font-semibold text-ios-good mb-2">Connected</div>
+            <button
+              on:click={handleDisconnect}
+              type="button"
+              class="text-xs px-3 py-1 bg-ios-danger text-ios-ondanger rounded-md transition-colors"
+            >
+              Disconnect
+            </button>
+          </div>
           <div class="text-xs text-ios-label2 space-y-1">
             <div><span class="font-medium">Endpoint:</span> {storedUrl}</div>
             <div><span class="font-medium">API Key:</span> {maskToken(storedToken)}</div>
           </div>
         </div>
-
       </div>
     </div>
   {:else}
     <form on:submit|preventDefault={connect} class="px-4">
       <Input bind:value={server.url} name="url" label="Server URL" required placeholder="https://your-server.com" />
       <hr class="dark:border-ios-separator" />
-      <Input
-        bind:value={server.token}
-        name="token"
-        label="API Token"
-        required
-        placeholder="sk_live_..."
-
-      />
+      <Input bind:value={server.token} name="token" label="API Token" required placeholder="sk_live_..." />
       <hr class="dark:border-ios-separator" />
       {#if error}
         <div class="p-2 bg-ios-card2 text-ios-label rounded-md text-sm my-4">{error}</div>

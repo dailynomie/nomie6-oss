@@ -11,7 +11,6 @@
   import { closeModal } from '../backdrop/BackdropStore2'
   import { TrackableStore } from '../../domains/trackable/TrackableStore'
 
-
   const { menu, id } = $props()
 
   let displayTitle = $state(menu.trackable?.label || menu.title || '')
@@ -50,9 +49,7 @@
           {#if menu.title}
             <h5
               aria-label="Title"
-              class="font-semibold text-ios-label text-lg leading-tight {!menu.description
-                ? 'pb-1'
-                : 'mt-3'}"
+              class="font-semibold text-ios-label text-lg leading-tight {!menu.description ? 'pb-1' : 'mt-3'}"
             >
               {displayTitle}
             </h5>

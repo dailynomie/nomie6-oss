@@ -18,7 +18,7 @@
   const { emoji, icon, title, description, className, style, buttonLabel, buttonClick, small } = $props()
 </script>
 
-<div class="empty-box {className} {loaded ? 'finish' : 'start'}" class:small={small} {style}>
+<div class="empty-box {className} {loaded ? 'finish' : 'start'}" class:small {style}>
   <slot name="emoji" />
   {#if emoji}
     <Avatar {emoji} size={80} className="mb-4" />

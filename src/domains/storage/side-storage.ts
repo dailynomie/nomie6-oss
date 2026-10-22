@@ -10,7 +10,7 @@ export class SideStore {
     try {
       this.data = JSON.parse(localStorage.getItem(this.dbPath) || '{}')
     } catch (e) {
-      console.error("SideStorage could not parse the JSON data");
+      console.error('SideStorage could not parse the JSON data')
     }
   }
   get(key) {

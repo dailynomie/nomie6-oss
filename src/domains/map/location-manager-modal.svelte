@@ -84,13 +84,12 @@
   // }
 
   function sorted(evt): void {
-
     clearTimeout(sortedTimeout)
     if (state.mode == 'edit') {
       saving = true
       let locations = evt.detail
       sortedTimeout = setTimeout(() => {
-       LocationStore.updateSync((state) => {
+        LocationStore.updateSync((state) => {
           return locations
         }).then(() => {
           saving = false
@@ -132,7 +131,7 @@
       let rawLoc: any = await locate()
       if (rawLoc) {
         let location = new Location({
-         lat: rawLoc.latitude,
+          lat: rawLoc.latitude,
           lng: rawLoc.longitude,
           name: rawLoc.location,
         })
@@ -165,7 +164,7 @@
   }
 
   async function favorite(item?: Location) {
-    ready = false;
+    ready = false
     let loc
     if (item || mapLocation) {
       loc = item || mapLocation
@@ -180,15 +179,14 @@
         })
         loc.name = name
       }
-      if(loc.name) {
+      if (loc.name) {
         Interact.blocker(`Saving ${loc.name} location..`)
         await LocationStore.upsert(loc)
         Interact.stopBlocker()
         showToast({ message: 'Location Saved' })
-       
       }
     }
-    ready = true;
+    ready = true
   }
 
   const search = async (term: string) => {
@@ -216,8 +214,8 @@
       await favorite(location)
     }
     if (state.mode == 'view') {
-                          select(location)
-                        }
+      select(location)
+    }
     //select(location)
     resultsHidden = true
   }
@@ -291,24 +289,25 @@
         </div>
       {/if}
       <!-- List Panel -->
-      <div class="flex-grow flex-shrink h-full overflow-y-auto ">
+      <div class="flex-grow flex-shrink h-full overflow-y-auto">
         <div class="list-wrapper px-2 lg:px-4 space-y-4">
           {#if mapLocation && mapLocation.lat}
             <List solo className="mb-2">
-              <NItem bottomLine={18}
+              <NItem
+                bottomLine={18}
                 clickable
                 aria-label="Save this Location"
                 on:click={() => {
                   favorite(mapLocation)
                 }}
               >
-                Save as Favorite: <strong>{math.round(mapLocation.lat, 10000)},{math.round(mapLocation.lng, 10000)}</strong>
+                Save as Favorite: <strong
+                  >{math.round(mapLocation.lat, 10000)},{math.round(mapLocation.lng, 10000)}</strong
+                >
               </NItem>
-              
             </List>
           {/if}
           <List solo className="mb-2">
-            
             <NItem
               clickable
               on:click={() => {

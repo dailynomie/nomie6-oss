@@ -103,39 +103,54 @@
       <!-- Month Selector -->
       <div class="divide-x-2 divide-opacity-30 divide-gray-500 flex items-center nselect-group">
         <IosSelect
-  compact
-  title="Month"
-  value={month}
-  options={Array.from({ length: 12 }, (_, index) => ({ value: index, label: dayjs().month(index).startOf('month').format('MMM') }))}
-  onchange={(next) => {
-    let newDate = datejs.month(parseNumber(`${next}`))
-    date = newDate.toDate()
-    dispatch('dateChange', newDate.toDate())
-  }}
-/>
+          compact
+          title="Month"
+          value={month}
+          options={Array.from({ length: 12 }, (_, index) => ({
+            value: index,
+            label: dayjs().month(index).startOf('month').format('MMM'),
+          }))}
+          onchange={(next) => {
+            let newDate = datejs.month(parseNumber(`${next}`))
+            date = newDate.toDate()
+            dispatch('dateChange', newDate.toDate())
+          }}
+        />
 
         <!-- Year Selector -->
         <IosSelect
-  compact
-  title="Year"
-  value={year}
-  options={Array.from({ length: 12 }, (_, index) => {
-    const y = parseNumber(dayjs().format('YYYY')) - index
-    return { value: y, label: `${y}` }
-  })}
-  onchange={(next) => {
-    let newDate = datejs.year(parseNumber(`${next}`))
-    date = newDate.toDate()
-    dispatch('dateChange', newDate)
-  }}
-/>
+          compact
+          title="Year"
+          value={year}
+          options={Array.from({ length: 12 }, (_, index) => {
+            const y = parseNumber(dayjs().format('YYYY')) - index
+            return { value: y, label: `${y}` }
+          })}
+          onchange={(next) => {
+            let newDate = datejs.year(parseNumber(`${next}`))
+            date = newDate.toDate()
+            dispatch('dateChange', newDate)
+          }}
+        />
       </div>
       <div class="filler" />
 
-      <button type="button" aria-label="Previous" class="nselect clear" class:sm={size == 'sm'} on:click={() => nextPrev('previous')}>
+      <button
+        type="button"
+        aria-label="Previous"
+        class="nselect clear"
+        class:sm={size == 'sm'}
+        on:click={() => nextPrev('previous')}
+      >
         <IonIcon icon={ChevronBackOutline} size={22} />
       </button>
-      <button type="button" aria-label="Next" class="nselect clear" class:sm={size == 'sm'} on:click={() => nextPrev('next')}>
+      <button
+        type="button"
+        aria-label="Next"
+        class="nselect clear"
+        class:sm={size == 'sm'}
+        on:click={() => nextPrev('next')}
+      >
         <IonIcon icon={ChevronForwardOutline} size={22} />
       </button>
       {#if date.toDateString() !== new Date().toDateString()}
@@ -202,8 +217,8 @@
             barClass="h-1 {dayItem.positivity === 'positive'
               ? 'bg-green-500'
               : dayItem.positivity == 'negative'
-              ? 'bg-red-500'
-              : 'bg-ios-tint'}"
+                ? 'bg-red-500'
+                : 'bg-ios-tint'}"
             percentage={dayItem.percentage}
           />
         {/if}

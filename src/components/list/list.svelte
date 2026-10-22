@@ -3,7 +3,6 @@
 <script lang="ts">
   import Text from '../text/text.svelte'
 
-
   const { style, solo, transparent, className, title, disabled, id, outside, role } = $props()
 </script>
 
@@ -48,10 +47,12 @@
   }
 
   .n-list > div > .n-input-container:first-child {
-    border-top-left-radius: 12px; border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
   }
   .n-list > div > .n-input-container:last-child {
-    border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
   }
 
   .n-list .list-header {
@@ -96,21 +97,25 @@
   }
 
   .n-list.solo > .n-input-container.list-item:first-child {
-    border-top-left-radius: 12px; border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
   }
   .n-list.solo > .n-input-container.list-item:last-child {
-    border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
   }
 
   .n-list.solo.w-full {
-    width:100%;
+    width: 100%;
   }
   .n-list.solo .n-item:first-child {
-    border-top-left-radius: 12px; border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
   }
 
   .n-list.solo .n-item:last-child {
-    border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
   }
 
   /* iOS look: section headings above lists are 13 px uppercase in the secondary label colour */

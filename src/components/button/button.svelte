@@ -12,7 +12,30 @@
   let confirming = $state(false)
   let confirmTimeout = $state()
 
-  const { id = `auto-${md5('default')}`, size = 'md', type = '', color = '', className = '', mainClass = '', block = false, style = '', disabled = false, delay = 300, icon = false, title = undefined, ariaLabel = undefined, prevent = false, inline = false, text = false, confirm = false, role = '', autofocus = false, primary = false, clear = false, shape = '' } = $props()
+  const {
+    id = `auto-${md5('default')}`,
+    size = 'md',
+    type = '',
+    color = '',
+    className = '',
+    mainClass = '',
+    block = false,
+    style = '',
+    disabled = false,
+    delay = 300,
+    icon = false,
+    title = undefined,
+    ariaLabel = undefined,
+    prevent = false,
+    inline = false,
+    text = false,
+    confirm = false,
+    role = '',
+    autofocus = false,
+    primary = false,
+    clear = false,
+    shape = '',
+  } = $props()
 
   const onClick = async (evt) => {
     if (confirm) {

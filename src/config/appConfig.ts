@@ -13,8 +13,8 @@ export default {
   support_email: 'dailynomie@gmail.com',
   support_contact: 'Email Support',
   messages_url: 'https://s3.amazonaws.com/cdn.nomie.app/messages/messages.json',
-  s3providersLink: "https://spectacular-collard-13a.notion.site/S3-Storage-Providers-fa4888f87e964ffaabbe113c1ede8f83",
-  apiDocumentation: "https://spectacular-collard-13a.notion.site/Nomie-API-4c29294776524e84bdafed6251abb20c",
+  s3providersLink: 'https://spectacular-collard-13a.notion.site/S3-Storage-Providers-fa4888f87e964ffaabbe113c1ede8f83',
+  apiDocumentation: 'https://spectacular-collard-13a.notion.site/Nomie-API-4c29294776524e84bdafed6251abb20c',
 
   positivity: [
     { emoji: '🔴', label: 'Awful', score: -2 },

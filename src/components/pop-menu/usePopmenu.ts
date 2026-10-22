@@ -20,7 +20,7 @@ export type PopMenuButton = {
   click?: Function
   divider?: boolean
   skipClosing?: boolean
-  awardRequired?: string,
+  awardRequired?: string
   component?: any
 }
 
@@ -79,15 +79,14 @@ export const closePopMenu = (menu: IPopMenuOptions) => {
 }
 
 export const closeAllPopMenus = () => {
-
   PopMenuStore.update((s) => undefined)
 }
 
-export const openDateOptionPopMenu = (date: Date, extraButtons:Array<PopMenuButton>=[]) => {
+export const openDateOptionPopMenu = (date: Date, extraButtons: Array<PopMenuButton> = []) => {
   const buttons = getDatePopButtons(date)
   openPopMenu({
     id: `date-options-${date.toDateString()}`,
     title: `Date Options`,
-    buttons: [...buttons, ...extraButtons ],
+    buttons: [...buttons, ...extraButtons],
   })
 }

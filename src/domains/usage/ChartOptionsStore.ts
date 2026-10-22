@@ -6,9 +6,21 @@ import NPaths from '../../paths'
 type ChartOptions = {
   type: 'bar' | 'line'
   startWithZero: boolean
-  ignoreZero:boolean
-  stats: 'none' | "avg" | 'sma-7' | 'sma-15' | 'sma-30' | 'ema-7' | 'ema-15' | 'ema-30' | 'split-11' | 'split-12' | 'split-13' | 'cumm'
-  include?: string  // Store as trackable ID (e.g., "#tracker-name") instead of Trackable object
+  ignoreZero: boolean
+  stats:
+    | 'none'
+    | 'avg'
+    | 'sma-7'
+    | 'sma-15'
+    | 'sma-30'
+    | 'ema-7'
+    | 'ema-15'
+    | 'ema-30'
+    | 'split-11'
+    | 'split-12'
+    | 'split-13'
+    | 'cumm'
+  include?: string // Store as trackable ID (e.g., "#tracker-name") instead of Trackable object
   showContext: boolean
 }
 export type ChartOptionsStoreState = {
@@ -24,7 +36,7 @@ export const saveChartOptions = async (id: string, options: any) => {
     startWithZero: options.startWithZero,
     ignoreZero: options.ignoreZero,
     stats: options.stats,
-    include: options.include?.id || options.include,  // Store trackable ID if it's an object, or use as-is if already a string
+    include: options.include?.id || options.include, // Store trackable ID if it's an object, or use as-is if already a string
     showContext: options.showContext,
   }
   chartOptionsCache[id] = optionsToSave

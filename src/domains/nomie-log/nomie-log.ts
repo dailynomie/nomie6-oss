@@ -70,7 +70,7 @@ export class NLog {
     this.end = starter.end ? new Date(starter.end) : new Date()
     this.start = starter.start ? new Date(starter.start) : new Date(this.end.getTime() - 1000)
 
-    this.pinned = starter.pinned ? true : false;
+    this.pinned = starter.pinned ? true : false
     // Score Calculation
     // This Might be a bad idea - but i'm doing it anyways
     // If a score is set, use it - if not, calculate it.
@@ -113,7 +113,7 @@ export class NLog {
   }
 
   get hasTodo(): boolean {
-    return `${this.note || ''}`.search(/(\[\]|\[x\])/gi) > -1;
+    return `${this.note || ''}`.search(/(\[\]|\[x\])/gi) > -1
   }
 
   // Get it as an object
@@ -229,7 +229,7 @@ export class NLog {
     let values = this.getMeta()
       .trackers.filter((t) => t.id == trackerTag)
       .map((token) => parseFloat(`${token.value}`))
-    
+
     if (calculateBy == 'sum') {
       return math.round(math.sum(values))
     } else {
@@ -246,7 +246,7 @@ export class NLog {
     const items = this.getMeta()
     const trackables: Array<Trackable> = []
     items.trackers.forEach((trackerTE: Token) => {
-      let trackable = tokenToTrackable(trackerTE, allTrackables);
+      let trackable = tokenToTrackable(trackerTE, allTrackables)
       trackables.push(new Trackable(trackable))
     })
     items.people.forEach((personTE: Token) => {

@@ -2,7 +2,16 @@
 
 <script lang="ts">
   import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
-  import { CloudUploadOutline, ContractOutline, ContrastOutline, HomeOutline, LocationOutline, LockClosedOutline, NotificationsOffOutline, TextOutline } from '../../components/icon/nicons'
+  import {
+    CloudUploadOutline,
+    ContractOutline,
+    ContrastOutline,
+    HomeOutline,
+    LocationOutline,
+    LockClosedOutline,
+    NotificationsOffOutline,
+    TextOutline,
+  } from '../../components/icon/nicons'
   import capitalize from 'lodash/capitalize'
   import ListItem from '../../components/list-item/list-item.svelte'
   import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
@@ -155,8 +164,6 @@
       {hasPin ? 'has pin' : 'has no pin'} -->
     </div>
   </ListItem>
-
-  
 </List>
 
 <div class="mb-4" />
@@ -229,26 +236,34 @@
 
 <List solo>
   <ListItem bottomLine={57} title={Lang.t('settings.show-all-board', 'Show All Board')}>
-    <span slot="left"><IconSquare color="#9455B8"><span class="board-white"><AllBoardIcon size={17} /></span></IconSquare></span>
+    <span slot="left"
+      ><IconSquare color="#9455B8"><span class="board-white"><AllBoardIcon size={17} /></span></IconSquare></span
+    >
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle All Board" />
     </div>
   </ListItem>
   {#if $FeatureVisible('people-board')}
-  <ListItem bottomLine={57} title={Lang.t('settings.show-people-board', 'Show People Board')}>
-    <span slot="left" class="adv-corner"><IconSquare color="#9E62C0"><span class="board-white"><PeopleBoardIcon size={17} /></span></IconSquare><FeatureBadge feature="people-board" /></span>
-    <div slot="right">
-      <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
-    </div>
-  </ListItem>
+    <ListItem bottomLine={57} title={Lang.t('settings.show-people-board', 'Show People Board')}>
+      <span slot="left" class="adv-corner"
+        ><IconSquare color="#9E62C0"><span class="board-white"><PeopleBoardIcon size={17} /></span></IconSquare
+        ><FeatureBadge feature="people-board" /></span
+      >
+      <div slot="right">
+        <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
+      </div>
+    </ListItem>
   {/if}
   {#if $FeatureVisible('context-board')}
-  <ListItem bottomLine={57} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
-    <span slot="left" class="adv-corner"><IconSquare color="#A066C0"><span class="board-white"><ContextBoardIcon size={17} /></span></IconSquare><FeatureBadge feature="context-board" /></span>
-    <div slot="right">
-      <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
-    </div>
-  </ListItem>
+    <ListItem bottomLine={57} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
+      <span slot="left" class="adv-corner"
+        ><IconSquare color="#A066C0"><span class="board-white"><ContextBoardIcon size={17} /></span></IconSquare
+        ><FeatureBadge feature="context-board" /></span
+      >
+      <div slot="right">
+        <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
+      </div>
+    </ListItem>
   {/if}
   <!-- iOS look: teal icon square for the Experiments board -->
   <ListItem bottomLine={57} title="Show Experiments Board">
@@ -282,7 +297,9 @@
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.hide-message-notifications', 'Hide Message Alerts')}>
-    <span slot="left"><IconSquare color="#C192DE"><IonIcon icon={NotificationsOffOutline} size={17} /></IconSquare></span>
+    <span slot="left"
+      ><IconSquare color="#C192DE"><IonIcon icon={NotificationsOffOutline} size={17} /></IconSquare></span
+    >
     <div slot="right">
       <ToggleSwitch bind:value={$Prefs.hideMessages} title="Hide Nomie Messages" />
     </div>

@@ -37,23 +37,23 @@
   function handleKeydown(evt) {
     const key = evt.key
     // Animate the keyboard
-    const buttonObj = document.getElementById(`calc-button-${key}`);
-    buttonObj?.classList?.add('pressing');
-    // Check validity 
+    const buttonObj = document.getElementById(`calc-button-${key}`)
+    buttonObj?.classList?.add('pressing')
+    // Check validity
     const valid = buttons.find((row) => {
       return row.find((b) => `${b}` === `${key}`)
     })
     if (valid) {
       insertBuffer(key)
-    } else if(`${key}` === `0`) {
-      insertBuffer(0);
+    } else if (`${key}` === `0`) {
+      insertBuffer(0)
     } else if (key == 'Backspace') {
       insertBuffer('⌫')
     }
     // Removing keyboard pressing state
-    setTimeout(()=>{
-      buttonObj?.classList?.remove('pressing');
-    },200)
+    setTimeout(() => {
+      buttonObj?.classList?.remove('pressing')
+    }, 200)
   }
 
   function change() {
@@ -101,7 +101,6 @@
 
   // Insert a key or operator into the buffer
   function insertBuffer(insert) {
-
     // Set last buffer
     let lastBuffer = buffer.length ? buffer[buffer.length - 1] : null
     // if its a number and so is the last buffer - merge the nubmers

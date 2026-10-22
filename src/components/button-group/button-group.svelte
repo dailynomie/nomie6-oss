@@ -19,8 +19,6 @@
     click?: Function
   }
 
-
-
   const dispatch = createEventDispatcher()
 
   let { buttons, size, labelClass, inverse, compact, className, style, id, scrollable, value = $bindable() } = $props()

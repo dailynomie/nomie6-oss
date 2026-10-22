@@ -13,7 +13,6 @@ import logsToTrackableUsage, { lastUsedCompareAndMerge } from './usage-utils'
 import { derived } from 'svelte/store'
 import type { Trackable } from '../trackable/Trackable.class'
 
-
 export type LastUsedCountUnit = { v: number; d: Date | string }
 export type TrackableLastUsedType = {
   tag?: string
@@ -29,7 +28,6 @@ export type TrackableLastUsedType = {
 export type LastUsedStoreState = {
   [key: string]: TrackableLastUsedType
 }
-
 
 /**
  * $UsageStore[tag]
@@ -99,7 +97,7 @@ export const getTrackableLastUsageHeavy = (trackable: Trackable): TrackableLastU
  */
 export const updateLastUsed = async (log: NLog): Promise<PreviousUsageMapType> => {
   // get the latest from storage first.
-  await UsageStore.init();
+  await UsageStore.init()
   const lastUsedState = UsageStore.rawState()
   return await processLogForLastUsage(log, lastUsedState)
 }
@@ -125,7 +123,7 @@ export const updateAllLastUsed = async (knownTrackables: ITrackables, daysBack: 
     if (knownTrackables[tag]) {
       // Group By Day?
       let usage = usages[tag]
-      
+
       if (usage) {
         try {
           let streakSummary = usage.streakSummary

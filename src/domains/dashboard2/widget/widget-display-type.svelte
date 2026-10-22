@@ -13,10 +13,10 @@
   import WidgetStreak from './types/widget-streak.svelte'
   import WidgetHabit from './types/widget-habit.svelte'
   import WidgetPointer from './types/widget-pointer.svelte'
-  import WidgetTodos from './types/widget-todos.svelte';
-  import WidgetPlugin from './types/widget-plugin.svelte';
-  import WidgetInsight from './types/widget-insights.svelte';
-  import WidgetExperiment from './types/widget-experiment.svelte';
+  import WidgetTodos from './types/widget-todos.svelte'
+  import WidgetPlugin from './types/widget-plugin.svelte'
+  import WidgetInsight from './types/widget-insights.svelte'
+  import WidgetExperiment from './types/widget-experiment.svelte'
 
   import type { WidgetClass } from './widget-class'
   import type { Trackable } from '../../trackable/Trackable.class'
@@ -24,7 +24,6 @@
   import { TrackableStore } from '../../trackable/TrackableStore'
   import type NLog from '../../nomie-log/nomie-log'
   import { IncludedTrackableStore } from './types/included-trackable-store'
-
 
   const { trackable: trackableProp = undefined, widget: widgetProp, usage: usageProp, logs: logsProp } = $props()
 
@@ -59,44 +58,44 @@
     }
   })
 </script>
+
 {#if widget}
   {#if ['barchart', 'linechart'].indexOf(widget.type) > -1 && usage}
-  <WidgetBarChart {trackable} {widget} {usage} />
+    <WidgetBarChart {trackable} {widget} {usage} />
   {:else if widget.type == 'value'}
-  <WidgetValue {widget} {trackable} {usage} />
+    <WidgetValue {widget} {trackable} {usage} />
   {:else if widget.type == 'note' && usage}
-  <WidgetNote {widget} {trackable} {usage} />
+    <WidgetNote {widget} {trackable} {usage} />
   {:else if widget.type == 'what-time'}
-  <WidgetWhatTime {widget} {trackable} {usage} />
+    <WidgetWhatTime {widget} {trackable} {usage} />
   {:else if widget.type == 'last-used'}
-  <WidgetLastUsed {widget} {trackable} {usage} />
+    <WidgetLastUsed {widget} {trackable} {usage} />
   {:else if widget.type == 'focus'}
-  <WidgetFocus {widget} {logs} />
+    <WidgetFocus {widget} {logs} />
   {:else if widget.type == 'positivity'}
-  <WidgetPositivityPie {widget} {trackable} {logs} {usage} />
+    <WidgetPositivityPie {widget} {trackable} {logs} {usage} />
   {:else if widget.type == 'min-max' && usage}
-  <WidgetMinMax {widget} {trackable} {usage} />
+    <WidgetMinMax {widget} {trackable} {usage} />
   {:else if widget.type == 'map' && usage}
-  <WidgetMap {widget} {trackable} {usage} />
+    <WidgetMap {widget} {trackable} {usage} />
   {:else if widget.type == 'streak' && usage}
-  <WidgetStreak {widget} {trackable} {usage} />
+    <WidgetStreak {widget} {trackable} {usage} />
   {:else if widget.type == 'todos' && logs.length}
-  <WidgetTodos {widget} {logs} />
+    <WidgetTodos {widget} {logs} />
   {:else if widget.type == 'plugin'}
-  <WidgetPlugin {widget} />
+    <WidgetPlugin {widget} />
   {:else if widget.type == 'insight'}
-  <WidgetInsight {widget} />
+    <WidgetInsight {widget} />
   {:else if widget.type == 'experiment'}
-  <WidgetExperiment {widget} />
+    <WidgetExperiment {widget} />
   {:else if widget.type == 'habit'}
-  <WidgetHabit {widget} {trackable} {usage} />
+    <WidgetHabit {widget} {trackable} {usage} />
   {:else if widget.type == 'pointer'}
-  <WidgetPointer {widget} {trackable} {usage} {logs} />
+    <WidgetPointer {widget} {trackable} {usage} {logs} />
   {:else}
-  <!-- iOS look: the empty state of a widget is readable secondary text -->
-  <div class="value -mt-2 text-ios-subhead text-ios-label2 flex w-full justify-center items-center h-full">
-    Not enough data
-  </div>
+    <!-- iOS look: the empty state of a widget is readable secondary text -->
+    <div class="value -mt-2 text-ios-subhead text-ios-label2 flex w-full justify-center items-center h-full">
+      Not enough data
+    </div>
   {/if}
-
 {/if}

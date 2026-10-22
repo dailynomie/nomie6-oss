@@ -62,11 +62,13 @@ export const closeTemplateManager = () => {
 /**
  * It prompts the user for a URL, then opens the template at that URL
  */
-export const openExternalTemplate = async (_url?:string) => {
+export const openExternalTemplate = async (_url?: string) => {
   try {
-    const url = _url || await Interact.prompt('Template URL', 'Full url to the template', {
-      placeholder: `https://url-to-template`,
-    })
+    const url =
+      _url ||
+      (await Interact.prompt('Template URL', 'Full url to the template', {
+        placeholder: `https://url-to-template`,
+      }))
     if (`${url || ''}`.length) {
       if (is.url(url)) {
         openTemplateRef(url)
@@ -91,9 +93,7 @@ export const openTemplateRef = async (url: string) => {
     if (payload && payload.type == 'template') {
       // Convert trackables to Trackable instances for proper reactivity
       if (payload.trackables && Array.isArray(payload.trackables)) {
-        payload.trackables = payload.trackables.map((t: any) =>
-          t instanceof Trackable ? t : new Trackable(t)
-        )
+        payload.trackables = payload.trackables.map((t: any) => (t instanceof Trackable ? t : new Trackable(t)))
       }
       const template = new Template(payload)
       return openTemplatePreview(template)
@@ -151,20 +151,23 @@ export const useTemplate = async (template: Template, closeModalId: string = 'te
     const backup: any = TemplateToImport(template, getRawPrefs().useMetric)
     const installed = await importStorageArchive(backup, { silent: true, addMissingOnly: true })
     if (!installed) {
-      await Interact.alert(`${template.name} could not be fully installed`, 'Some items could not be saved. Check the console for details.')
+      await Interact.alert(
+        `${template.name} could not be fully installed`,
+        'Some items could not be saved. Check the console for details.'
+      )
       return
     }
     showToast({ message: `${template.name} installed` })
     closeModal(closeModalId)
 
     // Reinitialize all stores to load newly imported data
-    let trackables = await InitTrackableStore();
-    initializeDashStore();
-    initUniboardStore(trackables);
-    LocationStore.init();
-    GoalStore.init();
-    PivotStore.init();
-    ExperimentStore.init();
-    PluginStore.init();
+    let trackables = await InitTrackableStore()
+    initializeDashStore()
+    initUniboardStore(trackables)
+    LocationStore.init()
+    GoalStore.init()
+    PivotStore.init()
+    ExperimentStore.init()
+    PluginStore.init()
   }
 }

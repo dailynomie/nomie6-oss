@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
-<script lang="ts">  import IosSelect from '../../../components/ios-select/ios-select.svelte'
+<script lang="ts">
+  import IosSelect from '../../../components/ios-select/ios-select.svelte'
 
   import TrackableAvatar from '../../../components/avatar/trackable-avatar.svelte'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
@@ -22,12 +23,12 @@
   import { toTrackableArray } from '../trackable-utils'
   import type { TrackableTypes } from '../Trackable.class'
   import { Trackable } from '../Trackable.class'
-  import type {ITrackerType} from '../../../modules/tracker/TrackerClass'
+  import type { ITrackerType } from '../../../modules/tracker/TrackerClass'
 
   import { TrackableStore } from '../TrackableStore'
   import type { TrackableSelectorProps } from './TrackableSelectorStore'
 
-  const { id, payload } = $props<{ id: string, payload: TrackableSelectorProps }>()
+  const { id, payload } = $props<{ id: string; payload: TrackableSelectorProps }>()
 
   let selected: Array<Trackable> = $state([])
   let searchTerm: string | undefined = $state(undefined)
@@ -86,7 +87,7 @@
     selected = selected
   }
 
-  const cleanTerm = (str:string):string => {
+  const cleanTerm = (str: string): string => {
     return `${str || ''}`.replace(/(\@|\+|\#)/g, '')
   }
 
@@ -106,16 +107,18 @@
     }
   }
   let cleanedTerm = $derived(cleanTerm(searchTerm))
-  let filtered = $derived(known.filter((t) => {
-    if (cleanedTerm && payload.type) {
-      return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1 && t.type === payload.type
-    } else if (payload.type) {
-      return t.type === payload.type
-    } else if (searchTerm) {
-      return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1
-    }
-    return t
-  }))
+  let filtered = $derived(
+    known.filter((t) => {
+      if (cleanedTerm && payload.type) {
+        return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1 && t.type === payload.type
+      } else if (payload.type) {
+        return t.type === payload.type
+      } else if (searchTerm) {
+        return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1
+      }
+      return t
+    })
+  )
 
   $effect(() => {
     if (filtered) {
@@ -246,7 +249,7 @@
             <h2 class="ntitle filler">As tracker: #{cleanSearchTerm}</h2>
           {:else if trackable.type === 'context'}
             <h2 class="ntitle filler">As context: +{cleanSearchTerm}</h2>
-            {:else if trackable.type === 'pointer'}
+          {:else if trackable.type === 'pointer'}
             <h2 class="ntitle filler">As pointer: ^{cleanSearchTerm}</h2>
           {:else if trackable.type === 'person'}
             <h2 class="ntitle filler">As person: @{cleanSearchTerm}</h2>

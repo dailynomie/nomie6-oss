@@ -37,7 +37,11 @@
   )
   // The last day of the experiment, for example "Saturday 24 October"
   let endsText = $derived(
-    experiment ? dayjs(experiment.start).add(experiment.durationDays - 1, 'day').format('dddd D MMMM') : ''
+    experiment
+      ? dayjs(experiment.start)
+          .add(experiment.durationDays - 1, 'day')
+          .format('dddd D MMMM')
+      : ''
   )
   let liveResult = $state<ExperimentResultSnapshot | undefined>(undefined)
   let uncheckedDays = $state<Array<string>>([])
@@ -54,9 +58,7 @@
   let frozen = $derived(experiment?.status !== 'running')
   let shownResult = $derived(frozen ? experiment?.result : liveResult)
   let finishable = $derived(daysSoFar >= (experiment?.durationDays ?? Infinity))
-  let progress = $derived(
-    experiment ? (frozen ? 1 : Math.min(1, daysSoFar / experiment.durationDays)) : 0
-  )
+  let progress = $derived(experiment ? (frozen ? 1 : Math.min(1, daysSoFar / experiment.durationDays)) : 0)
   let statusLabel = $derived(
     !experiment
       ? ''
@@ -129,7 +131,10 @@
 
   const deleteExperiment = async () => {
     if (!experiment) return
-    const confirmed = await Interact.confirm('Delete this experiment?', 'The experiment is removed. Your check-in logs are kept.')
+    const confirmed = await Interact.confirm(
+      'Delete this experiment?',
+      'The experiment is removed. Your check-in logs are kept.'
+    )
     if (!confirmed) return
     const adherenceTag = experiment.adherenceTag
     await ExperimentStore.remove(experiment)
@@ -210,7 +215,9 @@
           <div class="shrink-0">
             <ExperimentChip tone={frozen ? 'neutral' : 'running'} label={statusLabel} />
           </div>
-          <div class="text-ios-footnote text-ios-label2 text-right min-w-0">{experiment.durationDays} days · ends {endsText}</div>
+          <div class="text-ios-footnote text-ios-label2 text-right min-w-0">
+            {experiment.durationDays} days · ends {endsText}
+          </div>
         </div>
         {#if experiment.change && experiment.change !== experiment.title}
           <div class="text-sm">{experiment.change}</div>
@@ -241,11 +248,22 @@
           <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 mb-1">Check in</div>
           <div class="text-ios-subhead font-semibold mb-2">Did you stick to it?</div>
           {#each uncheckedDays as day}
-            <div class="flex items-center justify-between gap-2 py-2" style="border-top: 0.5px solid var(--ios-separator)">
+            <div
+              class="flex items-center justify-between gap-2 py-2"
+              style="border-top: 0.5px solid var(--ios-separator)"
+            >
               <span class="text-ios-subhead">{dayLabel(day)}</span>
               <div class="flex gap-2">
-                <button class="h-9 px-3.5 rounded-full bg-ios-tint text-ios-ontint text-ios-subhead font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, true)}>Kept to it</button>
-                <button class="h-9 px-3.5 rounded-full bg-ios-fill text-ios-label text-ios-subhead font-medium disabled:opacity-50" disabled={busy} onclick={() => checkIn(day, false)}>Didn't</button>
+                <button
+                  class="h-9 px-3.5 rounded-full bg-ios-tint text-ios-ontint text-ios-subhead font-medium disabled:opacity-50"
+                  disabled={busy}
+                  onclick={() => checkIn(day, true)}>Kept to it</button
+                >
+                <button
+                  class="h-9 px-3.5 rounded-full bg-ios-fill text-ios-label text-ios-subhead font-medium disabled:opacity-50"
+                  disabled={busy}
+                  onclick={() => checkIn(day, false)}>Didn't</button
+                >
               </div>
             </div>
           {/each}
@@ -258,7 +276,11 @@
           <section class="ios-card p-4 space-y-3">
             <div class="space-y-2 min-w-0">
               <div class="text-ios-body font-semibold capitalize">{outcome.tag.replace(/_/g, ' ')}</div>
-              <ExperimentChip tone={outcomeTone(outcome.verdict, outcome.matchesExpectation)} label={verdictText(outcome)} title={verdictText(outcome)} />
+              <ExperimentChip
+                tone={outcomeTone(outcome.verdict, outcome.matchesExpectation)}
+                label={verdictText(outcome)}
+                title={verdictText(outcome)}
+              />
             </div>
             <div class="grid grid-cols-2 gap-3">
               <div class="ios-box p-3">
@@ -271,7 +293,9 @@
                 <div class="font-bold" style="font-size: 22px; line-height: 26px">
                   {outcome.meanE.toFixed(1)}
                   {#if outcome.pct !== undefined}
-                    <span class="text-ios-footnote font-bold {outcome.pct >= 0 ? 'text-ios-good' : 'text-ios-danger'}">{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span>
+                    <span class="text-ios-footnote font-bold {outcome.pct >= 0 ? 'text-ios-good' : 'text-ios-danger'}"
+                      >{outcome.pct > 0 ? '+' : ''}{outcome.pct.toFixed(0)}%</span
+                    >
                   {/if}
                 </div>
                 <div class="text-xs text-ios-label2">{outcome.nE} days</div>
@@ -342,7 +366,9 @@
       <div class="ios-card overflow-hidden mt-2">
         {#if !frozen}
           {#if finishable}
-            <button class="ios-action font-semibold text-ios-tint" disabled={busy} onclick={() => finish('completed')}>Finish experiment</button>
+            <button class="ios-action font-semibold text-ios-tint" disabled={busy} onclick={() => finish('completed')}
+              >Finish experiment</button
+            >
           {/if}
           <button class="ios-action text-ios-tint" disabled={busy} onclick={() => finish('stopped')}>Stop early</button>
         {/if}

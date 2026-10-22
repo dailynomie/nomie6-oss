@@ -13,12 +13,13 @@
   import { Lang } from '../../store/lang'
   import List from '../../components/list/list.svelte'
 
-  let newfeatures = whatsNew.features.filter(feature => feature.version == whatsNew.version);
-  let newfixes = whatsNew.fixes.filter(fix => fix.version == whatsNew.version);
+  let newfeatures = whatsNew.features.filter((feature) => feature.version == whatsNew.version)
+  let newfixes = whatsNew.fixes.filter((fix) => fix.version == whatsNew.version)
 
   const versionDate = (version: string) => Number(version.match(/(\d{8})$/)?.[1] ?? 0)
-  const versions: Array<string> = [...new Set([...whatsNew.features, ...whatsNew.fixes].map((item) => item.version))]
-    .sort((a, b) => versionDate(b) - versionDate(a))
+  const versions: Array<string> = [
+    ...new Set([...whatsNew.features, ...whatsNew.fixes].map((item) => item.version)),
+  ].sort((a, b) => versionDate(b) - versionDate(a))
   const featuresOf = (version: string) => whatsNew.features.filter((feature) => feature.version == version)
   const fixesOf = (version: string) => whatsNew.fixes.filter((fix) => fix.version == version)
 
@@ -58,7 +59,13 @@
     {#each versions as version}
       <List solo outside title={version}>
         {#if featuresOf(version).length}
-          <NItem bottomLine={16} className="text-sm py-1" compact clickable on:click={() => toggle(`${version}:features`)}>
+          <NItem
+            bottomLine={16}
+            className="text-sm py-1"
+            compact
+            clickable
+            on:click={() => toggle(`${version}:features`)}
+          >
             {expanded[`${version}:features`] ? '▾' : '▸'} Features ({featuresOf(version).length})
           </NItem>
           {#if expanded[`${version}:features`]}

@@ -155,7 +155,7 @@
     }, 12)
   }
 
-  initialize();
+  initialize()
 </script>
 
 <BackdropModal className="tracker-input-modal">
@@ -248,14 +248,13 @@
               />
             </div>
           {:else if tracker.type === 'habit'}
-          <HabitInput
-          {tracker}
-          value={data.value}
-          on:change={(value) => {
-            data.value = value.detail
-          }}
-          
-        />
+            <HabitInput
+              {tracker}
+              value={data.value}
+              on:change={(value) => {
+                data.value = value.detail
+              }}
+            />
           {:else}
             <div id="keypad-holder">
               <NCalculator

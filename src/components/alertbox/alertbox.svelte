@@ -6,7 +6,7 @@
   import type { AlertType } from '../../store/interact'
   import KeyDown from '../../modules/keyDown/keyDown.svelte'
   import { closeModal } from '../backdrop/BackdropStore2'
-import Markdown from '../markdown/markdown.svelte'
+  import Markdown from '../markdown/markdown.svelte'
 
   let hasSlot = false
 
@@ -40,35 +40,30 @@ import Markdown from '../markdown/markdown.svelte'
 <div class="alert-dialog-window card" role="alertdialog" aria-modal="true" aria-hidden={!showBase}>
   <div class="px-3 pt-3">
     {#if payload.title}
-    <h2 role="alert" class="card-title {!hasSlot && !payload.message ? 'message-less' : 'has-message'}">
-      {payload.title}
-    </h2>
-  {/if}
+      <h2 role="alert" class="card-title {!hasSlot && !payload.message ? 'message-less' : 'has-message'}">
+        {payload.title}
+      </h2>
+    {/if}
 
-  {#if payload.message && !hasSlot}
-    <div role="alert" class="card-body message">
-      <Markdown content={payload.message} />
-    </div>
-  {:else if hasSlot && !payload.message}
-    <div class="pt-0 slot-holder card-body">
-      <slot />
-    </div>
-  {:else if hasSlot && payload.message}
-    <div class="pt-0 slot-holder card-body">
-      <Text size="sm">{payload.message}</Text>
-      <slot />
-    </div>
-  {/if}
-  <slot />
+    {#if payload.message && !hasSlot}
+      <div role="alert" class="card-body message">
+        <Markdown content={payload.message} />
+      </div>
+    {:else if hasSlot && !payload.message}
+      <div class="pt-0 slot-holder card-body">
+        <slot />
+      </div>
+    {:else if hasSlot && payload.message}
+      <div class="pt-0 slot-holder card-body">
+        <Text size="sm">{payload.message}</Text>
+        <slot />
+      </div>
+    {/if}
+    <slot />
   </div>
 
   <div class="footer">
-    <button
-      id="alert-ok"
-      aria-label={payload.ok}
-      class="primary"
-      on:click={methods.onOk}
-    >
+    <button id="alert-ok" aria-label={payload.ok} class="primary" on:click={methods.onOk}>
       {payload.ok}
     </button>
     {#if payload.cancel}
@@ -127,7 +122,6 @@ import Markdown from '../markdown/markdown.svelte'
     @apply flex-grow-0;
     @apply flex-shrink;
     @apply space-y-2;
-  
 
     transition: all 0.2s ease-in-out;
     max-width: 400px;
@@ -144,7 +138,7 @@ import Markdown from '../markdown/markdown.svelte'
     align-content: stretch;
     color: var(--color-inverse-2);
   }
-  .alert-dialog-window .card-title  {
+  .alert-dialog-window .card-title {
     line-height: 115%;
     @apply text-ios-label;
     @apply font-bold;
@@ -186,7 +180,7 @@ import Markdown from '../markdown/markdown.svelte'
   .alert-dialog-window .footer {
     @apply flex flex-col;
     @apply pt-2;
-    
+
     /* @apply space-y-2; */
   }
 
@@ -205,12 +199,11 @@ import Markdown from '../markdown/markdown.svelte'
     @apply text-ios-tint font-semibold;
   }
   .alert-dialog-window .footer button.primary {
-    @apply text-ios-tint
+    @apply text-ios-tint;
   }
   .alert-dialog-window .footer button:last-child {
     @apply rounded-b-2xl;
     @apply pb-3;
-    
   }
   .alert-dialog-window .btn-toolbar .btn {
     /* min-width: 100px; */

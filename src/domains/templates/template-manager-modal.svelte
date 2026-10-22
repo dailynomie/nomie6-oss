@@ -19,8 +19,8 @@
 
   import Toolbar from '../../components/toolbar/toolbar.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
-import TemplateEditorList from './template-editor-list.svelte'
-import AvailableTemplatesList from './available-templates-list.svelte'
+  import TemplateEditorList from './template-editor-list.svelte'
+  import AvailableTemplatesList from './available-templates-list.svelte'
 
   let view = $state<'templates' | 'mine'>('templates')
   let fileInput: HTMLInputElement
@@ -59,11 +59,9 @@ import AvailableTemplatesList from './available-templates-list.svelte'
       target.value = '' // Reset file input
     } catch (error) {
       console.error('Failed to upload template:', error)
-      Interact.alert('Upload failed', 'Please ensure it\'s a valid template JSON file.')
+      Interact.alert('Upload failed', "Please ensure it's a valid template JSON file.")
     }
   }
-
-
 </script>
 
 <BackdropModal className="h-full" mainClass="bg-ios-bg">
@@ -112,19 +110,13 @@ import AvailableTemplatesList from './available-templates-list.svelte'
       </List>
 
       {#if $TemplateStore.length}
-      <div class="py-2 px-4 flex justify-center gap-4">
-        <button class="text-primary py-2 px-4" on:click={() => newTemplate()}> Create Template </button>
-        <button class="text-primary py-2 px-4" on:click={() => uploadTemplate()}> Upload Template </button>
-      </div>
+        <div class="py-2 px-4 flex justify-center gap-4">
+          <button class="text-primary py-2 px-4" on:click={() => newTemplate()}> Create Template </button>
+          <button class="text-primary py-2 px-4" on:click={() => uploadTemplate()}> Upload Template </button>
+        </div>
       {/if}
-      <input
-        bind:this={fileInput}
-        type="file"
-        accept=".json"
-        style="display: none"
-        on:change={handleFileUpload}
-      />
-      
+      <input bind:this={fileInput} type="file" accept=".json" style="display: none" on:change={handleFileUpload} />
+
       <div class="px-4 py-4 text-center note-muted">
         Build a custom Nomie Configuration that can be downloaded and shared with others
       </div>

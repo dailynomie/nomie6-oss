@@ -216,11 +216,7 @@
         <Input listItem type="date" bind:value={state.start} label={Lang.t('general.start-date', 'Start Date')} />
         <Input listItem type="date" bind:value={state.end} label={Lang.t('general.end-date', 'End Date')} />
         <div class="p-4 flex items-center space-x-2">
-          <Button
-            disabled={generating}
-            on:click={methods.generateCSV}
-            className="w-full bg-ios-tint text-ios-ontint"
-          >
+          <Button disabled={generating} on:click={methods.generateCSV} className="w-full bg-ios-tint text-ios-ontint">
             {#if generating}
               <span class="mr-2"><Spinner size={22} /></span>
               <span>{Lang.t('general.generating', 'Generating')}...</span>
@@ -229,7 +225,11 @@
             {/if}
           </Button>
           {#if doc.length}
-            <Button disabled={doc.length == 0} on:click={methods.download} className="bg-ios-save text-ios-onsave w-full">
+            <Button
+              disabled={doc.length == 0}
+              on:click={methods.download}
+              className="bg-ios-save text-ios-onsave w-full"
+            >
               <IonIcon icon={DownloadOutline} className="mr-2" />
               <span>{Lang.t('general.download', 'Download')}</span>
             </Button>
@@ -239,13 +239,11 @@
 
       <div class="csv-preview overflow-y-auto py-4 px-2">
         {#if doc.length > 1}
-          <table class="border border-ios-separator p-2 w-full rounded-lg ">
+          <table class="border border-ios-separator p-2 w-full rounded-lg">
             {#each doc.filter((d, i) => i < 10) as row}
               <tr>
                 {#each row as cell}
-                  <td class="cell text-xs p-2 border border-ios-separator text-ios-label2 font-mono"
-                    >{cell || ''}</td
-                  >
+                  <td class="cell text-xs p-2 border border-ios-separator text-ios-label2 font-mono">{cell || ''}</td>
                 {/each}
               </tr>
             {/each}

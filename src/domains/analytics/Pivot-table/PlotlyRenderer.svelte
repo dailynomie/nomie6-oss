@@ -1,180 +1,220 @@
 <svelte:options runes={true} />
 
 <script>
-    import { untrack } from 'svelte';
-    import Plotly from './UI/Plotly.svelte';
-    import { PivotData } from './Utilities';
-    import { Prefs } from '../../preferences/Preferences'
+  import { untrack } from 'svelte'
+  import Plotly from './UI/Plotly.svelte'
+  import { PivotData } from './Utilities'
+  import { Prefs } from '../../preferences/Preferences'
 
-    const props = $props();
-    const { plotlyOptions = {}, plotlyConfig = {}, onRendererUpdate, traceOptions = {}, layoutOptions = {}, transpose = false } = props;
+  const props = $props()
+  const {
+    plotlyOptions = {},
+    plotlyConfig = {},
+    onRendererUpdate,
+    traceOptions = {},
+    layoutOptions = {},
+    transpose = false,
+  } = props
 
-    let currentwidth = $state(500);
-    let screenratio = $state(1);
-    // iOS look: the chart uses the card and label colours of the app theme (Plotly needs literal colours)
-    // The preference can be 'auto', so read the mode the page is actually in (the html.dark class)
-    const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
-    // iOS look (Ronald decision, Phase 7): the chart reads the app's tokens and font, so it matches the rest of the app
-    const themeToken = (name, fallback) => (typeof document !== 'undefined' ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback : fallback);
-    const iosFont = typeof document !== 'undefined' ? getComputedStyle(document.body).fontFamily : 'sans-serif';
-    const iosCard = themeToken('--ios-card', isDark ? '#1C1C1E' : '#FFFFFF');
-    const iosLabel = themeToken('--ios-label', isDark ? '#FFFFFF' : '#000000');
-    const iosLabel2 = themeToken('--ios-label-2', '#6C6C70');
-    const iosSeparator = themeToken('--ios-separator', isDark ? '#48484A' : '#D8D8DC');
-    let plotbgcolor = $state(iosCard)
-    let paperbgcolor = $state(iosCard)
-    let plottextcolor = $state(iosLabel)
-    // iOS look: the series colours are the iOS system colours (the dark variants in dark mode)
-    const iosSeriesLight = ['#007AFF', '#FF9500', '#34C759', '#FF3B30', '#AF52DE', '#A2845E', '#FF2D55', '#5AC8FA', '#FFCC00', '#5856D6']
-    const iosSeriesDark = ['#0A84FF', '#FF9F0A', '#30D158', '#FF453A', '#BF5AF2', '#AC8E68', '#FF375F', '#64D2FF', '#FFD60A', '#5E5CE6']
-    let seriesColors = $state(isDark ? iosSeriesDark : iosSeriesLight)
+  let currentwidth = $state(500)
+  let screenratio = $state(1)
+  // iOS look: the chart uses the card and label colours of the app theme (Plotly needs literal colours)
+  // The preference can be 'auto', so read the mode the page is actually in (the html.dark class)
+  const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+  // iOS look (Ronald decision, Phase 7): the chart reads the app's tokens and font, so it matches the rest of the app
+  const themeToken = (name, fallback) =>
+    typeof document !== 'undefined'
+      ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback
+      : fallback
+  const iosFont = typeof document !== 'undefined' ? getComputedStyle(document.body).fontFamily : 'sans-serif'
+  const iosCard = themeToken('--ios-card', isDark ? '#1C1C1E' : '#FFFFFF')
+  const iosLabel = themeToken('--ios-label', isDark ? '#FFFFFF' : '#000000')
+  const iosLabel2 = themeToken('--ios-label-2', '#6C6C70')
+  const iosSeparator = themeToken('--ios-separator', isDark ? '#48484A' : '#D8D8DC')
+  let plotbgcolor = $state(iosCard)
+  let paperbgcolor = $state(iosCard)
+  let plottextcolor = $state(iosLabel)
+  // iOS look: the series colours are the iOS system colours (the dark variants in dark mode)
+  const iosSeriesLight = [
+    '#007AFF',
+    '#FF9500',
+    '#34C759',
+    '#FF3B30',
+    '#AF52DE',
+    '#A2845E',
+    '#FF2D55',
+    '#5AC8FA',
+    '#FFCC00',
+    '#5856D6',
+  ]
+  const iosSeriesDark = [
+    '#0A84FF',
+    '#FF9F0A',
+    '#30D158',
+    '#FF453A',
+    '#BF5AF2',
+    '#AC8E68',
+    '#FF375F',
+    '#64D2FF',
+    '#FFD60A',
+    '#5E5CE6',
+  ]
+  let seriesColors = $state(isDark ? iosSeriesDark : iosSeriesLight)
 
-    // With Plotly autosize, we don't need to manually calculate width
-    $effect(() => {
-        screenratio = window.innerHeight / window.innerWidth;
+  // With Plotly autosize, we don't need to manually calculate width
+  $effect(() => {
+    screenratio = window.innerHeight / window.innerWidth
+  })
+
+  let pivotData = $state(undefined)
+  let rowKeys = $state([])
+  let colKeys = $state([])
+  let traceKeys = $state([])
+  let datumKeys = $state([])
+  let numInputs = $state(0)
+  let data = $state([])
+  let hAxisTitle = $state('')
+  let groupByTitle = $state('')
+  let layout = $state({})
+
+  let recomputeKey = $state(0)
+
+  $effect(() => {
+    // Establish dependencies by accessing props outside untrack
+    // Only the state writes are untracked, not the dependency tracking
+    const {
+      cols = [],
+      rows = [],
+      vals = [],
+      data: propData = [],
+      derivedAttributes = [],
+      aggregator,
+      sorters = {},
+    } = props
+    const currentTranspose = transpose
+    const currentTraceOptions = traceOptions
+    const currentLayoutOptions = layoutOptions
+
+    // Untrack all state writes to prevent effect from re-running when it modifies state
+    untrack(() => {
+      pivotData = new PivotData(props)
+      rowKeys = pivotData.getRowKeys()
+      colKeys = pivotData.getColKeys()
+      traceKeys = currentTranspose ? colKeys : rowKeys
+      if (traceKeys.length === 0) {
+        traceKeys.push([])
+      }
+      datumKeys = currentTranspose ? rowKeys : colKeys
+      if (datumKeys.length === 0) {
+        datumKeys.push([])
+      }
+
+      let fullAggName = pivotData.props.aggregatorName
+      numInputs = pivotData.props.aggregators[fullAggName]([])().numInputs || 0
+      if (numInputs !== 0) {
+        fullAggName += ` of ${pivotData.props.vals.slice(0, numInputs).join(', ')}`
+      }
+      data = traceKeys.map((traceKey) => {
+        const values = []
+        const labels = []
+        for (const datumKey of datumKeys) {
+          const val = parseFloat(
+            pivotData
+              .getAggregator(currentTranspose ? datumKey : traceKey, currentTranspose ? traceKey : datumKey)
+              .value()
+          )
+          values.push(isFinite(val) ? val : null)
+          labels.push(datumKey.join('-') || ' ')
+        }
+        const trace = { name: traceKey.join('-') || fullAggName }
+        if (currentTraceOptions.type === 'pie') {
+          trace.values = values
+          trace.labels = labels.length > 1 ? labels : [fullAggName]
+        } else {
+          trace.x = currentTranspose ? values : labels
+          trace.y = currentTranspose ? labels : values
+        }
+        return Object.assign(trace, currentTraceOptions)
+      })
+
+      let titleText = fullAggName
+      hAxisTitle = currentTranspose ? pivotData.props.rows.join('-') : pivotData.props.cols.join('-')
+      groupByTitle = currentTranspose ? pivotData.props.cols.join('-') : pivotData.props.rows.join('-')
+      if (hAxisTitle !== '') {
+        titleText += ` vs ${hAxisTitle}`
+      }
+      if (groupByTitle !== '') {
+        titleText += ` by ${groupByTitle}`
+      }
+
+      layout = {
+        title: titleText,
+        hovermode: 'closest',
+        xaxis: {
+          fixedrange: true,
+          gridcolor: iosSeparator,
+          linecolor: iosSeparator,
+          zerolinecolor: iosSeparator,
+          tickfont: { color: iosLabel2 },
+        },
+        yaxis: {
+          fixedrange: true,
+          gridcolor: iosSeparator,
+          linecolor: iosSeparator,
+          zerolinecolor: iosSeparator,
+          tickfont: { color: iosLabel2 },
+        },
+        /* eslint-disable no-magic-numbers */
+        autosize: true,
+        dragmode: false,
+        colorway: seriesColors,
+        plot_bgcolor: plotbgcolor,
+        paper_bgcolor: paperbgcolor,
+        font: { family: iosFont, size: 18 / (1400 / currentwidth), color: plottextcolor },
+        legend: { orientation: 'h', font: { color: iosLabel } },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 100,
+          t: 100,
+          pad: 4,
+        },
+        /* eslint-enable no-magic-numbers */
+      }
+
+      if (currentTraceOptions.type === 'pie') {
+        const columns = Math.ceil(Math.sqrt(data.length))
+        const rows = Math.ceil(data.length / columns)
+        layout.grid = { columns, rows }
+        data.forEach((d, i) => {
+          d.domain = {
+            row: Math.floor(i / columns),
+            column: i - columns * Math.floor(i / columns),
+          }
+          if (data.length > 1) {
+            d.title = d.name
+          }
+        })
+        if (data[0].labels.length === 1) {
+          layout.showlegend = false
+        }
+      } else {
+        layout.xaxis = {
+          title: currentTranspose ? fullAggName : null,
+          automargin: true,
+        }
+        layout.yaxis = {
+          title: currentTranspose ? null : fullAggName,
+          automargin: true,
+        }
+      }
     })
-
-
-
-    let pivotData = $state(undefined);
-    let rowKeys = $state([]);
-    let colKeys = $state([]);
-    let traceKeys = $state([]);
-    let datumKeys = $state([]);
-    let numInputs = $state(0);
-    let data = $state([]);
-    let hAxisTitle = $state('');
-    let groupByTitle = $state('');
-    let layout = $state({});
-
-    let recomputeKey = $state(0);
-
-    $effect(() => {
-        // Establish dependencies by accessing props outside untrack
-        // Only the state writes are untracked, not the dependency tracking
-        const {
-            cols = [],
-            rows = [],
-            vals = [],
-            data: propData = [],
-            derivedAttributes = [],
-            aggregator,
-            sorters = {}
-        } = props;
-        const currentTranspose = transpose;
-        const currentTraceOptions = traceOptions;
-        const currentLayoutOptions = layoutOptions;
-
-        // Untrack all state writes to prevent effect from re-running when it modifies state
-        untrack(() => {
-            pivotData = new PivotData(props);
-            rowKeys = pivotData.getRowKeys();
-            colKeys = pivotData.getColKeys();
-            traceKeys = currentTranspose ? colKeys : rowKeys;
-            if (traceKeys.length === 0) {
-                traceKeys.push([]);
-            }
-            datumKeys = currentTranspose ? rowKeys : colKeys;
-            if (datumKeys.length === 0) {
-                datumKeys.push([]);
-            }
-
-            let fullAggName = pivotData.props.aggregatorName;
-            numInputs = pivotData.props.aggregators[fullAggName]([])().numInputs || 0;
-            if (numInputs !== 0) {
-                fullAggName += ` of ${pivotData.props.vals.slice(0, numInputs).join(', ')}`;
-            }
-            data = traceKeys.map((traceKey) => {
-                const values = [];
-                const labels = [];
-                for (const datumKey of datumKeys) {
-                    const val = parseFloat(
-                        pivotData
-                            .getAggregator(currentTranspose ? datumKey : traceKey, currentTranspose ? traceKey : datumKey)
-                            .value()
-                    );
-                    values.push(isFinite(val) ? val : null);
-                    labels.push(datumKey.join('-') || ' ');
-                }
-                const trace = { name: traceKey.join('-') || fullAggName };
-                if (currentTraceOptions.type === 'pie') {
-                    trace.values = values;
-                    trace.labels = labels.length > 1 ? labels : [fullAggName];
-                } else {
-                    trace.x = currentTranspose ? values : labels;
-                    trace.y = currentTranspose ? labels : values;
-                }
-                return Object.assign(trace, currentTraceOptions);
-            });
-
-            let titleText = fullAggName;
-            hAxisTitle = currentTranspose ? pivotData.props.rows.join('-') : pivotData.props.cols.join('-');
-            groupByTitle = currentTranspose ? pivotData.props.cols.join('-') : pivotData.props.rows.join('-');
-            if (hAxisTitle !== '') {
-                titleText += ` vs ${hAxisTitle}`;
-            }
-            if (groupByTitle !== '') {
-                titleText += ` by ${groupByTitle}`;
-            }
-
-            layout = {
-                title: titleText,
-                hovermode: 'closest',
-                xaxis: {fixedrange: true, gridcolor: iosSeparator, linecolor: iosSeparator, zerolinecolor: iosSeparator, tickfont: {color: iosLabel2}},
-                yaxis: {fixedrange: true, gridcolor: iosSeparator, linecolor: iosSeparator, zerolinecolor: iosSeparator, tickfont: {color: iosLabel2}},
-                /* eslint-disable no-magic-numbers */
-                autosize: true,
-                dragmode:false,
-                colorway: seriesColors,
-                plot_bgcolor: plotbgcolor,
-                paper_bgcolor: paperbgcolor,
-                font: {family: iosFont, size:18 / (1400/currentwidth),color:plottextcolor},
-                legend: {"orientation": "h", font: {color: iosLabel}},
-                margin: {
-        l: 0,
-        r: 0,
-        b: 100,
-        t: 100,
-        pad: 4
-      },
-                /* eslint-enable no-magic-numbers */
-            };
-
-
-            if (currentTraceOptions.type === 'pie') {
-                const columns = Math.ceil(Math.sqrt(data.length));
-                const rows = Math.ceil(data.length / columns);
-                layout.grid = { columns, rows };
-                data.forEach((d, i) => {
-                    d.domain = {
-                        row: Math.floor(i / columns),
-                        column: i - columns * Math.floor(i / columns),
-                    };
-                    if (data.length > 1) {
-                        d.title = d.name;
-                    }
-                });
-                if (data[0].labels.length === 1) {
-                    layout.showlegend = false;
-                }
-            } else {
-                layout.xaxis = {
-                    title: currentTranspose ? fullAggName : null,
-                    automargin: true,
-                };
-                layout.yaxis = {
-                    title: currentTranspose ? null : fullAggName,
-                    automargin: true,
-                };
-            }
-        });
-    })
-
+  })
 </script>
 
 <Plotly
-    {data}
-    layout={Object.assign({}, layout, layoutOptions, plotlyOptions)}
-    config={plotlyConfig}
-    onUpdate={onRendererUpdate}
+  {data}
+  layout={Object.assign({}, layout, layoutOptions, plotlyOptions)}
+  config={plotlyConfig}
+  onUpdate={onRendererUpdate}
 />

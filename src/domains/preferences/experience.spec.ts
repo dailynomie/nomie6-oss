@@ -111,4 +111,3 @@ describe('crown badge follows the starter lists', () => {
     expect(isFullOnlyItem({})).toBe(false)
   })
 })
-

@@ -4,7 +4,6 @@
   import { Link } from '../../vendor/svelte-navigator'
   import Button from '../button/button.svelte'
 
-
   const { label, id, link, className, notify } = $props()
 </script>
 

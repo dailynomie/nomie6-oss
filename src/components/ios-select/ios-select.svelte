@@ -31,7 +31,9 @@
 
   const id = `select-${Math.random().toString(36).slice(2, 9)}`
 
-  let currentLabel = $derived(options.find((o) => o.value == value)?.label ?? (value || value === 0 ? `${value}` : placeholder))
+  let currentLabel = $derived(
+    options.find((o) => o.value == value)?.label ?? (value || value === 0 ? `${value}` : placeholder)
+  )
   let isPlaceholder = $derived(!options.some((o) => o.value == value) && !(value || value === 0))
 
   function pick(option: Option) {
@@ -65,7 +67,14 @@
 >
   <span class="ios-select-value" class:is-placeholder={isPlaceholder}>{currentLabel}</span>
   <svg class="ios-select-chevron" width="10" height="14" viewBox="0 0 10 14" aria-hidden="true">
-    <path d="M1 5l4-4 4 4M1 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path
+      d="M1 5l4-4 4 4M1 9l4 4 4-4"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
   </svg>
 </button>
 

@@ -1,9 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
-
-
   const { percentage, className, style, barClass, r2l, not100Class, is100Class, title, color } = $props()
 </script>
 
@@ -11,7 +8,7 @@
   class:r2l
   aria-label={title}
   {title}
-  class="progress flex n-progress-bar  rounded-full  {className || 'h-6 bg-ios-fill'}"
+  class="progress flex n-progress-bar rounded-full {className || 'h-6 bg-ios-fill'}"
   {style}
 >
   <div

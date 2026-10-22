@@ -46,7 +46,6 @@
   })
 
   const generateMonthsFromScores = () => {
-    
     let monthMap: any = {}
     scores
       .sort((a, b) => {
@@ -64,7 +63,7 @@
         monthMap[startOfMonth] = monthMap[startOfMonth] || []
         monthMap[startOfMonth].push(score)
       })
-    
+
     return Object.keys(monthMap)
       .map((id) => {
         return monthMap[id]
@@ -75,7 +74,6 @@
   }
 
   const getPast = async () => {
-    
     showLoading = true
     const start = dayjs(startDate).subtract(2, 'month')
     const end = dayjs(startDate).endOf('day')
@@ -126,7 +124,7 @@
 </script>
 
 {#if goal && totalWeeks}
-  <div class="bg-ios-card px-4 pb-4  flex flex-col space-y-2">
+  <div class="bg-ios-card px-4 pb-4 flex flex-col space-y-2">
     <h1 class="text-xl font-bold text-ios-label leading-tight mt-4 pb-">
       {trackable.label}
       {getGoalComparisonSymbol(goal.comparison)}
@@ -134,9 +132,7 @@
     </h1>
     {#if scores}
       <p class="text-ios-label2 leading-snug pb-2">
-        Goal hit <strong class="text-ios-label"
-          >{math.round(math.percentage(totalWeeks, totalSuccess))}%</strong
-        >
+        Goal hit <strong class="text-ios-label">{math.round(math.percentage(totalWeeks, totalSuccess))}%</strong>
         <strong>{totalSuccess}</strong> out of {totalWeeks} weeks.
         <br />
       </p>
@@ -172,41 +168,43 @@
           {item[0].date.format('YYYY')}
         </h2>
         {#if item.length < 4}
-        <div class="goal-balls" style="width:{(100/6)*item.length}%">
-          
-          {#each item as week, i}
-            <button
-              on:click={() => openDateOptions(week.date.toDate())}
-              style="transform: scale({getPad(week.percent)})"
-              class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(week.og) && week.failure == true
-              ? 'ios-goal-missed'
-              : ''} {Number.isNaN(week.og) ? 'bg-ios-fill goal-nodata' : ''}"
-          >
-              <!--{week.date.format('ddd').substring(0, 1)} -->
-              wk{i+1}
+          <div class="goal-balls" style="width:{(100 / 6) * item.length}%">
+            {#each item as week, i}
+              <button
+                on:click={() => openDateOptions(week.date.toDate())}
+                style="transform: scale({getPad(week.percent)})"
+                class="goal-ball transition-all {!Number.isNaN(week.og) && week.success == true
+                  ? 'bg-ios-good'
+                  : ''} {!Number.isNaN(week.og) && week.failure == true ? 'ios-goal-missed' : ''} {Number.isNaN(week.og)
+                  ? 'bg-ios-fill goal-nodata'
+                  : ''}"
+              >
+                <!--{week.date.format('ddd').substring(0, 1)} -->
+                wk{i + 1}
 
-              <!-- {day.date.format(dateFormats.tinyNumber)} -->
-            </button>
-          {/each}
-        </div>
+                <!-- {day.date.format(dateFormats.tinyNumber)} -->
+              </button>
+            {/each}
+          </div>
         {:else}
-        <div class="goal-balls">
-          
-          {#each item as week, i}
-            <button
-              on:click={() => openDateOptions(week.date.toDate())}
-              style="transform: scale({getPad(week.percent)})"
-              class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-ios-good' : ''} {!Number.isNaN(week.og) && week.failure == true
-              ? 'ios-goal-missed'
-              : ''} {Number.isNaN(week.og) ? 'bg-ios-fill goal-nodata' : ''}"
-          >
-              <!--{week.date.format('ddd').substring(0, 1)} -->
-              wk{i+1}
+          <div class="goal-balls">
+            {#each item as week, i}
+              <button
+                on:click={() => openDateOptions(week.date.toDate())}
+                style="transform: scale({getPad(week.percent)})"
+                class="goal-ball transition-all {!Number.isNaN(week.og) && week.success == true
+                  ? 'bg-ios-good'
+                  : ''} {!Number.isNaN(week.og) && week.failure == true ? 'ios-goal-missed' : ''} {Number.isNaN(week.og)
+                  ? 'bg-ios-fill goal-nodata'
+                  : ''}"
+              >
+                <!--{week.date.format('ddd').substring(0, 1)} -->
+                wk{i + 1}
 
-              <!-- {day.date.format(dateFormats.tinyNumber)} -->
-            </button>
-          {/each}
-        </div>
+                <!-- {day.date.format(dateFormats.tinyNumber)} -->
+              </button>
+            {/each}
+          </div>
         {/if}
       </div>
     {/if}
@@ -253,8 +251,7 @@
     @apply flex items-center justify-between;
     @apply leading-tight;
     @apply w-full;
-    @apply max-w-md;  
-
+    @apply max-w-md;
   }
   .goal-ball {
     @apply rounded-full;
@@ -288,4 +285,3 @@
     color: var(--ios-label2) !important;
   }
 </style>
-

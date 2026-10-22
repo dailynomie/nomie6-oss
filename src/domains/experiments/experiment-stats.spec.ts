@@ -42,12 +42,7 @@ describe('comparing two windows', () => {
   })
 
   it('finds no difference (example B)', () => {
-    const r = compareWindows(
-      'mood',
-      'either',
-      [5, 6, 7, 6, 5, 7, 6, 6, 5, 7],
-      [6, 5, 7, 6, 6, 5, 7, 6, 6, 6]
-    )
+    const r = compareWindows('mood', 'either', [5, 6, 7, 6, 5, 7, 6, 6, 5, 7], [6, 5, 7, 6, 6, 5, 7, 6, 6, 6])
     close(r.diff, 0, 1e-12)
     close(r.p, 1, 1e-9)
     close(r.ciLow, -0.702321, 1e-6)

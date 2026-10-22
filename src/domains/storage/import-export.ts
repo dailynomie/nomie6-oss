@@ -70,7 +70,13 @@ export type N6StorageExport = {
  * from "6." to "dn6." in August 2026 and broke the old check.
  */
 export const isStorageArchive = (archive: any): boolean => {
-  return !!archive && typeof archive === 'object' && !!archive.files && typeof archive.files === 'object' && !Array.isArray(archive.files)
+  return (
+    !!archive &&
+    typeof archive === 'object' &&
+    !!archive.files &&
+    typeof archive.files === 'object' &&
+    !Array.isArray(archive.files)
+  )
 }
 
 export const isBookPath = (path: string): boolean => /(^|\/)books\//.test(path)
@@ -153,8 +159,7 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
   if (`${fileUpload.file.name}`.toLowerCase().endsWith('.csv')) {
     hideImportModal()
 
-    showCSVImportModal(fileUpload);
-
+    showCSVImportModal(fileUpload)
   } else {
     let archive: N6StorageExport | any
     try {
@@ -172,8 +177,8 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
      * Is this a version 6 Archive, or the older format?
      */
     if (archive && archive.type && archive.type == 'template') {
-      const importerFormat: any = TemplateToImport(archive);
-      return await importStorageArchive(importerFormat);
+      const importerFormat: any = TemplateToImport(archive)
+      return await importStorageArchive(importerFormat)
     } else if (isStorageArchive(archive)) {
       // Nomie 6 / Daily Nomie storage archive - restores every file it contains
       return await importStorageArchive(archive)
@@ -199,7 +204,6 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
     }
   }
 }
-
 
 type ImportProps = {
   silent?: boolean
@@ -264,10 +268,12 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
       .reduce((total, path) => total + (Array.isArray(archive.files[path]) ? archive.files[path].length : 0), 0)
   const created = archive.created ? ` from ${dayjs(archive.created).format('D MMM YYYY HH:mm')}` : ''
 
-  let confirmed = props.silent ? true : await Interact.confirm(
-    `Restore backup?`,
-    `This backup${created} contains ${fileCount} files and ${logCount.toLocaleString()} logs. It will be merged with the data on this device. This action cannot be undone.`
-  )
+  let confirmed = props.silent
+    ? true
+    : await Interact.confirm(
+        `Restore backup?`,
+        `This backup${created} contains ${fileCount} files and ${logCount.toLocaleString()} logs. It will be merged with the data on this device. This action cannot be undone.`
+      )
   if (confirmed) {
     // Items that exist on both sides keep this device's version, unless the user picks the backup's.
     // Dismissing the question keeps this device's version too.
@@ -275,7 +281,7 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
     if (!props.addMissingOnly && !props.silent) {
       const useBackup = await Interact.confirm(
         'Items already on this device',
-        'Some items exist on this device and in the backup. Keep this device\'s version (recommended), or use the version from the backup? Items only in the backup are always added.',
+        "Some items exist on this device and in the backup. Keep this device's version (recommended), or use the version from the backup? Items only in the backup are always added.",
         'Use backup version',
         'Keep this device (recommended)'
       )

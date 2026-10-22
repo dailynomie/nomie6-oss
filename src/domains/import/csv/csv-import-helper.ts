@@ -1,7 +1,6 @@
-
 import Papa from 'papaparse'
 import dayjs from 'dayjs'
-import  NLog from '../../nomie-log/nomie-log'
+import NLog from '../../nomie-log/nomie-log'
 import nid from '../../../modules/nid/nid'
 import NPaths from '../../../paths'
 import { createArrayStore } from '../../../store/ArrayStore'
@@ -10,14 +9,12 @@ export const CsvTemplateStore = createArrayStore(NPaths.storage.csvTemplates(), 
   key: 'id',
   label: 'CSVTemplate',
   itemInitializer: (item) => {
-    return item;
+    return item
   },
   itemSerializer: (item: IImportConfig) => {
     return item
   },
 })
-
-
 
 export interface IFieldMapItem {
   index: number

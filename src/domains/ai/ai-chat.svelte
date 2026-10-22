@@ -25,10 +25,10 @@
   let providerInfo = $derived.by(() => {
     const selectedService = $Prefs.ai?.selectedService || 'claude'
     const service = $Prefs.ai?.services?.[selectedService]
-    
+
     let provider = ''
     let model = ''
-    
+
     if (selectedService === 'claude') {
       provider = 'Claude'
       model = 'claude-opus-4-8'
@@ -37,7 +37,7 @@
       // Use actual model from response if available, otherwise show endpoint
       model = aiState.actualModel || 'openrouter/free'
     }
-    
+
     return { provider, model }
   })
 
@@ -80,7 +80,7 @@
       id: `msg-${Date.now()}`,
       role: 'user',
       content: inputText,
-      timestamp: new Date()
+      timestamp: new Date(),
     }
 
     messages.push(userMessage)
@@ -92,7 +92,7 @@
       role: 'assistant',
       content: '',
       timestamp: new Date(),
-      loading: true
+      loading: true,
     }
 
     messages.push(assistantMessage)
@@ -102,15 +102,15 @@
       const messageIndex = messages.length - 1
 
       // Build conversation history from previous messages (excluding the current loading message)
-      const conversationHistory = messages.slice(0, -1).map(msg => ({
+      const conversationHistory = messages.slice(0, -1).map((msg) => ({
         role: msg.role as 'user' | 'assistant',
-        content: msg.content
+        content: msg.content,
       }))
 
       await streamQuery(
         {
           profile: 'chat',
-          prompt: userMessage.content
+          prompt: userMessage.content,
         },
         (chunk) => {
           fullResponse += chunk
@@ -169,7 +169,11 @@
           <p class="font-bold text-2xl text-ios-label">Start a conversation</p>
           <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap text-ios-label2">
             <span>Ask</span>
-            <img src="/images/nomie-words.svg" alt="Nomie" style="height: 18px; width: auto; vertical-align: middle; display: inline-block; margin-top: -2px;" />
+            <img
+              src="/images/nomie-words.svg"
+              alt="Nomie"
+              style="height: 18px; width: auto; vertical-align: middle; display: inline-block; margin-top: -2px;"
+            />
             <span>about your tracking data, goals, and insights</span>
           </div>
         </div>
@@ -223,7 +227,9 @@
         class="ai-send-btn flex-shrink-0"
         title={aiState.loading ? 'Waiting for response...' : 'Send message'}
       >
-        <span class="send-icon">{#if aiState.loading}…{:else}<IonIcon icon={PaperPlaneSolid} size={18} />{/if}</span>
+        <span class="send-icon"
+          >{#if aiState.loading}…{:else}<IonIcon icon={PaperPlaneSolid} size={18} />{/if}</span
+        >
       </button>
     </div>
     {#if aiState.error}
@@ -268,7 +274,8 @@
   }
 
   @keyframes twinkle {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.2;
       transform: scale(1);
     }
@@ -287,12 +294,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(
-      135deg,
-      #2aa8e0 0%,
-      #1480b8 50%,
-      #0a4f80 100%
-    );
+    background: linear-gradient(135deg, #2aa8e0 0%, #1480b8 50%, #0a4f80 100%);
     box-shadow: 0 4px 12px rgba(10, 79, 128, 0.4);
     transition: all 0.2s ease;
     position: relative;

@@ -41,7 +41,11 @@
   import NLog from '../nomie-log/nomie-log'
   import { UsageStore } from '../usage/UsageStore'
 
-  let { searching = $bindable(undefined), sort = $bindable(undefined), filter = $bindable((ele: Trackable) => true) } = $props<{
+  let {
+    searching = $bindable(undefined),
+    sort = $bindable(undefined),
+    filter = $bindable((ele: Trackable) => true),
+  } = $props<{
     searching?: string
     sort?: Function
     filter?: Function
@@ -223,7 +227,7 @@
   })
 </script>
 
-<section class="nomie-board-tab  py-2" style="min-height:45vh">
+<section class="nomie-board-tab py-2" style="min-height:45vh">
   {#if $CombinedBoards}
     <Swiper
       id="uniboard-swiper"
@@ -238,7 +242,7 @@
       }}
     >
       {#each $CombinedBoards.filter((t) => t) as board}
-        <section class="min-w-full w-full  text-white" id={`b-${board?.id}`} style="min-height:45vh">
+        <section class="min-w-full w-full text-white" id={`b-${board?.id}`} style="min-height:45vh">
           {#if $ActiveBoard && $ActiveBoard.id === board?.id}
             {#if !$UniboardStore.editMode}
               <UniboardTrackableGrid
@@ -294,7 +298,7 @@
                   <!-- <h1 class="font-bold mb-2 text-xl text-ios-label leading-tight">
                     {Lang.t('general.get-started', 'Get Started!')}
                   </h1> -->
-                  <div class="text-center  text-ios-label2 leading-snug px-6 mb-6 lg:mb-10 flex-fill ">
+                  <div class="text-center text-ios-label2 leading-snug px-6 mb-6 lg:mb-10 flex-fill">
                     <h1 class="text-ios-label font-bold mb-1">No trackers yet</h1>
                     <p class="text-xs">
                       Your {board.label} board shows your trackers. Add one below to get started.

@@ -66,28 +66,28 @@ export const getLogPopButtons = (log: NLog, includeDescription: boolean = true):
       click() {
         openLogEditor(log)
       },
-    }
+    },
   ]
-  if(log.pinned) {
+  if (log.pinned) {
     buttons.push({
       title: 'Unpin Note',
       icon: MagnetOutlineSvelte,
       click() {
-        delete log.pinned;
-        LedgerStore.updateLog(log);
-      }
+        delete log.pinned
+        LedgerStore.updateLog(log)
+      },
     })
   } else {
     buttons.push({
       title: 'Pin Note',
       icon: MagnetOutlineSvelte,
       click() {
-        log.pinned = true;
-        LedgerStore.updateLog(log);
-      }
+        log.pinned = true
+        LedgerStore.updateLog(log)
+      },
     })
   }
-  return buttons;
+  return buttons
 }
 
 export const getTrackableDetailPopButton = (trackable: Trackable): Array<PopMenuButton> => {

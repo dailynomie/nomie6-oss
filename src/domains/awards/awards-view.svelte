@@ -15,8 +15,8 @@
   import { Interact } from '../../store/interact'
 
   const resetAll = async () => {
-    var feedback = await Interact.confirm("Reset all Awards, they will be rebuild with next app restart")
-    if (feedback){
+    var feedback = await Interact.confirm('Reset all Awards, they will be rebuild with next app restart')
+    if (feedback) {
       $AwardStore.awards = []
       $AwardStore.newAwards = []
       $AwardStore.ready = true
@@ -39,19 +39,17 @@
         >
           <IonIcon icon={RemoveCircleOutline} className="text-ios-tint" />
           {#if $Device.width > 400}
-            <span class="ml-2 text-ios-tint">
-              Reset All
-            </span>
+            <span class="ml-2 text-ios-tint"> Reset All </span>
           {/if}
         </button>
       </div>
     </ToolbarGrid>
     <h1 class="ios-large-title">My Awards</h1>
   </header>
-  <main class="h-full ">
+  <main class="h-full">
     <Container className="py-4">
       <div class="px-4 grid grid-cols-3 gap-3">
-        {#each $AwardStore.awards as award }
+        {#each $AwardStore.awards as award}
           <AwardBadge {award} />
         {/each}
       </div>

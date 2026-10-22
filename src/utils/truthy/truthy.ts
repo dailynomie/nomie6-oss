@@ -5,10 +5,10 @@
  */
 export function isTruthy(o?: any) {
   if (o === false) {
-    return false;
+    return false
   } else if (o === undefined || o === null) {
-    return false;
+    return false
   } else {
-    return true;
+    return true
   }
 }

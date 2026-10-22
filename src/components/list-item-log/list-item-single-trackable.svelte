@@ -34,7 +34,7 @@
   id="log-{log._id}"
 >
   <TrackableAvatar {trackable} size={42} className="mr-2 mt-4" />
-  <main class="flex py-3 items-start  flex-col w-full space-y-1">
+  <main class="flex py-3 items-start flex-col w-full space-y-1">
     <div class="flex item-center space-y-1 filler items-center justify-between w-full">
       <h3 class="text-base leading-tight font-bold w-full text-ios-label">
         {trackable.label}

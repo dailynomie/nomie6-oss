@@ -62,7 +62,11 @@ describe('experiment days', () => {
   it('leaves out days without a check-in, and counts them as unchecked', () => {
     const adherence = { '2026-10-01': 1 }
     expect(summarizeAdherence(days, adherence)).toEqual({ kept: 1, missed: 0, unchecked: 3 })
-    expect(summarizeAdherence(days, { '2026-10-01': 1, '2026-10-02': -1 })).toEqual({ kept: 1, missed: 1, unchecked: 2 })
+    expect(summarizeAdherence(days, { '2026-10-01': 1, '2026-10-02': -1 })).toEqual({
+      kept: 1,
+      missed: 1,
+      unchecked: 2,
+    })
   })
 
   it('reads the outcome on the following day when there is a lag', () => {

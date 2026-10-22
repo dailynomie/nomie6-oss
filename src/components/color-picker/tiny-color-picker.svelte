@@ -3,7 +3,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
-import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte';
+  import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte'
   import IonIcon from '../icon/ion-icon.svelte'
 
   const dispatch = createEventDispatcher()

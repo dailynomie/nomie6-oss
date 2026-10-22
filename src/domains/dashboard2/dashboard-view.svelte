@@ -177,18 +177,16 @@
   }
 
   function printDashboard() {
-    setTimeout(function() {
-  
-   try {
-  if(!document.execCommand('print', false, null)) {
-    window.print()
+    setTimeout(function () {
+      try {
+        if (!document.execCommand('print', false, null)) {
+          window.print()
+        }
+      } catch {
+        window.print()
+      }
+    }, 100)
   }
-} catch {
-  window.print()
-}
-}, 100)
-
- }
 </script>
 
 <Layout className="h-full">
@@ -198,28 +196,35 @@
       <button type="button" class="ios-round" aria-label="Search Nomie" on:click={() => openUnisearch()}>
         <IonIcon icon={SearchIcon} size={18} />
       </button>
-      <MenuInline id="dashboard-menu" title="Dashboard options" x="right" y="bottom" menuButtons={mainMenu} buttonClass="ios-round">
+      <MenuInline
+        id="dashboard-menu"
+        title="Dashboard options"
+        x="right"
+        y="bottom"
+        menuButtons={mainMenu}
+        buttonClass="ios-round"
+      >
         <IonIcon icon={SettingsOutline} size={18} />
       </MenuInline>
     </div>
     <h1 class="text-ios-large font-bold text-ios-label">Dashboard</h1>
     <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format('dddd D MMMM')}</p>
     <div class="collapsible-row">
-    <Toolbar className="px-0 h-11 max-h-11 min-h-11">
-      {#if !$DashStore.editMode}
-        <DashboardTabs />
-      {:else}
-        <Button
-          shape="round"
-          size="sm"
-          className="ml-2 bg-ios-tint text-ios-ontint w-32"
-          on:click={() => {
-            toggleDashboardEditMode()
-          }}
-          >Done
-        </Button>
-      {/if}
-    </Toolbar>
+      <Toolbar className="px-0 h-11 max-h-11 min-h-11">
+        {#if !$DashStore.editMode}
+          <DashboardTabs />
+        {:else}
+          <Button
+            shape="round"
+            size="sm"
+            className="ml-2 bg-ios-tint text-ios-ontint w-32"
+            on:click={() => {
+              toggleDashboardEditMode()
+            }}
+            >Done
+          </Button>
+        {/if}
+      </Toolbar>
     </div>
   </header>
 
@@ -246,44 +251,44 @@
     <hr class="mt-4 mb-6 border-ios-separator dark:border-ios-separator" />
     <Container size="md">
       <div class="non-printable">
-      <ListItem clickable on:click={() => createNewWidget()} bottomLine={24}>
-        <IonIcon icon={AddCircleOutline} slot="left" />
-        <span class="">Add Widget</span></ListItem
-      >
+        <ListItem clickable on:click={() => createNewWidget()} bottomLine={24}>
+          <IonIcon icon={AddCircleOutline} slot="left" />
+          <span class="">Add Widget</span></ListItem
+        >
 
-      {#if $DashStore.activeDashboard?.widgets?.length > 0}
-        <ListItem
-          clickable
-          on:click={async () => {
-            await getSharedImageFile()
-          }}
-          bottomLine={24}
-        >
-          <IonIcon icon={ShareOutline} slot="left" />
-          Share Dashboard View</ListItem
-        >
-        <ListItem
-        clickable
-        on:click={async () => {
-          await printDashboard()
-        }}
-        bottomLine={24}
-      >
-        <IonIcon icon={PrintOutline} slot="left" />
-        Print Dashboard View</ListItem
-      >
-        <ListItem
-          bottomLine={24}
-          clickable
-          on:click={() => {
-            toggleDashboardEditMode()
-          }}
-        >
-          <IonIcon icon={PencilOutline} slot="left" />
-          <span>Edit Dashboard</span></ListItem
-        >
-      {/if}
-    </div>
+        {#if $DashStore.activeDashboard?.widgets?.length > 0}
+          <ListItem
+            clickable
+            on:click={async () => {
+              await getSharedImageFile()
+            }}
+            bottomLine={24}
+          >
+            <IonIcon icon={ShareOutline} slot="left" />
+            Share Dashboard View</ListItem
+          >
+          <ListItem
+            clickable
+            on:click={async () => {
+              await printDashboard()
+            }}
+            bottomLine={24}
+          >
+            <IonIcon icon={PrintOutline} slot="left" />
+            Print Dashboard View</ListItem
+          >
+          <ListItem
+            bottomLine={24}
+            clickable
+            on:click={() => {
+              toggleDashboardEditMode()
+            }}
+          >
+            <IonIcon icon={PencilOutline} slot="left" />
+            <span>Edit Dashboard</span></ListItem
+          >
+        {/if}
+      </div>
     </Container>
   {:else}
     <Empty
@@ -300,6 +305,8 @@
 
 <style>
   @media print {
-      .non-printable { display: none; }
+    .non-printable {
+      display: none;
+    }
   }
 </style>

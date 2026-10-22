@@ -16,12 +16,12 @@ type TimelineLogChunkType = {
 }
 
 export type TimelineFilterProps = {
-  notes?: boolean;
-  maps?: boolean;
-  trackables?: boolean;
-  context?: boolean;
-  pointers?: boolean;
-  search?: string;
+  notes?: boolean
+  maps?: boolean
+  trackables?: boolean
+  context?: boolean
+  pointers?: boolean
+  search?: string
 }
 
 export const logsToTimeline = (logs: Array<NLog>, knownTrackables: ITrackables): Array<TimelineItemType> => {
@@ -43,6 +43,3 @@ export const logsToTimeline = (logs: Array<NLog>, knownTrackables: ITrackables):
     }
   })
 }
-
-
-

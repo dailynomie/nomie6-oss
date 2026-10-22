@@ -42,7 +42,7 @@
           }}
           class="snap-end {selectedDayIndex == index
             ? 'selected active bg-ios-tint my-1 px-2 text-ios-ontint font-bold '
-            : ' text-ios-tint'}  text-xs p-1 stiff rounded-full "
+            : ' text-ios-tint'}  text-xs p-1 stiff rounded-full"
         >
           {day.format('MMM')}
           {day.format('D')}

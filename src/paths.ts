@@ -1,7 +1,6 @@
 import config from './config/appConfig'
 
 const NPaths = {
-
   awardChainDoc(uid: string = 'local') {
     return `awards.json`
   },

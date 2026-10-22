@@ -42,7 +42,7 @@
     {/if}
 
     <RangeSlider
-      bind:values={values}
+      bind:values
       on:input={() => {
         dispatch('input', values[0])
       }}
@@ -67,10 +67,7 @@
     />
     <div class="value ios-slider-value px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
       {#if tracker && tracker.uom !== 'num'}
-        <LetterTicker
-          text={`${tracker.displayValue(values[0])}`}
-          className=" font-bold text-ios-label"
-        />
+        <LetterTicker text={`${tracker.displayValue(values[0])}`} className=" font-bold text-ios-label" />
       {:else if tracker}
         <LetterTicker text={`${values[0]}`} className="font-bold text-ios-label" />
       {/if}

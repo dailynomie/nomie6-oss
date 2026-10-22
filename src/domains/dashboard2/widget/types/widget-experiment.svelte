@@ -43,7 +43,9 @@
   {#if view}
     <!-- iOS look (guide 5.7): 34 px tint square, 15 px title, 13 px status -->
     <div class="flex items-center gap-2 min-w-0">
-      <div class="ios-exp-icon flex-shrink-0 flex items-center justify-center text-ios-tint"><IonIcon icon={FlaskOutline} size={18} /></div>
+      <div class="ios-exp-icon flex-shrink-0 flex items-center justify-center text-ios-tint">
+        <IonIcon icon={FlaskOutline} size={18} />
+      </div>
       <div class="min-w-0">
         <div class="text-ios-subhead font-semibold truncate">{view.title}</div>
         <div class="text-ios-footnote text-ios-label2">{view.status}</div>

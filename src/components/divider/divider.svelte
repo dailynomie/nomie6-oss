@@ -1,7 +1,23 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  const { className = '', center = false, inset = false, pad = false, style = '', hideLine = false, left = undefined } = $props<{ className?: string; center?: boolean; inset?: boolean; pad?: boolean; style?: string; hideLine?: boolean; left?: number }>()
+  const {
+    className = '',
+    center = false,
+    inset = false,
+    pad = false,
+    style = '',
+    hideLine = false,
+    left = undefined,
+  } = $props<{
+    className?: string
+    center?: boolean
+    inset?: boolean
+    pad?: boolean
+    style?: string
+    hideLine?: boolean
+    left?: number
+  }>()
 
   let hasContent = $derived(Object.keys($$slots).length > 0)
 </script>

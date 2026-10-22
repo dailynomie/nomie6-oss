@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   import { onMount } from 'svelte'
 
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
@@ -78,7 +77,8 @@
   <main class="p-4 space-y-5 text-ios-label">
     <h1 class="text-ios-large font-bold text-ios-label px-1 -mb-3">Nomie Language</h1>
     <p class="px-1 text-ios-subhead text-ios-label2">
-      Want to help translate Nomie? Fill in the fields below. Save keeps your progress on this device. When you are finished, send the file.
+      Want to help translate Nomie? Fill in the fields below. Save keeps your progress on this device. When you are
+      finished, send the file.
     </p>
 
     {#if activeLang}

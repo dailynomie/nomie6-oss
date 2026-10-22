@@ -54,17 +54,17 @@
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
     <!-- on desktop the header sits in the same centred column as the list -->
     <div class="ios-desktop-column">
-    <!-- iOS look: the add action is on the trailing side of the action row -->
-    <div class="flex items-center justify-end h-9">
-      <button type="button" aria-label="New experiment" class="exp-round" on:click={openEditor}>
-        <IonIcon icon={AddIcon} size={18} />
-      </button>
-    </div>
-    <h1 class="text-ios-large font-bold text-ios-label outline-none">{Lang.t('experiments.title', 'Experiments')}</h1>
-    <p class="text-ios-subhead text-ios-label2">Test one change. See what it does.</p>
-    {#if $ExperimentStore.length}
-      <p class="text-ios-footnote text-ios-label2 mt-1">{running.length} running · {finished.length} finished</p>
-    {/if}
+      <!-- iOS look: the add action is on the trailing side of the action row -->
+      <div class="flex items-center justify-end h-9">
+        <button type="button" aria-label="New experiment" class="exp-round" on:click={openEditor}>
+          <IonIcon icon={AddIcon} size={18} />
+        </button>
+      </div>
+      <h1 class="text-ios-large font-bold text-ios-label outline-none">{Lang.t('experiments.title', 'Experiments')}</h1>
+      <p class="text-ios-subhead text-ios-label2">Test one change. See what it does.</p>
+      {#if $ExperimentStore.length}
+        <p class="text-ios-footnote text-ios-label2 mt-1">{running.length} running · {finished.length} finished</p>
+      {/if}
     </div>
   </header>
   <main class="py-4 relative z-10 px-2 lg:px-4">
@@ -113,14 +113,21 @@
                   <div class="font-semibold truncate">{experiment.title}</div>
                   <!-- iOS look (section 0 rule 1): the status chip keeps its full text -->
                   <div class="shrink-0">
-                    <ExperimentChip tone="neutral" label={experiment.status === 'stopped' ? 'Stopped early' : 'Finished'} />
+                    <ExperimentChip
+                      tone="neutral"
+                      label={experiment.status === 'stopped' ? 'Stopped early' : 'Finished'}
+                    />
                   </div>
                 </div>
                 {#if summary.outcomes.length}
                   <!-- iOS look (guide 5.5): one chip per outcome, in its own tone -->
                   <div class="finished-outcome flex flex-wrap gap-1">
                     {#each summary.outcomes as outcome}
-                      <ExperimentChip tone={outcome.tone} label="{outcome.label}: {outcome.text}" title={outcome.text} />
+                      <ExperimentChip
+                        tone={outcome.tone}
+                        label="{outcome.label}: {outcome.text}"
+                        title={outcome.text}
+                      />
                     {/each}
                   </div>
                 {/if}

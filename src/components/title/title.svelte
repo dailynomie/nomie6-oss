@@ -1,8 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
-
   const { h1, className, style, listHeader, subTitle } = $props()
 </script>
 

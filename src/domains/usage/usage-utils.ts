@@ -65,15 +65,15 @@ export default function logsToTrackableUsage(logs: Array<NLog>, options: LogToUs
   // Holder of the Map
   let trackableMap: TrackableUsageMap = {}
   // Loop over notes
-  logs.
-  sort((a,b)=>{
-    return a.end > b.end ? 1: -1
-  }).
-  forEach((log) => {
-    // get trackables from this note and loop over them
-    trackableMap = logToTrackableUsage(log, trackableMap, options)
-    // trackables.push(note.parsed);
-  })
+  logs
+    .sort((a, b) => {
+      return a.end > b.end ? 1 : -1
+    })
+    .forEach((log) => {
+      // get trackables from this note and loop over them
+      trackableMap = logToTrackableUsage(log, trackableMap, options)
+      // trackables.push(note.parsed);
+    })
 
   return trackableMap
 }

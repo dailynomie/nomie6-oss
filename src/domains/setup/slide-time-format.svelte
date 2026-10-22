@@ -7,8 +7,8 @@
   import Button from '../../components/button/button.svelte'
   import { Prefs } from '../preferences/Preferences'
   import Container from '../../components/container/container.svelte'
-import Badge from '../../components/badge/badge.svelte'
-import { Interact } from '../../store/interact';
+  import Badge from '../../components/badge/badge.svelte'
+  import { Interact } from '../../store/interact'
 
   let initialized = $state(false)
 
@@ -26,7 +26,6 @@ import { Interact } from '../../store/interact';
 
 <Container className="filler px-5 flex items-center justify-center flex-col slide-location -mt-10">
   <div class="pt-3 mx-auto top center-grow min-w-full max-w-xl">
-    
     <p class="mb-4 text-ios-label2 text-center text-sm">Your preferences</p>
 
     <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
@@ -91,7 +90,7 @@ import { Interact } from '../../store/interact';
 
     <div class="big-group p-2 mt-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
-      className={$Prefs.weekStarts == 'sunday'
+        className={$Prefs.weekStarts == 'sunday'
           ? 'bg-ios-tint text-ios-ontint font-bold'
           : 'bg-ios-card text-ios-label2'}
         block
@@ -102,10 +101,10 @@ import { Interact } from '../../store/interact';
           $Prefs.weekStarts = 'sunday'
         }}
       >
-      Sun
-    </Button>
-    <Button
-    className=" {$Prefs.weekStarts == 'monday'
+        Sun
+      </Button>
+      <Button
+        className=" {$Prefs.weekStarts == 'monday'
           ? 'bg-ios-tint text-ios-ontint font-bold'
           : 'bg-ios-card text-ios-label2'}"
         type="clear"
@@ -116,14 +115,21 @@ import { Interact } from '../../store/interact';
           $Prefs.weekStarts = 'monday'
         }}
       >
-      Mon
-    </Button>
-  </div>
-  <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">Location Tracking <Badge on:click={()=>{
-    Interact.alert(`Location Tracking`,'Have Nomie save your current location (lat,long) each time you record data.')
-  }} value="?" /></p>
-  
-  
+        Mon
+      </Button>
+    </div>
+    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">
+      Location Tracking <Badge
+        on:click={() => {
+          Interact.alert(
+            `Location Tracking`,
+            'Have Nomie save your current location (lat,long) each time you record data.'
+          )
+        }}
+        value="?"
+      />
+    </p>
+
     <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
         className="whitespace-no-wrap {!$Prefs.alwaysLocate
@@ -154,10 +160,8 @@ import { Interact } from '../../store/interact';
         Enabled
       </Button>
     </div>
-      
-</div>
+  </div>
 </Container>
-
 
 <style lang="postcss" global>
   .big-group {

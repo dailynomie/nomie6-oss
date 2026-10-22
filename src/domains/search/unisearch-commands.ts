@@ -45,7 +45,7 @@ export const unisearchCommands: Array<PopMenuButton> = [
       Prefs.update((s) => {
         s.theme = 'dark'
         setDocumentTheme(s.theme)
-        closeUnisearch();
+        closeUnisearch()
         return s
       })
     },
@@ -56,7 +56,7 @@ export const unisearchCommands: Array<PopMenuButton> = [
       Prefs.update((s) => {
         s.theme = 'light'
         setDocumentTheme(s.theme)
-        closeUnisearch();
+        closeUnisearch()
         return s
       })
     },
@@ -67,7 +67,7 @@ export const unisearchCommands: Array<PopMenuButton> = [
       Prefs.update((s) => {
         s.theme = 'auto'
         setDocumentTheme(s.theme)
-        closeUnisearch();
+        closeUnisearch()
         return s
       })
     },

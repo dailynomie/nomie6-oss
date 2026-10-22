@@ -3,7 +3,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
-  
   import { AwardStore } from '../../domains/awards/AwardsStore'
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
   import { wait } from '../../utils/tick/tick'
@@ -62,7 +61,7 @@
       data-award-required={button.awardRequired}
       aria-label={button.title}
       disabled={button.disabled}
-      class="pop-button  {button.checked
+      class="pop-button {button.checked
         ? 'active'
         : ''} bg-ios-card bg-opacity-80 dark:bg-opacity-80 nbtn-left pop-button-{index} {button.awardRequired
         ? $AwardStore.awards.find((a) => a.id == button.awardRequired)
@@ -85,11 +84,7 @@
         <div class="check-space" aria-hidden="true"></div>
       {/if}
       <main class="flex-fill w-full transition-all">
-        <h1
-          class="{button.title.length > 25 || size == 'sm'
-            ? 'text-sm'
-            : 'text-lg'} leading-tight title"
-        >
+        <h1 class="{button.title.length > 25 || size == 'sm' ? 'text-sm' : 'text-lg'} leading-tight title">
           {button.title}
         </h1>
         {#if button.description}

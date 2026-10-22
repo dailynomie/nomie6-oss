@@ -9,7 +9,55 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { ChevronForwardOutline } from '../icon/nicons'
 
-  const { title = undefined, description = undefined, href = undefined, to = undefined, id = null, bg = undefined, className = '', itemDivider = undefined, compact = false, truncate = false, style = '', clickable = false, ariaLabel = '', solo = false, bottomLine = undefined, topLine = false, delay = undefined, detail = false, transparent = false, mainClass = '', titleClass = '', autofocus = undefined, disabled = false } = $props<{ title?: any; description?: any; href?: any; to?: any; id?: any; bg?: any; className?: string; itemDivider?: any; compact?: boolean; truncate?: boolean; style?: string; clickable?: boolean; ariaLabel?: string; solo?: boolean; bottomLine?: number; topLine?: boolean; delay?: number; detail?: boolean; transparent?: boolean; mainClass?: string; titleClass?: string; autofocus?: boolean; disabled?: boolean }>()
+  const {
+    title = undefined,
+    description = undefined,
+    href = undefined,
+    to = undefined,
+    id = null,
+    bg = undefined,
+    className = '',
+    itemDivider = undefined,
+    compact = false,
+    truncate = false,
+    style = '',
+    clickable = false,
+    ariaLabel = '',
+    solo = false,
+    bottomLine = undefined,
+    topLine = false,
+    delay = undefined,
+    detail = false,
+    transparent = false,
+    mainClass = '',
+    titleClass = '',
+    autofocus = undefined,
+    disabled = false,
+  } = $props<{
+    title?: any
+    description?: any
+    href?: any
+    to?: any
+    id?: any
+    bg?: any
+    className?: string
+    itemDivider?: any
+    compact?: boolean
+    truncate?: boolean
+    style?: string
+    clickable?: boolean
+    ariaLabel?: string
+    solo?: boolean
+    bottomLine?: number
+    topLine?: boolean
+    delay?: number
+    detail?: boolean
+    transparent?: boolean
+    mainClass?: string
+    titleClass?: string
+    autofocus?: boolean
+    disabled?: boolean
+  }>()
 
   let has_left: boolean
   let has_right: boolean
@@ -17,7 +65,7 @@
   const dispatch = createEventDispatcher()
 
   async function tap(event: any) {
-    if(!disabled) {
+    if (!disabled) {
       let timeout = 0
       if (delay !== undefined) {
         timeout = delay
@@ -36,11 +84,11 @@
   }
 
   function doubletap(evt: any) {
-    if(!disabled) dispatch('dbltap', evt)
+    if (!disabled) dispatch('dbltap', evt)
   }
 
   function longtap(evt: any) {
-    if(!disabled) dispatch('longtap', evt)
+    if (!disabled) dispatch('longtap', evt)
   }
 
   function getHref() {

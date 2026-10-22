@@ -156,7 +156,14 @@
       >
         <IonIcon icon={CalendarOutline} size={18} />
       </button>
-      <MenuInline id="timeline-filter" title="Filter timeline" x="right" y="bottom" menuButtons={filterMenu} buttonClass="ios-round">
+      <MenuInline
+        id="timeline-filter"
+        title="Filter timeline"
+        x="right"
+        y="bottom"
+        menuButtons={filterMenu}
+        buttonClass="ios-round"
+      >
         <IonIcon icon={FunnelOutline} size={18} />
       </MenuInline>
     </div>

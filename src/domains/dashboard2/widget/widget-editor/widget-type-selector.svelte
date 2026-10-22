@@ -4,7 +4,7 @@
   import HScroller from '../../../../components/h-scroller/h-scroller.svelte'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
   import FeatureBadge from '../../../../components/advanced-badge/feature-badge.svelte'
-    import NomieAiButton from '../../../../components/aibutton2/NomieAiButton2.svelte'
+  import NomieAiButton from '../../../../components/aibutton2/NomieAiButton2.svelte'
 
   import { getWidgetTypes, type IWidgetType, widgetTypes } from '../widget-types'
   import { PluginStore } from '../../../plugins/PluginStore'
@@ -12,13 +12,11 @@
   import { TrackableStore } from '../../../trackable/TrackableStore'
 
   import Avatar from '../../../../components/avatar/avatar.svelte'
-import type { WidgetClass } from '../widget-class';
-  const { widget = $bindable(), onWidgetTypeChange, updateTrigger = 0 } = $props();
+  import type { WidgetClass } from '../widget-class'
+  const { widget = $bindable(), onWidgetTypeChange, updateTrigger = 0 } = $props()
 
   function isAiConfigured(): boolean {
-    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[
-      $Prefs.ai?.selectedService || 'claude'
-    ]?.apiKey)
+    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[$Prefs.ai?.selectedService || 'claude']?.apiKey)
   }
 
   let mounted = $state(false)
@@ -69,7 +67,9 @@ import type { WidgetClass } from '../widget-class';
 
 <!-- Phase 7 (new users): a widget shows a tracker, so say so before the choices -->
 {#if Object.keys($TrackableStore.trackables).length === 0}
-  <p class="px-4 pt-1 text-ios-footnote text-ios-label2">Widgets show your trackers. Add a tracker first, then come back here.</p>
+  <p class="px-4 pt-1 text-ios-footnote text-ios-label2">
+    Widgets show your trackers. Add a tracker first, then come back here.
+  </p>
 {/if}
 <HScroller
   className="items-start justify-start"
@@ -79,7 +79,9 @@ import type { WidgetClass } from '../widget-class';
     {@const isInsightDisabled = widgetType.id === 'insight' && !isAiConfigured()}
     <button
       disabled={isInsightDisabled}
-      class="flex flex-col self-start shrink-0 w-20 focus:outline-none p-1 rounded-xl {isInsightDisabled ? 'opacity-50 cursor-not-allowed' : ''}"
+      class="flex flex-col self-start shrink-0 w-20 focus:outline-none p-1 rounded-xl {isInsightDisabled
+        ? 'opacity-50 cursor-not-allowed'
+        : ''}"
       aria-label={`${widgetType.label} widget${isInsightDisabled ? ' (requires AI configuration)' : ''}`}
       title={isInsightDisabled ? 'Enable AI in settings and add your API key to use this widget' : ''}
       on:click={() => {
@@ -89,7 +91,9 @@ import type { WidgetClass } from '../widget-class';
       <div
         class="{isWidgetTypeActive(widgetType)
           ? 'active-type scale-110'
-          : ''} relative w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center bg-ios-card text-ios-label2 shadow-md rounded-xl {isInsightDisabled ? 'opacity-60' : ''}"
+          : ''} relative w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center bg-ios-card text-ios-label2 shadow-md rounded-xl {isInsightDisabled
+          ? 'opacity-60'
+          : ''}"
       >
         {#if widgetType.id === 'insight'}
           <NomieAiButton size="40px" />

@@ -7,7 +7,12 @@
   import IosSelect from '../../components/ios-select/ios-select.svelte'
 
   import appConfig from '../../config/appConfig'
-  import { ConditionIfs, type ICondition, type IConditionIfUnit, type IConditionIsUnit } from '../../modules/scoring/score-tracker'
+  import {
+    ConditionIfs,
+    type ICondition,
+    type IConditionIfUnit,
+    type IConditionIsUnit,
+  } from '../../modules/scoring/score-tracker'
   import { ConditionIs } from '../../modules/scoring/score-tracker'
   import Ordinal from '../../utils/ordinal/ordinal'
   import { parseNumber } from '../../utils/parseNumber/parseNumber'
@@ -94,64 +99,64 @@
     </div>
   </header>
   {#if workingCondition}
-  <main class="condition-group px-8 w-full">
-    <IosSelect
-      ariaLabel="Compare to What?"
-      title="Compare to What?"
-      bind:value={workingCondition.if}
-      compact
-      options={ConditionIfs.map((cif) => ({ value: cif, label: convertValueType(cif) }))}
-    />
-    <IosSelect
-      ariaLabel="Comparison Value IS"
-      title="Comparison Value IS"
-      bind:value={workingCondition.is}
-      compact
-      options={ConditionIs.map((is) => ({ value: is, label: convertCondition(is) }))}
-    />
-    {#if workingCondition.if === 'value'}
-      {#if trackable?.type == 'tracker' && trackable?.tracker?.type == 'timer'}
-        <input
-          aria-label="Value to Compare against"
-          class="condition-select w-12 lg:w-14"
-          on:click={() => getTrackableValue()}
-          readonly
-          value={trackable.formatValue(workingCondition.v)}
-        />
-      {:else}
-        <input
-          class="condition-select w-12 lg:w-14"
-          aria-label="Value to Compare against"
+    <main class="condition-group px-8 w-full">
+      <IosSelect
+        ariaLabel="Compare to What?"
+        title="Compare to What?"
+        bind:value={workingCondition.if}
+        compact
+        options={ConditionIfs.map((cif) => ({ value: cif, label: convertValueType(cif) }))}
+      />
+      <IosSelect
+        ariaLabel="Comparison Value IS"
+        title="Comparison Value IS"
+        bind:value={workingCondition.is}
+        compact
+        options={ConditionIs.map((is) => ({ value: is, label: convertCondition(is) }))}
+      />
+      {#if workingCondition.if === 'value'}
+        {#if trackable?.type == 'tracker' && trackable?.tracker?.type == 'timer'}
+          <input
+            aria-label="Value to Compare against"
+            class="condition-select w-12 lg:w-14"
+            on:click={() => getTrackableValue()}
+            readonly
+            value={trackable.formatValue(workingCondition.v)}
+          />
+        {:else}
+          <input
+            class="condition-select w-12 lg:w-14"
+            aria-label="Value to Compare against"
+            bind:value={workingCondition.v}
+          />
+        {/if}
+      {:else if workingCondition.if === 'hour'}
+        <IosSelect
+          ariaLabel="Hour of the Day"
+          title="Hour of the Day"
           bind:value={workingCondition.v}
+          compact
+          options={getHours().map((hour) => ({ value: hour.index, label: `${hour.value}` }))}
+        />
+      {:else if workingCondition.if === 'month'}
+        <IosSelect
+          ariaLabel="Day of the Month"
+          title="Day of the Month"
+          bind:value={workingCondition.v}
+          compact
+          options={getDays().map((day) => ({ value: day.index, label: `${day.value}` }))}
         />
       {/if}
-    {:else if workingCondition.if === 'hour'}
       <IosSelect
-        ariaLabel="Hour of the Day"
-        title="Hour of the Day"
-        bind:value={workingCondition.v}
+        value={`${workingCondition.sc}`}
+        title="Positivity"
         compact
-        options={getHours().map((hour) => ({ value: hour.index, label: `${hour.value}` }))}
+        onchange={(next) => {
+          workingCondition.sc = parseNumber(`${next}`)
+        }}
+        options={appConfig.positivity.map((positivity) => ({ value: `${positivity.score}`, label: positivity.emoji }))}
       />
-    {:else if workingCondition.if === 'month'}
-      <IosSelect
-        ariaLabel="Day of the Month"
-        title="Day of the Month"
-        bind:value={workingCondition.v}
-        compact
-        options={getDays().map((day) => ({ value: day.index, label: `${day.value}` }))}
-      />
-    {/if}
-    <IosSelect
-      value={`${workingCondition.sc}`}
-      title="Positivity"
-      compact
-      onchange={(next) => {
-        workingCondition.sc = parseNumber(`${next}`)
-      }}
-      options={appConfig.positivity.map((positivity) => ({ value: `${positivity.score}`, label: positivity.emoji }))}
-    />
-  </main>
+    </main>
   {/if}
 </div>
 

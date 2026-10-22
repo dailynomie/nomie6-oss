@@ -7,12 +7,7 @@ import { alertProfile } from './profiles/alert'
 import { narrativeProfile } from './profiles/narrative'
 import { chatProfile } from './profiles/chat'
 import { experimentProfile } from './profiles/experiment'
-import type {
-  AIRequest,
-  AIResponse,
-  Profile,
-  ProfileName
-} from './profiles/types'
+import type { AIRequest, AIResponse, Profile, ProfileName } from './profiles/types'
 import { Prefs } from '../preferences/Preferences'
 import { get } from 'svelte/store'
 import Anthropic from '@anthropic-ai/sdk'
@@ -33,11 +28,11 @@ const profiles: Record<ProfileName, Profile> = {
 }
 
 function getDateRangeFromTimeframe(timeframeId: string): { from: string; to: string } {
-  const timeframe = timeFrames.find(tf => tf.id === timeframeId)
+  const timeframe = timeFrames.find((tf) => tf.id === timeframeId)
   if (!timeframe) {
     return {
       from: dayjs().subtract(30, 'days').format('YYYY-MM-DD'),
-      to: dayjs().format('YYYY-MM-DD')
+      to: dayjs().format('YYYY-MM-DD'),
     }
   }
 
@@ -64,7 +59,7 @@ function getDateRangeFromTimeframe(timeframeId: string): { from: string; to: str
 
   return {
     from: start.format('YYYY-MM-DD'),
-    to: end.format('YYYY-MM-DD')
+    to: end.format('YYYY-MM-DD'),
   }
 }
 
@@ -72,7 +67,7 @@ export const aiState = $state({
   loading: false,
   error: null as string | null,
   lastResponse: null as AIResponse | null,
-  actualModel: null as string | null
+  actualModel: null as string | null,
 })
 
 export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> {
@@ -88,9 +83,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   let apiKey = service?.apiKey
 
   if (!apiKey) {
-    throw new Error(
-      'AI is not configured. Please enable AI in Settings and add your API key.'
-    )
+    throw new Error('AI is not configured. Please enable AI in Settings and add your API key.')
   }
 
   // Decrypt if encrypted
@@ -116,7 +109,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
         summary: narrativeData.summary,
         goals: [],
         recentMetrics: {},
-        narrative_entries: narrativeData.entries_by_date
+        narrative_entries: narrativeData.entries_by_date,
       }
       systemPrompt = `${profile.systemPrompt(context, req.prompt)}\n\nJournal entries to analyze:\n${JSON.stringify(narrativeData.entries_by_date, null, 2)}`
     } else if (req.profile === 'experiment') {
@@ -135,11 +128,9 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
 
     if (selectedService === 'openrouter') {
       // Use OpenRouter
-      const result = await queryOpenRouter(apiKey, [
-        { role: 'user', content: systemPrompt + '\n\n' + req.prompt }
-      ], {
+      const result = await queryOpenRouter(apiKey, [{ role: 'user', content: systemPrompt + '\n\n' + req.prompt }], {
         maxTokens: profile.maxTokens,
-        temperature: profile.temperature
+        temperature: profile.temperature,
       })
       raw = result.content
       aiState.actualModel = result.model
@@ -154,10 +145,10 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
           {
             type: 'text',
             text: systemPrompt,
-            cache_control: { type: 'ephemeral' }
-          }
+            cache_control: { type: 'ephemeral' },
+          },
         ],
-        messages: [{ role: 'user', content: req.prompt }]
+        messages: [{ role: 'user', content: req.prompt }],
       })
       raw = response.content[0].type === 'text' ? response.content[0].text : ''
     }
@@ -167,7 +158,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
     const result: AIResponse<T> = {
       profile: req.profile,
       content,
-      raw
+      raw,
     }
 
     aiState.lastResponse = result as AIResponse
@@ -199,9 +190,7 @@ export async function streamQuery(
   let apiKey = service?.apiKey
 
   if (!apiKey) {
-    throw new Error(
-      'AI is not configured. Please enable AI in Settings and add your API key.'
-    )
+    throw new Error('AI is not configured. Please enable AI in Settings and add your API key.')
   }
 
   // Decrypt if encrypted
@@ -225,40 +214,38 @@ export async function streamQuery(
     }
 
     // Use richer context for chat and insight profiles
-    const context = req.profile === 'chat' || req.profile === 'insight'
-      ? await buildChatContext(contextHints)
-      : await buildContext(contextHints)
+    const context =
+      req.profile === 'chat' || req.profile === 'insight'
+        ? await buildChatContext(contextHints)
+        : await buildContext(contextHints)
 
     const systemPrompt = profile.systemPrompt(context, req.prompt)
 
     if (selectedService === 'openrouter') {
       // Use OpenRouter streaming
-      const messages = [
-        ...(conversationHistory || []),
-        { role: 'user' as const, content: req.prompt }
-      ]
+      const messages = [...(conversationHistory || []), { role: 'user' as const, content: req.prompt }]
 
       // Add system message to the beginning if not in conversation history
-      const withSystem = [
-        { role: 'user' as const, content: systemPrompt },
-        ...messages
-      ]
+      const withSystem = [{ role: 'user' as const, content: systemPrompt }, ...messages]
 
-      await streamOpenRouter(apiKey, withSystem, onChunk, {
-        maxTokens: profile.maxTokens,
-        temperature: profile.temperature
-      }, (model) => {
-        aiState.actualModel = model
-      })
+      await streamOpenRouter(
+        apiKey,
+        withSystem,
+        onChunk,
+        {
+          maxTokens: profile.maxTokens,
+          temperature: profile.temperature,
+        },
+        (model) => {
+          aiState.actualModel = model
+        }
+      )
     } else {
       // Use Claude streaming
       const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 
       // Build messages array with conversation history
-      const messages = [
-        ...(conversationHistory || []),
-        { role: 'user' as const, content: req.prompt }
-      ]
+      const messages = [...(conversationHistory || []), { role: 'user' as const, content: req.prompt }]
 
       const stream = client.messages.stream({
         model: 'claude-opus-4-8',
@@ -267,10 +254,10 @@ export async function streamQuery(
           {
             type: 'text',
             text: systemPrompt,
-            cache_control: { type: 'ephemeral' }
-          }
+            cache_control: { type: 'ephemeral' },
+          },
         ],
-        messages
+        messages,
       })
 
       for await (const chunk of stream) {
