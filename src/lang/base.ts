@@ -436,6 +436,8 @@ export default {
       'select-dashboard-to-move-widget': 'Move widget to which dashboard?',
     },
     storage: {
+      'sync-http-warning': 'This address is not https://. Your data would travel unencrypted over the network.',
+      'sync-not-encrypted-notice': 'Sync sends your data to this server as it is. Daily Nomie does not encrypt it, so the operator of the server can read it. Use an https:// address and protect the server.',
       'data-is-stored-on-this-device-only': 'Data is stored on this device only.',
       'erase-nomie-server-config': 'Erase Nomie Server Config',
       'reload': 'Reload',

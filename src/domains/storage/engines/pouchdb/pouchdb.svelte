@@ -280,6 +280,21 @@
         />
       </div>
       <Divider left={16} />
+      <div class="px-4 mt-4 text-xs text-ios-label2 leading-snug">
+        {Lang.t(
+          'storage.sync-not-encrypted-notice',
+          'Sync sends your data to this server as it is. Daily Nomie does not encrypt it, so the operator of the server can read it. Use an https:// address and protect the server.'
+        )}
+        {#if state.form.host && state.form.host.trim().toLowerCase().startsWith('http://')}
+          <p class="mt-2 text-ios-danger font-semibold">
+            {Lang.t(
+              'storage.sync-http-warning',
+              'This address is not https://. Your data would travel unencrypted over the network.'
+            )}
+          </p>
+        {/if}
+      </div>
+      <Divider left={16} />
       <div class="grid grid-cols-1 xl:grid-cols-2 px-4 mt-4 items-center">
         <div class="connection-string text-ios-label2 text-sm py-2">
           {#if connectionString}

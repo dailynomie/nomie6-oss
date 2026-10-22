@@ -435,6 +435,8 @@ export default {
       'select-dashboard-to-move-widget': 'Naar welk dashboard verplaatsen?',
     },
     storage: {
+      'sync-not-encrypted-notice': 'Synchronisatie stuurt je gegevens zoals ze zijn naar deze server. Daily Nomie versleutelt ze niet, dus de beheerder van de server kan ze lezen. Gebruik een https://-adres en bescherm de server.',
+      'sync-http-warning': 'Dit adres is geen https://. Je gegevens zouden onversleuteld over het netwerk gaan.',
       'data-is-stored-on-this-device-only': 'Gegevens worden alleen op dit apparaat opgeslagen.',
       'erase-nomie-server-config': 'Nomie Server-configuratie wissen',
       'reload': 'Opnieuw laden',
