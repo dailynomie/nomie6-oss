@@ -195,7 +195,7 @@
           navigate(item.path)
         }}
         class="nav-item ntitle {window.location.pathname == item.path ? 'current' : ''} {window.location.pathname ==
-          '/' && $Prefs.startPage == item.id
+          '/' && item.id == 'track'
           ? 'current'
           : ''}"
       >

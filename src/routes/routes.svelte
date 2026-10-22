@@ -17,21 +17,9 @@
 <Router>
   <RouteControl />
   <Route path="/">
-    {#if $Prefs.startPage === 'track'}
-      <!-- <Track /> -->
-      <Track />
-    {:else if $Prefs.startPage === 'dashboard'}
-      <LazyPage load={() => import('./dashboard.svelte')} />
-    {:else if $Prefs.startPage === 'timeline'}
-      <LazyPage load={() => import('./Timeline.svelte')} />
-    {:else if $Prefs.startPage === 'history'}
-      <LazyPage load={() => import('./Timeline.svelte')} />
-    {:else if $Prefs.startPage === 'goals'}
-      <LazyPage load={() => import('./Goals.svelte')} />
-    {:else}
-      <!-- <Track /> -->
-      <Track />
-    {/if}
+    <!-- The Track board is the start page. The start-page choice (hidden 22 October) is kept below, not used:
+    {#if $Prefs.startPage === 'dashboard'} ... dashboard, timeline, history, goals ... -->
+    <Track />
   </Route>
   <Route path="/track">
     <!-- <Track /> -->

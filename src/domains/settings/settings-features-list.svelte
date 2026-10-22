@@ -43,6 +43,8 @@
   import { FeatureVisible, resolveExperience } from '../preferences/features'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
+  // The start page choice is hidden: the Track board is the start page. The code is kept; set this to true to show the row again.
+  const SHOW_START_PAGE = false
   let hasPin: boolean = $state(false)
 
   $effect(() => {
@@ -114,28 +116,30 @@
     </div>
   </div>
 
-  <ListItem bottomLine={57} title={Lang.t('settings.start-page', 'Start Page')}>
-    <span slot="left"><IconSquare color="#4E2470"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
-    <div slot="right">
-      <SelectPop
-        id="start-page"
-        value={capitalize($Prefs.startPage)}
-        on:change={(evt) => {
-          $Prefs.startPage = evt.detail.key
-        }}
-        options={['track', 'dashboard', 'goals', 'timeline', 'history'].map((t) => {
-          return { key: t, value: capitalize(t), selected: $Prefs.startPage == t }
-        })}
-      />
-      <!-- <select title="Select a Start Page" class="nselect clear" bind:value={$Prefs.startPage} on:change={(event) => {}}>
+  {#if SHOW_START_PAGE}
+    <ListItem bottomLine={57} title={Lang.t('settings.start-page', 'Start Page')}>
+      <span slot="left"><IconSquare color="#4E2470"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
+      <div slot="right">
+        <SelectPop
+          id="start-page"
+          value={capitalize($Prefs.startPage)}
+          on:change={(evt) => {
+            $Prefs.startPage = evt.detail.key
+          }}
+          options={['track', 'dashboard', 'goals', 'timeline', 'history'].map((t) => {
+            return { key: t, value: capitalize(t), selected: $Prefs.startPage == t }
+          })}
+        />
+        <!-- <select title="Select a Start Page" class="nselect clear" bind:value={$Prefs.startPage} on:change={(event) => {}}>
         <option value={'track'}>Track Tab</option>
         <option value={'dashboard'}>Dashboard</option>
         <option value={'goals'}>Goals</option>
         <option value={'timeline'}>Timeline</option>
         <option value={'history'}>History</option>
       </select> -->
-    </div>
-  </ListItem>
+      </div>
+    </ListItem>
+  {/if}
 
   <ListItem bottomLine={57} title={Lang.t('settings.use-location', 'Use Location')}>
     <span slot="left"><IconSquare color="#5B2C7A"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>

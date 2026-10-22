@@ -103,16 +103,9 @@
   $effect(() => {
     if (state.mounted) {
       path = document.location.pathname
-      if (path === '/' && $Prefs.startPage === 'track') {
+      // The Track board is the start page (the start-page choice is hidden, see settings)
+      if (path === '/') {
         page = 'track'
-      } else if (path === '/' && $Prefs.startPage === 'dashboard') {
-        page = 'dashboard'
-      } else if (path === '/' && $Prefs.startPage === 'goals') {
-        page = 'goals'
-      } else if (path === '/' && $Prefs.startPage === 'timeline') {
-        page = 'timeline'
-      } else if (path === '/' && $Prefs.startPage === 'history') {
-        page = 'history'
       }
       if (page) {
         try {
