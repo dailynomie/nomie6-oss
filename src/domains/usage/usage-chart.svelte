@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import _ from 'lodash'
   import dayjs from 'dayjs'
   import type { ChartConfiguration, ChartDataset } from 'chart.js'
   import type { Dayjs } from 'dayjs'
@@ -163,7 +162,7 @@
       for (var i = 0; i < usages.length; i++) {
         if (usages.length > 1) {
           usages.splice(
-            _.findIndex(usages, function (item) {
+            usages.findIndex(function (item) {
               return item.trackable.id === '-alsoinclude-'
             }),
             1
@@ -353,7 +352,7 @@
     }
     //remove current stats data if exist
     if (usages.length > 1) {
-      const statsIndex = _.findIndex(usages, function (item) {
+      const statsIndex = usages.findIndex(function (item) {
         return item.trackable.id === '-statistics-'
       })
       if (statsIndex >= 0) {

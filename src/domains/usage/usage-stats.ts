@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 export default {
   calculateCummulativeSum(nums) {
     let cumm_array = []
@@ -103,7 +101,9 @@ export default {
     return exponentialMovingAverages
   },
   validateData(data) {
-    let datamean = _.mean(_.compact(data))
+    // the mean of the values that are not empty (the same as lodash mean of compact, without the library)
+    const present = data.filter(Boolean)
+    let datamean = present.reduce((sum, value) => sum + value, 0) / present.length
     var validateddata = []
     for (var i = 0; i < data.length; i++) {
       if (Number.isNaN(data[i]) && !Number.isNaN(data[i + 1])) {
