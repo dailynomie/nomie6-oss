@@ -3,13 +3,16 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import EmojiList from './EmojiList.svelte'
-  import emojiData from './data/emoji-light'
+  import { loadEmojiData } from './emoji-data-loader'
 
   import Empty from '../empty/empty.svelte'
   import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   const { searchText } = $props()
+
+  let emojiData = $state<Array<any>>([])
+  loadEmojiData().then((data) => (emojiData = data))
 
   let searchResults = $derived(emojiData.filter((emoji) => emoji.n.indexOf((searchText || '').toLowerCase()) >= 0))
 </script>

@@ -8,7 +8,7 @@
   import EmojiSearchResults from './EmojiSearchResults.svelte'
   import VariantPopup from './VariantPopup.svelte'
 
-  import emojiData from './data/emoji-light'
+  import { loadEmojiData } from './emoji-data-loader'
   import ButtonGroup from '../button-group/button-group.svelte'
   import Panel from '../panel/panel.svelte'
   import { RecentEmojiStore, addRecentEmoji } from '../../store/recent-emojis'
@@ -22,13 +22,18 @@
 
   const dispatch = createEventDispatcher()
 
-  const emojiCategories = {}
-  emojiData.forEach((emoji) => {
-    let categoryList = emojiCategories[emoji.c]
-    if (!categoryList) {
-      categoryList = emojiCategories[emoji.c] = []
-    }
-    categoryList.push(emoji)
+  let emojiCategories = $state<Record<string, Array<any>>>({})
+  // the emoji list loads when the picker opens, then the categories are filled in
+  loadEmojiData().then((emojiData) => {
+    const categories: Record<string, Array<any>> = {}
+    emojiData.forEach((emoji) => {
+      let categoryList = categories[emoji.c]
+      if (!categoryList) {
+        categoryList = categories[emoji.c] = []
+      }
+      categoryList.push(emoji)
+    })
+    emojiCategories = categories
   })
 
   const categoryOrder = ['People', 'Nature', 'Eat', 'Activities', 'Places', 'Objects', 'Symbols', 'Flags']
