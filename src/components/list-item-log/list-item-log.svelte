@@ -28,7 +28,6 @@
   // props
   // export let trackers = {};
 
-
   // consts
 
   let displayLog = $state<NLog>(undefined)
@@ -144,18 +143,32 @@
       {#if !fullDate}
         <div class="log-side">
           <div class="log-time-col ios-time text-ios-label2">{log.endDayjs().format(dateFormats.time)}</div>
-          <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="log-mood text-ios-subhead text-ios-label2"
-            >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
+          <button
+            type="button"
+            aria-label="Change mood score"
+            on:click={() => changePositivity(log)}
+            class="log-mood text-ios-subhead text-ios-label2"
+            >{getEmojiFromScore(
+              log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore
+            ).emoji}</button
           >
         </div>
       {/if}
       <div class="flex-1 min-w-0 space-y-2">
         <div class="entry-head flex items-center text-ios-footnote space-x-3" class:entry-corner={!fullDate}>
           {#if fullDate}
-            <button type="button" aria-label="Change mood score" on:click={() => changePositivity(log)} class="text-ios-subhead text-ios-label2"
-              >{getEmojiFromScore(log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore).emoji}</button
+            <button
+              type="button"
+              aria-label="Change mood score"
+              on:click={() => changePositivity(log)}
+              class="text-ios-subhead text-ios-label2"
+              >{getEmojiFromScore(
+                log.score !== undefined && log.score !== null && log.score !== 0 ? log.score : displayScore
+              ).emoji}</button
             >
-            <div class="text-ios-label2 stiff line-clamp-1">{log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}</div>
+            <div class="text-ios-label2 stiff line-clamp-1">
+              {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
+            </div>
           {/if}
           {#if displayLog.pinned}
             <span class="pinned-mark text-ios-tint" aria-label="Pinned"><IonIcon icon={MagnetSolid} size={13} /></span>
@@ -193,30 +206,35 @@
         {#if !hideTrackables}
           <div class="trackables -px-1 w-full flex flex-wrap">
             {#each logElements as logElement, index (`${logElement.trackable.tag}-${index}`)}
-            {#if logElement.trackable.type != "pointer"}
-              <TinyTrackable
-                trackable={logElement.trackable}
-                value={logElement.value}
-                date={log.end}
-                on:click={() => {
-                  showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
-                }}
-              />
+              {#if logElement.trackable.type != 'pointer'}
+                <TinyTrackable
+                  trackable={logElement.trackable}
+                  value={logElement.value}
+                  date={log.end}
+                  on:click={() => {
+                    showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
+                  }}
+                />
               {/if}
             {/each}
             {#each logElements as logElement, index (`${logElement.trackable.tag}-${index}`)}
-            {#if logElement.trackable.type == "pointer"}
-            <TinyTrackable
-              trackable={logElement.trackable}
-              value={logElement.value}
-              date={log.end}
-              on:click={() => {
-                showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
-              }}
-            />
-            {/if}
-          {/each}
-            <button type="button" aria-label="Add a tracker or person to this note" on:click={() => addItem()} class="tiny-trackable bg-transparent">
+              {#if logElement.trackable.type == 'pointer'}
+                <TinyTrackable
+                  trackable={logElement.trackable}
+                  value={logElement.value}
+                  date={log.end}
+                  on:click={() => {
+                    showTrackablePopmenu(logElement.trackable, { date: log.endDayjs() })
+                  }}
+                />
+              {/if}
+            {/each}
+            <button
+              type="button"
+              aria-label="Add a tracker or person to this note"
+              on:click={() => addItem()}
+              class="tiny-trackable bg-transparent"
+            >
               <span class="value w-5">+</span>
             </button>
             {#if log.location || log.lng}
