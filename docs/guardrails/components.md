@@ -103,3 +103,4 @@ Bad: assigning a prop (CMP-03).
 | --- | --- |
 | D-set-state | A prop cannot be assigned in Svelte 5. Seed a local `$state`, or dispatch the value (found while building the app; CMP-03). |
 | D-event-style | One event style per file: `on:click` or `onclick` (CMP-13). Current design. |
+| D-log-row-exception | The shared log row (`list-item-log.svelte`) keeps its domain imports as a documented exception (CMP-08). Eight screens list logs; passing its actions through each one is more churn than the rule is worth. The fix is to provide these actions once at the app root (context), recorded as a later decision. Decided by Ronald, Oct 2026. |
