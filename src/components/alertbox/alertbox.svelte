@@ -6,7 +6,7 @@
   import type { AlertType } from '../../store/interact'
   import KeyDown from '../../modules/keyDown/keyDown.svelte'
   import { closeModal } from '../backdrop/BackdropStore2'
-  import Markdown from '../markdown/markdown.svelte'
+  import Markdown from '../markdown/lazy-markdown.svelte'
 
   let hasSlot = false
 
