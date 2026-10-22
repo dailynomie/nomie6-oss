@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store'
 import type { Trackable } from '../trackable/Trackable.class'
 import Storage from '../storage/storage'
+import NPaths from '../../paths'
 
 type ChartOptions = {
   type: 'bar' | 'line'
@@ -28,7 +29,7 @@ export const saveChartOptions = async (id: string, options: any) => {
   }
   chartOptionsCache[id] = optionsToSave
   // Save to CouchDB via Storage for multi-device sync
-  await Storage.put('chart-options.json', chartOptionsCache)
+  await Storage.put(NPaths.storage.chartOptions(), chartOptionsCache)
 }
 
 export const getChartOption = (id: string): ChartOptions | undefined => {
@@ -47,7 +48,7 @@ export const getChartOptions = (): ChartOptionsStoreState => {
 export const registerChartOptionsListener = async () => {
   try {
     // Register listener for chart option changes from CouchDB sync
-    Storage.get('chart-options.json', (changedOptions: ChartOptionsStoreState) => {
+    Storage.get(NPaths.storage.chartOptions(), (changedOptions: ChartOptionsStoreState) => {
       // Update the cache with synced options
       if (changedOptions) {
         chartOptionsCache = changedOptions
@@ -56,7 +57,7 @@ export const registerChartOptionsListener = async () => {
     })
 
     // Load initial options from Storage
-    const initialOptions = await Storage.get('chart-options.json')
+    const initialOptions = await Storage.get(NPaths.storage.chartOptions())
     if (initialOptions) {
       chartOptionsCache = initialOptions
       ChartOptionsStore.set(chartOptionsCache)

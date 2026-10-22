@@ -77,6 +77,12 @@ const NPaths = {
     customUoms() {
       return `custom-uoms.json`
     },
+    openStreak() {
+      return `open-streak.json`
+    },
+    chartOptions() {
+      return `chart-options.json`
+    },
     writingPrompts() {
       return `writing-prompts.json`
     },
