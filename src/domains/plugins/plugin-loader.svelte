@@ -4,7 +4,7 @@
   import dayjs from 'dayjs'
 
   import escapeRegExp from 'lodash/escapeRegExp'
-  import Storage from '../../domains/storage/storage'
+  import { readStorageFile, writeStorageFile } from '../storage/storage-files'
   import { onDestroy, onMount } from 'svelte'
   import locate from '../../modules/locate/locate'
   import { tokenToTrackable } from '../../modules/tokenizer/tokenToTrackable'
@@ -257,7 +257,7 @@
     let path = `plugins/${plugin.id}/${strToTagSafe(payload.key)}.json`
     let data: any = undefined
     try {
-      data = await Storage.get(path)
+      data = await readStorageFile(path)
     } catch (e) {
       console.error(e)
     }
@@ -282,7 +282,7 @@
   const pluginSetStorageItem = async (plugin: PluginType, payload: any) => {
     let path = `plugins/${plugin.id}/${strToTagSafe(payload.key)}.json`
     try {
-      await Storage.put(path, payload.value)
+      await writeStorageFile(path, payload.value)
     } catch (e) {
       console.error(e)
     }

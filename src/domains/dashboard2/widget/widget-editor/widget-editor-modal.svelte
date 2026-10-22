@@ -38,7 +38,7 @@
   import CloseOutline from '../../../../n-icons/CloseOutline.svelte'
   import { PluginStore } from "../../../plugins/PluginStore";
   import { ExperimentStore } from "../../../experiments/ExperimentStore";
-  import Storage from '../../../../domains/storage/storage'
+  import { readStorageFile } from '../../../storage/storage-files'
   import type { ITrackerType } from '../../../../modules/tracker/TrackerClass'
 
   let visible = $state(false)
@@ -132,7 +132,7 @@
     let path = `plugins/${pluginId}/prefs.json`
     let data: any = undefined
     try {
-      data = await Storage.get(path) || {widgets:[]};
+      data = await readStorageFile(path) || {widgets:[]};
       pluginWidgets = data.widgets || [];
       if (pluginWidgets == undefined || !validateWidgetParams(pluginWidgets)){pluginWidgets = [];}
     } catch (e) {

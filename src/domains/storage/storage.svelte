@@ -5,7 +5,7 @@
   import { navigate } from '../../vendor/svelte-navigator'
 
   // Modules
-  import Storage from './storage'
+  import { deleteStorageFile, listStorageFiles } from './storage-files'
 
   // Components
   import NItem from '../../components/list-item/list-item.svelte'
@@ -23,7 +23,7 @@
   const methods = {
     initialize() {
       state.files = []
-      return Storage.list().then((files) => {
+      return listStorageFiles().then((files) => {
         state.files = files.sort((a, b) => {
           return a > b ? 1 : -1
         })
@@ -43,7 +43,7 @@
         'Yes, Delete'
       ).then((res) => {
         if (res === true) {
-          Storage.delete(file).then(() => {
+          deleteStorageFile(file).then(() => {
             setTimeout(() => {
               methods.initialize()
             })

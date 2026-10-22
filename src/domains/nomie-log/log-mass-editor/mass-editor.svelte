@@ -13,7 +13,7 @@
 
   // Utils
   import PromiseStep from '../../../utils/promise-step/promise-step'
-  import Storage from '../../../domains/storage/storage'
+  import { readStorageFile, writeStorageFile } from '../../storage/storage-files'
 
   import arrayUtils from '../../../utils/array/array_utils'
 
@@ -75,7 +75,7 @@
       let promises = []
       for (var i = 0; i < bookPaths.length; i++) {
         let path = bookPaths[i]
-        let getBook = Storage.get(path)
+        let getBook = readStorageFile(path)
         promises.push(getBook)
         getBook.then((logs) => {
           methods.findInBook(path, logs)
@@ -155,7 +155,7 @@
           // Prep for errors. Todo: if errors then show them
           let errors = []
           // Get the current book
-          Storage.get(path).then((book) => {
+          readStorageFile(path).then((book) => {
             // Map new notes with the content replaced
             book = book.map((row) => {
               if (row.note.search(searchReg) > -1) {
@@ -167,7 +167,7 @@
             // Update progress bar
             state.replacingProgress = Math.round((index / bookPaths.length) * 100)
             // Save the new Book
-            Storage.put(path, book)
+            writeStorageFile(path, book)
               .then(() => {
                 resolve(true)
               })

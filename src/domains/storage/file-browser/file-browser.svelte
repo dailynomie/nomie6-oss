@@ -2,34 +2,34 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { navigate } from '../../vendor/svelte-navigator'
+  import { navigate } from '../../../vendor/svelte-navigator'
 
-  import NSpinner from '../spinner/spinner.svelte'
-  import NItem from '../list-item/list-item.svelte'
+  import NSpinner from '../../../components/spinner/spinner.svelte'
+  import NItem from '../../../components/list-item/list-item.svelte'
 
-  import NLayout from '../../domains/layout/layout.svelte'
+  import NLayout from '../../../domains/layout/layout.svelte'
 
   // Utils and Modules
-  import Downloader from '../../modules/download/download'
-  import tick from '../../utils/tick/tick'
+  import Downloader from '../../../modules/download/download'
+  import tick from '../../../utils/tick/tick'
 
-  import Storage from '../../domains/storage/storage'
+  import { deleteStorageFile, initStorage, listStorageFiles, onStorageReady, readStorageFile, storageRootPath, writeStorageFile } from '../storage-files'
 
-  import { Interact } from '../../store/interact'
+  import { Interact } from '../../../store/interact'
 
-  import Button from '../button/button.svelte'
-  import { Lang } from '../../store/lang'
-  import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
-  import Text from '../text/text.svelte'
-  // import MassEditor from '../../domains/nomie-log/log-mass-editor/mass-editor.svelte'
-  import BackButton from '../back-button/back-button.svelte'
-  import List from '../list/list.svelte'
+  import Button from '../../../components/button/button.svelte'
+  import { Lang } from '../../../store/lang'
+  import ToggleSwitch from '../../../components/toggle-switch/toggle-switch.svelte'
+  import Text from '../../../components/text/text.svelte'
+  // import MassEditor from '../../../domains/nomie-log/log-mass-editor/mass-editor.svelte'
+  import BackButton from '../../../components/back-button/back-button.svelte'
+  import List from '../../../components/list/list.svelte'
 
-  import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
-  import { Prefs } from '../../domains/preferences/Preferences'
-  import IonIcon from '../icon/ion-icon.svelte'
-  import { DocumentTextOutline, DownloadOutline, FolderOutline, TrashOutline } from '../icon/nicons'
-  import { showToast } from '../toast/ToastStore'
+  import ToolbarGrid from '../../../components/toolbar/toolbar-grid.svelte'
+  import { Prefs } from '../../../domains/preferences/Preferences'
+  import IonIcon from '../../../components/icon/ion-icon.svelte'
+  import { DocumentTextOutline, DownloadOutline, FolderOutline, TrashOutline } from '../../../components/icon/nicons'
+  import { showToast } from '../../../components/toast/ToastStore'
 
   const { path = "" } = $props()
 
@@ -98,7 +98,7 @@
         let payload = JSON.parse(value)
         editor.value = JSON.stringify(payload, null, 2)
         const filePath = browserPath.length ? `${browserPath.join('/')}/${browserFile}` : browserFile
-        await Storage.put(filePath, payload)
+        await writeStorageFile(filePath, payload)
         showToast({
           message: 'File Saved',
           buttonLabel: 'Reload',
@@ -193,13 +193,13 @@
 
   onMount(async () => {
     browserLoading = true
-    Storage.getEngine().onReady(async () => {
-      let files = await Storage.list()
+    onStorageReady(async () => {
+      let files = await listStorageFiles()
       browserTree = Treeify(files)
       browserFiles = extractFiles()
       browserLoading = false
     })
-    await Storage.init()
+    await initStorage()
   })
 
   async function deleteFile(file) {
@@ -210,16 +210,16 @@
       'Yes, Delete'
     )
     if (confirm) {
-      await Storage.delete(filepath)
+      await deleteStorageFile(filepath)
       showToast({ message: 'Deleted' })
       back()
     }
   }
 
   async function readFile() {
-    const profileRoot = Storage.getEngine().basePath()
+    const profileRoot = storageRootPath()
 
-    let content = await Storage.get(path.replace(`${profileRoot}/`, ''))
+    let content = await readStorageFile(path.replace(`${profileRoot}/`, ''))
     if (content) {
       fileContent = JSON.stringify(content, null, 2)
     }
@@ -231,7 +231,7 @@
     if (browserFile) {
       let filename = browserFile
       let filePath = browserPath.length ? `${browserPath.join('/')}/${browserFile}` : browserFile
-      let content = await Storage.get(filePath)
+      let content = await readStorageFile(filePath)
       Downloader.json(filename, content)
     } else {
       // If in a directory, download the directory contents (not supported, show error)
