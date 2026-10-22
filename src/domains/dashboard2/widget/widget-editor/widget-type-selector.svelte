@@ -8,6 +8,7 @@
   import { getWidgetTypes, type IWidgetType, widgetTypes } from '../widget-types'
   import { PluginStore } from '../../../plugins/PluginStore'
   import { Prefs } from '../../../preferences/Preferences'
+  import { TrackableStore } from '../../../trackable/TrackableStore'
 
   import Avatar from '../../../../components/avatar/avatar.svelte'
 import type { WidgetClass } from '../widget-class';
@@ -65,6 +66,10 @@ import type { WidgetClass } from '../widget-class';
   })
 </script>
 
+<!-- Phase 7 (new users): a widget shows a tracker, so say so before the choices -->
+{#if Object.keys($TrackableStore.trackables).length === 0}
+  <p class="px-4 pt-1 text-ios-footnote text-ios-label2">Widgets show your trackers. Add a tracker first, then come back here.</p>
+{/if}
 <HScroller
   className="items-start justify-start"
   wrapperClass="snap-scroll-x flex   space-x-4 px-4 widget-type-selector py-2 "

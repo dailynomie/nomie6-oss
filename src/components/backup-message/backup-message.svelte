@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { TrackableStore } from '../../domains/trackable/TrackableStore'
   import { Lang } from '../../store/lang'
 
   import { Prefs } from '../../domains/preferences/Preferences'
@@ -30,7 +31,9 @@
       dayWarning > -1 &&
       $LaunchCount > 5 &&
       lastBackupDaysBack >= dayWarning &&
-      !$Prefs.hideBackupMessage
+      !$Prefs.hideBackupMessage &&
+      // Phase 7 (new users): nothing to back up until the first tracker exists
+      Object.keys($TrackableStore.trackables).length > 0
     ) {
       visible = true
     } else {
