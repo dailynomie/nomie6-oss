@@ -3,7 +3,7 @@
 <script lang="ts">
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-  import NMap from './map.svelte'
+  import NMap from './map-lazy.svelte'
 
   import NItem from '../../components/list-item/list-item.svelte'
 

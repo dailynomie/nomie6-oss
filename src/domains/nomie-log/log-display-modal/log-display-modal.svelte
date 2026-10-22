@@ -9,7 +9,7 @@
   import ListItemLog from '../../../components/list-item-log/list-item-log.svelte'
 
   import ToolbarGrid from '../../../components/toolbar/toolbar-grid.svelte'
-  import Map from '../../map/map.svelte'
+  import Map from '../../map/map-lazy.svelte'
   import { getDateFormats } from '../../preferences/Preferences'
   import type NLog from '../nomie-log'
   import { Lang } from '../../../store/lang'

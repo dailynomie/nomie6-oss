@@ -5,7 +5,7 @@
 
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-  import Map from './map.svelte'
+  import Map from './map-lazy.svelte'
   import type { GeoType } from './LocationModalStore'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'

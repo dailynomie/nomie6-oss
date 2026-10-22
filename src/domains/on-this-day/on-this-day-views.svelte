@@ -17,7 +17,7 @@
   import { showTrackablePopmenu } from '../board/boardActions'
   import { getFocusScoresFromLogs, type IFocusResults } from '../focus/focus-utils'
   import { getTrackersAndValuesFromLogs } from '../ledger/ledger-tools'
-  import Map from '../map/map.svelte'
+  import Map from '../map/map-lazy.svelte'
   import type NLog from '../nomie-log/nomie-log'
   import { PeopleStore } from '../people/PeopleStore'
   import type Person from '../people/Person.class'

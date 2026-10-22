@@ -14,7 +14,7 @@
   import { wait } from '../../utils/tick/tick'
   import { openCalendarView } from '../calendar-view/CalendarViewStore'
 
-  import Map from '../map/map.svelte'
+  import Map from '../map/map-lazy.svelte'
   import RelatedView from '../related/related-view.svelte'
 
   import type { Trackable } from '../trackable/Trackable.class'
