@@ -40,3 +40,41 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: npm run vbuild
+
+  # End-to-end smoke tests (F9): a note and a backup round trip, in a real browser against the production build.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: "1"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci || npm ci --legacy-peer-deps
+
+      - name: Install the browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: npm run vbuild
+
+      - name: Serve the build
+        run: |
+          nohup npx vite preview --port 4173 --strictPort > preview.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://localhost:4173/ > /dev/null && break; sleep 2; done
+
+      - name: Run the smoke tests
+        env:
+          E2E_URL: http://localhost:4173
+        run: npm run e2e
