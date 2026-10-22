@@ -103,7 +103,7 @@ else
 fi
 
 # ARC-18 logging: console.log is not left in code (warn, error and info are allowed)
-check ARC-18 SHOULD code "console.log left in code (use console.warn, error or info)" '\bconsole\.log\('
+check ARC-18 SHOULD code "console.log left in code (use console.warn, error or info)" '^(?!\s*//).*\bconsole\.log\('
 
 # FMT-01 formatting follows .prettierrc. Checked on files changed in the working tree (not the whole branch),
 # so a file is formatted when it is touched. A full reformat is a separate, dedicated commit.
