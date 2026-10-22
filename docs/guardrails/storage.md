@@ -32,7 +32,7 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 
 - **STO-04 (MUST)** Engine writes are awaited inside their `try`, so a failed write reaches the caller. A bare `return this.db.put(...)` inside a `try` skips the `catch`. Check: `STO-04`.
 - **STO-05 (MUST)** Backup and restore read with `getStrict`. A failed read throws; it is never taken for an empty file. `get` (which returns `null` on failure) is for normal app reads only.
-- **STO-06 (SHOULD)** Device-only settings (theme, last-used tab, launch count, the server address) go through `SideStore` or `LSStore`. A component does not call `localStorage` directly. Check: `STO-06`.
+- **STO-06 (SHOULD)** Device-only settings (theme, last-used tab, launch count, font size, language) go through `store/device-settings.ts`, which keeps every key unchanged. A component or store does not call `localStorage` directly. Documented exceptions, all in the storage layer or in the device-settings module itself: the storage engines' own configuration (`Storage.local`, the CouchDB remote), the generic device stores (`SideStore`, `LSStore`), the reset that clears everything (`settings-functions.ts`), and the nomie-server address and token, which wait until that engine is active.
 - **STO-07 (MUST)** A store that changes what it has written calls `put` with the whole array or object. It does not write a partial change to a file that other code reads whole.
 
 ### 2.3 Shape, merge and backups
@@ -80,7 +80,7 @@ Run `bash docs/guardrails/checks/code-checks.sh --all` for the full list.
 - **STO-01:** 13 Storage calls sit in components or in non-store files. Examples: the file browser, the mass editor, the widget editor.
 - **STO-02:** 5 literal file names in stores: `open-streak.json` (`AwardsStore.ts`) and `chart-options.json` (`ChartOptionsStore.ts`). Move them to `NPaths`.
 - **STO-04:** 2 un-awaited writes in `engine.pouchdb.ts` (lines around 182 and 184). A failed write does not reach the caller's catch. **Known bug, not yet fixed:** fixing it changes what the user sees on a failed save, so it needs a decision.
-- **STO-06:** 24 raw `localStorage` calls in the changed files, 45 in the whole tree. Most are in stores that hold device settings (`DashStore`, `UniboardStore`, `BackupStore`) and in the nomie-server engine. Moving them to `SideStore` is a change of storage location, so it needs a plan that keeps existing values.
+- **STO-06:** the call sites outside the exceptions above now go through the device settings module. Remaining raw calls are the documented exceptions only.
 - **Known gap for STO-12:** the custom units (`custom-uoms.json`) are in the storage archive, but not in the legacy JSON export.
 
 ---
