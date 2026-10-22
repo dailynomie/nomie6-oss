@@ -197,7 +197,10 @@ const combineStoreBoards = (
   }
 
   if ($Prefs.experimentBoard && experimentElements.length) {
-    boards = [...boards, ...[{ label: 'Experiments', icon: ExperimentBoardIcon, id: EXPERIMENT_BOARD_ID, elements: experimentElements }]]
+    boards = [
+      ...boards,
+      ...[{ label: 'Experiments', icon: ExperimentBoardIcon, id: EXPERIMENT_BOARD_ID, elements: experimentElements }],
+    ]
   }
 
   // Dynamic tabs are never user boards. Earlier builds saved them into the user's boards, so they are ignored here

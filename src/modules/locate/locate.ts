@@ -1,8 +1,8 @@
-import Logger from "../../utils/log/log";
+import Logger from '../../utils/log/log'
 
 // consts
-const console = new Logger("🗺 locate.js");
-const LOC_CACHE_KEY = "loc-cache";
+const console = new Logger('🗺 locate.js')
+const LOC_CACHE_KEY = 'loc-cache'
 
 type LocationLookupResponse = {
   time: number
@@ -10,8 +10,8 @@ type LocationLookupResponse = {
   longitude: number
 }
 
-export default ():Promise<LocationLookupResponse> => {
-  let getRealLocation = ():Promise<LocationLookupResponse> => {
+export default (): Promise<LocationLookupResponse> => {
+  let getRealLocation = (): Promise<LocationLookupResponse> => {
     return new Promise((resolve, reject) => {
       try {
         navigator.geolocation.getCurrentPosition(
@@ -22,26 +22,26 @@ export default ():Promise<LocationLookupResponse> => {
               lat: pos.coords.latitude,
               longitude: pos.coords.longitude,
               lng: pos.coords.longitude,
-            };
-            localStorage.setItem(LOC_CACHE_KEY, JSON.stringify(payload));
-            resolve(payload);
+            }
+            localStorage.setItem(LOC_CACHE_KEY, JSON.stringify(payload))
+            resolve(payload)
           },
           (e) => {
             // console.error(e);
-            reject(e);
+            reject(e)
           },
           {
             timeout: 3000,
           }
-        );
+        )
       } catch (e) {
-        reject(e);
+        reject(e)
       }
-    });
-  };
+    })
+  }
 
   return new Promise((resolve, reject) => {
-    let cachedRaw = JSON.parse(localStorage.getItem(LOC_CACHE_KEY) || "null");
+    let cachedRaw = JSON.parse(localStorage.getItem(LOC_CACHE_KEY) || 'null')
 
     try {
       if (cachedRaw) {
@@ -50,19 +50,19 @@ export default ():Promise<LocationLookupResponse> => {
             time: cachedRaw.time,
             latitude: cachedRaw.latitude,
             longitude: cachedRaw.longitude,
-          });
+          })
         } else {
           if (!navigator.geolocation) {
-            reject({ message: "No geolocation service found" });
+            reject({ message: 'No geolocation service found' })
           } else {
-            getRealLocation().then(resolve).catch(reject);
+            getRealLocation().then(resolve).catch(reject)
           } // end if have geo lookup
         } // end if cache exists
       } else {
-        getRealLocation().then(resolve).catch(reject);
+        getRealLocation().then(resolve).catch(reject)
       }
     } catch (e) {
-      reject(e);
+      reject(e)
     }
-  });
-};
+  })
+}

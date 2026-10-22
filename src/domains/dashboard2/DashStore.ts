@@ -7,12 +7,7 @@
  * and how it manged stats with Widgets
  */
 
-import {
-  DuplicateOutline,
-  PencilOutline,
-  SwapOutline,
-  TrashOutline,
-} from '../../components/icon/nicons'
+import { DuplicateOutline, PencilOutline, SwapOutline, TrashOutline } from '../../components/icon/nicons'
 
 import { DashboardClass } from './dashboard-class'
 import type { DashboardPayload } from './dashboard-class'
@@ -82,10 +77,10 @@ export const initializeDashStore = async (): Promise<InitialState> => {
  * @returns
  */
 const getDashboardDataFromStorage = async (): Promise<InitialState> => {
-  const rawDashboards: Array<DashboardClass> = ((await getDashboards()) || []);
-  const dashboards = rawDashboards.map(dash=>{
-    dash.widgets = dedupArray(dash.widgets, 'id');
-    return dash;
+  const rawDashboards: Array<DashboardClass> = (await getDashboards()) || []
+  const dashboards = rawDashboards.map((dash) => {
+    dash.widgets = dedupArray(dash.widgets, 'id')
+    return dash
   })
   const active: DashboardClass = dashboards[0]
   return {
@@ -96,9 +91,7 @@ const getDashboardDataFromStorage = async (): Promise<InitialState> => {
   }
 }
 
-const removeDuplicateWidgets = (items:Array<any>, key:string) => {
-  
-}
+const removeDuplicateWidgets = (items: Array<any>, key: string) => {}
 
 export const toggleDashboardEditMode = () => {
   DashStore.update((s) => {
@@ -119,25 +112,24 @@ export const getDashboards = async (): Promise<Array<DashboardClass>> => {
   if (dashboards.length === 0) {
     const firstDasboard = new DashboardClass({ id: 'mystats-first-board', label: 'My Stats', widgets: [] })
     dashboards = [firstDasboard]
-    setLastSelectedIndex(0);
-    
+    setLastSelectedIndex(0)
   }
   return dashboards
 }
 
-export const deleteDashboard = async (dashboard:DashboardClass)=>{
-  const exist = await getDashboards();
-  let final:Array<DashboardClass> = [];
+export const deleteDashboard = async (dashboard: DashboardClass) => {
+  const exist = await getDashboards()
+  let final: Array<DashboardClass> = []
   DashStore.update((state: InitialState) => {
     // Loop over existing, replace with new boards if exist
     final = exist.filter((dash) => {
-      return dash.id !== dashboard.id;
+      return dash.id !== dashboard.id
     })
-    state.dashboards = final;
-    return state;
-  });
-  
-  return await writeDashboardsToStorage(final);
+    state.dashboards = final
+    return state
+  })
+
+  return await writeDashboardsToStorage(final)
 }
 
 /**
