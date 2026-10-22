@@ -1,4 +1,3 @@
-import MarkdownModal from './markdown-modal.svelte'
 import { objectHash } from '../../modules/object-hash/object-hash'
 import { openModal } from '../backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
@@ -13,7 +12,9 @@ export type MarkdownModalStoreProps = {
 
 export const MarkdownModalStore = writable<MarkdownModalStoreProps | undefined>(undefined)
 
-export const openMarkdownModal = (props: MarkdownModalStoreProps) => {
+export const openMarkdownModal = async (props: MarkdownModalStoreProps) => {
+  // the viewer and its markdown parser load when they open
+  const { default: MarkdownModal } = await import('./markdown-modal.svelte')
   openModal({
     id: `markdown-${objectHash(props.path)}`,
     component: MarkdownModal,
@@ -28,14 +29,14 @@ export const closeMarkdownModal = () => {
   MarkdownModalStore.update((s) => undefined)
 }
 
-export const openTermsOfService = () => {
+export const openTermsOfService = async () => {
   openMarkdownModal({
     title: Lang.t('ui.terms-of-service', 'Terms of Service'),
     path: '/content/terms.md',
   })
 }
 
-export const openPrivacyPolicy = () => {
+export const openPrivacyPolicy = async () => {
   openMarkdownModal({
     title: Lang.t('ui.privacy-policy', 'Privacy Policy'),
     path: '/content/privacy.md',

@@ -3,7 +3,6 @@ import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import { Template } from './templates-utils'
 import { Trackable } from '../trackable/Trackable.class'
-import TemplateEditorModal from './template-editor-modal.svelte'
 import TemplateManagerModal from './template-manager-modal.svelte'
 import { Interact } from '../../store/interact'
 import { TemplateToImport } from '../storage/storage-export.helper'
@@ -127,7 +126,9 @@ export const openTemplatePreview = (template?: Template | undefined) => {
 /**
  * It opens a modal with the id `template-editor` and the component `TemplateEditorModal`
  */
-export const openTemplateEditor = (template?: Template | undefined) => {
+export const openTemplateEditor = async (template?: Template | undefined) => {
+  // the editor loads when it opens
+  const { default: TemplateEditorModal } = await import('./template-editor-modal.svelte')
   openModal({
     id: 'template-editor',
     component: TemplateEditorModal,
