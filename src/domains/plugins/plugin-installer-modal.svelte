@@ -9,13 +9,14 @@
   import { wait } from '../../utils/tick/tick'
   import PluginInstaller from './plugin-installer.svelte'
   import { closePluginInstaller } from './PluginStore'
+  import { Lang } from '../../store/lang'
 
   const { id, url } = $props()
 </script>
 
 <BackdropModal mainClass="px-4 py-4">
   <ToolbarGrid slot="header">
-    <Title>Install a Plugin</Title>
+    <Title>{Lang.t('plugins.install-a-plugin', 'Install a Plugin')}</Title>
     <Button
       slot="right"
       clear
@@ -38,12 +39,17 @@
   />
 
   <p class="text-description text-xs text-center mt-4">
-    Plugins are externally hosted websites that can communicate back and forth with Nomie. Plugins are responsible for
-    their own privacy policy.
+    {Lang.t(
+      'plugins.external-hosting-notice',
+      'Plugins are externally hosted websites that can communicate back and forth with Nomie. Plugins are responsible for their own privacy policy.'
+    )}
   </p>
   {#if url}<p class="text-xs text-ios-label mt-2 text-center">Source: {new URL(url).origin}</p>{/if}
   <!-- iOS look (D-caution): a caution is neutral secondary text with a warning glyph; red is only for destructive actions -->
   <p class="text-sm font-semibold text-ios-label2 mt-3 text-center">
-    ⚠︎ Only install plugins from sources that you trust.
+    {Lang.t(
+      'plugins.only-install-plugins-from-sources-that-you-trust',
+      '⚠︎ Only install plugins from sources that you trust.'
+    )}
   </p>
 </BackdropModal>

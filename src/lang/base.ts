@@ -302,5 +302,18 @@ export default {
       'when-does-it-start': 'When does it start?',
       'write-my-own': 'Write my own',
     },
+    ai: {
+      'chat-with': 'Chat with',
+    },
+    plugins: {
+      'external-hosting-notice': 'Plugins are externally hosted websites that can communicate back and forth with Nomie. Plugins are responsible for their own privacy policy.',
+      'install-a-plugin': 'Install a Plugin',
+      'only-install-plugins-from-sources-that-you-trust': '⚠︎ Only install plugins from sources that you trust.',
+    },
+    stats: {
+      'find-potentially-related-trackables': 'Find potentially related trackables',
+      'find-related': 'Find Related...',
+      'loading': 'Loading...',
+    },
   },
 }

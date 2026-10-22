@@ -8,6 +8,7 @@
   import Button from '../../components/button/button.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import AIChat from './ai-chat.svelte'
+  import { Lang } from '../../store/lang'
 
   interface Props {
     id: string
@@ -33,7 +34,7 @@
 
     <ToolbarGrid>
       <div slot="main" class="flex items-center justify-center gap-2 relative z-10">
-        <Text bold size="md" className="text-ios-ontint">Chat with</Text>
+        <Text bold size="md" className="text-ios-ontint">{Lang.t('ai.chat-with', 'Chat with')}</Text>
         <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo" />
       </div>
 

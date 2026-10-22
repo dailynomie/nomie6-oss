@@ -34,6 +34,7 @@
   } from './Stats2Store'
 
   import WhenView from './when-view.svelte'
+  import { Lang } from '../../store/lang'
 
   const { id } = $props()
 
@@ -97,7 +98,7 @@
         <Button clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
       </Toolbar>
     {:else}
-      <div class="ntitle">Loading...</div>
+      <div class="ntitle">{Lang.t('stats.loading', 'Loading...')}</div>
     {/if}
 
     <DateRangeController
@@ -150,9 +151,9 @@
         <button
           on:click={() => (showRelated = true)}
           class="w-full text-ios-tint py-20"
-          title="Find potentially related trackables"
+          title={Lang.t('stats.find-potentially-related-trackables', 'Find potentially related trackables')}
         >
-          <span class="text-ios-tint">Find Related...</span>
+          <span class="text-ios-tint">{Lang.t('stats.find-related', 'Find Related...')}</span>
         </button>
       {/if}
     </div>
