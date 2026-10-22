@@ -33,11 +33,11 @@ The rules for working on a task, and the rules for backups, Starter mode and AI,
 | # | Decision | Status |
 | --- | --- | --- |
 | D1 to D5 | Central button, tracker grid columns, tracker icons, page background, capture Save colour | Not recorded as answered. Ronald to confirm against the approved mockups. |
-| D6 | Pinch zoom | Open |
+| D6 | Pinch zoom | **Answered: no pinch zoom.** `maximum-scale=1` stays; this is a design rule (UI-09). |
 | D7 | Collapsing large title | Open |
 | D8 | "Don't do it" goals count days without logs as successes | **Answered: yes**, by the test and the code. |
 | D9 | Naming and the Nomie trademark | Open. Needed before the announcement. |
-| D10 | Privacy policy text | Open |
+| D10 | Privacy policy text | **Extended, waiting for approval.** Draft in `public/content/privacy.md`. |
 | D11 | CSP strictness and allowed origins | Report-only is in place. Enforcing needs the reports. |
 | D12 | Plotly: lazy-load or replace | Open |
 | D13 | Hosted sync | Open |
@@ -112,13 +112,13 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 
 | # | Task | Size | Done when |
 | --- | --- | --- | --- |
-| C1 | **Remove the browser AI key path or make it explicit.** Decide with Ronald (D16, below). Remove the unused `src/routes/api/ai/+server.ts` either way. | M | The key is not kept in the browser without a clear choice, or the choice is recorded in the privacy policy. |
-| C2 | Remove `netlify.toml`'s `functions/` directory setting, and check the Docker image serves deep links and gzip. | S | A deep link such as `/goals` loads in the container, and the responses are gzipped. |
-| C3 | Ronald approves the privacy text (D10) and the text matches C1. | S | The approved text is in `public/content/privacy.md`. |
-| C4 | Pinch zoom (D6). Remove `maximum-scale=1` if agreed. | S | Input fields do not zoom on focus on iOS. |
-| C5 | `npm audit`, apply the non-breaking fixes. | S | No new vulnerabilities. |
+| C1 | **AI key in the browser: decided, keep the browser calls (D16).** Remove the unused `src/routes/api/ai/+server.ts`. Add a short notice where the key is entered: the key is used from the browser, and the request goes straight to the provider. | S | **Decided 22 October.** The file is removed and the notice is in the AI settings. |
+| C2 | Remove the Netlify configuration. **Done:** Netlify is not used, `netlify.toml` is removed. `nginx.conf` already has `try_files` for deep links and gzip. | S | **Partly done.** A container check (`docker build`, then a refresh on `/goals`, and gzip in the response headers) is still to do on a machine with Docker. |
+| C3 | Ronald approves the privacy text (D10). The draft was extended on 22 October: sync is not end-to-end encrypted, the AI calls go from the browser, the key is on the device, and the PIN is weak protection. | S | The approved text is in `public/content/privacy.md`. |
+| C4 | **Decided: no pinch zoom (D6).** `maximum-scale=1` stays; the rule is UI-09 and the check enforces it. | S | **Done.** Close. |
+| C5 | `npm audit`: the non-breaking fixes are applied (`fc4f99a7`). 73 findings remain. Shipped: `plotly.js` and `maplibre-gl` (critical), and the `uuid` chain under PouchDB 6. The rest are development tools. | S–M | **Partly done.** Plotly is tied to P4; PouchDB to the sync work (see W16). Development tools: upgrade in a separate pass. |
 | C6 | Branch protection on `dev` and `master`: the "test" check must pass. | S | Set on GitHub, and tested with a failing branch. |
-| C7 | Remove the blockstack origin from `public/_headers` if it is still in use anywhere. | S | `grep -r blockstack public` finds nothing. |
+| C7 | Remove the blockstack origin from `public/_headers` if it is still in use anywhere. | S | **Done.** No blockstack reference is left in the code. |
 
 ### M1. Performance · M–L
 
@@ -194,6 +194,8 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 | W13 | Experiment wizard, step 2: a suggested tracker the user does not have is shown as chosen (the fix "Tracker not added yet" is in place, check the flow end to end). Replace the two overlapping actions with one clear choice. | experiments | S |
 | W14 | Capture: a "#walk" with no tracker shows "No Match Found!" over the tool row. Show the hint below the field, once. | capture | S |
 | W15 | Splash: the logo and the "Daily Nomie 7" title overlap while the app loads. **Parked by Ronald**; the overlap is in `public/images/nomie-splash-on-blue-ai.svg` and needs the designer. | splash | parked |
+| W16 | **CouchDB sync is not encrypted.** Add a notice on the sync setup screen: the data is readable by the server operator, use `https`, and protect the server. Link to the privacy text. Decide with D13 whether the encrypted sync (N4) moves up into 7.0 or stays in 7.2. | sync setup | S (notice); decision on N4 |
+| W17 | **AI key notice:** where the key is entered, say that the requests are sent from the browser and that the key stays on the device; a short PIN gives little protection (C1). | AI settings | S |
 
 ---
 
@@ -242,14 +244,14 @@ Ask when a task reaches the decision. Record the answer in the commit message or
 | # | Decision | Needed for |
 | --- | --- | --- |
 | D1 to D5 | Central button, tracker grid columns, tracker icons, page background, capture Save colour (check against the approved mockups) | M2 |
-| D6 | Pinch zoom | C4 |
+| D6 | Pinch zoom | **Answered: no pinch zoom** (UI-09). |
 | D7 | Collapsing large title | M2 |
 | D9 | Naming and the Nomie trademark | M3 |
-| D10 | Privacy policy text | C3 |
+| D10 | Privacy policy text | **Extended, waiting for approval** (C3). |
 | D11 | CSP strictness and allowed origins | C2 and the enforcing CSP |
-| D12 | Plotly: lazy or Chart.js | P4 |
+| D12 | Plotly: lazy or Chart.js | P4, and C5 (critical findings in plotly.js) |
 | D13 | Hosted sync or self-hosted only | 7.2 N4 |
-| D16 | AI key in the browser: move behind a server the user runs, or keep it in the browser and say so | C1 |
+| D16 | AI key in the browser | **Answered: keep the browser calls.** The privacy text says so, and a notice is shown where the key is entered (C1). |
 | D17 | The related-view count: which intended formula | F8 |
 | D18 | Other languages for 7.0: keep German, Italian and Simplified Chinese (complete them) or hide them | F6 |
 
