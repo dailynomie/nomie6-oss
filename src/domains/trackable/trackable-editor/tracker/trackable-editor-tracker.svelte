@@ -12,6 +12,7 @@
    * God speed.
    */
   import ListItem from '../../../../components/list-item/list-item.svelte'
+  import AdvancedBadge from '../../../../components/advanced-badge/advanced-badge.svelte'
 
   import NToggle from '../../../../components/toggle-switch/toggle-switch.svelte'
   import NInput from '../../../../components/input/input.svelte'
@@ -446,16 +447,19 @@
   {#if advancedVisible && advancedCanToggle}
     <div class="px-4">
       <!-- iOS look: a disclosure is a tint text link, not a grey block -->
-      <Button
-        clear
-        primary
-        size="sm"
-        className="mt-2 mb-3 advanced-toggler"
-        on:click={() => (forceAdvancedView = !forceAdvancedView)}
-      >
-        {#if advancedVisible}Less Options{:else}More Options{/if}
-        <IonIcon name={advanced ? ChevronUpOutline : ChevronDownOutline} size={12} className="ml-2 text-ios-label2" />
-      </Button>
+      <span class="adv-corner">
+        <Button
+          clear
+          primary
+          size="sm"
+          className="mt-2 mb-3 advanced-toggler"
+          on:click={() => (forceAdvancedView = !forceAdvancedView)}
+        >
+          {#if advancedVisible}Less Options{:else}More Options{/if}
+          <IonIcon name={advanced ? ChevronUpOutline : ChevronDownOutline} size={12} className="ml-2 text-ios-label2" />
+        </Button>
+        <AdvancedBadge />
+      </span>
     </div>
   {/if}
 

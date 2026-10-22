@@ -7,6 +7,7 @@
   import PulseOutline from '../../n-icons/PulseOutline.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
+  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
   import { openUnisearch } from '../../domains/search/UnisearchStore'
 
   import CalendarOutline from '../../n-icons/CalendarOutline.svelte'
@@ -198,8 +199,13 @@
           <Dot size={8} className="absolute animate-pulse top-1 bg-ios-tint ml-2" />
         {/if}
 
-        <IonIcon icon={item.icon} className="inactive" />
-        <IonIcon icon={item.activeIcon} className="active" />
+        <span class="adv-corner">
+          <IonIcon icon={item.icon} className="inactive" />
+          <IonIcon icon={item.activeIcon} className="active" />
+          {#if item.feature}
+            <AdvancedBadge />
+          {/if}
+        </span>
 
         <div class="mr-2 link-title">
           {item.title}

@@ -3,6 +3,8 @@
 <script lang="ts">
   import HScroller from '../../../../components/h-scroller/h-scroller.svelte'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
+  import AdvancedBadge from '../../../../components/advanced-badge/advanced-badge.svelte'
+  import { STARTER_WIDGET_TYPES } from '../../../preferences/experience'
   import NomieAiButton from '../../../../components/aibutton2/NomieAiButton2.svelte'
 
   import { getWidgetTypes, type IWidgetType, widgetTypes } from '../widget-types'
@@ -88,7 +90,7 @@ import type { WidgetClass } from '../widget-class';
       <div
         class="{isWidgetTypeActive(widgetType)
           ? 'active-type scale-110'
-          : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center bg-ios-card text-ios-label2 shadow-md rounded-xl {isInsightDisabled ? 'opacity-60' : ''}"
+          : ''} relative w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center bg-ios-card text-ios-label2 shadow-md rounded-xl {isInsightDisabled ? 'opacity-60' : ''}"
       >
         {#if widgetType.id === 'insight'}
           <NomieAiButton size="40px" />
@@ -96,6 +98,9 @@ import type { WidgetClass } from '../widget-class';
           <IonIcon icon={widgetType.icon} size={40} />
         {:else if widgetType.emoji}
           <Avatar size={40} emoji={widgetType.emoji} />
+        {/if}
+        {#if !STARTER_WIDGET_TYPES.includes(widgetType.id)}
+          <AdvancedBadge />
         {/if}
       </div>
       <div class="text-ios-label filler w-full line-clamp-2 text-center text-xs pt-2 leading-tight break-words">

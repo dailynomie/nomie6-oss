@@ -212,7 +212,7 @@
             {#if $FeatureVisible('pointers')}
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
-                <span slot="left"><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><AdvancedBadge /></span>
               </ListItem>
               </List>
             {/if}
@@ -226,7 +226,7 @@
             {#if $FeatureVisible('uoms')}
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => navigate('/uoms')} title="Units of Measure" description="What a tracker can count in">
-                <span slot="left"><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare><AdvancedBadge /></span>
               </ListItem>
             </List>
             {/if}

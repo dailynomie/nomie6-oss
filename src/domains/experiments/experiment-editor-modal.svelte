@@ -3,6 +3,7 @@
 <script lang="ts">
   import IosSelect from '../../components/ios-select/ios-select.svelte'
   import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
+  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
 
   import dayjs from 'dayjs'
 
@@ -209,7 +210,8 @@
           </button>
         {/each}
         {#if $FeatureVisible('experiment-advanced')}
-        <button class="w-full text-left p-4 rounded-2xl border-2 border-dashed border-ios-separator hover:border-ios-tint transition" onclick={writeOwn}>
+        <button class="relative w-full text-left p-4 rounded-2xl border-2 border-dashed border-ios-separator hover:border-ios-tint transition" onclick={writeOwn}>
+          <AdvancedBadge />
           <div class="font-semibold">Write my own</div>
           <div class="text-xs text-ios-label2 mt-1">Pick any change and the trackers it should affect</div>
         </button>
@@ -264,7 +266,8 @@
       </section>
 
       {#if $FeatureVisible('experiment-advanced')}
-      <label class="flex items-center gap-3 p-4 ios-card text-sm">
+      <label class="relative flex items-center gap-3 p-4 ios-card text-sm">
+        <AdvancedBadge />
         <ToggleSwitch value={lagDays === 1} on:change={(e) => (lagDays = e.detail ? 1 : 0)} />
         <span>The effect shows the next day</span>
       </label>

@@ -5,6 +5,7 @@
 
   // components
   import NHScroller from '../h-scroller/h-scroller.svelte'
+  import AdvancedBadge from '../advanced-badge/advanced-badge.svelte'
 
   import './board-tabs.css'
   import IonIcon from '../icon/ion-icon.svelte'
@@ -147,11 +148,14 @@
             </button>
           {/if}
           <button
-            class="tab animate-shake-big {isFixedBoard(item.id) ? 'board-fixed' : 'board-tab'} mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
+            class="tab relative animate-shake-big {isFixedBoard(item.id) ? 'board-fixed' : 'board-tab'} mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
           >
             {#if item.icon}
               <IonIcon icon={item.icon} size={22} />
             {:else}{item.label}{/if}
+            {#if item.id === '_people' || item.id === '_context'}
+              <AdvancedBadge />
+            {/if}
           </button>
         </div>
       </SortableList2>

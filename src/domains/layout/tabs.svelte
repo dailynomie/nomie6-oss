@@ -47,10 +47,10 @@
     },
     // Analytics is a full-mode option (starter hides it)
     ...($FeatureVisible('analytics')
-      ? [{ id: 'analytics', label: 'Analytics', icon: CubeOutline, link: '/analytics' }]
+      ? [{ id: 'analytics', label: 'Analytics', icon: CubeOutline, link: '/analytics', fullOnly: true }]
       : []),
     ...($FeatureVisible('pointers')
-      ? [{ id: 'pointers', label: 'Pointers', icon: TagOutline, action: () => openPointersModal() }]
+      ? [{ id: 'pointers', label: 'Pointers', icon: TagOutline, action: () => openPointersModal(), fullOnly: true }]
       : []),
     { id: 'locations', label: 'Locations', icon: MapOutline, action: () => openLocationModal() },
   ])

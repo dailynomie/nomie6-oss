@@ -207,7 +207,7 @@
       navigate('/files')
     }}
   >
-    <span slot="left"><IconSquare color="#3FA0A9"><IonIcon icon={FolderOutline} size={17} /></IconSquare></span>
+    <span slot="left" class="adv-corner"><IconSquare color="#3FA0A9"><IonIcon icon={FolderOutline} size={17} /></IconSquare><AdvancedBadge /></span>
   </ListItem>
   {/if}
 

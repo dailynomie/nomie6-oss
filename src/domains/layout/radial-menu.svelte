@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import IonIcon from '../../components/icon/ion-icon.svelte'
+  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
   import { AddCircleOutline } from '../../components/icon/nicons'
   import { navigate } from '../../vendor/svelte-navigator'
   import { Prefs } from '../preferences/Preferences'
@@ -136,6 +137,9 @@
       >
         <span class="radial-icon">
           <IonIcon icon={item.icon} size={22} />
+          {#if item.fullOnly}
+            <AdvancedBadge />
+          {/if}
           {#if item.notify}
             <span class="radial-notify">{item.notify}</span>
           {/if}
