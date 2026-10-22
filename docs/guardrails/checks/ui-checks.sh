@@ -63,7 +63,8 @@ echo
 check UI-01 MUST code "arbitrary Tailwind value such as bg-[#fff] or rounded-[18px]" '[\s"'\''][a-z0-9:-]+-\[[^\]]+\]'
 
 # UI-02 browser-native controls are replaced by app-native components
-check UI-02 MUST svelte "native select, date, time, range or colour input" '^(?!\s*(<!--|/\*|//)).*(?<!\[)(<select[\s>]|(?<!\[)type=["'\''"]?(date|time|datetime-local|range|color)\b)(?!.*\bselector)'
+# only the native elements: <Input type="date"> is the app's component, which draws the iOS date field
+check UI-02 MUST svelte "native select, date, time, range or colour input" '^(?!\s*(<!--|/\*|//)).*(<select[\s>]|<input\b[^>]*\btype=["'\''"]?(date|time|datetime-local|range|color)\b)'
 
 # UI-03 user messages use the app dialogs, never the browser's
 check UI-03 MUST code "browser alert, confirm or prompt (use Interact.alert, confirm, prompt)" '^(?!\s*\*)(?!\s*//).*((^|[^.\w$])(alert|confirm|prompt)\((?!\s*\w+\s*:)|window\.(alert|confirm|prompt)\()'
