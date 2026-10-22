@@ -55,6 +55,7 @@ Colours are CSS variables in `src/style/main.css`, on `:root` for light mode and
 | `--ios-on-save` | `#FFFFFF` | `#000000` | Text on Save |
 | `--ios-danger` | `#D70015` | `#FF6961` | Destructive actions only |
 | `--ios-on-danger` | `#FFFFFF` | `#000000` | Text on a danger fill |
+| `--ios-star` | `#F5C542` | `#F5C542` | Favourite star on a saved location (the same gold as the crown) |
 | `--ios-switch-on` | `#34C759` | `#34C759` | Switch track when on (not text) |
 | `--ios-switch-off` | `#E3E3E8` | `#39393D` | Switch track when off |
 | `--ios-bar` | `rgba(249,249,249,0.92)` | `rgba(22,22,24,0.92)` | Tab bar and bottom bars, with `backdrop-filter: blur(20px)` |
