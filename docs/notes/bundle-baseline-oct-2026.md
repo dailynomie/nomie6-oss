@@ -1,0 +1,39 @@
+# Bundle baseline, 22 October 2026
+
+Measured with `ANALYZE=<file> npm run vbuild` (the report is written by `rollup-plugin-visualizer`, raw data). Branch `v7-dev`, commit with the visualizer switch.
+
+## Totals
+
+| | Size |
+| --- | --- |
+| All modules, minified | 11,595 kB |
+| All modules, gzipped | 3,248 kB |
+| `index-*.js` first load (from the build output) | 7,682 kB, 2,371 kB gzipped |
+
+Target for M1 (docs/ROADMAP.md): first load under 600 kB gzipped.
+
+## Largest packages (gzipped, all chunks)
+
+| Package | Gzipped | Raw | Note |
+| --- | --- | --- | --- |
+| plotly.js-dist-min | 1,307 kB | 4,467 kB | Only the analytics pivot uses it (P3, decision D12). The biggest single item. |
+| lodash | 159 kB | 675 kB | Imported per function in 2 files (`lodash/throttle`, `lodash/escapeRegExp`, `lodash/dropRight`). Likely pulled in whole by another dependency; check. |
+| leaflet | 114 kB | 457 kB | Map screens only (P3). |
+| @anthropic-ai/sdk | 112 kB | 412 kB | Only `src/domains/ai/engine.svelte.ts`, imported at the top (P3). |
+| chart.js | 77 kB | 360 kB | Used by the app; the other chart library is Plotly (N6: one chart library). |
+| pouchdb | 75 kB | 298 kB | The sync engine. Needed on start for the storage layer. |
+| src/n-icons | 69 kB | 130 kB | Icons, all bundled. Could be loaded per use. |
+| svelte | 69 kB | 192 kB | Runtime. |
+| crypto-js | 61 kB | 241 kB | Used by the PIN and API-key encryption. |
+| src/lang | 57 kB | 187 kB | All languages are in the bundle (en, de, it, zh-cn, test, nl). Load only the active language (P3 extension). |
+| muuri | 55 kB | 243 kB | Grid layout. |
+| esri-leaflet | 34 kB | 124 kB | Map. |
+| widget/types | 31 kB | 86 kB | Dashboard widget components (lazy per widget type is possible). |
+| experiments | 27 kB | 93 kB | Experiments screens (lazy route, P2). |
+| qrcode | 25 kB | 73 kB | Used by the AfterNomie and backup QR codes. |
+
+## What this means for the plan
+
+- Plotly is roughly half of the gzipped total. Lazy-loading it (P3) moves it out of the first load. That is the biggest single win, and it does not need the decision on replacing it.
+- Leaflet, the Anthropic SDK, the language files, the icons and the dashboard widgets can all move out of the first load with lazy imports (P2 and P3).
+- The first load also includes everything for every route. P2 (lazy routes) is needed for the 600 kB target.

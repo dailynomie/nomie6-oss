@@ -34,7 +34,8 @@ export default defineConfig({
         // },
       },
       plugins: [
-        // visualizer({ filename: 'stats.html' }),
+        // ANALYZE=1 npm run vbuild writes the bundle report (raw data, for the size baseline)
+        ...(process.env.ANALYZE ? [visualizer({ filename: process.env.ANALYZE, template: 'raw-data', gzipSize: true })] : []),
         rollupPluginsSvelte,
       ],
     },
