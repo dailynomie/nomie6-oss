@@ -38,6 +38,7 @@ const LangInit = () => {
       zhcn: langs['zhcn'].lang,
       it: langs['it'].lang,
       de: langs['de'].lang,
+      nl: langs['nl'].lang,
       test: langs['test'].lang,
     },
   })
