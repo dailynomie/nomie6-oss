@@ -38,6 +38,8 @@
   import SelectPop from '../../select-pop/select-pop.svelte'
   import { autoCleanupPlugins } from '../plugins/PluginCleanupStore'
   import IconSquare from '../../components/icon-square/icon-square.svelte'
+  import { HelpCircleOutline } from '../../components/icon/nicons'
+  import { openUnknownTrackables } from '../trackable/unknown-trackables-store'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { DownloadOutline } from '../../components/icon/nicons'
 
@@ -217,6 +219,18 @@
     on:click={updateLastUsedDates}
   >
     <span slot="left"><IconSquare color="#5CB3BB"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
+  </ListItem>
+
+  <!-- iOS look (Ronald request): tags in notes that have no trackable yet -->
+  <ListItem
+    bottomLine={57}
+    detail
+    clickable
+    title="Manage Unknown Trackables"
+    description="Tags in your notes that have no tracker yet"
+    on:click={openUnknownTrackables}
+  >
+    <span slot="left"><IconSquare color="#7A5AA6"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem
