@@ -66,3 +66,11 @@ The static import graph from the app was analysed. The largest items that were i
 First load now: `index-*.js` 561 kB gzipped, plus a shared chunk of 44 kB, so about **605 kB gzipped**. Target: 600 kB.
 
 Still in the first load (candidates for the next step): PouchDB (about 75 kB, needed for the CouchDB sync only, but the storage layer picks the engine at start), the emoji data (18 kB, opens with the emoji picker), canvas-confetti (7 kB), tributejs (12 kB, the textarea mentions), papaparse (7 kB, the CSV import).
+
+## Result of the first-load work (22 October, branch perf/lazy-routes)
+
+First load: `index-*.js` 537 kB gzipped, plus a shared chunk of 44 kB, **about 581 kB gzipped**. Target 600 kB, reached. From 2,371 kB at the start of the work.
+
+The last two items: the emoji list (about 18 kB) and the confetti library (about 7 kB) now load when they are used.
+
+Not in the first load any more: the routes (except Track and Timeline), Plotly, the map, the Anthropic SDK, the stats modal with Chart.js, the markdown viewer, the template editor, lodash (for the usage files), the emoji list and the confetti.
