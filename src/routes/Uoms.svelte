@@ -59,7 +59,7 @@
                 <div class="min-w-0">
                   <div class="flex items-center gap-2">
                     <span class="font-semibold text-ios-label truncate">{unit.plural}</span>
-                    <span class="text-[11px] font-semibold rounded-md px-1.5 py-0.5 bg-ios-tintsoft text-ios-tint shrink-0">Custom</span>
+                    <span class="text-ios-caption2 font-semibold rounded-md px-1.5 py-0.5 bg-ios-tintsoft text-ios-tint shrink-0">Custom</span>
                   </div>
                   <div class="text-ios-footnote text-ios-label2 truncate">{unit.singular}</div>
                 </div>
