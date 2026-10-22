@@ -26,8 +26,8 @@ import type { TimelineFilterProps } from './timeline-utils';
 
 <BackdropModal>
   <ToolbarGrid slot="header" className="bg-ios-card">
-    <Button slot="left" primary clear on:click={close}>
-      {Lang.t('general.close', 'Close')}
+    <Button slot="right" primary clear on:click={close}>
+      {Lang.t('general.done', 'Done')}
     </Button>
     <div>
       <LetterTicker className="font-bold ntitle" text={titleDate.fromNow()} />

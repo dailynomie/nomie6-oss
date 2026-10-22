@@ -67,7 +67,7 @@
 <BackdropModal className="h-full" headerClass="glass">
   <Toolbar slot="header">
     <Button clear primary on:click={back}>
-      {Lang.t('general.close', 'Close')}
+      {Lang.t('general.cancel', 'Cancel')}
     </Button>
 
     {#if $ActiveBackdropId === id}

@@ -27,7 +27,7 @@
           dispatch('cancel')
         }}
       >
-        {Lang.t('general.close', 'Close')}
+        {Lang.t('general.cancel', 'Cancel')}
       </Button>
     </div>
     <!-- end left toolbar -->

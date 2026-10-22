@@ -44,7 +44,7 @@ import RelatedView from './related-view.svelte'
 <BackdropModal>
   <header class="bg-ios-card" slot="header">
     <ToolbarGrid>
-      <Button on:click={close} slot="left" clear primary>{Lang.t('general.close', 'Close')}</Button>
+      <Button on:click={close} slot="right" clear primary>{Lang.t('general.done', 'Done')}</Button>
       <h1 class="ntitle">
         {#if trackable}
           <TrackableAvatar size={24} {trackable} /> {Lang.t('general.related', 'Related')}

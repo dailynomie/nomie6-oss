@@ -29,13 +29,12 @@ import Title from '../../components/title/title.svelte';
 
 <BackdropModal>
   <ToolbarGrid slot="header" className="bg-ios-card shadow-md z-40 relative">
-    <div slot="left">
-      <Button on:click={() => close()} primary clear>Close</Button>
+    <div slot="right">
+      <Button on:click={() => close()} primary clear>Done</Button>
     </div>
     <Title className="line-clamp-1">
       {#if locations.length}{locations[0].name}{/if}
     </Title>
-    <div slot="right" />
   </ToolbarGrid>
   <div class="relative flex-grow h-full">
     <Map {locations} records={logs} />

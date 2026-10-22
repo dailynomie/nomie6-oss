@@ -18,7 +18,6 @@ import Spinner from '../../components/spinner/spinner.svelte'
 
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-  import CloseOutline from '../../n-icons/CloseOutline.svelte'
 import { wait } from '../../utils/tick/tick';
   import { onMount } from 'svelte'
   import Calendar3 from '../calendar-view/calendar3.svelte'
@@ -124,13 +123,11 @@ import { streakSummary, type StreakSummaryResults } from './streak-helper';
 <BackdropModal headerClass="glass mb-2" mainClass="bg-ios-bg filler">
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" clear primary icon on:click={close}>
-        <IonIcon icon={CloseOutline} />
-      </Button>
       <h1 class="ntitle capitalize line-clamp-1">
         <TrackableAvatar {trackable} size={22} />
         {trackable.label} Streak
       </h1>
+      <Button slot="right" clear primary on:click={close}>Done</Button>
     </ToolbarGrid>
     {#if rawUsage && rawUsage.logs}
       <Calendar3

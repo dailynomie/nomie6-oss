@@ -191,12 +191,11 @@
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
-      <div slot="left">
-        <Button clear primary on:click={() => closeModal(id)}>Close</Button>
+      <div slot="right">
+        <Button clear primary on:click={() => closeModal(id)}>Done</Button>
       </div>
       <!-- iOS look (guide 5.6): the modal header reads "Experiment"; the title is the large title below -->
       <h2 class="text-ios-body font-semibold text-ios-label">Experiment</h2>
-      <div slot="right"></div>
     </ToolbarGrid>
   </header>
 

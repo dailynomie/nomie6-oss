@@ -20,12 +20,12 @@
     <Button
       clear
       primary
-      slot="left"
+      slot="right"
       on:click={() => {
         wait(10).then(() => {
           closeModal(id)
         })
-      }}>Exit</Button
+      }}>Done</Button
     >
     <Title>{plugin.name}</Title>
   </ToolbarGrid>

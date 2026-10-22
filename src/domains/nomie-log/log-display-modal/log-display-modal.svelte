@@ -6,8 +6,7 @@
 
   import Button from '../../../components/button/button.svelte'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
-  import { CloseOutline } from '../../../components/icon/nicons'
-  import ListItemLog from '../../../components/list-item-log/list-item-log.svelte'
+    import ListItemLog from '../../../components/list-item-log/list-item-log.svelte'
   
   import ToolbarGrid from '../../../components/toolbar/toolbar-grid.svelte'
   import Map from '../../map/map.svelte'
@@ -25,12 +24,10 @@ import { getDateFormats } from '../../preferences/Preferences'
 
 <BackdropModal mainClass="overflow-y-auto relative" className="h-full bg-ios-bg w-full rounded-2xl">
   <ToolbarGrid slot="header" shadow>
-    <Button icon on:click={() => close()} slot="left">
-      <IonIcon icon={CloseOutline} className="text-ios-tint" />
-    </Button>
     <h2 class="line-clamp-1 text-ios-label whitespace-normal leading-tight text-base font-semibold">
       {log.endDayjs().format(`ddd ${dateFormats.date} ${dateFormats.time}`)}
     </h2>
+    <Button clear primary on:click={() => close()} slot="right">Done</Button>
   </ToolbarGrid>
   {#if log.lat}
     <div class="sticky top-0 left-0 right-0 w-full z-40 stiff">

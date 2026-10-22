@@ -330,7 +330,7 @@
 <BackdropModal>
   <ToolbarGrid slot="header">
     <Button clear on:click={close} primary slot="left">
-      {Lang.t('general.close', 'Close')}
+      {Lang.t('general.cancel', 'Cancel')}
     </Button>
     <h1 class="ntitle sm">{Lang.t('settings.import', 'Import')}</h1>
     <div slot="right">

@@ -109,7 +109,7 @@
 <BackdropModal mainClass="px-2 lg:px-4 py-2 lg:py-4">
   <ToolbarGrid slot="header">
     <Button slot="left" primary clear on:click={close}>
-      {Lang.t('general.close', 'Close')}
+      {Lang.t('general.cancel', 'Cancel')}
     </Button>
 
     <h1 class="ntitle capitalize">{goal.durationLabel} {trackable?.label || ''} Goal</h1>

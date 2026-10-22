@@ -166,7 +166,12 @@ Corner radii:
 - An optional **subtitle** below that: 15 px, `--ios-label-2`.
 - The header background is `--ios-bg`. A large title can collapse on scroll (decision 7 in section 11).
 - Settings sub-pages and other pushed pages start their action row with the shared back button (`src/components/back-button/back-button.svelte`), at the left. Its fallback route is the parent page.
-- **SHOULD** Modal headers: a 44 px row with a text button on the left (Cancel, Close) in tint, a centred 17 px semibold title, and an optional action on the right.
+- **MUST (D-sheet-dismiss)** Sheets dismiss with text in tint, never a round icon:
+  - An information sheet (nothing is changed): **Done** on the right.
+  - An editor (the data can change): **Cancel** on the left, and the save action (Save, Done, Select) on the right.
+  - Close on the left is allowed only where the right side holds a real action that has to stay, such as an add button or a bulk action. Those sheets are listed in section 11 as exceptions.
+  - Search overlays use Cancel.
+- A centred 17 px semibold title sits between the two buttons, in a 44 px row.
 
 ### 5.2 Tab bar and central button (phones)
 
@@ -225,7 +230,7 @@ Use for a choice among a few options (Running and Finished, Daily, Weekly and Mo
 | Round icon | 36 px circle, fill background, label-coloured glyph at 18 px, with `aria-label` |
 | Pill | 36 px high, 18 px radius, 14 px side padding |
 
-- **MUST** A sheet's close icon is a round icon button in the fill token (`Button icon clear primary`). Do not use a solid primary icon: it renders as a pill.
+- **MUST (D-sheet-dismiss)** A sheet's dismiss is text, not an icon (section 5.1). A round icon button is for toolbar actions only (search, add, settings), in the fill token (`Button icon clear primary`). Do not use a solid primary icon: it renders as a pill.
 - **MUST (D-destructive-row)** Red is used only when the control deletes, destroys or removes. Cancel, Done, Edit, back and Clear are tint.
 - **MUST (D-danger)** A destructive item in a menu or action sheet uses the danger colour.
 
@@ -307,6 +312,7 @@ Decisions change a rule. Add one here with a short reason, and change the rule i
 | D-focus | No coloured focus box on touch or mouse focus. Keyboard focus gets a 2 px tint outline. |
 | D-select | Selection circles are 22 px (see section 10). |
 | D-alert | In an alert, Cancel is the bold tint. Red is for destructive actions only. |
+| D-sheet-dismiss | Sheets dismiss with tint text (Apple's sheets guidance, not an icon). Information sheets: Done on the right. Editors: Cancel on the left. Round icons are for toolbar actions only. Decided by Ronald, Oct 2026. Exceptions: sheets whose right side holds an action that must stay (the Pointers, Plugins, Trending, On This Day, Log Cache, Writing Prompts, Location manager and Calendar sheets, and the Goal details sheet, which has Edit on the right). These keep Close on the left until a decision moves their action. Still to convert from a round icon to text: the AI chat, Stats, Unisearch (Cancel) and plugin installer sheets. |
 | D-press | A pressed list row shows the fill token, with no ring. |
 | D-badge | Count badges use the tint fill and on-tint text. A remove badge uses the danger fill. |
 | D-tab-badge | The unread count on a tab bar item is the danger fill with on-danger text, as UIKit's default tab badge is red (decided by Ronald, Oct 2026). |

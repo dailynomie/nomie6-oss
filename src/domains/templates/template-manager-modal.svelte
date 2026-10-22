@@ -69,7 +69,7 @@ import AvailableTemplatesList from './available-templates-list.svelte'
 <BackdropModal className="h-full" mainClass="bg-ios-bg">
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" primary clear on:click={() => closeTemplateManager()}>Close</Button>
+      <Button slot="right" primary clear on:click={() => closeTemplateManager()}>Done</Button>
       <Title>Templates</Title>
     </ToolbarGrid>
     <Toolbar>

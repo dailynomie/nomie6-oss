@@ -35,7 +35,7 @@
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
-      <div slot="left">
+      <div slot="right">
         <Button
           clear
           primary
@@ -43,7 +43,7 @@
             closeModal(id)
           }}
         >
-          {Lang.t('general.close', 'Close')}
+          {Lang.t('general.done', 'Done')}
         </Button>
       </div>
       <h2 class="ntitle">Nomie {import.meta.env.PACKAGE_VERSION}</h2>

@@ -318,7 +318,7 @@ import Divider from '../../../components/divider/divider.svelte'
       className="text-ios-tint"
       on:click={() => {
         closeModal(id)
-      }}>Close</Button
+      }}>Cancel</Button
     >
     <div class="ntitle main">Import CSV</div>
     <div slot="right">

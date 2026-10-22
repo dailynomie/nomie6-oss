@@ -6,8 +6,7 @@
   import Button from '../../components/button/button.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { CloseOutline } from '../../components/icon/nicons'
-
+  
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
 
@@ -31,12 +30,10 @@
 
 <BackdropModal>
   <ToolbarGrid slot="header">
-    <Button slot="left" type="icon" on:click={close}>
-      <IonIcon icon={CloseOutline} size={28} className="text-ios-tint" />
-    </Button>
     <h1 class="ntitle">
       {awardCount == 1 ? Lang.t('awards.new-award', 'New Award!') : Lang.t('awards.new-awards', 'New Awards!')}
     </h1>
+    <Button slot="right" clear primary on:click={close}>Done</Button>
   </ToolbarGrid>
 
   {#if awardCount == 1}

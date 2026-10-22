@@ -42,7 +42,7 @@
 
 <BackdropModal className="h-full" mainClass="bg-ios-bg">
   <ToolbarGrid slot="header">
-    <Button slot="left" primary clear on:click={() => close()}>Close</Button>
+    <Button slot="left" primary clear on:click={() => close()}>Cancel</Button>
     <Title>{template.name || 'Create a Template'}</Title>
     <Button slot="right" primary clear on:click={() => save()} disabled={!isValidName}>Save</Button>
   </ToolbarGrid>

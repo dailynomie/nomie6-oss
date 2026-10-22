@@ -224,7 +224,7 @@
   <header slot="header" class="bg-ios-card relative pb-2 shadow-md z-40">
     <ToolbarGrid className="w-full stiff">
       <div slot="left">
-        <Button on:click={close} primary clear>{Lang.t('general.close', 'Close')}</Button>
+        <Button on:click={close} primary clear>{Lang.t('general.cancel', 'Cancel')}</Button>
       </div>
       <h1 class="ntitle">
         {#if state.active}

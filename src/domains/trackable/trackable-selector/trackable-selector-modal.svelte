@@ -175,7 +175,7 @@
 <BackdropModal className="bg-ios-bg">
   <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
-      <Button slot="left" clear primary on:click={close}>Close</Button>
+      <Button slot="left" clear primary on:click={close}>Cancel</Button>
       <h1 class="ntitle">{Lang.t('general.trackables', 'Trackables')}</h1>
       <Button on:click={onSelect} slot="right" className="whitespace-nowrap" disabled={!selected.length} clear primary
         >Select {selected.length ? `(${selected.length})` : ''}</Button

@@ -9,7 +9,7 @@
   import ListItem from '../../components/list-item/list-item.svelte'
   import Divider from '../../components/divider/divider.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { CloseOutline, CircleOutline, CheckmarkCircle } from '../../components/icon/nicons'
+  import { CircleOutline, CheckmarkCircle } from '../../components/icon/nicons'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import { Interact } from '../../store/interact'
   import { showToast } from '../../components/toast/ToastStore'
@@ -88,9 +88,7 @@
 <BackdropModal {id}>
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" clear icon on:click={handleClose}>
-        <IonIcon icon={CloseOutline} className="text-ios-label2" />
-      </Button>
+      <Button slot="left" clear primary on:click={handleClose}>Cancel</Button>
       <Text bold slot="main" className="text-ios-label">
         Clean Plugin Database
       </Text>

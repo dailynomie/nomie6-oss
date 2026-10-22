@@ -86,9 +86,8 @@
 <BackdropModal className="h-full bg-ios-card w-full">
   <header slot="header" class="bg-ios-card relative pb-2 px-4 pt-2">
     <div class="flex items-center justify-between h-11">
-      <button type="button" class="text-ios-tint text-base" onclick={() => closeModal(id)}>Close</button>
       <h1 class="text-base font-semibold text-ios-label">Unknown Trackables</h1>
-      <span class="w-10"></span>
+      <button type="button" class="text-ios-tint text-base font-semibold" onclick={() => closeModal(id)}>Done</button>
     </div>
   </header>
 

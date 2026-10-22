@@ -171,7 +171,7 @@
     {#if workingLog}
       <ToolbarGrid>
         <Button slot="left" clear primary on:click={close}>
-          {Lang.t('general.close', 'Close')}
+          {Lang.t('general.cancel', 'Cancel')}
         </Button>
 
         <div class="line-clamp-1 text-sm w-full min-w-0 text-ios-label">

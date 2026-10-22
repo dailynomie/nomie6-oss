@@ -18,7 +18,7 @@
 
 <BackdropModal className="h-full" mainClass="bg-ios-bg">
   <ToolbarGrid slot="header">
-    <Button slot="left" primary clear on:click={() => close()}>Close</Button>
+    <Button slot="right" primary clear on:click={() => close()}>Done</Button>
   </ToolbarGrid>
   <main class="lg:p-6 p-4">
     <TemplateView bind:template />
