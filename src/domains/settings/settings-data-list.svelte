@@ -38,6 +38,7 @@
   import { showToast } from '../../components/toast/ToastStore'
 
   import BackupListItems from '../../components/backup-message/backup-list-items.svelte'
+  import { generateBackup } from '../backup/BackupStore'
   import NomieServer from '../storage/engines/nomie-server/nomie-server.svelte'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import PluginDedupModal from '../plugins/plugin-dedup-modal.svelte'
@@ -182,7 +183,7 @@
   </p>
 {/if} -->
 
-<BackupListItems />
+<BackupListItems onGenerate={generateBackup} />
 
 <List solo className="mb-3 mt-4" outside>
   <ListItem

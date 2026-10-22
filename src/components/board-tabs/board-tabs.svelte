@@ -9,10 +9,9 @@
 
   import './board-tabs.css'
   import IonIcon from '../icon/ion-icon.svelte'
-  import { ActiveBoard, CombinedBoards, deleteUniboard, saveSortedBoards } from '../../domains/board/UniboardStore'
   import type { UniboardType } from '../../domains/board/UniboardStore'
   import SortableList2 from '../sortable-list/sortable-list2.svelte'
-  import { EXPERIMENT_BOARD_ID } from '../../domains/experiments/experiment-board'
+  import { EXPERIMENT_BOARD_ID } from '../../config/board-ids'
   import CloseOutline from '../../n-icons/CloseOutline.svelte'
 
   import { Interact } from '../../store/interact'
@@ -31,12 +30,21 @@
   let localBoards = $state<Array<UniboardType>>([])
   let active = $state<UniboardType>(undefined)
 
-  const { boards, className, editMode } = $props()
+  // The screen supplies the boards, the active board and the two actions (CMP-08)
+  const {
+    boards,
+    className,
+    editMode,
+    combinedBoards = [],
+    activeBoard = undefined,
+    onSortBoards = (_userBoards: Array<UniboardType>) => {},
+    onDeleteBoard = async (_board: UniboardType) => {},
+  } = $props()
 
   $effect(() => {
-    if ($CombinedBoards && $Prefs) {
-      localBoards = $CombinedBoards || []
-      active = $ActiveBoard
+    if (combinedBoards && $Prefs) {
+      localBoards = combinedBoards || []
+      active = activeBoard
     }
   })
 
@@ -63,10 +71,10 @@
   const isFixedBoard = (id: string) => id === 'main' || id.startsWith('_') || id === EXPERIMENT_BOARD_ID
 
   function onSorted(sorted: Array<UniboardType>) {
-    const fixed = ($CombinedBoards || []).filter((b) => isFixedBoard(b.id))
+    const fixed = (combinedBoards || []).filter((b) => isFixedBoard(b.id))
     const userBoards = sorted.filter((b) => !isFixedBoard(b.id))
     localBoards = [...fixed, ...userBoards]
-    saveSortedBoards(userBoards)
+    onSortBoards(userBoards)
   }
 
   // iOS look (Ronald decision): deleting All, People, Context or Experiments turns that board off in Settings,
@@ -85,19 +93,19 @@
     )
     if (confirmed === true) {
       ready = false
-      await deleteUniboard(board)
+      await onDeleteBoard(board)
       ready = true
       showToast({ message: 'Deleted' })
     }
   }
 </script>
 
-{#if $CombinedBoards && $CombinedBoards.length === 1}
+{#if combinedBoards && combinedBoards.length === 1}
   <div
     class="flex items-center flex-grow flex-shrink n-board-tabs min-h-14 max-h-14 h-14 {className}"
     data-scroll="0"
   />
-{:else if $CombinedBoards && $CombinedBoards.length > 1}
+{:else if combinedBoards && combinedBoards.length > 1}
   <div class="n-board-tabs {className} {state.editMode ? 'is-editing' : ''}">
     {#if !state.editMode}
       <NHScroller activeIndex={state.activeIndex} wrapperClass="space-x-2" className="n-board-tabs overflow-y-hidden">

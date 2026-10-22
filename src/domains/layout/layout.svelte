@@ -17,6 +17,8 @@
   import CaptureLog from '../capture-log/capture-log.svelte'
   import { Device } from '../../store/device-store'
   import DesktopSidebar from './desktop-sidebar.svelte'
+  import { BackupDaysAgo, backupConfirmed, generateBackup } from '../backup/BackupStore'
+  import { LaunchCount } from '../preferences/LaunchCount'
   import { hideMenuBlocker, MenuBlockerStore } from '../../components/menu/useDropmenu'
   import appConfig from '../../config/appConfig'
 
@@ -90,7 +92,12 @@
     <section class="xl:ml-56 layout-section-wrap">
       {#if hasHeader}
         <header class=" non-printable z-50 sticky top-0 glass {headerClassNames}">
-          <BackupMessage />
+          <BackupMessage
+            daysAgo={$BackupDaysAgo}
+            launchCount={$LaunchCount}
+            onGenerate={generateBackup}
+            onConfirmed={backupConfirmed}
+          />
           <slot name="header" />
         </header>
       {/if}

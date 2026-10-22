@@ -1,9 +1,10 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  // The screen supplies the backup action (CMP-08)
+  const { onGenerate = () => {} } = $props()
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { CloudUploadOutline, NotificationsOutline } from '../../components/icon/nicons'
-  import { generateBackup } from '../../domains/backup/BackupStore'
   import SelectPop from '../../select-pop/select-pop.svelte'
   import { Lang } from '../../store/lang'
   import ListItem from '../list-item/list-item.svelte'
@@ -66,7 +67,7 @@
     titleClass="text-ios-tint"
     description={lastBackupText}
     on:click={() => {
-      generateBackup()
+      onGenerate()
     }}
   >
     <span slot="left"><IconSquare color="#0E5F66"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>

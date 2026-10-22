@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import TodayDateController from '../domains/usage/today-date-controller.svelte'
+  import { ActiveBoard, deleteUniboard, saveSortedBoards } from '../domains/board/UniboardStore'
   import Toolbar from '../components/toolbar/toolbar.svelte'
   import Button from '../components/button/button.svelte'
   import MenuInline from '../components/menu/menu-inline.svelte'
@@ -103,7 +104,15 @@
     </div>
 
     {#if combinedBoards && combinedBoards.length > 1}
-      <BoardTabs {editMode} className="w-full filler" on:tabTap={onBoardTabTap} />
+      <BoardTabs
+        {editMode}
+        className="w-full filler"
+        {combinedBoards}
+        activeBoard={$ActiveBoard}
+        onSortBoards={saveSortedBoards}
+        onDeleteBoard={deleteUniboard}
+        on:tabTap={onBoardTabTap}
+      />
     {:else}
       <div class="filler lg:hidden" />
       <Logo color={appConfig.primary_color} className="-mt-2 ml-2 mr-10" size={20} />

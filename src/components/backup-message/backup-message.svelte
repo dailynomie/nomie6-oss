@@ -5,10 +5,11 @@
   import { Lang } from '../../store/lang'
 
   import { Prefs } from '../../domains/preferences/Preferences'
-  import { LaunchCount } from '../../domains/preferences/LaunchCount'
   // import { onMount } from 'svelte'
-  import { backupConfirmed, BackupDaysAgo, generateBackup } from '../../domains/backup/BackupStore'
   import { onMount } from 'svelte'
+
+  // The screen supplies the backup values and actions (CMP-08)
+  const { daysAgo = NaN, launchCount = 0, onGenerate = () => {}, onConfirmed = () => {} } = $props()
 
   let visible = $state(false)
   let mounted = $state(false)
@@ -16,10 +17,10 @@
   let lastBackupDaysBack = $state(0)
 
   $effect(() => {
-    if (isNaN($BackupDaysAgo)) {
+    if (isNaN(daysAgo)) {
       lastBackupDaysBack = 1001
     } else {
-      lastBackupDaysBack = $BackupDaysAgo
+      lastBackupDaysBack = daysAgo
     }
   })
 
@@ -29,7 +30,7 @@
       mounted &&
       lastBackupDaysBack &&
       dayWarning > -1 &&
-      $LaunchCount > 5 &&
+      launchCount > 5 &&
       lastBackupDaysBack >= dayWarning &&
       !$Prefs.hideBackupMessage &&
       // Phase 7 (new users): nothing to back up until the first tracker exists
@@ -54,7 +55,7 @@
     <span aria-hidden="true">⚠︎</span>
     <button
       aria-label="Backup your data"
-      on:click={generateBackup}
+      on:click={onGenerate}
       class="flex items-center mr-2 text-xs py-1 text-center rounded-full backup"
     >
       <!--- If it's way back - it's not really set-->
@@ -75,7 +76,7 @@
     <button
       class="ml-2 font-bold text-ios-tint"
       on:click={() => {
-        backupConfirmed()
+        onConfirmed()
       }}>Skip</button
     >
   </div>
