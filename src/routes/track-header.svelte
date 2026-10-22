@@ -16,6 +16,7 @@
   import { SettingsOutline } from '../components/icon/nicons'
   import SearchIcon from '../n-icons/SearchIcon.svelte'
   import dayjs from 'dayjs'
+  import { Lang } from '../store/lang'
 
   const {
     showController = false,
@@ -52,11 +53,11 @@
   >
     <!-- iOS look: Close is the neutral fill, Save the tint (not red: red is for destructive actions) -->
     <Button size="sm" shape="round" className="bg-ios-fill text-ios-label w-32" on:click={onToggleEditMode}>
-      <span class="text-base">Close</span>
+      <span class="text-base">{Lang.t('routes.close', 'Close')}</span>
     </Button>
     {#if editedUniboard}
       <Button size="sm" shape="round" className="ml-2 bg-ios-tint text-ios-ontint w-32" on:click={onSaveEdits}>
-        <span class="text-base">Save</span>
+        <span class="text-base">{Lang.t('routes.save', 'Save')}</span>
       </Button>
     {/if}
   </div>
@@ -70,12 +71,17 @@
     <span />
     {#if !editMode}
       <div class="flex items-center space-x-2">
-        <button type="button" class="ios-round" aria-label="Search Nomie" on:click={onOpenSearch}>
+        <button
+          type="button"
+          class="ios-round"
+          aria-label={Lang.t('routes.search-nomie', 'Search Nomie')}
+          on:click={onOpenSearch}
+        >
           <IonIcon icon={SearchIcon} size={18} />
         </button>
         <MenuInline
           id="add-menu-button"
-          title="Board options"
+          title={Lang.t('routes.board-options', 'Board options')}
           x="right"
           y="bottom"
           menuButtons={boardAddMenu}
@@ -86,7 +92,7 @@
       </div>
     {/if}
   </div>
-  <h1 class="text-ios-large font-bold text-ios-label">Track</h1>
+  <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('routes.track', 'Track')}</h1>
   <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format('dddd D MMMM')}</p>
 </div>
 

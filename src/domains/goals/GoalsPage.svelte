@@ -107,7 +107,10 @@
   }
 
   const deleteGoal = async (goal: GoalClass) => {
-    const confirmed = await Interact.confirm(`Delete the ${goal.tag} goal?`, 'You can always recreate it')
+    const confirmed = await Interact.confirm(
+      `Delete the ${goal.tag} goal?`,
+      Lang.t('goals.you-can-always-recreate-it', 'You can always recreate it')
+    )
     if (confirmed) {
       await GoalStore.remove(goal)
       initialzeGoalPage()
@@ -144,7 +147,7 @@
               primary
               on:click={() => {
                 editMode = false
-              }}>Done</Button
+              }}>{Lang.t('goals.done', 'Done')}</Button
             >
           {:else if goals.length}
             <Button
@@ -152,11 +155,16 @@
               primary
               on:click={() => {
                 editMode = true
-              }}>Edit</Button
+              }}>{Lang.t('goals.edit', 'Edit')}</Button
             >
           {/if}
         </div>
-        <button type="button" aria-label="New goal" class="goals-round" on:click={createGoal}>
+        <button
+          type="button"
+          aria-label={Lang.t('goals.new-goal', 'New goal')}
+          class="goals-round"
+          on:click={createGoal}
+        >
           <IonIcon icon={AddIcon} size={18} />
         </button>
       </div>
@@ -213,7 +221,7 @@
                   <!-- iOS edit mode: the red delete control sits on the leading edge -->
                   <button
                     type="button"
-                    aria-label="Delete goal"
+                    aria-label={Lang.t('goals.delete-goal', 'Delete goal')}
                     class="mr-3"
                     on:click|preventDefault|stopPropagation={() => deleteGoal(item.goal)}
                   >
@@ -222,7 +230,7 @@
                 {/if}
                 <button
                   type="button"
-                  aria-label="Tracker options"
+                  aria-label={Lang.t('goals.tracker-options', 'Tracker options')}
                   on:click|preventDefault|stopPropagation|capture={(evt) => {
                     blockOpen()
                     showTrackablePopmenu($TrackableStore.trackables[item.goal.tag])
@@ -335,13 +343,21 @@
         {/each}
         <ListItem on:click={createGoal}>
           {#if view === 'day'}
-            <div class="text-center text-ios-tint text-ios-body">Add Daily Goal</div>
+            <div class="text-center text-ios-tint text-ios-body">
+              {Lang.t('goals.add-daily-goal', 'Add Daily Goal')}
+            </div>
           {:else if view === 'week'}
-            <div class="text-center text-ios-tint text-ios-body">Add Weekly Goal</div>
+            <div class="text-center text-ios-tint text-ios-body">
+              {Lang.t('goals.add-weekly-goal', 'Add Weekly Goal')}
+            </div>
           {:else if view === 'month'}
-            <div class="text-center text-ios-tint text-ios-body">Add Monthly Goal</div>
+            <div class="text-center text-ios-tint text-ios-body">
+              {Lang.t('goals.add-monthly-goal', 'Add Monthly Goal')}
+            </div>
           {:else if view === 'year'}
-            <div class="text-center text-ios-tint text-ios-body">Add Yearly Goal</div>
+            <div class="text-center text-ios-tint text-ios-body">
+              {Lang.t('goals.add-yearly-goal', 'Add Yearly Goal')}
+            </div>
           {/if}
         </ListItem>
       </List>
@@ -349,15 +365,23 @@
 
     <List transparent className="max-w-md mx-auto">
       {#if goals.length === 0 && !loading}
-        <Empty icon={RibbonOutline} title="No goals found">
+        <Empty icon={RibbonOutline} title={Lang.t('goals.no-goals-found', 'No goals found')}>
           {#if view === 'day'}
-            <Button on:click={createGoal} className="mt-2" clear primary>Create a Daily Goal →</Button>
+            <Button on:click={createGoal} className="mt-2" clear primary
+              >{Lang.t('goals.create-a-daily-goal', 'Create a Daily Goal →')}</Button
+            >
           {:else if view === 'week'}
-            <Button on:click={createGoal} className="mt-2" clear primary>Create a Weekly Goal →</Button>
+            <Button on:click={createGoal} className="mt-2" clear primary
+              >{Lang.t('goals.create-a-weekly-goal', 'Create a Weekly Goal →')}</Button
+            >
           {:else if view === 'month'}
-            <Button on:click={createGoal} className="mt-2" clear primary>Create a Monthly Goal →</Button>
+            <Button on:click={createGoal} className="mt-2" clear primary
+              >{Lang.t('goals.create-a-monthly-goal', 'Create a Monthly Goal →')}</Button
+            >
           {:else if view === 'year'}
-            <Button on:click={createGoal} className="mt-2" clear primary>Create a Yearly Goal →</Button>
+            <Button on:click={createGoal} className="mt-2" clear primary
+              >{Lang.t('goals.create-a-yearly-goal', 'Create a Yearly Goal →')}</Button
+            >
           {/if}
         </Empty>
       {:else if loading}

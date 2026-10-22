@@ -33,7 +33,7 @@
     <h1 class="ntitle">
       {awardCount == 1 ? Lang.t('awards.new-award', 'New Award!') : Lang.t('awards.new-awards', 'New Awards!')}
     </h1>
-    <Button slot="right" clear primary on:click={close}>Done</Button>
+    <Button slot="right" clear primary on:click={close}>{Lang.t('awards.done', 'Done')}</Button>
   </ToolbarGrid>
 
   {#if awardCount == 1}

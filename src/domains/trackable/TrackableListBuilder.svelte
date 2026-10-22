@@ -20,6 +20,7 @@
   import ListItem from '../../components/list-item/list-item.svelte'
   import SortableList2 from '../../components/sortable-list/sortable-list2.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
+  import { Lang } from '../../store/lang'
 
   let {
     value = $bindable(),
@@ -144,8 +145,8 @@
     <Input
       listItem
       className="px-4 py-0"
-      label="Add"
-      placeholder="e.g. #mood or @mom"
+      label={Lang.t('trackable.add-2', 'Add')}
+      placeholder={Lang.t('trackable.e-g-mood-or-mom', 'e.g. #mood or @mom')}
       on:enter={addManualItem}
       bind:value={manualAdd}
     >

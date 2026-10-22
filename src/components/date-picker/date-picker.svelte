@@ -8,6 +8,7 @@
   import IosDateTimeField from '../ios-date/ios-datetime-field.svelte'
 
   import { Prefs } from '../../domains/preferences/Preferences'
+  import { Lang } from '../../store/lang'
 
   // data
 
@@ -43,7 +44,7 @@
   <!-- iOS look (D-native): the app's own date and time field, the same in every browser -->
   <IosDateTimeField
     bind:value={localDate}
-    title="Date and time"
+    title={Lang.t('ui.date-and-time', 'Date and time')}
     onchange={(next) => fireChange({ target: { value: next } })}
   />
 </div>

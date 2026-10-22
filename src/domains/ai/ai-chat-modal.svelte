@@ -5,6 +5,7 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import AIChat from './ai-chat.svelte'
   import Button from '../../components/button/button.svelte'
+  import { Lang } from '../../store/lang'
 
   interface Props {
     id: string
@@ -43,11 +44,11 @@
         on:click={closeChat}
         style="color: #ffffff; font-weight: 600; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);"
       >
-        Close
+        {Lang.t('ai.close', 'Close')}
       </Button>
     </div>
     <div class="header-title">
-      💬 Chat with
+      {Lang.t('ai.chat-with-2', '💬 Chat with')}
       <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo" />
     </div>
     <div style="flex-shrink: 0; width: 60px;" />

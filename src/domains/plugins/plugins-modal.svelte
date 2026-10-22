@@ -46,14 +46,14 @@
 
   const deletePlugin = async (plugin: PluginClass) => {
     if (plugin.buildin) {
-      Interact.error('This plugin cannot be removed')
+      Interact.error(Lang.t('plugins.this-plugin-cannot-be-removed', 'This plugin cannot be removed'))
       return
     }
     const confirmed = await Interact.confirm(`Uninstall ${plugin.name} from Nomie?`)
     if (confirmed) {
       try {
         await PluginStore.remove(plugin)
-        showToast({ message: 'Removed' })
+        showToast({ message: Lang.t('plugins.removed', 'Removed') })
       } catch (e) {
         Interact.error(e.message)
       }
@@ -127,9 +127,9 @@
           {#if $PluginStore.length}
             <Button shape="round" size="sm" on:click={toggleEditMode}>
               {#if editMode}
-                <span class="text-ios-tint font-bold">Done</span>
+                <span class="text-ios-tint font-bold">{Lang.t('plugins.done', 'Done')}</span>
               {:else}
-                <span class="text-primary">Edit</span>
+                <span class="text-primary">{Lang.t('plugins.edit', 'Edit')}</span>
               {/if}
             </Button>
           {/if}
@@ -175,8 +175,8 @@
             on:click={showNomieConnectPopup}
             clickable
             titleClass="text-primary"
-            title="Upgrade"
-            description="Plugin limit reached."
+            title={Lang.t('plugins.upgrade', 'Upgrade')}
+            description={Lang.t('plugins.plugin-limit-reached', 'Plugin limit reached.')}
           />
         {/if}
       </List>
@@ -184,10 +184,17 @@
       {#if $PluginStore.length === 0}
         <div class="h-4 stiff w-full min-h-4" />
         <List solo>
-          <Empty emoji="🔌" title="No Plugins Installed">
+          <Empty emoji="🔌" title={Lang.t('plugins.no-plugins-installed', 'No Plugins Installed')}>
             <p class="text-xs text-center text-ios-label2 leading-snug">
-              Plugins allow others to create entirely new ways of tracking and monitoring your data within Nomie. <strong
-                >WARNING: This feature is under heavy development.</strong
+              {Lang.t(
+                'plugins.plugins-allow-others-to-create-entirely-new-ways',
+                'Plugins allow others to create entirely new ways of tracking and monitoring your data within Nomie.'
+              )}
+              <strong
+                >{Lang.t(
+                  'plugins.warning-this-feature-is-under-heavy-development',
+                  'WARNING: This feature is under heavy development.'
+                )}</strong
               >
             </p>
           </Empty>
@@ -197,14 +204,14 @@
               openPluginInstaller()
             }}
             titleClass="text-center text-primary"
-            title="Add a Custom Plugin"
+            title={Lang.t('plugins.add-a-custom-plugin', 'Add a Custom Plugin')}
           />
         </List>
       {/if}
 
       <!-- Installable Plugins   -->
     {:else if tab == 'avail'}
-      <List solo outside title="Official Plugins">
+      <List solo outside title={Lang.t('plugins.official-plugins', 'Official Plugins')}>
         {#each officialPlugins as plugin}
           <ListItem
             disabled={$PluginStore.find((p) => p.url == plugin.url)}
@@ -220,7 +227,7 @@
             <Title className="text-ios-body font-semibold" style="text-align:left">{plugin.name}</Title>
             <div class="description">
               {#if $PluginStore.find((p) => p.url == plugin.url)}
-                <Badge pad className="bg-ios-good text-ios-ontint">Installed</Badge>
+                <Badge pad className="bg-ios-good text-ios-ontint">{Lang.t('plugins.installed', 'Installed')}</Badge>
               {/if}
               {plugin.description}
             </div>
@@ -231,9 +238,9 @@
     {/if}
 
     <div class="pt-10 px-4 text-center text-ios-label2 text-sm">
-      Want to create a Plugin? <br />
+      {Lang.t('plugins.want-to-create-a-plugin', 'Want to create a Plugin?')} <br />
       <a class="text-primary underline" href="https://github.com/open-nomie/plugins" target="_blank" rel="nofollow"
-        >Read the Plugin Docs →</a
+        >{Lang.t('plugins.read-the-plugin-docs', 'Read the Plugin Docs →')}</a
       >
     </div>
   </section>

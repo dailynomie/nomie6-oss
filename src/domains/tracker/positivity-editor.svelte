@@ -108,7 +108,9 @@
       })
       if (saved) {
         dispatch('save', tracker)
-        showToast({ message: Lang.t('general.saved', 'Saved') })
+        showToast({
+          message: Lang.t(Lang.t('tracker.general-saved', 'general.saved'), Lang.t('tracker.saved', 'Saved')),
+        })
       }
     },
     removeCondition(index) {

@@ -39,17 +39,17 @@
             <Text inline underline color="primary-bright" className="ml-2" size="sm" on:click={OfflineQueue.sync}>
               {Lang.t('general.sync-now', 'Sync')}
             </Text>
-            <Text inline color="fill-solid-3" className="ml-2" size="sm">or</Text>
+            <Text inline color="fill-solid-3" className="ml-2" size="sm">{Lang.t('ui.or', 'or')}</Text>
             <Button size="sm" icon on:click={OfflineQueue.clear}>
               <IonIcon icon={TrashOutline} />
             </Button>
           {:else}
-            <Text inline className="ml-2" size="sm">Offline</Text>
+            <Text inline className="ml-2" size="sm">{Lang.t('ui.offline', 'Offline')}</Text>
           {/if}
         {:else}
           <Text size="sm">
             <Spinner size={16} />
-            Syncing...
+            {Lang.t('ui.syncing', 'Syncing...')}
           </Text>
         {/if}
       </Button>

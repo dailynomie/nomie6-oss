@@ -9,6 +9,7 @@
    */
 
   import math from '../../utils/math/math'
+  import { Lang } from '../../store/lang'
 
   type ScoreType = {
     label: string

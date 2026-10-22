@@ -54,7 +54,7 @@
   <div class="flex text-xs space-x-1 items-center justify-center container-sm ios-caution text-ios-label">
     <span aria-hidden="true">⚠︎</span>
     <button
-      aria-label="Backup your data"
+      aria-label={Lang.t('ui.backup-your-data', 'Backup your data')}
       on:click={onGenerate}
       class="flex items-center mr-2 text-xs py-1 text-center rounded-full backup"
     >
@@ -72,12 +72,12 @@
         {Lang.t('general.download-backup', 'Download Backup')}
       </div>
     </button>
-    <span class="mx-1">or</span>
+    <span class="mx-1">{Lang.t('ui.or', 'or')}</span>
     <button
       class="ml-2 font-bold text-ios-tint"
       on:click={() => {
         onConfirmed()
-      }}>Skip</button
+      }}>{Lang.t('ui.skip', 'Skip')}</button
     >
   </div>
 {/if}

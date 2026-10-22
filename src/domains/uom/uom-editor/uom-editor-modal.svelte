@@ -10,6 +10,7 @@
   import { Interact } from '../../../store/interact'
   import { TrackableStore } from '../../trackable/TrackableStore'
   import { saveCustomUom, removeCustomUom } from '../custom-uom-store'
+  import { Lang } from '../../../store/lang'
   import {
     CUSTOM_UOM_TYPES,
     findUomNameClash,
@@ -76,7 +77,7 @@
       )
       return
     }
-    const confirmed = await Interact.confirm('Delete this unit?', `${unit.plural} will be removed from the list.`)
+    const confirmed = await Interact.confirm(Lang.t('uom.delete-this-unit', 'Delete this unit?'), `${unit.plural} will be removed from the list.`)
     if (!confirmed) return
     await removeCustomUom(unit.key)
     closeModal(id)
@@ -87,11 +88,11 @@
   <header slot="header">
     <ToolbarGrid>
       <div slot="left">
-        <Button clear primary on:click={() => closeModal(id)}>Cancel</Button>
+        <Button clear primary on:click={() => closeModal(id)}>{Lang.t('uom.cancel', 'Cancel')}</Button>
       </div>
       <h2 class="ntitle">{unit ? 'Edit Unit' : 'New Unit'}</h2>
       <div slot="right">
-        <Button clear primary disabled={!canSave} on:click={save}>Save</Button>
+        <Button clear primary disabled={!canSave} on:click={save}>{Lang.t('uom.save', 'Save')}</Button>
       </div>
     </ToolbarGrid>
   </header>
@@ -100,16 +101,16 @@
     <section class="space-y-2">
       <div class="ios-card divide-y divide-ios-separator">
         <div class="px-4 py-3 flex items-center justify-between gap-3">
-          <label for="uom-singular" class="shrink-0">Name</label>
+          <label for="uom-singular" class="shrink-0">{Lang.t('uom.name-2', 'Name')}</label>
           <input
             id="uom-singular"
             class="min-w-0 flex-1 text-right bg-transparent outline-none text-ios-label placeholder:text-ios-label2"
-            placeholder="Bottle"
+            placeholder={Lang.t('uom.bottle', 'Bottle')}
             bind:value={singular}
           />
         </div>
         <div class="px-4 py-3 flex items-center justify-between gap-3">
-          <label for="uom-plural" class="shrink-0">Plural</label>
+          <label for="uom-plural" class="shrink-0">{Lang.t('uom.plural', 'Plural')}</label>
           <input
             id="uom-plural"
             class="min-w-0 flex-1 text-right bg-transparent outline-none text-ios-label placeholder:text-ios-label2"
@@ -118,8 +119,13 @@
           />
         </div>
         <div class="px-4 py-3 flex items-center justify-between gap-3">
-          <span class="shrink-0">Category</span>
-          <IosSelect bind:value={type} options={typeOptions} title="Category" ariaLabel="Category" />
+          <span class="shrink-0">{Lang.t('uom.category', 'Category')}</span>
+          <IosSelect
+            bind:value={type}
+            options={typeOptions}
+            title={Lang.t('uom.category', 'Category')}
+            ariaLabel="Category"
+          />
         </div>
       </div>
       {#if clashName}
@@ -128,28 +134,28 @@
     </section>
 
     <section class="space-y-2">
-      <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">Symbol</div>
+      <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">{Lang.t('uom.symbol', 'Symbol')}</div>
       <div class="ios-card divide-y divide-ios-separator">
         <div class="px-4 py-3 flex items-center justify-between gap-3">
-          <label for="uom-symbol" class="shrink-0">Symbol</label>
+          <label for="uom-symbol" class="shrink-0">{Lang.t('uom.symbol', 'Symbol')}</label>
           <input
             id="uom-symbol"
             class="min-w-0 flex-1 text-right bg-transparent outline-none text-ios-label placeholder:text-ios-label2"
-            placeholder="Optional, e.g. ml"
+            placeholder={Lang.t('uom.optional-e-g-ml', 'Optional, e.g. ml')}
             bind:value={symbol}
           />
         </div>
         <div class="px-4 py-3 flex items-center justify-between gap-3">
-          <span class="shrink-0">Symbol position</span>
+          <span class="shrink-0">{Lang.t('uom.symbol-position', 'Symbol position')}</span>
           <IosSelect
             bind:value={symbolAffix}
             options={affixOptions}
-            title="Symbol position"
+            title={Lang.t('uom.symbol-position', 'Symbol position')}
             ariaLabel="Symbol position"
           />
         </div>
         <div class="px-4 py-3 flex items-center justify-between gap-3">
-          <span class="shrink-0">Space before symbol</span>
+          <span class="shrink-0">{Lang.t('uom.space-before-symbol', 'Space before symbol')}</span>
           <ToggleSwitch bind:value={symbolSpace} />
         </div>
       </div>
@@ -159,7 +165,7 @@
     {#if unit}
       <div class="ios-card">
         <button type="button" class="w-full px-4 py-3 text-center text-ios-danger font-semibold" on:click={remove}>
-          Delete Unit
+          {Lang.t('uom.delete-unit', 'Delete Unit')}
         </button>
       </div>
     {/if}

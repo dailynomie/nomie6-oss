@@ -6,6 +6,7 @@
   import AnalyticsView from '../domains/afternomie/afternomie-view.svelte'
   import ToolbarGrid from '../components/toolbar/toolbar-grid.svelte'
   import NBackButton from '../components/back-button/back-button.svelte'
+  import { Lang } from '../store/lang'
 </script>
 
 <Layout pageTitle="AfterNomie" checkIn={false}>
@@ -15,7 +16,9 @@
       <NBackButton slot="left" />
     </ToolbarGrid>
     <h1 class="ios-large-title">
-      <span>AfterNomie</span>&nbsp;<span class="redText">BETA</span>
+      <span>{Lang.t('routes.afternomie', 'AfterNomie')}</span>{Lang.t('routes.nbsp', '&nbsp;')}<span class="redText"
+        >{Lang.t('routes.beta', 'BETA')}</span
+      >
     </h1>
   </div>
   <AnalyticsView />

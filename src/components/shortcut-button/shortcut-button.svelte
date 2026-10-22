@@ -9,6 +9,7 @@
   import TimeBalls from '../time-balls/time-balls.svelte'
 
   import { CheckmarkOutline, MoreVertical } from '../icon/nicons'
+  import { Lang } from '../../store/lang'
 
   const {
     title,
@@ -49,7 +50,7 @@
   {#if !hideMore}
     <button
       type="button"
-      aria-label="More about this Trackable"
+      aria-label={Lang.t('ui.more-about-this-trackable', 'More about this Trackable')}
       class="more {is.truthy(value) ? 'has-value text-ios-label' : 'no-value text-ios-label2'}"
       on:click={(evt) => {
         evt.preventDefault()

@@ -31,6 +31,7 @@
   import UsageChart from '../../usage/usage-chart.svelte'
 
   import { getDateRange, Stats2Store } from '../Stats2Store'
+  import { Lang } from '../../../store/lang'
   // import OverviewRange from './overview-range.svelte'
   // import OverviewTimer from './overview-timer.svelte'
   // import OverviewValue from './overview-value.svelte'
@@ -101,28 +102,28 @@
   {:else if $Stats2Store.loading}
     <div class="skeleton-item h-40 w-full bg-ios-card rounded-lg" />
   {:else}
-    <div class="h-40 flex items-center justify-center text-ios-label2">No Data</div>
+    <div class="h-40 flex items-center justify-center text-ios-label2">{Lang.t('stats.no-data', 'No Data')}</div>
   {/if}
 </div>
 
 <main class="grid grid-cols-2 gap-2 text-ios-label">
   <div class="h-auto text-center">
-    <strong class="text-sm font-semibold">Daily Avg </strong>
+    <strong class="text-sm font-semibold">{Lang.t('stats.daily-avg', 'Daily Avg')} </strong>
     <div class="text-2xl line-clamp-1 font-semibold bg-ios-card shadow-md rounded-md px-4 py-2 mt-1">
       {#if usageByDay}
         {usageByDay.trackable.formatValue(usageByDay.average)}
       {:else}
-        <span class="text-ios-label2">Loading...</span>
+        <span class="text-ios-label2">{Lang.t('stats.loading', 'Loading...')}</span>
       {/if}
     </div>
   </div>
   <div class="text-center">
-    <strong class="text-sm font-semibold">Total </strong>
+    <strong class="text-sm font-semibold">{Lang.t('stats.total', 'Total')} </strong>
     <div class="text-2xl line-clamp-1 font-semibold bg-ios-card shadow-md rounded-md px-4 py-2 mt-1">
       {#if usage}
         {usage.displayValue}
       {:else}
-        <span class="text-ios-label2">Loading...</span>
+        <span class="text-ios-label2">{Lang.t('stats.loading', 'Loading...')}</span>
       {/if}
     </div>
   </div>
@@ -150,7 +151,7 @@
         openDateOptionPopMenu(date.toDate())
       }}
     >
-      <strong>Max </strong>
+      <strong>{Lang.t('stats.max-2', 'Max')} </strong>
       <div slot="right" class="item-center space-x-2 flex">
         {#if usageByDay.max}
           <Badge className="pad">{dayjs(usageByDay.max.date).format(dateFormats.mmm_d_yyyy)}</Badge>
@@ -166,7 +167,7 @@
         openDateOptionPopMenu(usageByDay.min.date.toDate())
       }}
     >
-      <strong>Min </strong>
+      <strong>{Lang.t('stats.min-2', 'Min')} </strong>
       <div slot="right" class="item-center space-x-2 flex">
         <Badge className="pad">{usageByDay.min ? dayjs(usageByDay.min.date).format(dateFormats.mmm_d_yyyy) : ''}</Badge>
         <span>{usageByDay.min ? trackable.formatValue(usageByDay.min.value) : ''}</span>
@@ -174,7 +175,7 @@
     </ListItem>
 
     <ListItem>
-      <strong>Score</strong>
+      <strong>{Lang.t('stats.score', 'Score')}</strong>
 
       <div slot="right">
         {usage.getTotalScore($TrackerStore)}

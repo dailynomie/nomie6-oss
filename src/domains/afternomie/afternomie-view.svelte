@@ -16,6 +16,7 @@
   import Storage from '../../domains/storage/storage'
   import { encryptObject } from '../../utils/encrypt/encrypt'
   import { QRCodeImage } from 'svelte-qrcode-image'
+  import { Lang } from '../../store/lang'
 
   let view = $state('step1')
   let retrycreateqr = $state(false)
@@ -430,26 +431,28 @@
 
 {#if view == 'step1'}
   <List transparent className="max-w-md mx-auto">
-    <Empty icon={QRCode} title="AfterNomie">
+    <Empty icon={QRCode} title={Lang.t('afternomie.afternomie', 'AfterNomie')}>
       <div class="my-0 text-center text-sm font-normal leading-tight text-ios-label">
-        AfterNomie is an opensource tool for creating emergency notes that can be read by your trusted contacts only
-        after your death or if you are seriously injured.
+        {Lang.t(
+          'afternomie.afternomie-is-an-opensource-tool-for-creating-em',
+          'AfterNomie is an opensource tool for creating emergency notes that can be read by your trusted contacts only after your death or if you are seriously injured.'
+        )}
       </div>
       <div class="my-2 text-center text-xs font-normal leading-tight text-ios-label">
-        Directly after you created your note, it will be encrypted and converted into a QR code which you can give to a
-        person you trust. When this person tries to access your message, AfterNomie will try to contact you via email as
-        soon as possible; if you do not reply within the period of time you previously defined, your note will become
-        visible to your trusted person. When you use AfterNomie in combination with DailyNomie & Sync Service it will
-        enable you to reveal your Nomie tracking history in conjunction with your note.
+        {Lang.t(
+          'afternomie.directly-after-you-created-your-note-it-will-be-',
+          'Directly after you created your note, it will be encrypted and converted into a QR code which you can give to a person you trust. When this person tries to access your message, AfterNomie will try to contact you via email as soon as possible; if you do not reply within the period of time you previously defined, your note will become visible to your trusted person. When you use AfterNomie in combination with DailyNomie & Sync Service it will enable you to reveal your Nomie tracking history in conjunction with your note.'
+        )}
       </div>
       <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
-        More information can be found at <a
-          class="text-ios-tint"
-          target="_blank"
-          href="https://www.dailynomie.com/?s=afternomie">DailyNomie-AfterNomie</a
+        {Lang.t('afternomie.more-information-can-be-found-at', 'More information can be found at')}
+        <a class="text-ios-tint" target="_blank" href="https://www.dailynomie.com/?s=afternomie"
+          >{Lang.t('afternomie.dailynomie-afternomie', 'DailyNomie-AfterNomie')}</a
         >
       </div>
-      <Button className="mt-2" clear primary on:click={() => GoToStep('step2')}>Create Message →</Button>
+      <Button className="mt-2" clear primary on:click={() => GoToStep('step2')}
+        >{Lang.t('afternomie.create-message', 'Create Message →')}</Button
+      >
     </Empty>
   </List>
 {/if}
@@ -459,8 +462,11 @@
       type="text"
       bind:value={subject}
       listItem
-      label="Subject (between 10 and 100 characters)"
-      placeholder="Subject (between 10 and 100 characters)"
+      label={Lang.t('afternomie.subject-between-10-and-100-characters', 'Subject (between 10 and 100 characters)')}
+      placeholder={Lang.t(
+        'afternomie.subject-between-10-and-100-characters',
+        'Subject (between 10 and 100 characters)'
+      )}
       style={subject_style}
       on:input={() => {
         subjectChange()
@@ -472,8 +478,11 @@
       rows={4}
       bind:value={message}
       listItem
-      label="Message (between 100 and 1000 characters)"
-      placeholder="Message (between 100 and 1000 characters)"
+      label={Lang.t('afternomie.message-between-100-and-1000-characters', 'Message (between 100 and 1000 characters)')}
+      placeholder={Lang.t(
+        'afternomie.message-between-100-and-1000-characters',
+        'Message (between 100 and 1000 characters)'
+      )}
       style={message_style}
       on:input={() => {
         messageChange()
@@ -484,8 +493,8 @@
       type="text"
       bind:value={primaryemail}
       listItem
-      label="Primary Email Address (mandatory)"
-      placeholder="Primary Email Address (mandatory)"
+      label={Lang.t('afternomie.primary-email-address-mandatory', 'Primary Email Address (mandatory)')}
+      placeholder={Lang.t('afternomie.primary-email-address-mandatory', 'Primary Email Address (mandatory)')}
       style={primary_style}
     ></Input>
     <Divider left={16} />
@@ -493,26 +502,26 @@
       type="text"
       bind:value={secondaryemail}
       listItem
-      label="Secondary Email Address (optional)"
-      placeholder="Secondary Email Address (optional)"
+      label={Lang.t('afternomie.secondary-email-address-optional', 'Secondary Email Address (optional)')}
+      placeholder={Lang.t('afternomie.secondary-email-address-optional', 'Secondary Email Address (optional)')}
       style={secondary_style}
     ></Input>
     <Divider left={16} />
     <ListItem clickable on:click={selectdays}>
-      <div class="py-2">How Many Days Waitingtime?</div>
+      <div class="py-2">{Lang.t('afternomie.how-many-days-waitingtime', 'How Many Days Waitingtime?')}</div>
       <div slot="right">
         {#if waitingtime}
           <span class="text-ios-tint">{waitingtime}</span>
         {:else}
-          <span class="text-ios-tint">Select</span>
+          <span class="text-ios-tint">{Lang.t('afternomie.select', 'Select')}</span>
         {/if}
       </div>
     </ListItem>
     <Divider left={16} />
     <ListItem>
-      <div class="py-2">Enable Expiration?</div>
+      <div class="py-2">{Lang.t('afternomie.enable-expiration', 'Enable Expiration?')}</div>
       <div slot="right">
-        <ToggleSwitch bind:value={expiration} title="Toggle Expiration" />
+        <ToggleSwitch bind:value={expiration} title={Lang.t('afternomie.toggle-expiration', 'Toggle Expiration')} />
       </div>
     </ListItem>
     <Divider left={16} />
@@ -543,13 +552,17 @@
 
     <Divider left={16} />
     <ListItem>
-      <div class="py-2">Include Nomie Data?</div>
+      <div class="py-2">{Lang.t('afternomie.include-nomie-data', 'Include Nomie Data?')}</div>
       <div slot="right">
         {#if nomiedata_valid}
-          <ToggleSwitch bind:value={nomie} title="Toggle Nomie Data" />
+          <ToggleSwitch bind:value={nomie} title={Lang.t('afternomie.toggle-nomie-data', 'Toggle Nomie Data')} />
         {/if}
         {#if !nomiedata_valid}
-          <ToggleSwitch locked={nomiedata_valid} bind:value={nomie} title="Toggle Nomie Data" />
+          <ToggleSwitch
+            locked={nomiedata_valid}
+            bind:value={nomie}
+            title={Lang.t('afternomie.toggle-nomie-data', 'Toggle Nomie Data')}
+          />
         {/if}
       </div>
     </ListItem>
@@ -561,7 +574,7 @@
           className="mt-2"
           clear
           primary
-          on:click={() => GoToStep('step3')}>Summary →</Button
+          on:click={() => GoToStep('step3')}>{Lang.t('afternomie.summary-2', 'Summary →')}</Button
         >
       </div>
     </ListItem>
@@ -569,35 +582,35 @@
 {/if}
 {#if view == 'step3'}
   <List transparent className="max-w-md mx-auto">
-    <Empty title="Summary">
+    <Empty title={Lang.t('afternomie.summary', 'Summary')}>
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-        <p><b>Subject:</b></p>
+        <p><b>{Lang.t('afternomie.subject', 'Subject:')}</b></p>
       </div>
       <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
         {subject}
       </div>
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-        <p><b>Message:</b></p>
+        <p><b>{Lang.t('afternomie.message-2', 'Message:')}</b></p>
       </div>
       <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
         {message}
       </div>
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-        <p><b>Primairy Email:</b></p>
+        <p><b>{Lang.t('afternomie.primairy-email', 'Primairy Email:')}</b></p>
       </div>
       <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
         {primaryemail}
       </div>
       {#if secondaryemail != ''}
         <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-          <p><b>Secondary Email:</b></p>
+          <p><b>{Lang.t('afternomie.secondary-email', 'Secondary Email:')}</b></p>
         </div>
         <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
           {secondaryemail}
         </div>
       {/if}
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-        <p><b>Waiting Time:</b></p>
+        <p><b>{Lang.t('afternomie.waiting-time', 'Waiting Time:')}</b></p>
       </div>
       {#if waitingtime != 1}
         <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
@@ -609,7 +622,7 @@
         </div>
       {/if}
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-        <p><b>Set Expiration Date:</b></p>
+        <p><b>{Lang.t('afternomie.set-expiration-date', 'Set Expiration Date:')}</b></p>
       </div>
       {#if expiration}
         <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
@@ -621,10 +634,12 @@
           })}
         </div>
       {:else}
-        <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">Never Expiring Message</div>
+        <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
+          {Lang.t('afternomie.never-expiring-message', 'Never Expiring Message')}
+        </div>
       {/if}
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-        <p><b>Include Nomie Data:</b></p>
+        <p><b>{Lang.t('afternomie.include-nomie-data-2', 'Include Nomie Data:')}</b></p>
       </div>
       <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
         {#if nomie}
@@ -635,7 +650,9 @@
       </div>
       <div class="row" style="width:350px">
         <div class="column" style="display:flex;justify-content:left">
-          <Button className="mt-2" clear primary on:click={() => GoToStep('step2')}>← Back</Button>
+          <Button className="mt-2" clear primary on:click={() => GoToStep('step2')}
+            >{Lang.t('afternomie.back-2', '← Back')}</Button
+          >
         </div>
         <div class="column" style="display:flex;justify-content:right">
           <Button
@@ -645,7 +662,7 @@
             on:click={() => {
               retrycreateqr = false
               CreateQR()
-            }}>Submit →</Button
+            }}>{Lang.t('afternomie.submit', 'Submit →')}</Button
           >
         </div>
       </div>
@@ -654,11 +671,12 @@
 {/if}
 {#if view == 'oops'}
   <List transparent className="max-w-md mx-auto">
-    <Empty icon={QRCode} title="Oops">
+    <Empty icon={QRCode} title={Lang.t('afternomie.oops', 'Oops')}>
       <div class="my-0 text-center text-sm font-normal leading-tight text-ios-label">
-        Something went wrong while creating your QR code. Most likely the connection with the backend Log server failed.
-        Please try again. If the issue persists, please go back to your message so you can saveguard your message and
-        try again at a later moment.
+        {Lang.t(
+          'afternomie.something-went-wrong-while-creating-your-qr-code',
+          'Something went wrong while creating your QR code. Most likely the connection with the backend Log server failed. Please try again. If the issue persists, please go back to your message so you can saveguard your message and try again at a later moment.'
+        )}
       </div>
       <div class="row" style="width:350px">
         <div class="column" style="display:flex;justify-content:left">
@@ -669,7 +687,7 @@
             on:click={() => {
               retrycreateqr = false
               GoToStep('step2')
-            }}>← Back</Button
+            }}>{Lang.t('afternomie.back-2', '← Back')}</Button
           >
         </div>
         <div class="column" style="display:flex;justify-content:right">
@@ -680,7 +698,7 @@
             on:click={() => {
               retrycreateqr = true
               CreateQR()
-            }}>Retry →</Button
+            }}>{Lang.t('afternomie.retry', 'Retry →')}</Button
           >
         </div>
       </div>
@@ -689,8 +707,10 @@
 {/if}
 {#if view == 'WaitingRespone'}
   <List transparent className="max-w-md mx-auto">
-    <Empty icon={PaperPlaneSolid} title="Connecting">
-      <div class="my-0 text-center text-sm font-normal leading-tight text-ios-label">Creating QR Code....</div>
+    <Empty icon={PaperPlaneSolid} title={Lang.t('afternomie.connecting', 'Connecting')}>
+      <div class="my-0 text-center text-sm font-normal leading-tight text-ios-label">
+        {Lang.t('afternomie.creating-qr-code', 'Creating QR Code....')}
+      </div>
     </Empty>
   </List>
 {/if}
@@ -714,17 +734,22 @@
       <Divider left={16} />
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label not-printable">
         <p>
-          <b>Very important!</b> Add the email address dailynomie@gmail.com to your email provider's safe senders list to
-          prevent any notification from us regarding the note you just created from mistakenly ending up in spam.
+          <b>{Lang.t('afternomie.very-important', 'Very important!')}</b>
+          {Lang.t(
+            'afternomie.add-the-email-address-dailynomie-gmail-com-to-yo',
+            "Add the email address dailynomie@gmail.com to your email provider's safe senders list to prevent any notification from us regarding the note you just created from mistakenly ending up in spam."
+          )}
         </p>
       </div>
       <Divider left={16} />
       {#if nomiedata_valid}
         <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-          Be aware that this QR-code contains access to the owners Nomie data. Instructions can be found on <a
-            class="text-ios-tint"
-            target="_blank"
-            href="https://www.afternomie.com">AfterNomie</a
+          {Lang.t(
+            'afternomie.be-aware-that-this-qr-code-contains-access-to-th',
+            'Be aware that this QR-code contains access to the owners Nomie data. Instructions can be found on'
+          )}
+          <a class="text-ios-tint" target="_blank" href="https://www.afternomie.com"
+            >{Lang.t('afternomie.afternomie', 'AfterNomie')}</a
           >
         </div>
         <Divider left={16} />
@@ -740,7 +765,7 @@
             primary
             on:click={() => {
               startNew()
-            }}>New</Button
+            }}>{Lang.t('afternomie.new', 'New')}</Button
           >
         </div>
         <div class="column" style="display:flex;justify-content:right">
@@ -750,7 +775,7 @@
             primary
             on:click={() => {
               printscreen()
-            }}>Print →</Button
+            }}>{Lang.t('afternomie.print', 'Print →')}</Button
           >
         </div>
       </div>

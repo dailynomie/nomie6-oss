@@ -148,7 +148,7 @@
 <NLayout pageTitle="Export your Data" className="Export">
   <ToolbarGrid slot="header">
     <NBackButton slot="left" to="/settings" />
-    <h1 class="ntitle">Export to CSV</h1>
+    <h1 class="ntitle">{Lang.t('routes.export-to-csv', 'Export to CSV')}</h1>
   </ToolbarGrid>
 
   <Container>
@@ -176,10 +176,16 @@
         {/each}
       </List>
 
-      <div class="list-note">Which trackables would you like to include?</div>
+      <div class="list-note">
+        {Lang.t('routes.which-trackables-would-you-like-to-include', 'Which trackables would you like to include?')}
+      </div>
       <List solo className="pt-2 mb-4">
         <NItem title={'All Official Trackables'}>
-          <ToggleSwitch bind:value={useAllTrackables} title="Export all Known Trackables" slot="right" />
+          <ToggleSwitch
+            bind:value={useAllTrackables}
+            title={Lang.t('routes.export-all-known-trackables', 'Export all Known Trackables')}
+            slot="right"
+          />
         </NItem>
 
         {#if !useAllTrackables}

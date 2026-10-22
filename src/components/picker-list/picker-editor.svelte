@@ -36,7 +36,12 @@
 <div class="n-picker-list edit-mode {className}" {style}>
   {#if showHeaderContent}
     <NItem title={Lang.t('picker.title', 'List one item per line')} className={itemClass} bg="transparent">
-      <Text size="sm" faded>Include #trackers @people +context ^pointers. Add a : to make a Title:</Text>
+      <Text size="sm" faded
+        >{Lang.t(
+          'ui.include-trackers-people-context-pointers-add-a-t',
+          'Include #trackers @people +context ^pointers. Add a : to make a Title:'
+        )}</Text
+      >
     </NItem>
   {/if}
   {#if ready}

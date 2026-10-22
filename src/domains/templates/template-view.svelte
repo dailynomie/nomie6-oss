@@ -9,6 +9,7 @@
   import { Trackable } from '../trackable/Trackable.class'
   import type { Template } from './templates-utils'
   import { useTemplate } from './templates-svelte-helpers'
+  import { Lang } from '../../store/lang'
 
   const { template = $bindable() } = $props()
 </script>
@@ -30,14 +31,14 @@
     shape="rounded"
     color="primary"
     size="sm"
-    className="w-full max-w-xs my-4">Use this Template</Button
+    className="w-full max-w-xs my-4">{Lang.t('templates.use-this-template', 'Use this Template')}</Button
   >
   <hr class="mt-2 mb-4 dark:border-ios-separator" />
   {#if template.trackables.length}
     <section>
       <Title
         className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">Trackables</Title
+        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.trackables', 'Trackables')}</Title
       >
       <div class="flex flex-wrap">
         {#each template.trackables as trackable}
@@ -50,7 +51,7 @@
     <section>
       <Title
         className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">Tabs</Title
+        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.tabs', 'Tabs')}</Title
       >
 
       <div class="flex flex-wrap">
@@ -69,7 +70,7 @@
     <section>
       <Title
         className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">Dashboards</Title
+        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.dashboards', 'Dashboards')}</Title
       >
 
       <div class="flex flex-wrap">
@@ -88,7 +89,7 @@
     <section>
       <Title
         className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">Goals</Title
+        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.goals', 'Goals')}</Title
       >
 
       <div class="flex flex-wrap">
@@ -105,7 +106,7 @@
     <section>
       <Title
         className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">Pivots</Title
+        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.pivots', 'Pivots')}</Title
       >
 
       <div class="flex flex-wrap">

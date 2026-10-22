@@ -18,7 +18,10 @@
       ? ''
       : 'opacity-50'}  px-4 mb-4 max-w-screen-md mx-auto text-sm leading-snug text-center text-ios-label2"
   >
-    Save geo location data when tracking and journaling.
+    {Lang.t(
+      'setup.save-geo-location-data-when-tracking-and-journal',
+      'Save geo location data when tracking and journaling.'
+    )}
   </div>
 
   <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
@@ -34,7 +37,7 @@
         $Prefs.alwaysLocate = false
       }}
     >
-      Disabled
+      {Lang.t('setup.disabled', 'Disabled')}
     </Button>
     <Button
       className="whitespace-nowrap {$Prefs.alwaysLocate
@@ -48,7 +51,7 @@
         $Prefs.alwaysLocate = true
       }}
     >
-      Enabled
+      {Lang.t('setup.enabled', 'Enabled')}
     </Button>
   </div>
   <!-- <NItem className="solod bg-ios-card  rounded-lg  shadow-sm mx-0 w-100">

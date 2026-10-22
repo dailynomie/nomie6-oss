@@ -6,6 +6,7 @@
   import { createEventDispatcher } from 'svelte'
   // Utils
   import time from '../../utils/time/time'
+  import { Lang } from '../../store/lang'
   // export let started = undefined;
 
   // Consts
@@ -111,40 +112,40 @@
   <div class="unit hours">
     <IosSelect
       compact
-      title="Hours"
+      title={Lang.t('ui.hours', 'Hours')}
       ariaLabel="Hours"
       value={methods.getUnitValue('hours')}
       options={time.getNumberedArray(300).map((unit) => ({ value: unit, label: `${unit}` }))}
       onchange={(next) => methods.setUnitValue(next, 'hours')}
     />
 
-    <label for="hours" aria-controls="hours">Hour</label>
+    <label for="hours" aria-controls="hours">{Lang.t('ui.hour', 'Hour')}</label>
   </div>
   <!-- Minutes -->
   <div class="unit hours">
     <IosSelect
       compact
-      title="Minutes"
+      title={Lang.t('ui.minutes', 'Minutes')}
       ariaLabel="Minutes"
       value={methods.getUnitValue('minutes')}
       options={time.getNumberedArray(59).map((unit) => ({ value: unit, label: `${unit}` }))}
       onchange={(next) => methods.setUnitValue(next, 'minutes')}
     />
     <!-- <NIcon icon={ChevronDown} className="fill-solid" /> -->
-    <label for="minutes" aria-controls="minutes">Min</label>
+    <label for="minutes" aria-controls="minutes">{Lang.t('ui.min-2', 'Min')}</label>
   </div>
   <!-- SEconds -->
   <div class="unit seconds">
     <IosSelect
       compact
-      title="Seconds"
+      title={Lang.t('ui.seconds', 'Seconds')}
       ariaLabel="Seconds"
       value={methods.getUnitValue('seconds')}
       options={time.getNumberedArray(59).map((unit) => ({ value: unit, label: `${unit}` }))}
       onchange={(next) => methods.setUnitValue(next, 'seconds')}
     />
     <!-- <NIcon icon={ChevronDown} className="fill-solid" /> -->
-    <label for="seconds" aria-controls="seconds">Sec</label>
+    <label for="seconds" aria-controls="seconds">{Lang.t('ui.sec', 'Sec')}</label>
   </div>
 </div>
 

@@ -178,7 +178,7 @@
 <BackdropModal className="bg-ios-bg">
   <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
-      <Button slot="left" clear primary on:click={close}>Cancel</Button>
+      <Button slot="left" clear primary on:click={close}>{Lang.t('trackable.cancel', 'Cancel')}</Button>
       <h1 class="ntitle">{Lang.t('general.trackables', 'Trackables')}</h1>
       <Button on:click={onSelect} slot="right" className="whitespace-nowrap" disabled={!selected.length} clear primary
         >Select {selected.length ? `(${selected.length})` : ''}</Button
@@ -201,7 +201,7 @@
         <div slot="right-inside">
           <IosSelect
             compact
-            title="Type"
+            title={Lang.t('trackable.type-2', 'Type')}
             value={type || ''}
             onchange={(next) => {
               payload.type = next
@@ -238,7 +238,9 @@
       {/each}
     {/each}
     {#if filtered.length === 0}
-      <div class="px-4 text-center text-ios-label2 py-4">No Known Trackers</div>
+      <div class="px-4 text-center text-ios-label2 py-4">
+        {Lang.t('trackable.no-known-trackers', 'No Known Trackers')}
+      </div>
 
       {#each unknownTrackables as trackable}
         <button

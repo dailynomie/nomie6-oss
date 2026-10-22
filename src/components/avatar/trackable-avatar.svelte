@@ -4,6 +4,7 @@
   import type { Trackable } from '../../domains/trackable/Trackable.class'
 
   import Avatar from './avatar.svelte'
+  import { Lang } from '../../store/lang'
 
   const { trackable, className, style, size } = $props()
 </script>
@@ -51,5 +52,5 @@
     />
   {/if}
 {:else}
-  <Avatar {size} {className} {style} label="Unknown" color="#666666" />
+  <Avatar {size} {className} {style} label={Lang.t('ui.unknown', 'Unknown')} color="#666666" />
 {/if}

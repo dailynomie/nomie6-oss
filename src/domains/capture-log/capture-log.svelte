@@ -327,7 +327,7 @@
   // })
   const confirmClear = async () => {
     if ($ActiveLogStore.note?.length > 0) {
-      const confirmed = await Interact.confirm('Discard this note?')
+      const confirmed = await Interact.confirm(Lang.t('capture.discard-this-note', 'Discard this note?'))
       if (confirmed) {
         methods.clear(true)
       }
@@ -395,7 +395,7 @@
               y="top"
               x="right"
               id="prompt-button"
-              title="Writing prompts"
+              title={Lang.t('capture.writing-prompts', 'Writing prompts')}
               buttonClass="stiff block max-w-8 h-8 w-8 z-40  text-ios-tint bg-transparent rounded-full"
               menuButtons={promptMenu}
             >
@@ -403,7 +403,11 @@
             </MenuInline>
             {#if $Prefs.ai?.enabled}
               <div class="-ml-3">
-                <NomieAiButton size="36px" label="AI Insights" onclick={goToAiInsights} />
+                <NomieAiButton
+                  size="36px"
+                  label={Lang.t('capture.ai-insights', 'AI Insights')}
+                  onclick={goToAiInsights}
+                />
               </div>
             {/if}
           </div>
@@ -422,7 +426,7 @@
           >
             <CaptureTextarea
               bind:value={$ActiveLogStore.note}
-              aria-label="Note entry field"
+              aria-label={Lang.t('capture.note-entry-field', 'Note entry field')}
               id="textarea-capture-note"
               class="overflow-y-scroll"
               placeholder={isPopulated || isFocused ? Lang.t('general.whats-up', "What's up?") : ''}
@@ -443,7 +447,7 @@
           <!-- Toolbar for advanced options -->
           <!-- transition:fly={{ y: -47, duration: 200, opacity: 0, easing: quadInOut }} -->
           {#if isFocused || isPopulated}
-            <section aria-label="Note tools" class="bottom-section">
+            <section aria-label={Lang.t('capture.note-tools', 'Note tools')} class="bottom-section">
               <div class="flex-grow flex items-center space-x-1 py-1 px-0">
                 <!-- Positivity Selector -->
                 <div>
@@ -464,7 +468,7 @@
                   class="flex relative px-1 rounded-lg items-center mx-0 text-2xl {$ActiveLogStore.lat
                     ? ''
                     : 'opacity-50'}"
-                  aria-label="Location and Date settings"
+                  aria-label={Lang.t('capture.location-and-date-settings', 'Location and Date settings')}
                   on:click={toggleCustomLocation}
                 >
                   <IonIcon icon={MapOutline} size={16} />
@@ -472,7 +476,7 @@
                 </button>
 
                 <button
-                  aria-label="Expand Note"
+                  aria-label={Lang.t('capture.expand-note', 'Expand Note')}
                   class="clear-button flex items-center"
                   on:click={async (evt) => {
                     evt.preventDefault()
@@ -489,7 +493,7 @@
                 type="button"
                 class="time-pill"
                 aria-expanded={showDateSelector}
-                aria-label="Change date and time"
+                aria-label={Lang.t('capture.change-date-and-time', 'Change date and time')}
                 on:click={() => {
                   showDateSelector = !showDateSelector
                 }}

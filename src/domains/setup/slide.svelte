@@ -5,6 +5,7 @@
   import Button from '../../components/button/button.svelte'
   import Stepper from '../../components/stepper/stepper.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
+  import { Lang } from '../../store/lang'
 
   const {
     activeIndex = 0,
@@ -27,7 +28,7 @@
         slot="left"
         on:click={() => emit('back')}
         className="{hideBack ? 'opacity-0' : ''} text-ios-label2 whitespace-nowrap"
-        clear>← Back</Button
+        clear>{Lang.t('setup.back-2', '← Back')}</Button
       >
       <Stepper steps={totalSlides} stepClass="primary-bright" current={activeIndex} />
       <Button

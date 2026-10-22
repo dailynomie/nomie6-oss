@@ -20,6 +20,7 @@
   import type { Trackable } from '../trackable/Trackable.class'
   import { TrackableStore } from '../trackable/TrackableStore'
   import { getTrackableInputValue } from '../tracker/input/TrackerInputStore'
+  import { Lang } from '../../store/lang'
 
   const { condition, index, trackable } = $props()
 
@@ -90,9 +91,9 @@
   <header class="header px-2 flex w-full items-center justify-center">
     <slot name="left" />
     {#if index === 0}
-      <div class="filler text-lg font-bold">If this:</div>
+      <div class="filler text-lg font-bold">{Lang.t('positivity.if-this', 'If this:')}</div>
     {:else}
-      <div class="filler text-lg font-bold">else this:</div>
+      <div class="filler text-lg font-bold">{Lang.t('positivity.else-this', 'else this:')}</div>
     {/if}
     <div class="filler flex justify-end">
       <slot name="right" />
@@ -102,14 +103,14 @@
     <main class="condition-group px-8 w-full">
       <IosSelect
         ariaLabel="Compare to What?"
-        title="Compare to What?"
+        title={Lang.t('positivity.compare-to-what', 'Compare to What?')}
         bind:value={workingCondition.if}
         compact
         options={ConditionIfs.map((cif) => ({ value: cif, label: convertValueType(cif) }))}
       />
       <IosSelect
         ariaLabel="Comparison Value IS"
-        title="Comparison Value IS"
+        title={Lang.t('positivity.comparison-value-is', 'Comparison Value IS')}
         bind:value={workingCondition.is}
         compact
         options={ConditionIs.map((is) => ({ value: is, label: convertCondition(is) }))}
@@ -117,7 +118,7 @@
       {#if workingCondition.if === 'value'}
         {#if trackable?.type == 'tracker' && trackable?.tracker?.type == 'timer'}
           <input
-            aria-label="Value to Compare against"
+            aria-label={Lang.t('positivity.value-to-compare-against', 'Value to Compare against')}
             class="condition-select w-12 lg:w-14"
             on:click={() => getTrackableValue()}
             readonly
@@ -126,14 +127,14 @@
         {:else}
           <input
             class="condition-select w-12 lg:w-14"
-            aria-label="Value to Compare against"
+            aria-label={Lang.t('positivity.value-to-compare-against', 'Value to Compare against')}
             bind:value={workingCondition.v}
           />
         {/if}
       {:else if workingCondition.if === 'hour'}
         <IosSelect
           ariaLabel="Hour of the Day"
-          title="Hour of the Day"
+          title={Lang.t('positivity.hour-of-the-day', 'Hour of the Day')}
           bind:value={workingCondition.v}
           compact
           options={getHours().map((hour) => ({ value: hour.index, label: `${hour.value}` }))}
@@ -141,7 +142,7 @@
       {:else if workingCondition.if === 'month'}
         <IosSelect
           ariaLabel="Day of the Month"
-          title="Day of the Month"
+          title={Lang.t('positivity.day-of-the-month', 'Day of the Month')}
           bind:value={workingCondition.v}
           compact
           options={getDays().map((day) => ({ value: day.index, label: `${day.value}` }))}
@@ -149,7 +150,7 @@
       {/if}
       <IosSelect
         value={`${workingCondition.sc}`}
-        title="Positivity"
+        title={Lang.t('positivity.positivity', 'Positivity')}
         compact
         onchange={(next) => {
           workingCondition.sc = parseNumber(`${next}`)

@@ -6,6 +6,7 @@
   import emojiData from './data/emoji-light'
 
   import Empty from '../empty/empty.svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   const { searchText } = $props()
@@ -17,7 +18,7 @@
   {#if searchResults.length}
     <EmojiList emojis={searchResults} withTabs={false} on:emojihover on:emojiclick />
   {:else}
-    <Empty title="No emojis found" emoji="😭" />
+    <Empty title={Lang.t('ui.no-emojis-found', 'No emojis found')} emoji="😭" />
   {/if}
 </div>
 

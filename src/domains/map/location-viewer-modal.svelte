@@ -11,6 +11,7 @@
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import type NLog from '../nomie-log/nomie-log'
   import Title from '../../components/title/title.svelte'
+  import { Lang } from '../../store/lang'
 
   // export let show = false
 
@@ -30,7 +31,7 @@
 <BackdropModal>
   <ToolbarGrid slot="header" className="bg-ios-card shadow-md z-40 relative">
     <div slot="right">
-      <Button on:click={() => close()} primary clear>Done</Button>
+      <Button on:click={() => close()} primary clear>{Lang.t('map.done', 'Done')}</Button>
     </div>
     <Title className="line-clamp-1">
       {#if locations.length}{locations[0].name}{/if}

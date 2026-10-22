@@ -11,6 +11,7 @@
   import { get } from 'svelte/store'
   import dayjs from 'dayjs'
   import { tokenizeLite } from '../../modules/tokenizer/lite'
+  import { Lang } from '../../store/lang'
 
   let responseText = $state('')
   let useStreaming = $state(false)
@@ -193,14 +194,18 @@
     <div class="left">
       <NBackButton />
     </div>
-    <div class="main title">🤖 AI Test</div>
+    <div class="main title">{Lang.t('ai.ai-test', '🤖 AI Test')}</div>
     <div class="right" />
   </div>
 
   <div slot="content" class="p-4">
     <div class="mb-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded p-4">
       <p class="text-sm text-ios-tint dark:text-blue-200">
-        <strong>Tip:</strong> Configure your API key in Settings &gt; AI Integration first!
+        <strong>{Lang.t('ai.tip', 'Tip:')}</strong>
+        {Lang.t(
+          'ai.configure-your-api-key-in-settings-gt-ai-integra',
+          'Configure your API key in Settings &gt; AI Integration first!'
+        )}
       </p>
     </div>
 
@@ -210,7 +215,7 @@
           onclick={() => (showTestData = !showTestData)}
           class="w-full text-left flex items-center justify-between hover:opacity-70 transition-opacity"
         >
-          <h3 class="font-semibold text-sm">📊 Test Data (Last 30 Days)</h3>
+          <h3 class="font-semibold text-sm">{Lang.t('ai.test-data-last-30-days', '📊 Test Data (Last 30 Days)')}</h3>
           <span class="text-xs">{showTestData ? '▼' : '▶'}</span>
         </button>
 
@@ -225,17 +230,17 @@
             {#if testDataInfo.totalEntries}
               <div class="grid grid-cols-2 gap-2">
                 <div class="bg-ios-card p-2 rounded">
-                  <p class="text-ios-label2">Total Entries</p>
+                  <p class="text-ios-label2">{Lang.t('ai.total-entries', 'Total Entries')}</p>
                   <p class="font-bold text-lg">{testDataInfo.totalEntries}</p>
                 </div>
                 <div class="bg-ios-card p-2 rounded">
-                  <p class="text-ios-label2">Unique Metrics</p>
+                  <p class="text-ios-label2">{Lang.t('ai.unique-metrics', 'Unique Metrics')}</p>
                   <p class="font-bold text-lg">{testDataInfo.uniqueMetrics}</p>
                 </div>
               </div>
 
               <div class="bg-ios-card p-3 rounded">
-                <p class="font-semibold mb-2">Tracked Metrics:</p>
+                <p class="font-semibold mb-2">{Lang.t('ai.tracked-metrics', 'Tracked Metrics:')}</p>
                 <div class="space-y-2 max-h-40 overflow-y-auto">
                   {#each testDataInfo.metrics as metric (metric.tag)}
                     <div class="text-xs">
@@ -248,7 +253,7 @@
 
               {#if contextSummary}
                 <div class="bg-ios-card p-3 rounded">
-                  <p class="font-semibold mb-2">AI Context Summary:</p>
+                  <p class="font-semibold mb-2">{Lang.t('ai.ai-context-summary', 'AI Context Summary:')}</p>
                   <p class="text-ios-label2 leading-relaxed">{contextSummary}</p>
                 </div>
               {/if}
@@ -262,7 +267,7 @@
       <div
         class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4"
       >
-        <strong>Error:</strong>
+        <strong>{Lang.t('ai.error-3', 'Error:')}</strong>
         {aiState.error}
       </div>
     {/if}
@@ -270,7 +275,7 @@
     <div class="mb-6">
       <label class="flex items-center gap-2 mb-4">
         <input type="checkbox" bind:checked={useStreaming} />
-        <span class="text-sm">Use Streaming (Insight only)</span>
+        <span class="text-sm">{Lang.t('ai.use-streaming-insight-only', 'Use Streaming (Insight only)')}</span>
       </label>
 
       <div class="grid grid-cols-2 gap-2">
@@ -325,27 +330,47 @@
     </div>
 
     <div class="mb-4">
-      <h2 class="text-lg font-semibold mb-2">Response:</h2>
+      <h2 class="text-lg font-semibold mb-2">{Lang.t('ai.response', 'Response:')}</h2>
       <div class="bg-ios-bg rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-ios-label">
         {#if aiState.loading}
-          <span class="text-ios-label2">Processing...</span>
+          <span class="text-ios-label2">{Lang.t('ai.processing', 'Processing...')}</span>
         {:else if responseText}
           <pre>{responseText}</pre>
         {:else}
-          <span class="text-ios-label2">Click a button to test a profile</span>
+          <span class="text-ios-label2"
+            >{Lang.t('ai.click-a-button-to-test-a-profile', 'Click a button to test a profile')}</span
+          >
         {/if}
       </div>
     </div>
 
     <div class="text-xs text-ios-label2">
-      <h3 class="font-semibold mb-2">Profiles:</h3>
+      <h3 class="font-semibold mb-2">{Lang.t('ai.profiles', 'Profiles:')}</h3>
       <ul class="space-y-1">
-        <li>💬 <strong>Insight:</strong> Natural language (supports streaming)</li>
-        <li>💡 <strong>Advice:</strong> Actionable recommendations</li>
-        <li>📊 <strong>Data:</strong> Chart datasets</li>
-        <li>📝 <strong>Journal:</strong> Reflection prompts</li>
-        <li>⚠️ <strong>Alert:</strong> Anomaly detection</li>
-        <li>📖 <strong>Narrative:</strong> Journal content analysis (themes, sentiment, patterns)</li>
+        <li>
+          💬 <strong>{Lang.t('ai.insight', 'Insight:')}</strong>
+          {Lang.t('ai.natural-language-supports-streaming', 'Natural language (supports streaming)')}
+        </li>
+        <li>
+          💡 <strong>{Lang.t('ai.advice', 'Advice:')}</strong>
+          {Lang.t('ai.actionable-recommendations', 'Actionable recommendations')}
+        </li>
+        <li>📊 <strong>{Lang.t('ai.data', 'Data:')}</strong> {Lang.t('ai.chart-datasets', 'Chart datasets')}</li>
+        <li>
+          📝 <strong>{Lang.t('ai.journal', 'Journal:')}</strong>
+          {Lang.t('ai.reflection-prompts', 'Reflection prompts')}
+        </li>
+        <li>
+          ⚠️ <strong>{Lang.t('ai.alert', 'Alert:')}</strong>
+          {Lang.t('ai.anomaly-detection', 'Anomaly detection')}
+        </li>
+        <li>
+          📖 <strong>{Lang.t('ai.narrative', 'Narrative:')}</strong>
+          {Lang.t(
+            'ai.journal-content-analysis-themes-sentiment-patter',
+            'Journal content analysis (themes, sentiment, patterns)'
+          )}
+        </li>
       </ul>
     </div>
   </div>

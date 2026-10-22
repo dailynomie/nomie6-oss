@@ -6,6 +6,7 @@
   import List from '../../../../components/list/list.svelte'
   import { parseNumber } from '../../../../utils/parseNumber/parseNumber'
   import type { Trackable } from '../../Trackable.class'
+  import { Lang } from '../../../../store/lang'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 </script>
@@ -14,8 +15,8 @@
   <Input
     listItem
     type="select"
-    label="Duration"
-    placeholder="Duration (in Days)"
+    label={Lang.t('trackable.duration', 'Duration')}
+    placeholder={Lang.t('trackable.duration-in-days', 'Duration (in Days)')}
     value={`${trackable.ctx.duration || 1}`}
     options={Array.from({ length: 30 }, (_, index) => ({ value: `${index + 1}`, label: `${index + 1} days` }))}
     on:change={(evt) => {
@@ -24,6 +25,8 @@
   />
 </List>
 <p class="list-note">
-  Duration Days is how long this context tends to impact your life. Context is used to mark specific points in your life
-  with things that can impact you for multiple days. For example being sick, or rushing for a project.
+  {Lang.t(
+    'trackable.duration-days-is-how-long-this-context-tends-to-',
+    'Duration Days is how long this context tends to impact your life. Context is used to mark specific points in your life with things that can impact you for multiple days. For example being sick, or rushing for a project.'
+  )}
 </p>

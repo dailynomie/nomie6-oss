@@ -14,6 +14,7 @@ import { MasterTrackables, saveTrackable } from '../trackable/TrackableStore'
 import { addMissing, smartMerge } from './smart-merge'
 import { TemplateToImport } from './storage-export.helper'
 import { collectLocalSettings, restoreLocalSettings, type LocalSettings } from '../backup/local-settings'
+import { Lang } from '../../store/lang'
 
 /**
  * Normalize context.json from backup format to storage format
@@ -143,7 +144,7 @@ export const exportStorage = async (): Promise<boolean> => {
   } catch (e) {
     Interact.stopBlocker()
     console.error(e)
-    await Interact.alert('Backup failed', e instanceof Error ? e.message : String(e))
+    await Interact.alert(Lang.t('storage.backup-failed', 'Backup failed'), e instanceof Error ? e.message : String(e))
     return false
   }
 }
@@ -165,11 +166,20 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
     try {
       archive = JSON.parse(fileUpload.data)
     } catch (e) {
-      await Interact.alert('Not a valid file', 'This file is not valid JSON, so it cannot be imported.')
+      await Interact.alert(
+        Lang.t('storage.not-a-valid-file', 'Not a valid file'),
+        Lang.t(
+          'storage.this-file-is-not-valid-json-so-it-cannot-be-impo',
+          'This file is not valid JSON, so it cannot be imported.'
+        )
+      )
       return false
     }
     if (!archive || typeof archive !== 'object') {
-      await Interact.alert('Not a valid file', 'This file does not contain a Nomie backup.')
+      await Interact.alert(
+        Lang.t('storage.not-a-valid-file', 'Not a valid file'),
+        Lang.t('storage.this-file-does-not-contain-a-nomie-backup', 'This file does not contain a Nomie backup.')
+      )
       return false
     }
 

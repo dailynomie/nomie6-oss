@@ -19,6 +19,7 @@
   import type { CleanupLogEntry } from './PluginCleanupStore'
   import { getLastCleanupLog, saveCleanupLog } from './PluginCleanupStore'
   import dayjs from 'dayjs'
+  import { Lang } from '../../store/lang'
 
   const id = 'plugin-dedup-modal'
 
@@ -43,7 +44,10 @@
       hasScanned = true
     } catch (e) {
       console.error('Scan error:', e)
-      showToast({ message: 'Error scanning for duplicates', type: 'error' })
+      showToast({
+        message: Lang.t('plugins.error-scanning-for-duplicates', 'Error scanning for duplicates'),
+        type: Lang.t('plugins.error-2', 'error'),
+      })
     } finally {
       isScanning = false
     }
@@ -65,7 +69,9 @@
       Interact.stopBlocker()
       saveCleanupLog(result, 'manual')
       loadCleanupLog()
-      showToast({ message: 'Plugin database cleaned successfully' })
+      showToast({
+        message: Lang.t('plugins.plugin-database-cleaned-successfully', 'Plugin database cleaned successfully'),
+      })
       scanResult = null
       hasScanned = false
       setTimeout(() => {
@@ -74,7 +80,10 @@
     } catch (e) {
       console.error('Cleanup error:', e)
       Interact.stopBlocker()
-      showToast({ message: 'Error cleaning plugin database', type: 'error' })
+      showToast({
+        message: Lang.t('plugins.error-cleaning-plugin-database', 'Error cleaning plugin database'),
+        type: Lang.t('plugins.error-2', 'error'),
+      })
     } finally {
       isLoading = false
     }
@@ -88,31 +97,40 @@
 <BackdropModal {id}>
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" clear primary on:click={handleClose}>Cancel</Button>
-      <Text bold slot="main" className="text-ios-label">Clean Plugin Database</Text>
+      <Button slot="left" clear primary on:click={handleClose}>{Lang.t('plugins.cancel', 'Cancel')}</Button>
+      <Text bold slot="main" className="text-ios-label"
+        >{Lang.t('plugins.clean-plugin-database', 'Clean Plugin Database')}</Text
+      >
     </ToolbarGrid>
   </header>
 
   <main class="filler space-y-4 p-4">
     {#if !hasScanned}
       <div class="info-box p-4 rounded-lg">
-        <Text bold className="text-ios-label mb-2">What This Does</Text>
+        <Text bold className="text-ios-label mb-2">{Lang.t('plugins.what-this-does', 'What This Does')}</Text>
         <Text className="text-ios-label2" size="sm">
-          Plugins are created by different developers and may store data differently. Over time, duplicate entries can
-          accumulate in your plugin database—especially if you've synced data across devices.
+          {Lang.t(
+            'plugins.plugins-are-created-by-different-developers-and-',
+            "Plugins are created by different developers and may store data differently. Over time, duplicate entries can accumulate in your plugin database—especially if you've synced data across devices."
+          )}
         </Text>
         <Text className="text-ios-label2 mt-2" size="sm">
-          This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their
-          functionality are never affected—only the background storage is tidied up.
+          {Lang.t(
+            'plugins.this-tool-safely-removes-these-duplicates-and-cl',
+            'This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their functionality are never affected—only the background storage is tidied up.'
+          )}
         </Text>
         <Text className="text-ios-label2 mt-2" size="sm">
-          No changes are made until you confirm. You can always scan again to verify the results.
+          {Lang.t(
+            'plugins.no-changes-are-made-until-you-confirm-you-can-al',
+            'No changes are made until you confirm. You can always scan again to verify the results.'
+          )}
         </Text>
       </div>
 
       {#if lastCleanupLog}
         <div class="last-cleanup-box p-3 rounded-lg bg-ios-card">
-          <Text bold size="sm" className="text-ios-label mb-1">Last Cleanup</Text>
+          <Text bold size="sm" className="text-ios-label mb-1">{Lang.t('plugins.last-cleanup', 'Last Cleanup')}</Text>
           <Text size="xs" className="text-ios-label">
             {dayjs(lastCleanupLog.date).format('MMM D, YYYY [at] h:mm A')} ({lastCleanupLog.type})
           </Text>
@@ -157,7 +175,7 @@
         </div>
 
         <div class="mt-4">
-          <Text bold className="text-ios-label mb-2">Issues Found:</Text>
+          <Text bold className="text-ios-label mb-2">{Lang.t('plugins.issues-found', 'Issues Found:')}</Text>
           <List transparent>
             {#each scanResult.pluginIssues as issue (issue.pluginId + issue.issueType)}
               <ListItem bottomLine={16}>
@@ -199,7 +217,7 @@
               hasScanned = false
             }}
           >
-            Scan Again
+            {Lang.t('plugins.scan-again', 'Scan Again')}
           </Button>
         </div>
       {:else}
@@ -208,7 +226,7 @@
             <IonIcon icon={CheckmarkCircle} className="text-ios-good" size={20} />
           </div>
           <div class="flex-grow">
-            <Text bold className="text-ios-good">No Issues Found</Text>
+            <Text bold className="text-ios-good">{Lang.t('plugins.no-issues-found', 'No Issues Found')}</Text>
             <Text size="sm" className="text-ios-good">
               Your plugin database is clean ({scanResult.totalPluginsInMainList}
               {scanResult.totalPluginsInMainList === 1 ? 'plugin' : 'plugins'}) with no duplicates or rogue folders
@@ -222,7 +240,7 @@
             handleScan()
           }}
         >
-          Scan Again
+          {Lang.t('plugins.scan-again', 'Scan Again')}
         </Button>
       {/if}
     {/if}

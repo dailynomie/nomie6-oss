@@ -46,7 +46,9 @@
     if (confirmed === true) {
       removeBoard(board)
 
-      showToast({ message: Lang.t('general.deleted', 'Deleted') })
+      showToast({
+        message: Lang.t(Lang.t('board.general-deleted', 'general.deleted'), Lang.t('board.deleted', 'Deleted')),
+      })
     }
   }
 
@@ -58,7 +60,7 @@
 <BackdropModal>
   <NToolbarGrid slot="header">
     <div class="ntitle" slot="main">{Lang.t('board.organize-tabs', 'Organize Tabs')}</div>
-    <Button slot="right" on:click={close} clear primary>Done</Button>
+    <Button slot="right" on:click={close} clear primary>{Lang.t('board.done', 'Done')}</Button>
   </NToolbarGrid>
 
   <List className="board-sort">

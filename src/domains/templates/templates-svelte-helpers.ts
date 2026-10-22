@@ -21,6 +21,7 @@ import { ExperimentStore } from '../experiments/ExperimentStore'
 import { PluginStore } from '../plugins/PluginStore'
 import is from '../../utils/is/is'
 import { navigate } from '../../vendor/svelte-navigator'
+import { Lang } from '../../store/lang'
 
 /* Creating a store for the templates. */
 export const TemplateStore = createArrayStore(NPaths.storage.templates(), {
@@ -66,9 +67,13 @@ export const openExternalTemplate = async (_url?: string) => {
   try {
     const url =
       _url ||
-      (await Interact.prompt('Template URL', 'Full url to the template', {
-        placeholder: `https://url-to-template`,
-      }))
+      (await Interact.prompt(
+        Lang.t('templates.template-url', 'Template URL'),
+        Lang.t('templates.full-url-to-the-template', 'Full url to the template'),
+        {
+          placeholder: `https://url-to-template`,
+        }
+      ))
     if (`${url || ''}`.length) {
       if (is.url(url)) {
         openTemplateRef(url)

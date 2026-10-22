@@ -75,12 +75,10 @@ for f in $(printf '%s\n' $LIST); do
   if grep -qE "^[^/]*Lang\.t\(" "$f" && ! python3 -c "
 import re,sys
 s=open(sys.argv[1],encoding='utf8').read()
-st=s.find('<script'); en=s.find('</script>')
-ok=False
-if st!=-1 and en!=-1 and st<en:
-    ok=bool(re.search(r'import[^;]*\\bLang\\b[^;]*from', s[st:en]))
-elif st==-1:
-    ok=bool(re.search(r'import[^;]*\\bLang\\b[^;]*from', s))
+blocks=re.findall(r'<script\\b[^>]*>([\\s\\S]*?)</script>', s)
+if sys.argv[1].endswith('.ts'):
+    blocks=[s]
+ok=any(re.search(r'import\s*\{[^}]*\bLang\b[^}]*\}\s*from', b) for b in blocks)
 sys.exit(0 if ok else 1)" "$f"; then NOIMPORT="$NOIMPORT$f\n"; fi
 done
 if [ -n "$NOIMPORT" ]; then

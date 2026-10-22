@@ -301,7 +301,7 @@
     {#if tracker.type == 'habit'}
       <List solo>
         <NInput
-          placeholder="Label for Achieved Habit"
+          placeholder={Lang.t('trackable.label-for-achieved-habit', 'Label for Achieved Habit')}
           type="text"
           className="tracker-math mb-3"
           bind:value={tracker.habitChoice[0]}
@@ -311,7 +311,7 @@
           type="text"
           className="tracker-math mb-3"
           name="False"
-          placeholder="Label for Missed Habit"
+          placeholder={Lang.t('trackable.label-for-missed-habit', 'Label for Missed Habit')}
           bind:value={tracker.habitChoice[1]}
         ></NInput>
       </List>
@@ -560,7 +560,7 @@
           type="select"
           className="tracker-math mb-3"
           name="default habit"
-          placeholder="Choose Default Habit Result"
+          placeholder={Lang.t('trackable.choose-default-habit-result', 'Choose Default Habit Result')}
           bind:value={tracker.default}
           options={[
             { value: 1, label: tracker.habitChoice[0] },
@@ -619,17 +619,21 @@
         </List>
 
         <p class="list-note">
-          Automatically include other trackers, people, and data. For example, you could include <code
-            >{`#alcohol({value}*0.5)`}</code
-          >
-          in a Beer Tracker. Then when you track your beer drinking, the percentage of alchol with also be tracked.
+          {Lang.t(
+            'trackable.automatically-include-other-trackers-people-and-',
+            'Automatically include other trackers, people, and data. For example, you could include'
+          )} <code>{`#alcohol({value}*0.5)`}</code>
+          {Lang.t(
+            'trackable.in-a-beer-tracker-then-when-you-track-your-beer-',
+            'in a Beer Tracker. Then when you track your beer drinking, the percentage of alchol with also be tracked.'
+          )}
           <!-- Automatically include other trackers, people and data when using this tracker. For example, including <code
               class="text-semibold text-ios-label">{`#alcohol({value}*0.5)`}</code
             > in a Beer tracker will also track the percentage of the ciders value, as the value of alcohol. -->
         </p>
       </section>
 
-      <section aria-label="Mind, Body, Spirit selection">
+      <section aria-label={Lang.t('trackable.mind-body-spirit-selection', 'Mind, Body, Spirit selection')}>
         <List className="" solo>
           <div class="grid p-2 grid-cols-3 gap-2">
             {#each focusTypes as focus}
@@ -657,8 +661,10 @@
           </div>
         </List>
         <p class="list-note">
-          Does this tracker affect your mind, or body, or spirit, or a combination? Select which one, and Nomie will
-          keep track.
+          {Lang.t(
+            'trackable.does-this-tracker-affect-your-mind-or-body-or-sp',
+            'Does this tracker affect your mind, or body, or spirit, or a combination? Select which one, and Nomie will keep track.'
+          )}
         </p>
       </section>
     {/if}

@@ -4,6 +4,7 @@
   // iOS look (D-native): a month grid inside the action sheet. A tap on a day picks it and closes the sheet.
   import dayjs from 'dayjs'
   import { closeModal } from '../backdrop/BackdropStore2'
+  import { Lang } from '../../store/lang'
 
   const {
     value = '',
@@ -43,7 +44,7 @@
     <button
       type="button"
       class="ios-cal-nav"
-      aria-label="Previous month"
+      aria-label={Lang.t('ui.previous-month', 'Previous month')}
       onclick={() => (shown = shown.subtract(1, 'month'))}
     >
       <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"
@@ -58,7 +59,12 @@
       >
     </button>
     <span class="ios-cal-title">{shown.format('MMMM YYYY')}</span>
-    <button type="button" class="ios-cal-nav" aria-label="Next month" onclick={() => (shown = shown.add(1, 'month'))}>
+    <button
+      type="button"
+      class="ios-cal-nav"
+      aria-label={Lang.t('ui.next-month', 'Next month')}
+      onclick={() => (shown = shown.add(1, 'month'))}
+    >
       <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"
         ><path
           d="M2 2l6 6-6 6"

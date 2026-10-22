@@ -17,6 +17,7 @@
   import { AwardStore } from '../../domains/awards/AwardsStore'
   import { Interact } from '../../store/interact'
   import { getAwardById } from '../../domains/awards/helpers/usage-awards'
+  import { Lang } from '../../store/lang'
 
   let dispatch = createEventDispatcher()
   const { buttons, listType } = $props()
@@ -83,7 +84,10 @@
               {button.title}
             </div>
             {#if button.description}
-              <div class="text-sm text-ios-label2 leading-tight font-base text-left pr-4 mt-1" aria-label="Description">
+              <div
+                class="text-sm text-ios-label2 leading-tight font-base text-left pr-4 mt-1"
+                aria-label={Lang.t('ui.description', 'Description')}
+              >
                 <p class="line-clamp-3 leading-tight">{button.description}</p>
               </div>
             {/if}

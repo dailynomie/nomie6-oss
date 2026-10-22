@@ -94,7 +94,7 @@
         color="primary"
         on:click={() => {
           showUpdates = true
-        }}>View Changes</Button
+        }}>{Lang.t('whatsnew.view-changes', 'View Changes')}</Button
       >
     {/if}
   </footer>

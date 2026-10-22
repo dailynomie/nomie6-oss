@@ -5,6 +5,7 @@
 
   import IonIcon from '../icon/ion-icon.svelte'
   import { CloseOutline, SearchIcon } from '../icon/nicons'
+  import { Lang } from '../../store/lang'
 
   let searchField
 
@@ -33,7 +34,7 @@
     class="border-ios-separator text-ios-label border"
     autocapitalize="false"
     autocomplete="false"
-    placeholder="Search emojis..."
+    placeholder={Lang.t('ui.search-emojis-2', 'Search emojis...')}
     bind:value={searchText}
     bind:this={searchField}
     on:keydown={handleKeyDown}

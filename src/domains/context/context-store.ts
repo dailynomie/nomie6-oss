@@ -18,6 +18,7 @@ import { createKVStore } from '../../store/KVStore'
 import dayjs from 'dayjs'
 // Svelte
 import { writable } from 'svelte/store'
+import { Lang } from '../../store/lang'
 
 // Get Config
 
@@ -37,7 +38,7 @@ const searchForContext = async () => {
     })
   } catch (e) {
     console.error(e)
-    Interact.alert('Error', e.message)
+    Interact.alert(Lang.t('context.error', 'Error'), e.message)
   }
   Interact.stopBlocker()
   return array_utils.unique(contexts)

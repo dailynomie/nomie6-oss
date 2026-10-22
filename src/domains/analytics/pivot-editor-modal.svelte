@@ -65,7 +65,10 @@
   })
 
   const deletePivot = async () => {
-    const confirmed = await Interact.confirm('Delete this pivot?', 'You can always recreate it later.')
+    const confirmed = await Interact.confirm(
+      Lang.t('analytics.delete-this-pivot', 'Delete this pivot?'),
+      Lang.t('analytics.you-can-always-recreate-it-later', 'You can always recreate it later.')
+    )
     if (confirmed) {
       await PivotStore.remove(workingPivot)
       closeModal(id)
@@ -105,7 +108,7 @@
     } finally {
       Interact.stopBlocker()
     }
-    showToast({ message: 'Pivot Saved' })
+    showToast({ message: Lang.t('analytics.pivot-saved', 'Pivot Saved') })
     close()
   }
 
@@ -217,7 +220,10 @@
   }
 
   const resetfilters = async () => {
-    const confirmed = await Interact.confirm('Reset all filters?', 'You can always recreate it later.')
+    const confirmed = await Interact.confirm(
+      Lang.t('analytics.reset-all-filters', 'Reset all filters?'),
+      Lang.t('analytics.you-can-always-recreate-it-later', 'You can always recreate it later.')
+    )
     if (confirmed) {
       filters = {}
       amountoffilters = Object.keys(filters).length
@@ -251,12 +257,12 @@
   {/if}
   <List solo>
     <ListItem clickable on:click={selectemoji}>
-      <div class="py-2">Which Emoji?</div>
+      <div class="py-2">{Lang.t('analytics.which-emoji', 'Which Emoji?')}</div>
       <div slot="right">
         {#if emoji}
           <span class="text-ios-tint">{emoji}</span>
         {:else}
-          <span class="text-ios-tint">Select</span>
+          <span class="text-ios-tint">{Lang.t('analytics.select', 'Select')}</span>
         {/if}
       </div>
     </ListItem>
@@ -266,8 +272,8 @@
       value={name}
       on:input={(evt) => (name = evt.detail)}
       listItem
-      label="Pivot Name"
-      placeholder="Pivot Name"
+      label={Lang.t('analytics.pivot-name', 'Pivot Name')}
+      placeholder={Lang.t('analytics.pivot-name', 'Pivot Name')}
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
         {#if name && !emoji}
@@ -279,18 +285,18 @@
     </Input>
     <Divider left={16} />
     <ListItem clickable on:click={selectdays}>
-      <div class="py-2">How Many Days of History?</div>
+      <div class="py-2">{Lang.t('analytics.how-many-days-of-history', 'How Many Days of History?')}</div>
       <div slot="right">
         {#if days}
           <span class="text-ios-tint">{days}</span>
         {:else}
-          <span class="text-ios-tint">Select</span>
+          <span class="text-ios-tint">{Lang.t('analytics.select', 'Select')}</span>
         {/if}
       </div>
     </ListItem>
     <Divider left={16} />
     <ListItem clickable on:click={resetfilters}>
-      <div class="py-2">Reset Filters</div>
+      <div class="py-2">{Lang.t('analytics.reset-filters', 'Reset Filters')}</div>
       <div slot="right">
         <span class="text-ios-label2 tabular-nums">{amountoffilters}</span>
       </div>
@@ -298,7 +304,10 @@
     <Divider left={16} />
     <ListItem bottomLine={16} title={'Enable Search Terms'}>
       <div slot="right">
-        <ToggleSwitch bind:value={searchenabled} title="Toggle Search Terms" />
+        <ToggleSwitch
+          bind:value={searchenabled}
+          title={Lang.t('analytics.toggle-search-terms', 'Toggle Search Terms')}
+        />
       </div>
     </ListItem>
     <Divider left={16} />
@@ -310,8 +319,8 @@
       }}
       value={searchterms}
       listItem
-      label="Searchterms"
-      placeholder="Search Terms"
+      label={Lang.t('analytics.searchterms', 'Searchterms')}
+      placeholder={Lang.t('analytics.search-terms', 'Search Terms')}
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
         <div class="text-ios-label2">{countsearchterms} {countsearchterms === 1 ? 'search term' : 'search terms'}</div>
@@ -321,7 +330,9 @@
 
   <!-- iOS look: the destructive action is a row of its own in a card, in the danger colour -->
   <div class="ios-card mx-2 mt-8 overflow-hidden">
-    <button type="button" class="ios-delete-row" on:click={() => deletePivot()}>Delete Pivot</button>
+    <button type="button" class="ios-delete-row" on:click={() => deletePivot()}
+      >{Lang.t('analytics.delete-pivot-2', 'Delete Pivot')}</button
+    >
   </div>
 </BackdropModal>
 

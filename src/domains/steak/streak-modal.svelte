@@ -33,6 +33,7 @@
 
   import { UsageStore } from '../usage/UsageStore'
   import { streakSummary, type StreakSummaryResults } from './streak-helper'
+  import { Lang } from '../../store/lang'
 
   let { trackable, date = $bindable(), id } = $props()
 
@@ -127,7 +128,7 @@
         <TrackableAvatar {trackable} size={22} />
         {trackable.label} Streak
       </h1>
-      <Button slot="right" clear primary on:click={close}>Done</Button>
+      <Button slot="right" clear primary on:click={close}>{Lang.t('steak.done', 'Done')}</Button>
     </ToolbarGrid>
     {#if rawUsage && rawUsage.logs}
       <Calendar3
@@ -145,11 +146,11 @@
       <section class="flex w-full py-2">
         <div class="rounded-full flex space-x-4 items-center mx-auto w-auto">
           <div class="leading-tight text-center flex items-center space-x-2 text-xs text-description">
-            <div class="">Current</div>
+            <div class="">{Lang.t('steak.current', 'Current')}</div>
             <div class="font-bold">{streak.currentStreak} days</div>
           </div>
           <div class="leading-tight text-center flex items-center space-x-2 text-xs text-description">
-            <div class="">Longest</div>
+            <div class="">{Lang.t('steak.longest', 'Longest')}</div>
             <div class="font-bold">{streak.longestStreak} days</div>
           </div>
         </div>

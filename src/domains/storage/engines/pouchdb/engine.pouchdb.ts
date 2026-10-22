@@ -83,7 +83,10 @@ export const PouchDBEngine: IStorage = {
     this.syncing = false
   },
   onError(error) {
-    Interact.alert(Lang.t('sync.error', 'Sync Error'), error.message)
+    Interact.alert(
+      Lang.t(Lang.t('storage.sync-error', 'sync.error'), Lang.t('storage.sync-error-2', 'Sync Error')),
+      error.message
+    )
     console.error(error)
     this.syncing = false
   },
@@ -135,7 +138,13 @@ export const PouchDBEngine: IStorage = {
           this.onError(e)
           errorCount++
           if (errorCount > 10) {
-            Interact.alert('Sync problem', 'Repeated storage errors. Your latest changes may not be saved.')
+            Interact.alert(
+              Lang.t('storage.sync-problem', 'Sync problem'),
+              Lang.t(
+                'storage.repeated-storage-errors-your-latest-changes-may-',
+                'Repeated storage errors. Your latest changes may not be saved.'
+              )
+            )
           }
         })
     }

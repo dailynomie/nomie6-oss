@@ -45,6 +45,7 @@
   import PositivityGrid from '../components/positivity-bar/positivity-grid.svelte'
 
   import TimelineLoader from '../domains/timeline/timeline-loader.svelte'
+  import { Lang } from '../store/lang'
 
   let startingDate = $state<Date>(new Date())
   let date = $derived(dayjs(startingDate))
@@ -150,7 +151,7 @@
     <div class="flex items-center justify-end gap-2 h-9">
       <button
         type="button"
-        aria-label="Jump to date"
+        aria-label={Lang.t('routes.jump-to-date', 'Jump to date')}
         class="ios-round {inPast ? 'ios-round-alert' : ''}"
         on:click={() => jumpTo()}
       >
@@ -158,7 +159,7 @@
       </button>
       <MenuInline
         id="timeline-filter"
-        title="Filter timeline"
+        title={Lang.t('routes.filter-timeline', 'Filter timeline')}
         x="right"
         y="bottom"
         menuButtons={filterMenu}
@@ -167,13 +168,18 @@
         <IonIcon icon={FunnelOutline} size={18} />
       </MenuInline>
     </div>
-    <h1 class="text-ios-large font-bold text-ios-label">Timeline</h1>
+    <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('routes.timeline', 'Timeline')}</h1>
     <div class="max-w-xl w-full mt-1 collapsible-row">
       <PositivityGrid className="h-2" logs={topItem?.logs || []} />
     </div>
-    <button type="button" class="ios-search mt-2" aria-label="Search notes" on:click={() => openUnisearch()}>
+    <button
+      type="button"
+      class="ios-search mt-2"
+      aria-label={Lang.t('routes.search-notes', 'Search notes')}
+      on:click={() => openUnisearch()}
+    >
       <IonIcon icon={SearchIcon} size={16} />
-      <span>Search notes, #trackers, @people</span>
+      <span>{Lang.t('routes.search-notes-trackers-people', 'Search notes, #trackers, @people')}</span>
     </button>
   </header>
 

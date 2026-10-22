@@ -9,6 +9,7 @@
   import { CustomUomStore } from '../domains/uom/custom-uom-store'
   import { openUomEditor } from '../domains/uom/uom-editor/useUomModal'
   import type { CustomUomItem } from '../domains/uom/uom-registry'
+  import { Lang } from '../store/lang'
 
   // iOS look (Phase 7): the units a tracker can measure by, grouped by type.
   // Built-in units are read-only; custom units are marked and can be edited or deleted.
@@ -33,12 +34,19 @@
   <div slot="header" class="px-4 pt-1 pb-1">
     <div class="h-9 flex items-center justify-between">
       <NBackButton to="/settings" />
-      <button type="button" class="ios-round" aria-label="New unit" on:click={() => openUomEditor()}>
+      <button
+        type="button"
+        class="ios-round"
+        aria-label={Lang.t('routes.new-unit', 'New unit')}
+        on:click={() => openUomEditor()}
+      >
         <IonIcon icon={AddIcon} size={18} />
       </button>
     </div>
-    <h1 class="text-ios-large font-bold text-ios-label">Units of Measure</h1>
-    <p class="text-ios-subhead text-ios-label2">Trackers can count in these units.</p>
+    <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('routes.units-of-measure', 'Units of Measure')}</h1>
+    <p class="text-ios-subhead text-ios-label2">
+      {Lang.t('routes.trackers-can-count-in-these-units', 'Trackers can count in these units.')}
+    </p>
   </div>
 
   <main class="px-4 py-4 space-y-6 max-w-screen-lg mx-auto">
@@ -59,7 +67,7 @@
                     <span class="font-semibold text-ios-label truncate">{unit.plural}</span>
                     <span
                       class="text-ios-caption2 font-semibold rounded-md px-1.5 py-0.5 bg-ios-tintsoft text-ios-tint shrink-0"
-                      >Custom</span
+                      >{Lang.t('routes.custom', 'Custom')}</span
                     >
                   </div>
                   <div class="text-ios-footnote text-ios-label2 truncate">{unit.singular}</div>

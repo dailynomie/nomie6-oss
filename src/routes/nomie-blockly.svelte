@@ -10,6 +10,7 @@
   import { Prefs } from '../domains/preferences/Preferences'
   import { showToast } from '../components/toast/ToastStore'
   import { onMount } from 'svelte'
+  import { Lang } from '../store/lang'
 
   let showSetupModal = $state(true)
   let plugin: PluginClass | undefined = $state(undefined)
@@ -100,7 +101,7 @@
   <!-- iOS look: the same header as the other pages (action row, then the large title), with the plugin below it -->
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
     <div class="flex items-center justify-end h-9"></div>
-    <h1 class="text-ios-large font-bold text-ios-label">Blockly</h1>
+    <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('routes.blockly', 'Blockly')}</h1>
   </header>
 
   <!-- Always render the plugin in the background -->

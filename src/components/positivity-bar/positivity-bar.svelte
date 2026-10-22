@@ -4,6 +4,7 @@
   import { Interact } from '../../store/interact'
 
   import math from '../../utils/math/math'
+  import { Lang } from '../../store/lang'
 
   let score = $state(0)
   let neuCount = $state({ type: 'neutral', count: 0, percent: 0 })
@@ -21,7 +22,7 @@
     let message = `Using your total negative (red), positive (green), and neutral (gray) events for the day, Nomie calculates your Positivity Score. 
       ${counts.map((c) => `${math.round(c.count)} ${c.type}`).join(', ')}
     `
-    Interact.alert('What is this?', message)
+    Interact.alert(Lang.t('ui.what-is-this', 'What is this?'), message)
   }
 
   function main() {

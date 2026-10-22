@@ -12,6 +12,7 @@
   import Map from '../../map/map.svelte'
   import { getDateFormats } from '../../preferences/Preferences'
   import type NLog from '../nomie-log'
+  import { Lang } from '../../../store/lang'
 
   let dateFormats = getDateFormats()
 
@@ -27,7 +28,7 @@
     <h2 class="line-clamp-1 text-ios-label whitespace-normal leading-tight text-base font-semibold">
       {log.endDayjs().format(`ddd ${dateFormats.date} ${dateFormats.time}`)}
     </h2>
-    <Button clear primary on:click={() => close()} slot="right">Done</Button>
+    <Button clear primary on:click={() => close()} slot="right">{Lang.t('log.done', 'Done')}</Button>
   </ToolbarGrid>
   {#if log.lat}
     <div class="sticky top-0 left-0 right-0 w-full z-40 stiff">

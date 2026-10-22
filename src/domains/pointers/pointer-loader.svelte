@@ -4,6 +4,7 @@
   import { onMount } from 'svelte'
   import { AllTrackablesAsArray } from '../trackable/TrackableStore'
   import { openPointersModal } from '../pointers/pointer-store'
+  import { Lang } from '../../store/lang'
 
   let pointers: string | any[] = $state([])
   let reminderCheckPeriod = $state(1000 * 5 * 2)
@@ -76,24 +77,29 @@
   <div class="install-backdrop" style="z-index:8999">
     <div class="pwa-toast" role="alert">
       <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-ios-label message">
-        <h1 class="mb-2 text-2xl font-bold text-ios-label">⚠️ Reminders!</h1>
-        <p>Some reminders are overdue. Would you like to manage your reminders?</p>
+        <h1 class="mb-2 text-2xl font-bold text-ios-label">{Lang.t('pointers.reminders-2', '⚠️ Reminders!')}</h1>
+        <p>
+          {Lang.t(
+            'pointers.some-reminders-are-overdue-would-you-like-to-man',
+            'Some reminders are overdue. Would you like to manage your reminders?'
+          )}
+        </p>
       </div>
 
       <div class="flex items-center justify-end space-x-4">
         <button class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint" on:click={close}>
-          Later
+          {Lang.t('pointers.later', 'Later')}
         </button>
 
         <button
-          aria-label="Update the App"
+          aria-label={Lang.t('pointers.update-the-app', 'Update the App')}
           on:click={() => {
             close()
             openPointersModal()
           }}
           class="px-4 py-2 font-bold filler bg-ios-card shadow-sm rounded-xl text-ios-tint"
         >
-          Manage Now
+          {Lang.t('pointers.manage-now', 'Manage Now')}
         </button>
       </div>
     </div>

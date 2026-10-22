@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { Lang } from '../../store/lang'
   const {
     size = 60,
     unit = 'px',
@@ -20,16 +21,16 @@
   <div class="inner">
     <div class="ball-container">
       <div class="single-ball">
-        <div class="ball ball-top-left">&nbsp;</div>
+        <div class="ball ball-top-left">{Lang.t('ui.nbsp', '&nbsp;')}</div>
       </div>
       <div class="contener_mixte">
-        <div class="ball ball-top-right">&nbsp;</div>
+        <div class="ball ball-top-right">{Lang.t('ui.nbsp', '&nbsp;')}</div>
       </div>
       <div class="contener_mixte">
-        <div class="ball ball-bottom-left">&nbsp;</div>
+        <div class="ball ball-bottom-left">{Lang.t('ui.nbsp', '&nbsp;')}</div>
       </div>
       <div class="contener_mixte">
-        <div class="ball ball-bottom-right">&nbsp;</div>
+        <div class="ball ball-bottom-right">{Lang.t('ui.nbsp', '&nbsp;')}</div>
       </div>
     </div>
   </div>

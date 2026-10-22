@@ -6,6 +6,7 @@
   import dayjs from 'dayjs'
   import IosDateField from './ios-date-field.svelte'
   import IosSelect from '../ios-select/ios-select.svelte'
+  import { Lang } from '../../store/lang'
 
   let {
     value = $bindable(''),
@@ -45,9 +46,16 @@
 
 <div class="ios-datetime" class:is-disabled={disabled}>
   <IosDateField value={datePart} onchange={setDate} {disabled} compact {title} />
-  <IosSelect value={hourPart} options={hours} onchange={setHour} {disabled} compact title="Hour" />
+  <IosSelect value={hourPart} options={hours} onchange={setHour} {disabled} compact title={Lang.t('ui.hour', 'Hour')} />
   <span class="ios-datetime-sep">:</span>
-  <IosSelect value={minutePart} options={minutes} onchange={setMinute} {disabled} compact title="Minute" />
+  <IosSelect
+    value={minutePart}
+    options={minutes}
+    onchange={setMinute}
+    {disabled}
+    compact
+    title={Lang.t('ui.minute', 'Minute')}
+  />
 </div>
 
 <style>

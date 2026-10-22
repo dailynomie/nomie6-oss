@@ -16,6 +16,7 @@
   import BackdropModal from '../backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../toolbar/toolbar-grid.svelte'
   import { composeEmail } from '../../utils/text/text'
+  import { Lang } from '../../store/lang'
 
   let loading = $state(true)
   let content = $state<string>(undefined)
@@ -54,7 +55,7 @@
         composeEmail(props.replyTo || 'support@happydata.org', `RE: ${props.title}`, '')
       }}
     >
-      <span class="text-sm">Reply</span>
+      <span class="text-sm">{Lang.t('ui.reply', 'Reply')}</span>
     </Button>
   </ToolbarGrid>
 

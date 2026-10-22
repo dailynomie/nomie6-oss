@@ -88,7 +88,7 @@
         <div class="divide-x-2 divide-opacity-30 divide-ios-separator flex items-center nselect-group">
           <IosSelect
             compact
-            title="Month"
+            title={Lang.t('calendar.month', 'Month')}
             value={month}
             options={Array.from({ length: 12 }, (_, index) => ({
               value: index,
@@ -104,7 +104,7 @@
           <!-- Year Selector -->
           <IosSelect
             compact
-            title="Year"
+            title={Lang.t('calendar.year', 'Year')}
             value={year}
             options={Array.from({ length: 12 }, (_, index) => {
               const y = parseNumber(dayjs().format('YYYY')) - index
@@ -121,7 +121,7 @@
         {#if !hidePrevNext}
           <button
             type="button"
-            aria-label="Previous"
+            aria-label={Lang.t('calendar.previous', 'Previous')}
             class="nselect"
             class:sm={size == 'sm'}
             on:click={() => nextPrev('previous')}
@@ -134,12 +134,12 @@
           class="nselect"
           on:click={() => {
             date = new Date()
-          }}>Today</button
+          }}>{Lang.t('calendar.today', 'Today')}</button
         >
         {#if !hidePrevNext}
           <button
             type="button"
-            aria-label="Next"
+            aria-label={Lang.t('calendar.next', 'Next')}
             class="nselect"
             class:sm={size == 'sm'}
             on:click={() => nextPrev('next')}

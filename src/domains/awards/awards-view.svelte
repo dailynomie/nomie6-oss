@@ -13,9 +13,15 @@
   import { RemoveCircleOutline } from '../../components/icon/nicons'
   import { Device } from '../../store/device-store'
   import { Interact } from '../../store/interact'
+  import { Lang } from '../../store/lang'
 
   const resetAll = async () => {
-    var feedback = await Interact.confirm('Reset all Awards, they will be rebuild with next app restart')
+    var feedback = await Interact.confirm(
+      Lang.t(
+        'awards.reset-all-awards-they-will-be-rebuild-with-next-',
+        'Reset all Awards, they will be rebuild with next app restart'
+      )
+    )
     if (feedback) {
       $AwardStore.awards = []
       $AwardStore.newAwards = []
@@ -44,7 +50,7 @@
         </button>
       </div>
     </ToolbarGrid>
-    <h1 class="ios-large-title">My Awards</h1>
+    <h1 class="ios-large-title">{Lang.t('awards.my-awards', 'My Awards')}</h1>
   </header>
   <main class="h-full">
     <Container className="py-4">

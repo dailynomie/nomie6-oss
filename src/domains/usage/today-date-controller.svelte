@@ -11,6 +11,7 @@
   import { getDateFormats } from '../preferences/Preferences'
   import { TrackableStore } from '../trackable/TrackableStore'
   import { loadToday, TodayStore } from './today/TodayStore'
+  import { Lang } from '../../store/lang'
 
   let dateFormats = $state(getDateFormats())
   let daysBack = $state(30)
@@ -69,7 +70,7 @@
     </button>
   </Scroller>
   <button class="bg-ios-card text-ios-tint py-1 w-auto leading-tight px-3 rounded-full mx-2 stiff" on:click={done}
-    >Done</button
+    >{Lang.t('usage.done', 'Done')}</button
   >
 </div>
 

@@ -8,6 +8,7 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChatboxOutline, PaperPlaneSolid } from '../../components/icon/nicons'
   import { Prefs } from '../preferences/Preferences'
+  import { Lang } from '../../store/lang'
 
   interface ChatMessage {
     id: string
@@ -166,15 +167,20 @@
           <div class="mb-6 flex justify-center">
             <IonIcon icon={ChatboxOutline} size={48} className="text-ios-tint" />
           </div>
-          <p class="font-bold text-2xl text-ios-label">Start a conversation</p>
+          <p class="font-bold text-2xl text-ios-label">{Lang.t('ai.start-a-conversation', 'Start a conversation')}</p>
           <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap text-ios-label2">
-            <span>Ask</span>
+            <span>{Lang.t('ai.ask', 'Ask')}</span>
             <img
               src="/images/nomie-words.svg"
               alt="Nomie"
               style="height: 18px; width: auto; vertical-align: middle; display: inline-block; margin-top: -2px;"
             />
-            <span>about your tracking data, goals, and insights</span>
+            <span
+              >{Lang.t(
+                'ai.about-your-tracking-data-goals-and-insights',
+                'about your tracking data, goals, and insights'
+              )}</span
+            >
           </div>
         </div>
       </div>
@@ -216,7 +222,7 @@
         bind:this={inputField}
         bind:value={inputText}
         on:keydown={handleKeydown}
-        placeholder="Ask about your tracking data..."
+        placeholder={Lang.t('ai.ask-about-your-tracking-data', 'Ask about your tracking data...')}
         disabled={aiState.loading}
         class="flex-1 px-4 py-2 border border-ios-separator rounded-lg resize-none focus:outline-none bg-ios-card text-ios-label disabled:opacity-50"
         rows={1}
@@ -237,7 +243,9 @@
         <p class="text-sm leading-tight whitespace-pre-wrap">
           <span aria-hidden="true">⚠︎</span>
           {#if aiState.error.includes('openrouter.ai/settings/credits')}
-            <span class="font-semibold block mb-1">OpenRouter Setup Needed</span>
+            <span class="font-semibold block mb-1"
+              >{Lang.t('ai.openrouter-setup-needed', 'OpenRouter Setup Needed')}</span
+            >
           {/if}
           {aiState.error}
         </p>

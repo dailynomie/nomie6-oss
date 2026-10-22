@@ -3,6 +3,7 @@ import type { StorageTypes } from '../../domains/storage/storage'
 import { writable } from 'svelte/store'
 
 import { showToast } from '../../components/toast/ToastStore'
+import { Lang } from '../../store/lang'
 
 export type ThemeTypes = 'dark' | 'light' | 'auto'
 export type PrefsWeekStartTypes = 'sunday' | 'monday'
@@ -108,7 +109,10 @@ export const enabledBetaFeatures = async (): Promise<void> => {
     p.betaFeatures = true
     return p
   })
-  showToast({ message: 'Beta Features Enabled', type: 'success' })
+  showToast({
+    message: Lang.t('preferences.beta-features-enabled', 'Beta Features Enabled'),
+    type: Lang.t('preferences.success-2', 'success'),
+  })
 }
 
 // Media query listener for tracking OS theme changes

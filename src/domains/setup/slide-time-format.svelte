@@ -26,7 +26,7 @@
 
 <Container className="filler px-5 flex items-center justify-center flex-col slide-location -mt-10">
   <div class="pt-3 mx-auto top center-grow min-w-full max-w-xl">
-    <p class="mb-4 text-ios-label2 text-center text-sm">Your preferences</p>
+    <p class="mb-4 text-ios-label2 text-center text-sm">{Lang.t('setup.your-preferences', 'Your preferences')}</p>
 
     <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
@@ -70,7 +70,7 @@
           $Prefs.useMetric = false
         }}
       >
-        10 lbs
+        {Lang.t('setup.10-lbs', '10 lbs')}
       </Button>
       <Button
         className=" {$Prefs.useMetric ? 'bg-ios-tint text-ios-ontint font-bold' : 'bg-ios-card text-ios-label2'}"
@@ -82,11 +82,11 @@
           $Prefs.useMetric = true
         }}
       >
-        4.5 kg
+        {Lang.t('setup.4-5-kg', '4.5 kg')}
       </Button>
     </div>
 
-    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">Week Starts On:</p>
+    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">{Lang.t('setup.week-starts-on', 'Week Starts On:')}</p>
 
     <div class="big-group p-2 mt-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
@@ -101,7 +101,7 @@
           $Prefs.weekStarts = 'sunday'
         }}
       >
-        Sun
+        {Lang.t('setup.sun', 'Sun')}
       </Button>
       <Button
         className=" {$Prefs.weekStarts == 'monday'
@@ -115,11 +115,12 @@
           $Prefs.weekStarts = 'monday'
         }}
       >
-        Mon
+        {Lang.t('setup.mon', 'Mon')}
       </Button>
     </div>
     <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">
-      Location Tracking <Badge
+      {Lang.t('setup.location-tracking', 'Location Tracking')}
+      <Badge
         on:click={() => {
           Interact.alert(
             `Location Tracking`,
@@ -143,7 +144,7 @@
           $Prefs.alwaysLocate = false
         }}
       >
-        Disabled
+        {Lang.t('setup.disabled', 'Disabled')}
       </Button>
       <Button
         className="whitespace-nowrap {$Prefs.alwaysLocate
@@ -157,7 +158,7 @@
           $Prefs.alwaysLocate = true
         }}
       >
-        Enabled
+        {Lang.t('setup.enabled', 'Enabled')}
       </Button>
     </div>
   </div>

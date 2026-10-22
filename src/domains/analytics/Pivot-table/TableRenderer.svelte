@@ -37,6 +37,7 @@
 
   // Create PivotData from props
   import { untrack } from 'svelte'
+  import { Lang } from '../../../store/lang'
 
   let pivotData = $state(undefined)
 
@@ -251,7 +252,9 @@
         {/each}
 
         {#if j === 0}
-          <th class="pvtTotalLabel" rowSpan={colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)}> Totals </th>
+          <th class="pvtTotalLabel" rowSpan={colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)}>
+            {Lang.t('analytics.totals', 'Totals')}
+          </th>
         {/if}
       </tr>
     {/each}
@@ -342,7 +345,9 @@
       </tr>
     {/each}
     <tr>
-      <th class="pvtTotalLabel" colSpan={rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)}> Totals </th>
+      <th class="pvtTotalLabel" colSpan={rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)}>
+        {Lang.t('analytics.totals', 'Totals')}
+      </th>
 
       {#each colKeys as colKey, i (`total${i}`)}
         {@const totalAggregator = pivotData.getAggregator([], colKey)}

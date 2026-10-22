@@ -14,6 +14,7 @@
   import type { LibraryTrackerType } from './library-manager/LibraryManagerStore'
   import TrackerTypes from '../../modules/tracker-types/tracker-types'
   import { createEventDispatcher } from 'svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   const { libraryTracker } = $props()
@@ -40,7 +41,8 @@
         size="sm"
         slot="right"
         shape="round"
-        className="px-2 py-1 whitespace-nowrap bg-ios-tint text-ios-ontint">Add All</Button
+        className="px-2 py-1 whitespace-nowrap bg-ios-tint text-ios-ontint"
+        >{Lang.t('library.add-all', 'Add All')}</Button
       >
     </ListItem>
   {/if}
@@ -61,11 +63,11 @@
               dispatch('add', tracker)
             }}
             primary
-            clear>Add</Button
+            clear>{Lang.t('library.add-2', 'Add')}</Button
           >
         {:else}
           <Button type="clear" className="text-ios-label2" size="xs"
-            >Added <IonIcon className="ml-2 opacity-50" icon={CheckmarkCircle} /></Button
+            >{Lang.t('library.added', 'Added')} <IonIcon className="ml-2 opacity-50" icon={CheckmarkCircle} /></Button
           >
         {/if}
       </div>

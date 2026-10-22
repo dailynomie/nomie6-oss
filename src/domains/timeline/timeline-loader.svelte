@@ -30,6 +30,7 @@
   import Spinner from '../../components/spinner/spinner.svelte'
   import type { IQueryOptions } from '../ledger/ledger-tools'
   import Button from '../../components/button/button.svelte'
+  import { Lang } from '../../store/lang'
 
   /**
    * View Base Filters
@@ -258,7 +259,12 @@
   {:else if !loading}
     <Empty>
       <!-- The date the search stopped at is not shown: it is where the search gave up, not a range the user chose -->
-      <p class="text-ios-label2 text-center leading-tight text-sm">No entries yet. Notes you add will appear here.</p>
+      <p class="text-ios-label2 text-center leading-tight text-sm">
+        {Lang.t(
+          'timeline.no-entries-yet-notes-you-add-will-appear-here',
+          'No entries yet. Notes you add will appear here.'
+        )}
+      </p>
     </Empty>
   {/if}
 
@@ -270,7 +276,7 @@
         on:click={() => {
           emptyCalls = 0
           loadMore()
-        }}>Load futher back...</Button
+        }}>{Lang.t('timeline.load-futher-back', 'Load futher back...')}</Button
       >
     </div>
   {/if}

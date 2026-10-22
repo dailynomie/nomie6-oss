@@ -15,6 +15,7 @@
 
   // config
   import faq from '../config/faq'
+  import { Lang } from '../store/lang'
 </script>
 
 <NLayout className="faq" pageTitle="Common Questions about Nomie" showTabs={false}>
@@ -25,7 +26,7 @@
     <div class="main title" />
     <div class="right" />
   </div>
-  <h1 class="ios-large-title">Q&amp;A</h1>
+  <h1 class="ios-large-title">{Lang.t('routes.q-amp-a', 'Q&amp;A')}</h1>
 
   <div class="min-h-full bg-ios-bg">
     {#each faq as q}

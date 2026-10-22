@@ -42,6 +42,7 @@
   import LockClosedSolid from '../../n-icons/LockClosedSolid.svelte'
   import TrashOutline from '../../n-icons/TrashOutline.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { Lang } from '../../store/lang'
   // import download from '../../modules/download/download'
   // import { strToTagSafe } from '../trackable/trackable-utils'
 
@@ -447,7 +448,7 @@
     //   id: 'new-dashboard',
     //   title: 'Create new Dashboard',
     //   async click() {
-    //     const label = await Interact.prompt('Dashboard Tab Title')
+    //     const label = await Interact.prompt(Lang.t('templates.dashboard-tab-title', 'Dashboard Tab Title'))
     //     if (label) {
     //       let dashboard = new DashboardClass({ widgets: [], label, id: nid() })
     //       template.dashboards.push(dashboard)
@@ -823,23 +824,30 @@
 
 {#if template}
   <p class="description text-ios-label2 text-center pb-2 px-3 text-sm leading-tight">
-    Create a sharable Nomie configuration
+    {Lang.t('templates.create-a-sharable-nomie-configuration', 'Create a sharable Nomie configuration')}
   </p>
   <List solo>
     <Input
       listItem
       type="text"
-      placeholder="Template Name"
+      placeholder={Lang.t('templates.template-name', 'Template Name')}
       bind:value={template.name}
       on:input={() => onNameChange?.(template.name)}
     />
-    <Input listItem type="textarea" placeholder="Description" bind:value={template.description} />
+    <Input
+      listItem
+      type="textarea"
+      placeholder={Lang.t('templates.description', 'Description')}
+      bind:value={template.description}
+    />
   </List>
-  <List solo outside title="Trackables">
-    <Button size="sm" on:click={() => addTrackableOptions()} primary clear slot="header-right">+ Add</Button>
+  <List solo outside title={Lang.t('templates.trackables', 'Trackables')}>
+    <Button size="sm" on:click={() => addTrackableOptions()} primary clear slot="header-right"
+      >{Lang.t('templates.add', '+ Add')}</Button
+    >
     {#if !template.trackables.length}
       <Empty small>
-        <span class="text-ios-label2">No Trackables</span>
+        <span class="text-ios-label2">{Lang.t('templates.no-trackables', 'No Trackables')}</span>
       </Empty>
     {:else}
       {#key template.goals.length + template.dashboards.length + template.pivots.length + template.locations.length + template.plugins.length}
@@ -877,7 +885,7 @@
                 <button
                   on:click={() => removeTrackable(trackable)}
                   class="icon-badge trash-badge hover:brightness-110"
-                  title="Remove trackable"
+                  title={Lang.t('templates.remove-trackable', 'Remove trackable')}
                 >
                   <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
@@ -888,11 +896,13 @@
       {/key}
     {/if}
   </List>
-  <List solo outside title="Tabs">
-    <Button size="sm" on:click={() => addBoardTab()} primary clear slot="header-right">+ Add</Button>
+  <List solo outside title={Lang.t('templates.tabs', 'Tabs')}>
+    <Button size="sm" on:click={() => addBoardTab()} primary clear slot="header-right"
+      >{Lang.t('templates.add', '+ Add')}</Button
+    >
     {#if !template.boards.length}
       <Empty small>
-        <span class="text-ios-label2 text-sm">No Board Tabs</span>
+        <span class="text-ios-label2 text-sm">{Lang.t('templates.no-board-tabs', 'No Board Tabs')}</span>
       </Empty>
     {:else}
       {#each template.boards as board, index}
@@ -904,7 +914,7 @@
             <button
               on:click={() => removeTab(board.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove this tab"
+              title={Lang.t('templates.remove-this-tab', 'Remove this tab')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
@@ -918,11 +928,13 @@
       {/each}
     {/if}
   </List>
-  <List solo outside title="Dashboards">
-    <Button size="sm" on:click={() => addDashboard()} primary clear slot="header-right">+ Add</Button>
+  <List solo outside title={Lang.t('templates.dashboards', 'Dashboards')}>
+    <Button size="sm" on:click={() => addDashboard()} primary clear slot="header-right"
+      >{Lang.t('templates.add', '+ Add')}</Button
+    >
     {#if !template.dashboards.length}
       <Empty small>
-        <span class="text-ios-label2">No Dashboards</span>
+        <span class="text-ios-label2">{Lang.t('templates.no-dashboards', 'No Dashboards')}</span>
       </Empty>
     {:else}
       {#each template.dashboards as dashboard, index}
@@ -934,7 +946,7 @@
             <button
               on:click={() => removeDashboard(dashboard.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove this dashboard"
+              title={Lang.t('templates.remove-this-dashboard', 'Remove this dashboard')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
@@ -954,21 +966,23 @@
       {/each}
     {/if}
   </List>
-  <List solo outside title="Goals">
-    <Button size="sm" on:click={() => addGoal()} primary clear slot="header-right">+ Add</Button>
+  <List solo outside title={Lang.t('templates.goals', 'Goals')}>
+    <Button size="sm" on:click={() => addGoal()} primary clear slot="header-right"
+      >{Lang.t('templates.add', '+ Add')}</Button
+    >
     {#if !template.goals.length}
       <Empty small>
-        <span class="text-ios-label2">No Goals</span>
+        <span class="text-ios-label2">{Lang.t('templates.no-goals', 'No Goals')}</span>
       </Empty>
     {:else}
       {#if groupGoalsByDuration(template.goals).day.length > 0}
         <div class="goal-section pr-5">
           <div class="relative">
-            <h3 class="goal-period-label">Daily Goals</h3>
+            <h3 class="goal-period-label">{Lang.t('templates.daily-goals', 'Daily Goals')}</h3>
             <button
               on:click={() => removeGoalsByDuration('day')}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove all daily goals"
+              title={Lang.t('templates.remove-all-daily-goals', 'Remove all daily goals')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
@@ -984,7 +998,7 @@
                 <button
                   on:click={() => removeGoal(goal.id)}
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-                  title="Remove this goal"
+                  title={Lang.t('templates.remove-this-goal', 'Remove this goal')}
                 >
                   <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
@@ -996,11 +1010,11 @@
       {#if groupGoalsByDuration(template.goals).week.length > 0}
         <div class="goal-section pr-5">
           <div class="relative">
-            <h3 class="goal-period-label">Weekly Goals</h3>
+            <h3 class="goal-period-label">{Lang.t('templates.weekly-goals', 'Weekly Goals')}</h3>
             <button
               on:click={() => removeGoalsByDuration('week')}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove all weekly goals"
+              title={Lang.t('templates.remove-all-weekly-goals', 'Remove all weekly goals')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
@@ -1016,7 +1030,7 @@
                 <button
                   on:click={() => removeGoal(goal.id)}
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-                  title="Remove this goal"
+                  title={Lang.t('templates.remove-this-goal', 'Remove this goal')}
                 >
                   <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
@@ -1028,11 +1042,11 @@
       {#if groupGoalsByDuration(template.goals).month.length > 0}
         <div class="goal-section pr-5">
           <div class="relative">
-            <h3 class="goal-period-label">Monthly Goals</h3>
+            <h3 class="goal-period-label">{Lang.t('templates.monthly-goals', 'Monthly Goals')}</h3>
             <button
               on:click={() => removeGoalsByDuration('month')}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove all monthly goals"
+              title={Lang.t('templates.remove-all-monthly-goals', 'Remove all monthly goals')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
@@ -1048,7 +1062,7 @@
                 <button
                   on:click={() => removeGoal(goal.id)}
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-                  title="Remove this goal"
+                  title={Lang.t('templates.remove-this-goal', 'Remove this goal')}
                 >
                   <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
@@ -1060,11 +1074,11 @@
       {#if groupGoalsByDuration(template.goals).year.length > 0}
         <div class="goal-section pr-5">
           <div class="relative">
-            <h3 class="goal-period-label">Yearly Goals</h3>
+            <h3 class="goal-period-label">{Lang.t('templates.yearly-goals', 'Yearly Goals')}</h3>
             <button
               on:click={() => removeGoalsByDuration('year')}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove all yearly goals"
+              title={Lang.t('templates.remove-all-yearly-goals', 'Remove all yearly goals')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
@@ -1080,7 +1094,7 @@
                 <button
                   on:click={() => removeGoal(goal.id)}
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-                  title="Remove this goal"
+                  title={Lang.t('templates.remove-this-goal', 'Remove this goal')}
                 >
                   <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
                 </button>
@@ -1091,11 +1105,13 @@
       {/if}
     {/if}
   </List>
-  <List solo outside title="Pivots">
-    <Button size="sm" on:click={() => addPivot()} primary clear slot="header-right">+ Add</Button>
+  <List solo outside title={Lang.t('templates.pivots', 'Pivots')}>
+    <Button size="sm" on:click={() => addPivot()} primary clear slot="header-right"
+      >{Lang.t('templates.add', '+ Add')}</Button
+    >
     {#if !template.pivots.length}
       <Empty small>
-        <span class="text-ios-label2">No Pivots</span>
+        <span class="text-ios-label2">{Lang.t('templates.no-pivots', 'No Pivots')}</span>
       </Empty>
     {:else}
       {#each template.pivots as pivot, index}
@@ -1107,7 +1123,7 @@
             <button
               on:click={() => removePivot(pivot.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove this pivot"
+              title={Lang.t('templates.remove-this-pivot', 'Remove this pivot')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
@@ -1116,12 +1132,14 @@
       {/each}
     {/if}
   </List>
-  <List solo outside title="Locations">
-    <Button size="sm" on:click={() => addLocation()} primary clear slot="header-right">+ Add</Button>
+  <List solo outside title={Lang.t('templates.locations', 'Locations')}>
+    <Button size="sm" on:click={() => addLocation()} primary clear slot="header-right"
+      >{Lang.t('templates.add', '+ Add')}</Button
+    >
     {@const locationList = template.locations}
     {#if !locationList.length}
       <Empty small>
-        <span class="text-ios-label2">No Locations</span>
+        <span class="text-ios-label2">{Lang.t('templates.no-locations', 'No Locations')}</span>
       </Empty>
     {:else}
       {#each locationList as location, index}
@@ -1138,7 +1156,7 @@
             <button
               on:click={() => removeLocation(location.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove this location"
+              title={Lang.t('templates.remove-this-location', 'Remove this location')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>
@@ -1147,11 +1165,13 @@
       {/each}
     {/if}
   </List>
-  <List solo outside title="Plugins">
-    <Button size="sm" on:click={() => addPlugin()} primary clear slot="header-right">+ Add</Button>
+  <List solo outside title={Lang.t('templates.plugins', 'Plugins')}>
+    <Button size="sm" on:click={() => addPlugin()} primary clear slot="header-right"
+      >{Lang.t('templates.add', '+ Add')}</Button
+    >
     {#if !template.plugins.length}
       <Empty small>
-        <span class="text-ios-label2">No Plugins</span>
+        <span class="text-ios-label2">{Lang.t('templates.no-plugins', 'No Plugins')}</span>
       </Empty>
     {:else}
       {#each template.plugins as plugin, index}
@@ -1164,7 +1184,7 @@
             <button
               on:click={() => removePlugin(plugin.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title="Remove this plugin"
+              title={Lang.t('templates.remove-this-plugin', 'Remove this plugin')}
             >
               <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
             </button>

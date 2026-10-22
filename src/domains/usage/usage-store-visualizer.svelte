@@ -5,6 +5,7 @@
 
   import Divider from '../../components/divider/divider.svelte'
   import { UsageStore, UsageStreak } from './UsageStore'
+  import { Lang } from '../../store/lang'
 </script>
 
 <div class="usage-store-vis bg-pink-500 text-white p-4 rounded-lg">
@@ -14,7 +15,7 @@
     <div class="py-2 flex items-center space-x-4">
       <span>{item.key}</span>
       <div>
-        <div class="font-bold">Last</div>
+        <div class="font-bold">{Lang.t('usage.last', 'Last')}</div>
         <div>
           {#if item.usage.last}
             {dayjs(item.usage.last.d).format('YYYY-MM-DD hh:mm a')}
@@ -22,7 +23,7 @@
             No Last
           {/if}
         </div>
-        <div class="font-bold">Streak</div>
+        <div class="font-bold">{Lang.t('usage.streak', 'Streak')}</div>
         <div>
           {#if item.usage.streak}
             {item.usage.streak.v}

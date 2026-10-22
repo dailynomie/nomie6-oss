@@ -84,16 +84,22 @@
     <div class="h-4 stiff w-full min-h-4" />
     <List solo>
       {#if pointers.length === 0}
-        <Empty emoji="🏷" title="No Pointers Configured">
+        <Empty emoji="🏷" title={Lang.t('pointers.no-pointers-configured', 'No Pointers Configured')}>
           <p class="text-xs text-center text-ios-label2 leading-snug">
-            Pointers allow you to tag single Nomie notes. This enables you to zoom in to these Notes later. <small
-              >EXAMPLE: Create a pointer named 'healthcheck'. Add this pointer to the note with your yearly healthcheck
-              measurements..</small
+            {Lang.t(
+              'pointers.pointers-allow-you-to-tag-single-nomie-notes-thi',
+              'Pointers allow you to tag single Nomie notes. This enables you to zoom in to these Notes later.'
+            )}
+            <small
+              >{Lang.t(
+                'pointers.example-create-a-pointer-named-healthcheck-add-t',
+                "EXAMPLE: Create a pointer named 'healthcheck'. Add this pointer to the note with your yearly healthcheck measurements.."
+              )}</small
             >
           </p>
         </Empty>
       {:else}
-        <Empty emoji="🏷" title="Configured Pointers">
+        <Empty emoji="🏷" title={Lang.t('pointers.configured-pointers', 'Configured Pointers')}>
           <p>.</p>
           <PointerBoard bind:pointers></PointerBoard>
         </Empty>
@@ -108,20 +114,20 @@
           )
         }}
         titleClass="text-center text-primary"
-        title="Add a Pointer"
+        title={Lang.t('pointers.add-a-pointer', 'Add a Pointer')}
       />
     </List>
     <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
       <span aria-hidden="true" class="text-ios-label">⚠︎</span>
-      <span>Pointer Reminder Overdue</span>
+      <span>{Lang.t('pointers.pointer-reminder-overdue', 'Pointer Reminder Overdue')}</span>
     </div>
     <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
       <span class="w-2.5 h-2.5 rounded-full bg-ios-good"></span>
-      <span>Pointer Reminder Planned</span>
+      <span>{Lang.t('pointers.pointer-reminder-planned', 'Pointer Reminder Planned')}</span>
     </div>
     <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
       <span class="w-2.5 h-2.5 rounded-full bg-ios-tint"></span>
-      <span>Pointer Reminder Disabled</span>
+      <span>{Lang.t('pointers.pointer-reminder-disabled', 'Pointer Reminder Disabled')}</span>
     </div>
   </section>
 </BackdropModal>

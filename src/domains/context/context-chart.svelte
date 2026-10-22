@@ -17,6 +17,7 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import ExpandOutline from '../../n-icons/ExpandOutline.svelte'
   import { Interact } from '../../store/interact'
+  import { Lang } from '../../store/lang'
   import {
     addDividerToFirst,
     getDatePopButtons,
@@ -140,7 +141,7 @@
   >
     {#if contextMap.length == 0}
       <div class="w-full h-full flex items-center justify-center text-ios-label2 text-xs">
-        No Context for this time period.
+        {Lang.t('context.no-context-for-this-time-period', 'No Context for this time period.')}
       </div>
     {/if}
     {#each contextMap as contextItem}

@@ -15,6 +15,7 @@
   import { openTemplateEditor, TemplateStore, useTemplate } from './templates-svelte-helpers'
   import type { Template } from './templates-utils'
   import { showToast } from '../../components/toast/ToastStore'
+  import { Lang } from '../../store/lang'
 
   const downloadTemplate = (template: Template) => {
     let filename = `${strToTagSafe(template.name)}-${template.id}.json`
@@ -23,7 +24,7 @@
 
   const removeTemplate = async (template: Template) => {
     await TemplateStore.remove(template)
-    showToast({ message: 'Template removed' })
+    showToast({ message: Lang.t('templates.template-removed', 'Template removed') })
   }
 
   $effect(() => {

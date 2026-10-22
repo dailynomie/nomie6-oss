@@ -12,6 +12,7 @@
   import ButtonGroup from '../button-group/button-group.svelte'
   import Panel from '../panel/panel.svelte'
   import { RecentEmojiStore, addRecentEmoji } from '../../store/recent-emojis'
+  import { Lang } from '../../store/lang'
 
   let variantsVisible = $state(false)
   let variants = $state(undefined)
@@ -141,7 +142,7 @@
     {/if}
   </Panel>
 
-  <section aria-label="search Emojis" />
+  <section aria-label={Lang.t('ui.search-emojis', 'search Emojis')} />
 
   <!-- {#if searchText}
     <EmojiSearchResults {searchText} on:emojihover={showEmojiDetails} on:emojiclick={onEmojiClick} />

@@ -169,7 +169,12 @@
   ]
 </script>
 
-<aside class="desktop-sidebar px-4 z-50 not-printable" role="menu" aria-hidden="false" title="Nomie Navigation">
+<aside
+  class="desktop-sidebar px-4 z-50 not-printable"
+  role="menu"
+  aria-hidden="false"
+  title={Lang.t('layout.nomie-navigation', 'Nomie Navigation')}
+>
   <div class="logo-container">
     {#if loggedIn}
       <img
@@ -233,7 +238,7 @@
         class="focus:outline-none focus:ring-2 ring-ios-tint py-2 rounded-md flex items-center space-x-2 text-sm leading-tight px-4 text-left text-ios-label2 my-10"
       >
         <IonIcon icon={SearchIcon} />
-        <span>Super Search</span>
+        <span>{Lang.t('layout.super-search', 'Super Search')}</span>
       </button>
     {/if}
   {:else}

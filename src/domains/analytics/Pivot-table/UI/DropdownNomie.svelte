@@ -6,6 +6,7 @@
   import { openDateOptionPopMenu, openPopMenu, type PopMenuButton } from '../../../../components/pop-menu/usePopmenu'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
   import { ChevronExpandOutline } from '../../../../components/icon/nicons'
+  import { Lang } from '../../../../store/lang'
 
   const dispatch = createEventDispatcher()
 
@@ -53,7 +54,7 @@
   <button
     type="button"
     class="ios-chooser"
-    aria-label="Chart or table type"
+    aria-label={Lang.t('analytics.chart-or-table-type', 'Chart or table type')}
     aria-expanded={open}
     on:click={() => {
       showMenu()

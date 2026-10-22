@@ -167,7 +167,7 @@
         <Spinner />
       </Empty>
     {:else}
-      <Empty className="text-ios-label2">No data on this day</Empty>
+      <Empty className="text-ios-label2">{Lang.t('onthisday.no-data-on-this-day', 'No data on this day')}</Empty>
     {/if}
   </main>
 </BackdropModal>

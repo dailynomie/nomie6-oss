@@ -88,7 +88,7 @@
   }
 
   const removeCondition = async (condition: ICondition) => {
-    const confirmed = await Interact.confirm('Remove this condition?')
+    const confirmed = await Interact.confirm(Lang.t('positivity.remove-this-condition', 'Remove this condition?'))
     if (confirmed) {
       workingCalc = workingCalc.filter((w) => w !== condition)
     }
@@ -100,7 +100,7 @@
 
 <BackdropModal className="bg-ios-bg h-full">
   <ToolbarGrid>
-    <Button clear primary slot="left" on:click={close}>Cancel</Button>
+    <Button clear primary slot="left" on:click={close}>{Lang.t('positivity.cancel', 'Cancel')}</Button>
     <h1 class="ntitle">
       {#if props.trackable}
         {props.trackable.label}
@@ -108,7 +108,7 @@
         Positivity Editor
       {/if}
     </h1>
-    <Button clear primary slot="right" on:click={saveChanges}>Done</Button>
+    <Button clear primary slot="right" on:click={saveChanges}>{Lang.t('positivity.done', 'Done')}</Button>
   </ToolbarGrid>
   <div class=" lg:px-2 md:px-1 py-4 filler">
     <List solo>
@@ -153,7 +153,10 @@
     </ListItem>
   </div>
   <div class="list-note">
-    Add a single condition or a lot of them. The first thing that is true wins, and its score is used.
+    {Lang.t(
+      'positivity.add-a-single-condition-or-a-lot-of-them-the-firs',
+      'Add a single condition or a lot of them. The first thing that is true wins, and its score is used.'
+    )}
   </div>
   <ListItem />
 </BackdropModal>

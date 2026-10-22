@@ -43,6 +43,7 @@
   import type { Trackable } from '../domains/trackable/Trackable.class'
   import type { UniboardType } from '../domains/board/UniboardStore'
   import UpgradeMessage from '../components/upgrade-message/upgrade-message.svelte'
+  import { Lang } from '../store/lang'
 
   const location = undefined
   const style = ''
@@ -209,7 +210,7 @@
       <button
         type="button"
         slot="right-inside"
-        aria-label="Open search"
+        aria-label={Lang.t('routes.open-search', 'Open search')}
         class="search-expand"
         on:click={() => openUnisearch(searchFor)}
       >

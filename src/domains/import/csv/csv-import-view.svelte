@@ -269,12 +269,15 @@
   }
 
   async function remove(config: IImportConfig) {
-    let confirmed = await Interact.confirm(`Remove ${config.name} Importer?`, 'You can always remake it')
+    let confirmed = await Interact.confirm(
+      `Remove ${config.name} Importer?`,
+      Lang.t('import.you-can-always-remake-it', 'You can always remake it')
+    )
     if (confirmed) {
       try {
         // iOS look (Ronald mandate, Phase 7): the importer is removed from the store, so the list updates
         await CsvTemplateStore.remove(config)
-        showToast({ message: 'Removed' })
+        showToast({ message: Lang.t('import.removed', 'Removed') })
       } catch (e) {
         Interact.error(e.message)
       }
@@ -317,14 +320,14 @@
       className="text-ios-tint"
       on:click={() => {
         closeModal(id)
-      }}>Cancel</Button
+      }}>{Lang.t('import.cancel', 'Cancel')}</Button
     >
-    <div class="ntitle main">Import CSV</div>
+    <div class="ntitle main">{Lang.t('import.import-csv', 'Import CSV')}</div>
     <div slot="right">
       {#if view && view.id == 'note'}
         <!-- <Button color="clear" on:click={save}>Save</Button> -->
       {:else if view && view.id == 'template'}
-        <Button color="clear" on:click={edit}>Edit</Button>
+        <Button color="clear" on:click={edit}>{Lang.t('import.edit', 'Edit')}</Button>
       {/if}
     </div>
   </ToolbarGrid>
@@ -342,15 +345,17 @@
       <div class=" p-0 import-csv-home">
         <ListItem bg="transparent">
           <span class="text-ios-label2 text-sm leading-tight"
-            >Select any CSV to begin. You can then map the appropriate fields to turn a row of data into a Note within
-            Nomie.</span
+            >{Lang.t(
+              'import.select-any-csv-to-begin-you-can-then-map-the-app',
+              'Select any CSV to begin. You can then map the appropriate fields to turn a row of data into a Note within Nomie.'
+            )}</span
           >
         </ListItem>
 
         <ListItem>
           <FileUploader
             accept="csv"
-            placeholder="CSV File"
+            placeholder={Lang.t('import.csv-file', 'CSV File')}
             on:file={async (evt) => {
               await addToImporter(evt)
               stepId = 'note'
@@ -411,7 +416,7 @@
                       remove(template)
                     }}
                   >
-                    Delete
+                    {Lang.t('import.delete', 'Delete')}
                   </Button>
                 {/if}
               </div>
@@ -427,9 +432,12 @@
           <Input type="text" bind:value={activeImporter.config.name} placeholder="Importer Name" />
         </ListItem> -->
         <ListItem>
-          <span>Does this have a header row?</span>
+          <span>{Lang.t('import.does-this-have-a-header-row', 'Does this have a header row?')}</span>
           <div slot="right">
-            <ToggleSwitch title="Header Row" bind:value={activeImporter.config.hasHeaders} />
+            <ToggleSwitch
+              title={Lang.t('import.header-row', 'Header Row')}
+              bind:value={activeImporter.config.hasHeaders}
+            />
           </div>
         </ListItem>
 
@@ -473,14 +481,14 @@
                 <Button color="transparent" className="text-ios-tint">
                   {#if is.truthy(activeImporter.config.fieldMap[logField.id])}
                     f{activeImporter.config.fieldMap[logField.id]}
-                  {:else}<span class="text-sm font-bold">Map</span>{/if}
+                  {:else}<span class="text-sm font-bold">{Lang.t('import.map', 'Map')}</span>{/if}
                   <IonIcon icon={ChevronDownOutline} size={14} className="text-ios-tint ml-2 -mr-2" />
                 </Button>
               </div>
             </ListItem>
           {/each}
           <ListItem>
-            <div class="text-ios-label">Note*</div>
+            <div class="text-ios-label">{Lang.t('import.note-2', 'Note*')}</div>
             <Input
               type="textarea"
               placeholder={Lang.t('csv-import.compose-note', 'Compose a note for this CSV data')}
@@ -516,7 +524,7 @@
                           mapField(index)
                         }}
                       >
-                        Assign
+                        {Lang.t('import.assign', 'Assign')}
                         <IonIcon icon={ChevronDownOutline} className="text-ios-tint" size={14} />
                       </Button>
                     {/if}
@@ -542,10 +550,10 @@
         </ListItem>
         {#if !activeImporter.parsed}
           <ListItem bg="transparent">
-            <Text size="sm" faded>Select the CSV to process</Text>
+            <Text size="sm" faded>{Lang.t('import.select-the-csv-to-process', 'Select the CSV to process')}</Text>
             <FileUploader
               accept="csv"
-              label="CSV File"
+              label={Lang.t('import.csv-file', 'CSV File')}
               on:file={async (evt) => {
                 await addToImporter(evt)
               }}

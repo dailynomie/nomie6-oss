@@ -48,7 +48,7 @@
         <main class="py-0">
           {#if menu.title}
             <h5
-              aria-label="Title"
+              aria-label={Lang.t('ui.title-2', 'Title')}
               class="font-semibold text-ios-label text-lg leading-tight {!menu.description ? 'pb-1' : 'mt-3'}"
             >
               {displayTitle}

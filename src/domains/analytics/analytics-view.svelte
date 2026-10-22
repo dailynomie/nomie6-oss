@@ -41,6 +41,7 @@
   } from '../../components/icon/nicons'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import Spinner from '../../components/spinner/spinner.svelte'
+  import { Lang } from '../../store/lang'
 
   let notenoughdata = $state(false)
   let plotlyRenderers = $state({})
@@ -377,7 +378,7 @@
       Interact.stopBlocker()
     }
     console.info('[Pivot] savePivot() complete - pivot saved')
-    showToast({ message: 'Pivot Saved' })
+    showToast({ message: Lang.t('analytics.pivot-saved', 'Pivot Saved') })
   }
 
   const selectPivot = (pvt) => {
@@ -472,7 +473,10 @@
   }
 
   const deletePivot = async () => {
-    const confirmed = await Interact.confirm('Delete this pivot?', 'You can always recreate it later.')
+    const confirmed = await Interact.confirm(
+      Lang.t('analytics.delete-this-pivot', 'Delete this pivot?'),
+      Lang.t('analytics.you-can-always-recreate-it-later', 'You can always recreate it later.')
+    )
     if (confirmed) {
       await PivotStore.remove(new PivotClass({ id: workingPivotId }))
     }
@@ -494,26 +498,51 @@
   <div class="flex items-center justify-between h-11 gap-2">
     <div class="flex items-center gap-2">
       {#if !viewOnly}
-        <button type="button" class="ios-round" aria-label="New pivot" on:click={createPivot}>
+        <button
+          type="button"
+          class="ios-round"
+          aria-label={Lang.t('analytics.new-pivot', 'New pivot')}
+          on:click={createPivot}
+        >
           <IonIcon icon={AddIcon} size={18} />
         </button>
-        <button type="button" class="ios-round" aria-label="Save pivot" on:click={savePivot}>
+        <button
+          type="button"
+          class="ios-round"
+          aria-label={Lang.t('analytics.save-pivot', 'Save pivot')}
+          on:click={savePivot}
+        >
           <IonIcon icon={SaveOutline} size={18} />
         </button>
-        <button type="button" class="ios-round" aria-label="Copy pivot" on:click={copyPivot}>
+        <button
+          type="button"
+          class="ios-round"
+          aria-label={Lang.t('analytics.copy-pivot', 'Copy pivot')}
+          on:click={copyPivot}
+        >
           <IonIcon icon={CopyOutline} size={18} />
         </button>
-        <button type="button" class="ios-round" aria-label="Edit pivot" on:click={editPivot}>
+        <button
+          type="button"
+          class="ios-round"
+          aria-label={Lang.t('analytics.edit-pivot', 'Edit pivot')}
+          on:click={editPivot}
+        >
           <IonIcon icon={CreateOutline} size={18} />
         </button>
-        <button type="button" class="ios-round text-ios-danger" aria-label="Delete pivot" on:click={deletePivot}>
+        <button
+          type="button"
+          class="ios-round text-ios-danger"
+          aria-label={Lang.t('analytics.delete-pivot', 'Delete pivot')}
+          on:click={deletePivot}
+        >
           <IonIcon icon={TrashOutline} size={18} />
         </button>
       {/if}
     </div>
     <MenuInline
       id="pivot-menu"
-      title="Choose a pivot"
+      title={Lang.t('analytics.choose-a-pivot', 'Choose a pivot')}
       x="right"
       y="bottom"
       menuButtons={pivotMenu}
@@ -523,7 +552,8 @@
     </MenuInline>
   </div>
   <h1 class="text-ios-large font-bold text-ios-label mt-1">
-    Analytics <span class="text-ios-tint text-ios-title3 font-semibold align-middle">BETA</span>
+    {Lang.t('analytics.analytics', 'Analytics')}
+    <span class="text-ios-tint text-ios-title3 font-semibold align-middle">{Lang.t('analytics.beta', 'BETA')}</span>
   </h1>
   {#if workingPivotTag !== 'Initiati0nPiv0t'}
     <p class="text-ios-subhead text-ios-label2">Active pivot: {workingPivotEmoji} {workingPivotTag}</p>
@@ -531,7 +561,11 @@
   {#if viewOnly}
     <!-- the phone view says it is read only, so nobody looks for the edit buttons here -->
     <p class="mt-1 flex items-center gap-1 text-ios-footnote text-ios-label2" role="note">
-      <IonIcon icon={LockClosedOutline} size={12} /> Read only on this screen. Edit pivots on a larger screen.
+      <IonIcon icon={LockClosedOutline} size={12} />
+      {Lang.t(
+        'analytics.read-only-on-this-screen-edit-pivots-on-a-larger',
+        'Read only on this screen. Edit pivots on a larger screen.'
+      )}
     </p>
   {/if}
 </div>
@@ -539,21 +573,25 @@
   <div class="flex items-center justify-center py-12">
     <div class="flex flex-col items-center space-y-4">
       <Spinner size={48} />
-      <div class="text-ios-footnote text-ios-label2">Loading data...</div>
+      <div class="text-ios-footnote text-ios-label2">{Lang.t('analytics.loading-data', 'Loading data...')}</div>
     </div>
   </div>
 {:else if notenoughdata}
   <List transparent className="max-w-md mx-auto">
-    <Empty icon={CubeOutline} title="Not Enough Data">
-      <div class="my-0 text-center text-ios-body text-ios-label2">Not enough Data to create Pivots.</div>
+    <Empty icon={CubeOutline} title={Lang.t('analytics.not-enough-data-2', 'Not Enough Data')}>
+      <div class="my-0 text-center text-ios-body text-ios-label2">
+        {Lang.t('analytics.not-enough-data-to-create-pivots', 'Not enough Data to create Pivots.')}
+      </div>
     </Empty>
   </List>
 {/if}
 {#if loaded}
   {#if workingPivotTag === 'Initiati0nPiv0t'}
     <List transparent className="max-w-md mx-auto">
-      <Empty icon={CubeOutline} title="No pivot Selected">
-        <Button on:click={createPivot} className="mt-2" clear primary>Create a New Pivot →</Button>
+      <Empty icon={CubeOutline} title={Lang.t('analytics.no-pivot-selected', 'No pivot Selected')}>
+        <Button on:click={createPivot} className="mt-2" clear primary
+          >{Lang.t('analytics.create-a-new-pivot', 'Create a New Pivot →')}</Button
+        >
       </Empty>
     </List>
   {:else}
@@ -563,18 +601,22 @@
         <div class="pvt-options">
           <fieldset class="col-md-6">
             <label class="pvt-option">
-              <RadioButton bind:checked={grouping} /> Grouping
+              <RadioButton bind:checked={grouping} />
+              {Lang.t('analytics.grouping', 'Grouping')}
             </label>
 
             <label class="pvt-option">
-              <RadioButton bind:checked={compactRows} disabled={!grouping} /> Compact Rows
+              <RadioButton bind:checked={compactRows} disabled={!grouping} />
+              {Lang.t('analytics.compact-rows', 'Compact Rows')}
             </label>
 
             <label class="pvt-option">
-              <RadioButton bind:checked={rowGroupBefore} disabled={!grouping} /> Rows totals above
+              <RadioButton bind:checked={rowGroupBefore} disabled={!grouping} />
+              {Lang.t('analytics.rows-totals-above', 'Rows totals above')}
             </label>
             <label class="pvt-option">
-              <RadioButton bind:checked={colGroupBefore} disabled={!grouping} /> Cols totals before
+              <RadioButton bind:checked={colGroupBefore} disabled={!grouping} />
+              {Lang.t('analytics.cols-totals-before', 'Cols totals before')}
             </label>
           </fieldset>
         </div>

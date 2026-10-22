@@ -90,7 +90,7 @@
           }
         } catch (e) {
           console.error('[importer.init] Error:', e.message)
-          Interact.alert('Error', e.message)
+          Interact.alert(Lang.t('import.error', 'Error'), e.message)
         }
       } else {
         console.info('[importer.init] File data format not recognized')
@@ -99,7 +99,10 @@
     async finish() {
       // Get a new latest book
       await LedgerStore.getFirstDate(true)
-      let confirmed = await Interact.confirm('Import Complete. Restart?', `It's best to reload Nomie after an import`)
+      let confirmed = await Interact.confirm(
+        Lang.t('import.import-complete-restart', 'Import Complete. Restart?'),
+        `It's best to reload Nomie after an import`
+      )
       if (confirmed) {
         document.location.href = '/'
       }
@@ -117,7 +120,7 @@
           methods.init()
         } catch (e) {
           console.error(e)
-          Interact.alert('Error', e.message)
+          Interact.alert(Lang.t('import.error', 'Error'), e.message)
         }
       }
       // Read the file
@@ -132,7 +135,10 @@
       try {
         let proceed = true
         if (prompt) {
-          proceed = await Interact.confirm(`Import ${type}?`, 'This action cannot be undone')
+          proceed = await Interact.confirm(
+            `Import ${type}?`,
+            Lang.t('import.this-action-cannot-be-undone', 'This action cannot be undone')
+          )
           await wait(200)
           if (proceed !== true) {
             console.info(`[importer.run] ${type} import cancelled by user`)
@@ -150,7 +156,7 @@
         }
       } catch (e) {
         console.error(`[importer.run] Error importing ${type}:`, e)
-        Interact.alert('Error', e.message)
+        Interact.alert(Lang.t('import.error', 'Error'), e.message)
         importing[type].running = false
         importing[type].done = false
       }
@@ -253,7 +259,10 @@
     },
     // Confirm Import All
     async importAll() {
-      let confirmed = await Interact.confirm('Confirm', 'Are you sure? Importing cannot be undone.')
+      let confirmed = await Interact.confirm(
+        Lang.t('import.confirm', 'Confirm'),
+        Lang.t('import.are-you-sure-importing-cannot-be-undone', 'Are you sure? Importing cannot be undone.')
+      )
       if (confirmed === true) {
         // Items that exist on this device and in the backup keep the device's version, unless the user picks the backup's
         const useBackup = await Interact.confirm(
@@ -299,12 +308,12 @@
           importing.logs.done = true
           importing.logs.running = false
           importingAll = false
-          showToast({ message: 'Import Finishing...' })
+          showToast({ message: Lang.t('import.import-finishing', 'Import Finishing...') })
           await LedgerStore.getFirstDate(true)
           methods.finish()
         } catch (e) {
           console.error(e.message)
-          Interact.alert('Error', e.message)
+          Interact.alert(Lang.t('import.error', 'Error'), e.message)
         }
 
         return true
@@ -317,7 +326,7 @@
 
   const close = async () => {
     if (importing.logs.running) {
-      const confirm = await Interact.confirm('Stop the import?')
+      const confirm = await Interact.confirm(Lang.t('import.stop-the-import', 'Stop the import?'))
       if (confirm) {
         window.location.reload()
       }
@@ -354,7 +363,10 @@
     <Empty
       className="my-5 text-center leading-tight"
       icon={DownloadOutline}
-      description="Supports CSV files, Nomie backup files (all versions), and tracker packs."
+      description={Lang.t(
+        'import.supports-csv-files-nomie-backup-files-all-versio',
+        'Supports CSV files, Nomie backup files (all versions), and tracker packs.'
+      )}
       title={`Import a file`}
       buttonLabel={Lang.t('settings.select-nomie-file', 'Select File...')}
       buttonClick={() => {
@@ -373,7 +385,7 @@
   <div class="n-list">
     {#if fileData && !version}
       <NItem
-        title="Unknown/Invalid File"
+        title={Lang.t('import.unknown-invalid-file', 'Unknown/Invalid File')}
         on:click={() => {
           fileData = null
         }}
@@ -385,7 +397,7 @@
 
       {#if (importLoader.normalized.logs || []).length > 0}
         <ImporterItem
-          title="Logs"
+          title={Lang.t('import.logs', 'Logs')}
           count={(importLoader.normalized.logs || []).length.toLocaleString()}
           bind:status={importing.logs}
           on:import={() => {
@@ -397,16 +409,16 @@
           {/if}
         </ImporterItem>
       {:else}
-        <ListItem bottomLine={48} title="Notes">
+        <ListItem bottomLine={48} title={Lang.t('import.notes', 'Notes')}>
           <div slot="left"><IonIcon icon={TimeOutline} className="text-ios-tint" /></div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 
       <!-- Importable Items -->
       {#if Object.keys(importLoader.normalized.trackers).length > 0}
         <ImporterItem
-          title="Trackers"
+          title={Lang.t('import.trackers', 'Trackers')}
           count={Object.keys(importLoader.normalized.trackers).length.toLocaleString()}
           bind:status={importing.trackers}
           on:import={() => {
@@ -416,14 +428,14 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.trackers')}>
           <div slot="left"><IonIcon icon={TagOutline} className="text-ios-tint" /></div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 
       <!-- Importable Items -->
       {#if importLoader.normalized.pivots?.length > 0}
         <ImporterItem
-          title="Pivots"
+          title={Lang.t('import.pivots', 'Pivots')}
           count={importLoader.normalized.pivots?.length.toLocaleString()}
           bind:status={importing.pivots}
           on:import={() => {
@@ -433,13 +445,13 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.pivots', 'Pivots')}>
           <div slot="left"><IonIcon icon={FlagOutline} className="text-ios-tint" /></div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
       <!-- Importable Items -->
       {#if importLoader.normalized.goals?.length > 0}
         <ImporterItem
-          title="Goals"
+          title={Lang.t('import.goals', 'Goals')}
           count={importLoader.normalized.goals?.length.toLocaleString()}
           bind:status={importing.goals}
           on:import={() => {
@@ -449,19 +461,19 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.goals', 'Goals')}>
           <div slot="left"><IonIcon icon={FlagOutline} className="text-ios-tint" /></div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 
       <!-- <ListItem bottomLine={48} title={Lang.t('general.goals', 'Goals')}>
           <div slot="left"><IonIcon icon={FlagOutline} className="text-ios-tint" /></div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem> -->
 
       <!-- Locations -->
       {#if (importLoader.normalized.locations || []).length > 0}
         <ImporterItem
-          title="Locations"
+          title={Lang.t('import.locations', 'Locations')}
           count={(importLoader.normalized.locations || []).length.toLocaleString()}
           bind:status={importing.locations}
           on:import={() => {
@@ -471,7 +483,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.locations', 'Locations')}>
           <div slot="left">🗺</div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 
@@ -488,7 +500,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.boards', 'Boards')}>
           <div slot="left">🗂</div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 
@@ -505,7 +517,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.people', 'People')}>
           <div slot="left">👩🏽‍💼</div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 
@@ -522,7 +534,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.context', 'Context')}>
           <div slot="left">💭</div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
       <!-- Pointers -->
@@ -538,14 +550,14 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.pointers', 'Pointers')}>
           <div slot="left">📍</div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 
       <!-- Plugins -->
       {#if (importLoader.normalized.plugins || []).length > 0}
         <ImporterItem
-          title="Plugins"
+          title={Lang.t('import.plugins', 'Plugins')}
           count={(importLoader.normalized.plugins || []).length.toLocaleString()}
           bind:status={importing.plugins}
           on:import={() => {
@@ -553,9 +565,9 @@
           }}
         />
       {:else}
-        <ListItem bottomLine={48} title="Plugins">
+        <ListItem bottomLine={48} title={Lang.t('import.plugins', 'Plugins')}>
           <div slot="left">🔌</div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 
@@ -572,7 +584,7 @@
       {:else}
         <ListItem bottomLine={48} title={Lang.t('general.dashboards', 'Dashboards')}>
           <div slot="left">📊</div>
-          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+          <div slot="right" class="text-ios-label2 pr-4">{Lang.t('import.no-data', 'No Data')}</div>
         </ListItem>
       {/if}
 

@@ -11,6 +11,7 @@
   import TemplateEditor from './template-editor.svelte'
 
   import { showToast } from '../../components/toast/ToastStore'
+  import { Lang } from '../../store/lang'
 
   const close = () => {
     closeModal(id)
@@ -19,13 +20,13 @@
   const save = async () => {
     await TemplateStore.upsert(template)
     await TemplateStore.init()
-    showToast({ message: 'Template saved' })
+    showToast({ message: Lang.t('templates.template-saved', 'Template saved') })
     close()
   }
 
   const remove = async () => {
     await TemplateStore.remove(template)
-    showToast({ message: 'Template removed' })
+    showToast({ message: Lang.t('templates.template-removed', 'Template removed') })
   }
 
   let { id, template = $bindable() } = $props()
@@ -41,9 +42,11 @@
 
 <BackdropModal className="h-full" mainClass="bg-ios-bg">
   <ToolbarGrid slot="header">
-    <Button slot="left" primary clear on:click={() => close()}>Cancel</Button>
+    <Button slot="left" primary clear on:click={() => close()}>{Lang.t('templates.cancel', 'Cancel')}</Button>
     <Title>{template.name || 'Create a Template'}</Title>
-    <Button slot="right" primary clear on:click={() => save()} disabled={!isValidName}>Save</Button>
+    <Button slot="right" primary clear on:click={() => save()} disabled={!isValidName}
+      >{Lang.t('templates.save', 'Save')}</Button
+    >
   </ToolbarGrid>
   <main class="lg:p-6 p-4">
     <TemplateEditor bind:template onNameChange={() => templateVersion++} />

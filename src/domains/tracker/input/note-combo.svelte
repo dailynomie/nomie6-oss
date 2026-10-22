@@ -24,6 +24,7 @@
   import { isTruthy } from '../../../utils/truthy/truthy'
   import List from '../../../components/list/list.svelte'
   import Title from '../../../components/title/title.svelte'
+  import { Lang } from '../../../store/lang'
 
   const { value, tracker } = $props()
 
@@ -104,7 +105,9 @@
             {/if}
           </header>
           {#if trackable.tracker?.type === 'note'}
-            <div class="text-ios-label filler py-1 text-sm">Nested Combos are currently not supported</div>
+            <div class="text-ios-label filler py-1 text-sm">
+              {Lang.t('tracker.nested-combos-are-currently-not-supported', 'Nested Combos are currently not supported')}
+            </div>
           {/if}
           {#if trackable.tracker?.type === 'range'}
             <div class="">
@@ -154,7 +157,7 @@
                 }}
                 icon
                 primary
-                title="Add value"><IonIcon icon={AddCircleOutline} /></Button
+                title={Lang.t('tracker.add-value', 'Add value')}><IonIcon icon={AddCircleOutline} /></Button
               >
             </div>
           {:else if trackable.tracker?.type === 'tick' || trackable.type === 'context' || trackable.type === 'pointer'}
@@ -170,7 +173,7 @@
             <!-- {:else if trackable.tracker?.type === 'note'} -->
           {:else if trackable.person || trackable.context || trackable.pointer}
             <ToggleSwitch
-              title="value"
+              title={Lang.t('tracker.value-2', 'value')}
               on:change={(evt) => {
                 trackable.value = evt.detail ? 1 : 0
                 fireChange()

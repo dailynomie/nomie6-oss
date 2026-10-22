@@ -20,6 +20,7 @@
   import { removePrefix } from '../../utils/text/text'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import AddIcon from '../../n-icons/AddIcon.svelte'
+  import { Lang } from '../../store/lang'
 
   const {
     trackables = [],
@@ -95,7 +96,7 @@
 
   {#if !hideAdd && !searching}
     <button
-      aria-label="Add tracker"
+      aria-label={Lang.t('board.add-tracker', 'Add tracker')}
       class="addButton ios-add-tile filler flex items-center justify-center {$Prefs.compactTrackers
         ? 'h-14'
         : 'h-28 lg:h-32'}"

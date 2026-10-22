@@ -6,6 +6,7 @@
   import { createEventDispatcher } from 'svelte'
   import { getDateFormats } from '../../domains/preferences/Preferences'
   import IosSelect from '../ios-select/ios-select.svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   let {
@@ -102,7 +103,7 @@
         {#if is24Hour}
           <IosSelect
             compact
-            title="Hour"
+            title={Lang.t('ui.hour', 'Hour')}
             bind:value={hour}
             onchange={() => onChange()}
             options={hours.map((h) => ({ value: h, label: `${h}`.length == 1 ? `0${h}` : `${h}` }))}
@@ -110,7 +111,7 @@
         {:else}
           <IosSelect
             compact
-            title="Hour"
+            title={Lang.t('ui.hour', 'Hour')}
             bind:value={hour12}
             onchange={() => onChange()}
             options={hours.map((h) => ({ value: h, label: `${h}`.length == 1 ? `0${h}` : `${h}` }))}
@@ -120,7 +121,7 @@
         <!-- Loop over minutes -->
         <IosSelect
           compact
-          title="Minute"
+          title={Lang.t('ui.minute', 'Minute')}
           bind:value={minute}
           onchange={() => onChange()}
           options={minutes.map((m) => ({ value: m, label: `${m}`.length == 1 ? `0${m}` : `${m}` }))}
@@ -130,7 +131,7 @@
       {#if !is24Hour}
         <IosSelect
           compact
-          title="AM or PM"
+          title={Lang.t('ui.am-or-pm', 'AM or PM')}
           bind:value={ampm}
           onchange={() => onChange()}
           options={[

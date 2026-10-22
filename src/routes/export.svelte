@@ -36,7 +36,7 @@
     <ToolbarGrid>
       <NBackButton slot="left" />
     </ToolbarGrid>
-    <h1 class="ios-large-title">Generate Backup</h1>
+    <h1 class="ios-large-title">{Lang.t('routes.generate-backup', 'Generate Backup')}</h1>
   </div>
 
   <div class=" backup">

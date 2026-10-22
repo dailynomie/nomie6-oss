@@ -40,6 +40,7 @@
 
   import { getUnisearchResults, type UnisearchResultsType, UnisearchStore } from './UnisearchStore'
   import { openTimelineModal } from '../timeline/timeline-helpers'
+  import { Lang } from '../../store/lang'
 
   let results = $state<UnisearchResultsType | undefined>(undefined)
   let exactMatchOptions = $state<Array<PopMenuButton>>([])
@@ -225,13 +226,14 @@
         debounceSearch(evt.target.value)
       }}
       type="text"
-      placeholder="Search your Nomie"
+      placeholder={Lang.t('search.search-your-nomie', 'Search your Nomie')}
       class="search-input rounded-t-2xl w-full pr-20"
     />
     <button
       type="button"
       on:click={close}
-      class="absolute top-3 right-3 h-7 flex items-center text-ios-tint text-base font-semibold">Cancel</button
+      class="absolute top-3 right-3 h-7 flex items-center text-ios-tint text-base font-semibold"
+      >{Lang.t('search.cancel', 'Cancel')}</button
     >
   </header>
   <main class="">
@@ -266,7 +268,7 @@
           }}
           class="list-header {!showCommands ? 'opacity-50' : ''}"
         >
-          Commands
+          {Lang.t('search.commands', 'Commands')}
         </header>
         <List className="rounded-none">
           {#if showCommands}
@@ -298,7 +300,7 @@
           }}
           class="list-header {!showTrackables ? 'opacity-50' : ''}"
         >
-          Trackables
+          {Lang.t('search.trackables', 'Trackables')}
         </header>
       {/if}
       <List>
@@ -312,7 +314,7 @@
             >
               <TrackableAvatar {trackable} size={22} />
               <main>{trackable.label}</main>
-              <span class="action">Open</span>
+              <span class="action">{Lang.t('search.open', 'Open')}</span>
             </button>
             {#if index < results.trackables.length - 1}
               <Divider left={48} />
@@ -328,7 +330,7 @@
               <main>
                 {searchTerm} doesn't exist
               </main>
-              <div class="action">Create...</div>
+              <div class="action">{Lang.t('search.create-2', 'Create...')}</div>
             </button>
           {:else if searchTerm?.substring(0, 1) === '@' && results.trackables.length === 0}
             <button
@@ -340,7 +342,7 @@
               <main>
                 {searchTerm} not found
               </main>
-              <div class="action">Create...</div>
+              <div class="action">{Lang.t('search.create-2', 'Create...')}</div>
             </button>
           {/if}
         {/if}
@@ -352,7 +354,7 @@
         }}
         class="list-header {!showLogs ? 'opacity-50' : ''}"
       >
-        Notes
+        {Lang.t('search.notes', 'Notes')}
       </header>
 
       <List>
@@ -383,7 +385,7 @@
             }}
           >
             <main class="text-sm leading-tight">Search all notes for: {searchTerm}</main>
-            <div class="action">Search...</div>
+            <div class="action">{Lang.t('search.search-2', 'Search...')}</div>
           </button>
         {/if}
       </List>
@@ -401,7 +403,7 @@
         }}
       >
         <main class="line-clamp-2">"{searchTerm}"</main>
-        <span class="stiff action">Save as Note</span>
+        <span class="stiff action">{Lang.t('search.save-as-note', 'Save as Note')}</span>
       </button>
     {/if}
   </main>
@@ -410,16 +412,21 @@
     <div
       class="hidden text-ios-label2 xl:flex px-4 w-full items-center border-t border-ios-separator py-2 stiff space-x-4"
     >
-      <div class="text-sm">↑↓ <span class="text-ios-label2 text-sm">Select</span></div>
-      <div class="text-xs">⮐ <span class="text-ios-label2 text-sm">Open</span></div>
+      <div class="text-sm">↑↓ <span class="text-ios-label2 text-sm">{Lang.t('search.select', 'Select')}</span></div>
+      <div class="text-xs">⮐ <span class="text-ios-label2 text-sm">{Lang.t('search.open', 'Open')}</span></div>
       <div class="filler" />
-      <div class="text-xs">esc <span class="text-ios-label2 text-sm">Close</span></div>
+      <div class="text-xs">
+        {Lang.t('search.esc', 'esc')} <span class="text-ios-label2 text-sm">{Lang.t('search.close', 'Close')}</span>
+      </div>
     </div>
   {:else}
     <div
       class="text-opacity-80 bg-ios-card text-ios-label2 flex px-4 w-full items-center border-t text-xs leading-tight border-ios-separator py-2 pb-3 stiff space-x-4"
     >
-      Search notes, trackables, and trigger commands (like Create...)
+      {Lang.t(
+        'search.search-notes-trackables-and-trigger-commands-lik',
+        'Search notes, trackables, and trigger commands (like Create...)'
+      )}
     </div>
   {/if}
   <!-- </section> -->

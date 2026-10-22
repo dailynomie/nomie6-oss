@@ -9,6 +9,7 @@
   import { Prefs } from '../../../preferences/Preferences'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
   import { CloseOutline, CheckmarkOutline } from '../../../../components/icon/nicons'
+  import { Lang } from '../../../../store/lang'
 
   const dispatch = createEventDispatcher()
   const { name, values, valueFilter: initialValueFilter = {}, menuLimit = 500 } = $props()
@@ -68,17 +69,22 @@
 
 <!-- iOS look: a sheet with a grabber, a title with a round close button, a search field, pill actions and tinted check rows -->
 <div class="pvtFilterBox" style:display="block" style:cursor="initial" use:init>
-  <div class="ios-sheet-grabber"><span class="pvtDragHandle" aria-label="Move"></span></div>
+  <div class="ios-sheet-grabber"><span class="pvtDragHandle" aria-label={Lang.t('analytics.move', 'Move')}></span></div>
   <div class="ios-sheet-head">
     <span class="ios-sheet-title">{name}</span>
-    <button type="button" class="pvtCloseX ios-sheet-close" aria-label="Close">
+    <button type="button" class="pvtCloseX ios-sheet-close" aria-label={Lang.t('analytics.close', 'Close')}>
       <IonIcon icon={CloseOutline} size={16} />
     </button>
   </div>
 
   {#if values.length < menuLimit}
     <div class="ios-sheet-search">
-      <input type="search" placeholder="Filter values" class="pvtSearch" bind:value={filterText} />
+      <input
+        type="search"
+        placeholder={Lang.t('analytics.filter-values', 'Filter values')}
+        class="pvtSearch"
+        bind:value={filterText}
+      />
     </div>
     <div class="ios-sheet-actions">
       <button type="button" class="ios-pill" onclick={select(true)}>
@@ -98,16 +104,18 @@
             {#if !(x in valueFilter)}<IonIcon icon={CheckmarkOutline} size={18} />{/if}
           </span>
           <span class="ios-row-label"
-            >{#if x === ''}<em>null</em>{:else}{x}{/if}</span
+            >{#if x === ''}<em>{Lang.t('analytics.null', 'null')}</em>{:else}{x}{/if}</span
           >
           <!-- svelte-ignore a11y_missing_attribute -->
           <!-- svelte-ignore a11y_click_events_have_key_events -->
-          <a class="pvtOnly ios-only" onclick={(ev) => selectOnly(ev, x)} role="button" tabindex="0"> only </a>
+          <a class="pvtOnly ios-only" onclick={(ev) => selectOnly(ev, x)} role="button" tabindex="0">
+            {Lang.t('analytics.only', 'only')}
+          </a>
         </p>
       {/each}
     </div>
   {:else}
-    <p class="ios-sheet-note">(too many values to show)</p>
+    <p class="ios-sheet-note">{Lang.t('analytics.too-many-values-to-show', '(too many values to show)')}</p>
   {/if}
 </div>
 

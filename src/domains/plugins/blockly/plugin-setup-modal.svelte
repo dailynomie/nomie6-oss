@@ -5,6 +5,7 @@
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import Button from '../../../components/button/button.svelte'
   import type { PluginClass } from '../plugin-helpers'
+  import { Lang } from '../../../store/lang'
 
   const { plugin } = $props<{ plugin: PluginClass }>()
 
@@ -29,11 +30,11 @@
       {plugin.name}
     </h2>
 
-    <p class="confirmation-text">Enable this plugin?</p>
+    <p class="confirmation-text">{Lang.t('plugins.enable-this-plugin', 'Enable this plugin?')}</p>
 
     <div class="button-group">
-      <Button outline primary on:click={handleCancel}>Cancel</Button>
-      <Button primary on:click={handleConfirm}>Enable</Button>
+      <Button outline primary on:click={handleCancel}>{Lang.t('plugins.cancel', 'Cancel')}</Button>
+      <Button primary on:click={handleConfirm}>{Lang.t('plugins.enable', 'Enable')}</Button>
     </div>
   </div>
 </BackdropModal>

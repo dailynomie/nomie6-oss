@@ -27,6 +27,7 @@
   import Button from '../../../components/button/button.svelte'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { CheckmarkCircle, ChevronBackOutline, ChevronForwardOutline } from '../../../components/icon/nicons'
+  import { Lang } from '../../../store/lang'
 
   let state = {
     replace: null,
@@ -122,7 +123,10 @@
       dispatch('close')
     },
     replace() {
-      Interact.confirm(`Replace ${state.found.length} item(s)?`, 'This cannot be undone.').then((res) => {
+      Interact.confirm(
+        `Replace ${state.found.length} item(s)?`,
+        Lang.t('log.this-cannot-be-undone-2', 'This cannot be undone.')
+      ).then((res) => {
         if (res) {
           // do the replace
           state.replacing = true
@@ -209,7 +213,7 @@
 </script>
 
 {#if show}
-  <NModal className="mass-editor flex-shrink-off" title="Find and Replace">
+  <NModal className="mass-editor flex-shrink-off" title={Lang.t('log.find-and-replace', 'Find and Replace')}>
     <div class="p-1 pb-2">
       {#if state.error}
         <NItem>
@@ -223,15 +227,25 @@
           For example renaming a tag."
         />
         <NItem>
-          <NInput compact bind:value={state.replace} placeholder="Replace this:" help="e.g. #sleep_time" />
+          <NInput
+            compact
+            bind:value={state.replace}
+            placeholder={Lang.t('log.replace-this', 'Replace this:')}
+            help="e.g. #sleep_time"
+          />
         </NItem>
         <NItem>
-          <NInput compact bind:value={state.with} placeholder="with this:" help="e.g. #sleep" />
+          <NInput
+            compact
+            bind:value={state.with}
+            placeholder={Lang.t('log.with-this', 'with this:')}
+            help="e.g. #sleep"
+          />
         </NItem>
       {/if}
 
       {#if state.replacing}
-        <NItem className="pb-2" title="Replacing">
+        <NItem className="pb-2" title={Lang.t('log.replacing', 'Replacing')}>
           <NProgress percentage={state.replacingProgress} />
           <span slot="left">
             {#if state.finishedReplacing}
@@ -282,13 +296,13 @@
 
     <div slot="footer" class="flex">
       {#if state.finding && state.finishedFinding}
-        <Button color="clear" on:click={methods.back}>Back</Button>
-        <Button color="primary" on:click={methods.replace}>Replace All...</Button>
+        <Button color="clear" on:click={methods.back}>{Lang.t('log.back', 'Back')}</Button>
+        <Button color="primary" on:click={methods.replace}>{Lang.t('log.replace-all', 'Replace All...')}</Button>
       {:else if !state.finding && !state.found}
-        <Button color="clear" on:click={methods.close}>Cancel</Button>
-        <Button color="primary" on:click={methods.find}>Find All...</Button>
+        <Button color="clear" on:click={methods.close}>{Lang.t('log.cancel', 'Cancel')}</Button>
+        <Button color="primary" on:click={methods.find}>{Lang.t('log.find-all', 'Find All...')}</Button>
       {:else}
-        <Button color="clear" on:click={methods.back}>Back</Button>
+        <Button color="clear" on:click={methods.back}>{Lang.t('log.back', 'Back')}</Button>
       {/if}
     </div>
   </NModal>

@@ -108,7 +108,7 @@
         const filePath = browserPath.length ? `${browserPath.join('/')}/${browserFile}` : browserFile
         await writeStorageFile(filePath, payload)
         showToast({
-          message: 'File Saved',
+          message: Lang.t('storage.file-saved', 'File Saved'),
           buttonLabel: 'Reload',
           timeout: 2500,
           buttonClick() {
@@ -219,7 +219,7 @@
     )
     if (confirm) {
       await deleteStorageFile(filepath)
-      showToast({ message: 'Deleted' })
+      showToast({ message: Lang.t('storage.deleted', 'Deleted') })
       back()
     }
   }
@@ -243,7 +243,10 @@
       Downloader.json(filename, content)
     } else {
       // If in a directory, download the directory contents (not supported, show error)
-      Interact.alert('Error', 'Cannot download directories, only files.')
+      Interact.alert(
+        Lang.t('storage.error', 'Error'),
+        Lang.t('storage.cannot-download-directories-only-files', 'Cannot download directories, only files.')
+      )
     }
   }
 
@@ -352,8 +355,8 @@
         </List>
         <NItem className="bg-transparent mt-2" title={Lang.t('settings.allow-file-editing', 'Allow file editing')}>
           <Text size="sm" faded>
-            Edit data files.
-            <span class="text-ios-danger">Use with caution.</span>
+            {Lang.t('storage.edit-data-files', 'Edit data files.')}
+            <span class="text-ios-danger">{Lang.t('storage.use-with-caution', 'Use with caution.')}</span>
           </Text>
           <div slot="right">
             <ToggleSwitch bind:value={$Prefs.allowFileEdit} />
@@ -418,10 +421,10 @@
       {#if $Prefs.allowFileEdit}
         <div class=" px-2 pt-1 pb-2 flex">
           {#if browserEdit}
-            <Button clear primary block on:click={cancelEdits}>Cancel</Button>
-            <Button primary block on:click={saveChanges}>Save Changes</Button>
+            <Button clear primary block on:click={cancelEdits}>{Lang.t('storage.cancel', 'Cancel')}</Button>
+            <Button primary block on:click={saveChanges}>{Lang.t('storage.save-changes', 'Save Changes')}</Button>
           {:else}
-            <Button clear primary block on:click={editFile}>Edit</Button>
+            <Button clear primary block on:click={editFile}>{Lang.t('storage.edit', 'Edit')}</Button>
           {/if}
         </div>
       {/if}

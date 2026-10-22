@@ -19,6 +19,7 @@
   import type { TrackableUsage } from '../../usage/trackable-usage.class'
   import type { GoalClass, GoalScoreType } from '../goal-class'
   import { getGoalComparisonSymbol } from '../goal-utils'
+  import { Lang } from '../../../store/lang'
 
   let { goal = $bindable() } = $props<{ goal: GoalClass }>()
 
@@ -129,7 +130,8 @@
     </h1>
     {#if scores}
       <p class="text-ios-label2 leading-snug pb-2">
-        Goal hit <strong class="text-ios-label">{math.round(math.percentage(totalMonths, totalSuccess))}%</strong>
+        {Lang.t('goals.goal-hit', 'Goal hit')}
+        <strong class="text-ios-label">{math.round(math.percentage(totalMonths, totalSuccess))}%</strong>
         <strong>{totalSuccess}</strong> out of {totalMonths} months.
         <br />
       </p>
@@ -142,7 +144,9 @@
     {/if}
   </div>
 {:else if !loading && !totalMonths}
-  <div class="bg-ios-card flex items-center justify-center h-40 p-10">Not enough data. Keep Tracking!</div>
+  <div class="bg-ios-card flex items-center justify-center h-40 p-10">
+    {Lang.t('goals.not-enough-data-keep-tracking', 'Not enough data. Keep Tracking!')}
+  </div>
 {/if}
 {#if loading}
   <Empty>

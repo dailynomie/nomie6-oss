@@ -63,7 +63,7 @@
     if (editing?.text.length > 1) {
       await WritingPromptStore.upsert(editing)
       editing = undefined
-      showToast({ message: 'Saved' })
+      showToast({ message: Lang.t('writing.saved', 'Saved') })
     }
   }
 
@@ -76,10 +76,10 @@
   }
 
   const deletePrompt = async (prompt: WritingPrompt) => {
-    const confirmed = await Interact.confirm('Delete this Prompt?')
+    const confirmed = await Interact.confirm(Lang.t('writing.delete-this-prompt', 'Delete this Prompt?'))
     if (confirmed) {
       await WritingPromptStore.remove(prompt)
-      showToast({ message: 'Deleted' })
+      showToast({ message: Lang.t('writing.deleted', 'Deleted') })
       initData()
     }
   }
@@ -149,13 +149,13 @@
     >
       <List solo>
         <ListItem>
-          <h1 class="font-bold text-lg">Create a Writing Prompt</h1>
+          <h1 class="font-bold text-lg">{Lang.t('writing.create-a-writing-prompt', 'Create a Writing Prompt')}</h1>
         </ListItem>
 
         <Input
           type="select"
           listItem
-          label="Time frame"
+          label={Lang.t('writing.time-frame', 'Time frame')}
           bind:value={editing.time}
           options={[
             { value: 'any', label: 'Anytime' },
@@ -167,13 +167,13 @@
         <Divider left={16} />
         <Textarea
           class="bg-ios-card text-ios-label px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-ios-tint ring-opacity-20"
-          placeholder="Writing Prompt"
+          placeholder={Lang.t('writing.writing-prompt', 'Writing Prompt')}
           bind:value={editing.text}
         />
-        <!-- <Input type="text" placeholder="Writing Prompt" listItem bind:value={editing.text} /> -->
+        <!-- <Input type="text" placeholder={Lang.t('writing.writing-prompt', 'Writing Prompt')} listItem bind:value={editing.text} /> -->
         <Divider left={16} />
         <ListItem on:click={() => saveEditing()} clickable disabled={!canSave}>
-          <div class="w-full text-center text-ios-tint">Save Prompt</div>
+          <div class="w-full text-center text-ios-tint">{Lang.t('writing.save-prompt', 'Save Prompt')}</div>
         </ListItem>
         <!-- <Divider left={16} /> -->
         <ListItem
@@ -182,7 +182,7 @@
             editing = undefined
           }}
         >
-          <div class="w-full text-center text-ios-tint">Cancel</div>
+          <div class="w-full text-center text-ios-tint">{Lang.t('writing.cancel', 'Cancel')}</div>
         </ListItem>
       </List>
     </div>
@@ -225,7 +225,7 @@
         })
       }}
     >
-      <span class="text-ios-tint">Add Custom Prompt</span>
+      <span class="text-ios-tint">{Lang.t('writing.add-custom-prompt', 'Add Custom Prompt')}</span>
     </ListItem>
   </List>
   <div class="h-4" />

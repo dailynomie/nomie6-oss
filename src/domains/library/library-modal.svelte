@@ -86,7 +86,7 @@
       }
       Interact.stopBlocker()
     } else {
-      showToast({ message: 'You already have them all!' })
+      showToast({ message: Lang.t('library.you-already-have-them-all', 'You already have them all!') })
     }
   }
 
@@ -107,7 +107,7 @@
 
     const trackable = tracker.toTrackable()
     if ($TrackableStore.trackables.hasOwnProperty(`#${tracker.tag}`)) {
-      showToast({ message: 'Already installed' })
+      showToast({ message: Lang.t('library.already-installed', 'Already installed') })
     } else {
       // Let's make sure we're on the right type .
       // const currentUOM = tracker.uom
@@ -155,11 +155,11 @@
 <BackdropModal>
   <header slot="header" class="bg-ios-card mb-2">
     <ToolbarGrid className="bg-ios-card">
-      <Button clear primary slot="left" on:click={close}>Done</Button>
+      <Button clear primary slot="left" on:click={close}>{Lang.t('library.done', 'Done')}</Button>
       <h1 class="ntitle">{Lang.t('library.tracker-library', 'Tracker Library')}</h1>
     </ToolbarGrid>
     <SearchBar bind:searchTerm />
-    <div class="h-1">&nbsp;</div>
+    <div class="h-1">{Lang.t('library.nbsp', '&nbsp;')}</div>
   </header>
   {#if libraryTrackers.length == 0}
     <div class="flex-grow flex-shrink justify-center items-center flex h-75vh">
@@ -169,7 +169,7 @@
 
   {#if searchTerm}
     <List className="mb-6">
-      <header class="list-header">Search Results</header>
+      <header class="list-header">{Lang.t('library.search-results', 'Search Results')}</header>
       {#if searchResults && searchResults.length}
         {#each searchResults as item}
           <ListItem bottomLine={78}>
@@ -183,25 +183,27 @@
                   }}
                   size="sm"
                   shape="round"
-                  className="bg-ios-tint text-ios-ontint">Add</Button
+                  className="bg-ios-tint text-ios-ontint">{Lang.t('library.add-2', 'Add')}</Button
                 >
               {:else}
-                <Button size="sm" shape="round" className="bg-ios-tint opacity-25 text-ios-ontint">Added</Button>
+                <Button size="sm" shape="round" className="bg-ios-tint opacity-25 text-ios-ontint"
+                  >{Lang.t('library.added', 'Added')}</Button
+                >
               {/if}
             </div>
           </ListItem>
         {/each}
       {:else}
-        <Empty title="No results" />
+        <Empty title={Lang.t('library.no-results', 'No results')} />
       {/if}
     </List>
   {/if}
 
-  <List solo outside title="Templates">
+  <List solo outside title={Lang.t('library.templates', 'Templates')}>
     <AvailableTemplatesList />
   </List>
 
-  <List solo outside title="Individual Trackers">
+  <List solo outside title={Lang.t('library.individual-trackers', 'Individual Trackers')}>
     {#each libraryTrackers as libraryTracker, index}
       <LibraryTrackerItem
         {libraryTracker}

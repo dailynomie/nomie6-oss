@@ -61,7 +61,9 @@
       <h1 class="font-bold text-2xl text-ios-label">
         {trackable?.label || 'Loading...'}
       </h1>
-      <p class="text-opacity-60 text-ios-label2 text-sm">is possibly related to...</p>
+      <p class="text-opacity-60 text-ios-label2 text-sm">
+        {Lang.t('related.is-possibly-related-to', 'is possibly related to...')}
+      </p>
     </main>
   </div>
 

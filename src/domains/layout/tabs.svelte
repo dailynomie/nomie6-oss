@@ -144,7 +144,7 @@
         </AppTab>
 
         <div class="radial-slot">
-          <RadialMenu items={radialItems} label="Actions" />
+          <RadialMenu items={radialItems} label={Lang.t('layout.actions', 'Actions')} />
         </div>
 
         <!-- <AppTab link={NPaths.routes.analytics()}  label={Lang.t('tabs.analytics', 'Stats')}>

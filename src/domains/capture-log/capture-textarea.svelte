@@ -16,6 +16,7 @@
   import { createEventDispatcher } from 'svelte'
   import { replaceTextAt } from '../../utils/text/text'
   import { wait } from '../../utils/tick/tick'
+  import { Lang } from '../../store/lang'
 
   let textarea: any
   let {
@@ -29,7 +30,7 @@
 
 <Textarea
   bind:this={textarea}
-  aria-label="Note entry field"
+  aria-label={Lang.t('capture.note-entry-field', 'Note entry field')}
   {id}
   on:inserted={async (evt) => {
     const tag = evt.detail.item.original.key

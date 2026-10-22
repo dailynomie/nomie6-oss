@@ -8,6 +8,7 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
 
   import TemplateView from './template-view.svelte'
+  import { Lang } from '../../store/lang'
 
   const close = () => {
     closeModal(id)
@@ -18,7 +19,7 @@
 
 <BackdropModal className="h-full" mainClass="bg-ios-bg">
   <ToolbarGrid slot="header">
-    <Button slot="right" primary clear on:click={() => close()}>Done</Button>
+    <Button slot="right" primary clear on:click={() => close()}>{Lang.t('templates.done', 'Done')}</Button>
   </ToolbarGrid>
   <main class="lg:p-6 p-4">
     <TemplateView bind:template />

@@ -68,7 +68,10 @@
   })
 
   const deleteGoal = async () => {
-    const confirmed = await Interact.confirm('Delete this goal?', 'You can always recreate it later.')
+    const confirmed = await Interact.confirm(
+      Lang.t('goals.delete-this-goal', 'Delete this goal?'),
+      Lang.t('goals.you-can-always-recreate-it-later', 'You can always recreate it later.')
+    )
     if (confirmed) {
       await GoalStore.remove(workingGoal)
       closeModal(id)
@@ -87,7 +90,7 @@
     Interact.blocker(`Saving ${trackable.label} goal...`)
     await GoalStore.upsert(newGoal)
     Interact.stopBlocker()
-    showToast({ message: 'Goal Saved' })
+    showToast({ message: Lang.t('goals.goal-saved', 'Goal Saved') })
     close()
   }
 
@@ -126,12 +129,12 @@
   {/if}
   <List solo>
     <ListItem clickable on:click={select}>
-      <div class="py-2">Which tracker?</div>
+      <div class="py-2">{Lang.t('goals.which-tracker', 'Which tracker?')}</div>
       <div slot="right">
         {#if trackable?.label}
           <TrackablePill {trackable} size={32} hideValue />
         {:else}
-          <span class="text-ios-tint">Select</span>
+          <span class="text-ios-tint">{Lang.t('goals.select', 'Select')}</span>
         {/if}
       </div>
     </ListItem>
@@ -170,8 +173,8 @@
       value={goalTargetValue}
       on:input={(evt) => (goalTargetValue = evt.detail)}
       listItem
-      label="Target"
-      placeholder="Goal Target"
+      label={Lang.t('goals.target', 'Target')}
+      placeholder={Lang.t('goals.goal-target', 'Goal Target')}
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
         {#if goalTargetValue && trackable}
@@ -192,10 +195,10 @@
     {#if goal.duration == undefined}
       <Divider left={16} />
       <ListItem>
-        <div class="py-2">Use Daily Average</div>
+        <div class="py-2">{Lang.t('goals.use-daily-average', 'Use Daily Average')}</div>
         <div slot="right">
           <ToggleSwitch
-            title="Daily Average"
+            title={Lang.t('goals.daily-average', 'Daily Average')}
             bind:value={goalUseDailyAverage}
             on:change={(event) => {
               if (event.detail == false) {
@@ -214,13 +217,13 @@
   {#if isSaved}
     <Button clear className="text-ios-danger mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>
       {#if goal.duration === 'day'}
-        <div class="text-center text-ios-danger">Delete Daily Goal</div>
+        <div class="text-center text-ios-danger">{Lang.t('goals.delete-daily-goal', 'Delete Daily Goal')}</div>
       {:else if goal.duration === 'week'}
-        <div class="text-center text-ios-danger">Delete Weekly Goal</div>
+        <div class="text-center text-ios-danger">{Lang.t('goals.delete-weekly-goal', 'Delete Weekly Goal')}</div>
       {:else if goal.duration === 'month'}
-        <div class="text-center text-ios-danger">Delete Monthly Goal</div>
+        <div class="text-center text-ios-danger">{Lang.t('goals.delete-monthly-goal', 'Delete Monthly Goal')}</div>
       {:else if goal.duration === 'year'}
-        <div class="text-center text-ios-danger">Delete Yearly Goal</div>
+        <div class="text-center text-ios-danger">{Lang.t('goals.delete-yearly-goal', 'Delete Yearly Goal')}</div>
       {/if}</Button
     >
   {/if}

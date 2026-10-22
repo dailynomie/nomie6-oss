@@ -232,7 +232,7 @@
   <!-- iOS look (3.1): action row with round buttons, then the large title, as on the Timeline -->
   <header slot="header" class="glass z-30 px-4 pt-2 pb-3">
     <div class="flex items-center justify-between gap-2 h-11">
-      <button type="button" aria-label="Search" class="ios-round" on:click={methods.search}>
+      <button type="button" aria-label={Lang.t('routes.search', 'Search')} class="ios-round" on:click={methods.search}>
         <IonIcon icon={SearchIcon} size={18} />
       </button>
       <div class="flex items-center gap-2">
@@ -242,7 +242,10 @@
         <NextPrevCal on:previous={methods.previous} on:next={methods.next} on:calendar={methods.selectDate} {isToday} />
       </div>
     </div>
-    <h1 class="text-ios-large font-bold text-ios-label mt-1 line-clamp-1" aria-label="Current Active Date">
+    <h1
+      class="text-ios-large font-bold text-ios-label mt-1 line-clamp-1"
+      aria-label={Lang.t('routes.current-active-date', 'Current Active Date')}
+    >
       {state.date.format('ddd')}
       {state.date.format(dateFormats.date)}
     </h1>

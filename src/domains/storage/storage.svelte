@@ -14,6 +14,7 @@
   import { Interact } from '../../store/interact'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChevronForwardOutline } from '../../components/icon/nicons'
+  import { Lang } from '../../store/lang'
 
   const state = {
     showFiles: false,
@@ -61,7 +62,7 @@
 <div class="n-storage">
   <div class="list">
     <NItem
-      title="Browse Storage..."
+      title={Lang.t('storage.browse-storage', 'Browse Storage...')}
       on:click={() => {
         navigate('/files')
       }}

@@ -41,7 +41,7 @@
           closeModal(id)
         }
       } else {
-        Interact.error('Pin must be between 1 and 6 characters')
+        Interact.error(Lang.t('pin.pin-must-be-between-1-and-6-characters', 'Pin must be between 1 and 6 characters'))
       }
     },
     cancelInput() {
@@ -53,7 +53,7 @@
 <BackdropModal>
   <div
     aria-modal
-    aria-label="Lock Screen"
+    aria-label={Lang.t('pin.lock-screen', 'Lock Screen')}
     style="zIndex: 10000"
     class="lock-screen relative p-4 w-full ios-card
     flex-col full-screen"

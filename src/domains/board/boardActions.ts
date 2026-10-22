@@ -86,7 +86,7 @@ export const createNewBoard = async () => {
     if (label.toLowerCase() !== 'all') {
       addNewBoard(label)
     } else {
-      Interact.error("Sorry, 'All' is a reserved word")
+      Interact.error("Sorry, Lang.t('board.all', 'All') is a reserved word")
     }
   }
 }
@@ -155,7 +155,10 @@ export const removeTrackableFromNomie = async (trackable: Trackable) => {
  */
 export const removeTrackableFromBoard = async (trackable: Trackable, boardId?: string) => {
   const currentBoardId = boardId || getLastBoardId()
-  const confirmed = await Interact.confirm(`Remove ${trackable.tag} from this board?`, 'You can always re-add it later')
+  const confirmed = await Interact.confirm(
+    `Remove ${trackable.tag} from this board?`,
+    Lang.t('board.you-can-always-re-add-it-later', 'You can always re-add it later')
+  )
   if (confirmed) {
     const boards = await getBoardsFromStorage()
     const workingBoard = boards.find((b) => b.id === currentBoardId)

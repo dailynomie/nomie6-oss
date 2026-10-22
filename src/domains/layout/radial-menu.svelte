@@ -7,6 +7,7 @@
   import { navigate } from '../../vendor/svelte-navigator'
   import { Prefs } from '../preferences/Preferences'
   import { RadialOpenStore } from './radial-store'
+  import { Lang } from '../../store/lang'
 
   type RadialItem = { id: string; label: string; icon: any; link?: string; action?: () => void; notify?: string }
 
@@ -110,7 +111,7 @@
 />
 
 {#if hintVisible && !open}
-  <div class="radial-hint" role="note">Tap for more</div>
+  <div class="radial-hint" role="note">{Lang.t('layout.tap-for-more', 'Tap for more')}</div>
 {/if}
 
 <button

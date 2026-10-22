@@ -30,6 +30,7 @@
   import { textToId } from '../../utils/text/text'
 
   import ListItem from '../../components/list-item/list-item.svelte'
+  import { Lang } from '../../store/lang'
 
   const { logs = [], filters = $bindable({}) } = $props<{ logs?: Array<NLog>; filters?: TimelineFilterProps }>()
   const dispatch = createEventDispatcher()
@@ -141,7 +142,7 @@
                       <button
                         type="button"
                         class="tiny-trackable m-px"
-                        aria-label="Log options for this value"
+                        aria-label={Lang.t('timeline.log-options-for-this-value', 'Log options for this value')}
                         on:click={() => {
                           Interact.logOptions(usageItem.log, {
                             description: usageItem.log.note,

@@ -47,7 +47,7 @@
             <!-- svelte-ignore a11y-autofocus -->
             <button
               type="button"
-              aria-label="Save"
+              aria-label={Lang.t('tracker.save', 'Save')}
               autofocus
               on:click={() => dispatch('stopTimer')}
               class="action-button action-stop"
@@ -56,7 +56,7 @@
             </button>
           {:else if !tracker.started && !value}
             <button
-              aria-label="Start Timer"
+              aria-label={Lang.t('tracker.start-timer', 'Start Timer')}
               type="button"
               on:click={() => {
                 dispatch('startTimer')
@@ -68,7 +68,7 @@
             </button>
           {:else if !tracker.started && value}
             <button
-              aria-label="Save"
+              aria-label={Lang.t('tracker.save', 'Save')}
               autofocus
               type="button"
               on:click={() => {
@@ -81,7 +81,7 @@
           {/if}
         {:else if allowSave}
           <button
-            aria-label="Save"
+            aria-label={Lang.t('tracker.save', 'Save')}
             type="button"
             on:click={() => {
               dispatch('save')
@@ -106,7 +106,10 @@
           autofocus
           primary={!allowSave}
           size="lg"
-          title="Add this to the note without immediately saving."
+          title={Lang.t(
+            'tracker.add-this-to-the-note-without-immediately-saving',
+            'Add this to the note without immediately saving.'
+          )}
           className="-mr-2 whitespace-nowrap text-lg md:text-xl 
                 {!allowSave ? '' : 'text-ios-label'}
                 {tracker.started ? 'hidden' : ''}"

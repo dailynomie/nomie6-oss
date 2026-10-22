@@ -114,7 +114,10 @@
   }
 
   async function unfavorite(location) {
-    let confirmed = await Interact.confirm('Remove Location?', 'You can add it later')
+    let confirmed = await Interact.confirm(
+      Lang.t('map.remove-location-2', 'Remove Location?'),
+      Lang.t('map.you-can-add-it-later', 'You can add it later')
+    )
     if (confirmed) {
       state.mode = 'view'
       ready = false
@@ -138,13 +141,15 @@
         select(location)
       }
     } catch (e) {
-      Interact.error(`${Lang.t('location.unable-to-get-your-location', 'Unable to get your location')}`)
+      Interact.error(
+        `${Lang.t(Lang.t('map.location-unable-to-get-your-location', 'location.unable-to-get-your-location'), Lang.t('map.unable-to-get-your-location', 'Unable to get your location'))}`
+      )
     }
     state.locating = false
   }
 
   async function rename(location) {
-    let name = await Interact.prompt('New Name', null, {
+    let name = await Interact.prompt(Lang.t('map.new-name', 'New Name'), null, {
       value: location.name,
     })
     if (name) {
@@ -174,7 +179,7 @@
 
     if (loc) {
       if (!loc.name) {
-        let name = await Interact.prompt('📍 Name this location', null, {
+        let name = await Interact.prompt(Lang.t('map.name-this-location', '📍 Name this location'), null, {
           value: loc.name,
         })
         loc.name = name
@@ -183,7 +188,7 @@
         Interact.blocker(`Saving ${loc.name} location..`)
         await LocationStore.upsert(loc)
         Interact.stopBlocker()
-        showToast({ message: 'Location Saved' })
+        showToast({ message: Lang.t('map.location-saved', 'Location Saved') })
       }
     }
     ready = true
@@ -296,14 +301,13 @@
               <NItem
                 bottomLine={18}
                 clickable
-                aria-label="Save this Location"
+                aria-label={Lang.t('map.save-this-location', 'Save this Location')}
                 on:click={() => {
                   favorite(mapLocation)
                 }}
               >
-                Save as Favorite: <strong
-                  >{math.round(mapLocation.lat, 10000)},{math.round(mapLocation.lng, 10000)}</strong
-                >
+                {Lang.t('map.save-as-favorite', 'Save as Favorite:')}
+                <strong>{math.round(mapLocation.lat, 10000)},{math.round(mapLocation.lng, 10000)}</strong>
               </NItem>
             </List>
           {/if}
@@ -312,7 +316,7 @@
               clickable
               on:click={() => {
                 showMap = !showMap
-              }}>Find on Map...</NItem
+              }}>{Lang.t('map.find-on-map', 'Find on Map...')}</NItem
             >
           </List>
 
@@ -341,7 +345,7 @@
                       <div slot="left" class="flex items-center stiff">
                         <button
                           type="button"
-                          aria-label="Remove location"
+                          aria-label={Lang.t('map.remove-location', 'Remove location')}
                           class="mr-3"
                           on:click|preventDefault|stopPropagation={() => unfavorite(item)}
                         >

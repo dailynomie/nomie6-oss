@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import { pwService } from '../../modules/pwa/PWAService'
+  import { Lang } from '../../store/lang'
 
   const offlineReady = pwService.offlineReady
   const needRefresh = pwService.needRefresh
@@ -43,10 +44,10 @@
     <div class="pwa-toast" role="alert">
       <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-ios-label message">
         {#if $offlineReady}
-          <span>App ready to work offline</span>
+          <span>{Lang.t('ui.app-ready-to-work-offline', 'App ready to work offline')}</span>
         {:else if $needRefresh}
-          <h1 class="mb-2 text-2xl font-bold text-ios-label">Update Available</h1>
-          <p>A new version of Nomie is ready to use.</p>
+          <h1 class="mb-2 text-2xl font-bold text-ios-label">{Lang.t('ui.update-available', 'Update Available')}</h1>
+          <p>{Lang.t('ui.a-new-version-of-nomie-is-ready-to-use', 'A new version of Nomie is ready to use.')}</p>
         {/if}
       </div>
 
@@ -61,7 +62,7 @@
           <button
             disabled={$isCheckingForUpdates}
             class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint disabled:opacity-50"
-            title="Check for updates manually"
+            title={Lang.t('ui.check-for-updates-manually', 'Check for updates manually')}
             on:click={handleManualCheck}
           >
             {#if $isCheckingForUpdates}
@@ -73,16 +74,16 @@
         {/if}
 
         <button class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint" on:click={close}>
-          Later
+          {Lang.t('ui.later', 'Later')}
         </button>
 
         {#if $needRefresh}
           <button
-            aria-label="Update the App"
+            aria-label={Lang.t('ui.update-the-app', 'Update the App')}
             on:click={handleUpdate}
             class="px-4 py-2 font-bold filler bg-ios-card shadow-sm rounded-xl text-ios-tint"
           >
-            Update Now
+            {Lang.t('ui.update-now', 'Update Now')}
           </button>
         {/if}
       </div>

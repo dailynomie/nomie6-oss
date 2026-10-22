@@ -2,6 +2,7 @@ import { openPopMenu, type PopMenuButton } from '../../../../components/pop-menu
 import { Interact } from '../../../../store/interact'
 import { switchToLocal } from '../../../settings/settings-functions'
 import type { IStorage } from '../../storage'
+import { Lang } from '../../../../store/lang'
 
 /**
  * Storage engine that syncs data with an external Nomie Server instance.
@@ -125,8 +126,11 @@ export const NomieServierStorage: IStorage = {
       apiToken = localStorage.getItem('nomie-server-token') || options?.server?.token
 
       if (!apiUrl || !apiToken) {
-        apiUrl = await Interact.prompt('Nomie Server URL', 'http://localhost:3011')
-        apiToken = await Interact.prompt('Nomie Server API Key')
+        apiUrl = await Interact.prompt(
+          Lang.t('storage.nomie-server-url', 'Nomie Server URL'),
+          Lang.t('storage.http-localhost-3011', 'http://localhost:3011')
+        )
+        apiToken = await Interact.prompt(Lang.t('storage.nomie-server-api-key', 'Nomie Server API Key'))
         localStorage.setItem('nomie-server-url', apiUrl)
         localStorage.setItem('nomie-server-token', apiToken)
       }
@@ -150,7 +154,12 @@ export const NomieServierStorage: IStorage = {
       if (e.message == 'Unauthorized') {
         const engine = this as any
         engine.fireReady()
-        Interact.error('Nomie Server API key is invalid. Please double check your settings.')
+        Interact.error(
+          Lang.t(
+            'storage.nomie-server-api-key-is-invalid-please-double-ch',
+            'Nomie Server API key is invalid. Please double check your settings.'
+          )
+        )
       } else {
         cannotConnect()
       }

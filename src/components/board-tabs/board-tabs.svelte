@@ -17,6 +17,7 @@
   import { Interact } from '../../store/interact'
   import { showToast } from '../toast/ToastStore'
   import { Prefs } from '../../domains/preferences/Preferences'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
 
@@ -95,7 +96,7 @@
       ready = false
       await onDeleteBoard(board)
       ready = true
-      showToast({ message: 'Deleted' })
+      showToast({ message: Lang.t('ui.deleted', 'Deleted') })
     }
   }
 </script>

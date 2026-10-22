@@ -239,10 +239,14 @@
 
       if (confirmed) {
         await wait(200)
-        newTag = await Interact.prompt('New Tag', undefined, { value: removePrefix(ogTag) })
+        newTag = await Interact.prompt(Lang.t('trackable.new-tag', 'New Tag'), undefined, {
+          value: removePrefix(ogTag),
+        })
       }
     } else {
-      newTag = await Interact.prompt('New Tag', undefined, { value: removePrefix(workingTrackable.tag) })
+      newTag = await Interact.prompt(Lang.t('trackable.new-tag', 'New Tag'), undefined, {
+        value: removePrefix(workingTrackable.tag),
+      })
     }
     if (newTag) {
       const safeTag = strToTagSafe(newTag)
@@ -373,18 +377,21 @@
           {#if ogTag || workingTag}
             <div class="tag-control flex flex-wrap justify-end items-center gap-x-2 whitespace-nowrap">
               {#if tagExists}
-                <div class="text-ios-label2 text-xs"><span aria-hidden="true">⚠︎</span> Tag already exists</div>
+                <div class="text-ios-label2 text-xs">
+                  <span aria-hidden="true">⚠︎</span>
+                  {Lang.t('trackable.tag-already-exists', 'Tag already exists')}
+                </div>
               {/if}
               <button
                 on:click={() => editTag()}
                 class="flex items-center focus:outline-none focus:ring ring-ios-tint rounded-md"
               >
                 {#if ogTag && ogTag.length}
-                  <span class="opacity-50">Tag:</span>
+                  <span class="opacity-50">{Lang.t('trackable.tag', 'Tag:')}</span>
                   <span>{truncateText(`${workingTrackable.prefix}${ogTag}`, $Device.size == 'lg' ? 40 : 20)}</span>
                   <IonIcon icon={LockClosedSolid} size={12} />
                 {:else if workingTag}
-                  <span class="opacity-50">Tag:</span>
+                  <span class="opacity-50">{Lang.t('trackable.tag', 'Tag:')}</span>
                   <span>{truncateText(`${workingTrackable.prefix}${workingTag}`, $Device.size == 'lg' ? 40 : 20)}</span>
                   <IonIcon icon={CreateOutline} size={12} />
                 {/if}
@@ -425,7 +432,7 @@
             downloadTrackables([workingTrackable], `${AppVersion}`)
           }}
         >
-          Share Tracker
+          {Lang.t('trackable.share-tracker', 'Share Tracker')}
           <IonIcon slot="right" icon={DownloadOutline} className="text-primary" />
         </ListItem>
 
@@ -442,7 +449,7 @@
               duplicateTrackable()
             }}
           >
-            Duplicate Tracker...
+            {Lang.t('trackable.duplicate-tracker', 'Duplicate Tracker...')}
             <IonIcon slot="right" icon={CopyOutline} className="text-ios-tint" />
           </ListItem>
         {/if}
@@ -453,7 +460,7 @@
             close()
           }}
         >
-          <span class="text-ios-danger">Delete Tracker</span>
+          <span class="text-ios-danger">{Lang.t('trackable.delete-tracker', 'Delete Tracker')}</span>
           <IonIcon slot="right" icon={TrashOutline} className="text-ios-danger" />
         </ListItem>
       </List>

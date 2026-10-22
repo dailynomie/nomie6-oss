@@ -33,12 +33,12 @@
     closeModal(id)
   }
   const clearAll = async () => {
-    const confirmed = await Interact.confirm('Clear your Log Cache?')
+    const confirmed = await Interact.confirm(Lang.t('logcache.clear-your-log-cache', 'Clear your Log Cache?'))
     if (confirmed) {
       Interact.blocker('Deleting Cache...')
       await deleteAllFromCache()
       Interact.stopBlocker()
-      showToast({ message: 'Cache Deleted' })
+      showToast({ message: Lang.t('logcache.cache-deleted', 'Cache Deleted') })
       init()
     }
   }
@@ -90,7 +90,7 @@
       <Button slot="left" className="whitespace-nowrap" primary clear on:click={clearAll}
         >{Lang.t('general.clear', 'Clear All')}</Button
       >
-      <h1 class="ntitle">Log Cache</h1>
+      <h1 class="ntitle">{Lang.t('logcache.log-cache', 'Log Cache')}</h1>
       <Button slot="right" primary clear on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
     <Toolbar>
@@ -113,14 +113,16 @@
   </header>
   <main class="px-4 py-2">
     {#if !logs.length && !availableDates.length}
-      <Empty className="text-ios-label2">Cache Empty</Empty>
+      <Empty className="text-ios-label2">{Lang.t('logcache.cache-empty', 'Cache Empty')}</Empty>
     {:else if !logs.length && availableDates.length}
-      <Empty className="text-ios-label2">Select a date above</Empty>
+      <Empty className="text-ios-label2">{Lang.t('logcache.select-a-date-above', 'Select a date above')}</Empty>
     {/if}
     {#each logs as log}
       <ListItemLog className="mb-2" {log}>
         <div class="flex space-x-2 justify-between items-center pt-4 border-t border-ios-separator" slot="item-footer">
-          <Button on:click={() => deleteLog(log)} confirm clear size="sm" className=" text-ios-danger">Delete</Button>
+          <Button on:click={() => deleteLog(log)} confirm clear size="sm" className=" text-ios-danger"
+            >{Lang.t('logcache.delete', 'Delete')}</Button
+          >
 
           <Button
             size="sm"

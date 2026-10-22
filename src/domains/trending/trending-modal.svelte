@@ -212,25 +212,25 @@
       </div>
     {:else}
       {#if newItems.length}
-        <List solo outside title="New">
+        <List solo outside title={Lang.t('trending.new', 'New')}>
           {#each newItems as uct, index (uct.trackableUsage.trackable)}
             <TrendingItem {uct} />
           {/each}
         </List>
       {/if}
 
-      <List solo outside title="Trending Up">
+      <List solo outside title={Lang.t('trending.trending-up', 'Trending Up')}>
         {#each trendingUp as uct, index (uct.trackableUsage.trackable)}
           <TrendingItem {uct} />
         {/each}
         {#if !trendingUp.length}
-          <div class="text-ios-label2 px-4 py-4">No Up Trends</div>
+          <div class="text-ios-label2 px-4 py-4">{Lang.t('trending.no-up-trends', 'No Up Trends')}</div>
         {/if}
       </List>
 
-      <List solo outside title="Trending Down ">
+      <List solo outside title={Lang.t('trending.trending-down', 'Trending Down')}>
         {#if !trendingDown.length}
-          <div class="text-ios-label2 px-4 py-4">No Down Trends</div>
+          <div class="text-ios-label2 px-4 py-4">{Lang.t('trending.no-down-trends', 'No Down Trends')}</div>
         {/if}
         {#each trendingDown as uct, index (uct.trackableUsage.trackable)}
           <TrendingItem {uct} />

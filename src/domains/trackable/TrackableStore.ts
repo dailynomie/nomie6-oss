@@ -239,7 +239,13 @@ export const saveTrackable = async ({
  */
 export const deleteTrackableFromNomie = async (trackable: Trackable, prompt: boolean) => {
   let allowed = prompt
-    ? await Interact.confirm('Remove this tracker?', 'No tracked data will be deleted, only this tracker.')
+    ? await Interact.confirm(
+        Lang.t('trackable.remove-this-tracker', 'Remove this tracker?'),
+        Lang.t(
+          'trackable.no-tracked-data-will-be-deleted-only-this-tracke',
+          'No tracked data will be deleted, only this tracker.'
+        )
+      )
     : true
   if (allowed) {
     if (trackable.type == 'tracker' && trackable.tracker) {
@@ -251,7 +257,9 @@ export const deleteTrackableFromNomie = async (trackable: Trackable, prompt: boo
     } else if (trackable.type == 'pointer' && trackable.ptr) {
       await PointerStore.remove(trackable.ptr)
     }
-    showToast({ message: Lang.t('general.removed', 'Removed') })
+    showToast({
+      message: Lang.t(Lang.t('trackable.general-removed', 'general.removed'), Lang.t('trackable.removed', 'Removed')),
+    })
   }
 }
 

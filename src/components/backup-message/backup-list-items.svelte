@@ -63,7 +63,7 @@
   <ListItem
     bottomLine={57}
     detail
-    title="Back up now"
+    title={Lang.t('ui.back-up-now', 'Back up now')}
     titleClass="text-ios-tint"
     description={lastBackupText}
     on:click={() => {

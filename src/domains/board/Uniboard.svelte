@@ -264,7 +264,7 @@
                         }}
                         size="sm"
                         clear
-                        primary>Search Everything →</Button
+                        primary>{Lang.t('board.search-everything', 'Search Everything →')}</Button
                       >
                       <Button
                         size="sm"
@@ -299,7 +299,7 @@
                     {Lang.t('general.get-started', 'Get Started!')}
                   </h1> -->
                   <div class="text-center text-ios-label2 leading-snug px-6 mb-6 lg:mb-10 flex-fill">
-                    <h1 class="text-ios-label font-bold mb-1">No trackers yet</h1>
+                    <h1 class="text-ios-label font-bold mb-1">{Lang.t('board.no-trackers-yet', 'No trackers yet')}</h1>
                     <p class="text-xs">
                       Your {board.label} board shows your trackers. Add one below to get started.
                     </p>

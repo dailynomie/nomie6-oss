@@ -47,7 +47,7 @@
       />
       {#if !manual && value}
         <button
-          aria-label="Resume Timer"
+          aria-label={Lang.t('tracker.resume-timer', 'Resume Timer')}
           on:click={() => {
             dispatch('forceStart')
           }}

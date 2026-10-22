@@ -10,6 +10,7 @@
 
 <script>
   import { untrack } from 'svelte'
+  import { Lang } from '../../../../store/lang'
 
   const { data, layout, config } = $props()
   const onUpdate = () => {} // TODO: connect to plotly events
@@ -47,5 +48,5 @@
 {#if Plotly}
   <div use:create={{ data, layout, config }} />
 {:else}
-  <p>Error! Plotly.js not initialized.</p>
+  <p>{Lang.t('analytics.error-plotly-js-not-initialized', 'Error! Plotly.js not initialized.')}</p>
 {/if}

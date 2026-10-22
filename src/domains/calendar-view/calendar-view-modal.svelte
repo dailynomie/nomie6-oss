@@ -62,7 +62,7 @@
         }
       }
     } else {
-      const confirmed = await Interact.confirm('Track on this Day?')
+      const confirmed = await Interact.confirm(Lang.t('calendar.track-on-this-day', 'Track on this Day?'))
       if (confirmed) {
         loading = true
         await trackOnThisDay(trackableUsage.trackable, date, $TrackableStore.trackables)

@@ -9,13 +9,14 @@
   import IconSquare from '../../../components/icon-square/icon-square.svelte'
 
   import { AwardStore } from '../AwardsStore'
+  import { Lang } from '../../../store/lang'
 
   let awardsToShow = $derived(
     $AwardStore.awards.sort((a, b) => (b.timestamp > a.timestamp ? 1 : -1)).filter((a, index) => index < 4)
   )
 </script>
 
-<ListItem title="Awards" detail to="/awards" bottomLine={57}>
+<ListItem title={Lang.t('awards.awards', 'Awards')} detail to="/awards" bottomLine={57}>
   <span slot="left"><IconSquare color="#E8746B"><IonIcon icon={RibbonOutline} size={17} /></IconSquare></span>
   <div slot="right" class="flex items-center space-x-1">
     {#if awardsToShow.length}

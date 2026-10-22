@@ -5,6 +5,7 @@
   import { createEventDispatcher } from 'svelte'
 
   import Button from '../../components/button/button.svelte'
+  import { Lang } from '../../store/lang'
 
   // Props
 
@@ -33,9 +34,9 @@
   <Button delay={0} color="clear" on:click={select(7)}>7</Button>
   <Button delay={0} color="clear" on:click={select(8)}>8</Button>
   <Button delay={0} color="clear" on:click={select(9)}>9</Button>
-  <Button delay={0} color="clear" disabled={!value} on:click={clear}>Clear</Button>
+  <Button delay={0} color="clear" disabled={!value} on:click={clear}>{Lang.t('pin.clear', 'Clear')}</Button>
   <Button delay={0} color="clear" on:click={select(0)}>0</Button>
-  <Button delay={0} color="clear" disabled={!value} on:click={submit}>Submit</Button>
+  <Button delay={0} color="clear" disabled={!value} on:click={submit}>{Lang.t('pin.submit-2', 'Submit')}</Button>
 </div>
 
 <style lang="postcss" global>

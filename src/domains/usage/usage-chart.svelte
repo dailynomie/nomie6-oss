@@ -882,7 +882,7 @@
       <div class="filler" />
       <button
         class="chart-config-button px-1"
-        aria-label="Chart settings"
+        aria-label={Lang.t('usage.chart-settings', 'Chart settings')}
         on:click|stopPropagation|preventDefault={(evt) => {
           //@ts-ignore
           showOptionsMenu(evt.target)

@@ -14,21 +14,22 @@
   import Input from '../../components/input/input.svelte'
   import Divider from '../../components/divider/divider.svelte'
   import Button from '../../components/button/button.svelte'
+  import { Lang } from '../../store/lang'
 </script>
 
 <Layout>
   <ToolbarGrid slot="header" className="shadow-md">
-    <h1 class="ntitle">UI Tests N6</h1>
+    <h1 class="ntitle">{Lang.t('routes.ui-tests-n6', 'UI Tests N6')}</h1>
   </ToolbarGrid>
   <main class="p-4">
-    <Button className="bg-primary-500" size="lg">Ripple Test</Button>
+    <Button className="bg-primary-500" size="lg">{Lang.t('routes.ripple-test', 'Ripple Test')}</Button>
 
     <div class="h-12" />
 
     <List solo className="mb-5">
-      <Input listItem placeholder="Name" />
+      <Input listItem placeholder={Lang.t('routes.name-2', 'Name')} />
       <Divider left={16} />
-      <Input listItem placeholder="Address" />
+      <Input listItem placeholder={Lang.t('routes.address', 'Address')} />
     </List>
     <List solo className="mb-5">
       <Scroller

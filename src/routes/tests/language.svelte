@@ -27,7 +27,7 @@
 
   async function save() {
     sideStore.put('active-lang', activeLang)
-    showToast({ message: Lang.t('general.saved', 'Saved') })
+    showToast({ message: Lang.t(Lang.t('routes.general-saved', 'general.saved'), Lang.t('routes.saved', 'Saved')) })
   }
 
   async function reset() {
@@ -48,7 +48,7 @@
   }
 
   async function send() {
-    showToast({ message: 'Downloading...' })
+    showToast({ message: Lang.t('routes.downloading', 'Downloading...') })
     await download.json(`${activeLang.name}.lang.json`, activeLang)
     let confirmed = await Interact.confirm(
       'Compose Email to Brandon',
@@ -70,28 +70,36 @@
         <BackButton to="/settings" />
       </div>
       <div slot="right">
-        <button type="button" class="ios-text-action" on:click={save}>Save</button>
+        <button type="button" class="ios-text-action" on:click={save}>{Lang.t('routes.save', 'Save')}</button>
       </div>
     </ToolbarGrid>
   </div>
   <main class="p-4 space-y-5 text-ios-label">
-    <h1 class="text-ios-large font-bold text-ios-label px-1 -mb-3">Nomie Language</h1>
+    <h1 class="text-ios-large font-bold text-ios-label px-1 -mb-3">
+      {Lang.t('routes.nomie-language', 'Nomie Language')}
+    </h1>
     <p class="px-1 text-ios-subhead text-ios-label2">
-      Want to help translate Nomie? Fill in the fields below. Save keeps your progress on this device. When you are
-      finished, send the file.
+      {Lang.t(
+        'routes.want-to-help-translate-nomie-fill-in-the-fields-',
+        'Want to help translate Nomie? Fill in the fields below. Save keeps your progress on this device. When you are finished, send the file.'
+      )}
     </p>
 
     {#if activeLang}
       <section>
-        <h2 class="ios-section-title">Language details</h2>
+        <h2 class="ios-section-title">{Lang.t('routes.language-details', 'Language details')}</h2>
         <div class="ios-card">
           <label class="ios-field-row">
-            <span class="ios-field-label">Language name</span>
-            <input class="ios-field" placeholder="Language name" bind:value={activeLang.name} />
+            <span class="ios-field-label">{Lang.t('routes.language-name', 'Language name')}</span>
+            <input
+              class="ios-field"
+              placeholder={Lang.t('routes.language-name', 'Language name')}
+              bind:value={activeLang.name}
+            />
           </label>
           <label class="ios-field-row">
-            <span class="ios-field-label">Author</span>
-            <input class="ios-field" placeholder="Author" bind:value={activeLang.author} />
+            <span class="ios-field-label">{Lang.t('routes.author-2', 'Author')}</span>
+            <input class="ios-field" placeholder={Lang.t('routes.author-2', 'Author')} bind:value={activeLang.author} />
           </label>
         </div>
       </section>
@@ -117,8 +125,12 @@
     {/if}
 
     <div class="ios-card overflow-hidden">
-      <button type="button" class="ios-action font-semibold text-ios-tint" on:click={send}>Send to Brandon</button>
-      <button type="button" class="ios-action text-ios-danger" on:click={reset}>Reset language</button>
+      <button type="button" class="ios-action font-semibold text-ios-tint" on:click={send}
+        >{Lang.t('routes.send-to-brandon', 'Send to Brandon')}</button
+      >
+      <button type="button" class="ios-action text-ios-danger" on:click={reset}
+        >{Lang.t('routes.reset-language', 'Reset language')}</button
+      >
     </div>
   </main>
 

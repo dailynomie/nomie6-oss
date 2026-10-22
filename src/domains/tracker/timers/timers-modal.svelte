@@ -33,7 +33,7 @@
     <Button primary clear slot="right" on:click={close}>
       {Lang.t('general.done', 'Done')}
     </Button>
-    <h1 class="ntitle">Running Timers</h1>
+    <h1 class="ntitle">{Lang.t('tracker.running-timers', 'Running Timers')}</h1>
   </ToolbarGrid>
   <main style="min-height:40vh">
     <List solo>

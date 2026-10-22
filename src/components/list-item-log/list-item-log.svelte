@@ -24,6 +24,7 @@
   import type { Token } from '../../modules/tokenizer/lite'
   import type { Trackable } from '../../domains/trackable/Trackable.class' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
   import is from '../../utils/is/is'
+  import { Lang } from '../../store/lang'
 
   // props
   // export let trackers = {};
@@ -145,7 +146,7 @@
           <div class="log-time-col ios-time text-ios-label2">{log.endDayjs().format(dateFormats.time)}</div>
           <button
             type="button"
-            aria-label="Change mood score"
+            aria-label={Lang.t('ui.change-mood-score', 'Change mood score')}
             on:click={() => changePositivity(log)}
             class="log-mood text-ios-subhead text-ios-label2"
             >{getEmojiFromScore(
@@ -159,7 +160,7 @@
           {#if fullDate}
             <button
               type="button"
-              aria-label="Change mood score"
+              aria-label={Lang.t('ui.change-mood-score', 'Change mood score')}
               on:click={() => changePositivity(log)}
               class="text-ios-subhead text-ios-label2"
               >{getEmojiFromScore(
@@ -171,12 +172,14 @@
             </div>
           {/if}
           {#if displayLog.pinned}
-            <span class="pinned-mark text-ios-tint" aria-label="Pinned"><IonIcon icon={MagnetSolid} size={13} /></span>
+            <span class="pinned-mark text-ios-tint" aria-label={Lang.t('ui.pinned', 'Pinned')}
+              ><IonIcon icon={MagnetSolid} size={13} /></span
+            >
           {/if}
           <div class="filler"></div>
           <button
             type="button"
-            aria-label="More options for this entry"
+            aria-label={Lang.t('ui.more-options-for-this-entry', 'More options for this entry')}
             style="margin:-11px -12px -11px 0"
             class="text-ios-label h-11 w-11 rounded-full flex items-center justify-center"
             on:click={() => {
@@ -231,7 +234,7 @@
             {/each}
             <button
               type="button"
-              aria-label="Add a tracker or person to this note"
+              aria-label={Lang.t('ui.add-a-tracker-or-person-to-this-note', 'Add a tracker or person to this note')}
               on:click={() => addItem()}
               class="tiny-trackable bg-transparent"
             >
@@ -239,7 +242,7 @@
             </button>
             {#if log.location || log.lng}
               <button
-                aria-label="View Location"
+                aria-label={Lang.t('ui.view-location', 'View Location')}
                 on:click={() => {
                   return openLocationViewer([log.geoType], [log])
                 }}
@@ -252,7 +255,7 @@
           </div>
         {:else if log.location || log.lng}
           <button
-            aria-label="View Location"
+            aria-label={Lang.t('ui.view-location', 'View Location')}
             on:click={() => {
               return openLocationViewer([log.geoType], [log])
             }}

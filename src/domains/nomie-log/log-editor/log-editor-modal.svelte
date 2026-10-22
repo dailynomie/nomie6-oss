@@ -191,11 +191,15 @@
           slot="left"
           id="log-editor-options"
           x="left"
-          title="Select Score for this note"
+          title={Lang.t('log.select-score-for-this-note', 'Select Score for this note')}
           buttonClass="text-lg "
           menuButtons={positivityButtons}
         >
-          <div title="Select Score for this note" class="w-full text-center" style="width:100%;">
+          <div
+            title={Lang.t('log.select-score-for-this-note', 'Select Score for this note')}
+            class="w-full text-center"
+            style="width:100%;"
+          >
             <div class="value w-10">
               {updateTrigger >= 0 ? getEmojiFromScore(workingLog.score).emoji : ''}
             </div>
@@ -212,7 +216,7 @@
         />
 
         <Button
-          title="Pin/Unpin Entry to top of Day"
+          title={Lang.t('log.pin-unpin-entry-to-top-of-day', 'Pin/Unpin Entry to top of Day')}
           slot="right"
           clear
           icon
@@ -260,7 +264,7 @@
       <CaptureTextarea
         autofocus
         id="editor"
-        placeholder="What's up?"
+        placeholder={Lang.t('log.what-s-up', "What's up?")}
         class="p-4 pt-2 w-full focus:outline-none placeholder-ios-label2 focus:ring ring-inset ring-ios-tint ring-opacity-20 bg-transparent"
         bind:value={workingLog.note}
         style="min-height:300px;"

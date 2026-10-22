@@ -18,10 +18,9 @@ def slug(text):
     return s[:48] or 'text'
 
 def js_string(text):
-    # the default is a JS string: use double quotes when the text contains an apostrophe
-    if "'" in text:
-        return '"' + text.replace('"', '\\"') + '"'
-    return "'" + text + "'"
+    # the default is a JS string literal: escape backslashes and single quotes, always
+    text = ' '.join(text.split())
+    return "'" + text.replace('\\', '\\\\').replace("'", "\\'") + "'"
 
 def hits(path):
     out = []
@@ -30,15 +29,23 @@ def hits(path):
     scan = re.sub(r'<script[\s\S]*?</script>', lambda m: '\n' * m.group(0).count('\n'), text)
     scan = re.sub(r'<style[\s\S]*?</style>', lambda m: '\n' * m.group(0).count('\n'), scan)
     scan = re.sub(r'<!--[\s\S]*?-->', lambda m: '\n' * m.group(0).count('\n'), scan)
+    prev = None
+    while prev != scan:
+        prev = scan
+        scan = re.sub(r'\{[^{}]*\}', '', scan)
     for m in re.finditer(r'>([^<>{}]*)<', scan):
         t = m.group(1).strip()
         if '\n' in t:
             # a paragraph over several lines is wrapped by hand, so the text match stays exact
-            out.append(('manual', ' '.join(t.split())))
+            words = t.split()
+            if len(words) >= 2 and not any(c in t for c in '{}<>`') and re.search(r'[A-Za-z]{2,}', t):
+                out.append(('multiline', ' '.join(words)))
+            else:
+                out.append(('manual', ' '.join(words)))
             continue
         if re.search(r'[A-Za-z]{2,}', t) and t not in BRANDS:
             out.append(('text', t))
-    for m in re.finditer(r'\b(title|description|placeholder|label|aria-label|buttonLabel)="([^"{}]*[A-Za-z]{2,}[^"{}]*)"', scan):
+    for m in re.finditer(r'\b(title|description|placeholder|label|aria-label|buttonLabel)="([^"{}\n]*[A-Za-z]{2,}[^"{}\n]*)"', scan):
         if m.group(2) not in BRANDS:
             out.append(('attr', m.group(1), m.group(2)))
     return out
@@ -67,6 +74,15 @@ def wrap(path, area, keys, base):
         # template text and attributes live in Svelte files only; .ts files get the dialog and toast mode
         return False
     for item in hits(path):
+        if item[0] == 'multiline':
+            _, t = item
+            key = keys[t] = keys.get(t) or choose_key(area, t, keys, base)
+            flex = r'\s+'.join(re.escape(w) for w in t.split())
+            pat = re.compile(r'(>\s*)' + flex + r'(\s*<)')
+            new, n = pat.subn(lambda m: m.group(1) + '{Lang.t(\'' + key + '\', ' + js_string(t) + ')}' + m.group(2), new)
+            if n == 0:
+                print(f'manual (multi-line, no exact match): {path}: {t[:70]}')
+            continue
         if item[0] == 'manual':
             print(f'manual (multi-line text, wrap by hand): {path}: {item[1][:70]}')
             continue
@@ -153,15 +169,19 @@ def wrap_script(path, area, keys, base):
 def ensure_import(path):
     """A file that calls Lang.t must import Lang (LANG-09)."""
     s = open(path, encoding='utf8').read()
-    if 'Lang.t(' not in s or re.search(r'import[^;]*\bLang\b[^;]*from', s):
+    if 'Lang.t(' not in s or re.search(r'import\s*\{[^}]*\bLang\b[^}]*\}\s*from', s):
         return False
     rel = os.path.relpath('src/store/lang', os.path.dirname(path))
     if not rel.startswith('.'):
         rel = './' + rel
     lines = s.split('\n')
-    idx = [i for i, l in enumerate(lines) if re.match(r'\s*import ', l)]
+    idx = [i for i, l in enumerate(lines) if re.match(r'\s*import\b', l)]
     if idx:
-        at = idx[-1] + 1
+        # the end of the last import statement: a statement that spans lines ends at its 'from' line
+        last = idx[-1]
+        while 'from' not in lines[last] and last + 1 < len(lines):
+            last += 1
+        at = last + 1
     elif path.endswith('.ts'):
         at = 0
     else:

@@ -24,6 +24,7 @@
   import { TodayStore } from '../usage/today/TodayStore'
   import { UsageLast } from '../usage/UsageStore'
   import type { UniboardType } from './UniboardStore'
+  import { Lang } from '../../store/lang'
 
   const { board } = $props<{ board: UniboardType }>()
 
@@ -86,14 +87,14 @@
   }
 </script>
 
-<section aria-label="Edit this Tabs name and trackables">
+<section aria-label={Lang.t('board.edit-this-tabs-name-and-trackables', 'Edit this Tabs name and trackables')}>
   {#if workingBoard}
     <Container>
       <List solo>
         <Input
           type="text"
           listItem
-          placeholder="Tab Label"
+          placeholder={Lang.t('board.tab-label', 'Tab Label')}
           on:input={() => {
             dispatchChange()
           }}
