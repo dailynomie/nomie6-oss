@@ -69,7 +69,6 @@
   import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
   import { navigate } from '../../vendor/svelte-navigator'
   import { openModal } from '../../components/backdrop/BackdropStore2'
-  import AIChatModal from '../ai/ai-chat-modal-compliant.svelte'
 
   // Consts
 
@@ -363,7 +362,9 @@
 
   const { className } = $props()
 
-  function goToAiInsights() {
+  async function goToAiInsights() {
+    // the AI chat, with its markdown renderer, loads when it opens
+    const { default: AIChatModal } = await import('../ai/ai-chat-modal-compliant.svelte')
     openModal({
       id: 'ai-chat-modal',
       position: 'fullscreen',
