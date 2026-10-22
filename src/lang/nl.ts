@@ -148,6 +148,7 @@ export default {
       'find-and-replace': 'Zoeken en vervangen',
     },
     tracker: {
+      'edit-tracker': 'Tracker bewerken',
       'trackers': 'Trackers',
       'type.habit': 'Habit',
       'type.habit_description': 'Houd je habits dagelijks bij: je hebt het gedaan of niet. Geschikt voor: mediteren, tanden poetsen, bidden.',
@@ -1176,6 +1177,11 @@ export default {
       'waiting-time': 'Wachttijd:',
     },
     trackable: {
+      'set-min': 'Minimum instellen',
+      'set-max': 'Maximum instellen',
+      'set-step': 'Stap instellen',
+      'set-default': 'Standaard instellen',
+      'back': 'Terug',
       'n-days': '{{count}} dagen',
       'usage-title': '{{name}} gebruik...',
       'not-valid': '{{name}} is niet geldig',

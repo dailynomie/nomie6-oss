@@ -178,7 +178,7 @@
         {tracker.label}
       </span>
       <div slot="right">
-        <Button icon on:click={editTracker}>
+        <Button icon ariaLabel={Lang.t('tracker.edit-tracker', 'Edit tracker')} on:click={editTracker}>
           <IonIcon icon={MoreVertical} size={26} className="text-ios-tint" />
         </Button>
       </div>

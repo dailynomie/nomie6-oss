@@ -89,6 +89,7 @@
         clear
         primary
         icon
+        ariaLabel={Lang.t('trackable.back', 'Back')}
         on:click={() => {
           close()
         }}

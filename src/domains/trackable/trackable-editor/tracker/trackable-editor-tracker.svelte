@@ -337,6 +337,7 @@
             <div slot="right" class="pr-1">
               <Button
                 icon
+                ariaLabel={Lang.t('trackable.set-min', 'Set minimum')}
                 on:click={() => {
                   getTrackerInput('min')
                 }}
@@ -360,6 +361,7 @@
             <div slot="right" class="pr-1">
               <Button
                 icon
+                ariaLabel={Lang.t('trackable.set-max', 'Set maximum')}
                 on:click={() => {
                   getTrackerInput('max')
                 }}
@@ -505,6 +507,7 @@
             <div slot="right" class="pr-1">
               <Button
                 icon
+                ariaLabel={Lang.t('trackable.set-step', 'Set step')}
                 on:click={() => {
                   getTrackerInput('step')
                 }}
@@ -549,6 +552,7 @@
             <Button
               className="pr-1"
               icon
+              ariaLabel={Lang.t('trackable.set-default', 'Set default')}
               on:click={() => {
                 getTrackerInput('default')
               }}

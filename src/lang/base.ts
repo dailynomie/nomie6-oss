@@ -148,6 +148,7 @@ export default {
       'find-and-replace': 'Find and Replace',
     },
     tracker: {
+      'edit-tracker': 'Edit tracker',
       'trackers': 'Trackers',
       'type.habit': 'Habit',
       'type.habit_description': 'Track your habits daily; either you did something...or not. Good for: meditation, tooth brush, praying.',
@@ -1178,6 +1179,11 @@ export default {
       'waiting-time': 'Waiting Time:',
     },
     trackable: {
+      'set-min': 'Set minimum',
+      'set-max': 'Set maximum',
+      'set-step': 'Set step',
+      'set-default': 'Set default',
+      'back': 'Back',
       'n-days': '{{count}} days',
       'usage-title': '{{name}} Usage...',
       'not-valid': '{{name}} is not valid',
