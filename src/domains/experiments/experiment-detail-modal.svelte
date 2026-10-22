@@ -29,6 +29,7 @@
   import { outcomeChartConfig } from './experiment-chart'
   import { baselineDaysBefore } from './experiment-data'
   import type { ChartConfiguration } from 'chart.js'
+  import { Lang } from '../../store/lang'
 
   const { id, experimentId } = $props()
 

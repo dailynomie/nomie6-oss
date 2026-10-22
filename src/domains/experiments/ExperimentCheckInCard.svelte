@@ -11,6 +11,7 @@
   import type { ExperimentType } from './experiment-class'
   import { RadialOpenStore } from '../layout/radial-store'
   import { MenuBlockerStore } from '../../components/menu/useDropmenu'
+  import { Lang } from '../../store/lang'
 
   // Move the card to the top of the page, so it is not held back by the page's own layers
   const toBody = (node: HTMLElement) => {

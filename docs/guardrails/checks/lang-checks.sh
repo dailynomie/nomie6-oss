@@ -68,6 +68,19 @@ if [ -n "$MSG" ]; then
 else
   echo "[LANG-03 MUST] toast and dialog text in changed files is wrapped (pass)"
 fi
+# LANG-09 a file that calls Lang.t imports Lang (a missing import compiles, then fails when the text is shown)
+NOIMPORT=""
+for f in $(printf '%s\n' $LIST); do
+  [ -f "$f" ] || continue
+  if grep -qE "^[^/]*Lang\.t\(" "$f" && ! grep -qE "import[^;]*\bLang\b[^;]*from" "$f"; then NOIMPORT="$NOIMPORT$f\n"; fi
+done
+if [ -n "$NOIMPORT" ]; then
+  n=$(printf "$NOIMPORT" | grep -c .)
+  echo "[LANG-09 MUST] file calls Lang.t without importing Lang ($n)"; printf "$NOIMPORT" | sed 's/^/    /' | head -n 25
+  MUST_FAILS=1; HITS=$((HITS+n))
+else
+  echo "[LANG-09 MUST] every file that calls Lang.t imports Lang (pass)"
+fi
 echo; echo "LANG violations: $HITS"
 if [ $MUST_FAILS -ne 0 ]; then echo "Result: FAIL"; exit 1; fi
 echo "Result: pass"; exit 0

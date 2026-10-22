@@ -23,6 +23,7 @@
   import { createExperiment } from './experiment-create'
   import { hasLibraryTracker, installLibraryTracker, libraryTrackerLabel } from './experiment-library'
   import { FeatureVisible } from '../preferences/features'
+  import { Lang } from '../../store/lang'
 
   const { id } = $props()
 
