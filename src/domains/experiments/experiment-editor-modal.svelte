@@ -279,16 +279,16 @@
               >
             </div>
             {#if !outcome.found}
-              <div class="flex flex-wrap gap-3">
-                {#if hasLibraryTracker(outcome.tag)}
-                  <button class="text-sm font-medium text-ios-tint" onclick={() => installFromLibrary(index)}
-                    >{Lang.t('experiments.add-from-library', { name: libraryTrackerLabel(outcome.tag) })}</button
-                  >
-                {/if}
+              <!-- one choice per missing tracker: the library version when there is one, otherwise one of the user's own -->
+              {#if hasLibraryTracker(outcome.tag)}
+                <button class="text-sm font-medium text-ios-tint" onclick={() => installFromLibrary(index)}
+                  >{Lang.t('experiments.add-from-library', { name: libraryTrackerLabel(outcome.tag) })}</button
+                >
+              {:else}
                 <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}
                   >{Lang.t('experiments.pick-one-of-my-trackers', 'Pick one of my trackers')}</button
                 >
-              </div>
+              {/if}
             {/if}
             <IosSelect
               className="w-full"
