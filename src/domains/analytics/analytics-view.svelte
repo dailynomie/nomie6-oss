@@ -8,7 +8,6 @@
   import Container from '../../components/container/container.svelte'
   //import TableRenderers from "svelte-pivottable/TableRenderers";
   import TableRenderers from './Pivot-table/TableRenderers'
-  import Plotly from 'plotly.js-dist-min'
   //import PlotlyRenderers from "svelte-pivottable/PlotlyRenderers";
   import PlotlyRenderers from './Pivot-table/PlotlyRenderers'
   import { TrackableStore, AllTrackablesAsArray } from '../trackable/TrackableStore'
@@ -65,13 +64,18 @@
 
   $effect(() => {
     if (!initialized) {
-      // create Plotly renderers via dependency injection
-      plotlyRenderers = PlotlyRenderers(Plotly)
       loaded = false
-      renderers = { ...TableRenderers, ...plotlyRenderers }
-      initialzePivotsPage()
       initialized = true
-      // getData() will be called from selectPivot() after pivot is selected
+      // Plotly is large, so it loads when the analytics page opens. The pivot page starts once it is here;
+      // the table renderers are available before that.
+      renderers = { ...TableRenderers }
+      import('plotly.js-dist-min').then((mod) => {
+        // create Plotly renderers via dependency injection
+        plotlyRenderers = PlotlyRenderers(mod.default)
+        renderers = { ...TableRenderers, ...plotlyRenderers }
+        initialzePivotsPage()
+        // getData() will be called from selectPivot() after pivot is selected
+      })
     }
   })
 
