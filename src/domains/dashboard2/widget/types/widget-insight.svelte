@@ -80,7 +80,7 @@
 
     // If cached insight exists and is from today, use it
     if (widget.data?.cachedInsight && widget.data?.cachedDate === today) {
-      console.log('[Insight Widget] Using cached insight from', widget.data.cachedDate)
+      console.info('[Insight Widget] Using cached insight from', widget.data.cachedDate)
       insight = widget.data.cachedInsight
       lastFetchDate = widget.data.cachedDate
       promptLabel = getPromptLabel(widget.data?.promptValue || 'Custom Prompt')

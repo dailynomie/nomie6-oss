@@ -60,7 +60,7 @@ export const saveCleanupLog = (result: DedupResult, type: 'manual' | 'scheduled'
     totalPlugins: result.totalPluginsInMainList,
   }
   localStorage.setItem(CLEANUP_LOG_KEY, JSON.stringify(logEntry))
-  console.log(`[PluginCleanup] Saved ${type} cleanup log:`, logEntry)
+  console.info(`[PluginCleanup] Saved ${type} cleanup log:`, logEntry)
 }
 
 /**
@@ -69,7 +69,7 @@ export const saveCleanupLog = (result: DedupResult, type: 'manual' | 'scheduled'
  */
 export const autoCleanupPlugins = async (): Promise<boolean> => {
   try {
-    console.log('[PluginCleanup] Starting auto-cleanup scheduler...')
+    console.info('[PluginCleanup] Starting auto-cleanup scheduler...')
 
     // Get current preferences
     let prefs: any
@@ -79,21 +79,21 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
 
     // Check if cleanup is enabled
     if (!prefs || prefs.pluginCleanupDays === undefined || prefs.pluginCleanupDays === -1) {
-      console.log('[PluginCleanup] Auto-cleanup is disabled (pluginCleanupDays: -1)')
+      console.info('[PluginCleanup] Auto-cleanup is disabled (pluginCleanupDays: -1)')
       return false
     }
 
-    console.log(`[PluginCleanup] Auto-cleanup interval: ${prefs.pluginCleanupDays} days`)
+    console.info(`[PluginCleanup] Auto-cleanup interval: ${prefs.pluginCleanupDays} days`)
 
     // Get days since last cleanup
     const lastCleanup = localStorage.getItem(CLEANUP_STORAGE_KEY)
     if (!lastCleanup) {
       // First cleanup, run it
-      console.log('[PluginCleanup] No previous cleanup found - running initial cleanup')
+      console.info('[PluginCleanup] No previous cleanup found - running initial cleanup')
       try {
         // Scan first to see what needs cleaning
         const scanResult = await scanForPluginDuplicates()
-        console.log('[PluginCleanup] Initial scan results:', {
+        console.info('[PluginCleanup] Initial scan results:', {
           hasDuplicates: scanResult.hasDuplicates,
           totalDuplicateEntries: scanResult.totalDuplicateEntries,
           totalRogueFolders: scanResult.totalRogueFolders,
@@ -102,7 +102,7 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
 
         // Now perform cleanup
         const cleanupResult = await cleanupPluginDuplicates()
-        console.log('[PluginCleanup] Initial cleanup completed')
+        console.info('[PluginCleanup] Initial cleanup completed')
 
         // Always update last cleanup timestamp, even if no issues found
         await cleanupConfirmed()
@@ -124,16 +124,16 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
 
     // Check if enough days have passed
     const daysSinceCleanup = dayjs().diff(new Date(lastCleanup), 'day')
-    console.log(`[PluginCleanup] Days since last cleanup: ${daysSinceCleanup}`)
+    console.info(`[PluginCleanup] Days since last cleanup: ${daysSinceCleanup}`)
 
     if (daysSinceCleanup >= prefs.pluginCleanupDays) {
-      console.log(
+      console.info(
         `[PluginCleanup] Interval elapsed (${daysSinceCleanup} >= ${prefs.pluginCleanupDays}) - running cleanup`
       )
       try {
         // Scan first to see what needs cleaning
         const scanResult = await scanForPluginDuplicates()
-        console.log('[PluginCleanup] Scan results:', {
+        console.info('[PluginCleanup] Scan results:', {
           hasDuplicates: scanResult.hasDuplicates,
           totalDuplicateEntries: scanResult.totalDuplicateEntries,
           totalRogueFolders: scanResult.totalRogueFolders,
@@ -142,7 +142,7 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
 
         // Now perform cleanup
         const cleanupResult = await cleanupPluginDuplicates()
-        console.log('[PluginCleanup] Cleanup completed')
+        console.info('[PluginCleanup] Cleanup completed')
 
         // Always update last cleanup timestamp, even if no issues found
         await cleanupConfirmed()
@@ -162,7 +162,7 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
       }
     }
 
-    console.log(
+    console.info(
       `[PluginCleanup] Interval not yet elapsed - next cleanup in ${prefs.pluginCleanupDays - daysSinceCleanup} days`
     )
     return false

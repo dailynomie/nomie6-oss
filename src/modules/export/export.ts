@@ -128,10 +128,10 @@ export default class Export {
         }
       }
 
-      console.log('[export] Exporting plugins and preferences')
-      console.log('[export] Plugins count:', this.backup.plugins?.length || 0)
-      console.log('[export] Plugins with prefs:', Object.keys(this.backup.pluginPreferences || {}).length)
-      console.log('[export] Plugin prefs included:', this.backup.pluginPreferences)
+      console.info('[export] Exporting plugins and preferences')
+      console.info('[export] Plugins count:', this.backup.plugins?.length || 0)
+      console.info('[export] Plugins with prefs:', Object.keys(this.backup.pluginPreferences || {}).length)
+      console.info('[export] Plugin prefs included:', this.backup.pluginPreferences)
 
       // Get Trackers
       this.fireChange('Trackers...')

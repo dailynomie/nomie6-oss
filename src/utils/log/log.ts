@@ -7,9 +7,9 @@ export default class Log {
   }
   success(title, v1?: any) {
     if (this.render) {
-      console.log('✅ ✅ ✅ ✅ ' + this.label)
+      console.info('✅ ✅ ✅ ✅ ' + this.label)
       this.showArgs('✅ ', arguments)
-      console.log('')
+      console.info('')
     }
   }
   log(title, v1?) {
@@ -18,24 +18,24 @@ export default class Log {
     }
   }
   error(e) {
-    console.log('📛 📛 📛 📛 📛 📛 ')
-    console.log('📛 ' + this.label)
+    console.info('📛 📛 📛 📛 📛 📛 ')
+    console.info('📛 ' + this.label)
     this.showArgs('📛', arguments)
-    console.log('📛 📛 📛 📛 📛 📛 ')
-    console.log('')
+    console.info('📛 📛 📛 📛 📛 📛 ')
+    console.info('')
   }
 
   notice(e) {
-    console.log('👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯')
-    console.log('👯 ' + this.label)
+    console.info('👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯')
+    console.info('👯 ' + this.label)
     this.showArgs('👯', arguments)
-    console.log('👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯')
-    console.log('')
+    console.info('👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯')
+    console.info('')
   }
   showArgs(emoji, args) {
     if (args) {
       for (let i = 0; i < args.length; i++) {
-        console.log(i == 0 ? '⭐️ ' + emoji : '✨   ', args[i])
+        console.info(i == 0 ? '⭐️ ' + emoji : '✨   ', args[i])
       }
     }
   }

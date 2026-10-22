@@ -145,15 +145,15 @@ export const registerPluginPreferencesListeners = async () => {
   try {
     const plugins: Array<PluginClass> = PluginStore.rawState()
 
-    console.log('[PluginStore] Registering preference listeners for', plugins.length, 'plugins')
+    console.info('[PluginStore] Registering preference listeners for', plugins.length, 'plugins')
 
     for (const plugin of plugins) {
       const prefsPath = `plugins/${plugin.id}/prefs.json`
 
       // Register listener for preference changes from CouchDB sync
       Storage.get(prefsPath, (changedPrefs: any) => {
-        console.log(`[PluginStore] Preference update detected for plugin: ${plugin.name} (${plugin.id})`)
-        console.log(`[PluginStore] Updated prefs:`, Object.keys(changedPrefs || {}))
+        console.info(`[PluginStore] Preference update detected for plugin: ${plugin.name} (${plugin.id})`)
+        console.info(`[PluginStore] Updated prefs:`, Object.keys(changedPrefs || {}))
 
         // Note: Individual plugins may need to reload their preferences
         // This broadcasts the update so plugins can react if needed
@@ -171,7 +171,7 @@ export const registerPluginPreferencesListeners = async () => {
       })
     }
 
-    console.log('[PluginStore] Plugin preference listeners initialized')
+    console.info('[PluginStore] Plugin preference listeners initialized')
   } catch (e) {
     console.error('[PluginStore] Error registering preference listeners:', e)
   }

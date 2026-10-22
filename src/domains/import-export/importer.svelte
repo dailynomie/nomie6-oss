@@ -64,19 +64,19 @@
   const methods = {
     // Initialze once we have data.
     init() {
-      console.log('[importer.init] Initializing import')
-      console.log('[importer.init] fileData keys:', Object.keys(fileData || {}))
+      console.info('[importer.init] Initializing import')
+      console.info('[importer.init] fileData keys:', Object.keys(fileData || {}))
       initialized = true
       // Support both old format (with 'nomie') and new format (with 'files')
       if (fileData.hasOwnProperty('nomie') || (fileData.files && fileData.version)) {
         // const importer = new Importer(fileData);
         try {
-          console.log('[importer.init] Calling importLoader.openPayload')
+          console.info('[importer.init] Calling importLoader.openPayload')
           importLoader.openPayload(fileData)
-          console.log('[importer.init] openPayload completed')
-          console.log('[importer.init] importLoader.normalized:', importLoader.normalized)
+          console.info('[importer.init] openPayload completed')
+          console.info('[importer.init] importLoader.normalized:', importLoader.normalized)
           version = importLoader.importer.version
-          console.log('[importer.init] Version:', version)
+          console.info('[importer.init] Version:', version)
 
           // Normalize fileData to always have nomie property for template
           if (!fileData.nomie && fileData.version) {
@@ -93,7 +93,7 @@
           Interact.alert('Error', e.message)
         }
       } else {
-        console.log('[importer.init] File data format not recognized')
+        console.info('[importer.init] File data format not recognized')
       }
     },
     async finish() {
@@ -127,7 +127,7 @@
     // Confirm Import Trackers
 
     async run(type: string, func: Function, prompt: boolean = false) {
-      console.log(`[importer.run] Starting import for: ${type}`)
+      console.info(`[importer.run] Starting import for: ${type}`)
       importing[type].running = true
       try {
         let proceed = true
@@ -135,18 +135,18 @@
           proceed = await Interact.confirm(`Import ${type}?`, 'This action cannot be undone')
           await wait(200)
           if (proceed !== true) {
-            console.log(`[importer.run] ${type} import cancelled by user`)
+            console.info(`[importer.run] ${type} import cancelled by user`)
             importing[type].running = false
             importing[type].done = false
           }
         }
         if (proceed) {
-          console.log(`[importer.run] Executing import function for ${type}`)
+          console.info(`[importer.run] Executing import function for ${type}`)
           const result = await func()
-          console.log(`[importer.run] Import function completed for ${type}`, result)
+          console.info(`[importer.run] Import function completed for ${type}`, result)
           importing[type].running = false
           importing[type].done = true
-          console.log(`[importer.run] ${type} import completed successfully`)
+          console.info(`[importer.run] ${type} import completed successfully`)
         }
       } catch (e) {
         console.error(`[importer.run] Error importing ${type}:`, e)

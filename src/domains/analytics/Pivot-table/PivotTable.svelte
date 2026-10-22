@@ -25,7 +25,7 @@
   // Build pivot config when getConfig changes
   $effect(() => {
     if (getConfig) {
-      console.log('[PivotTable] getConfig effect triggered - rebuilding pivotconfig', {
+      console.info('[PivotTable] getConfig effect triggered - rebuilding pivotconfig', {
         rows: restProps.rows,
         cols: restProps.cols,
         rowsDuplicates: restProps.rows?.filter((item, index) => restProps.rows.indexOf(item) !== index),
@@ -59,7 +59,7 @@
           derivedAttributes: config.derivedAttributes,
         },
       })
-      console.log('[PivotTable] pivotconfig rebuilt', {
+      console.info('[PivotTable] pivotconfig rebuilt', {
         rows: currentconfig.options.rows,
         cols: currentconfig.options.cols,
       })

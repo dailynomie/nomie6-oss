@@ -232,7 +232,7 @@ Correlation analysis reveals three major relationship clusters with predictive a
 
     // Check for new dual-level cache first
     if (widget.data?.insightSummary && widget.data?.cachedDate === today) {
-      console.log('[Insight Widget] Using cached dual-level insight from', widget.data.cachedDate)
+      console.info('[Insight Widget] Using cached dual-level insight from', widget.data.cachedDate)
       insightSummary = widget.data.insightSummary
       insightExtended = widget.data.insightExtended || widget.data.insightSummary
       lastFetchDate = widget.data.cachedDate
@@ -242,7 +242,7 @@ Correlation analysis reveals three major relationship clusters with predictive a
 
     // Fallback: check for legacy single-level cache
     if (widget.data?.cachedInsight && widget.data?.cachedDate === today) {
-      console.log('[Insight Widget] Using legacy cached insight from', widget.data.cachedDate)
+      console.info('[Insight Widget] Using legacy cached insight from', widget.data.cachedDate)
       insightSummary = widget.data.cachedInsight
       insightExtended = widget.data.cachedInsight
       lastFetchDate = widget.data.cachedDate

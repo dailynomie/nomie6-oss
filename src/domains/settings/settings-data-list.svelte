@@ -91,7 +91,7 @@
     const isNowEnabled = newDays !== -1
 
     if (wasDisabled && isNowEnabled) {
-      console.log('[Settings] Cleanup enabled - running initial scan')
+      console.info('[Settings] Cleanup enabled - running initial scan')
       await autoCleanupPlugins()
     }
 

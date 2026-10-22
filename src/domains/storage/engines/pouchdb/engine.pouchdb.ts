@@ -206,10 +206,10 @@ export const PouchDBEngine: IStorage = {
         try {
           doc = await this.db.get(path)
         } catch (retryError) {
-          console.log('getFullDoc retry failed', path, retryError)
+          console.info('getFullDoc retry failed', path, retryError)
         }
       } else if (e.status !== 404) {
-        console.log('getFullDoc error found: ', e)
+        console.info('getFullDoc error found: ', e)
       }
     }
     return doc
@@ -224,7 +224,7 @@ export const PouchDBEngine: IStorage = {
       let fullDoc = await this.getFullDoc(path)
       doc = fullDoc ? fullDoc.data : null
     } catch (e) {
-      console.log('get error')
+      console.info('get error')
     }
     return doc
   },

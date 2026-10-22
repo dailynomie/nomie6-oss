@@ -33,7 +33,7 @@
         end: dayjs(),
       })
 
-      console.log('📊 Logs from last 30 days:', logs?.length)
+      console.info('📊 Logs from last 30 days:', logs?.length)
 
       if (!logs || logs.length === 0) {
         testDataInfo = { info: 'No tracking data available yet' }
@@ -69,7 +69,7 @@
         })
       })
 
-      console.log('📊 Extracted tokens:', totalTokens, 'Unique metrics:', Object.keys(byTag).length)
+      console.info('📊 Extracted tokens:', totalTokens, 'Unique metrics:', Object.keys(byTag).length)
 
       // Get context
       const context = await buildContext({

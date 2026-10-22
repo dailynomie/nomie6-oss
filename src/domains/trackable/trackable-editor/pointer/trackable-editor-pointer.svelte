@@ -28,7 +28,7 @@
     rows={5}
     on:change={(evt) => {
       trackable.ptr.description = evt.detail
-      console.log(evt.detail)
+      console.info(evt.detail)
     }}
   ></Input>
 </List>

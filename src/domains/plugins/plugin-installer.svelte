@@ -88,7 +88,7 @@
 
   onMount(() => {
     window.addEventListener('message', messageListener)
-    console.log('Plugin installer mounted', url)
+    console.info('Plugin installer mounted', url)
     if (url && is.url(url)) {
       loadPlugin()
     }

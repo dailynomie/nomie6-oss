@@ -65,7 +65,7 @@ export class PWAService {
     // Check if we're in dev mode (vite-plugin-pwa doesn't provide virtual module in dev)
     const isDev = import.meta.env.DEV
     if (isDev) {
-      console.log('[PWA] Dev mode detected - PWA features limited (full support in production build)')
+      console.info('[PWA] Dev mode detected - PWA features limited (full support in production build)')
       return
     }
 
@@ -77,7 +77,7 @@ export class PWAService {
         onRegistered: (registration) => {
           this.registration = registration
           if (registration) {
-            console.log('[PWA] Service Worker registered', {
+            console.info('[PWA] Service Worker registered', {
               scope: registration.scope,
               active: !!registration.active,
               installing: !!registration.installing,
@@ -128,7 +128,7 @@ export class PWAService {
       // Check if there's a waiting or installing SW
       const hasUpdate = !!this.registration.waiting || !!this.registration.installing
       if (hasUpdate) {
-        console.log('[PWA] Update available')
+        console.info('[PWA] Update available')
         this.needRefresh.set(true)
         this.persistUpdateState()
       }
@@ -142,7 +142,7 @@ export class PWAService {
       this.lastCheckTimestamp = Date.now()
       this._lastCheckTimeMs.set(this.lastCheckTimestamp)
 
-      console.log('[PWA] Update check completed', {
+      console.info('[PWA] Update check completed', {
         updateAvailable: hasUpdate,
         checkDurationMs: Date.now() - startTime,
         nextCheckInMs: this.currentCheckInterval,
@@ -160,7 +160,7 @@ export class PWAService {
           this.maxBackoffInterval
         )
         this.currentCheckInterval = newInterval
-        console.log('[PWA] Update check failed, backing off', {
+        console.info('[PWA] Update check failed, backing off', {
           failureCount: this.failureCount,
           nextCheckInMinutes: Math.round(newInterval / 60000),
         })
@@ -212,7 +212,7 @@ export class PWAService {
    * Called when user clicks "Check for updates" button
    */
   async manualCheckForUpdates(): Promise<boolean> {
-    console.log('[PWA] Manual update check requested by user')
+    console.info('[PWA] Manual update check requested by user')
     // Reset backoff state for manual check
     this.failureCount = 0
     this.currentCheckInterval = this.baseCheckInterval
@@ -262,7 +262,7 @@ export class PWAService {
       try {
         await this.registration.unregister()
         this.registration = null
-        console.log('[PWA] Service Worker unregistered')
+        console.info('[PWA] Service Worker unregistered')
       } catch (error) {
         console.error('[PWA] Error unregistering Service Worker', error)
       }
@@ -274,7 +274,7 @@ export class PWAService {
   private _updateServiceWorker: ((reloadPage?: boolean) => Promise<void>) | null = null
 
   private startUpdateChecks(): void {
-    console.log('[PWA] Starting update checks with 15-minute base interval')
+    console.info('[PWA] Starting update checks with 15-minute base interval')
 
     // Initial check immediately
     this.checkForUpdates()
@@ -324,7 +324,7 @@ export class PWAService {
       if (stored) {
         const state = JSON.parse(stored)
         if (state.updateAvailable) {
-          console.log('[PWA] Restoring persisted update notification')
+          console.info('[PWA] Restoring persisted update notification')
           this.needRefresh.set(true)
         }
         // Clean up old persisted state (older than 7 days)

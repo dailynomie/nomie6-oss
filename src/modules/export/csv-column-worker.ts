@@ -27,7 +27,7 @@ onmessage = (e: PayloadType) => {
     return new Trackable(t)
   })
 
-  console.log('Worker CSV Columsn', {
+  console.info('Worker CSV Columsn', {
     logs,
     knownTrackables,
     trackableArray,

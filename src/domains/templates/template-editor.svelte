@@ -652,7 +652,7 @@
             for (const tag of tagsToAdd) {
               // Strip emoji prefix from tag (pivot tags have emoji prefixes)
               const cleanTag = tag.replace(/^[^\p{L}\p{N}]+/u, '').trim()
-              console.log('Original tag:', tag, '-> Clean tag:', cleanTag)
+              console.info('Original tag:', tag, '-> Clean tag:', cleanTag)
 
               // Check if trackable already in template
               const alreadyExists = template.trackables.some((t) => {
@@ -660,20 +660,20 @@
                 return tTag === cleanTag || tTag?.replace(/^[#@]/, '') === cleanTag
               })
 
-              console.log('Already exists in template?', alreadyExists)
+              console.info('Already exists in template?', alreadyExists)
 
               if (!alreadyExists) {
                 // Try to find trackable in store with different prefixes
-                console.log('Trying keys:', cleanTag, `#${cleanTag}`, `@${cleanTag}`)
+                console.info('Trying keys:', cleanTag, `#${cleanTag}`, `@${cleanTag}`)
                 let storeTrackable = trackableStoreValue.trackables?.[cleanTag]
-                console.log('Try 1 (no prefix):', !!storeTrackable)
+                console.info('Try 1 (no prefix):', !!storeTrackable)
                 if (!storeTrackable) storeTrackable = trackableStoreValue.trackables?.[`#${cleanTag}`]
-                console.log('Try 2 (# prefix):', !!storeTrackable)
+                console.info('Try 2 (# prefix):', !!storeTrackable)
                 if (!storeTrackable) storeTrackable = trackableStoreValue.trackables?.[`@${cleanTag}`]
-                console.log('Try 3 (@ prefix):', !!storeTrackable)
+                console.info('Try 3 (@ prefix):', !!storeTrackable)
 
                 if (storeTrackable) {
-                  console.log('Found! Adding:', storeTrackable)
+                  console.info('Found! Adding:', storeTrackable)
                   trackablesToAdd.push(storeTrackable)
                 }
               }

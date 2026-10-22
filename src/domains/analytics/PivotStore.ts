@@ -55,26 +55,26 @@ export const registerPivotListeners = async () => {
   try {
     const pivotsPath = NPaths.storage.pivots()
 
-    console.log('[PivotStore] Registering change listener for pivots')
+    console.info('[PivotStore] Registering change listener for pivots')
 
     // Register listener for pivot changes from CouchDB sync
     Storage.get(pivotsPath, async (changedPivots: any) => {
-      console.log('[PivotStore] Pivot update detected from CouchDB sync')
-      console.log('[PivotStore] Updated pivots count:', (changedPivots || []).length)
+      console.info('[PivotStore] Pivot update detected from CouchDB sync')
+      console.info('[PivotStore] Updated pivots count:', (changedPivots || []).length)
 
       // Reload pivots from storage to update the store
       try {
         const freshPivots = await Storage.get(pivotsPath)
         if (freshPivots && Array.isArray(freshPivots)) {
           PivotStore.set(freshPivots.map((p) => new PivotClass(p)))
-          console.log('[PivotStore] Pivots reloaded successfully from CouchDB sync')
+          console.info('[PivotStore] Pivots reloaded successfully from CouchDB sync')
         }
       } catch (e) {
         console.error('[PivotStore] Error reloading pivots:', e)
       }
     })
 
-    console.log('[PivotStore] Pivot listener initialized')
+    console.info('[PivotStore] Pivot listener initialized')
   } catch (e) {
     console.error('[PivotStore] Error registering pivot listener:', e)
   }

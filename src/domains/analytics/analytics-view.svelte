@@ -161,7 +161,7 @@
   }, 200)
 
   async function getConfiguration() {
-    console.log('[Pivot] getConfiguration() called - preparing to save', {
+    console.info('[Pivot] getConfiguration() called - preparing to save', {
       rows: rows,
       cols: cols,
       rowsDuplicates: rows?.filter((item, index) => rows.indexOf(item) !== index),
@@ -169,7 +169,7 @@
     })
     getConfig = true
     setTimeout(() => {
-      console.log('[Pivot] getConfiguration() complete, getConfig=false')
+      console.info('[Pivot] getConfiguration() complete, getConfig=false')
       getConfig = false
     }, 10)
   }
@@ -354,12 +354,12 @@
   }
 
   const savePivot = async () => {
-    console.log('[Pivot] savePivot() called')
+    console.info('[Pivot] savePivot() called')
     await getConfiguration()
     let newPivot = new PivotClass(JSON.parse(JSON.stringify(pivotconfig)))
     newPivot.data = []
     newPivot.options.data = []
-    console.log('[Pivot] About to save pivot to store', {
+    console.info('[Pivot] About to save pivot to store', {
       pivotId: newPivot.id,
       pivotTag: newPivot.tag,
       rows: newPivot.options.rows,
@@ -376,12 +376,12 @@
     } finally {
       Interact.stopBlocker()
     }
-    console.log('[Pivot] savePivot() complete - pivot saved')
+    console.info('[Pivot] savePivot() complete - pivot saved')
     showToast({ message: 'Pivot Saved' })
   }
 
   const selectPivot = (pvt) => {
-    console.log('[Pivot] selectPivot() called', {
+    console.info('[Pivot] selectPivot() called', {
       pivotId: pvt.detail.id,
       pivotTag: pvt.detail.tag,
       rowsLoaded: pvt.detail.options?.rows,
@@ -419,7 +419,7 @@
       sorters = pvt.detail.options.sorters || sorters
       valueFilter = pvt.detail.options.valueFilter || valueFilter
       derivedAttributes = pvt.detail.options.derivedAttributes || derivedAttributes
-      console.log('[Pivot] After loading configuration', {
+      console.info('[Pivot] After loading configuration', {
         rowsState: rows,
         colsState: cols,
         rowsDuplicates: rows?.filter((item, index) => rows.indexOf(item) !== index),
