@@ -112,6 +112,27 @@ for id in $STARTER_IDS; do
   done
 done
 
+# UI-12 MUST: the icon squares of one list (one file) are shades of one hue, within 30 degrees
+for f in "${FILES[@]}"; do
+  [[ "$f" == *.svelte ]] || continue
+  if ! python3 - "$f" <<'PY'
+import colorsys, re, sys
+s = open(sys.argv[1], encoding='utf8').read()
+hexes = re.findall(r'IconSquare color="#([0-9A-Fa-f]{6})"', s)
+hues = []
+for h in hexes:
+    r, g, b = (int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    hh, light, sat = colorsys.rgb_to_hls(r, g, b)
+    if sat > 0.2 and 0.05 < light < 0.95:
+        hues.append(hh * 360)
+sys.exit(1 if hues and max(hues) - min(hues) > 30 else 0)
+PY
+  then
+    echo "[UI-12 MUST] icon squares in this list are not one hue (more than 30 degrees apart): $f"
+    MUST_HITS=$((MUST_HITS + 1)); MUST_FAILS=1
+  fi
+done
+
 echo
 echo "MUST violations: $MUST_HITS   SHOULD warnings: $SHOULD_HITS"
 if [ $MUST_FAILS -ne 0 ]; then

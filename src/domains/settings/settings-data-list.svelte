@@ -248,7 +248,7 @@
     )}
     on:click={openUnknownTrackables}
   >
-    <span slot="left"><IconSquare color="#7A5AA6"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#68BDC4"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem

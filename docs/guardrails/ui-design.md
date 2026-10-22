@@ -79,6 +79,8 @@ Chip tones (status pills) use these pairs. Light background / text, then dark ba
 
 Icon squares use a white glyph on a solid colour. They are for icons only: never put text on them, because green and amber are under 4.5:1 with white.
 
+- **MUST (UI-12)** A grouped list (one settings section, or one group on a page) has one colour base. Its icon squares are shades of that base, from dark to light down the list, and no square in it is another hue. A new row takes the next free shade of its list's base; never pick a colour for one row. Check: `ui-checks.sh` reads the icon square colours of each file and fails when they span more than 30 degrees of hue.
+
 ### 2.3 Tailwind classes
 
 `tailwind.config.js` maps the tokens to classes: `bg-ios-bg`, `bg-ios-card`, `bg-ios-card2`, `text-ios-label`, `text-ios-label2`, `bg-ios-fill`, `border-ios-separator`, `bg-ios-tint`, `text-ios-ontint`, `bg-ios-tintsoft`, `text-ios-tint`, `bg-ios-good`, `bg-ios-goodsoft`, `bg-ios-save`, `text-ios-onsave`, `bg-ios-danger`, `text-ios-danger`, `text-ios-ondanger`. Opacity modifiers such as `bg-ios-card/50` do not work with these, so do not use them.

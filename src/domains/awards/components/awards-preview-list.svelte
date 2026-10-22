@@ -17,7 +17,7 @@
 </script>
 
 <ListItem title={Lang.t('awards.awards', 'Awards')} detail to="/awards" bottomLine={57}>
-  <span slot="left"><IconSquare color="#E8746B"><IonIcon icon={RibbonOutline} size={17} /></IconSquare></span>
+  <span slot="left"><IconSquare color="#1A4F25"><IonIcon icon={RibbonOutline} size={17} /></IconSquare></span>
   <div slot="right" class="flex items-center space-x-1">
     {#if awardsToShow.length}
       {#each awardsToShow as award, index}

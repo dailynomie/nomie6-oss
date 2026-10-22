@@ -281,7 +281,7 @@
   {/if}
   <!-- iOS look: teal icon square for the Experiments board -->
   <ListItem bottomLine={57} title={Lang.t('settings.show-experiments-board', 'Show Experiments Board')}>
-    <span slot="left"><IconSquare color="#2A9D8F"><IonIcon icon={FlaskOutline} size={17} /></IconSquare></span>
+    <span slot="left"><IconSquare color="#A96BC9"><IonIcon icon={FlaskOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch
         value={$Prefs.experimentBoard === true}

@@ -227,7 +227,7 @@
                 title={Lang.t('settings.locations', 'Locations')}
               >
                 <span slot="left"
-                  ><IconSquare color="#5A9CF0"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span
+                  ><IconSquare color="#1F5E2C"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span
                 >
               </ListItem>
             </List>
@@ -241,7 +241,7 @@
                   title={Lang.t('settings.pointers', 'Pointers')}
                 >
                   <span slot="left" class="adv-corner"
-                    ><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><FeatureBadge
+                    ><IconSquare color="#2A7338"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><FeatureBadge
                       feature="pointers"
                     /></span
                   >
@@ -257,7 +257,7 @@
                 title={Lang.t('settings.templates', 'Templates')}
               >
                 <span slot="left"
-                  ><IconSquare color="#5DAE62"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span
+                  ><IconSquare color="#35853F"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span
                 >
               </ListItem>
             </List>
@@ -272,7 +272,7 @@
                   description={Lang.t('settings.what-a-tracker-can-count-in', 'What a tracker can count in')}
                 >
                   <span slot="left" class="adv-corner"
-                    ><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare><FeatureBadge
+                    ><IconSquare color="#43984E"><IonIcon icon={CubeOutline} size={17} /></IconSquare><FeatureBadge
                       feature="uoms"
                     /></span
                   >
@@ -292,7 +292,7 @@
                 })}
               >
                 <span slot="left"
-                  ><IconSquare color="#1F78D1"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span
+                  ><IconSquare color="#5DAE62"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span
                 >
               </ListItem>
             </List>
@@ -307,7 +307,7 @@
                   title={Lang.t('settings.manage-plugins', 'Manage Plugins')}
                 >
                   <span slot="left" class="adv-corner"
-                    ><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
+                    ><IconSquare color="#7BC17F"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
                     ><FeatureBadge feature="plugins" /></span
                   >
                 </ListItem>
@@ -322,7 +322,7 @@
                   on:click={toggleshowplugins}
                 >
                   <span slot="left" class="adv-corner"
-                    ><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
+                    ><IconSquare color="#9AD39D"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
                     ><FeatureBadge feature="plugins" /></span
                   >
                   <div slot="right">
