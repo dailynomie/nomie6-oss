@@ -221,7 +221,7 @@
 
   <!-- Tracker Board -->
   <!-- {#if $Prefs.storageType === 'pouchdb'}
-    <div class="bg-red-500 text-white py-2 px-4 text-xs mt-2">
+    <div class="bg-ios-danger text-ios-ondanger py-2 px-4 text-xs mt-2">
       <p class="font-bold">
         CouchDB Deprecation Notice. <button
           class="underline"

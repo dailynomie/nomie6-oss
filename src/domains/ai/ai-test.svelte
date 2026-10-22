@@ -208,8 +208,8 @@
   </div>
 
   <div slot="content" class="p-4">
-    <div class="mb-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded p-4">
-      <p class="text-sm text-ios-tint dark:text-blue-200">
+    <div class="mb-6 bg-ios-tintsoft border border-ios-tint rounded p-4">
+      <p class="text-sm text-ios-tint">
         <strong>{Lang.t('ai.tip', 'Tip:')}</strong>
         {Lang.t(
           'ai.configure-your-api-key-in-settings-gt-ai-integra',
@@ -231,7 +231,7 @@
         {#if showTestData}
           <div class="mt-3 space-y-3 text-xs">
             {#if testDataInfo.error}
-              <p class="text-red-600 dark:text-red-400">{testDataInfo.error}</p>
+              <p class="text-ios-danger">{testDataInfo.error}</p>
             {/if}
             {#if testDataInfo.info}
               <p class="text-ios-label2">{testDataInfo.info}</p>
@@ -276,7 +276,7 @@
 
     {#if aiState.error}
       <div
-        class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4"
+        class="bg-ios-card border border-ios-danger text-ios-danger px-4 py-3 rounded mb-4"
       >
         <strong>{Lang.t('ai.error-3', 'Error:')}</strong>
         {aiState.error}
@@ -293,7 +293,7 @@
         <button
           onclick={testInsight}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400 text-sm"
+          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
         >
           {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.insight-2', '💬 Insight')}
         </button>
@@ -301,7 +301,7 @@
         <button
           onclick={testAdvice}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-400 text-sm"
+          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
         >
           {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.advice-2', '💡 Advice')}
         </button>
@@ -309,7 +309,7 @@
         <button
           onclick={testData}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:bg-gray-400 text-sm"
+          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
         >
           {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.data-2', '📊 Data')}
         </button>
@@ -317,7 +317,7 @@
         <button
           onclick={testJournal}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600 disabled:bg-gray-400 text-sm"
+          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
         >
           {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.journal-2', '📝 Journal')}
         </button>
@@ -325,7 +325,7 @@
         <button
           onclick={testAlert}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 disabled:bg-gray-400 text-sm"
+          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
         >
           {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.alert-2', '⚠️ Alert')}
         </button>
@@ -333,7 +333,7 @@
         <button
           onclick={testNarrative}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 disabled:bg-gray-400 text-sm"
+          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
         >
           {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.narrative-2', '📖 Narrative')}
         </button>

@@ -379,7 +379,7 @@
                       <h2 class="text-base font-bold leading-tight text-ios-label">
                         {item.name}
                         {#if state.active && item.hash == state.active.hash}
-                          <IonIcon icon={CheckmarkCircle} className="fill-primary" />
+                          <IonIcon icon={CheckmarkCircle} className="fill-ios-tint" />
                         {/if}
                       </h2>
                     </NItem>
