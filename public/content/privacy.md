@@ -19,12 +19,16 @@ Daily Nomie stores your logs, trackers, goals, experiments, dashboards, notes an
 
 ## 2. Sync with a CouchDB server (optional)
 
-If you set up sync, your data is copied to a CouchDB server that you enter in the app. You choose the server, and you (or the company or person who runs it for you) control it. We do not run that server, and we do not have access to it.
+You can sync your data to a CouchDB server in two ways:
 
-- **Your data is not end-to-end encrypted.** The app sends the data to your server in a form the server can read. The operator of the server can read it, and anyone who gets access to the server can read it.
-- Use an address that starts with `https://`, so the connection itself is encrypted in transit.
-- Protect the server: a strong password, updates, and backups of its own. Encryption of the data on the server's disk is up to the server.
-- Sync stores the data in the server's database. Deleting data on your device does not remove copies that already reached the server; delete them on the server as well.
+- **You run the server yourself.** You enter its address in the app. You, or the company or person who runs it for you, control it. We do not have access to it.
+- **You use the hosted sync service that Daily Nomie offers.** We run that server.
+
+Sync data is **not encrypted by the app**. The operator of the server, which is us for the hosted service, can read it. Anyone who gets access to the server can read it too.
+
+- Use an address that starts with `https://`, so the connection is encrypted in transit.
+- Keep your device and your account safe.
+- Deleting data on your device does not remove copies that already reached the server. Delete them on the server as well.
 
 ## 3. Backups
 
