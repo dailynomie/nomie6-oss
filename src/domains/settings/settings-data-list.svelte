@@ -253,7 +253,11 @@
     title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
     on:click={updateLastUsedDates}
   >
-    <span slot="left"><IconSquare color="#5CB3BB"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
+    <span slot="left" class="adv-corner"
+      ><IconSquare color="#5CB3BB"><IonIcon icon={RefreshOutline} size={17} /></IconSquare><FeatureBadge
+        feature="advanced-settings"
+      /></span
+    >
   </ListItem>
 
   <ListItem
@@ -267,7 +271,11 @@
     )}
     on:click={openPluginDedupModal}
   >
-    <span slot="left"><IconSquare color="#7CC4CB"><IonIcon icon={TrashOutline} size={17} /></IconSquare></span>
+    <span slot="left" class="adv-corner"
+      ><IconSquare color="#7CC4CB"><IonIcon icon={TrashOutline} size={17} /></IconSquare><FeatureBadge
+        feature="advanced-settings"
+      /></span
+    >
   </ListItem>
 
   <ListItem
@@ -278,7 +286,11 @@
       'Removes duplicate plugin settings on a schedule'
     )}
   >
-    <span slot="left"><IconSquare color="#9AD3D8"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
+    <span slot="left" class="adv-corner"
+      ><IconSquare color="#9AD3D8"><IonIcon icon={TimeOutline} size={17} /></IconSquare><FeatureBadge
+        feature="advanced-settings"
+      /></span
+    >
     <div slot="right">
       <SelectPop
         id="plugin-cleanup-schedule"
