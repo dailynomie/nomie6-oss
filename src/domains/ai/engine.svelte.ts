@@ -10,7 +10,6 @@ import { experimentProfile } from './profiles/experiment'
 import type { AIRequest, AIResponse, Profile, ProfileName } from './profiles/types'
 import { Prefs } from '../preferences/Preferences'
 import { get } from 'svelte/store'
-import Anthropic from '@anthropic-ai/sdk'
 import dayjs from 'dayjs'
 import { timeFrames } from '../dashboard2/widget/widget-timeframe'
 import { decryptValue } from '../../modules/crypto/crypto-storage'
@@ -137,6 +136,8 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
     } else {
       // Use Claude (default)
       aiState.actualModel = null
+      // the SDK is loaded when a Claude request is made, not at start-up
+      const { default: Anthropic } = await import('@anthropic-ai/sdk')
       const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
       const response = await client.messages.create({
         model: 'claude-opus-4-8',
@@ -242,6 +243,8 @@ export async function streamQuery(
       )
     } else {
       // Use Claude streaming
+      // the SDK is loaded when a Claude request is made, not at start-up
+      const { default: Anthropic } = await import('@anthropic-ai/sdk')
       const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 
       // Build messages array with conversation history
