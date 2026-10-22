@@ -216,10 +216,10 @@ export const saveTrackable = async ({
           const where =
             activeBoard.id === 'main'
               ? Lang.t('trackable.your-track-screen', 'your Track screen')
-              : `the ${activeBoard.label} board`
+              : Lang.t('trackable.the-board-named', { label: activeBoard.label })
           const confirmed = await Interact.confirm(
-            `Show ${trackable.label} on ${where}?`,
-            'You can change this later in the board editor.'
+            Lang.t('trackable.show-on-where', { name: trackable.label, where }),
+            Lang.t('trackable.change-later-in-board-editor', 'You can change this later in the board editor.')
           )
           if (confirmed) {
             addTrackablesToBoard([trackable], activeBoard)
