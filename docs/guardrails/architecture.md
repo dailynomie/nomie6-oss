@@ -86,7 +86,7 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 - **Start-up:** 12 init calls in `bootCoreComponents`; 5 domains export an `init`.
 - **Framework:** Svelte 5.22.0, pinned exactly (pass).
 - **Tests:** 70 spec files run under Vitest. Jest finds 0 tests and its configuration fails to start.
-- **Logging:** 107 `console.log` calls in the tree; 67 in changed files (ARC-18).
+- **Logging:** no live `console.log` calls remain (ARC-18 is clear). Nine commented-out debug lines are left in place.
 - **Types:** 122 files use `any` in TypeScript. New exported signatures are typed (DOM-12).
 
 ---
