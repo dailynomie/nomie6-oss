@@ -257,7 +257,7 @@
         {/if}
       </Container>
     {/key}
-    <hr class="mt-4 mb-6 border-ios-separator dark:border-ios-separator" />
+    <hr class="mt-4 mb-6 border-ios-separator" />
     <Container size="md">
       <div class="non-printable">
         <ListItem clickable on:click={() => createNewWidget()} bottomLine={24}>

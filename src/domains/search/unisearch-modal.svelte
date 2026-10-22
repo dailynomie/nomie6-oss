@@ -452,7 +452,6 @@
     @apply text-sm;
     @apply py-1 px-3 rounded-full;
     @apply bg-ios-tintsoft text-ios-tint;
-    @apply dark:bg-ios-tintsoft dark:text-ios-tint;
   }
 
   .unisearch .selectable:focus .action,
