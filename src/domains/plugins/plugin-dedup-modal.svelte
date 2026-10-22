@@ -135,14 +135,22 @@
             {dayjs(lastCleanupLog.date).format('MMM D, YYYY [at] h:mm A')} ({lastCleanupLog.type})
           </Text>
           <Text size="xs" className="text-ios-label2 mt-1">
-            Found {lastCleanupLog.duplicatesFound} duplicate{lastCleanupLog.duplicatesFound === 1 ? '' : 's'} and {lastCleanupLog.rogueFoldersFound}
-            rogue folder{lastCleanupLog.rogueFoldersFound === 1 ? '' : 's'}
+            {Lang.t('plugins.cleanup-found', {
+              duplicates: lastCleanupLog.duplicatesFound,
+              duplicateWord: Lang.t(lastCleanupLog.duplicatesFound === 1 ? 'plugins.duplicate' : 'plugins.duplicates'),
+              folders: lastCleanupLog.rogueFoldersFound,
+              folderWord: Lang.t(
+                lastCleanupLog.rogueFoldersFound === 1 ? 'plugins.rogue-folder' : 'plugins.rogue-folders'
+              ),
+            })}
           </Text>
         </div>
       {/if}
 
       <Button primary on:click={handleScan} disabled={isScanning}>
-        {isScanning ? 'Scanning...' : 'Scan for Duplicates'}
+        {isScanning
+          ? Lang.t('plugins.scanning', 'Scanning...')
+          : Lang.t('plugins.scan-for-duplicates', 'Scan for Duplicates')}
       </Button>
     {:else if scanResult}
       {#if scanResult.hasDuplicates}
@@ -152,23 +160,28 @@
           </div>
           <div class="flex-grow">
             <Text bold className="text-ios-label">
-              {scanResult.totalDuplicateEntries + scanResult.totalRogueFolders} Issue{scanResult.totalDuplicateEntries +
-                scanResult.totalRogueFolders ===
-              1
-                ? ''
-                : 's'} Found
+              {Lang.t(
+                scanResult.totalDuplicateEntries + scanResult.totalRogueFolders === 1
+                  ? 'plugins.count-issue-found'
+                  : 'plugins.count-issues-found',
+                { num: scanResult.totalDuplicateEntries + scanResult.totalRogueFolders }
+              )}
             </Text>
             <Text size="sm" className="text-ios-label2">
               {#if scanResult.totalDuplicateEntries > 0}
-                {scanResult.totalDuplicateEntries} duplicate {scanResult.totalDuplicateEntries === 1
-                  ? 'entry'
-                  : 'entries'}
+                {Lang.t(
+                  scanResult.totalDuplicateEntries === 1 ? 'plugins.duplicate-entry' : 'plugins.duplicate-entries',
+                  { num: scanResult.totalDuplicateEntries }
+                )}
               {/if}
               {#if scanResult.totalRogueFolders > 0}
                 {#if scanResult.totalDuplicateEntries > 0}
                   •
                 {/if}
-                {scanResult.totalRogueFolders} rogue folder{scanResult.totalRogueFolders === 1 ? '' : 's'}
+                {Lang.t(
+                  scanResult.totalRogueFolders === 1 ? 'plugins.rogue-folder-count' : 'plugins.rogue-folders-count',
+                  { num: scanResult.totalRogueFolders }
+                )}
               {/if}
             </Text>
           </div>
@@ -192,9 +205,11 @@
                   </Text>
                   <Text size="sm" className="text-ios-label2">
                     {#if issue.issueType === 'duplicates-in-file'}
-                      {issue.duplicatesFound} duplicate {issue.duplicatesFound === 1 ? 'entry' : 'entries'}
+                      {Lang.t(issue.duplicatesFound === 1 ? 'plugins.duplicate-entry' : 'plugins.duplicate-entries', {
+                        num: issue.duplicatesFound,
+                      })}
                     {:else if issue.issueType === 'rogue-folder'}
-                      Orphaned plugin folder (not in plugins.json)
+                      {Lang.t('plugins.orphaned-folder', 'Orphaned plugin folder (not in plugins.json)')}
                     {/if}
                   </Text>
                   <Text size="xs" className="text-ios-label2 mt-1">
@@ -208,7 +223,7 @@
 
         <div class="mt-6 space-y-2">
           <Button primary on:click={handleCleanup} disabled={isLoading}>
-            {isLoading ? 'Cleaning...' : 'Clean Database'}
+            {isLoading ? Lang.t('plugins.cleaning', 'Cleaning...') : Lang.t('plugins.clean-database', 'Clean Database')}
           </Button>
           <Button
             clear
@@ -228,8 +243,10 @@
           <div class="flex-grow">
             <Text bold className="text-ios-good">{Lang.t('plugins.no-issues-found', 'No Issues Found')}</Text>
             <Text size="sm" className="text-ios-good">
-              Your plugin database is clean ({scanResult.totalPluginsInMainList}
-              {scanResult.totalPluginsInMainList === 1 ? 'plugin' : 'plugins'}) with no duplicates or rogue folders
+              {Lang.t('plugins.db-clean', {
+                num: scanResult.totalPluginsInMainList,
+                word: Lang.t(scanResult.totalPluginsInMainList === 1 ? 'plugins.plugin' : 'plugins.plugins'),
+              })}
             </Text>
           </div>
         </div>

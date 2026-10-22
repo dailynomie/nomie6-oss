@@ -133,9 +133,9 @@
             }}
           >
             {#if log === activeLog}
-              Importing...
+              {Lang.t('logcache.importing', 'Importing...')}
             {:else}
-              Import
+              {Lang.t('logcache.import', 'Import')}
             {/if}
           </Button>
         </div>

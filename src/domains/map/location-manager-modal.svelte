@@ -235,7 +235,7 @@
           {state.active.name}
         {:else if state.mapLocation}
           {state.mapLocation.lat},{state.mapLocation.lng}
-        {:else}Locations{/if}
+        {:else}{Lang.t('map.locations', 'Locations')}{/if}
       </h1>
       <div slot="right" class="flex items-center space-x-2">
         <!-- iOS look: the empty placeholder action is removed; only the saving spinner shows here -->

@@ -59,7 +59,7 @@
               <button
                 type="button"
                 class="w-full px-4 py-3 flex items-center justify-between gap-3 text-left"
-                aria-label="Edit {unit.plural}"
+                aria-label={Lang.t('uom.edit-unit', { name: unit.plural })}
                 on:click={() => editUnit(unit)}
               >
                 <div class="min-w-0">

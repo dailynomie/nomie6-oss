@@ -117,7 +117,9 @@
       {Lang.t('general.cancel', 'Cancel')}
     </Button>
 
-    <h1 class="ntitle capitalize">{goal.durationLabel} {trackable?.label || ''} Goal</h1>
+    <h1 class="ntitle capitalize">
+      {Lang.t('goals.goal-title', { duration: goal.durationLabel, label: trackable?.label || '' })}
+    </h1>
 
     <Button slot="right" primary clear disabled={!goalTargetValue || !trackable || !comparison} on:click={save}>
       {Lang.t('general.save', 'Save')}
@@ -125,7 +127,9 @@
   </ToolbarGrid>
 
   {#if stillNeeded.length}
-    <p class="px-6 pt-3 text-ios-footnote text-ios-label2">Still needed: {stillNeeded.join(', ')}.</p>
+    <p class="px-6 pt-3 text-ios-footnote text-ios-label2">
+      {Lang.t('goals.still-needed', { list: stillNeeded.join(', ') })}
+    </p>
   {/if}
   <List solo>
     <ListItem clickable on:click={select}>
@@ -145,7 +149,7 @@
         // iOS look: the comparison is an action sheet with a tick on the current choice
         openPopMenu({
           id: `goal-comparison-${goal.duration}`,
-          title: 'Should be...',
+          title: Lang.t('goals.should-be', 'Should be...'),
           show: true,
           buttons: GoalComparisonItems.map((item) => ({
             title: item.label,
@@ -161,7 +165,7 @@
         {#if comparison}
           {GoalComparisonItems.find((g) => g.id == comparison).label}
         {:else}
-          Should be...
+          {Lang.t('goals.should-be', 'Should be...')}
         {/if}
       </div>
       <IonIcon slot="right" icon={ChevronDownOutline} className="opacity-40 pointer-events-none" />

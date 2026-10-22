@@ -285,7 +285,7 @@
 <PointerLoader />
 
 <div id="photo-holder" class="hidden" style="display:none">
-  <img id="photo-holder-image " alt="avatar-holder" />
+  <img id="photo-holder-image " alt="" />
 </div>
 
 <style lang="postcss" global>

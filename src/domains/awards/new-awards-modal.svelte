@@ -47,7 +47,9 @@
         <div class="text-4xl my-4 font-bold w-11/12 mx-auto relative text-ios-label2 text-center leading-tight">
           {$AwardStore.newAwards[0].name}
           {#if $AwardStore.newAwards[0].reason}
-            <p class="text-ios-label2 font-medium text-sm mt-2">Reason: {$AwardStore.newAwards[0].reason}</p>
+            <p class="text-ios-label2 font-medium text-sm mt-2">
+              {Lang.t('awards.reason', { reason: $AwardStore.newAwards[0].reason })}
+            </p>
             <p class="text-ios-label2 font-medium text-xs opacity-60 mt-2">
               {$AwardStore.newAwards[0].getHash()}
             </p>

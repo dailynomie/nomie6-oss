@@ -337,7 +337,10 @@
       <ListItem bg="light" mainClass="py-4">
         <Text size="sm" bold>{truncateText(activeImporter.name, 26, 5)}</Text>
         <Text faded size="sm">
-          Records: {activeImporter.length()}, Columns: {activeImporter.parsed.data[0].length}
+          {Lang.t('import.records-columns', {
+            records: activeImporter.length(),
+            columns: activeImporter.parsed.data[0].length,
+          })}
         </Text>
       </ListItem>
     {/if}
@@ -468,9 +471,11 @@
               {#if is.truthy(activeImporter.config.fieldMap[logField.id])}
                 {#if logField.id == 'end' || logField.id == 'start'}
                   <Text size="sm" bold>
-                    Parsed: {dayjs(previewRow[activeImporter.config.fieldMap[logField.id]]).format(
-                      `${dateFormats.date} ${dateFormats.time}`
-                    )}
+                    {Lang.t('import.parsed', {
+                      date: dayjs(previewRow[activeImporter.config.fieldMap[logField.id]]).format(
+                        `${dateFormats.date} ${dateFormats.time}`
+                      ),
+                    })}
                   </Text>
                 {/if}
                 <Text size="sm" faded>
@@ -538,7 +543,7 @@
     {:else if view && view.id == 'template' && activeImporter}
       <div class="">
         <ListItem className="pb-0">
-          {activeImporter.config.name} Importer
+          {Lang.t('import.importer-name', { name: activeImporter.config.name })}
         </ListItem>
         <ListItem>
           <Input
@@ -568,7 +573,7 @@
         <div class="examples bg-inverse-2 p-2 px-4">
           <div class="n-toolbar flex pl-2">
             <div class="main text-ios-label text-sm">
-              Preview {previewIndex} of {activeImporter.length()}
+              {Lang.t('import.preview-of', { index: previewIndex, total: activeImporter.length() })}
             </div>
             <div class="filler" />
             <NextPrevCal hideCal={true} on:next={nextPreview} on:previous={previousPreview} />
@@ -577,7 +582,7 @@
         </div>
         <ListItem>
           <Button primary block on:click={startImport}>
-            Import {activeImporter.length()} Logs...
+            {Lang.t('import.import-logs', { num: activeImporter.length() })}
           </Button>
         </ListItem>
       {/if}

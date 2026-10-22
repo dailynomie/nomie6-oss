@@ -170,7 +170,9 @@
       </div>
       <h1 class="text-ios-large font-bold text-ios-label outline-none">{Lang.t('goals.my-goals', 'My Goals')}</h1>
       {#if $GoalScoreStore[1]}
-        <p class="text-ios-subhead text-ios-label2">{$GoalScoreStore[0]} of {$GoalScoreStore[1]} reached today</p>
+        <p class="text-ios-subhead text-ios-label2">
+          {Lang.t('goals.reached-today', { done: $GoalScoreStore[0], total: $GoalScoreStore[1] })}
+        </p>
       {/if}
       <!-- <div class=" items-center justify-center">
       <DateRangeController
@@ -319,13 +321,17 @@
                     class="flex items-center pb-1"
                     style="gap: {goalHistory[item.goal.id].length > 7 ? 3 : 5}px"
                     role="img"
-                    aria-label="Reached on {goalHistory[item.goal.id].filter(Boolean).length} of the last {goalHistory[
-                      item.goal.id
-                    ].length} {item.goal.duration === 'month'
-                      ? 'months'
-                      : item.goal.duration === 'week'
-                        ? 'weeks'
-                        : 'days'}"
+                    aria-label={Lang.t('goals.reached-on', {
+                      done: goalHistory[item.goal.id].filter(Boolean).length,
+                      total: goalHistory[item.goal.id].length,
+                      unit: Lang.t(
+                        item.goal.duration === 'month'
+                          ? 'goals.months'
+                          : item.goal.duration === 'week'
+                            ? 'goals.weeks'
+                            : 'goals.days'
+                      ),
+                    })}
                   >
                     {#each goalHistory[item.goal.id] as hit}
                       <span class="history-bar {hit ? 'hit' : ''}"></span>

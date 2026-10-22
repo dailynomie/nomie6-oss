@@ -181,7 +181,7 @@
       <Button slot="left" clear primary on:click={close}>{Lang.t('trackable.cancel', 'Cancel')}</Button>
       <h1 class="ntitle">{Lang.t('general.trackables', 'Trackables')}</h1>
       <Button on:click={onSelect} slot="right" className="whitespace-nowrap" disabled={!selected.length} clear primary
-        >Select {selected.length ? `(${selected.length})` : ''}</Button
+        >{Lang.t('general.select', 'Select')} {selected.length ? `(${selected.length})` : ''}</Button
       >
     </ToolbarGrid>
     <Toolbar className="-mt-2 mb-2">
@@ -248,13 +248,13 @@
           on:click={() => toggleTrackable(trackable)}
         >
           {#if trackable.type == 'tracker'}
-            <h2 class="ntitle filler">As tracker: #{cleanSearchTerm}</h2>
+            <h2 class="ntitle filler">{Lang.t('trackable.as-tracker', { term: cleanSearchTerm })}</h2>
           {:else if trackable.type === 'context'}
-            <h2 class="ntitle filler">As context: +{cleanSearchTerm}</h2>
+            <h2 class="ntitle filler">{Lang.t('trackable.as-context', { term: cleanSearchTerm })}</h2>
           {:else if trackable.type === 'pointer'}
-            <h2 class="ntitle filler">As pointer: ^{cleanSearchTerm}</h2>
+            <h2 class="ntitle filler">{Lang.t('trackable.as-pointer', { term: cleanSearchTerm })}</h2>
           {:else if trackable.type === 'person'}
-            <h2 class="ntitle filler">As person: @{cleanSearchTerm}</h2>
+            <h2 class="ntitle filler">{Lang.t('trackable.as-person', { term: cleanSearchTerm })}</h2>
           {/if}
           <RadioButton className="pointer-events-none" checked={selected.indexOf(trackable) > -1} />
         </button>

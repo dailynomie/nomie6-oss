@@ -32,8 +32,9 @@
       >
         {#if $OfflineQueue.status !== 'syncing'}
           <Text inline size="sm" faded>
-            {$OfflineQueue.logs.length}
-            {$OfflineQueue.logs.length > 1 ? 'logs' : 'log'} in the offline queue.
+            {Lang.t($OfflineQueue.logs.length > 1 ? 'board.offline-queue-many' : 'board.offline-queue-one', {
+              num: $OfflineQueue.logs.length,
+            })}
           </Text>
           {#if !$Device.offline}
             <Text inline underline color="primary-bright" className="ml-2" size="sm" on:click={OfflineQueue.sync}>

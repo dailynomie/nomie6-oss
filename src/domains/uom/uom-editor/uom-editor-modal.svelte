@@ -77,7 +77,10 @@
       )
       return
     }
-    const confirmed = await Interact.confirm(Lang.t('uom.delete-this-unit', 'Delete this unit?'), `${unit.plural} will be removed from the list.`)
+    const confirmed = await Interact.confirm(
+      Lang.t('uom.delete-this-unit', 'Delete this unit?'),
+      `${unit.plural} will be removed from the list.`
+    )
     if (!confirmed) return
     await removeCustomUom(unit.key)
     closeModal(id)
@@ -129,7 +132,7 @@
         </div>
       </div>
       {#if clashName}
-        <p class="text-xs text-ios-danger px-1">There is already a unit called {clashName}.</p>
+        <p class="text-xs text-ios-danger px-1">{Lang.t('uom.name-clash', { name: clashName })}</p>
       {/if}
     </section>
 
@@ -159,7 +162,7 @@
           <ToggleSwitch bind:value={symbolSpace} />
         </div>
       </div>
-      <p class="text-xs text-ios-label2 px-1">Example: {example}</p>
+      <p class="text-xs text-ios-label2 px-1">{Lang.t('uom.example', { example })}</p>
     </section>
 
     {#if unit}

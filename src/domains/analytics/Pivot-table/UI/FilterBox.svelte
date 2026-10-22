@@ -88,10 +88,12 @@
     </div>
     <div class="ios-sheet-actions">
       <button type="button" class="ios-pill" onclick={select(true)}>
-        Select {values.length === shown.length ? 'All' : shown.length}
+        {Lang.t('analytics.select', 'Select')}
+        {values.length === shown.length ? Lang.t('general.all', 'All') : shown.length}
       </button>
       <button type="button" class="ios-pill" onclick={select(false)}>
-        Deselect {values.length === shown.length ? 'All' : shown.length}
+        {Lang.t('analytics.deselect', 'Deselect')}
+        {values.length === shown.length ? Lang.t('general.all', 'All') : shown.length}
       </button>
     </div>
 

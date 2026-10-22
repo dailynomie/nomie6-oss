@@ -161,9 +161,10 @@
         <div class="px-2 pt-2 lg:px-4 bg-ios-bg">
           {#if !trackableUsage.logs.length}
             <div class="text-center p-10 text-ios-label2">
-              No {trackableUsage.trackable.label} data for {dayjs(activeDate || starterDate).format(
-                dateFormats.mmm_d_yyyy
-              )}
+              {Lang.t('calendar.no-data-for', {
+                label: trackableUsage.trackable.label,
+                date: dayjs(activeDate || starterDate).format(dateFormats.mmm_d_yyyy),
+              })}
             </div>
           {/if}
           <!-- {#each trackableUsage.logs as log, index (index)}
@@ -184,9 +185,9 @@
       {:else}
         <Empty className="text-ios-label2">
           {#if loading}
-            Getting Data...
+            {Lang.t('calendar.getting-data', 'Getting Data...')}
           {:else}
-            No Data
+            {Lang.t('calendar.no-data', 'No Data')}
           {/if}
         </Empty>
       {/if}

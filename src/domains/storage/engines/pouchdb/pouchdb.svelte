@@ -291,7 +291,7 @@
           {#if connectionString}
             {connectionString}
           {:else}
-            No Connection String
+            {Lang.t('storage.no-connection-string', 'No Connection String')}
           {/if}
         </div>
         <div class="actions mb-4">

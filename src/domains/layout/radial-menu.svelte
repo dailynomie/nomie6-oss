@@ -157,7 +157,7 @@
     <button
       class="radial-hub is-open"
       style="z-index: 10000; left: {origin.x}px; top: {origin.y}px"
-      aria-label="Close {label}"
+      aria-label={Lang.t('layout.close-label', { label })}
       onclick={closeMenu}
     >
       <IonIcon icon={AddCircleOutline} size={30} />

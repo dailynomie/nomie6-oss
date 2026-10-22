@@ -53,7 +53,7 @@
 
       <div class="text-xs text-ios-label2 px-2 pb-2">
         {#if lastCheckDisplay}
-          Last checked: {lastCheckDisplay}
+          {Lang.t('ui.last-checked', { time: lastCheckDisplay })}
         {/if}
       </div>
 
@@ -66,9 +66,9 @@
             on:click={handleManualCheck}
           >
             {#if $isCheckingForUpdates}
-              Checking...
+              {Lang.t('ui.checking', 'Checking...')}
             {:else}
-              Check Now
+              {Lang.t('ui.check-now', 'Check Now')}
             {/if}
           </button>
         {/if}

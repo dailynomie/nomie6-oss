@@ -158,7 +158,9 @@
               })
             }}
           >
-            <div class="text-center text-ios-tint">Edit {tracker.score_calc?.length || ''} Conditions</div>
+            <div class="text-center text-ios-tint">
+              {Lang.t('positivity.edit-conditions', { num: tracker.score_calc?.length || '' })}
+            </div>
           </ListItem>
         {/if}
       </section>

@@ -257,7 +257,7 @@
                 <div slot="no-results">
                   {#if searching}
                     <div class="text-center px-4 py-1 flex flex-col space-y-2 max-w-lg mx-auto">
-                      <span class="text-ios-label2">No trackables found for '{searching}'</span>
+                      <span class="text-ios-label2">{Lang.t('board.no-trackables-for', { search: searching })}</span>
                       <Button
                         on:click={() => {
                           openUnisearch(searching)
@@ -276,7 +276,7 @@
                             tracker: new TrackerClass({ label: searching }),
                           })
                           openTrackableEditor(trackable)
-                        }}>Create new "{searching}" tracker →</Button
+                        }}>{Lang.t('board.create-new-tracker', { search: searching })}</Button
                       >
                     </div>
                   {/if}
@@ -301,7 +301,7 @@
                   <div class="text-center text-ios-label2 leading-snug px-6 mb-6 lg:mb-10 flex-fill">
                     <h1 class="text-ios-label font-bold mb-1">{Lang.t('board.no-trackers-yet', 'No trackers yet')}</h1>
                     <p class="text-xs">
-                      Your {board.label} board shows your trackers. Add one below to get started.
+                      {Lang.t('board.intro-text', { board: board.label })}
                     </p>
                   </div>
                 </div>

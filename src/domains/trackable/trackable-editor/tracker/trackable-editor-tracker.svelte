@@ -460,7 +460,10 @@
             className="mt-2 mb-3 advanced-toggler"
             on:click={() => (forceAdvancedView = !forceAdvancedView)}
           >
-            {#if advancedVisible}Less Options{:else}More Options{/if}
+            {#if advancedVisible}{Lang.t('trackable.less-options', 'Less Options')}{:else}{Lang.t(
+                'trackable.more-options',
+                'More Options'
+              )}{/if}
             <IonIcon
               name={advanced ? ChevronUpOutline : ChevronDownOutline}
               size={12}

@@ -65,7 +65,7 @@
         </div>
       {:else}
         <div class="text-ios-label">
-          {lastBackupDaysBack} days since last backup
+          {Lang.t('storage.days-since-backup', { num: lastBackupDaysBack })}
         </div>
       {/if}
       <div class="ml-2 font-bold text-ios-tint">

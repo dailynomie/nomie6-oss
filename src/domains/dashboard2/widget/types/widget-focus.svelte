@@ -7,6 +7,7 @@
   import { TrackableStore } from '../../../trackable/TrackableStore'
   import FocusGraph from '../../../../components/charts/focus-graph.svelte'
   import type NLog from '../../../nomie-log/nomie-log'
+  import { Lang } from '../../../../store/lang'
 
   // export let widget: WidgetClass
   const {
@@ -40,7 +41,7 @@
   {#if scores.length > 0}
     <FocusGraph {scores} />
   {:else}
-    Loading...
+    {Lang.t('general.loading', 'Loading...')}
   {/if}
 </div>
 

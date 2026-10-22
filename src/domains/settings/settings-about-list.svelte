@@ -161,7 +161,7 @@
   <ListItem bottomLine={16} title={Lang.t('general.first_log', 'First Log')}>
     <div class="" slot="right">
       {#await LedgerStore.getFirstDate(true)}
-        Loading...
+        {Lang.t('general.loading', 'Loading...')}
       {:then date}
         <div class="text-sm">{date.format('MMM YYYY')}</div>
       {/await}
@@ -197,7 +197,7 @@
     bottomLine={countsOpen ? 16 : undefined}
     clickable
     title={Lang.t('settings.counts', 'Counts')}
-    description="{totalCounted} items in total"
+    description={Lang.t('settings.items-in-total', { num: totalCounted })}
     on:click={() => (countsOpen = !countsOpen)}
   >
     <div slot="right"><IonIcon icon={countsOpen ? ChevronUpOutline : ChevronDownOutline} size={16} /></div>
@@ -233,7 +233,7 @@
     <ListItem
       bottomLine={16}
       title={Lang.t('settings.experiments', 'Experiments')}
-      description="{counts.runningExperiments} running"
+      description={Lang.t('settings.running-count', { num: counts.runningExperiments })}
     >
       <div slot="right">{counts.experiments}</div>
     </ListItem>
@@ -246,7 +246,7 @@
 <List solo title={Lang.t('settings.version', 'Version')} outside className="mb-3">
   <ListItem
     bottomLine={16}
-    title="Version {import.meta.env.PACKAGE_VERSION} "
+    title={Lang.t('settings.version-number', { version: import.meta.env.PACKAGE_VERSION })}
     detail
     on:click={() => {
       openModal({

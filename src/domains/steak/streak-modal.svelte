@@ -126,7 +126,7 @@
     <ToolbarGrid>
       <h1 class="ntitle capitalize line-clamp-1">
         <TrackableAvatar {trackable} size={22} />
-        {trackable.label} Streak
+        {Lang.t('steak.streak-title', { label: trackable.label })}
       </h1>
       <Button slot="right" clear primary on:click={close}>{Lang.t('steak.done', 'Done')}</Button>
     </ToolbarGrid>
@@ -147,11 +147,11 @@
         <div class="rounded-full flex space-x-4 items-center mx-auto w-auto">
           <div class="leading-tight text-center flex items-center space-x-2 text-xs text-description">
             <div class="">{Lang.t('steak.current', 'Current')}</div>
-            <div class="font-bold">{streak.currentStreak} days</div>
+            <div class="font-bold">{Lang.t('steak.days', { num: streak.currentStreak })}</div>
           </div>
           <div class="leading-tight text-center flex items-center space-x-2 text-xs text-description">
             <div class="">{Lang.t('steak.longest', 'Longest')}</div>
-            <div class="font-bold">{streak.longestStreak} days</div>
+            <div class="font-bold">{Lang.t('steak.days', { num: streak.longestStreak })}</div>
           </div>
         </div>
       </section>

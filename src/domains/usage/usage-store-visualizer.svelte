@@ -20,7 +20,7 @@
           {#if item.usage.last}
             {dayjs(item.usage.last.d).format('YYYY-MM-DD hh:mm a')}
           {:else}
-            No Last
+            {Lang.t('usage.no-last', 'No Last')}
           {/if}
         </div>
         <div class="font-bold">{Lang.t('usage.streak', 'Streak')}</div>
@@ -29,7 +29,7 @@
             {item.usage.streak.v}
             {dayjs(item.usage.streak.d).format('YYYY-MM-DD hh:mm a')}
           {:else}
-            No Last
+            {Lang.t('usage.no-last', 'No Last')}
           {/if}
         </div>
       </div>

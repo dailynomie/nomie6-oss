@@ -1194,7 +1194,7 @@
     {/if}
   </List>
 {:else}
-  No template found
+  {Lang.t('templates.no-template-found', 'No template found')}
 {/if}
 <div class="h-12" />
 

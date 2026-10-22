@@ -163,7 +163,7 @@
     <span slot="left">
       <IconSquare color="#0B4F55"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
     </span>
-    <div class="leading-tight">Stored on {storageDetails.name}</div>
+    <div class="leading-tight">{Lang.t('settings.stored-on', { name: storageDetails.name })}</div>
     <div class="text-xs text-ios-label2 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
   </ListItem>
   {#if $Prefs.storageType === 'pouchdb'}

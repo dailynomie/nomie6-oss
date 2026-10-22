@@ -297,7 +297,9 @@
       <div class="filler pointer-events-none" />
       {#if widget.type === 'insight' && widget.data?.cachedDate}
         <div class="flex items-center gap-1">
-          <span class="text-xs text-ios-label2">Will refresh in {getInsightRefreshTime()}</span>
+          <span class="text-xs text-ios-label2"
+            >{Lang.t('dashboard.will-refresh-in', { time: getInsightRefreshTime() })}</span
+          >
           <button
             class="text-xs px-1"
             on:click={clearInsightCache}

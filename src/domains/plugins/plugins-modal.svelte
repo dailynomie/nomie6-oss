@@ -157,7 +157,7 @@
               {#if !plugin.locked}
                 <ToggleSwitch
                   on:change={() => togglePlugin(plugin)}
-                  title="${plugin.name} status"
+                  title={Lang.t('plugins.status-title', { name: plugin.name })}
                   value={plugin.active}
                 />
               {/if}

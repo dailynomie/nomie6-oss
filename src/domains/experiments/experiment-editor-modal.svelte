@@ -227,8 +227,11 @@
           >
             <div class="font-semibold">{preset.title}</div>
             <div class="text-xs text-ios-label2 mt-1">
-              {preset.durationDays} days · {preset.outcomes.length}
-              {preset.outcomes.length === 1 ? 'tracker' : 'trackers'}
+              {Lang.t('experiments.preset-summary', {
+                days: preset.durationDays,
+                num: preset.outcomes.length,
+                word: Lang.t(preset.outcomes.length === 1 ? 'experiments.tracker' : 'experiments.trackers'),
+              })}
             </div>
           </button>
         {/each}
@@ -279,7 +282,7 @@
               <div class="flex flex-wrap gap-3">
                 {#if hasLibraryTracker(outcome.tag)}
                   <button class="text-sm font-medium text-ios-tint" onclick={() => installFromLibrary(index)}
-                    >Add {libraryTrackerLabel(outcome.tag)} from the library</button
+                    >{Lang.t('experiments.add-from-library', { name: libraryTrackerLabel(outcome.tag) })}</button
                   >
                 {/if}
                 <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}
@@ -366,7 +369,7 @@
         </div>
         <div class="font-semibold">{title}</div>
         <div class="text-sm text-ios-label2">
-          {durationDays} days from {startDay().format('D MMM YYYY')}
+          {Lang.t('experiments.days-from', { days: durationDays, date: startDay().format('D MMM YYYY') })}
         </div>
         <div class="flex flex-wrap gap-1.5">
           {#each outcomes as o}

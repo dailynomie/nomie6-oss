@@ -241,7 +241,7 @@
       {Lang.t('general.cancel', 'Cancel')}
     </Button>
 
-    <h1 class="ntitle capitalize">{emoji} {name} Pivot</h1>
+    <h1 class="ntitle capitalize">{Lang.t('analytics.pivot-title', { emoji, name })}</h1>
 
     <Button slot="right" primary clear disabled={!name || !emoji} on:click={save}>
       {Lang.t('general.save', 'Save')}

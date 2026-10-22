@@ -44,7 +44,9 @@
       'Plugins are externally hosted websites that can communicate back and forth with Nomie. Plugins are responsible for their own privacy policy.'
     )}
   </p>
-  {#if url}<p class="text-xs text-ios-label mt-2 text-center">Source: {new URL(url).origin}</p>{/if}
+  {#if url}<p class="text-xs text-ios-label mt-2 text-center">
+      {Lang.t('plugins.source', { origin: new URL(url).origin })}
+    </p>{/if}
   <!-- iOS look (D-caution): a caution is neutral secondary text with a warning glyph; red is only for destructive actions -->
   <p class="text-sm font-semibold text-ios-label2 mt-3 text-center">
     {Lang.t(

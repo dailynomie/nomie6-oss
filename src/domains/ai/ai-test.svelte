@@ -244,8 +244,10 @@
                 <div class="space-y-2 max-h-40 overflow-y-auto">
                   {#each testDataInfo.metrics as metric (metric.tag)}
                     <div class="text-xs">
-                      <p class="font-medium text-ios-label2">{metric.tag} ({metric.count} entries)</p>
-                      <p class="text-ios-label2">Recent: {metric.recent.join(', ')}</p>
+                      <p class="font-medium text-ios-label2">
+                        {Lang.t('ai.metric-entries', { tag: metric.tag, num: metric.count })}
+                      </p>
+                      <p class="text-ios-label2">{Lang.t('ai.recent', { list: metric.recent.join(', ') })}</p>
                     </div>
                   {/each}
                 </div>

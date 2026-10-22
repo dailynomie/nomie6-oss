@@ -614,11 +614,11 @@
       </div>
       {#if waitingtime != 1}
         <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
-          {waitingtime} Days
+          {Lang.t('afternomie.waiting-days', { num: waitingtime })}
         </div>
       {:else}
         <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
-          {waitingtime} Day
+          {Lang.t('afternomie.waiting-day', { num: waitingtime })}
         </div>
       {/if}
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
@@ -643,9 +643,9 @@
       </div>
       <div class="my-0 text-center text-xs font-normal leading-tight text-ios-label">
         {#if nomie}
-          Included
+          {Lang.t('afternomie.included', 'Included')}
         {:else}
-          Not Included
+          {Lang.t('afternomie.not-included', 'Not Included')}
         {/if}
       </div>
       <div class="row" style="width:350px">
@@ -728,8 +728,7 @@
         </div>
       </div>
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label width:{innerWidth}">
-        This document was created by AfterNomie.com. In order to read the following emergency note, scan the QR code and
-        then enter this access code: {enckey}
+        {Lang.t('afternomie.document-note', { key: enckey })}
       </div>
       <Divider left={16} />
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label not-printable">
@@ -755,7 +754,7 @@
         <Divider left={16} />
       {/if}
       <div class="my-1 text-center text-sm font-normal leading-tight text-ios-label">
-        This Note was created on: {new Date()}
+        {Lang.t('afternomie.created-on', { date: new Date() })}
       </div>
       <div class="row not-printable" style="width:350px">
         <div class="column" style="display:flex;justify-content:left">

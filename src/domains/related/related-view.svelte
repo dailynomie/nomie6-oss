@@ -26,6 +26,7 @@
   import RelatedWorker from './related-worker?worker'
   import { BarChartOutline } from '../../components/icon/nicons'
   import BarChartSolid from '../../n-icons/BarChartSolid.svelte'
+  import { Lang } from '../../store/lang'
 
   const { className, style, trackable } = $props()
 
@@ -307,8 +308,10 @@
     <div class="p-4 text-center text-ios-label2 flex items-center space-x-2">
       <Spinner size={26} />
       <span
-        >Comparing {Math.abs(results?.length || 0 - Object.keys(usages || {}).length)} of {Object.keys(usages || {})
-          .length} ...</span
+        >{Lang.t('related.comparing', {
+          num: Math.abs(results?.length || 0 - Object.keys(usages || {}).length),
+          total: Object.keys(usages || {}).length,
+        })}</span
       >
     </div>
   {/if}

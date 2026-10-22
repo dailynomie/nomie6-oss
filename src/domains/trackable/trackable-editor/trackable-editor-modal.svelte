@@ -252,7 +252,9 @@
       const safeTag = strToTagSafe(newTag)
       if ($TrackableStore.trackables[`${workingTrackable.prefix}${safeTag}`]) {
         await wait(200)
-        await Interact.error(Lang.t('trackable.tag-already-exists-try-another', { tag: `${workingTrackable.prefix}${safeTag}` }))
+        await Interact.error(
+          Lang.t('trackable.tag-already-exists-try-another', { tag: `${workingTrackable.prefix}${safeTag}` })
+        )
         await wait(200)
         editTag()
       } else {
@@ -281,7 +283,7 @@
     >
     <h2 class="font-bold text-sm flex-grow-0 line-clamp-1 text-ios-label capitalize flex items-center space-x-2">
       {#if !saving && workingTrackable}
-        {workingTrackable.label} Editor
+        {Lang.t('trackable.editor-title', { label: workingTrackable.label })}
       {:else if saving}
         <Spinner size={24} />
       {/if}
@@ -438,7 +440,7 @@
 
         {#if $Prefs.betaFeatures}
           <ListItem bottomLine={16} on:click={() => generateCode(workingTrackable)}>
-            <span> Generate QR Code or NFC </span>
+            <span> {Lang.t('trackable.generate-qr-or-nfc', 'Generate QR Code or NFC')} </span>
             <IonIcon slot="right" icon={ScanOutline} className="text-primary" />
           </ListItem>
         {/if}

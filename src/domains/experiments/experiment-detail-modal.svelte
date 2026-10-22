@@ -222,7 +222,7 @@
             <ExperimentChip tone={frozen ? 'neutral' : 'running'} label={statusLabel} />
           </div>
           <div class="text-ios-footnote text-ios-label2 text-right min-w-0">
-            {experiment.durationDays} days · ends {endsText}
+            {Lang.t('experiments.days-ends', { days: experiment.durationDays, ends: endsText })}
           </div>
         </div>
         {#if experiment.change && experiment.change !== experiment.title}
@@ -296,7 +296,7 @@
               <div class="ios-box p-3">
                 <div class="text-xs text-ios-label2">{Lang.t('experiments.before', 'Before')}</div>
                 <div class="font-bold" style="font-size: 22px; line-height: 26px">{outcome.meanB.toFixed(1)}</div>
-                <div class="text-xs text-ios-label2">{outcome.nB} days</div>
+                <div class="text-xs text-ios-label2">{Lang.t('experiments.days', { num: outcome.nB })}</div>
               </div>
               <div class="ios-box-tint p-3">
                 <div class="text-xs text-ios-label2">{Lang.t('experiments.during', 'During')}</div>
@@ -308,7 +308,7 @@
                     >
                   {/if}
                 </div>
-                <div class="text-xs text-ios-label2">{outcome.nE} days</div>
+                <div class="text-xs text-ios-label2">{Lang.t('experiments.days', { num: outcome.nE })}</div>
               </div>
             </div>
             {#if charts[outcome.tag]}
@@ -343,11 +343,11 @@
               <div class="font-semibold">{Lang.t('experiments.ai-explanation', 'AI explanation')}</div>
               <div class="text-xs text-ios-label2">
                 {#if explaining}
-                  Reading the result…
+                  {Lang.t('experiments.reading-result', 'Reading the result…')}
                 {:else if experiment.explanation}
-                  Tap the eye to explain it again
+                  {Lang.t('experiments.tap-to-explain', 'Tap the eye to explain it again')}
                 {:else}
-                  Tap the eye to explain this result in plain words
+                  {Lang.t('experiments.explain-result', 'Tap the eye to explain this result in plain words')}
                 {/if}
               </div>
             </div>

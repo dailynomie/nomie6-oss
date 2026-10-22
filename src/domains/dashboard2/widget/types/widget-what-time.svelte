@@ -8,6 +8,7 @@
   // import type { Trackable } from '../../../trackable/Trackable.class'
 
   import type { WidgetClass } from '../widget-class'
+  import { Lang } from '../../../../store/lang'
 
   const {
     widget = $bindable(),
@@ -26,7 +27,7 @@
 </script>
 
 {#await init()}
-  Loading...
+  {Lang.t('general.loading', 'Loading...')}
 {:then value}
   <div class="time-graph">
     <div class="days">

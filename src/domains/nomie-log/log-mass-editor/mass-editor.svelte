@@ -184,7 +184,10 @@
         // Finish the Steps
         state.finishedReplacing = true
         // Notify the User
-        Interact.confirm(Lang.t('log.replace-complete', 'Replace Complete'), Lang.t('log.notes-updated', { num: state.replacedCount })).then(() => {
+        Interact.confirm(
+          Lang.t('log.replace-complete', 'Replace Complete'),
+          Lang.t('log.notes-updated', { num: state.replacedCount })
+        ).then(() => {
           dispatch('close')
         })
       })
@@ -223,8 +226,10 @@
 
       {#if !state.finding}
         <NItem
-          description="Find and replace specific content from all of your notes.
-          For example renaming a tag."
+          description={Lang.t(
+            'log.find-replace-help',
+            'Find and replace specific content from all of your notes. For example renaming a tag.'
+          )}
         />
         <NItem>
           <NInput
@@ -264,7 +269,7 @@
               <Spinner size={30} />
             {/if}
           </span>
-          <span slot="right">{state.foundCount} Found</span>
+          <span slot="right">{Lang.t('log.found-count', { num: state.foundCount })}</span>
           <div class="pt-1">
             <NProgress percentage={state.findingProgress} />
           </div>
@@ -273,7 +278,7 @@
           <NItem style="min-height:120px; width:100%">
             <div>
               <Text size="sm" leading2 faded>
-                Sample {state.example + 1} of {state.found.length}
+                {Lang.t('log.sample-of', { example: state.example + 1, total: state.found.length })}
               </Text>
               <Text size="sm">
                 {methods.showReplace(state.found[state.example || 0].log.note)}

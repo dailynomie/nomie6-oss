@@ -105,7 +105,7 @@
       {#if props.trackable}
         {props.trackable.label}
       {:else}
-        Positivity Editor
+        {Lang.t('positivity.editor-title', 'Positivity Editor')}
       {/if}
     </h1>
     <Button clear primary slot="right" on:click={saveChanges}>{Lang.t('positivity.done', 'Done')}</Button>

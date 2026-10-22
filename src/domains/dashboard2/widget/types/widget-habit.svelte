@@ -28,7 +28,11 @@
 
 {#if usage && total}
   <div class="ios-habit">
-    <div class="ios-ring" role="img" aria-label="{achievedLabel}: {kept} of {total} days ({keptPercent}%)">
+    <div
+      class="ios-ring"
+      role="img"
+      aria-label={Lang.t('dashboard.habit-aria', { label: achievedLabel, kept, total, percent: keptPercent })}
+    >
       <svg viewBox="0 0 120 120" width="112" height="112" aria-hidden="true">
         <circle cx="60" cy="60" r={RADIUS} fill="none" stroke="var(--ios-fill)" stroke-width="10" />
         {#if kept > 0}

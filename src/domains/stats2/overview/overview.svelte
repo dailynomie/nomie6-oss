@@ -139,7 +139,7 @@
           openLatest(lastUsageData)
         }}
       >
-        Latest: {dayjs(lastUsageData.last.d).format(dateFormats.mmm_d_yyyy)}
+        {Lang.t('stats.latest', { date: dayjs(lastUsageData.last.d).format(dateFormats.mmm_d_yyyy) })}
         <div slot="right">{trackable.formatValue(lastUsageData.last.v, true)}</div>
       </ListItem>
     {/if}

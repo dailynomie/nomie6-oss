@@ -21,10 +21,10 @@
   <div slot="right" class="flex items-center space-x-1">
     {#if awardsToShow.length}
       {#each awardsToShow as award, index}
-        <img alt="award" src={`/images/awards/${award.id}.svg`} class="h-4 w-4" />
+        <img alt={Lang.t('awards.award', 'Award')} src={`/images/awards/${award.id}.svg`} class="h-4 w-4" />
       {/each}
     {:else}
-      None
+      {Lang.t('awards.none', 'None')}
     {/if}
   </div>
 </ListItem>

@@ -132,7 +132,8 @@
       <p class="text-ios-label2 leading-snug pb-2">
         {Lang.t('goals.goal-hit', 'Goal hit')}
         <strong class="text-ios-label">{math.round(math.percentage(totalDays, totalSuccess))}%</strong>
-        <strong>{totalSuccess}</strong> out of {totalDays} days.
+        <strong>{totalSuccess}</strong>
+        {Lang.t('goals.out-of-days', { total: totalDays })}
         <br />
       </p>
       <ProgressBar

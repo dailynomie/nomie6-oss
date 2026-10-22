@@ -179,7 +179,7 @@
     {#if loggedIn}
       <img
         src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'}
-        alt="app-logo"
+        alt="Nomie"
         class="nomie-logo"
       />
       <!-- <Logo size={22} className="-mt-2" /> -->

@@ -52,7 +52,11 @@
   </header>
   {#if whatsNew && !showUpdates}
     <div class="p-6 text-ios-label">
-      Nomie {import.meta.env.PACKAGE_VERSION} adds {newfeatures.length} features, and {newfixes.length} bug fixes.
+      {Lang.t('whatsnew.summary', {
+        version: import.meta.env.PACKAGE_VERSION,
+        features: newfeatures.length,
+        fixes: newfixes.length,
+      })}
     </div>
   {/if}
   {#if whatsNew && showUpdates}
@@ -66,7 +70,8 @@
             clickable
             on:click={() => toggle(`${version}:features`)}
           >
-            {expanded[`${version}:features`] ? '▾' : '▸'} Features ({featuresOf(version).length})
+            {expanded[`${version}:features`] ? '▾' : '▸'}
+            {Lang.t('whatsnew.features-count', { num: featuresOf(version).length })}
           </NItem>
           {#if expanded[`${version}:features`]}
             {#each featuresOf(version) as feature}
@@ -76,7 +81,8 @@
         {/if}
         {#if fixesOf(version).length}
           <NItem bottomLine={16} className="text-sm py-1" compact clickable on:click={() => toggle(`${version}:fixes`)}>
-            {expanded[`${version}:fixes`] ? '▾' : '▸'} Bug Fixes ({fixesOf(version).length})
+            {expanded[`${version}:fixes`] ? '▾' : '▸'}
+            {Lang.t('whatsnew.fixes-count', { num: fixesOf(version).length })}
           </NItem>
           {#if expanded[`${version}:fixes`]}
             {#each fixesOf(version) as fix}

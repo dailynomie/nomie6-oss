@@ -249,13 +249,13 @@
             }}
             className="h-16"
           >
-            Trackable
+            {Lang.t('dashboard.trackable', 'Trackable')}
             {#if !editingWidget?.token}
               <span class="opacity-50 text-ios-label">
                 {#if activeType?.requires?.indexOf('token') > -1}
-                  (required)
+                  {Lang.t('dashboard.required', '(required)')}
                 {:else}
-                  (optional)
+                  {Lang.t('dashboard.optional', '(optional)')}
                 {/if}
               </span>
             {/if}
@@ -293,13 +293,13 @@
             }}
             className="h-16"
           >
-            Pointer
+            {Lang.t('dashboard.pointer', 'Pointer')}
             {#if !editingWidget?.pointer}
               <span class="opacity-50 text-ios-label">
                 {#if activeType?.requires?.indexOf('token') > -1}
-                  (required)
+                  {Lang.t('dashboard.required', '(required)')}
                 {:else}
-                  (optional)
+                  {Lang.t('dashboard.optional', '(optional)')}
                 {/if}
               </span>
             {/if}
@@ -354,7 +354,7 @@
             {#if editingWidget?.type == 'pointer'}
               <Divider left={18} />
               <ListItem>
-                Samples: {editingWidget?.data?.pointersamples || 5}
+                {Lang.t('dashboard.samples-count', { num: editingWidget?.data?.pointersamples || 5 })}
                 <div
                   slot="right"
                   style="flex: 0 0 200px; padding-right: 1rem; display: flex; align-items: center; min-height: 48px;"

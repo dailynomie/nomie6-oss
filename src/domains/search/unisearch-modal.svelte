@@ -328,7 +328,7 @@
               }}
             >
               <main>
-                {searchTerm} doesn't exist
+                {Lang.t('search.doesnt-exist', { term: searchTerm })}
               </main>
               <div class="action">{Lang.t('search.create-2', 'Create...')}</div>
             </button>
@@ -340,7 +340,7 @@
               }}
             >
               <main>
-                {searchTerm} not found
+                {Lang.t('search.not-found', { term: searchTerm })}
               </main>
               <div class="action">{Lang.t('search.create-2', 'Create...')}</div>
             </button>
@@ -384,7 +384,7 @@
               })
             }}
           >
-            <main class="text-sm leading-tight">Search all notes for: {searchTerm}</main>
+            <main class="text-sm leading-tight">{Lang.t('search.search-all-notes-for', { term: searchTerm })}</main>
             <div class="action">{Lang.t('search.search-2', 'Search...')}</div>
           </button>
         {/if}

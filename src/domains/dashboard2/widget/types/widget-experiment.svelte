@@ -59,7 +59,7 @@
       <div class="text-ios-footnote text-ios-label2">
         {Lang.t('dashboard.kept-to-it', 'Kept to it')}
         <span class="font-semibold text-ios-label">{view.adherence.kept}</span>
-        of {view.adherence.total} days
+        {Lang.t('dashboard.of-days', { total: view.adherence.total })}
       </div>
     {/if}
 

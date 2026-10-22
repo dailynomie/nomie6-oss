@@ -70,11 +70,11 @@
     <div class="mt-4 space-y-2">
       {#if lastFetchDate}
         <p class="text-xs text-ios-label2">
-          Will refresh in {getRefreshTime()}
+          {Lang.t('dashboard.will-refresh-in', { time: getRefreshTime() })}
         </p>
       {/if}
       <p class="text-xs text-ios-label2" style="font-size: 0.625rem;">
-        Generated with {aiProvider}
+        {Lang.t('dashboard.generated-with', { provider: aiProvider })}
         {#if aiModel}
           • <span class="font-mono">{aiModel}</span>
         {/if}

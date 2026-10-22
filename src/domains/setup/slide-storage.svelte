@@ -63,7 +63,10 @@
         }}
         class="nbtn-badge bg-ios-fill text-ios-label text-xs"
       >
-        {#if showAdvanced}Hide Advanced{:else}Show Advanced{/if}
+        {#if showAdvanced}{Lang.t('setup.hide-advanced', 'Hide Advanced')}{:else}{Lang.t(
+            'setup.show-advanced',
+            'Show Advanced'
+          )}{/if}
       </button>
     </div>
     <div class="h-20" />

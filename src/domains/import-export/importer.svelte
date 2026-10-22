@@ -392,7 +392,9 @@
       />
     {:else if fileData}
       <NItem className="item-divider compact bg-faded">
-        From Nomie {fileData?.nomie?.number || fileData?.version || 'Unknown'}
+        {Lang.t('import.from-nomie', {
+          version: fileData?.nomie?.number || fileData?.version || Lang.t('general.unknown', 'Unknown'),
+        })}
       </NItem>
 
       {#if (importLoader.normalized.logs || []).length > 0}

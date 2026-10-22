@@ -70,7 +70,9 @@
         {Lang.t('experiments.test-one-change-see-what-it-does', 'Test one change. See what it does.')}
       </p>
       {#if $ExperimentStore.length}
-        <p class="text-ios-footnote text-ios-label2 mt-1">{running.length} running · {finished.length} finished</p>
+        <p class="text-ios-footnote text-ios-label2 mt-1">
+          {Lang.t('experiments.running-finished', { running: running.length, finished: finished.length })}
+        </p>
       {/if}
     </div>
   </header>
@@ -105,7 +107,10 @@
               <div class="w-full py-1 space-y-2">
                 <div class="flex items-center justify-between gap-2 min-w-0">
                   <div class="font-semibold truncate">{experiment.title}</div>
-                  <ExperimentChip tone="running" label="Day {day} of {experiment.durationDays}" />
+                  <ExperimentChip
+                    tone="running"
+                    label={Lang.t('experiments.day-of', { day, total: experiment.durationDays })}
+                  />
                 </div>
                 <ExperimentProgress value={day / experiment.durationDays} />
               </div>

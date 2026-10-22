@@ -287,7 +287,9 @@
                 bottomLine={57}
                 on:click={() => navigate('/experiments')}
                 title={Lang.t('settings.experiments', 'Experiments')}
-                description="{$ExperimentStore.filter((e: any) => e.status === 'running').length} running"
+                description={Lang.t('settings.running-count', {
+                  num: $ExperimentStore.filter((e: any) => e.status === 'running').length,
+                })}
               >
                 <span slot="left"
                   ><IconSquare color="#1F78D1"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span
@@ -373,7 +375,7 @@
             <!-- iOS look: footer, centred, 13 px secondary, 24 px above -->
             <button class="w-full px-4 mt-6 mb-3 text-center text-ios-footnote text-ios-label2" on:click={specialTap}>
               <div>Daily Nomie {import.meta.env.PACKAGE_VERSION}</div>
-              <div>Copyright 2014 - {dayjs().format('YYYY')}</div>
+              <div>{Lang.t('settings.copyright', { year: dayjs().format('YYYY') })}</div>
             </button>
           </div>
           <!-- end container -->

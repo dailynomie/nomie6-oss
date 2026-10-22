@@ -45,7 +45,7 @@
         >
           <IonIcon icon={RemoveCircleOutline} className="text-ios-tint" />
           {#if $Device.width > 400}
-            <span class="ml-2 text-ios-tint"> Reset All </span>
+            <span class="ml-2 text-ios-tint"> {Lang.t('awards.reset-all', 'Reset All')} </span>
           {/if}
         </button>
       </div>

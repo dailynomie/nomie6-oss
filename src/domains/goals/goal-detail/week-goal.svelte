@@ -135,7 +135,8 @@
       <p class="text-ios-label2 leading-snug pb-2">
         {Lang.t('goals.goal-hit', 'Goal hit')}
         <strong class="text-ios-label">{math.round(math.percentage(totalWeeks, totalSuccess))}%</strong>
-        <strong>{totalSuccess}</strong> out of {totalWeeks} weeks.
+        <strong>{totalSuccess}</strong>
+        {Lang.t('goals.out-of-weeks', { total: totalWeeks })}
         <br />
       </p>
       <ProgressBar
@@ -184,7 +185,7 @@
                   : ''}"
               >
                 <!--{week.date.format('ddd').substring(0, 1)} -->
-                wk{i + 1}
+                {Lang.t('goals.week-abbr', { num: i + 1 })}
 
                 <!-- {day.date.format(dateFormats.tinyNumber)} -->
               </button>
@@ -203,7 +204,7 @@
                   : ''}"
               >
                 <!--{week.date.format('ddd').substring(0, 1)} -->
-                wk{i + 1}
+                {Lang.t('goals.week-abbr', { num: i + 1 })}
 
                 <!-- {day.date.format(dateFormats.tinyNumber)} -->
               </button>

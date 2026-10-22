@@ -59,7 +59,7 @@
           <div class="pill">
             <div class="ntitle">{board.label}</div>
             <div class="text-xs text-ios-label2 whitespace-nowrap">
-              {board.elements.length} trackables
+              {Lang.t('templates.trackable-count', { num: board.elements.length })}
             </div>
           </div>
         {/each}
@@ -78,7 +78,7 @@
           <div class="pill">
             <div class="ntitle">{board.label}</div>
             <div class="text-xs text-ios-label2 whitespace-nowrap">
-              {board.widgets.length} widgets
+              {Lang.t('templates.widget-count', { num: board.widgets.length })}
             </div>
           </div>
         {/each}

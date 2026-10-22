@@ -556,7 +556,9 @@
     <span class="text-ios-tint text-ios-title3 font-semibold align-middle">{Lang.t('analytics.beta', 'BETA')}</span>
   </h1>
   {#if workingPivotTag !== 'Initiati0nPiv0t'}
-    <p class="text-ios-subhead text-ios-label2">Active pivot: {workingPivotEmoji} {workingPivotTag}</p>
+    <p class="text-ios-subhead text-ios-label2">
+      {Lang.t('analytics.active-pivot', { pivot: `${workingPivotEmoji} ${workingPivotTag}` })}
+    </p>
   {/if}
   {#if viewOnly}
     <!-- the phone view says it is read only, so nobody looks for the edit buttons here -->
