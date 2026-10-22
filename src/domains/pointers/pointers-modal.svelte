@@ -53,28 +53,25 @@
   })
 
   //let editMode: boolean = false
-  let hasLocked: boolean = false
 </script>
 
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
       <div slot="left">
-        {#if !hasLocked}
-          <Button
-            on:click={() =>
-              openTrackableEditor(
-                new Trackable({
-                  type: 'pointer',
-                })
-              )}
-            icon
-            clear
-            primary
-          >
-            <IonIcon icon={PlusIcon} />
-          </Button>
-        {/if}
+        <Button
+          on:click={() =>
+            openTrackableEditor(
+              new Trackable({
+                type: 'pointer',
+              })
+            )}
+          icon
+          clear
+          primary
+        >
+          <IonIcon icon={PlusIcon} />
+        </Button>
       </div>
       <h1 class="ntitle text-sm md:text-base">{Lang.t('general.pointers', 'Pointers')}</h1>
       <Button slot="right" on:click={closePointersModal} clear primary>{Lang.t('general.done', 'Done')}</Button>
