@@ -43,12 +43,12 @@ Colours are CSS variables in `src/style/main.css`, on `:root` for light mode and
 | `--ios-card` | `#FFFFFF` | `#1C1C1E` | Cards, list groups, tiles, modal surfaces |
 | `--ios-card-2` | `#F2F2F7` | `#2C2C2E` | Boxes inside cards |
 | `--ios-label` | `#000000` | `#FFFFFF` | Main text |
-| `--ios-label-2` | `#6C6C70` | `#AEAEB2` | Secondary text, inactive tabs, captions |
+| `--ios-label-2` | `#636368` | `#AEAEB2` | Secondary text, inactive tabs, captions |
 | `--ios-fill` | `#E5E5EA` | `#2C2C2E` | Chips, secondary buttons, segmented track, progress track, text fields |
 | `--ios-separator` | `#D8D8DC` | `#48484A` | 0.5 px row dividers |
 | `--ios-tint` | `#0A6CC9` | `#4DB3FF` | Accent: links, selected tab, primary buttons, progress |
 | `--ios-on-tint` | `#FFFFFF` | `#000000` | Text on a tint fill |
-| `--ios-tint-soft` | `#E3EFFB` | `#0B2236` | Tinted backgrounds, pastel chips |
+| `--ios-tint-soft` | `#EBF4FD` | `#0B2236` | Tinted backgrounds, pastel chips |
 | `--ios-good` | `#1E7A34` | `#30D158` | Done and success text |
 | `--ios-good-soft` | `#DDF3E2` | `#123620` | Done backgrounds |
 | `--ios-save` | `#1E7A34` | `#30D158` | The Save button in the capture area |
@@ -65,7 +65,7 @@ Colours are CSS variables in `src/style/main.css`, on `:root` for light mode and
 | `--ios-shadow-thumb` | `0 2px 6px rgba(0,0,0,0.12)` | `0 2px 6px rgba(0,0,0,0.5)` | Segmented thumb |
 | `--ios-shadow-hub` | `0 6px 16px rgba(10,108,201,0.35)` | `0 6px 16px rgba(77,179,255,0.30)` | Central button |
 
-Contrast on the usual surfaces was checked: label 21:1 on white; label-2 5.23:1 on card (4.69:1 on the grouped background); tint 5.25:1 on white and 7.46:1 on the dark card; on-tint 5.25:1 and 9.21:1; good 5.40:1 and 8.42:1; danger 5.38:1 and 6.03:1.
+Contrast on the usual surfaces was checked: label 21:1 on white; label-2 5.97:1 on card (5.35:1 on the grouped background, 4.76:1 on the grey fill); tint 5.25:1 on white and 7.46:1 on the dark card; on-tint 5.25:1 and 9.21:1; good 5.40:1 and 8.42:1; danger 5.38:1 and 6.03:1.
 
 ### 2.2 Chips and icon squares
 
