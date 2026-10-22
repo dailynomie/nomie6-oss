@@ -210,7 +210,7 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 | Q1 | **Legacy UI violations.** `ui-checks.sh --all` reports 93 MUST violations: palette classes (UI-04, 81 hits in the files on this branch), native controls (UI-02), click handlers on divs (UI-05), and arbitrary Tailwind values (UI-01). Fix them in the files we touch, and then by area. | The guardrail should pass on the whole source. | M (ongoing) |
 | Q2 | **TypeScript.** Run `npx tsc --noEmit`, record the error count (about 1,550 in the old roadmap, not re-measured), and stop it growing. | Type errors hide bugs. | M (ongoing) |
 | Q3 | **Large files:** `template-editor.svelte` (about 1,200 lines), `ai/context-builder.ts` (about 950), `usage-chart.svelte` (about 810), `LedgerStore.ts` (about 740). Split when touched. | Easier review and faster builds. | M (when touched) |
-| Q4 | **Script-side text gap.** LANG-11 does not scan template literals with `${…}` (for example `` `${label} updated` ``). | Those strings stay English in Dutch. | S |
+| Q4 | **Script-side text gap.** **Partly done 22 October:** the seven toasts built from a template literal (`${name} saved` and similar) are wrapped in Lang keys. Still open: LANG-11 does not scan template literals, so new cases are not caught yet. | Those strings stay English in Dutch. | S |
 | Q5 | **Svelte upgrade.** Svelte is pinned at 5.22.0; later versions hang the boot (memory note). Check the upstream fix before the upgrade. | Current Svelte version and fixes. | M |
 
 ---
