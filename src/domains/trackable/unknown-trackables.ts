@@ -7,6 +7,7 @@ import Person from '../people/Person.class'
 import { ContextClass } from '../context/context-class'
 import { PointerClass } from '../pointers/pointer-class'
 import { removeTagFromNote } from './unknown-tag-text'
+import { Prefs } from '../preferences/Preferences'
 
 /**
  * Unknown trackables: a #tag, @person, +context or ^pointer in a note that has no trackable in the app.
@@ -45,6 +46,16 @@ export const findUnknownTrackables = async (): Promise<Array<UnknownItem>> => {
   return [...found.values()].sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type) || a.key.localeCompare(b.key))
 }
 
+/** The tags the user chose to ignore. They are not trackables and their notes are not changed. */
+export const ignoredUnknownTags = (): Array<string> => get(Prefs).ignoredUnknownTags || []
+
+export const setUnknownTagIgnored = (key: string, ignored: boolean) => {
+  Prefs.update((p) => {
+    const current = (p.ignoredUnknownTags || []).filter((k) => k !== key)
+    return { ...p, ignoredUnknownTags: ignored ? [...current, key] : current }
+  })
+}
+
 /** Create the trackable for an unknown tag. It is added to the Track screen, as a new tracker is. */
 export const createUnknownTrackable = async (item: UnknownItem): Promise<boolean> => {
   let trackable
@@ -52,6 +63,8 @@ export const createUnknownTrackable = async (item: UnknownItem): Promise<boolean
   else if (item.type === 'person') trackable = new Person({ username: item.id }).toTrackable()
   else if (item.type === 'context') trackable = new ContextClass(item.id).toTrackable()
   else trackable = new PointerClass(item.id).toTrackable()
+  // a tag that becomes a trackable is no longer ignored
+  setUnknownTagIgnored(item.key, false)
   return saveTrackable({
     trackable,
     known: get(TrackableStore).trackables,

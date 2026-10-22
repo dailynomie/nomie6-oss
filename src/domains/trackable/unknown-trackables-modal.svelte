@@ -6,10 +6,12 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import { showToast } from '../../components/toast/ToastStore'
   import { Interact } from '../../store/interact'
+  import { Prefs } from '../preferences/Preferences'
   import {
     createUnknownTrackable,
     deleteUnknownTrackable,
     findUnknownTrackables,
+    setUnknownTagIgnored,
     type UnknownItem,
     type UnknownType,
   } from './unknown-trackables'
@@ -27,6 +29,17 @@
   let items: Array<UnknownItem> = $state([])
   let loading = $state(true)
   let busy = $state(false)
+  // which groups are open: the active groups start open, the ignored groups start closed
+  let open: Record<string, boolean> = $state({})
+
+  const ignoredKeys = $derived($Prefs.ignoredUnknownTags || [])
+  const activeItems = $derived(items.filter((i) => !ignoredKeys.includes(i.key)))
+  const ignoredItems = $derived(items.filter((i) => ignoredKeys.includes(i.key)))
+
+  const isOpen = (section: 'active' | 'ignored', type: UnknownType) => open[`${section}-${type}`] ?? section === 'active'
+  const toggle = (section: 'active' | 'ignored', type: UnknownType) => {
+    open = { ...open, [`${section}-${type}`]: !isOpen(section, type) }
+  }
 
   const load = async () => {
     loading = true
@@ -44,6 +57,17 @@
     await load()
   }
 
+  // Ignore: the user confirmed this tag is not a tracker. Nothing in the notes changes.
+  const ignore = (item: UnknownItem) => {
+    setUnknownTagIgnored(item.key, true)
+    showToast({ message: `${item.key} ignored` })
+  }
+
+  const restore = (item: UnknownItem) => {
+    setUnknownTagIgnored(item.key, false)
+    showToast({ message: `${item.key} is back in the list` })
+  }
+
   const remove = async (item: UnknownItem) => {
     const confirmed = await Interact.confirm(
       `Delete ${item.key}?`,
@@ -52,6 +76,7 @@
     if (!confirmed) return
     busy = true
     const changed = await deleteUnknownTrackable(item)
+    setUnknownTagIgnored(item.key, false)
     busy = false
     showToast({ message: `Removed from ${changed} ${changed === 1 ? 'note' : 'notes'}` })
     await load()
@@ -69,7 +94,7 @@
 
   <main class="px-4 pb-10 space-y-6">
     <p class="text-ios-footnote text-ios-label2">
-      Tags in your notes that have no tracker, person, context or pointer yet. Create one to keep tracking it, or delete the tag from the notes that use it.
+      Tags in your notes that have no tracker, person, context or pointer yet. Create one to keep tracking it, ignore it if it should stay as it is, or delete the tag from the notes that use it.
     </p>
 
     {#if loading}
@@ -77,44 +102,77 @@
     {:else if items.length === 0}
       <p class="text-ios-label2 text-center py-8">Nothing to set up. Every tag in your notes has a tracker, person, context or pointer.</p>
     {:else}
-      {#each GROUPS as group}
-        {@const groupItems = items.filter((i) => i.type === group.type)}
-        {#if groupItems.length}
-          <section>
-            <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 mb-2">{group.label}</div>
-            <div class="ios-card divide-y divide-ios-separator">
-              {#each groupItems as item (item.key)}
-                <div class="p-4 flex items-center justify-between gap-3">
-                  <div class="min-w-0">
-                    <div class="font-semibold text-ios-label truncate">{item.key}</div>
-                    <div class="text-ios-footnote text-ios-label2">
-                      {item.count} {item.count === 1 ? 'note' : 'notes'}
+      {#each [{ section: 'active' as const, list: activeItems, title: 'To set up' }] as block}
+        {#each GROUPS as group}
+          {@const groupItems = block.list.filter((i) => i.type === group.type)}
+          {#if groupItems.length}
+            <section>
+              <button
+                type="button"
+                class="w-full flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ios-label2 mb-2"
+                aria-expanded={isOpen(block.section, group.type)}
+                onclick={() => toggle(block.section, group.type)}
+              >
+                <span>{group.label} ({groupItems.length})</span>
+                <span aria-hidden="true">{isOpen(block.section, group.type) ? '▴' : '▾'}</span>
+              </button>
+              {#if isOpen(block.section, group.type)}
+                <div class="ios-card divide-y divide-ios-separator">
+                  {#each groupItems as item (item.key)}
+                    <div class="p-4 space-y-3">
+                      <div class="min-w-0">
+                        <div class="font-semibold text-ios-label truncate">{item.key}</div>
+                        <div class="text-ios-footnote text-ios-label2">{item.count} {item.count === 1 ? 'note' : 'notes'}</div>
+                      </div>
+                      <div class="flex flex-wrap gap-2">
+                        <button type="button" class="h-9 px-3 rounded-full bg-ios-tint text-ios-ontint text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => create(item)}>Create</button>
+                        <button type="button" class="h-9 px-3 rounded-full bg-ios-fill text-ios-label text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => ignore(item)}>Ignore</button>
+                        <button type="button" class="h-9 px-3 rounded-full bg-ios-fill text-ios-danger text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => remove(item)}>Delete</button>
+                      </div>
                     </div>
-                  </div>
-                  <div class="flex gap-2 shrink-0">
-                    <button
-                      type="button"
-                      class="h-9 px-3 rounded-full bg-ios-tint text-ios-ontint text-sm font-medium disabled:opacity-50"
-                      disabled={busy}
-                      onclick={() => create(item)}
-                    >
-                      Create
-                    </button>
-                    <button
-                      type="button"
-                      class="h-9 px-3 rounded-full bg-ios-fill text-ios-danger text-sm font-medium disabled:opacity-50"
-                      disabled={busy}
-                      onclick={() => remove(item)}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  {/each}
                 </div>
-              {/each}
-            </div>
-          </section>
-        {/if}
+              {/if}
+            </section>
+          {/if}
+        {/each}
       {/each}
+
+      {#if ignoredItems.length}
+        <div class="pt-2 text-xs font-semibold uppercase tracking-wide text-ios-label2">Ignored</div>
+        {#each GROUPS as group}
+          {@const groupItems = ignoredItems.filter((i) => i.type === group.type)}
+          {#if groupItems.length}
+            <section>
+              <button
+                type="button"
+                class="w-full flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ios-label2 mb-2"
+                aria-expanded={isOpen('ignored', group.type)}
+                onclick={() => toggle('ignored', group.type)}
+              >
+                <span>{group.label} ({groupItems.length})</span>
+                <span aria-hidden="true">{isOpen('ignored', group.type) ? '▴' : '▾'}</span>
+              </button>
+              {#if isOpen('ignored', group.type)}
+                <div class="ios-card divide-y divide-ios-separator">
+                  {#each groupItems as item (item.key)}
+                    <div class="p-4 space-y-3">
+                      <div class="min-w-0">
+                        <div class="font-semibold text-ios-label2 truncate">{item.key}</div>
+                        <div class="text-ios-footnote text-ios-label2">{item.count} {item.count === 1 ? 'note' : 'notes'}</div>
+                      </div>
+                      <div class="flex flex-wrap gap-2">
+                        <button type="button" class="h-9 px-3 rounded-full bg-ios-fill text-ios-label text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => restore(item)}>Restore</button>
+                        <button type="button" class="h-9 px-3 rounded-full bg-ios-fill text-ios-danger text-sm font-medium disabled:opacity-50" disabled={busy} onclick={() => remove(item)}>Delete</button>
+                      </div>
+                    </div>
+                  {/each}
+                </div>
+              {/if}
+            </section>
+          {/if}
+        {/each}
+      {/if}
     {/if}
   </main>
 </BackdropModal>

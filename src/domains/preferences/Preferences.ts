@@ -30,6 +30,7 @@ export type PreferencesStateType = {
   betaFeatures?: boolean
   peopleBoard?: boolean
   contextBoard?: boolean
+  ignoredUnknownTags?: Array<string> // unknown tags the user chose to ignore (Manage Unknown Trackables)
   experimentBoard?: boolean
   allBoard?: boolean
   nowBoard?: boolean
