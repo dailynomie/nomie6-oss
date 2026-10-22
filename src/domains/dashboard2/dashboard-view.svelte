@@ -94,6 +94,15 @@
           toggleDashboardEditMode()
         },
       },
+      {
+        // iOS look (Phase 7 bug fix): delete lives in the menu, not beside Add Widget on an empty dashboard
+        title: 'Delete Dashboard',
+        disabled: !$DashStore.activeDashboard,
+        icon: TrashOutline,
+        click() {
+          confirmDashboardDelete()
+        },
+      },
     ]
   }
 
@@ -274,15 +283,6 @@
           <span>Edit Dashboard</span></ListItem
         >
       {/if}
-      <ListItem
-        clickable
-        on:click={() => {
-          confirmDashboardDelete()
-        }}
-      >
-        <IonIcon icon={TrashOutline} slot="left" />
-        <span class="text-danger">Delete Dashboard</span></ListItem
-      >
     </div>
     </Container>
   {:else}
