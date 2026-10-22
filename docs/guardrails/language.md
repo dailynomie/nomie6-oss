@@ -18,12 +18,14 @@ Levels: **MUST** and **SHOULD**, as explained in the [README](README.md). Check 
 ## 2. Rules
 
 - **LANG-01 (MUST)** Visible text in a template is wrapped: `{Lang.t('area.key', 'English')}`. This covers text between tags and the attributes a person sees (`placeholder`, `title`, `aria-label`, `alt`, `label`). Check: `LANG-01`.
+- **LANG-11 (MUST)** Text in script code is wrapped too: a label, title, message or ternary branch that a person reads. Check: `LANG-11` (`lang-script-scan.py`). A value that is data, such as text saved into a note, is marked with `// lang-ok: reason` on its line. Template literals with `${...}` expressions are not scanned yet.
 - **LANG-02 (MUST)** Every key the code asks for exists in `base.ts`. A key with only a default is a gap in the baseline. Check: `LANG-02`.
 - **LANG-03 (MUST)** Toast and dialog text (`showToast`, `Interact.alert`, `Interact.confirm`, `Interact.prompt`) is wrapped in `Lang.t`. Check: `LANG-03`.
 - **LANG-04 (MUST)** A new key goes into `base.ts` in the same commit that uses it, under the area that owns the screen (`settings`, `tracker`, `timeline`, and so on). The key names are lowercase words joined with hyphens.
 - **LANG-05 (MUST)** Text built from parts uses one key with placeholders (`{{name}}`), not string joins. The placeholder names are the same in every language.
 - **LANG-06 (SHOULD)** Names of things the user owns (tracker names, notes, people, places) are never translated. Brand and technical terms (Nomie, API, PIN, CSV, URL) are kept as they are, unless a language file says otherwise.
 - **LANG-07 (MUST)** A language file has every key of the base file before it is shipped. Keys that are not yet translated carry the English text. Check: `LANG-07` in `lang-checks.sh`. Dutch (`nl`) is enforced; the other languages are reported until they are translated.
+- **LANG-10 (MUST)** Nomie slang is not translated, in any language. The words that name Nomie's own things stay in English, in the same form they have in the app: Nomie, track, tracker, trackable, tally, habit, combo, value, range, pick list, timer, pointer, context, person, people, board, tab, pivot, streak, goal, log, note, template, dashboard, widget, experiment, journal, positivity, plugin, stats. A page header or tab name is also kept in English (Track, Timeline, History, Analytics, Goals, Awards, Experiments, On This Day). The words can sit inside a translated sentence, in their English form. Review, by a person: a translation that replaces one of these words is a violation.
 - **LANG-08 (MUST)** Dates and numbers are formatted with the user's settings, not with text. Check by review.
 
 ---
@@ -50,4 +52,4 @@ Zero violations is the completion condition for this area.
 
 ## Known gaps
 
-- The template scan (LANG-01) does not read text inside `{...}` expressions, and it does not read labels in script objects, such as `value: 'Weekly'` in the settings lists. Those are visible text that the check does not see. They need a scan of the script side, which is not built yet.
+- Template literals with a `${...}` expression (for example `` `${label} updated` ``) are not scanned by LANG-11 yet. Text inside `{...}` expressions in templates is only scanned for ternary branches.

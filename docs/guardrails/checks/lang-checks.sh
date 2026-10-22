@@ -90,6 +90,19 @@ if [ -n "$NOIMPORT" ]; then
 else
   echo "[LANG-09 MUST] every file that calls Lang.t imports Lang (pass)"
 fi
+# LANG-11 text in script code (labels, titles, messages and ternary branches) is wrapped in Lang.t
+SCRIPT_TEXT=""
+SCRIPTFILES=$(printf '%s\n' $LIST | grep -E '\.(svelte|ts)$' || true)
+if [ -n "$SCRIPTFILES" ]; then
+  SCRIPT_TEXT=$(python3 docs/guardrails/checks/lang-script-scan.py $SCRIPTFILES 2>/dev/null | grep -v "^script text" || true)
+fi
+if [ -n "$SCRIPT_TEXT" ]; then
+  n=$(printf '%s\n' "$SCRIPT_TEXT" | wc -l | tr -d ' ')
+  echo "[LANG-11 MUST] text in script code is not wrapped in Lang.t ($n)"; printf '%s\n' "$SCRIPT_TEXT" | sed 's/^/    /' | head -n 25
+  MUST_FAILS=1; HITS=$((HITS+n))
+else
+  echo "[LANG-11 MUST] text in script code is wrapped (pass)"
+fi
 # LANG-07 every language file has every base key with the same placeholders. The languages in ENFORCED must be complete; the others are reported until they are translated.
 ENFORCED="nl"
 COVER=$(node -e "
