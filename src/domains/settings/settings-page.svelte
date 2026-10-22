@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
-  import { HelpCircleOutline, CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline, PulseOutline } from '../../components/icon/nicons'
+  import { HelpCircleOutline, CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline, PulseOutline, CubeOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
   import { navigate } from '../../vendor/svelte-navigator'
 
@@ -222,6 +222,14 @@
                 <span slot="left"><IconSquare color="#5DAE62"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span>
               </ListItem>
             </List>
+
+            {#if $FeatureVisible('uoms')}
+            <List solo className="mt-4">
+              <ListItem detail bottomLine={57} on:click={() => navigate('/uoms')} title="Units of Measure" description="What a tracker can count in">
+                <span slot="left"><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare></span>
+              </ListItem>
+            </List>
+            {/if}
 
             <!-- iOS look (guide 5.11): the Experiments row, with its running count and a chevron -->
             <List solo className="mt-4">

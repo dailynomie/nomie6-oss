@@ -20,6 +20,7 @@
   import Analytics from './Analytics.svelte'
   import AfterNomie from './AfterNomie.svelte'
   import Tests from './tests/tests.svelte'
+import Uoms from './Uoms.svelte'
   import Awards from './Awards.svelte'
   import Language from './tests/language.svelte'
   import Faq from './faq.svelte'
@@ -84,6 +85,11 @@
     </Route>
   {/if}
 
+  <Route path="/uoms">
+    <FeatureGate feature="uoms">
+      <Uoms />
+    </FeatureGate>
+  </Route>
   <Route path="/awards">
     <Awards />
   </Route>
