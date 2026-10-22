@@ -126,7 +126,7 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 
 | # | Task | Size | Done when |
 | --- | --- | --- | --- |
-| P1 | **Measure.** Add `rollup-plugin-visualizer` (the commented line in `vite.config.mjs`), save the report as the baseline, and list the five largest modules. | S | A report in `docs/notes/`. |
+| P1 | **Measure.** The bundle report is switched on with `ANALYZE=<file>`, and the baseline is in `docs/notes/bundle-baseline-oct-2026.md`. Plotly is the largest item (about 1.3 MB gzipped). | S | **Done 22 October.** |
 | P2 | **Lazy routes.** `src/routes/routes.svelte` imports 19 page components eagerly. Use a small `LazyRoute` wrapper with `{#await import(…)}`. Keep Track and Timeline eager. | M | The Track route loads without the other pages. |
 | P3 | **Lazy heavy libraries:** Plotly (analytics pivot only), Blockly (`/nomie-blockly`), Leaflet (map), the Anthropic SDK (`engine.svelte.ts`, import inside the request functions), and the emoji data (`emoji-light.ts`, 1,570 lines, load when the picker opens). | M | Each is in its own chunk, and loads when its screen opens. |
 | P4 | **Plotly decision (D12).** Replace with Chart.js (already in use) or keep it lazy. | M | Decided and recorded. |
