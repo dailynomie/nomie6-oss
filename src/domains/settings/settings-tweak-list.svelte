@@ -105,7 +105,7 @@
   <ListItem bottomLine={57} title={Lang.t('settings.24-hour-clock', '24 hour clock')}>
     <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div slot="right">
-      <NToggle title="24 Hour Mode" bind:value={$Prefs.use24hour} />
+      <NToggle title={Lang.t('settings.24-hour-mode', '24 Hour Mode')} bind:value={$Prefs.use24hour} />
     </div>
   </ListItem>
 
@@ -114,7 +114,7 @@
     <span slot="left"><IconSquare color="#D06A14"><IonIcon icon={LanguageOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <IosSelect
-        title="Select a Language"
+        title={Lang.t('settings.select-a-language', 'Select a Language')}
         bind:value={$Lang.lang}
         onchange={() => Lang.setLang($Lang.lang)}
         options={Lang.getLangs().map((lang) => ({ value: lang.key, label: lang.label }))}

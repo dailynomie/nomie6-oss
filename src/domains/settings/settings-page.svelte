@@ -167,7 +167,7 @@
         <div slot="right">
           <!-- {#if !hasChatInstalled} -->
           <a
-            title="Find a bug? Want to provide feedback?"
+            title={Lang.t('settings.find-a-bug-want-to-provide-feedback', 'Find a bug? Want to provide feedback?')}
             href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}
             class="font-semibold text-ios-label text-sm flex items-center space-x-2"
             target="_blank"
@@ -179,7 +179,7 @@
         </div>
       </ToolbarGrid>
       <!-- iOS look (guide 5.11): large title "More" -->
-      <h1 class="text-ios-large font-bold text-ios-label px-4 mt-1">More</h1>
+      <h1 class="text-ios-large font-bold text-ios-label px-4 mt-1">{Lang.t('settings.more', 'More')}</h1>
     </Container>
   </div>
 
@@ -220,7 +220,12 @@
             <!-- Sign-in and Register Block  -->
 
             <List solo className="mt-4">
-              <ListItem detail bottomLine={57} on:click={() => openLocationModal()} title="Locations">
+              <ListItem
+                detail
+                bottomLine={57}
+                on:click={() => openLocationModal()}
+                title={Lang.t('settings.locations', 'Locations')}
+              >
                 <span slot="left"
                   ><IconSquare color="#5A9CF0"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span
                 >
@@ -229,7 +234,12 @@
 
             {#if $FeatureVisible('pointers')}
               <List solo className="mt-4">
-                <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
+                <ListItem
+                  detail
+                  bottomLine={57}
+                  on:click={() => openPointersModal()}
+                  title={Lang.t('settings.pointers', 'Pointers')}
+                >
                   <span slot="left" class="adv-corner"
                     ><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><FeatureBadge
                       feature="pointers"
@@ -240,7 +250,12 @@
             {/if}
 
             <List solo className="mt-4">
-              <ListItem detail bottomLine={57} on:click={() => openTemplateManager()} title="Templates">
+              <ListItem
+                detail
+                bottomLine={57}
+                on:click={() => openTemplateManager()}
+                title={Lang.t('settings.templates', 'Templates')}
+              >
                 <span slot="left"
                   ><IconSquare color="#5DAE62"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span
                 >
@@ -253,8 +268,8 @@
                   detail
                   bottomLine={57}
                   on:click={() => navigate('/uoms')}
-                  title="Units of Measure"
-                  description="What a tracker can count in"
+                  title={Lang.t('settings.units-of-measure', 'Units of Measure')}
+                  description={Lang.t('settings.what-a-tracker-can-count-in', 'What a tracker can count in')}
                 >
                   <span slot="left" class="adv-corner"
                     ><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare><FeatureBadge
@@ -271,7 +286,7 @@
                 detail
                 bottomLine={57}
                 on:click={() => navigate('/experiments')}
-                title="Experiments"
+                title={Lang.t('settings.experiments', 'Experiments')}
                 description="{$ExperimentStore.filter((e: any) => e.status === 'running').length} running"
               >
                 <span slot="left"
@@ -283,7 +298,12 @@
             <!-- Plugins are a group of their own, with the same spacing as the other groups -->
             {#if $FeatureVisible('plugins')}
               <List solo className="mt-4">
-                <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
+                <ListItem
+                  detail
+                  bottomLine={57}
+                  on:click={() => openPluginsModal()}
+                  title={Lang.t('settings.manage-plugins', 'Manage Plugins')}
+                >
                   <span slot="left" class="adv-corner"
                     ><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
                     ><FeatureBadge feature="plugins" /></span
@@ -292,8 +312,11 @@
                 <ListItem
                   clickable
                   bottomLine={showplugins ? 57 : undefined}
-                  title="Show Plugins"
-                  description="Click to show or hide the installed Plugins"
+                  title={Lang.t('settings.show-plugins', 'Show Plugins')}
+                  description={Lang.t(
+                    'settings.click-to-show-or-hide-the-installed-plugins',
+                    'Click to show or hide the installed Plugins'
+                  )}
                   on:click={toggleshowplugins}
                 >
                   <span slot="left" class="adv-corner"

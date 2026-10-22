@@ -65,7 +65,7 @@
       Interact.blocker('Analyzing Usage Data...')
       await updateAllLastUsed($TrackableStore.trackables)
       Interact.stopBlocker()
-      showToast({ message: 'Update Complete' })
+      showToast({ message: Lang.t('settings.update-complete', 'Update Complete') })
     }
   }
 
@@ -195,7 +195,7 @@
     }}
   >
     <span slot="left"><IconSquare color="#0E7C86"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
-    <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
+    <div slot="right" class="opacity-50 text-sm">{Lang.t('settings.csv-or-nomie-backup', 'CSV or Nomie Backup')}</div>
   </ListItem>
 
   {#if $FeatureVisible('csv')}
@@ -241,8 +241,11 @@
     bottomLine={57}
     detail
     clickable
-    title="Manage Unknown Trackables"
-    description="Tags in your notes that have no tracker yet"
+    title={Lang.t('settings.manage-unknown-trackables', 'Manage Unknown Trackables')}
+    description={Lang.t(
+      'settings.tags-in-your-notes-that-have-no-tracker-yet',
+      'Tags in your notes that have no tracker yet'
+    )}
     on:click={openUnknownTrackables}
   >
     <span slot="left"><IconSquare color="#7A5AA6"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
@@ -252,14 +255,24 @@
     bottomLine={57}
     detail
     clickable
-    title="Clean Plugin Database"
-    description="Find and remove duplicate plugin settings"
+    title={Lang.t('settings.clean-plugin-database', 'Clean Plugin Database')}
+    description={Lang.t(
+      'settings.find-and-remove-duplicate-plugin-settings',
+      'Find and remove duplicate plugin settings'
+    )}
     on:click={openPluginDedupModal}
   >
     <span slot="left"><IconSquare color="#7CC4CB"><IonIcon icon={TrashOutline} size={17} /></IconSquare></span>
   </ListItem>
 
-  <ListItem bottomLine={57} title="Auto Cleanup" description="Removes duplicate plugin settings on a schedule">
+  <ListItem
+    bottomLine={57}
+    title={Lang.t('settings.auto-cleanup', 'Auto Cleanup')}
+    description={Lang.t(
+      'settings.removes-duplicate-plugin-settings-on-a-schedule',
+      'Removes duplicate plugin settings on a schedule'
+    )}
+  >
     <span slot="left"><IconSquare color="#9AD3D8"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <SelectPop
@@ -274,12 +287,6 @@
     </div>
   </ListItem>
 </List>
-<!-- <p class="list-note -mt-2 mb-2">
-  {Lang.t(
-    'general.update-last-used-description',
-    `When you delete a note, Nomie sometimes loses track of when a tracker, person, or context was last used. Use 'Update Last-Used Dates'  to update all of the last-used dates and values from the previous year.`
-  )}
-</p> -->
 <!-- 
 <List transparent className=" px-2" outside title={Lang.t('settings.import-export', 'Import / Export')}>
   <p slot="subheader" class="list-note -mt-2">

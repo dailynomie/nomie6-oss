@@ -180,12 +180,18 @@
         <div class="flex gap-2">
           <span class="flex-shrink-0 text-lg">⚠️</span>
           <div class="flex-grow min-w-0">
-            <p class="text-sm font-semibold text-ios-label mb-1">API Key Encryption Available</p>
+            <p class="text-sm font-semibold text-ios-label mb-1">
+              {Lang.t('settings.api-key-encryption-available', 'API Key Encryption Available')}
+            </p>
             <p class="text-xs text-ios-label2 leading-tight">
-              Your Nomie data always stays local on your device, which provides strong security. You can add an
-              additional layer of protection by enabling a PIN in
-              <span class="font-semibold">More Settings → Security → Use PIN</span>
-              to encrypt your API key.
+              {Lang.t(
+                'settings.api-key-local-security',
+                'Your Nomie data always stays local on your device, which provides strong security. You can add an additional layer of protection by enabling a PIN in'
+              )}
+              <span class="font-semibold"
+                >{Lang.t('settings.more-settings-security-use-pin', 'More Settings → Security → Use PIN')}</span
+              >
+              {Lang.t('settings.to-encrypt-your-api-key', 'to encrypt your API key.')}
             </p>
           </div>
         </div>
@@ -198,7 +204,9 @@
 
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
-        <label class="block text-sm font-semibold mb-3">Select AI Service</label>
+        <label class="block text-sm font-semibold mb-3"
+          >{Lang.t('settings.select-ai-service', 'Select AI Service')}</label
+        >
         <ButtonGroup
           compact
           bind:value={config.selectedService}
@@ -215,25 +223,37 @@
 
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
-        <label class="block text-sm font-semibold mb-2">API Key</label>
+        <label class="block text-sm font-semibold mb-2">{Lang.t('settings.api-key', 'API Key')}</label>
         <p class="text-xs text-ios-label2 mb-3">{getServiceDocs(config.selectedService)}</p>
         {#if config.apiKey}
           {#if isEncrypted}
             <div class="flex items-center gap-2 mb-3 p-2 bg-ios-goodsoft rounded text-ios-good text-xs">
               <span>✓</span>
-              <span>API key is encrypted with your PIN</span>
+              <span>{Lang.t('settings.api-key-is-encrypted-with-your-pin', 'API key is encrypted with your PIN')}</span>
             </div>
           {:else if $Prefs.usePin}
             <div class="flex items-center gap-2 mb-3 p-2 bg-ios-tintsoft rounded text-ios-tint text-xs">
               <span>⚠</span>
-              <span>API key will be encrypted on next save</span>
+              <span
+                >{Lang.t(
+                  'settings.api-key-will-be-encrypted-on-next-save',
+                  'API key will be encrypted on next save'
+                )}</span
+              >
             </div>
           {/if}
         {/if}
-        <Input type="password" placeholder="Enter your API key" bind:value={config.apiKey} className="mb-3" />
+        <Input
+          type="password"
+          placeholder={Lang.t('settings.enter-your-api-key', 'Enter your API key')}
+          bind:value={config.apiKey}
+          className="mb-3"
+        />
         {#if config.apiKey}
           <!-- iOS look (D-destructive-row): clearing the saved key removes data, so it is the red text control -->
-          <Button size="sm" clear className="text-ios-danger mr-2" on:click={clearApiKey}>Clear Key</Button>
+          <Button size="sm" clear className="text-ios-danger mr-2" on:click={clearApiKey}
+            >{Lang.t('settings.clear-key', 'Clear Key')}</Button
+          >
         {/if}
       </div>
     </ListItem>
@@ -242,11 +262,18 @@
 
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
-        <label class="block text-sm font-semibold mb-3">Default Data Timeframe</label>
-        <p class="text-xs text-ios-label2 mb-3">Used for AI features that don't have their own timeframe</p>
+        <label class="block text-sm font-semibold mb-3"
+          >{Lang.t('settings.default-data-timeframe', 'Default Data Timeframe')}</label
+        >
+        <p class="text-xs text-ios-label2 mb-3">
+          {Lang.t(
+            'settings.used-for-ai-features-that-don-t-have-their-own-t',
+            "Used for AI features that don't have their own timeframe"
+          )}
+        </p>
         <IosSelect
           className="w-full"
-          title="Default Data Timeframe"
+          title={Lang.t('settings.default-data-timeframe', 'Default Data Timeframe')}
           bind:value={config.defaultTimeframe}
           options={timeFrames.map((timeframe) => ({ value: timeframe.id, label: timeframe.label }))}
         />

@@ -71,24 +71,26 @@
           $Prefs.usePin = undefined
         } else {
           $Prefs.usePin = pin
-          showToast({ message: '🔐 Pin Enabled' })
+          showToast({ message: Lang.t('settings.pin-enabled', '🔐 Pin Enabled') })
         }
       } else {
-        let confirmDisable = await Interact.confirm(' Disable Pin?')
+        let confirmDisable = await Interact.confirm(Lang.t('settings.disable-pin-question', 'Disable Pin?'))
         if (confirmDisable) {
           $Prefs.usePin = undefined
           hasPin = false
-          showToast({ message: '🔓 Pin Disabled' })
+          showToast({ message: Lang.t('settings.pin-disabled', '🔓 Pin Disabled') })
         }
       }
     },
   }
 </script>
 
-<List solo outside title="Customize">
+<List solo outside title={Lang.t('settings.customize-2', 'Customize')}>
   <!-- iOS look (guide 5.11): Experience is a segmented control with the explanation under it -->
   <div class="px-4 py-3 space-y-2">
-    <div class="text-ios-subhead font-semibold text-ios-label">How much do you want to see?</div>
+    <div class="text-ios-subhead font-semibold text-ios-label">
+      {Lang.t('settings.how-much-do-you-want-to-see', 'How much do you want to see?')}
+    </div>
     <ButtonGroup
       value={resolveExperience($Prefs)}
       buttons={[
@@ -132,7 +134,7 @@
   <ListItem bottomLine={57} title={Lang.t('settings.use-location', 'Use Location')}>
     <span slot="left"><IconSquare color="#5B2C7A"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
     <div slot="right" class="ml-2">
-      <ToggleSwitch title="Location Lookup" bind:value={$Prefs.alwaysLocate} />
+      <ToggleSwitch title={Lang.t('settings.location-lookup', 'Location Lookup')} bind:value={$Prefs.alwaysLocate} />
     </div>
   </ListItem>
 
@@ -240,7 +242,7 @@
       ><IconSquare color="#9455B8"><span class="board-white"><AllBoardIcon size={17} /></span></IconSquare></span
     >
     <div slot="right">
-      <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle All Board" />
+      <ToggleSwitch bind:value={$Prefs.allBoard} title={Lang.t('settings.toggle-all-board', 'Toggle All Board')} />
     </div>
   </ListItem>
   {#if $FeatureVisible('people-board')}
@@ -250,7 +252,10 @@
         ><FeatureBadge feature="people-board" /></span
       >
       <div slot="right">
-        <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
+        <ToggleSwitch
+          bind:value={$Prefs.peopleBoard}
+          title={Lang.t('settings.toggle-people-board', 'Toggle People Board')}
+        />
       </div>
     </ListItem>
   {/if}
@@ -261,17 +266,20 @@
         ><FeatureBadge feature="context-board" /></span
       >
       <div slot="right">
-        <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
+        <ToggleSwitch
+          bind:value={$Prefs.contextBoard}
+          title={Lang.t('settings.toggle-context-board', 'Toggle Context Board')}
+        />
       </div>
     </ListItem>
   {/if}
   <!-- iOS look: teal icon square for the Experiments board -->
-  <ListItem bottomLine={57} title="Show Experiments Board">
+  <ListItem bottomLine={57} title={Lang.t('settings.show-experiments-board', 'Show Experiments Board')}>
     <span slot="left"><IconSquare color="#2A9D8F"><IonIcon icon={FlaskOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ToggleSwitch
         value={$Prefs.experimentBoard === true}
-        title="Toggle Experiments Board"
+        title={Lang.t('settings.toggle-experiments-board', 'Toggle Experiments Board')}
         on:change={(evt) => {
           $Prefs.experimentBoard = evt.detail
         }}
@@ -285,14 +293,20 @@
   <ListItem bottomLine={57} title={Lang.t('settings.small-tracker-buttons', 'Compact Trackers')}>
     <span slot="left"><IconSquare color="#B07AD0"><IonIcon icon={ContractOutline} size={17} /></IconSquare></span>
     <div slot="right">
-      <ToggleSwitch bind:value={$Prefs.compactTrackers} title="Compact Tracker Buttons" />
+      <ToggleSwitch
+        bind:value={$Prefs.compactTrackers}
+        title={Lang.t('settings.compact-tracker-buttons', 'Compact Tracker Buttons')}
+      />
     </div>
   </ListItem>
 
   <ListItem bottomLine={57} title={Lang.t('settings.hide-backup-reminder', 'Hide Backup Reminder')}>
     <span slot="left"><IconSquare color="#B985D8"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>
     <div slot="right">
-      <ToggleSwitch bind:value={$Prefs.hideBackupMessage} title="Hide Backup Message" />
+      <ToggleSwitch
+        bind:value={$Prefs.hideBackupMessage}
+        title={Lang.t('settings.hide-backup-message', 'Hide Backup Message')}
+      />
     </div>
   </ListItem>
 
@@ -301,7 +315,10 @@
       ><IconSquare color="#C192DE"><IonIcon icon={NotificationsOffOutline} size={17} /></IconSquare></span
     >
     <div slot="right">
-      <ToggleSwitch bind:value={$Prefs.hideMessages} title="Hide Nomie Messages" />
+      <ToggleSwitch
+        bind:value={$Prefs.hideMessages}
+        title={Lang.t('settings.hide-nomie-messages', 'Hide Nomie Messages')}
+      />
     </div>
   </ListItem>
 </List>
