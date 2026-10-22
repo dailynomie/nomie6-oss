@@ -1,28 +1,28 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { getDateFormats } from '../../domains/preferences/Preferences'
+  import { getDateFormats } from '../../domains/preferences/Preferences' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
   import { getEmojiFromScore, selectPositivity, selectPositivityPopmenu } from '../../utils/positivity/positivity'
-  import { getTrackerInputAsString } from '../../domains/tracker/input/TrackerInputStore'
+  import { getTrackerInputAsString } from '../../domains/tracker/input/TrackerInputStore' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
   import { Interact } from '../../store/interact'
   import { objectHash } from '../../modules/object-hash/object-hash'
-  import { onLogNoteChange } from '../../domains/ledger/LedgerStore'
-  import { openLocationViewer } from '../../domains/map/LocationModalStore'
+  import { onLogNoteChange } from '../../domains/ledger/LedgerStore' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
+  import { openLocationViewer } from '../../domains/map/LocationModalStore' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
   import { parseNumber } from '../../utils/parseNumber/parseNumber'
-  import { selectTrackable } from '../../domains/trackable/trackable-selector/TrackableSelectorStore'
-  import { showTrackablePopmenu } from '../../domains/board/boardActions'
+  import { selectTrackable } from '../../domains/trackable/trackable-selector/TrackableSelectorStore' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
+  import { showTrackablePopmenu } from '../../domains/board/boardActions' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
   import { tokenToTrackable } from '../../modules/tokenizer/tokenToTrackable'
-  import { TrackableStore } from '../../domains/trackable/TrackableStore'
+  import { TrackableStore } from '../../domains/trackable/TrackableStore' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
   import { wait } from '../../utils/tick/tick'
   import IonIcon from '../icon/ion-icon.svelte'
   import MagnetSolid from '../../n-icons/MagnetSolid.svelte'
   import MapOutline from '../../n-icons/MapOutline.svelte'
   import More from '../../n-icons/More.svelte'
-  import NLog from '../../domains/nomie-log/nomie-log'
+  import NLog from '../../domains/nomie-log/nomie-log' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
   import NoteTextualizer from '../note-textualizer/note-textualizer.svelte'
   import TinyTrackable from '../tiny-trackable/tiny-trackable.svelte'
   import type { Token } from '../../modules/tokenizer/lite'
-  import type { Trackable } from '../../domains/trackable/Trackable.class'
+  import type { Trackable } from '../../domains/trackable/Trackable.class' // guardrail-ok: CMP-08 shared log row; its actions open domain editors for every screen that lists logs (exception until providers exist at the app root)
   import is from '../../utils/is/is'
 
   // props
