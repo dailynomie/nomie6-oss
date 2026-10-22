@@ -17,6 +17,7 @@ if (!globalThis.structuredClone) {
 }
 
 export default defineConfig({
+  worker: { format: 'es' },
   define: {
     'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version),
   },
@@ -25,6 +26,10 @@ export default defineConfig({
     exclude: ['canvas-confetti', 'tributejs', 'svelte-navigator'],
   },
   build: {
+    // top-level await (the chosen language is loaded before the app); iOS 15 and later support it
+    target: ['es2022', 'safari15', 'chrome100'],
+    // workers are ES modules, so they can share code with the app (the CSV worker imports domain code that loads languages)
+    // (see the build section below)
     rollupOptions: {
       // external: ['aws-sdk','aws-sdk/clients/S3'],
       output: {

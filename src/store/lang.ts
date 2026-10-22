@@ -37,18 +37,14 @@ const LangInit = () => {
   const { update, subscribe, set } = writable(base)
   dayjs.locale(DAYJS_LOCALES[base.lang] || 'en')
 
+  // English is in the first load; the chosen language is added below, before any module that shows text is evaluated
   i18next.init({
-    lng: base.lang,
+    lng: 'en',
     fallbackLng: 'en',
     // the app is not HTML, so a value such as Tom & Jerry is shown as typed
     interpolation: { escapeValue: false },
     resources: {
       en: langs['en'].lang,
-      zhcn: langs['zhcn'].lang,
-      it: langs['it'].lang,
-      de: langs['de'].lang,
-      nl: langs['nl'].lang,
-      test: langs['test'].lang,
     },
   })
 
@@ -85,3 +81,17 @@ const LangInit = () => {
 }
 
 export const Lang = LangInit()
+
+// Top-level await: the chosen language is loaded before the modules that import this store are evaluated, so text read
+// at start-up is translated too. If the language cannot be loaded, English is kept.
+const chosenLanguage: string = getDeviceSetting(DEVICE_KEYS.language) || 'en'
+const chosenEntry: any = langs[chosenLanguage]
+if (chosenLanguage !== 'en' && chosenEntry && chosenEntry.load) {
+  try {
+    const mod = await chosenEntry.load()
+    i18next.addResourceBundle(chosenLanguage, 'translation', mod.default.translation, true, true)
+    await i18next.changeLanguage(chosenLanguage)
+  } catch (e) {
+    console.error('could not load the language, English is used', e)
+  }
+}

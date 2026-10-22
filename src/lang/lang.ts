@@ -1,9 +1,6 @@
-import Italian from "./it";
-import SimplifiedChinese from "./zh-cn";
-import Test from "./test";
 import base from "./base";
-import de from "./de";
-import nl from "./nl";
+
+// English is in the first load. The other languages load when they are chosen (see store/lang.ts).
 export default {
   en: {
     label: "English",
@@ -11,22 +8,22 @@ export default {
   },
   it: {
     label: "Italian",
-    lang: Italian,
+    load: () => import("./it"),
   },
   de: {
     label: "German",
-    lang: de,
+    load: () => import("./de"),
   },
   nl: {
     label: "Dutch",
-    lang: nl,
+    load: () => import("./nl"),
   },
   zhcn: {
     label: "Simplified Chinese",
-    lang: SimplifiedChinese,
+    load: () => import("./zh-cn"),
   },
   test: {
     label: "Tester",
-    lang: Test,
+    load: () => import("./test"),
   },
 };
