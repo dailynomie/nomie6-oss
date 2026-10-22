@@ -5,6 +5,7 @@ export default {
     settings: {
       'ai-key-notice': 'Aanvragen gaan rechtstreeks vanuit deze browser naar de aanbieder die je hebt gekozen. De sleutel blijft op dit apparaat. Een korte PIN biedt weinig bescherming voor de sleutel.',
       'views': 'Weergaven',
+      'advanced': 'Geavanceerd',
       'ai-features-disabled': 'AI-functies uitgeschakeld',
       'ai-features-enabled': 'AI-functies ingeschakeld',
       'ai-settings-saved-successfully': 'AI-instellingen opgeslagen',

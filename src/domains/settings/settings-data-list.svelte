@@ -226,16 +226,6 @@
     </ListItem>
   {/if}
 
-  <ListItem
-    bottomLine={57}
-    detail
-    clickable
-    title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
-    on:click={updateLastUsedDates}
-  >
-    <span slot="left"><IconSquare color="#5CB3BB"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
-  </ListItem>
-
   <!-- iOS look (Ronald request): tags in notes that have no trackable yet -->
   <ListItem
     bottomLine={57}
@@ -249,6 +239,20 @@
     on:click={openUnknownTrackables}
   >
     <span slot="left"><IconSquare color="#68BDC4"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
+  </ListItem>
+
+</List>
+
+<!-- iOS look (W11): the technical maintenance rows sit under Advanced, so a new user sees fewer rows -->
+<List solo className="mb-3" outside title={Lang.t('settings.advanced', 'Advanced')}>
+  <ListItem
+    bottomLine={57}
+    detail
+    clickable
+    title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
+    on:click={updateLastUsedDates}
+  >
+    <span slot="left"><IconSquare color="#5CB3BB"><IonIcon icon={RefreshOutline} size={17} /></IconSquare></span>
   </ListItem>
 
   <ListItem

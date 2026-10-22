@@ -5,6 +5,7 @@ export default {
     settings: {
       'ai-key-notice': 'Requests go straight from this browser to the provider you chose. The key stays on this device. A short PIN gives little protection for the key.',
       'views': 'Views',
+      'advanced': 'Advanced',
       'ai-features-disabled': 'AI Features Disabled',
       'ai-features-enabled': 'AI Features Enabled',
       'ai-settings-saved-successfully': 'AI settings saved successfully',
