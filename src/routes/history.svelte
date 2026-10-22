@@ -281,9 +281,9 @@
   <!-- end header-content header -->
 
   <main slot="content" class="flex flex-col h-full page flex-grow h-75vh page-history">
-    <div class="relative flex-grow min-h-full  h-full">
+    <div class="relative flex-grow min-h-full h-full">
       <OfflineQueue />
-      
+
       {#if loading}
         <div class="flex items-center justify-center w-full max-h-full h-75vh">
           <Spinner />
@@ -299,11 +299,15 @@
           />
         </Container>
       {/if}
-      <OnThisDayViews {view} {logs} on:date={(evt)=>{
-        methods.getDate(dayjs(evt.detail));
-      }} />
+      <OnThisDayViews
+        {view}
+        {logs}
+        on:date={(evt) => {
+          methods.getDate(dayjs(evt.detail))
+        }}
+      />
     </div>
-    
+
     <div class="h-20" />
   </main>
 </NLayout>

@@ -5,7 +5,6 @@ import {
   BookOutline,
   CalendarOutline,
   CreateOutline,
-
   PeopleOutline,
   SettingsOutline,
   TabsOutline,
@@ -77,10 +76,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers'
 export const createNewBoard = async () => {
   let res: any = await Interact.prompt(
     `${Lang.t('board.add-a-board', 'Add New Tab')}`,
-    `${Lang.t(
-      'board.add-a-board-description',
-      'Tabs help you organize your trackables into logical groups.'
-    )}`,
+    `${Lang.t('board.add-a-board-description', 'Tabs help you organize your trackables into logical groups.')}`,
     {
       placeholder: `${Lang.t('board.board-input-placeholder', 'Tab name or Emoji 👍')}`,
     }
@@ -148,8 +144,8 @@ export const removeTrackableFromNomie = async (trackable: Trackable) => {
   if (confirmed) {
     Interact.blocker('Deleting...')
     await deleteTrackableFromNomie(trackable, false)
-    Interact.stopBlocker();
-    Device.reload();
+    Interact.stopBlocker()
+    Device.reload()
   }
 }
 
@@ -338,17 +334,16 @@ export const showTrackablePopmenu = async (
       },
     },
     {
-      title: Lang.t('general.entries','Entries'),
+      title: Lang.t('general.entries', 'Entries'),
       icon: CreateOutline,
       skipClosing: true,
       click() {
-        
         openTimelineModal({
           search: trackable.tag,
-          notes: true
+          notes: true,
         })
-      }
-    }, 
+      },
+    },
     // {
     //   title: Lang.t('tracker.related', 'Related'),
     //   icon: RelatedOutline,
@@ -466,7 +461,6 @@ export const browseLibraryButton = {
   },
 }
 
-
 /* Creating a new tab button. */
 export const newTabButton = {
   title: `${Lang.t('general.new-tab', 'Add New Tab')}`,
@@ -476,7 +470,6 @@ export const newTabButton = {
     createNewBoard()
   },
 }
-
 
 /**
  * It returns an array of buttons that are used to add new trackables to a board

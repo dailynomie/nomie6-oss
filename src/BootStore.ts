@@ -14,7 +14,6 @@ import { UsageStore } from './domains/usage/UsageStore'
 import { closeModal } from './components/backdrop/BackdropStore2'
 import { initAwardStore } from './domains/awards/AwardsStore'
 
-
 import { initUniboardStore } from './domains/board/UniboardStore'
 import { loadToday } from './domains/usage/today/TodayStore'
 import { openPinLock } from './domains/pin-lock/pin-helper'
@@ -23,7 +22,6 @@ import type { ITrackables } from './domains/trackable/trackable-utils'
 import { WritingPromptStore } from './domains/writing-prompts/useWritingPrompts'
 
 export const BootLog = writable<Array<{ message: string; date: Date }>>([])
-
 
 /**
  * It opens a modal with a pin lock, and if the pin is correct, it closes the modal and resolves the
@@ -68,7 +66,7 @@ export const bootCoreComponents = async (trackables: ITrackables) => {
   GoalStore.init()
   PivotStore.init()
   ExperimentStore.init()
-  WritingPromptStore.init();
+  WritingPromptStore.init()
   initAwardStore()
   return true
 }
@@ -92,13 +90,13 @@ export const bootNomie = async ($Prefs: PreferencesStateType) => {
         const trackables = await InitTrackableStore()
 
         bootCoreComponents(trackables)
-        // If not ready, we don't have an account firing 
+        // If not ready, we don't have an account firing
         // the ready state - we will manually do it here.
 
         resolve(true)
       })
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
   })
 }

@@ -24,7 +24,6 @@
   import PulseOutline from '../../n-icons/PulseOutline.svelte'
   import SearchIcon from '../../n-icons/SearchIcon.svelte'
 
-
   import { addNewPerson, showTrackablePopmenu } from '../board/boardActions'
 
   import { ActiveLogStore } from '../capture-log/CaptureLogStore'
@@ -40,7 +39,7 @@
   import { onTrackerTap } from '../tracker/input/TrackerInputStore'
 
   import { getUnisearchResults, type UnisearchResultsType, UnisearchStore } from './UnisearchStore'
-import { openTimelineModal } from '../timeline/timeline-helpers';
+  import { openTimelineModal } from '../timeline/timeline-helpers'
 
   let results = $state<UnisearchResultsType | undefined>(undefined)
   let exactMatchOptions = $state<Array<PopMenuButton>>([])
@@ -215,11 +214,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     slot="header"
     class="input-wrapper w-full stuff flex items-stretch justify-items-stretch relative border-b border-ios-separator"
   >
-    <IonIcon
-      size={28}
-      icon={SearchIcon}
-      className="text-ios-label2  text-opacity-50 absolute top-3 left-2"
-    />
+    <IonIcon size={28} icon={SearchIcon} className="text-ios-label2  text-opacity-50 absolute top-3 left-2" />
     <!-- svelte-ignore a11y-autofocus -->
     <input
       id="search-field"
@@ -233,7 +228,11 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
       placeholder="Search your Nomie"
       class="search-input rounded-t-2xl w-full pr-20"
     />
-    <button type="button" on:click={close} class="absolute top-3 right-3 h-7 flex items-center text-ios-tint text-base font-semibold">Cancel</button>
+    <button
+      type="button"
+      on:click={close}
+      class="absolute top-3 right-3 h-7 flex items-center text-ios-tint text-base font-semibold">Cancel</button
+    >
   </header>
   <main class="">
     <div id="unisearch-scroll-point" />
@@ -369,7 +368,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
                 <div class="time text-xs text-ios-label2">
                   {log.endDayjs().format(`${dateFormats.mmm_d_yyyy} ${dateFormats.time}`)}
                 </div>
-                <p class="text-sm line-clamp-2 ">{log.note}</p>
+                <p class="text-sm line-clamp-2">{log.note}</p>
               </main>
             </button>
             <Divider left={1} />
@@ -378,9 +377,9 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
             class="selectable"
             on:click={() => {
               openTimelineModal({
-                  search: searchTerm,
-                  notes: true
-                })
+                search: searchTerm,
+                notes: true,
+              })
             }}
           >
             <main class="text-sm leading-tight">Search all notes for: {searchTerm}</main>
