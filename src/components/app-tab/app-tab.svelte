@@ -31,11 +31,13 @@
     color: var(--ios-label2);
     @apply inline-flex  flex-col items-center justify-center;
     @apply relative;
-    padding: 6px 10px;
+    /* iOS look: the icon starts 6 px from the top of the 49 pt bar, the label keeps 4 px above the bottom */
+    padding: 6px 10px 4px;
+    justify-content: flex-start;
     font-size: 10px;
     line-height: 12px;
     font-weight: 500;
-    gap: 3px;
+    gap: 2px;
     height: 100%;
     text-decoration: none;
     flex-grow: 1;
@@ -54,9 +56,10 @@
     pointer-events: none;
     margin-bottom: 0;
   }
+  /* iOS look: regular tab bar symbols are 25 pt (Apple HIG, tab bars) */
   .tab-wrap a svg {
-    width: 26px;
-    height: 26px;
+    width: 25px;
+    height: 25px;
   }
   .tab-wrap a[aria-current='page'] {
     color: var(--ios-tint);

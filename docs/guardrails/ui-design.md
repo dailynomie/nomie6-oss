@@ -170,9 +170,13 @@ Corner radii:
 
 ### 5.2 Tab bar and central button (phones)
 
-- Height 49 px plus the safe area, a 0.5 px top border in `--ios-bar-border`, background `--ios-bar` with blur.
+- **Bar:** 7 px of top padding, then a 49 pt row of tabs, then the bottom inset. A 0.5 px top border in `--ios-bar-border`, background `--ios-bar` with blur.
+- **Bottom clearance (MUST):** the bottom inset is `max(env(safe-area-inset-bottom), 8px)`. The labels keep at least 8 px from the bottom of the screen even with no inset (desktop, Android). Labels must never sit on the screen edge.
 - Five columns: Timeline, Dash, central button, Track, More. The central slot is 76 px.
-- Each tab: a 26 px icon above a 10 px label. Inactive tabs use `--ios-label-2` at weight 500. The active tab uses `--ios-tint` at weight 600. The current tab keeps `aria-current="page"`.
+- **Tab item (MUST):** a 25 pt icon (Apple's size for regular tab bars), 2 px gap, a 10 px label. The icon starts 6 px from the top of the 49 pt row and the label keeps 4 px above its bottom. A tab has no button shape, border or shadow: it is an icon and a label on the bar.
+- Inactive tabs use `--ios-label-2` at weight 500. The active tab uses `--ios-tint` at weight 600. The current tab keeps `aria-current="page"`.
+- **Sources:** Apple, [Tab bars](https://developer-rno.apple.com/design/human-interface-guidelines/components/navigation-and-search/tab-bars) (25 pt regular icons, 18 pt compact); a 49 pt bar with the home-indicator inset below it, from [Calculating height of UITabBar](https://svasilevkin.wordpress.com/2018/12/06/calculating-height-of-uitabbar/). The label spacing and the bottom clearance are not in Apple's text; they were measured in the app and set to keep the labels clear of the screen edge.
+- **Open question (decision needed):** the unread count on a tab is the danger colour in `tabs.svelte` today. D-badge says counts use the tint, and UIKit's default tab badge is red. Choose one and record it in section 11.
 - The central button is 58 px, raised 20 px into the bar, with a 3 px ring in the bar colour and `--ios-shadow-hub`. Its open state is a flat tint with `--ios-on-tint` icon. Its scrim is `--ios-scrim` with blur 3 px.
 - Badges on the tab bar follow D-badge (section 11).
 

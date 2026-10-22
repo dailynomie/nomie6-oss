@@ -156,10 +156,14 @@
 
 <style global lang="postcss">
   #app-tabs {
+    /* iOS look: 7 px of top padding, then the 49 pt tab bar, then the home-indicator inset.
+       With no inset (desktop, Android) the labels still keep 8 px from the bottom of the screen. */
     --tab-height: 56px;
+    --tab-bar: 49px;
+    --tab-bottom: max(env(safe-area-inset-bottom), 8px);
     position: relative;
-    height: calc(var(--tab-height) + env(safe-area-inset-bottom));
-    padding-bottom: calc(env(safe-area-inset-bottom));
+    height: calc(var(--tab-height) + var(--tab-bottom));
+    padding-bottom: var(--tab-bottom);
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -170,6 +174,18 @@
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-top: 0.5px solid var(--ios-bar-border);
+  }
+
+  #app-tabs .tab-wrap,
+  #app-tabs .radial-slot {
+    height: var(--tab-bar);
+  }
+
+  /* iOS look: a tab is an icon and a label on the bar, with no button shape or shadow behind it */
+  #app-tabs .tab-wrap {
+    box-shadow: none;
+    border-radius: 0;
+    background: none;
   }
 
   #app-tabs .radial-slot {
