@@ -53,3 +53,16 @@ Still in the first load, in order of size: the map (Leaflet and esri-leaflet, ab
 The other languages were moved out of the first load: the language registry loads the chosen language before the app starts (`main.ts` awaits it, then imports the app), and workers are built as ES modules, since the CSV worker imports the domain code.
 
 The result: the languages save about 34 kB gzipped, but the start chunks grew from 675 kB to 690 kB (the app chunk, the shared chunk and the main chunk together). The change was reverted; it does not reduce the first load. The next step is to find out what the 593 kB app chunk holds (see the roadmap, P3 and P7).
+
+## After the app chunk analysis (22 October, branch perf/lazy-routes)
+
+The static import graph from the app was analysed. The largest items that were in the first load, and are now lazy or removed:
+
+- **lodash** (about 144 kB gzipped): the usage files imported all of it, for three functions. Replaced by plain JavaScript.
+- **Chart.js and its annotation plugin** (about 96 kB gzipped): only the stats screen uses them. The stats modal now loads when it opens.
+- **The markdown viewer** (about 30 kB gzipped): the privacy policy and the terms. Loads when opened.
+- **The template editor** (about 13 kB gzipped): loads when opened.
+
+First load now: `index-*.js` 561 kB gzipped, plus a shared chunk of 44 kB, so about **605 kB gzipped**. Target: 600 kB.
+
+Still in the first load (candidates for the next step): PouchDB (about 75 kB, needed for the CouchDB sync only, but the storage layer picks the engine at start), the emoji data (18 kB, opens with the emoji picker), canvas-confetti (7 kB), tributejs (12 kB, the textarea mentions), papaparse (7 kB, the CSV import).
