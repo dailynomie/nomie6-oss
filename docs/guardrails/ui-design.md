@@ -176,9 +176,9 @@ Corner radii:
 - **Tab item (MUST):** a 25 pt icon (Apple's size for regular tab bars), 2 px gap, a 10 px label. The icon starts 6 px from the top of the 49 pt row and the label keeps 4 px above its bottom. A tab has no button shape, border or shadow: it is an icon and a label on the bar.
 - Inactive tabs use `--ios-label-2` at weight 500. The active tab uses `--ios-tint` at weight 600. The current tab keeps `aria-current="page"`.
 - **Sources:** Apple, [Tab bars](https://developer-rno.apple.com/design/human-interface-guidelines/components/navigation-and-search/tab-bars) (25 pt regular icons, 18 pt compact); a 49 pt bar with the home-indicator inset below it, from [Calculating height of UITabBar](https://svasilevkin.wordpress.com/2018/12/06/calculating-height-of-uitabbar/). The label spacing and the bottom clearance are not in Apple's text; they were measured in the app and set to keep the labels clear of the screen edge.
-- **Open question (decision needed):** the unread count on a tab is the danger colour in `tabs.svelte` today. D-badge says counts use the tint, and UIKit's default tab badge is red. Choose one and record it in section 11.
+- **Unread count on a tab** is the danger fill with `--ios-on-danger` text, as UIKit's default tab badge is red (D-tab-badge in section 11).
 - The central button is 58 px, raised 20 px into the bar, with a 3 px ring in the bar colour and `--ios-shadow-hub`. Its open state is a flat tint with `--ios-on-tint` icon. Its scrim is `--ios-scrim` with blur 3 px.
-- Badges on the tab bar follow D-badge (section 11).
+- Badges on the tab bar follow D-tab-badge (section 11).
 
 ### 5.3 Desktop (1280 px and wider)
 
@@ -289,7 +289,7 @@ These are the components with a specific look. Keep to the tokens and shapes in 
 ## 10. Meaning of colour and copy
 
 - **Red is only for destructive actions:** delete, remove, reset, destroy. Errors and cautions use neutral text with a glyph (D-alert, D-caution). The backup reminder is a neutral card, not a red banner.
-- **Badges that count** use the tint fill (D-badge). A remove badge uses the danger fill because it removes.
+- **Badges that count** use the tint fill (D-badge), except the unread count on a tab bar item, which is red (D-tab-badge). A remove badge uses the danger fill because it removes.
 - **Dialogs.** User-facing messages use `Interact.alert`, `Interact.confirm` and `Interact.prompt`. Never the browser's `alert`, `confirm` or `prompt` (UI-03, D-dialog). Remove development stubs rather than keeping them.
 - **Native controls** are replaced by app components so the app looks the same in every browser: select, date, time, datetime-local, range and colour (UI-02, D-native). The only exception is a native file dialog, opened from an app button.
 - **Icons.** A UI icon is an outline icon from `nicons` in the tint or label-2 token, 14 to 22 px. An emoji is only user content (tracker emoji, mood, plugin icons). An arrow in text (`→`) is not an icon; a row that leads somewhere uses a chevron (D-icons).
@@ -309,6 +309,7 @@ Decisions change a rule. Add one here with a short reason, and change the rule i
 | D-alert | In an alert, Cancel is the bold tint. Red is for destructive actions only. |
 | D-press | A pressed list row shows the fill token, with no ring. |
 | D-badge | Count badges use the tint fill and on-tint text. A remove badge uses the danger fill. |
+| D-tab-badge | The unread count on a tab bar item is the danger fill with on-danger text, as UIKit's default tab badge is red (decided by Ronald, Oct 2026). |
 | D-chip | Text on a fill is the label or label-2 token. |
 | D-native | Browser-native controls are replaced by app components. |
 | D-danger | A destructive action in a menu uses the danger colour. |
