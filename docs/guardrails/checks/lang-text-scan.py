@@ -7,7 +7,7 @@ def strip_script_style(s):
     s=re.sub(r'<!--[\s\S]*?-->', lambda m: '\n'*m.group(0).count('\n'), s)
     return s
 # text that is not translated: brand names, web addresses and the app's own name
-NOT_TEXT = re.compile(r'^(Nomie|DailyNomie|DailyNomie\.com|Daily Nomie 7|/r/nomie|https?://\S+|www\.\S+|\S+\.(com|org|app))$')
+NOT_TEXT = re.compile(r'^(Nomie|DailyNomie|DailyNomie\.com|Daily Nomie|Daily Nomie 7|AfterNomie|/r/nomie|https?://\S+|www\.\S+|\S+\.(com|org|app))$')
 def drop_expressions(s):
     # expressions in braces (attribute values, {#if ...}) are code, not text: remove them before matching tags
     prev=None
@@ -22,10 +22,10 @@ def text_hits(s):
     # text between > and <, not containing { or } expressions, with at least two letters
     for m in re.finditer(r'>([^<>{}]*)<', s):
         t=m.group(1).strip()
-        if re.search(r'[A-Za-z]{2,}', t) and not NOT_TEXT.match(t):
+        if re.search(r'[A-Za-z]{2,}', re.sub(r'&[A-Za-z]+;', '', t)) and not NOT_TEXT.match(t):
             line=s.count('\n',0,m.start())+1
             hits.append((line,t[:70]))
-    for m in re.finditer(ATTRS+r'="([^"{}]*[A-Za-z]{2,}[^"{}]*)"', s):
+    for m in re.finditer(r'(?<![:\w-])'+ATTRS+r'="([^"{}]*[A-Za-z]{2,}[^"{}]*)"', s):
         if NOT_TEXT.match(m.group(2)):
             continue
         line=s.count('\n',0,m.start())+1
