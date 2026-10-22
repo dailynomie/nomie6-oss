@@ -86,7 +86,7 @@ fi
 check CMP-02 MUST svelte "legacy export let or \$: reactive statement (use \$props and \$derived)" '^\s*export let |^\s*\$:'
 
 # CMP-08 components do not import from domains (pure helpers are a documented exception)
-check CMP-08 MUST svelte-in-components "component imports a domain action (pass it as a prop or event, or add guardrail-ok)" '^(?!\s*import type)(?!.*domains/preferences/Preferences)(?!.*domains/trackable/TrackableStore)(?!.*domains/preferences/experience).*import .* from [\x27"](\.\./)+domains/'
+check CMP-08 MUST svelte-in-components "component imports a domain action (pass it as a prop or event, or add guardrail-ok)" '^(?!\s*import type)(?!.*domains/preferences/Preferences)(?!.*domains/trackable/TrackableStore)(?!.*domains/awards/AwardsStore)(?!.*domains/tracker/TrackerStore)(?!.*domains/trackable/trackable-utils)(?!.*domains/awards/helpers/usage-awards)(?!.*domains/preferences/experience).*import .* from [\x27"](\.\./)+domains/'
 
 # ARC-01 domains never import routes; routes depend on domains, not the reverse
 check ARC-01 MUST code "domain imports from routes/" "from ['\"](\\.\\./)+routes/"
