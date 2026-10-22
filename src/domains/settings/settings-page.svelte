@@ -213,13 +213,9 @@
               </div>
             </ListItem> -->
 
-            <List solo outside>
+            <List solo outside title={Lang.t('settings.views', 'Views')}>
               <AwardsPreviewList />
-            </List>
 
-            <!-- Sign-in and Register Block  -->
-
-            <List solo className="mt-4">
               <ListItem
                 detail
                 bottomLine={57}
@@ -230,10 +226,8 @@
                   ><IconSquare color="#1F5E2C"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span
                 >
               </ListItem>
-            </List>
 
-            {#if $FeatureVisible('pointers')}
-              <List solo className="mt-4">
+              {#if $FeatureVisible('pointers')}
                 <ListItem
                   detail
                   bottomLine={57}
@@ -246,10 +240,8 @@
                     /></span
                   >
                 </ListItem>
-              </List>
-            {/if}
+              {/if}
 
-            <List solo className="mt-4">
               <ListItem
                 detail
                 bottomLine={57}
@@ -260,10 +252,8 @@
                   ><IconSquare color="#35853F"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span
                 >
               </ListItem>
-            </List>
 
-            {#if $FeatureVisible('uoms')}
-              <List solo className="mt-4">
+              {#if $FeatureVisible('uoms')}
                 <ListItem
                   detail
                   bottomLine={57}
@@ -277,11 +267,8 @@
                     /></span
                   >
                 </ListItem>
-              </List>
-            {/if}
+              {/if}
 
-            <!-- iOS look (guide 5.11): the Experiments row, with its running count and a chevron -->
-            <List solo className="mt-4">
               <ListItem
                 detail
                 bottomLine={57}
@@ -295,11 +282,8 @@
                   ><IconSquare color="#5DAE62"><IonIcon icon={PulseOutline} size={17} /></IconSquare></span
                 >
               </ListItem>
-            </List>
 
-            <!-- Plugins are a group of their own, with the same spacing as the other groups -->
-            {#if $FeatureVisible('plugins')}
-              <List solo className="mt-4">
+              {#if $FeatureVisible('plugins')}
                 <ListItem
                   detail
                   bottomLine={57}
@@ -336,8 +320,8 @@
                 {#if showplugins}
                   <PluginsMoreMenu />
                 {/if}
-              </List>
-            {/if}
+              {/if}
+            </List>
 
             <!-- <List solo className="mt-4">
               <ListItem detail bottomLine={16} on:click={() => openAnalytics()} title="Analytics">

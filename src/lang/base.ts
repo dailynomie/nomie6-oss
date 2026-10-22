@@ -3,6 +3,7 @@ export default {
   author: 'Brandon',
   translation: {
     settings: {
+      'views': 'Views',
       'ai-features-disabled': 'AI Features Disabled',
       'ai-features-enabled': 'AI Features Enabled',
       'ai-settings-saved-successfully': 'AI settings saved successfully',

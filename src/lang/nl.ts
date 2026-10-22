@@ -3,6 +3,7 @@ export default {
   author: 'Daily Nomie',
   translation: {
     settings: {
+      'views': 'Weergaven',
       'ai-features-disabled': 'AI-functies uitgeschakeld',
       'ai-features-enabled': 'AI-functies ingeschakeld',
       'ai-settings-saved-successfully': 'AI-instellingen opgeslagen',
