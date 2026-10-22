@@ -55,6 +55,13 @@
   import PrintOutline from '../../n-icons/PrintOutline.svelte'
   import UpgradeMessage from '../../components/upgrade-message/upgrade-message.svelte'
   import { Lang } from '../../store/lang'
+  import { openModal } from '../../components/backdrop/BackdropStore2'
+  import WeeklyReviewModal from '../weekly-review/weekly-review-modal.svelte'
+
+  // I3: the weekly review, kept as a note only if the user chooses it
+  const openWeeklyReview = () => {
+    openModal({ id: 'weekly-review', component: WeeklyReviewModal, componentProps: {} })
+  }
 
   $effect(() => {
     if (Object.keys($TrackableStore.trackables)) {
@@ -218,6 +225,9 @@
     </div>
     <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('dashboard.dashboard-2', 'Dashboard')}</h1>
     <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format(getDateFormats().dateDay)}</p>
+    <button type="button" class="text-sm font-medium text-ios-tint -mt-1 pb-2" on:click={openWeeklyReview}>
+      {Lang.t('review.button', 'Weekly review')}
+    </button>
     <div class="collapsible-row">
       <Toolbar className="px-0 h-11 max-h-11 min-h-11">
         {#if !$DashStore.editMode}
