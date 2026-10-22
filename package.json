@@ -26,6 +26,7 @@
     "pre:run": "node build-tools/move-resources.js && node build-tools/bundle-vendors.js",
     "autobuild": "rollup -c -w",
     "test": "vitest run",
+    "e2e": "vitest run --config vitest.e2e.config.ts",
     "test-coverage": "vitest run --coverage",
     "todo": "node build-tools/get-todo.js",
     "release:patch": "release-it patch --no-npm.publish",
