@@ -17,6 +17,7 @@
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import ExperimentEditorModal from './experiment-editor-modal.svelte'
+  import CorrelationsModal from '../correlations/correlations-modal.svelte'
   import ExperimentDetailModal from './experiment-detail-modal.svelte'
 
   const openDetail = (experimentId: string) => {
@@ -25,6 +26,15 @@
       position: 'fullscreen',
       component: ExperimentDetailModal,
       componentProps: { experimentId },
+    })
+  }
+
+  const openFinder = () => {
+    openModal({
+      id: 'correlations',
+      position: 'fullscreen',
+      component: CorrelationsModal,
+      componentProps: {},
     })
   }
 
@@ -56,6 +66,9 @@
     <div class="ios-desktop-column">
       <!-- iOS look: the add action is on the trailing side of the action row -->
       <div class="flex items-center justify-end h-9">
+        <button type="button" class="mr-4 text-sm font-medium text-ios-tint" on:click={openFinder}>
+          {Lang.t('correlations.find-links', 'Find links')}
+        </button>
         <button
           type="button"
           aria-label={Lang.t('experiments.new-experiment', 'New experiment')}

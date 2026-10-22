@@ -26,7 +26,9 @@
   import { FeatureVisible } from '../preferences/features'
   import { Lang } from '../../store/lang'
 
-  const { id } = $props()
+  // prefill: a link from Find links starts the editor with its title and outcome
+  type ExperimentPrefill = { title: string; outcomes: Array<{ tag: string; label: string; direction: ExpectedDirection }> }
+  const { id, prefill = undefined } = $props<{ id: string; prefill?: ExperimentPrefill }>()
 
   type EditorOutcome = { tag: string; label: string; direction: ExpectedDirection; found: boolean; preview: string }
 
@@ -191,6 +193,13 @@
   // iOS look: a segmented control. The track is the fill; the selected segment is the thumb (white in light, grey in dark); the others sit on the track.
   const segment = (active: boolean) =>
     `py-2 rounded-xl text-sm font-medium transition-colors ${active ? 'ios-thumb text-ios-label' : 'bg-transparent text-ios-label'}`
+
+  if (prefill) {
+    title = prefill.title
+    outcomes = prefill.outcomes.map((o) => ({ tag: o.tag, label: o.label, direction: o.direction, found: true, preview: '' }))
+    step = 2
+    updatePreviews()
+  }
 </script>
 
 <BackdropModal>
