@@ -7,6 +7,8 @@ export class SideStore {
   data: any
   constructor(path) {
     this.dbPath = `${appConfig.data_root}/localDB/${path}`
+    // an empty store when storage is missing or unreadable, so reads at module load do not throw
+    this.data = {}
     try {
       this.data = JSON.parse(localStorage.getItem(this.dbPath) || '{}')
     } catch (e) {
@@ -18,6 +20,11 @@ export class SideStore {
   }
   put(key, value) {
     this.data[key] = value
-    localStorage.setItem(this.dbPath, JSON.stringify(this.data))
+    try {
+      localStorage.setItem(this.dbPath, JSON.stringify(this.data))
+    } catch (e) {
+      // the value stays in memory for this session when storage is missing or full
+      console.error('SideStorage could not save the data')
+    }
   }
 }
