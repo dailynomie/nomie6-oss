@@ -14,16 +14,14 @@
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
   import type { WidgetClass } from '../widget-class'
-import type { DualInsightResponse } from '../../../ai/profiles/types'
+  import type { DualInsightResponse } from '../../../ai/profiles/types'
 
   dayjs.extend(relativeTime)
 
   const { widget = $bindable() } = $props()
 
   function isAiEnabled(): boolean {
-    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[
-      $Prefs.ai?.selectedService || 'claude'
-    ]?.apiKey)
+    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[$Prefs.ai?.selectedService || 'claude']?.apiKey)
   }
 
   function openFullInsightModal() {
@@ -47,7 +45,6 @@ import type { DualInsightResponse } from '../../../ai/profiles/types'
       component: InsightModal,
     })
   }
-
 
   // Set to true to use mock/dummy responses instead of real Claude API
   // Useful for testing without spending credits
@@ -302,14 +299,14 @@ Correlation analysis reveals three major relationship clusters with predictive a
       // Query AI for insight (or use mock if in test mode)
       let response: any
       if (USE_MOCK_MODE) {
-        await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate network delay
+        await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulate network delay
         const mockContent = getMockResponse(widget.data.promptValue)
         response = {
           content: {
             summary: mockContent,
             extended: mockContent,
-            raw: mockContent
-          }
+            raw: mockContent,
+          },
         }
       } else {
         response = await query({
@@ -462,7 +459,10 @@ Correlation analysis reveals three major relationship clusters with predictive a
     </div>
   {:else if insightSummary}
     <div class="px-2 h-full flex flex-col">
-      <div class="insight-container px-3 py-2 cursor-pointer hover:bg-ios-fill transition border border-ios-separator rounded mb-2" onclick={openFullInsightModal}>
+      <div
+        class="insight-container px-3 py-2 cursor-pointer hover:bg-ios-fill transition border border-ios-separator rounded mb-2"
+        onclick={openFullInsightModal}
+      >
         <div class="text-xs leading-relaxed text-ios-label markdown-content">
           {@html renderedInsight}
         </div>

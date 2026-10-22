@@ -15,9 +15,7 @@ export type CleanupLogEntry = {
   totalPlugins: number
 }
 
-export const PluginCleanupStore = writable<undefined | string>(
-  localStorage.getItem(CLEANUP_STORAGE_KEY)
-)
+export const PluginCleanupStore = writable<undefined | string>(localStorage.getItem(CLEANUP_STORAGE_KEY))
 
 PluginCleanupStore.subscribe((s) => {
   if (s) {
@@ -129,7 +127,9 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
     console.log(`[PluginCleanup] Days since last cleanup: ${daysSinceCleanup}`)
 
     if (daysSinceCleanup >= prefs.pluginCleanupDays) {
-      console.log(`[PluginCleanup] Interval elapsed (${daysSinceCleanup} >= ${prefs.pluginCleanupDays}) - running cleanup`)
+      console.log(
+        `[PluginCleanup] Interval elapsed (${daysSinceCleanup} >= ${prefs.pluginCleanupDays}) - running cleanup`
+      )
       try {
         // Scan first to see what needs cleaning
         const scanResult = await scanForPluginDuplicates()
@@ -162,7 +162,9 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
       }
     }
 
-    console.log(`[PluginCleanup] Interval not yet elapsed - next cleanup in ${prefs.pluginCleanupDays - daysSinceCleanup} days`)
+    console.log(
+      `[PluginCleanup] Interval not yet elapsed - next cleanup in ${prefs.pluginCleanupDays - daysSinceCleanup} days`
+    )
     return false
   } catch (e) {
     console.error('[PluginCleanup] Error in autoCleanupPlugins:', e)

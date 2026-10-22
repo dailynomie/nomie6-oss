@@ -223,7 +223,9 @@ export const PouchDBEngine: IStorage = {
     try {
       let fullDoc = await this.getFullDoc(path)
       doc = fullDoc ? fullDoc.data : null
-    } catch (e) {console.log("get error") }
+    } catch (e) {
+      console.log('get error')
+    }
     return doc
   },
   async getStrict(path) {

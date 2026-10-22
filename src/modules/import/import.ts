@@ -46,7 +46,11 @@ export function dashCase(str: string): string {
 
 // Convert new backup format (with files) to old format expected by normalizers
 function convertNewFormatToOldFormat(payload: any): any {
-  console.log('convertNewFormatToOldFormat - payload:', { hasFiles: !!payload.files, hasVersion: !!payload.version, version: payload.version })
+  console.log('convertNewFormatToOldFormat - payload:', {
+    hasFiles: !!payload.files,
+    hasVersion: !!payload.version,
+    version: payload.version,
+  })
 
   if (payload.files && payload.version) {
     console.log('Converting new backup format to old format')
@@ -56,7 +60,7 @@ function convertNewFormatToOldFormat(payload: any): any {
         created: payload.created,
         startDate: payload.startDate,
         endDate: payload.endDate,
-      }
+      },
     }
 
     if (payload.files) {

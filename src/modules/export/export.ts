@@ -116,7 +116,7 @@ export default class Export {
 
       // Export plugin preferences for each plugin
       this.backup.pluginPreferences = {}
-      for (const plugin of (this.backup.plugins || [])) {
+      for (const plugin of this.backup.plugins || []) {
         try {
           const prefsPath = `plugins/${plugin.id}/prefs.json`
           const prefs = await Storage.get(prefsPath)

@@ -4,14 +4,14 @@
   import { strToTokens } from './../../modules/tokenizer/lite'
   import { get } from 'svelte/store'
   import { CombinedBoards } from './../board/UniboardStore'
-  
+
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
 
   import Button from '../../components/button/button.svelte'
 
   import Empty from '../../components/empty/empty.svelte'
   import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
-  
+
   import type { DashboardClass } from '../dashboard2/dashboard-class'
   import { WidgetClass } from '../dashboard2/widget/widget-class'
   import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
@@ -45,7 +45,10 @@
   // import download from '../../modules/download/download'
   // import { strToTagSafe } from '../trackable/trackable-utils'
 
-  const { template: originalTemplate = $bindable(), onNameChange } = $props<{ template: Template, onNameChange?: (name: string) => void }>()
+  const { template: originalTemplate = $bindable(), onNameChange } = $props<{
+    template: Template
+    onNameChange?: (name: string) => void
+  }>()
 
   let template = $state(originalTemplate)
 
@@ -145,10 +148,12 @@
     if (!trackableTag) return null
 
     // Check if used by any goal (strip # prefix from goal tag for comparison)
-    if (template.goals.some((goal) => {
-      const goalTag = goal?.tag?.replace(/^#/, '') || ''
-      return goalTag === trackableTag
-    })) {
+    if (
+      template.goals.some((goal) => {
+        const goalTag = goal?.tag?.replace(/^#/, '') || ''
+        return goalTag === trackableTag
+      })
+    ) {
       reasons.push('a goal')
     }
 
@@ -173,16 +178,18 @@
     }
 
     // Check if used by any pivot (rows, cols, or vals)
-    if (template.pivots.some((pivot) => {
-      if (!pivot?.options) return false
-      const { rows = [], cols = [], vals = [] } = pivot.options
-      const allTags = [...rows, ...cols, ...vals]
-      // Strip emoji from pivot tags for comparison
-      return allTags.some((tag) => {
-        const cleanTag = tag.replace(/^[^\p{L}\p{N}]+/u, '').trim()
-        return cleanTag === trackableTag
+    if (
+      template.pivots.some((pivot) => {
+        if (!pivot?.options) return false
+        const { rows = [], cols = [], vals = [] } = pivot.options
+        const allTags = [...rows, ...cols, ...vals]
+        // Strip emoji from pivot tags for comparison
+        return allTags.some((tag) => {
+          const cleanTag = tag.replace(/^[^\p{L}\p{N}]+/u, '').trim()
+          return cleanTag === trackableTag
+        })
       })
-    })) {
+    ) {
       reasons.push('a pivot')
     }
 
@@ -323,7 +330,7 @@
       title: 'Pick from my Trackables',
       async click() {
         const selected = await selectTrackables()
-       
+
         if (selected) {
           selected.forEach((trackable) => {
             addTrackableToTemplate(trackable)
@@ -409,7 +416,6 @@
   }
 
   const openDashboardImporter = (dashboards: Array<DashboardClass>) => {
-
     const boardButtons = dashboards.map((dashboard: DashboardClass) => {
       return {
         id: dashboard.id,
@@ -465,10 +471,10 @@
 
   const groupGoalsByDuration = (goals: Array<GoalClass>) => {
     return {
-      day: goals.filter(g => g.duration === 'day'),
-      week: goals.filter(g => g.duration === 'week'),
-      month: goals.filter(g => g.duration === 'month'),
-      year: goals.filter(g => g.duration === 'year'),
+      day: goals.filter((g) => g.duration === 'day'),
+      week: goals.filter((g) => g.duration === 'week'),
+      month: goals.filter((g) => g.duration === 'month'),
+      year: goals.filter((g) => g.duration === 'year'),
     }
   }
 
@@ -483,7 +489,7 @@
   }
 
   const openGoalsByDurationImporter = (goals: Array<GoalClass>, duration: string) => {
-    const goalsForDuration = goals.filter(g => g.duration === duration)
+    const goalsForDuration = goals.filter((g) => g.duration === duration)
 
     const buttons = goalsForDuration.map((goal: GoalClass) => {
       return {
@@ -507,7 +513,15 @@
       openPopMenu({
         id: 'import-goal-empty',
         title: `No ${getDurationLabel(duration)} Goals`,
-        buttons: [{ title: 'Go Back', id: 'back', click() { openGoalImporter($GoalStore) } }],
+        buttons: [
+          {
+            title: 'Go Back',
+            id: 'back',
+            click() {
+              openGoalImporter($GoalStore)
+            },
+          },
+        ],
       })
       return
     }
@@ -574,13 +588,17 @@
           openGoalsByDurationImporter(goals, 'month')
         },
       },
-      ...(grouped.year.length > 0 ? [{
-        title: `Yearly Goals (${grouped.year.length})`,
-        id: 'year',
-        click() {
-          openGoalsByDurationImporter(goals, 'year')
-        },
-      }] : []),
+      ...(grouped.year.length > 0
+        ? [
+            {
+              title: `Yearly Goals (${grouped.year.length})`,
+              id: 'year',
+              click() {
+                openGoalsByDurationImporter(goals, 'year')
+              },
+            },
+          ]
+        : []),
     ]
 
     openPopMenu({
@@ -637,7 +655,7 @@
               console.log('Original tag:', tag, '-> Clean tag:', cleanTag)
 
               // Check if trackable already in template
-              const alreadyExists = template.trackables.some(t => {
+              const alreadyExists = template.trackables.some((t) => {
                 const tTag = getTrackableTag(t)
                 return tTag === cleanTag || tTag?.replace(/^[#@]/, '') === cleanTag
               })
@@ -683,7 +701,6 @@
 
   const addPivot = async () => {
     openPivotImporter($PivotStore)
-
   }
 
   const openLocationImporter = (locations: Array<ILocation>) => {
@@ -713,7 +730,7 @@
       openPopMenu({
         id: 'import-location-empty',
         title: 'No Saved Locations',
-        buttons: [{ title: 'Go Back', id: 'back', click() { } }],
+        buttons: [{ title: 'Go Back', id: 'back', click() {} }],
       })
       return
     }
@@ -809,7 +826,13 @@
     Create a sharable Nomie configuration
   </p>
   <List solo>
-    <Input listItem type="text" placeholder="Template Name" bind:value={template.name} on:input={() => onNameChange?.(template.name)} />
+    <Input
+      listItem
+      type="text"
+      placeholder="Template Name"
+      bind:value={template.name}
+      on:input={() => onNameChange?.(template.name)}
+    />
     <Input listItem type="textarea" placeholder="Description" bind:value={template.description} />
   </List>
   <List solo outside title="Trackables">
@@ -823,44 +846,45 @@
         <div class="pill-holder px-1 flex flex-wrap py-2">
           {#each template.trackables as trackable (trackable.id)}
             {@const removalReason = getTrackableRemovalReason(trackable)}
-          <div class="pill-wrapper relative" data-trackable-id={trackable.id}>
-            <button
-              on:click={() => {
-                getTrackerOptions(trackable)
-              }}
-              class="pill"
-            >
-              <TrackableAvatar {trackable} size={20} />
-              {#if trackable.type == 'tracker'}
-              <span class="label">{trackable.tracker.label}</span>
-              {:else if trackable.type == 'person'}
-              <span class="label">{trackable.person.displayName}</span>
-              {:else if trackable.type == 'context'}
-              <span class="label">{trackable.ctx.label}</span>
-              {:else if trackable.type == 'pointer'}
-              <span class="label">{trackable.ptr.label}</span>
-              {/if}
-            </button>
-            {#if removalReason}
-              <div class="icon-badge lock-badge cursor-help group" title={removalReason}>
-                <IonIcon icon={LockClosedSolid} size={10} className="text-ios-label2" />
-                <div class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-ios-label text-ios-card text-xs px-2 py-1 rounded whitespace-nowrap z-10">
-                  {removalReason}
-                </div>
-              </div>
-            {:else}
-            {:else}
+            <div class="pill-wrapper relative" data-trackable-id={trackable.id}>
               <button
-                on:click={() => removeTrackable(trackable)}
-                class="icon-badge trash-badge hover:brightness-110"
-                title="Remove trackable"
+                on:click={() => {
+                  getTrackerOptions(trackable)
+                }}
+                class="pill"
               >
-                <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+                <TrackableAvatar {trackable} size={20} />
+                {#if trackable.type == 'tracker'}
+                  <span class="label">{trackable.tracker.label}</span>
+                {:else if trackable.type == 'person'}
+                  <span class="label">{trackable.person.displayName}</span>
+                {:else if trackable.type == 'context'}
+                  <span class="label">{trackable.ctx.label}</span>
+                {:else if trackable.type == 'pointer'}
+                  <span class="label">{trackable.ptr.label}</span>
+                {/if}
               </button>
-            {/if}
-          </div>
-        {/each}
-      </div>
+              {#if removalReason}
+                <div class="icon-badge lock-badge cursor-help group" title={removalReason}>
+                  <IonIcon icon={LockClosedSolid} size={10} className="text-ios-label2" />
+                  <div
+                    class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-ios-label text-ios-card text-xs px-2 py-1 rounded whitespace-nowrap z-10"
+                  >
+                    {removalReason}
+                  </div>
+                </div>
+              {:else}
+                <button
+                  on:click={() => removeTrackable(trackable)}
+                  class="icon-badge trash-badge hover:brightness-110"
+                  title="Remove trackable"
+                >
+                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+                </button>
+              {/if}
+            </div>
+          {/each}
+        </div>
       {/key}
     {/if}
   </List>
@@ -920,7 +944,7 @@
                   <button class="pill sm space-x- flex">
                     <strong>{new WidgetClass(widget).getTitle()}</strong>
                     <span>{widget.type}</span>
-                    <span>{new WidgetClass(widget).getLabel().replace('days','')}</span>
+                    <span>{new WidgetClass(widget).getLabel().replace('days', '')}</span>
                   </button>
                 {/each}
               {/if}

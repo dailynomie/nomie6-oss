@@ -85,7 +85,7 @@
               nomie: {
                 number: fileData.version,
                 created: fileData.created,
-              }
+              },
             }
           }
         } catch (e) {
@@ -525,22 +525,22 @@
           <div slot="right" class="text-ios-label2 pr-4">No Data</div>
         </ListItem>
       {/if}
-     <!-- Pointers -->
+      <!-- Pointers -->
       {#if (importLoader.normalized.pointers || []).length > 0}
-      <ImporterItem
-        title={Lang.t('general.pointers', 'Pointers')}
-        count={(importLoader.normalized.pointers || []).length.toLocaleString()}
-        bind:status={importing.pointers}
-        on:import={() => {
-          methods.importPointers(true)
-        }}
-      />
-    {:else}
-      <ListItem bottomLine={48} title={Lang.t('general.pointers', 'Pointers')}>
-        <div slot="left">📍</div>
-        <div slot="right" class="text-ios-label2 pr-4">No Data</div>
-      </ListItem>
-    {/if}
+        <ImporterItem
+          title={Lang.t('general.pointers', 'Pointers')}
+          count={(importLoader.normalized.pointers || []).length.toLocaleString()}
+          bind:status={importing.pointers}
+          on:import={() => {
+            methods.importPointers(true)
+          }}
+        />
+      {:else}
+        <ListItem bottomLine={48} title={Lang.t('general.pointers', 'Pointers')}>
+          <div slot="left">📍</div>
+          <div slot="right" class="text-ios-label2 pr-4">No Data</div>
+        </ListItem>
+      {/if}
 
       <!-- Plugins -->
       {#if (importLoader.normalized.plugins || []).length > 0}

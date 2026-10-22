@@ -3,12 +3,7 @@
 <script lang="ts">
   import { query, streamQuery, aiState } from './engine.svelte'
   import { buildContext } from './context-builder'
-  import type {
-    AdviceItem,
-    ChartDataset,
-    JournalPrompt,
-    AlertItem
-  } from './profiles/types'
+  import type { AdviceItem, ChartDataset, JournalPrompt, AlertItem } from './profiles/types'
   import type { NarrativeAnalysis } from './profiles/narrative'
   import NLayout from '../layout/layout.svelte'
   import NBackButton from '../../components/back-button/back-button.svelte'
@@ -35,7 +30,7 @@
       // Query logs from last 30 days
       const logs = await LedgerStore.query({
         start: thirtyDaysAgo,
-        end: dayjs()
+        end: dayjs(),
       })
 
       console.log('📊 Logs from last 30 days:', logs?.length)
@@ -56,7 +51,12 @@
         const tokens = tokenizeLite(log.note)
         tokens.forEach((token: any) => {
           // Skip non-trackable tokens (like generic text, links, etc)
-          if (token.type !== 'tracker' && token.type !== 'person' && token.type !== 'context' && token.type !== 'pointer') {
+          if (
+            token.type !== 'tracker' &&
+            token.type !== 'person' &&
+            token.type !== 'context' &&
+            token.type !== 'pointer'
+          ) {
             return
           }
 
@@ -75,8 +75,8 @@
       const context = await buildContext({
         dateRange: {
           from: thirtyDaysAgo.format('YYYY-MM-DD'),
-          to: dayjs().format('YYYY-MM-DD')
-        }
+          to: dayjs().format('YYYY-MM-DD'),
+        },
       })
 
       testDataInfo = {
@@ -85,8 +85,8 @@
         metrics: Object.entries(byTag).map(([tag, entries]) => ({
           tag,
           count: entries.length,
-          recent: (entries as any[]).slice(-3).map((e: any) => e.value)
-        }))
+          recent: (entries as any[]).slice(-3).map((e: any) => e.value),
+        })),
       }
 
       contextSummary = context.summary
@@ -104,7 +104,7 @@
         await streamQuery(
           {
             profile: 'insight',
-            prompt: 'How am I doing overall based on my data?'
+            prompt: 'How am I doing overall based on my data?',
           },
           (chunk) => {
             responseText += chunk
@@ -113,7 +113,7 @@
       } else {
         const res = await query<string>({
           profile: 'insight',
-          prompt: 'How am I doing overall based on my data?'
+          prompt: 'How am I doing overall based on my data?',
         })
         responseText = res.content
       }
@@ -127,7 +127,7 @@
     try {
       const res = await query<AdviceItem[]>({
         profile: 'advice',
-        prompt: 'What actionable advice do you have for me this week?'
+        prompt: 'What actionable advice do you have for me this week?',
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -140,7 +140,7 @@
     try {
       const res = await query<ChartDataset>({
         profile: 'data',
-        prompt: 'Create a chart showing my top tracked metrics over the last week'
+        prompt: 'Create a chart showing my top tracked metrics over the last week',
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -153,7 +153,7 @@
     try {
       const res = await query<JournalPrompt>({
         profile: 'journal',
-        prompt: 'Generate reflection prompts for today'
+        prompt: 'Generate reflection prompts for today',
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -166,7 +166,7 @@
     try {
       const res = await query<AlertItem[]>({
         profile: 'alert',
-        prompt: 'Detect any anomalies in my tracking data'
+        prompt: 'Detect any anomalies in my tracking data',
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -179,7 +179,7 @@
     try {
       const res = await query<NarrativeAnalysis>({
         profile: 'narrative',
-        prompt: 'Analyze my journal entries and notes from the last 30 days'
+        prompt: 'Analyze my journal entries and notes from the last 30 days',
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -259,8 +259,11 @@
     {/if}
 
     {#if aiState.error}
-      <div class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4">
-        <strong>Error:</strong> {aiState.error}
+      <div
+        class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4"
+      >
+        <strong>Error:</strong>
+        {aiState.error}
       </div>
     {/if}
 

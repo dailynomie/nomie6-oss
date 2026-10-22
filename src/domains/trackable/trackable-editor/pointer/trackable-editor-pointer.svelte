@@ -19,24 +19,21 @@
   })
 </script>
 
-
 <List solo>
-  <Input 
+  <Input
     type="textarea"
     label="Provide background of pointer"
     placeholder="..please enter description"
     bind:value={trackable.ptr.description}
-    rows={5} 
-    on:change = {(evt) => {
-      trackable.ptr.description = (evt.detail)
+    rows={5}
+    on:change={(evt) => {
+      trackable.ptr.description = evt.detail
       console.log(evt.detail)
-    }} >
-    
-    
-  </Input>
-  </List>
-  <div class="mb-4" />
-  <List solo>
+    }}
+  ></Input>
+</List>
+<div class="mb-4" />
+<List solo>
   <ListItem bottomLine={70}>
     <div>
       <h1 class="line-clamp-1">Do you want to activate a reminder for this pointer?</h1>
@@ -56,8 +53,8 @@
   />
 </List>
 <p class="list-note">
-  A pointer is literaly a point in time. You can assign pointers to individual notes to quickly find them later.
-  You can aslo set a reminder date so Nomie will remind you when you anticipated to log info tagged with a specific pointer.
-  Example: you can create a pointer for your yearly health checkup results (combo tracker) and let Nomie remind you to schedule 
-  a next health checkup.
+  A pointer is literaly a point in time. You can assign pointers to individual notes to quickly find them later. You can
+  aslo set a reminder date so Nomie will remind you when you anticipated to log info tagged with a specific pointer.
+  Example: you can create a pointer for your yearly health checkup results (combo tracker) and let Nomie remind you to
+  schedule a next health checkup.
 </p>

@@ -1,4 +1,3 @@
-
 import { PivotClass } from './pivot-class'
 import PivotEditorModal from './pivot-editor-modal.svelte'
 import NPaths from '../../paths'
@@ -31,8 +30,6 @@ export const PivotModalStore = writable({
  */
 
 let masterPivots: Array<PivotClass> = []
-
-
 
 /**
  * Open Editor Modal
@@ -82,4 +79,3 @@ export const registerPivotListeners = async () => {
     console.error('[PivotStore] Error registering pivot listener:', e)
   }
 }
-
