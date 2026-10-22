@@ -129,9 +129,9 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | P1 | **Measure.** The bundle report is switched on with `ANALYZE=<file>`, and the baseline is in `docs/notes/bundle-baseline-oct-2026.md`. Plotly is the largest item (about 1.3 MB gzipped). | S | **Done 22 October.** |
 | P2 | **Lazy routes.** 18 pages load on first use (`src/routes/lazy-page.svelte`). Track and Timeline stay eager. | M | **Done 22 October** (branch `perf/lazy-routes`). Every route was checked in the browser with no page errors. |
 | P3 | **Lazy heavy libraries.** Done: Plotly, the Anthropic SDK, the map, lodash in the usage files, the stats modal and Chart.js, the markdown viewer, the template editor, the emoji list, the confetti. Tried and not kept: the languages on demand (see the bundle note). | M | **Done 22 October.** First load about 581 kB gzipped (from 2,371). Target 600 kB, reached. |
-| P4 | **Plotly decision (D12).** Replace with Chart.js (already in use) or keep it lazy. | M | Decided and recorded. |
-| P5 | **Vendor chunks** with `manualChunks` for Svelte, dayjs and PouchDB. | S | The chunk sizes are in the report. |
-| P6 | **Service worker precache.** After splitting, lower `maximumFileSizeToCacheInBytes` (20 MB now) and precache only the shell and Track. | S | Offline still works after the first visit. |
+| P4 | **Plotly decision (D12).** Lazy loading is in place (P3). Replacing Plotly with Chart.js is still open. | M | **Partly done.** The status "decided" was wrong; D12 is still open. |
+| P5 | **Vendor chunks** with `manualChunks` for Svelte, dayjs and PouchDB. | S | **Done 22 October.** See `docs/notes/bundle-baseline-oct-2026.md`. |
+| P6 | **Service worker precache.** Only the shell and the start files are precached; the rest is cached on first use. | S | **Done 22 October.** Offline checked after visiting Track, Goals, Analytics and Settings. |
 | P7 | **Pivot and widget cost.** Check the analytics and dashboard render times on a phone with 5 years of logs. | M | Recorded, with the slow parts fixed. |
 
 **Done when:** first-load gzipped JS is under 600 kB, Lighthouse mobile performance is at least 80, and offline works after the first visit.

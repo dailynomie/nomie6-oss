@@ -74,3 +74,15 @@ First load: `index-*.js` 537 kB gzipped, plus a shared chunk of 44 kB, **about 5
 The last two items: the emoji list (about 18 kB) and the confetti library (about 7 kB) now load when they are used.
 
 Not in the first load any more: the routes (except Track and Timeline), Plotly, the map, the Anthropic SDK, the stats modal with Chart.js, the markdown viewer, the template editor, lodash (for the usage files), the emoji list and the confetti.
+
+## Vendor chunks, precache, offline, Lighthouse (22 October)
+
+- **P5, vendor chunks:** Svelte, dayjs and PouchDB are in their own files. They change less often than the app, so they stay cached after an update.
+- **P6, precache:** the service worker precaches the shell (`index.html`, the manifest, the app icons, the top-level images, the CSS and the main JS). The award pictures and the widget icons are not precached; they and every page are cached the first time they are used. The precache is 67 files, about 3.0 MB, most of it the app code.
+- **Offline:** checked on the production build (`vite preview`): after visiting Track, Goals, Analytics and Settings online, all four open offline with no errors.
+- **Lighthouse (mobile, performance):** score **67**, target 80. First contentful paint 4.2 s, largest contentful paint 5.4 s, total transfer 715 kB.
+
+What Lighthouse reports for the first screen:
+- **Unused JavaScript:** about 307 kB in the main chunk. Code that the Track screen does not use is still loaded at start: modal components that are imported by the stores. This is the largest item.
+- **Render-blocking CSS:** the main stylesheet (35 kB gzipped) delays the first paint by about 150 ms, and about 32 kB of its rules are unused.
+- **Fonts:** the Nunito font is named in the splash SVG files, and Lighthouse counts it as a request on the start page. It is not loaded by the app's code.
