@@ -127,8 +127,8 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | # | Task | Size | Done when |
 | --- | --- | --- | --- |
 | P1 | **Measure.** The bundle report is switched on with `ANALYZE=<file>`, and the baseline is in `docs/notes/bundle-baseline-oct-2026.md`. Plotly is the largest item (about 1.3 MB gzipped). | S | **Done 22 October.** |
-| P2 | **Lazy routes.** `src/routes/routes.svelte` imports 19 page components eagerly. Use a small `LazyRoute` wrapper with `{#await import(…)}`. Keep Track and Timeline eager. | M | The Track route loads without the other pages. |
-| P3 | **Lazy heavy libraries:** Plotly (analytics pivot only), Blockly (`/nomie-blockly`), Leaflet (map), the Anthropic SDK (`engine.svelte.ts`, import inside the request functions), and the emoji data (`emoji-light.ts`, 1,570 lines, load when the picker opens). | M | Each is in its own chunk, and loads when its screen opens. |
+| P2 | **Lazy routes.** 18 pages load on first use (`src/routes/lazy-page.svelte`). Track and Timeline stay eager. | M | **Done 22 October** (branch `perf/lazy-routes`). Every route was checked in the browser with no page errors. |
+| P3 | **Lazy heavy libraries.** Plotly and the Anthropic SDK: **done**. Still open: the map (Leaflet, about 150 kB gzipped; a wrapper that forwards bindings and events), the language files (load the active one), the emoji data and the icons. | M | **Partly done 22 October.** First load is 750 kB gzipped (from 2,371). Target 600 kB. |
 | P4 | **Plotly decision (D12).** Replace with Chart.js (already in use) or keep it lazy. | M | Decided and recorded. |
 | P5 | **Vendor chunks** with `manualChunks` for Svelte, dayjs and PouchDB. | S | The chunk sizes are in the report. |
 | P6 | **Service worker precache.** After splitting, lower `maximumFileSizeToCacheInBytes` (20 MB now) and precache only the shell and Track. | S | Offline still works after the first visit. |

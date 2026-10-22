@@ -37,3 +37,13 @@ Target for M1 (docs/ROADMAP.md): first load under 600 kB gzipped.
 - Plotly is roughly half of the gzipped total. Lazy-loading it (P3) moves it out of the first load. That is the biggest single win, and it does not need the decision on replacing it.
 - Leaflet, the Anthropic SDK, the language files, the icons and the dashboard widgets can all move out of the first load with lazy imports (P2 and P3).
 - The first load also includes everything for every route. P2 (lazy routes) is needed for the 600 kB target.
+
+## After P2 and part of P3 (branch perf/lazy-routes)
+
+| | Before | After |
+| --- | --- | --- |
+| First load `index-*.js` | 7,682 kB, 2,371 kB gzipped | 2,339 kB, **750 kB gzipped** |
+
+What moved out of the first load: 18 pages (each its own chunk), Plotly (1.3 MB gzipped, now loaded when the analytics page opens), and the Anthropic SDK (loaded for a Claude request).
+
+Still in the first load, in order of size: the map (Leaflet and esri-leaflet, about 150 kB gzipped; the map is used by Timeline, which is a start page), the language files (all six are bundled), lodash (imported in several places), and the icons. The target of 600 kB gzipped needs the map and the languages to move as well.
