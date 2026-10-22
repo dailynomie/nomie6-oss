@@ -178,14 +178,16 @@ export const PouchDBEngine: IStorage = {
     // check if it exists
     let exists = await this.getFullDoc(path)
     try {
+      // awaited, so a failed write is caught here and the error reaches the caller (STO-04)
       if (exists) {
-        return this.db.put({ ...exists, ...payload })
+        return await this.db.put({ ...exists, ...payload })
       } else {
-        return this.db.put(payload)
+        return await this.db.put(payload)
       }
     } catch (e) {
       console.error(e)
       Interact.error(e.message)
+      throw e
     }
   },
   async getFullDoc(path) {
