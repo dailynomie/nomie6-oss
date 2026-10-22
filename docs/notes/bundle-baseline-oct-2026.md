@@ -47,3 +47,9 @@ Target for M1 (docs/ROADMAP.md): first load under 600 kB gzipped.
 What moved out of the first load: 18 pages (each its own chunk), Plotly (1.3 MB gzipped, now loaded when the analytics page opens), and the Anthropic SDK (loaded for a Claude request).
 
 Still in the first load, in order of size: the map (Leaflet and esri-leaflet, about 150 kB gzipped; the map is used by Timeline, which is a start page), the language files (all six are bundled), lodash (imported in several places), and the icons. The target of 600 kB gzipped needs the map and the languages to move as well.
+
+## Languages on demand: tried, not kept (22 October)
+
+The other languages were moved out of the first load: the language registry loads the chosen language before the app starts (`main.ts` awaits it, then imports the app), and workers are built as ES modules, since the CSV worker imports the domain code.
+
+The result: the languages save about 34 kB gzipped, but the start chunks grew from 675 kB to 690 kB (the app chunk, the shared chunk and the main chunk together). The change was reverted; it does not reduce the first load. The next step is to find out what the 593 kB app chunk holds (see the roadmap, P3 and P7).
