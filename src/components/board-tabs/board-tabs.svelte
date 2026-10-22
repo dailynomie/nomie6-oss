@@ -114,7 +114,7 @@
           <button
             title={`${board.label} board tab`}
             type="menu"
-            class="tab board-{board.id}  {board.id === active?.id ? 'selected' : 'inactive'}"
+            class="tap-44 tab board-{board.id}  {board.id === active?.id ? 'selected' : 'inactive'}"
             on:click={() => {
               dispatch('tabTap', board)
             }}

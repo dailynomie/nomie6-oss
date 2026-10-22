@@ -591,6 +591,19 @@ input[type='number'] {
   position: absolute;
   inset: -4px;
 }
+/* iOS look (F4): a small control keeps its size; its tap area is at least 44 px in both directions */
+.tap-44 {
+  position: relative;
+}
+.tap-44::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
 /* iOS look (decision 3): a missed goal is a neutral outlined ball, not red; the fill token stays for "no data" */
 .goal-ball.ios-goal-missed {
   background-color: var(--ios-card2);

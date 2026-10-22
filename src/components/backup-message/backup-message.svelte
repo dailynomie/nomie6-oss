@@ -56,7 +56,7 @@
     <button
       aria-label={Lang.t('ui.backup-your-data', 'Backup your data')}
       on:click={onGenerate}
-      class="flex items-center mr-2 text-xs py-1 text-center rounded-full backup"
+      class="tap-44 flex items-center mr-2 text-xs py-1 text-center rounded-full backup"
     >
       <!--- If it's way back - it's not really set-->
       {#if lastBackupDaysBack > 1000}
@@ -74,7 +74,7 @@
     </button>
     <span class="mx-1">{Lang.t('ui.or', 'or')}</span>
     <button
-      class="ml-2 font-bold text-ios-tint"
+      class="tap-44 ml-2 font-bold text-ios-tint"
       on:click={() => {
         onConfirmed()
       }}>{Lang.t('ui.skip', 'Skip')}</button

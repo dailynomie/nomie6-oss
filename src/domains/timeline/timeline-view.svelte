@@ -84,7 +84,7 @@
     <header class="flex items-end justify-between gap-3" style="padding: 22px 16px 7px">
       <button
         type="button"
-        class="text-left hover:opacity-80 min-w-0"
+        class="tap-44 text-left hover:opacity-80 min-w-0"
         on:click={() => {
           openOnThisDayModal(item.logs[0].end)
         }}

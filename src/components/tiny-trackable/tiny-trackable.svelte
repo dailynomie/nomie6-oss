@@ -15,11 +15,11 @@
 
 {#if trackable.type == 'pointer'}
   <!-- iOS look: a pointer has no label, so it is a 24 px circle with the same emoji size as the other chips -->
-  <button class="tiny-trackable pointer-chip" style="background-color: {color}" on:click={() => emit('click')}>
+  <button class="tap-44 tiny-trackable pointer-chip" style="background-color: {color}" on:click={() => emit('click')}>
     <TrackableAvatar className="items-center self-center" {trackable} size={16} />
   </button>
 {:else}
-  <button class="tiny-trackable" on:click={() => emit('click')}>
+  <button class="tap-44 tiny-trackable" on:click={() => emit('click')}>
     <TrackableAvatar className="items-center self-center" {trackable} size={16} />
     <span class="label line-clamp-1">{trackable.label}</span>
     {#if value}

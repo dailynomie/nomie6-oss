@@ -397,7 +397,7 @@
               x="right"
               id="prompt-button"
               title={Lang.t('capture.writing-prompts', 'Writing prompts')}
-              buttonClass="stiff block max-w-8 h-8 w-8 z-40  text-ios-tint bg-transparent rounded-full"
+              buttonClass="tap-44 stiff block max-w-8 h-8 w-8 z-40  text-ios-tint bg-transparent rounded-full"
               menuButtons={promptMenu}
             >
               <IonIcon icon={BulbSolid} size={22} />

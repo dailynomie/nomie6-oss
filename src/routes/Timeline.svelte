@@ -174,7 +174,7 @@
     </div>
     <button
       type="button"
-      class="ios-search mt-2"
+      class="tap-44 ios-search mt-2"
       aria-label={Lang.t('routes.search-notes', 'Search notes')}
       on:click={() => openUnisearch()}
     >
