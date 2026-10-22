@@ -12,7 +12,7 @@ Daily Nomie is an open source app. This policy explains what happens to your dat
 
 ## 1. Your data on this device
 
-Daily Nomie stores your logs, trackers, goals, experiments, dashboards, notes and settings in the storage of your browser (IndexedDB and localStorage). Nothing is sent to us unless you turn on sync (section 2).
+Daily Nomie stores your logs, trackers, goals, experiments, dashboards, notes and settings in the storage of your browser (IndexedDB and localStorage). Nothing is sent to us. Your data reaches a server only if you turn on sync and choose a server (section 2).
 
 - The app does not encrypt this storage. Anyone who can use your browser profile or your device can read it.
 - The PIN lock keeps the app closed until the PIN is entered. It is not encryption of your data.
@@ -22,7 +22,7 @@ Daily Nomie stores your logs, trackers, goals, experiments, dashboards, notes an
 You can sync your data to a CouchDB server in two ways:
 
 - **You run the server yourself.** You enter its address in the app. You, or the company or person who runs it for you, control it. We do not have access to it.
-- **You use the hosted sync service that Daily Nomie offers.** We run that server.
+- **You use the hosted sync service that Daily Nomie offers.** We run that server. This is not automatic: you request a user ID and password for it first, and you enter them in the app.
 
 Sync data is **not encrypted by the app**. The operator of the server, which is us for the hosted service, can read it. Anyone who gets access to the server can read it too.
 
