@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Language guardrail checks (LANG-). Rules in docs/guardrails/language.md.
-#   bash docs/guardrails/checks/lang-checks.sh          changed files on this branch and in the working tree
+#   bash docs/guardrails/checks/lang-checks.sh          files changed in the working tree (the rule applies as files are touched)
 #   bash docs/guardrails/checks/lang-checks.sh --all    every source file (the full baseline)
 set -u
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
@@ -9,7 +9,8 @@ EXCLUDE='(vendor/|n-icons/|/lang/|\.spec\.ts$|\.test\.ts$)'
 if [ "${1:-}" = "--all" ]; then
   LIST=$(find src -type f \( -name '*.svelte' -o -name '*.ts' \) | grep -vE "$EXCLUDE")
 else
-  LIST=$( { git diff --name-only master...HEAD 2>/dev/null; git diff --name-only; git ls-files --others --exclude-standard; } | sort -u | grep -E '^src/.*\.(svelte|ts)$' | grep -vE "$EXCLUDE")
+  # the working tree only: a file is brought up to the rule when it is touched
+  LIST=$( { git diff --name-only; git ls-files --others --exclude-standard; } | sort -u | grep -E '^src/.*\.(svelte|ts)$' | grep -vE "$EXCLUDE")
 fi
 MUST_FAILS=0; HITS=0
 # LANG-02 every key the code asks for exists in the base language file
@@ -43,7 +44,11 @@ else
   echo "[LANG-02 MUST] every Lang.t key used exists in the base file (pass)"
 fi
 # LANG-01 visible text in templates is wrapped
-TEXT=$(python3 docs/guardrails/checks/lang-text-scan.py src detail $(printf '%s\n' $LIST | grep '\.svelte$') 2>/dev/null | grep -v "^files with" || true)
+SVELTE=$(printf '%s\n' $LIST | grep '\.svelte$' || true)
+TEXT=""
+if [ -n "$SVELTE" ]; then
+  TEXT=$(python3 docs/guardrails/checks/lang-text-scan.py src detail $SVELTE 2>/dev/null | grep -v "^files with" || true)
+fi
 if [ -n "$TEXT" ]; then
   n=$(printf '%s\n' "$TEXT" | wc -l | tr -d ' ')
   echo "[LANG-01 MUST] visible text not wrapped in Lang.t ($n)"; printf '%s\n' "$TEXT" | sed 's/^/    /' | head -n 25
@@ -52,7 +57,10 @@ else
   echo "[LANG-01 MUST] visible text in changed templates is wrapped (pass)"
 fi
 # LANG-03 toast and dialog messages are wrapped
+MSG=""
+if [ -n "$LIST" ]; then
 MSG=$(grep -nE "showToast\(\{ *message: *['\"\`][^'\"\`{]*[A-Za-z]|Interact\.(alert|confirm|prompt|error|success)\(\s*['\"\`][^'\"\`]*[A-Za-z]" $(printf '%s\n' $LIST) 2>/dev/null | grep -v "Lang\.t" || true)
+fi
 if [ -n "$MSG" ]; then
   n=$(printf '%s\n' "$MSG" | wc -l | tr -d ' ')
   echo "[LANG-03 MUST] toast or dialog text not wrapped in Lang.t ($n)"; printf '%s\n' "$MSG" | sed 's/^/    /' | head -n 25

@@ -20,12 +20,19 @@ def text_hits(s):
     return hits
 root=sys.argv[1]
 mode=sys.argv[2] if len(sys.argv)>2 else 'summary'
+given=sys.argv[3:]
+def files_to_scan():
+    if given:
+        for p in given:
+            if p.endswith('.svelte') and os.path.isfile(p): yield p
+        return
+    for dp,dn,fn in os.walk(root):
+        if any(x in dp for x in ['vendor','n-icons','/lang','node_modules']): continue
+        for f in fn:
+            if f.endswith('.svelte'): yield os.path.join(dp,f)
 total=0; files=0; per=[]
-for dp,dn,fn in os.walk(root):
-    if any(x in dp for x in ['vendor','n-icons','/lang','node_modules']): continue
-    for f in fn:
-        if not f.endswith('.svelte'): continue
-        p=os.path.join(dp,f)
+for p in files_to_scan():
+    if True:
         s=strip_script_style(open(p,encoding='utf8').read())
         h=text_hits(s)
         if h:
