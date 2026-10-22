@@ -25,6 +25,7 @@ const ALL_FEATURES: Array<FeatureId> = [
   'people-board',
   'context-board',
   'experiment-advanced',
+  'advanced-settings',
 ]
 
 describe('resolveExperience', () => {

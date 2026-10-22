@@ -244,6 +244,7 @@
 </List>
 
 <!-- iOS look (W11): the technical maintenance rows sit under Advanced, so a new user sees fewer rows -->
+{#if $FeatureVisible('advanced-settings')}
 <List solo className="mb-3" outside title={Lang.t('settings.advanced', 'Advanced')}>
   <ListItem
     bottomLine={57}
@@ -291,6 +292,7 @@
     </div>
   </ListItem>
 </List>
+{/if}
 <!-- 
 <List transparent className=" px-2" outside title={Lang.t('settings.import-export', 'Import / Export')}>
   <p slot="subheader" class="list-note -mt-2">

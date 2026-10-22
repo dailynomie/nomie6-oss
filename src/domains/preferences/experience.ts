@@ -21,6 +21,7 @@ export type FeatureId =
   | 'people-board'
   | 'context-board'
   | 'experiment-advanced'
+  | 'advanced-settings'
 
 /** Everything a starter does not see by default. Deciding what starters see means changing this list. */
 export const STARTER_HIDDEN: ReadonlyArray<FeatureId> = [
@@ -38,6 +39,7 @@ export const STARTER_HIDDEN: ReadonlyArray<FeatureId> = [
   'people-board',
   'context-board',
   'experiment-advanced',
+  'advanced-settings',
 ]
 
 /** The widget types a starter can add. Pointers, plugins and AI insights are full-mode only. */
