@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { dayTitle, isRelativeDayTitle } from './day-title'
   import type NLog from '../nomie-log/nomie-log'
   import dayjs, { type Dayjs } from 'dayjs'
   import { logsToTimeline, type TimelineFilterProps, type TimelineItemType } from './timeline-utils'
@@ -52,20 +53,8 @@
 
   let topItem: TimelineItemType | undefined = $state(undefined)
 
-  // iOS look (Phase 7 date pass): Today, Yesterday, a weekday within the last week, then the medium date
-  const isRelativeTitle = (day: Dayjs) => {
-    const today = dayjs().startOf('day')
-    const target = day.startOf('day')
-    return target.isSame(today, 'day') || target.isSame(today.subtract(1, 'day'), 'day') || target.isAfter(today.subtract(7, 'day'))
-  }
-  const dayTitle = (day: Dayjs) => {
-    const today = dayjs().startOf('day')
-    const target = day.startOf('day')
-    if (target.isSame(today, 'day')) return 'Today'
-    if (target.isSame(today.subtract(1, 'day'), 'day')) return 'Yesterday'
-    if (isRelativeTitle(day)) return target.format('dddd')
-    return target.format(dateFormats.mmm_d_yyyy)
-  }
+  const dayHeading = (day: Dayjs) => dayTitle(day, dateFormats.mmm_d_yyyy)
+  const showDateOnRight = (day: Dayjs) => isRelativeDayTitle(day)
 
   $effect(() => {
     if (listEndIndex === timeline.length && timeline.length > 0) {
@@ -105,11 +94,11 @@
           class:text-sm={item.logs[0].endDayjs().format('YYYY-MM-DD') ==
             topItem?.logs[0].endDayjs().format('YYYY-MM-DD')}
         >
-          {dayTitle(item.logs[0].endDayjs())}
+          {dayHeading(item.logs[0].endDayjs())}
           <IonIcon icon={ChevronForwardOutline} className="opacity-50" size={14} />
         </h2>
       </button>
-      {#if isRelativeTitle(item.logs[0].endDayjs())}
+      {#if showDateOnRight(item.logs[0].endDayjs())}
         <div class="text-ios-footnote text-ios-label2 whitespace-nowrap">
           {item.logs[0].endDayjs().format(dateFormats.mmm_d_yyyy)}
         </div>
