@@ -20,6 +20,7 @@ export interface UOMElement {
   system?: 'metric' | 'imperial'
   cousin?: string
   key?: string
+  custom?: boolean
   convert?: Function
 }
 

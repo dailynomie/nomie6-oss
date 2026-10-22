@@ -1,5 +1,5 @@
 import type { UOMElement } from './uom-types'
-import UOMS from './uom.config'
+import { allUoms, lookupUom } from './uom-registry'
 
 export const addCommas = (base: number = 0): string => {
   const num: string = `${base}`
@@ -18,8 +18,9 @@ function main() {
    * Array of UOMS
    */
   function toArray(): Array<UOMElement> {
-    return Object.keys(UOMS).map((key) => {
-      const obj: UOMElement = UOMS[key]
+    const units = allUoms()
+    return Object.keys(units).map((key) => {
+      const obj: UOMElement = units[key]
       obj.key = key
       return obj
     })
@@ -31,8 +32,9 @@ function main() {
    */
   function toGroupedArray(): any {
     const items: any = {}
-    Object.keys(UOMS).forEach((key: string) => {
-      const obj: UOMElement = UOMS[key]
+    const units = allUoms()
+    Object.keys(units).forEach((key: string) => {
+      const obj: UOMElement = units[key]
       obj.key = key
       const type: any = obj.type
       if (type) {
@@ -50,12 +52,13 @@ function main() {
    * @param includeUnit boolean
    */
   function format(value: any, key: string, includeUnit: boolean = true): string {
-    if (Object.prototype.hasOwnProperty.call(UOMS, key) && !isNaN(value)) {
-      const symbol = UOMS[key].symbol
-      const affix = UOMS[key].symbolAffix
-      const space = UOMS[key].symbolSpace || false ? ' ' : ''
+    const uom = lookupUom(key)
+    if (uom && !isNaN(value)) {
+      const symbol = uom.symbol
+      const affix = uom.symbolAffix
+      const space = uom.symbolSpace || false ? ' ' : ''
       // Get display formatter for key if one exists.
-      const displayFormatter = UOMS[key].display || null
+      const displayFormatter = uom.display || null
       // Does the UOM have it's own display formatter?
       if (displayFormatter) {
         return displayFormatter(value) // displayFormatter(v);
@@ -83,7 +86,8 @@ function main() {
    * @param key string
    */
   function plural(key: string): string {
-    return Object.prototype.hasOwnProperty.call(UOMS, key) ? UOMS[key].plural : key
+    const uom = lookupUom(key)
+    return uom ? uom.plural : key
   }
 
   /**
@@ -91,7 +95,8 @@ function main() {
    * @param key string
    */
   function singular(key: string): string {
-    return Object.prototype.hasOwnProperty.call(UOMS, key) ? UOMS[key].singular : key
+    const uom = lookupUom(key)
+    return uom ? uom.singular : key
   }
 
   /**
@@ -99,7 +104,8 @@ function main() {
    * @param key string
    */
   function abv(key: string): any {
-    return Object.prototype.hasOwnProperty.call(UOMS, key) ? UOMS[key].symbol : null
+    const uom = lookupUom(key)
+    return uom ? uom.symbol : null
   }
 
   /**

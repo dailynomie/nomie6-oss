@@ -6,6 +6,7 @@ import { InitTrackableStore } from './domains/trackable/TrackableStore'
 import { Interact } from './store/interact'
 import { LedgerStore } from './domains/ledger/LedgerStore'
 import { LocationStore } from './domains/locations/LocationStore'
+import { CustomUomStore } from './domains/uom/custom-uom-store'
 import { TemplateStore } from './domains/templates/templates-svelte-helpers'
 import type { PreferencesStateType } from './domains/preferences/Preferences'
 import { SearchStore } from './domains/search/search-store'
@@ -61,6 +62,7 @@ export const bootCoreComponents = async (trackables: ITrackables) => {
   initUniboardStore(trackables)
 
   LocationStore.init()
+  CustomUomStore.init()
   TemplateStore.init()
   Device.init()
   UsageStore.init()

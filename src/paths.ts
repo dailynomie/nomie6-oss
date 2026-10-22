@@ -74,6 +74,9 @@ const NPaths = {
     locations() {
       return `locations.json`
     },
+    customUoms() {
+      return `custom-uoms.json`
+    },
     writingPrompts() {
       return `writing-prompts.json`
     },

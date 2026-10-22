@@ -44,6 +44,7 @@
   import Divider from '../../../../components/divider/divider.svelte'
 
   import { getGroupedUoms, uomPlural, uomSymbol } from '../../../uom/uom-utils'
+  import { CustomUomStore } from '../../../uom/custom-uom-store'
 
   import { focusTypes } from '../../../focus/focus-utils'
 
@@ -86,7 +87,8 @@
     }
   })
 
-  const groupedUOM = getGroupedUoms()
+  // Custom units come from the store, so the picker updates when one is added, edited or removed
+  const groupedUOM = $derived(getGroupedUoms(true, $CustomUomStore))
   // iOS look (D-native): the measure list is one app-native select; each group header is a disabled row
   let uomOptions = $derived(
     Object.keys(groupedUOM).flatMap((groupKey) => {
