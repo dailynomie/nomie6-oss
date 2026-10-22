@@ -143,7 +143,7 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | --- | --- | --- | --- |
 | F1 | **Automatic backups** (old T1): a schedule, a folder via the File System Access API where supported, reminders elsewhere, the last backup's age on the dashboard. | M | A backup is made on the schedule and restores. |
 | F2 | **Restore preview and replace mode** (old T1, `BACKUP_PATCH_BRIEFING.md` section 7): counts and conflicts before anything is written, and a snapshot before a replace. | M | A preview shows the counts before the restore. |
-| F3 | **One-time "make a fresh backup" prompt** (old M3 step 3). | S | Existing users see it once after the update. |
+| F3 | One-time "make a fresh backup" prompt. **Done 22 October:** shown once to users with trackers, English and Dutch. | backup | S |
 | F4 | **Accessibility pass** (old T8): capture, Track and Experiments with a screen reader. Check tap targets and contrast on the iOS tokens. | M | The checks pass and the issues found are fixed. |
 | F5 | **Dutch review:** Ronald reviews `nl.ts`, the slang rule (LANG-10) and the page headers. | S | Approved. |
 | F6 | **Other languages:** decide whether German, Italian and Simplified Chinese are kept for 7.0, and if so complete them (1,450 to 1,550 keys each) or hide them. | M–L | Decided. If kept, LANG-07 passes for them. |
@@ -189,13 +189,13 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 | W5 | "No recent backups" banner. **Checked 22 October: done.** It shows only after launch 5, and once a tracker exists. | layout | S |
 | W6 | Setup wording: the "Which looks right?" slide needs plain labels; "Data Storage" needs a hint; "Nomie Server" is greyed out without a reason; "FREE" reads as a stray label. | setup | S |
 | W7 | The "Tap for more" hint on the central button. **Checked 22 October: done.** It is shown once and remembered (`menuHintSeen`). | layout | S |
-| W8 | Track tiles: long names and "12 days ago" are clipped by the menu button at the bottom right. Reserve room for the button, or shorten. | Track tiles | S |
+| W8 | Track tiles: the subtitle is no longer clipped by the menu button. **Checked 22 October: done** (28 px of padding on the text). | Track tiles | S |
 | W9 | Dashboard empty state: "Add a Widget" appears once. **Checked 22 October: done.** | dashboard | S |
 | W10 | Widget picker: the row of types is cut off at the right edge with no hint that it scrolls. Use two rows or a hint. Say that widgets need a tracker when there is none. | widget editor | S |
 | W11 | Settings for a new user: move "Update Usage and Streak Data", "Clean Plugin Database" and "Auto Cleanup" under an Advanced heading. Hide "Toggle People Board" text when the board is hidden. Fewer rows in Starter. | settings | M |
 | W12 | Typo in the backup dialog. **Checked 22 October: done.** The text reads "how much data". | backup | S |
 | W13 | Experiment wizard, step 2: a suggested tracker the user does not have is shown as chosen (the fix "Tracker not added yet" is in place, check the flow end to end). Replace the two overlapping actions with one clear choice. | experiments | S |
-| W14 | Capture: a "#walk" with no tracker shows "No Match Found!" over the tool row. Show the hint below the field, once. | capture | S |
+| W14 | Capture: the "No Match Found!" bubble is gone; a new tag is offered when the note is saved. **Done 22 October.** | capture | S |
 | W15 | Splash: the logo and the "Daily Nomie 7" title overlap while the app loads. **Parked by Ronald**; the overlap is in `public/images/nomie-splash-on-blue-ai.svg` and needs the designer. | splash | parked |
 | W16 | **CouchDB sync is not encrypted:** the notice is on the sync form (not encrypted, the operator can read it, use https, protect the server), and an http:// address shows a warning. Still open: whether the encrypted sync (N4) moves up into 7.0 (D13). | sync setup | **Notice done 22 October** (checked for compile and text, not yet in the browser). D13 open. |
 | W17 | **AI key notice:** under the key field: the requests go straight from this browser to the provider, the key stays on this device, and a short PIN gives little protection. | AI settings | **Done 22 October** (English and Dutch; checked in the browser). |
