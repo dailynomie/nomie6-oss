@@ -53,6 +53,7 @@
 
   let workingTrackable: Trackable | undefined = $state(undefined)
   let ogTag: string | undefined = $state(undefined)
+  const isSaved = $derived(!!trackable?.tag && !!$TrackableStore.trackables[trackable.tag])
 
   let workingTag: string = $state('')
   let label: string = $state('Label')
@@ -408,6 +409,8 @@
   {/if}
 
   {#if workingTrackable}
+    <!-- iOS look (Phase 7 bug fix): an unsaved tracker has no share, duplicate or delete actions -->
+    {#if isSaved}
     <!-- iOS look: the actions are an inset grouped list, like the other lists in the editor -->
     <List solo className="mt-4 mb-10">
       <ListItem
@@ -449,5 +452,6 @@
         <IonIcon slot="right" icon={TrashOutline} className="text-ios-danger" />
       </ListItem>
     </List>
+    {/if}
   {/if}
 </BackdropModal>

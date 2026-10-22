@@ -47,6 +47,7 @@
   let goalUseDailyAverage: boolean | undefined = $state(undefined)
 
   let mounted = $state(false)
+  const isSaved = $derived(!!goal?.id && $GoalStore.some((g: GoalClass) => g.id === goal.id))
 
   $effect(() => {
     if (goal && mounted && !workingGoal) {
@@ -202,6 +203,8 @@
     {/if}
   </List>
 
+  <!-- iOS look (Phase 7 bug fix): a goal that is not saved yet has nothing to delete -->
+  {#if isSaved}
   <Button clear className="text-ios-danger mt-10 mx-auto text-sm" on:click={() => deleteGoal()}>
     {#if goal.duration=== 'day'}
           <div class="text-center text-ios-danger">Delete Daily Goal</div>
@@ -212,4 +215,5 @@
           {:else if goal.duration === 'year'}
           <div class="text-center text-ios-danger">Delete Yearly Goal</div>
           {/if}</Button>
+  {/if}
 </BackdropModal>
