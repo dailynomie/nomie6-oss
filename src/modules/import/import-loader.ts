@@ -103,7 +103,9 @@ export default class ImportLoader {
   public async importDashboards() {
     const existing = await getDashboards()
     const incoming = this.normalized.dashboards || []
-    const final = this.keepDevice ? dedupArray([...existing, ...incoming], 'id') : dedupArray([...incoming, ...existing], 'id')
+    const final = this.keepDevice
+      ? dedupArray([...existing, ...incoming], 'id')
+      : dedupArray([...incoming, ...existing], 'id')
     await saveDashboards(final)
     return this
   }
