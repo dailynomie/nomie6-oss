@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { SideStore } from '../../domains/storage/side-storage'
 import type { StorageTypes } from '../../domains/storage/storage'
 import { writable } from 'svelte/store'
@@ -171,6 +172,12 @@ export const setDocumentTheme = (theme: ThemeTypes) => {
   }
 }
 
+/**
+ * The app's one date format: the short date of the language the app is in
+ * (en 10/22/2026, nl 22-10-2026, de 22.10.2026). English has no entry in dayjs, so it uses MM/DD/YYYY.
+ */
+const localeShortDate = (): string => dayjs.Ls[dayjs.locale()]?.formats?.L ?? 'MM/DD/YYYY'
+
 export const getDateFormats = (): {
   time: string
   date: string
@@ -183,6 +190,7 @@ export const getDateFormats = (): {
   tinyNumber: string
   monthYear: string
 } => {
+  const shortDate = localeShortDate()
   let format: {
     time: string
     date: string
@@ -198,11 +206,12 @@ export const getDateFormats = (): {
     time: 'h:mm A',
     hour: 'h A',
     hourCompact: 'ha',
-    date: 'MMM Do YYYY',
-    dateDay: 'ddd MMM Do YYYY',
-    shortDate: 'M/D/YYYY',
+    // every full date uses the locale's short date (W2); the compact labels below stay short on purpose
+    date: shortDate,
+    dateDay: `dddd ${shortDate}`,
+    shortDate,
     tinyDate: 'MMM D',
-    mmm_d_yyyy: 'MMM D, YYYY',
+    mmm_d_yyyy: shortDate,
     tinyNumber: 'M/D',
     monthYear: 'MMM YYYY',
   }
@@ -210,12 +219,12 @@ export const getDateFormats = (): {
     format = {
       time: 'HH:mm',
       hour: 'HH00',
-      date: 'Do MMM YYYY',
-      dateDay: 'ddd Do MMM YYYY',
+      date: shortDate,
+      dateDay: `dddd ${shortDate}`,
       hourCompact: 'HH',
-      shortDate: 'D MM YYYY',
+      shortDate,
       tinyDate: 'D MMM',
-      mmm_d_yyyy: 'D MMM, YYYY',
+      mmm_d_yyyy: shortDate,
       tinyNumber: 'D/M',
       monthYear: 'MMM YYYY',
     }
