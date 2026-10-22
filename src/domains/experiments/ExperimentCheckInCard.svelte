@@ -67,19 +67,22 @@
       <!-- iOS look (guide 5.4): 18 px radius, 12 px caption, 15 px question, two 44 px buttons -->
       <div class="ios-card ios-float p-4 space-y-3" style="border-radius: 18px">
         <div class="text-xs font-semibold uppercase text-ios-label2" style="letter-spacing: 0.4px">
-          Today's check-in
+          {Lang.t('experiments.today-s-check-in', "Today's check-in")}
         </div>
-        <div class="text-ios-subhead">Did you stick to <span class="font-semibold">{experiment.title}</span>?</div>
+        <div class="text-ios-subhead">
+          {Lang.t('experiments.did-you-stick-to', 'Did you stick to')}
+          <span class="font-semibold">{experiment.title}</span>?
+        </div>
         <div class="grid grid-cols-2 gap-2">
           <button
             class="h-11 rounded-xl bg-ios-tint text-ios-ontint text-ios-subhead font-medium disabled:opacity-50"
             disabled={busy}
-            onclick={() => answer(experiment, true)}>Kept to it</button
+            onclick={() => answer(experiment, true)}>{Lang.t('experiments.kept-to-it', 'Kept to it')}</button
           >
           <button
             class="h-11 rounded-xl bg-ios-fill text-ios-label text-ios-subhead font-medium disabled:opacity-50"
             disabled={busy}
-            onclick={() => answer(experiment, false)}>Didn't</button
+            onclick={() => answer(experiment, false)}>{Lang.t('experiments.didn-t', "Didn't")}</button
           >
         </div>
       </div>

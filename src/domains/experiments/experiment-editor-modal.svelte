@@ -94,7 +94,7 @@
     const tag = outcomes[index].tag
     const trackable = await installLibraryTracker(tag, $TrackableStore.trackables)
     if (!trackable) {
-      Interact.error(`Could not add ${libraryTrackerLabel(tag) ?? tag} from the library`)
+      Interact.error(Lang.t('experiments.could-not-add-from-library', { name: libraryTrackerLabel(tag) ?? tag }))
       return
     }
     outcomes = outcomes.map((o, i) => (i === index ? { ...o, label: trackable.label, found: true } : o))
@@ -133,15 +133,24 @@
 
   const toStepThree = () => {
     if (!outcomes.length) {
-      Interact.alert('Add at least one outcome', 'Choose one to 3 trackers to watch.')
+      Interact.alert(
+        Lang.t('experiments.add-at-least-one-outcome', 'Add at least one outcome'),
+        Lang.t('experiments.choose-one-to-3-trackers-to-watch', 'Choose one to 3 trackers to watch.')
+      )
       return
     }
     if (outcomes.length > 3) {
-      Interact.alert('Too many outcomes', 'Choose up to 3 trackers.')
+      Interact.alert(
+        Lang.t('experiments.too-many-outcomes', 'Too many outcomes'),
+        Lang.t('experiments.choose-up-to-3-trackers', 'Choose up to 3 trackers.')
+      )
       return
     }
     if (outcomes.some((o) => !o.found)) {
-      Interact.alert('Choose a tracker', 'Each outcome needs one of your trackers.')
+      Interact.alert(
+        Lang.t('experiments.choose-a-tracker', 'Choose a tracker'),
+        Lang.t('experiments.each-outcome-needs-one-of-your-trackers', 'Each outcome needs one of your trackers.')
+      )
       return
     }
     step = 3
@@ -149,7 +158,10 @@
 
   const start = async () => {
     if (!title.trim()) {
-      Interact.alert('Name the experiment', 'Write what you will change.')
+      Interact.alert(
+        Lang.t('experiments.name-the-experiment', 'Name the experiment'),
+        Lang.t('experiments.write-what-you-will-change', 'Write what you will change.')
+      )
       return
     }
     saving = true
@@ -165,7 +177,7 @@
         },
         $TrackableStore.trackables
       )
-      showToast({ message: 'Experiment started' })
+      showToast({ message: Lang.t('experiments.experiment-started', 'Experiment started') })
       closeModal(id)
     } catch (e) {
       Interact.error(e.message)
@@ -183,9 +195,9 @@
   <header slot="header">
     <ToolbarGrid>
       <div slot="left">
-        <Button clear primary on:click={() => closeModal(id)}>Cancel</Button>
+        <Button clear primary on:click={() => closeModal(id)}>{Lang.t('experiments.cancel', 'Cancel')}</Button>
       </div>
-      <h2 class="ntitle">New experiment</h2>
+      <h2 class="ntitle">{Lang.t('experiments.new-experiment', 'New experiment')}</h2>
       <div slot="right"></div>
     </ToolbarGrid>
   </header>
@@ -225,27 +237,32 @@
             onclick={writeOwn}
           >
             <FeatureBadge feature="experiment-advanced" />
-            <div class="font-semibold">Write my own</div>
-            <div class="text-xs text-ios-label2 mt-1">Pick any change and the trackers it should affect</div>
+            <div class="font-semibold">{Lang.t('experiments.write-my-own', 'Write my own')}</div>
+            <div class="text-xs text-ios-label2 mt-1">
+              {Lang.t(
+                'experiments.pick-any-change-and-the-trackers-it-should-affec',
+                'Pick any change and the trackers it should affect'
+              )}
+            </div>
           </button>
         {/if}
       </div>
     {:else if step === 2}
       <section class="space-y-2">
         <label class="block text-xs font-semibold uppercase tracking-wide text-ios-label2" for="experiment-title"
-          >The change</label
+          >{Lang.t('experiments.the-change', 'The change')}</label
         >
         <input
           id="experiment-title"
           class="w-full p-3 rounded-xl ios-card outline-none focus:ring-2 focus:ring-ios-tint"
-          placeholder="No coffee after 14:00"
+          placeholder={Lang.t('experiments.no-coffee-after-14-00', 'No coffee after 14:00')}
           bind:value={title}
         />
       </section>
 
       <section class="space-y-2">
         <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">
-          What should it affect? (1 to 3 trackers)
+          {Lang.t('experiments.what-should-it-affect-1-to-3-trackers', 'What should it affect? (1 to 3 trackers)')}
         </div>
         {#each outcomes as outcome, index}
           <div class="p-4 ios-card space-y-3">
@@ -253,7 +270,9 @@
               <div class="font-semibold truncate {outcome.found ? '' : 'text-ios-label2'}">
                 {outcome.found ? outcome.label : 'Tracker not added yet'}
               </div>
-              <button class="text-xs font-medium text-ios-danger" onclick={() => removeOutcome(index)}>Remove</button>
+              <button class="text-xs font-medium text-ios-danger" onclick={() => removeOutcome(index)}
+                >{Lang.t('experiments.remove', 'Remove')}</button
+              >
             </div>
             {#if !outcome.found}
               <div class="flex flex-wrap gap-3">
@@ -263,13 +282,13 @@
                   >
                 {/if}
                 <button class="text-sm font-medium text-ios-tint" onclick={() => chooseFor(index)}
-                  >Pick one of my trackers</button
+                  >{Lang.t('experiments.pick-one-of-my-trackers', 'Pick one of my trackers')}</button
                 >
               </div>
             {/if}
             <IosSelect
               className="w-full"
-              title="What do you hope happens?"
+              title={Lang.t('experiments.what-do-you-hope-happens', 'What do you hope happens?')}
               bind:value={outcome.direction}
               onchange={updatePreviews}
               options={[
@@ -286,7 +305,7 @@
         {#if outcomes.length < 3}
           <button
             class="w-full p-3 rounded-2xl border-2 border-dashed border-ios-separator text-sm font-medium text-ios-tint"
-            onclick={addOutcome}>+ Add a tracker to watch</button
+            onclick={addOutcome}>{Lang.t('experiments.add-a-tracker-to-watch', '+ Add a tracker to watch')}</button
           >
         {/if}
       </section>
@@ -295,14 +314,16 @@
         <label class="relative flex items-center gap-3 p-4 ios-card text-sm">
           <FeatureBadge feature="experiment-advanced" />
           <ToggleSwitch value={lagDays === 1} on:change={(e) => (lagDays = e.detail ? 1 : 0)} />
-          <span>The effect shows the next day</span>
+          <span>{Lang.t('experiments.the-effect-shows-the-next-day', 'The effect shows the next day')}</span>
         </label>
       {/if}
 
-      <Button block primary on:click={toStepThree}>Next</Button>
+      <Button block primary on:click={toStepThree}>{Lang.t('experiments.next', 'Next')}</Button>
     {:else if step === 3}
       <section class="space-y-2">
-        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">How long?</div>
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">
+          {Lang.t('experiments.how-long', 'How long?')}
+        </div>
         <div class="grid grid-cols-4 gap-2 p-1 rounded-2xl bg-ios-fill">
           {#each EXPERIMENT_DURATIONS as days}
             <button
@@ -317,27 +338,31 @@
       </section>
 
       <section class="space-y-2">
-        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">When does it start?</div>
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">
+          {Lang.t('experiments.when-does-it-start', 'When does it start?')}
+        </div>
         <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-ios-fill">
           <button
             class={segment(startChoice === 'today')}
             onclick={() => {
               startChoice = 'today'
               updatePreviews()
-            }}>Today</button
+            }}>{Lang.t('experiments.today', 'Today')}</button
           >
           <button
             class={segment(startChoice === 'tomorrow')}
             onclick={() => {
               startChoice = 'tomorrow'
               updatePreviews()
-            }}>Tomorrow</button
+            }}>{Lang.t('experiments.tomorrow', 'Tomorrow')}</button
           >
         </div>
       </section>
 
       <section class="p-4 ios-card space-y-3">
-        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">Summary</div>
+        <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2">
+          {Lang.t('experiments.summary', 'Summary')}
+        </div>
         <div class="font-semibold">{title}</div>
         <div class="text-sm text-ios-label2">
           {durationDays} days from {startDay().format('D MMM YYYY')}
@@ -348,11 +373,16 @@
           {/each}
         </div>
         <div class="text-xs text-ios-label2 leading-relaxed">
-          Each day you will be asked whether you stuck to it. A check-in tracker is created for this.
+          {Lang.t(
+            'experiments.each-day-you-will-be-asked-whether-you-stuck-to-',
+            'Each day you will be asked whether you stuck to it. A check-in tracker is created for this.'
+          )}
         </div>
       </section>
 
-      <Button block primary disabled={saving} on:click={start}>Start experiment</Button>
+      <Button block primary disabled={saving} on:click={start}
+        >{Lang.t('experiments.start-experiment', 'Start experiment')}</Button
+      >
     {/if}
   </main>
 </BackdropModal>

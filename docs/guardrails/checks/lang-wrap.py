@@ -100,8 +100,9 @@ def base_values():
 def add_keys(area, keys):
     base = open(BASE, encoding='utf8').read()
     marker = f'\n    {area}: {{\n'
-    if base.count(marker) != 1:
-        raise SystemExit(f'cannot find one "{area}" section in {BASE}')
+    create = base.count(marker) == 0
+    if base.count(marker) > 1:
+        raise SystemExit(f'more than one "{area}" section in {BASE}')
     lines = []
     values = base_values()
     for text, key in sorted(keys.items(), key=lambda kv: kv[1]):
@@ -111,9 +112,39 @@ def add_keys(area, keys):
                 raise SystemExit(f'key {key} already exists with other text: {values[key]!r} != {text!r}')
             continue
         lines.append(f"      '{leaf}': {js_string(text)},\n")
-    base = base.replace(marker, marker + ''.join(lines), 1)
+    if create and lines:
+        # a new section goes at the end of the translation object
+        close = '\n  },\n}'
+        if base.count(close) != 1:
+            raise SystemExit(f'cannot find the end of the translation object in {BASE}')
+        base = base.replace(close, f'\n    {area}: {{\n' + ''.join(lines) + '    },' + close, 1)
+    elif lines:
+        base = base.replace(marker, marker + ''.join(lines), 1)
     open(BASE, 'w', encoding='utf8').write(base)
     return len(lines)
+
+SCRIPT_CALL = re.compile(r"(Interact\.(?:alert|confirm|prompt|error|success)\(|showToast\(\{\s*message:\s*)([^\n]*)")
+
+def wrap_script(path, area, keys, base):
+    """Wrap quoted text in Interact.* dialog calls and toast messages (LANG-03), on one line."""
+    src = open(path, encoding='utf8').read()
+    changed = [False]
+    def fix_call(m):
+        head, rest = m.group(1), m.group(2)
+        def fix_lit(q):
+            text = q.group(2)
+            if not re.search(r'[A-Za-z]{2,}', text) or '${' in text:
+                return q.group(0)
+            key = keys[text] = keys.get(text) or choose_key(area, text, keys, base)
+            changed[0] = True
+            return "Lang.t('" + key + "', " + js_string(text) + ")"
+        # quoted literals up to the end of the call's line; stop at the first ")" that closes the call
+        rest2 = re.sub(r"(?<![\w.])(['\"])([^'\"\n]*)\1", fix_lit, rest)
+        return head + rest2
+    new = SCRIPT_CALL.sub(fix_call, src)
+    if changed[0]:
+        open(path, 'w', encoding='utf8').write(new)
+    return changed[0]
 
 if __name__ == '__main__':
     area, files = sys.argv[1], sys.argv[2:]
@@ -122,6 +153,8 @@ if __name__ == '__main__':
     base = open(BASE, encoding='utf8').read()
     for f in files:
         if wrap(f, area, keys, base):
+            changed.append(f)
+        if wrap_script(f, area, keys, base):
             changed.append(f)
     added = add_keys(area, keys)
     print(f'wrapped {len(changed)} file(s); added {added} key(s) to {area} in {BASE}')

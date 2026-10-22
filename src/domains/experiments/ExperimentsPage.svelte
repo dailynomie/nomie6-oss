@@ -56,12 +56,19 @@
     <div class="ios-desktop-column">
       <!-- iOS look: the add action is on the trailing side of the action row -->
       <div class="flex items-center justify-end h-9">
-        <button type="button" aria-label="New experiment" class="exp-round" on:click={openEditor}>
+        <button
+          type="button"
+          aria-label={Lang.t('experiments.new-experiment', 'New experiment')}
+          class="exp-round"
+          on:click={openEditor}
+        >
           <IonIcon icon={AddIcon} size={18} />
         </button>
       </div>
       <h1 class="text-ios-large font-bold text-ios-label outline-none">{Lang.t('experiments.title', 'Experiments')}</h1>
-      <p class="text-ios-subhead text-ios-label2">Test one change. See what it does.</p>
+      <p class="text-ios-subhead text-ios-label2">
+        {Lang.t('experiments.test-one-change-see-what-it-does', 'Test one change. See what it does.')}
+      </p>
       {#if $ExperimentStore.length}
         <p class="text-ios-footnote text-ios-label2 mt-1">{running.length} running · {finished.length} finished</p>
       {/if}
@@ -70,9 +77,12 @@
   <main class="py-4 relative z-10 px-2 lg:px-4">
     {#if $ExperimentStore.length === 0}
       <List transparent className="max-w-md mx-auto">
-        <Empty icon={PulseOutline} title="No experiments yet">
+        <Empty icon={PulseOutline} title={Lang.t('experiments.no-experiments-yet', 'No experiments yet')}>
           <div class="text-center px-6 text-ios-label2">
-            Test whether one change, such as no coffee after 14:00, affects something you track.
+            {Lang.t(
+              'experiments.test-whether-one-change-such-as-no-coffee-after-',
+              'Test whether one change, such as no coffee after 14:00, affects something you track.'
+            )}
           </div>
         </Empty>
       </List>
@@ -138,10 +148,13 @@
       {/if}
       {#if view === 'running' && !running.length}
         <!-- iOS look: the same empty state as the page, with its icon -->
-        <Empty icon={PulseOutline} title="No running experiments" />
+        <Empty icon={PulseOutline} title={Lang.t('experiments.no-running-experiments', 'No running experiments')} />
       {/if}
       {#if view === 'finished' && !finished.length}
-        <Empty icon={PulseOutline} title="No finished experiments yet" />
+        <Empty
+          icon={PulseOutline}
+          title={Lang.t('experiments.no-finished-experiments-yet', 'No finished experiments yet')}
+        />
       {/if}
     {/if}
   </main>

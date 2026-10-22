@@ -120,7 +120,12 @@
     try {
       const adherenceTag = experiment.adherenceTag
       await endExperiment(experiment, status, $TrackableStore.trackables)
-      showToast({ message: status === 'completed' ? 'Experiment finished' : 'Experiment stopped' })
+      showToast({
+        message:
+          status === Lang.t('experiments.completed', 'completed')
+            ? Lang.t('experiments.experiment-finished', 'Experiment finished')
+            : Lang.t('experiments.experiment-stopped', 'Experiment stopped'),
+      })
       await offerToRemoveFromBoards(adherenceTag)
     } catch (e) {
       Interact.error(e.message)
@@ -197,10 +202,10 @@
   <header slot="header">
     <ToolbarGrid>
       <div slot="right">
-        <Button clear primary on:click={() => closeModal(id)}>Done</Button>
+        <Button clear primary on:click={() => closeModal(id)}>{Lang.t('experiments.done', 'Done')}</Button>
       </div>
       <!-- iOS look (guide 5.6): the modal header reads "Experiment"; the title is the large title below -->
-      <h2 class="text-ios-body font-semibold text-ios-label">Experiment</h2>
+      <h2 class="text-ios-body font-semibold text-ios-label">{Lang.t('experiments.experiment', 'Experiment')}</h2>
     </ToolbarGrid>
   </header>
 
@@ -228,15 +233,15 @@
           <div class="grid grid-cols-3 gap-2 text-center">
             <div class="ios-box-good p-2">
               <div class="text-xl font-bold text-ios-good">{shownResult.adherence.kept}</div>
-              <div class="text-ios-caption text-ios-label2">Kept to it</div>
+              <div class="text-ios-caption text-ios-label2">{Lang.t('experiments.kept-to-it', 'Kept to it')}</div>
             </div>
             <div class="ios-box p-2">
               <div class="text-xl font-bold">{shownResult.adherence.missed}</div>
-              <div class="text-ios-caption text-ios-label2">Didn't</div>
+              <div class="text-ios-caption text-ios-label2">{Lang.t('experiments.didn-t', "Didn't")}</div>
             </div>
             <div class="ios-box p-2">
               <div class="text-xl font-bold">{shownResult.adherence.unchecked}</div>
-              <div class="text-xs text-ios-label2">Not checked</div>
+              <div class="text-xs text-ios-label2">{Lang.t('experiments.not-checked', 'Not checked')}</div>
             </div>
           </div>
         {/if}
@@ -245,8 +250,12 @@
       <!-- Check-ins -->
       {#if !frozen && uncheckedDays.length}
         <section class="ios-card p-4">
-          <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 mb-1">Check in</div>
-          <div class="text-ios-subhead font-semibold mb-2">Did you stick to it?</div>
+          <div class="text-xs font-semibold uppercase tracking-wide text-ios-label2 mb-1">
+            {Lang.t('experiments.check-in', 'Check in')}
+          </div>
+          <div class="text-ios-subhead font-semibold mb-2">
+            {Lang.t('experiments.did-you-stick-to-it', 'Did you stick to it?')}
+          </div>
           {#each uncheckedDays as day}
             <div
               class="flex items-center justify-between gap-2 py-2"
@@ -257,12 +266,12 @@
                 <button
                   class="h-9 px-3.5 rounded-full bg-ios-tint text-ios-ontint text-ios-subhead font-medium disabled:opacity-50"
                   disabled={busy}
-                  onclick={() => checkIn(day, true)}>Kept to it</button
+                  onclick={() => checkIn(day, true)}>{Lang.t('experiments.kept-to-it', 'Kept to it')}</button
                 >
                 <button
                   class="h-9 px-3.5 rounded-full bg-ios-fill text-ios-label text-ios-subhead font-medium disabled:opacity-50"
                   disabled={busy}
-                  onclick={() => checkIn(day, false)}>Didn't</button
+                  onclick={() => checkIn(day, false)}>{Lang.t('experiments.didn-t', "Didn't")}</button
                 >
               </div>
             </div>
@@ -284,12 +293,12 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
               <div class="ios-box p-3">
-                <div class="text-xs text-ios-label2">Before</div>
+                <div class="text-xs text-ios-label2">{Lang.t('experiments.before', 'Before')}</div>
                 <div class="font-bold" style="font-size: 22px; line-height: 26px">{outcome.meanB.toFixed(1)}</div>
                 <div class="text-xs text-ios-label2">{outcome.nB} days</div>
               </div>
               <div class="ios-box-tint p-3">
-                <div class="text-xs text-ios-label2">During</div>
+                <div class="text-xs text-ios-label2">{Lang.t('experiments.during', 'During')}</div>
                 <div class="font-bold" style="font-size: 22px; line-height: 26px">
                   {outcome.meanE.toFixed(1)}
                   {#if outcome.pct !== undefined}
@@ -304,8 +313,8 @@
             {#if charts[outcome.tag]}
               <!-- iOS look (guide 5.6): one bar per day, 64 px high, with the Before and During captions -->
               <div class="flex justify-between text-ios-caption font-semibold mt-2">
-                <span class="text-ios-label2">Before</span>
-                <span class="text-ios-tint">During</span>
+                <span class="text-ios-label2">{Lang.t('experiments.before', 'Before')}</span>
+                <span class="text-ios-tint">{Lang.t('experiments.during', 'During')}</span>
               </div>
               {#key chartKey}
                 <div class="h-16">
@@ -324,9 +333,13 @@
         <section class="relative ios-card p-4 space-y-3">
           <FeatureBadge feature="ai" />
           <div class="flex items-center gap-3">
-            <NomieAiButton size="44px" label="Explain this result" onclick={tapEye} />
+            <NomieAiButton
+              size="44px"
+              label={Lang.t('experiments.explain-this-result', 'Explain this result')}
+              onclick={tapEye}
+            />
             <div class="min-w-0">
-              <div class="font-semibold">AI explanation</div>
+              <div class="font-semibold">{Lang.t('experiments.ai-explanation', 'AI explanation')}</div>
               <div class="text-xs text-ios-label2">
                 {#if explaining}
                   Reading the result…
@@ -357,7 +370,10 @@
           {/if}
 
           <div class="text-xs text-ios-label2">
-            The numbers and verdicts come from the statistics above. The AI only explains them.
+            {Lang.t(
+              'experiments.the-numbers-and-verdicts-come-from-the-statistic',
+              'The numbers and verdicts come from the statistics above. The AI only explains them.'
+            )}
           </div>
         </section>
       {/if}
@@ -367,15 +383,21 @@
         {#if !frozen}
           {#if finishable}
             <button class="ios-action font-semibold text-ios-tint" disabled={busy} onclick={() => finish('completed')}
-              >Finish experiment</button
+              >{Lang.t('experiments.finish-experiment', 'Finish experiment')}</button
             >
           {/if}
-          <button class="ios-action text-ios-tint" disabled={busy} onclick={() => finish('stopped')}>Stop early</button>
+          <button class="ios-action text-ios-tint" disabled={busy} onclick={() => finish('stopped')}
+            >{Lang.t('experiments.stop-early', 'Stop early')}</button
+          >
         {/if}
-        <button class="ios-action text-ios-danger" disabled={busy} onclick={deleteExperiment}>Delete experiment</button>
+        <button class="ios-action text-ios-danger" disabled={busy} onclick={deleteExperiment}
+          >{Lang.t('experiments.delete-experiment', 'Delete experiment')}</button
+        >
       </div>
     {:else}
-      <div class="text-ios-label2">This experiment could not be found.</div>
+      <div class="text-ios-label2">
+        {Lang.t('experiments.this-experiment-could-not-be-found', 'This experiment could not be found.')}
+      </div>
     {/if}
   </main>
 </BackdropModal>
