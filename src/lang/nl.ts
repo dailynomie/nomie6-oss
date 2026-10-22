@@ -3,6 +3,7 @@ export default {
   author: 'Daily Nomie',
   translation: {
     settings: {
+      'nomie-connect-placeholder': 'Remove me - settings-helper.ts',
       'using-service': 'Gebruikt {{name}}',
       'ai-key-notice': 'Aanvragen gaan rechtstreeks vanuit deze browser naar de aanbieder die je hebt gekozen. De sleutel blijft op dit apparaat. Een korte PIN biedt weinig bescherming voor de sleutel.',
       'views': 'Weergaven',
@@ -894,6 +895,8 @@ export default {
       'loading': 'Laden...',
     },
     ui: {
+      'close-menu': 'Menu sluiten',
+      'close-popup': 'Sluiten',
       'page-failed-to-load': 'Deze pagina kon niet worden geladen. Laad de app opnieuw om het nog eens te proberen.',
       'am': 'AM',
       'awful': 'Heel slecht',
@@ -1257,6 +1260,7 @@ export default {
       'want-multiple-emojis-do-it-here': 'Meerdere emoji nodig? Doe het hier:',
     },
     analytics: {
+      'show-filter': 'Waarden filteren',
       'saving-pivot': 'Pivot {{name}} opslaan...',
       'morning': 'Ochtend',
       'afternoon': 'Middag',
@@ -1414,6 +1418,7 @@ export default {
       'you-can-always-recreate-it-later': 'Je kunt hem later altijd opnieuw maken.',
     },
     search: {
+      'clear-search': 'Zoekopdracht wissen',
       'edit-name': 'Bewerk {{name}}',
       'track-name': 'Track {{name}}',
       'name-stats': '{{name}} statistieken',

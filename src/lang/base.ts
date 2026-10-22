@@ -3,6 +3,7 @@ export default {
   author: 'Brandon',
   translation: {
     settings: {
+      'nomie-connect-placeholder': 'Remove me - settings-helper.ts',
       'using-service': 'Using {{name}}',
       'ai-key-notice': 'Requests go straight from this browser to the provider you chose. The key stays on this device. A short PIN gives little protection for the key.',
       'views': 'Views',
@@ -896,6 +897,8 @@ export default {
       'loading': 'Loading...',
     },
     ui: {
+      'close-menu': 'Close menu',
+      'close-popup': 'Close',
       'page-failed-to-load': 'This page could not be loaded. Reload the app to try again.',
       'am': 'AM',
       'awful': 'Awful',
@@ -1259,6 +1262,7 @@ export default {
       'want-multiple-emojis-do-it-here': 'Want multiple emojis? Do it here:',
     },
     analytics: {
+      'show-filter': 'Filter values',
       'saving-pivot': 'Saving {{name}} pivot...',
       'morning': 'Morning',
       'afternoon': 'Afternoon',
@@ -1416,6 +1420,7 @@ export default {
       'you-can-always-recreate-it-later': 'You can always recreate it later.',
     },
     search: {
+      'clear-search': 'Clear search',
       'edit-name': 'Edit {{name}}',
       'track-name': 'Track {{name}}',
       'name-stats': '{{name}} Stats',

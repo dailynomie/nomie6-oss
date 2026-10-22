@@ -41,9 +41,9 @@
   />
 
   {#if searchText}
-    <span class="icon clear-button" role="button" on:click|stopPropagation={clearSearchText}>
+    <button type="button" class="icon clear-button" aria-label={Lang.t('search.clear-search', 'Clear search')} on:click|stopPropagation={clearSearchText}>
       <IonIcon icon={CloseOutline} />
-    </span>
+    </button>
   {:else}
     <span class="icon">
       <IonIcon icon={SearchIcon} />

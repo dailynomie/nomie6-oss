@@ -18,7 +18,7 @@
   <slot />
 {:else}
   <div
-    class="flex flex-col items-center justify-center h-full min-h-[60vh] px-8 py-12 text-center space-y-4 text-ios-label"
+    class="flex flex-col items-center justify-center h-full px-8 py-12 text-center space-y-4 text-ios-label" style="min-height: 60vh"
   >
     <div class="text-lg font-semibold">
       {Lang.t('preferences.this-is-part-of-the-full-daily-nomie', 'This is part of the full Daily Nomie')}

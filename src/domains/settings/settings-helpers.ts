@@ -1,3 +1,6 @@
+import { Interact } from '../../store/interact'
+import { Lang } from '../../store/lang'
+
 export const showNomieConnectPopup = () => {
-  alert('Remove me - settings-helper.ts')
+  Interact.alert(Lang.t('settings.nomie-connect-placeholder', 'Remove me - settings-helper.ts'))
 }

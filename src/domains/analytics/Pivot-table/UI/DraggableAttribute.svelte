@@ -32,10 +32,10 @@
     style="font-size:{fontsize}px;{cssVarStyles}"
   >
     {name}
-    <span class="pvtTriangle" on:click={toggleOpen} on:keypress={toggleOpen}>
+    <button type="button" class="pvtTriangle" aria-label={Lang.t('analytics.show-filter', 'Filter values')} on:click={toggleOpen}>
       {' '}
       ▾
-    </span>
+    </button>
   </span>
 </li>
 {#if open}

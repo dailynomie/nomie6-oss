@@ -130,7 +130,7 @@
 
 {#if open}
   <div use:toBody class="radial-layer">
-    <div class="radial-backdrop" style="z-index: 9998" role="presentation" onclick={closeMenu}></div>
+    <button type="button" class="radial-backdrop" style="z-index: 9998" aria-label={Lang.t('ui.close-menu', 'Close menu')} onclick={closeMenu}></button>
 
     {#each items as item, index (item.id)}
       {@const offset = offsetFor(index)}

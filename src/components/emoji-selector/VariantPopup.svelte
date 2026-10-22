@@ -6,6 +6,7 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { CloseOutline } from '../icon/nicons'
   import Emoji from './Emoji.svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
 
@@ -13,21 +14,17 @@
     dispatch('close')
   }
 
-  function onClickContainer(event?: any) {
-    dispatch('close', event)
-  }
-
   const { variants } = $props()
 </script>
 
-<div class="svelte-emoji-picker__variants-container frosted" on:click={onClickContainer}>
+<div class="svelte-emoji-picker__variants-container frosted">
   <div class="svelte-emoji-picker__variants">
     {#each Object.keys(variants) as variant}
       <Emoji emoji={variants[variant]} on:emojiclick />
     {/each}
-    <div class="close-button" role="button" on:click={onClickClose}>
+    <button type="button" class="close-button" aria-label={Lang.t('ui.close-popup', 'Close')} on:click={onClickClose}>
       <IonIcon icon={CloseOutline} />
-    </div>
+    </button>
   </div>
 </div>
 
