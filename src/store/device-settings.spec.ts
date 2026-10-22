@@ -14,7 +14,6 @@ describe('device setting keys keep the strings the app has always used', () => {
       locationCache: 'loc-cache',
       fontSize: 'fontSize',
       language: 'n4-lang',
-      storageType: 'n6/storage-type',
       pwaUpdateState: 'nomie_pwa_update_state',
       recentEmojis: 'recent-emojis',
     })

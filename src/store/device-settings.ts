@@ -15,7 +15,6 @@ export const DEVICE_KEYS = {
   locationCache: 'loc-cache',
   fontSize: 'fontSize',
   language: 'n4-lang',
-  storageType: 'n6/storage-type',
   pwaUpdateState: 'nomie_pwa_update_state',
   recentEmojis: 'recent-emojis',
 } as const

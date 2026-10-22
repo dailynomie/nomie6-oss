@@ -18,13 +18,7 @@ import { PouchDBEngine } from './engines/pouchdb/engine.pouchdb'
 import { SideStore } from './side-storage'
 // import { S3Engine } from "./engines/engine.s3";
 
-const STORAGE_TYPE_PATH = 'n6/storage-type'
-
 export type StorageTypes = 'local' | 'dumb' | 'pouchdb' | any
-
-export function setStorage(type: StorageTypes) {
-  localStorage.setItem(STORAGE_TYPE_PATH, type)
-}
 
 export type StorageEngineType = {
   id: string
