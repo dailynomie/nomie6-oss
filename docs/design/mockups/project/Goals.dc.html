@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My Goals</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{opacity:.85}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; box-sizing: border-box; background: {{t.bg}}; color: {{t.label}}; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+
+  <div style="padding: 54px 16px 0 16px; display: flex; flex-direction: column; gap: 6px">
+    <div style="height: 44px; display: flex; align-items: center; justify-content: space-between">
+      <button type="button" aria-label="New goal" style="width: 36px; height: 36px; border-radius: 18px; border: 0; background: {{t.fill}}; color: {{t.label}}; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+      </button>
+      <button type="button" style="border: 0; background: none; padding: 0; font-size: 17px; color: {{t.tint}}; min-height: 44px">Edit</button>
+    </div>
+    <h1 style="margin: 0; font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: 0.37px">My Goals</h1>
+    <div style="font-size: 15px; color: {{t.sec}}">3 of 4 reached today</div>
+    <div role="group" aria-label="Goal period" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 2px; border-radius: 9px; background: {{t.fill}}; margin-top: 8px">
+      <button type="button" aria-pressed="true" style="border: 0; height: 30px; border-radius: 7px; background: {{t.seg}}; color: {{t.label}}; font-size: 13px; font-weight: 600; box-shadow: 0 2px 6px {{t.shadow}}">Daily</button>
+      <button type="button" style="border: 0; height: 30px; border-radius: 7px; background: transparent; color: {{t.label}}; font-size: 13px; font-weight: 500">Weekly</button>
+      <button type="button" style="border: 0; height: 30px; border-radius: 7px; background: transparent; color: {{t.label}}; font-size: 13px; font-weight: 500">Monthly</button>
+    </div>
+  </div>
+
+  <div style="padding: 16px 16px 100px 16px; display: flex; flex-direction: column; gap: 16px">
+    <div style="border-radius: 12px; background: {{t.card}}; overflow: hidden">
+      <sc-for list="{{goals}}" as="g" hint-placeholder-count="4">
+        <button type="button" style="width: 100%; border: 0; background: transparent; color: {{t.label}}; text-align: left; display: flex; gap: 12px; padding: 0 0 0 16px">
+          <span style="width: 29px; height: 29px; border-radius: 7px; background: {{g.color}}; margin-top: 12px; flex-shrink: 0"></span>
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; padding: 11px 16px 11px 0; border-bottom: {{g.rule}}">
+            <span style="display: flex; align-items: center; gap: 8px">
+              <span style="flex: 1; min-width: 0">
+                <span style="display: block; font-size: 17px">{{g.label}}</span>
+                <span style="display: block; font-size: 13px; color: {{t.sec}}">{{g.target}}</span>
+              </span>
+              <sc-if value="{{g.done}}" hint-placeholder-val="{{ true }}">
+                <span style="width: 26px; height: 26px; border-radius: 13px; background: {{t.good}}; color: {{t.onGood}}; display: flex; align-items: center; justify-content: center">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+                </span>
+              </sc-if>
+              <sc-if value="{{g.open}}" hint-placeholder-val="{{ false }}">
+                <span style="font-size: 13px; font-weight: 600; color: {{t.sec}}">{{g.now}}</span>
+              </sc-if>
+            </span>
+            <span role="img" aria-label="{{g.historyLabel}}" style="display: flex; gap: 5px">
+              <sc-for list="{{g.days}}" as="d" hint-placeholder-count="7">
+                <span style="width: 18px; height: 6px; border-radius: 3px; background: {{d.c}}"></span>
+              </sc-for>
+            </span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 12px; right: 12px; bottom: 112px; border-radius: 18px; background: {{t.card}}; box-shadow: 0 8px 28px {{t.cardShadow}}; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: {{t.sec}}">Today's check-in</div>
+    <div style="font-size: 15px">Did you stick to <b>No caffeine after 14:00</b>?</div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 4px">
+      <button type="button" style="border: 0; height: 44px; border-radius: 12px; background: {{t.tint}}; color: {{t.onTint}}; font-size: 15px; font-weight: 600">Kept to it</button>
+      <button type="button" style="border: 0; height: 44px; border-radius: 12px; background: {{t.fill}}; color: {{t.label}}; font-size: 15px; font-weight: 600">Didn't</button>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 83px">
+    <dc-import name="TabBar" active="none" dark="{{isDark}}" hint-size="390px,83px"></dc-import>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const light = { bg: '#F2F2F7', card: '#FFFFFF', label: '#000000', sec: '#6C6C70', fill: '#E3E3E8', seg: '#FFFFFF', sep: '#D8D8DC', tint: '#0A6CC9', onTint: '#FFFFFF', good: '#1E7A34', onGood: '#FFFFFF', hit: '#34C759', miss: '#D1D1D6', shadow: 'rgba(0,0,0,0.12)', cardShadow: 'rgba(0,0,0,0.16)' };
+    const night = { bg: '#000000', card: '#1C1C1E', label: '#FFFFFF', sec: '#AEAEB2', fill: '#2C2C2E', seg: '#636366', sep: '#38383A', tint: '#4DB3FF', onTint: '#000000', good: '#30D158', onGood: '#000000', hit: '#30D158', miss: '#48484A', shadow: 'rgba(0,0,0,0.5)', cardShadow: 'rgba(0,0,0,0.7)' };
+    const t = dark ? night : light;
+    const goal = (label, target, color, history, done, now) => {
+      const hits = history.filter((h) => h === 1).length;
+      return {
+        label, target, color, done, open: !done, now,
+        days: history.map((h) => ({ c: h === 1 ? t.hit : t.miss })),
+        historyLabel: 'Reached on ' + hits + ' of the last 7 days'
+      };
+    };
+    const goals = [
+      goal('Walk', 'At least 5 km a day', '#248A3D', [1, 1, 0, 1, 1, 1, 1], true, ''),
+      goal('Meditate', 'At least 10 min a day', '#0E7C86', [1, 0, 1, 1, 0, 1, 0], false, '0 of 10 min'),
+      goal('Meds', 'Every day', '#C2185B', [1, 1, 1, 1, 1, 1, 1], true, ''),
+      goal('Coffee', 'At most 2 a day', '#C25E00', [1, 1, 0, 1, 1, 1, 1], true, '')
+    ].map((g, i, all) => ({ ...g, rule: i < all.length - 1 ? '0.5px solid ' + t.sep : '0' }));
+    return { t, goals, isDark: dark };
+  }
+}
+</script>
+</body>
+</html>

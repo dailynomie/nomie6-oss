@@ -59,4 +59,4 @@ Exceptions are for things the rules name as exceptions (scrims, the user's own c
 
 ## Notes on source material
 
-The UI rules were written from the iOS design guide kept in `planning/` (local, not committed) and from the decision log in that guide. The UI document is self-contained, so you do not need the local guide to use it.
+The UI rules were written from the iOS design guide, now in `docs/design/ios-look-implementation.md`, and from its decision log. The UI document is self-contained.

@@ -90,3 +90,25 @@ Run `bash docs/guardrails/checks/code-checks.sh --all` for the full list.
 | ID | Decision |
 | --- | --- |
 | D-storage-facade | Current design (not a recorded decision yet): all persistence goes through the `Storage` facade, and stores own their files. Record a decision here before changing it. |
+
+
+---
+
+## 6. Backup rules
+
+These rules come from the restore patch (Oct 2026). Any change to backup, restore, merge or the settings it saves must keep them. The format is the restored v6 storage archive; the code is in `src/domains/storage/` and `src/domains/backup/`.
+
+1. Detect the backup format by its **shape** (`files` object), never by the version string.
+2. A backup must never contain the PIN, storage type, AI API keys or server tokens.
+3. Restoring the same backup twice must change nothing.
+4. `smartMerge` must never join lists end to end.
+5. The "last backup" reminder only resets after a complete backup.
+6. Logs are merged by `NLog.hash()` (note, start, end, lat, lng). An identical re-import adds nothing.
+
+**Open follow-ups** (not yet built; they are in `docs/ROADMAP.md`, milestone M2):
+
+- **Remove the legacy `Export` class:** it's no longer used by the UI. Keep the legacy importer for old files.
+- **A "replace" restore mode:** restore exactly what's in the backup, after automatically snapshotting the current data. Restore currently always merges, so logs deleted since the backup come back, and logs edited since the backup appear twice (the hash includes the note text).
+- **Same merge rules on the older import screen:** today trackers and people already on the device win, and the backup's plugin list replaces the device's.
+- **Automatic scheduled backups** using the File System Access API.
+- **A checksum** in the archive.

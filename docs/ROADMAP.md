@@ -2,7 +2,7 @@
 
 Written 22 October 2026, on the `v7-dev` branch (`dev` on the `v7` remote), version `7.0.0`.
 
-This roadmap replaces `planning/ROADMAP.md` (19 October 2026). Section 1 checks every item of that roadmap against the code, so the open points are clear. Section 2 lists the work done since then, which was not in the old roadmap. Sections 4 to 6 are the plan for the 7.0 release, the performance work, and the innovation for 7.0. The rules in section 3 apply to every task.
+This roadmap replaces the 19 October roadmap (now removed) (19 October 2026). Section 1 checks every item of that roadmap against the code, so the open points are clear. Section 2 lists the work done since then, which was not in the old roadmap. Sections 4 to 6 are the plan for the 7.0 release, the performance work, and the innovation for 7.0. The rules in section 3 apply to every task.
 
 The rules for working on a task, and the rules for backups, Starter mode and AI, are unchanged from the old roadmap. The old section 2 rules are repeated in section 3 with the new guardrails added.
 
@@ -86,7 +86,7 @@ This is work that was done in the branch and never tracked. It is listed here so
 
 **Data must never be lost:**
 - Never rename storage keys or databases: the PouchDB name `nomie6-pouch`, the `data/` root, file names such as `trackers.json` and `experiments.json`, or `localStorage` keys.
-- Backups are detected by their **shape**, never by the version string. Backups never contain the PIN, the storage type, AI keys or server tokens. Restoring twice changes nothing. See `planning/BACKUP_PATCH_BRIEFING.md` section 5.
+- Backups are detected by their **shape**, never by the version string. Backups never contain the PIN, the storage type, AI keys or server tokens. Restoring twice changes nothing. See `docs/guardrails/storage.md (section 6)` section 5.
 - New persistent data goes through `createArrayStore` or `createKVStore`, so backups include it. Add a round-trip test in `src/domains/storage/backup-roundtrip.spec.ts`.
 
 **Product rules:**
