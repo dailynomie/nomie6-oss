@@ -55,7 +55,7 @@ export const StorageEngines: Array<StorageEngineType> = [
     price: 'FREE',
     multipleDevices: false,
     engine: PouchDBEngine,
-    advanced: true
+    advanced: true,
   },
   {
     id: 'nomie-server',
@@ -65,8 +65,8 @@ export const StorageEngines: Array<StorageEngineType> = [
     price: 'FREE',
     multipleDevices: true,
     engine: NomieServierStorage,
-    advanced: true
-  }
+    advanced: true,
+  },
 ]
 
 export const getStorageEngineDetails = (id: string): StorageEngineType => {
@@ -108,9 +108,9 @@ export interface IStorage {
   }
 }
 
-const engines = {};
+const engines = {}
 StorageEngines.map((e) => {
-  engines[e.id] = e.engine;
+  engines[e.id] = e.engine
 })
 
 const Storage: IStorage = {
@@ -156,9 +156,12 @@ const Storage: IStorage = {
       let engineProfile = this.getEngine().init()
       return engineProfile
     } catch (e) {
-      const loadLocal = await Interact.confirm('Error loading this storage engine', `${e}.\n Restart with Local Storage?`);
+      const loadLocal = await Interact.confirm(
+        'Error loading this storage engine',
+        `${e}.\n Restart with Local Storage?`
+      )
       if (loadLocal) {
-        switchToLocal();
+        switchToLocal()
       }
     }
   },
