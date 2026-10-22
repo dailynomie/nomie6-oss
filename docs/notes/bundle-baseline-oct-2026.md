@@ -99,3 +99,12 @@ What Lighthouse reports for the first screen:
 The Timeline screen was in the first load, although Track is the start page. It is now a lazy page. Lighthouse mobile performance on the Track start page, three runs: **98, 87 and 97** (target 80). The first contentful paint is 1.6 s in each run. The variation between runs is in the largest contentful paint (2.0 s to 4.0 s).
 
 Still in the first load: about 240 kB of unused JavaScript in the main file, and 36 kB of PouchDB. These are not needed for the score target now, but they remain the next step for the first load.
+
+## Language, AI chat and dialogs (22 October)
+
+- The chosen language loads before the app (top-level await in the language store). Other languages load when chosen. The start was 422 kB gzipped before this step and is now about 393 kB, including the AI chat and the dialogs below.
+- The AI chat (with the markdown renderer) loads when opened.
+- The markdown renderer loads on the first dialog that shows a message.
+- Lighthouse mobile performance on Track, six runs of the same build under a machine load of about 6 to 10: 83, 83, 99, 79, 89, 79. Median 83, target 80. Two runs were below 80, so the margin is not yet reliable.
+
+Still in the start: PouchDB (about 44 kB gzipped). The engine creates its database when its module loads, so it cannot load later without changing when the local database is opened. That needs a decision (see the roadmap). Lodash (about 60 kB gzipped across the start path) can be removed function by function, with the existing tests as the check.
