@@ -11,6 +11,11 @@ import Logger from '../utils/log/log'
 
 // Vendors
 import i18next from 'i18next'
+import dayjs from 'dayjs'
+import 'dayjs/locale/nl'
+import 'dayjs/locale/de'
+import 'dayjs/locale/it'
+import 'dayjs/locale/zh-cn'
 
 import langs from '../lang/lang'
 import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from './device-settings'
@@ -20,6 +25,9 @@ import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from './device-settin
 
 const console = new Logger('🚦 Lang')
 
+// dates and times follow the language; a language without a dayjs locale uses English
+const DAYJS_LOCALES = { nl: 'nl', de: 'de', it: 'it', zhcn: 'zh-cn' }
+
 // Nomie API Store
 
 const LangInit = () => {
@@ -27,6 +35,7 @@ const LangInit = () => {
     lang: getDeviceSetting(DEVICE_KEYS.language) || 'en',
   }
   const { update, subscribe, set } = writable(base)
+  dayjs.locale(DAYJS_LOCALES[base.lang] || 'en')
 
   i18next.init({
     lng: base.lang,
