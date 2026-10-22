@@ -3,6 +3,7 @@
 <script lang="ts">
   import Layout from '../domains/layout/layout.svelte'
   import IonIcon from '../components/icon/ion-icon.svelte'
+  import NBackButton from '../components/back-button/back-button.svelte'
   import { AddIcon, ChevronForwardOutline } from '../components/icon/nicons'
   import { getGroupedUoms } from '../domains/uom/uom-utils'
   import { CustomUomStore } from '../domains/uom/custom-uom-store'
@@ -32,7 +33,8 @@
 
 <Layout checkIn={false}>
   <div slot="header" class="px-4 pt-1 pb-1">
-    <div class="h-9 flex items-center justify-end">
+    <div class="h-9 flex items-center justify-between">
+      <NBackButton to="/settings" />
       <button type="button" class="ios-round" aria-label="New unit" on:click={() => openUomEditor()}>
         <IonIcon icon={AddIcon} size={18} />
       </button>
