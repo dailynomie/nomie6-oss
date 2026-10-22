@@ -1,14 +1,11 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   //Vendors
 
   import { onMount } from 'svelte'
 
   // Modules
-
-  // import Exporter from '../modules/export/export-helper'
 
   // Components
 

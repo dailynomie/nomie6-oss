@@ -4,7 +4,32 @@ import { ContextClass } from '../../domains/context/context-class'
 import { ContextStore } from '../../domains/context/context-store'
 import { PointerClass } from '../../domains/pointers/pointer-class'
 import { PointerStore } from '../../domains/pointers/pointer-store'
-import type { IBackupItems } from '../export/export'
+import type { IPeople, ITrackers } from './import'
+import type { GoalClass } from '../../domains/goals/goal-class'
+import type { PivotClass } from '../../domains/analytics/pivot-class'
+import type { DashboardClass } from '../../domains/dashboard2/dashboard-class'
+import type Location from '../../domains/locations/LocationClass'
+
+// The shape of a backup file in the older JSON format. Old files are still imported.
+export interface IBackupItems {
+  nomie: {
+    number: string
+    created: string
+    startDate: string
+    endDate: string
+  }
+  goals: Array<GoalClass>
+  pivots: Array<PivotClass>
+  boards: Array<UniboardType>
+  events: Array<NLog>
+  trackers: ITrackers
+  people: IPeople
+  locations: Array<Location>
+  dashboards: Array<DashboardClass>
+  context: Array<ContextClass>
+  pointers: Array<PointerClass>
+  plugins?: Array<any>
+}
 import type { INormalizedImport } from './import'
 import Importer from './import'
 import { LedgerStore } from '../../domains/ledger/LedgerStore'
