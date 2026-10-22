@@ -149,7 +149,7 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | F7 | **Date and number formats** on pivot tables and charts follow the language (the pivot library shows English weekday names). | S | Dutch shows Dutch weekdays in the pivot. |
 | F8 | **Bugs found on the way:** the related-view count (`Math.abs(results?.length || 0 - …)`, see N2) and the three old UI violations that are on screens we touched. | S | Fixed or recorded. |
 | F9 | **Playwright smoke tests** (old T9): log a note, see it on the timeline, backup and restore round trip. In CI. | M | Green in CI. |
-| F10 | **Encrypted sync, opt-in (N4).** Documents are encrypted on the device before PouchDB replicates them; the server stores ciphertext. Users who choose it know the limits: a lost key means lost data, and the server cannot search the data. Needs a key design (passphrase or key per device, key recovery), a migration path for existing plain sync, and a test with existing CouchDB users. Depends on C5 (the PouchDB upgrade). | M2 | XL |
+| F10 | **Encrypted sync, opt-in (N4): moved to 7.1** (decision 22 October). Depends on C5 (the PouchDB upgrade). The 7.0 privacy text says sync is not encrypted, which stays true for 7.0. | 7.1 | XL |
 | F11 | **Privacy text for the hosted service.** **Done 22 October:** the sync section names the hosted service and says the sync data is not encrypted. Approved by the maintainer. | M2 | S |
 
 ### M3. Release 7.0 · S
@@ -228,7 +228,7 @@ These are carried over from the old roadmap, with the new items marked.
 **7.2+ Platform**
 - **N2 Notation package:** extract `src/modules/tokenizer/` with its spec into an npm package.
 - **N3 MCP server:** read-only over a backup file first, then over CouchDB, then "add log".
-- **N4 Encrypted sync:** in 7.0 as opt-in (F10). In 7.1 the work continues to encrypt the whole chain (see F10 and 7.1).
+- **N4 Encrypted sync:** in 7.1 as opt-in (F10), and then the whole chain (transport and server side).
 - **N5 Native shell:** Capacitor for home-screen widgets, notifications and Apple Health or Health Connect.
 - **N6 Plugin directory:** a curated JSON index, shown in the plugins modal.
 - **N7 Upgrade Svelte** deliberately (Q5).
@@ -253,7 +253,7 @@ Ask when a task reaches the decision. Record the answer in the commit message or
 | D10 | Privacy policy text | **Approved 22 October** (C3). |
 | D11 | CSP strictness and allowed origins | C2 and the enforcing CSP |
 | D12 | Plotly: lazy or Chart.js | P4, and C5 (critical findings in plotly.js) |
-| D13 | Hosted sync or self-hosted only | **Answered: both.** Encrypted sync (N4) moves into 7.0 as opt-in (F10). |
+| D13 | Hosted sync or self-hosted only | **Answered: both.** Encrypted sync (N4) is in 7.1 as opt-in (F10). |
 | D16 | AI key in the browser | **Answered: keep the browser calls.** The privacy text says so, and a notice is shown where the key is entered (C1). |
 | D17 | The related-view count: which intended formula | F8 |
 | D18 | Other languages for 7.0: keep German, Italian and Simplified Chinese (complete them) or hide them | F6 |
