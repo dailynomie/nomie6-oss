@@ -113,7 +113,7 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | # | Task | Size | Done when |
 | --- | --- | --- | --- |
 | C1 | **AI key in the browser: decided, keep the browser calls (D16).** Remove the unused `src/routes/api/ai/+server.ts`. Add a short notice where the key is entered: the key is used from the browser, and the request goes straight to the provider. | S | **Decided 22 October.** The file is removed and the notice is in the AI settings. |
-| C2 | Remove the Netlify configuration. **Done:** Netlify is not used, `netlify.toml` is removed. `nginx.conf` already has `try_files` for deep links and gzip. | S | **Partly done.** A container check (`docker build`, then a refresh on `/goals`, and gzip in the response headers) is still to do on a machine with Docker. |
+| C2 | Remove the Netlify configuration. **Done:** Netlify is not used, `netlify.toml` is removed. `nginx.conf` already has `try_files` for deep links and gzip. | S | **Done for the code.** The Docker check (build, a refresh on `/goals`, gzip in the response) is done by Ronald. |
 | C3 | Ronald approves the privacy text (D10). | S | **Done 22 October.** The approved text is in `public/content/privacy.md`. |
 | C4 | **Decided: no pinch zoom (D6).** `maximum-scale=1` stays; the rule is UI-09 and the check enforces it. | S | **Done.** Close. |
 | C5 | `npm audit`: the non-breaking fixes are applied (`fc4f99a7`). 73 findings remain. Shipped: `plotly.js` and `maplibre-gl` (critical), and the `uuid` chain under PouchDB 6. The rest are development tools. | S–M | **Partly done.** Plotly is tied to P4; PouchDB to the sync work (see W16). Development tools: upgrade in a separate pass. |
