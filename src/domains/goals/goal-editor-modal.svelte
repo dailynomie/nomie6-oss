@@ -48,6 +48,8 @@
 
   let mounted = $state(false)
   const isSaved = $derived(!!goal?.id && $GoalStore.some((g: GoalClass) => g.id === goal.id))
+  // Phase 7: Save stays off until the goal is complete; this line says what is still missing
+  const stillNeeded = $derived([!trackable && 'a tracker', !comparison && 'how it should compare', !goalTargetValue && 'a target'].filter(Boolean))
 
   $effect(() => {
     if (goal && mounted && !workingGoal) {
@@ -117,6 +119,9 @@
     </Button>
   </ToolbarGrid>
 
+  {#if stillNeeded.length}
+    <p class="px-6 pt-3 text-ios-footnote text-ios-label2">Still needed: {stillNeeded.join(', ')}.</p>
+  {/if}
   <List solo>
     <ListItem clickable on:click={select}>
       <div class="py-2">Which tracker?</div>

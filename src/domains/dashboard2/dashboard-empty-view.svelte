@@ -14,8 +14,5 @@
     'dashboard.starter-message',
     'Mix and match charts, notes, and other widgets to create your own custom views of your life.'
   )}
-  buttonLabel={Lang.t('dashboard.add-a-widget', 'Add a Widget...')}
-  buttonClick={() => {
-    createNewWidget()
-  }}
 />
+<!-- Phase 7: 'Add Widget' is the row below this message, so the message has no second button -->

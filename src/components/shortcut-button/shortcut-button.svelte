@@ -216,8 +216,19 @@
     bottom: 0;
     right: 0;
   }
+  /* Phase 7 (clipped names): the menu button sits in the bottom right corner, so the name and the subtitle keep
+     clear of it; a long single word wraps, and a long subtitle ends with an ellipsis */
   .shortcut-button.normal .title-value {
-    padding-right: 40px;
+    padding-right: 28px; /* the three dots are drawn in the last ~24 px of the menu button */
+  }
+  .shortcut-button.normal .title {
+    overflow-wrap: anywhere;
+  }
+  .shortcut-button.normal .subtitle {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .button-wrapper .more {
     @apply absolute top-0 right-0 flex items-center justify-center z-40 w-10 h-10 rounded-full;
