@@ -3,6 +3,8 @@ export default {
   author: 'Brandon',
   translation: {
     settings: {
+      'data-destroyed': 'Your data has been destroyed.',
+      'invalid-storage-type': '{{type}} is not a valid storage type',
       'backup-reminder': 'Backup Reminder',
       'select-nomie-file': 'Select File...',
       'disable-pin-question': 'Disable Pin?',
@@ -119,6 +121,20 @@ export default {
       'find-and-replace': 'Find and Replace',
     },
     tracker: {
+      'type.habit': 'Habit',
+      'type.habit_description': 'Track your habits daily; either you did something...or not. Good for: meditation, tooth brush, praying.',
+      'type.note': 'Combo',
+      'type.note_description': 'Track multiple trackers at a time',
+      'type.picker': 'Pick List',
+      'type.picker_description': 'Create a pick list of anything. Including #trackers, @people, ^pointers and +context',
+      'type.range': 'Range',
+      'type.range_description': 'Select from a range like 1-10. Good for Mood, Anxiety, Stress',
+      'type.simple': 'Tally',
+      'type.simple_description': 'Tally each time it\'s used. Good for: pooped, gluten, made bed, showered.',
+      'type.timer': 'Timer',
+      'type.timer_description': 'Track how long things take.',
+      'type.value': 'Value',
+      'type.value_description': 'Good for tracking fluids, medicines, distance',
       'also-include': 'Also Include',
       'input-type': 'Input Type',
       'max-label': 'Max Label',
@@ -157,6 +173,14 @@ export default {
       'hide-on-all-board': 'Hide on All Board',
     },
     general: {
+      'copy-failed': 'Copy failed',
+      'date-time': 'Date / Time',
+      'its-day': 'It\'s {{day}}!',
+      'save-note-question': 'Save Note?',
+      'all': 'All',
+      'delete-this-note': 'Delete this note...',
+      'no-matches-found': 'No matches found',
+      'note-deleted': 'Note Deleted',
       'add': 'Add',
       'add-a-person': 'Add New Person',
       'bar-chart': 'Bar Chart',
@@ -253,6 +277,9 @@ export default {
       back: 'Back',
     },
     dashboard: {
+      'create-new-dashboard': 'Create new Dashboard',
+      'widget-no-longer-exists': 'That widget no longer exists.',
+      'widget-not-found': 'Widget not found',
       'create-a-dashboard': 'Create a Dashboard',
       'dashboard-general-saved': 'dashboard.general-saved',
       'dashboard-saved': 'dashboard.saved',
@@ -324,6 +351,11 @@ export default {
       'select-dashboard-to-move-widget': 'Move widget to which dashboard?',
     },
     storage: {
+      'download-failed': 'Download failed',
+      'install-tracker-question': 'Install {{tag}}?',
+      'restored-files': 'Successfully restored {{num}} files',
+      'tracker-not-installed': '{{tag}} could not be installed',
+      'type_selector_description': 'How would you like your data stored?',
       'api-key-2': 'API Key:',
       'api-token': 'API Token',
       'backup-failed': 'Backup failed',
@@ -413,6 +445,8 @@ export default {
       locating: 'Locating...',
     },
     import: {
+      'import-complete': 'Import complete',
+      'template-saved': 'Import template saved',
       'assign': 'Assign',
       'cancel': 'Cancel',
       'csv-file': 'CSV File',
@@ -448,6 +482,11 @@ export default {
       import: 'Import',
     },
     board: {
+      'delete-failed': 'Delete failed',
+      'offline-queue-cleared': 'Offline Queue cleared',
+      'some-logs-not-saved': 'Some logs did not save, check the console for more information',
+      'delete-log-from-offline-queue': 'Delete this note from offline queue?',
+      'empty-offline-title': 'Delete logs in offline queue?',
       'add-a-board-description': 'Tabs help you organize your trackables into logical groups.',
       'edit-tabs': 'Edit / Delete Tabs',
       'organize-tabs': 'Organize Tabs',
@@ -568,6 +607,9 @@ export default {
       'chat-with': 'Chat with',
     },
     plugins: {
+      'plugin-message': '{{message}} - for {{name}}',
+      'unable-to-load': 'Unable to load that Plugin. Check its URL and try again.',
+      'uninstall-question': 'Uninstall {{name}} from Nomie?',
       'my-plugins': 'Installed Plugins',
       'add-a-custom-plugin': 'Add a Custom Plugin',
       'cancel': 'Cancel',
@@ -728,6 +770,7 @@ export default {
       'which-trackables-would-you-like-to-include': 'Which trackables would you like to include?',
     },
     templates: {
+      'install-template-question': 'Install the {{name}} template?',
       'add': '+ Add',
       'build-a-custom-nomie-configuration-that-can-be-d': 'Build a custom Nomie Configuration that can be downloaded and shared with others',
       'cancel': 'Cancel',
@@ -821,6 +864,7 @@ export default {
       'waiting-time': 'Waiting Time:',
     },
     trackable: {
+      'tag-already-exists-try-another': '{{tag}} already exists. Try another',
       'a-pointer-is-literaly-a-point-in-time-you-can-as': 'A pointer is literaly a point in time. You can assign pointers to individual notes to quickly find them later. You can aslo set a reminder date so Nomie will remind you when you anticipated to log info tagged with a specific pointer. Example: you can create a pointer for your yearly health checkup results (combo tracker) and let Nomie remind you to schedule a next health checkup.',
       'about-this-person': 'About this Person',
       'add-2': 'Add',
@@ -917,6 +961,7 @@ export default {
       'you-can-always-recreate-it-later': 'You can always recreate it later.',
     },
     setup: {
+      'use-location-tracking': 'Track Location?',
       '10-lbs': '10 lbs',
       '4-5-kg': '4.5 kg',
       'add-to-home-screen': '"Add to Home Screen"',
@@ -998,6 +1043,8 @@ export default {
       'trackables': 'Trackables',
     },
     log: {
+      'notes-updated': '{{num}} notes have been updated',
+      'replace-complete': 'Replace Complete',
       'back': 'Back',
       'cancel': 'Cancel',
       'done': 'Done',
@@ -1175,6 +1222,7 @@ export default {
       'this-is-part-of-the-full-daily-nomie': 'This is part of the full Daily Nomie',
     },
     pin: {
+      'invalid-pin-code': 'Invalid Pin Code.',
       'clear': 'Clear',
       'invalid-pin-try-again': 'Invalid Pin. Try again',
       'lock-screen': 'Lock Screen',
@@ -1208,6 +1256,15 @@ export default {
     },
     trackers: {
       'no-running-timers': 'No Running Timers',
+    },
+    ledger: {
+      'creating-book': 'Creating {{book}} in Nomie Cloud',
+      'failed-weeks': 'Failed to import {{num}} weeks of data. {{weeks}}',
+      'import-incomplete': 'Import incomplete',
+      'undo-complete': 'Undo complete',
+    },
+    language: {
+      'clear-and-start-over': 'Clear {{name}} and start over?',
     },
   },
 }

@@ -39,7 +39,7 @@ export const selectFile = async (
         reader.readAsText(file)
       } catch (e) {
         // loaded on demand: a static import of the store here closes a cycle with Preferences
-        import('../../store/interact').then(({ Interact }) => Interact.alert('Download failed', e.message))
+        import('../../store/interact').then(({ Interact }) => Interact.alert(Lang.t('storage.download-failed', 'Download failed'), e.message))
       }
     }
 
@@ -85,3 +85,5 @@ export default {
     document.body.removeChild(link)
   },
 }
+
+import { Lang } from '../../store/lang'

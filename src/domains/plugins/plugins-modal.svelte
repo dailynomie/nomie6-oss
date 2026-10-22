@@ -49,7 +49,7 @@
       Interact.error(Lang.t('plugins.this-plugin-cannot-be-removed', 'This plugin cannot be removed'))
       return
     }
-    const confirmed = await Interact.confirm(`Uninstall ${plugin.name} from Nomie?`)
+    const confirmed = await Interact.confirm(Lang.t('plugins.uninstall-question', { name: plugin.name }))
     if (confirmed) {
       try {
         await PluginStore.remove(plugin)

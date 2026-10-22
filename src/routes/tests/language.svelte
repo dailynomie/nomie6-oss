@@ -31,7 +31,7 @@
   }
 
   async function reset() {
-    const confirmed = await Interact.confirm(`Clear ${activeLang.name} and start over?`)
+    const confirmed = await Interact.confirm(Lang.t('language.clear-and-start-over', { name: activeLang.name }))
     if (confirmed) {
       activeLang = { ...BaseLang }
       Device.scrollToTop()

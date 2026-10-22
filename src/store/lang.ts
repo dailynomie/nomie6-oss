@@ -31,6 +31,8 @@ const LangInit = () => {
   i18next.init({
     lng: base.lang,
     fallbackLng: 'en',
+    // the app is not HTML, so a value such as Tom & Jerry is shown as typed
+    interpolation: { escapeValue: false },
     resources: {
       en: langs['en'].lang,
       zhcn: langs['zhcn'].lang,

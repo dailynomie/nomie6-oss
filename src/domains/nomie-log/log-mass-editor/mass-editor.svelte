@@ -184,7 +184,7 @@
         // Finish the Steps
         state.finishedReplacing = true
         // Notify the User
-        Interact.confirm(`Replace Complete`, `${state.replacedCount} notes have been updated`).then(() => {
+        Interact.confirm(Lang.t('log.replace-complete', 'Replace Complete'), Lang.t('log.notes-updated', { num: state.replacedCount })).then(() => {
           dispatch('close')
         })
       })

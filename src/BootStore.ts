@@ -20,6 +20,7 @@ import { openPinLock } from './domains/pin-lock/pin-helper'
 import { writable } from 'svelte/store'
 import type { ITrackables } from './domains/trackable/trackable-utils'
 import { WritingPromptStore } from './domains/writing-prompts/useWritingPrompts'
+import { Lang } from './store/lang'
 
 export const BootLog = writable<Array<{ message: string; date: Date }>>([])
 
@@ -42,7 +43,7 @@ const presentLockScreen = async ($Prefs): Promise<boolean> => {
         closeModal('pin-lock')
         resolve(true)
       } else {
-        Interact.error('Invalid Pin Code.')
+        Interact.error(Lang.t('pin.invalid-pin-code', 'Invalid Pin Code.'))
         presentLockScreen($Prefs)
       }
     })

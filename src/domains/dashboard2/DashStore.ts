@@ -214,7 +214,7 @@ export const deleteWidget = async (widget: WidgetClass) => {
     board.widgets = board.widgets.filter((w) => w.id !== widget.id)
     return saveDashboard(board)
   } else {
-    Interact.alert('Widget not found', 'That widget no longer exists.')
+    Interact.alert(Lang.t('dashboard.widget-not-found', 'Widget not found'), Lang.t('dashboard.widget-no-longer-exists', 'That widget no longer exists.'))
   }
 }
 
@@ -251,7 +251,7 @@ const fuse = (addOn: any = {}) => {
  * Create a new Dashboard
  */
 export const createNewDashboard = async () => {
-  let name = await Interact.prompt('Create new Dashboard', null, {
+  let name = await Interact.prompt(Lang.t('dashboard.create-new-dashboard', 'Create new Dashboard'), null, {
     placeholder: 'Dashboard Label',
   })
   if (name) {
@@ -339,7 +339,7 @@ export const moveWidget = async (widget: WidgetClass) => {
         try {
           moveToDashboard(dashboard)
         } catch (e) {
-          Interact.alert('Error', e.message)
+          Interact.alert(Lang.t('general.error', 'Error'), e.message)
         }
       },
     }
@@ -403,7 +403,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
 
   Interact.popmenu({
     id: `widget-options`,
-    title: Lang.t('widgets.widget-options', 'Widget Options'),
+    title: Lang.t('dashboard.widget-options', 'Widget options'),
     buttons,
   })
 }

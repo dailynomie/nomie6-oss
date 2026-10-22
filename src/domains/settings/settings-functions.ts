@@ -42,7 +42,7 @@ export const switchStorage = async (type, ignoreConfirm: boolean = false) => {
       saveStorageType(to)
       Interact.reload()
     } else {
-      Interact.alert('Error', `${to} is not a valid storage type`)
+      Interact.alert(Lang.t('general.error', 'Error'), Lang.t('settings.invalid-storage-type', { type: to }))
     }
   }
 }
@@ -117,7 +117,7 @@ export const deleteEverything = async () => {
         await deleteAllFromCache()
         localStorage.clear()
         Interact.stopBlocker()
-        await Interact.alert('Done', 'Your data has been destroyed.')
+        await Interact.alert(Lang.t('general.done', 'Done'), Lang.t('settings.data-destroyed', 'Your data has been destroyed.'))
 
         window.location.href = '/'
       }

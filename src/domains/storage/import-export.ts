@@ -194,7 +194,7 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
       return await importStorageArchive(archive)
     } else if (archive.type === 'tracker' && archive.tracker) {
       const tracker = new TrackerClass(archive.tracker)
-      const confirmed = await Interact.confirm(`Install ${tracker.tag}?`)
+      const confirmed = await Interact.confirm(Lang.t('storage.install-tracker-question', { tag: tracker.tag }))
       if (confirmed) {
         const saved = await saveTrackable({
           trackable: tracker.toTrackable(),
@@ -202,7 +202,7 @@ export const importStorage = async (merge: boolean = true): Promise<Boolean> => 
           permissions: {},
           prompt: true,
         })
-        if (!saved) await Interact.alert(`${tracker.tag} could not be installed`)
+        if (!saved) await Interact.alert(Lang.t('storage.tracker-not-installed', { tag: tracker.tag }))
         //tracker.toTrackable()
         // MasterTrackables, getRawPermissions(), true
       }
@@ -307,7 +307,7 @@ export const importStorageArchive = async (archive: N6StorageExport, props: Impo
     if (errors.length) console.error(errors)
     if (!props.silent) {
       if (!errors.length) {
-        await Interact.alert(`Successfully restored ${fileCount} files`)
+        await Interact.alert(Lang.t('storage.restored-files', { num: fileCount }))
         window.location.reload()
         return true
       } else {

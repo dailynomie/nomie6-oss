@@ -199,7 +199,7 @@
       })
 
       Interact.stopBlocker()
-      showToast({ message: `Import complete` })
+      showToast({ message: Lang.t('import.import-complete', 'Import complete') })
     }
   }
 
@@ -298,7 +298,7 @@
       //   templates.push(activeImporter.config)
       // }
       await CsvTemplateStore.upsert(activeImporter.config)
-      showToast({ message: `Import template saved` })
+      showToast({ message: Lang.t('import.template-saved', 'Import template saved') })
     } catch (e) {
       Interact.error(e.message)
     }

@@ -151,7 +151,7 @@ export const closeTemplateEditor = () => {
  * @param {string} closeModalId - Optional modal ID to close after import (defaults to 'template-preview')
  */
 export const useTemplate = async (template: Template, closeModalId: string = 'template-preview') => {
-  const confirmed = await Interact.confirm(`Install the ${template.name} template?`)
+  const confirmed = await Interact.confirm(Lang.t('templates.install-template-question', { name: template.name }))
   if (confirmed) {
     const backup: any = TemplateToImport(template, getRawPrefs().useMetric)
     const installed = await importStorageArchive(backup, { silent: true, addMissingOnly: true })

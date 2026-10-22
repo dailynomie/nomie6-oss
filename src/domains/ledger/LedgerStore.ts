@@ -292,7 +292,7 @@ const ledgerInit = () => {
         // If no book and on blockstack
         if (!book && Storage.storageType() == 'firebase') {
           // Its blockstack, let's how this is for a new week.
-          showToast({ message: `Creating ${getBookIdFromDate(new Date())} in Nomie Cloud` })
+          showToast({ message: Lang.t('ledger.creating-book', { book: getBookIdFromDate(new Date()) }) })
           return []
         } else if (!book) {
           // It's local - so we will assume they're creating a new book
@@ -402,7 +402,7 @@ const ledgerInit = () => {
                   s.hash = `${Math.random()}`
                   return s
                 })
-                showToast({ message: 'Undo complete' })
+                showToast({ message: Lang.t('ledger.undo-complete', 'Undo complete') })
               })
             },
           })

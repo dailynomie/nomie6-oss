@@ -27,6 +27,7 @@
   import { openExternalTemplate } from '../templates/templates-svelte-helpers'
   import { openLogEditor } from '../nomie-log/LogEditorStore'
   import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
+  import { Lang } from '../../store/lang'
 
   /**
    * Singleton Receive Message
@@ -235,7 +236,7 @@
 
   const pluginPrompt = async (plugin: PluginType, payload: any) => {
     await wait(200)
-    const answer = await Interact.prompt(`${payload.title}`, `${payload.message || ''} - for ${plugin.name}`, {
+    const answer = await Interact.prompt(`${payload.title}`, Lang.t('plugins.plugin-message', { message: payload.message || '', name: plugin.name }), {
       placeholder: payload.title,
       valueType: payload.type,
     })
@@ -247,7 +248,7 @@
 
   const pluginAlert = async (plugin: PluginType, payload: any) => {
     await wait(200)
-    const answer: any = await Interact.alert(`${payload.title}`, `${payload.message || ''} - for ${plugin.name}`)
+    const answer: any = await Interact.alert(`${payload.title}`, Lang.t('plugins.plugin-message', { message: payload.message || '', name: plugin.name }))
     if (answer) {
       broadcastInteractReply('alertReply', plugin, payload, answer.value)
     }

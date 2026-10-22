@@ -252,7 +252,7 @@
       const safeTag = strToTagSafe(newTag)
       if ($TrackableStore.trackables[`${workingTrackable.prefix}${safeTag}`]) {
         await wait(200)
-        await Interact.error(`${workingTrackable.prefix}${safeTag} already exists. Try another`)
+        await Interact.error(Lang.t('trackable.tag-already-exists-try-another', { tag: `${workingTrackable.prefix}${safeTag}` }))
         await wait(200)
         editTag()
       } else {

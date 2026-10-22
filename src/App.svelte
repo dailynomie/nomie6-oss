@@ -67,6 +67,7 @@
   import { autoCleanupPlugins } from './domains/plugins/PluginCleanupStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
+  import { Lang } from './store/lang'
 
   // initiailze gestures
   gestures()
@@ -103,7 +104,7 @@
 
     // Compare now key to today key
     if (todayKey !== checkKey) {
-      showToast({ message: `It's ${dayjs().format('dddd')}!` })
+      showToast({ message: Lang.t('general.its-day', { day: dayjs().format('dddd') }) })
       // Set today key to check key
       todayKey = checkKey
       bootCoreComponents($TrackableStore.trackables)

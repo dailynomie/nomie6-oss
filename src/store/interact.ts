@@ -357,7 +357,7 @@ const interactInit = () => {
     },
 
     async selectDate(starterDate: Date = new Date()) {
-      let selectedDate: any = await Interact.prompt('Date / Time', null, {
+      let selectedDate: any = await Interact.prompt(Lang.t('general.date-time', 'Date / Time'), null, {
         valueType: 'datetime',
         value: starterDate,
       })

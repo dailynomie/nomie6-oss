@@ -121,7 +121,7 @@
     await wait(500)
     loading = false
     if (!pluginDetails.name) {
-      Interact.error(`Unable to load that Plugin. Check its URL and try again.`)
+      Interact.error(Lang.t('plugins.unable-to-load', 'Unable to load that Plugin. Check its URL and try again.'))
     }
   }
 

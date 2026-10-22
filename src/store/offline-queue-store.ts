@@ -70,7 +70,7 @@ const InitOfflineQueueStore = () => {
         saveState({ status: 'idle', logs: [] })
       } else {
         // We missed something.
-        Interact.alert('Error', 'Some logs did not save, check the console for more information')
+        Interact.alert(Lang.t('general.error', 'Error'), Lang.t('board.some-logs-not-saved', 'Some logs did not save, check the console for more information'))
         console.error({
           logs,
           stateLogs: state.logs,
@@ -108,7 +108,7 @@ const InitOfflineQueueStore = () => {
       }
       return true
     } catch (e) {
-      Interact.alert('Delete failed', e.message)
+      Interact.alert(Lang.t('board.delete-failed', 'Delete failed'), e.message)
     }
   }
 
@@ -119,7 +119,7 @@ const InitOfflineQueueStore = () => {
     )
     if (confirmed) {
       await saveState({ status: 'idle', logs: [] })
-      showToast({ message: 'Offline Queue cleared' })
+      showToast({ message: Lang.t('board.offline-queue-cleared', 'Offline Queue cleared') })
     }
 
     return true
