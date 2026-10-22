@@ -231,7 +231,7 @@
   <ListItem bottomLine={57} title={Lang.t('settings.show-all-board', 'Show All Board')}>
     <span slot="left"><IconSquare color="#9455B8"><span class="board-white"><AllBoardIcon size={17} /></span></IconSquare></span>
     <div slot="right">
-      <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle People Board" />
+      <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle All Board" />
     </div>
   </ListItem>
   {#if $FeatureVisible('people-board')}
