@@ -182,18 +182,18 @@ The end-user walks are in `docs/notes/end-user-walks-oct-2026.md`. Most of the b
 
 | # | Item | Where | Size |
 | --- | --- | --- | --- |
-| W1 | Jargon in the UI: "trackable", "Main", "tag", "Share Tracker", "Add #water to Main?". Use "tracker", "Track screen" and "Short name used in notes". The words are translated in `src/lang/` as well. | tracker and board screens, dialogs | S |
+| W1 | Jargon in the UI. **Partly done 22 October:** the widget editor says "Tracker" instead of "Trackable". The board name "Main" and "Share Tracker" are kept for now. | tracker and board screens | S |
 | W2 | One date format for the whole app, from the locale setting. Today there are three: "Oct 22, 2026 12:59 AM", "Oct 22nd 2026" and "Thursday 22 October". | Timeline, search, capture, Track | M |
-| W3 | Timeline: "No entries found between now and Jul 29th 2025". The range start is wrong for a new profile. Check the default range in the code. | `src/domains/timeline/` | S |
-| W4 | Goal editor: Save does nothing until the goal is complete, and nothing says which field is missing. Name the missing fields. | goal editor | S |
-| W5 | "No recent backups" banner shows on every tab for a new user. Show it after the first log, and make it shorter at large font sizes. | layout | S |
+| W3 | Timeline range message. **Checked 22 October:** the old message is gone from the code; the empty state now says "No entries yet". | timeline | S |
+| W4 | Goal editor: the missing fields are named ("Still needed: …"). **Checked 22 October: done.** | goal editor | S |
+| W5 | "No recent backups" banner. **Checked 22 October: done.** It shows only after launch 5, and once a tracker exists. | layout | S |
 | W6 | Setup wording: the "Which looks right?" slide needs plain labels; "Data Storage" needs a hint; "Nomie Server" is greyed out without a reason; "FREE" reads as a stray label. | setup | S |
-| W7 | The "Tap for more" tooltip on the central button shows on every visit. Show it once. | layout | S |
+| W7 | The "Tap for more" hint on the central button. **Checked 22 October: done.** It is shown once and remembered (`menuHintSeen`). | layout | S |
 | W8 | Track tiles: long names and "12 days ago" are clipped by the menu button at the bottom right. Reserve room for the button, or shorten. | Track tiles | S |
-| W9 | Dashboard empty state shows "Add a Widget" twice. Keep one. | dashboard | S |
+| W9 | Dashboard empty state: "Add a Widget" appears once. **Checked 22 October: done.** | dashboard | S |
 | W10 | Widget picker: the row of types is cut off at the right edge with no hint that it scrolls. Use two rows or a hint. Say that widgets need a tracker when there is none. | widget editor | S |
 | W11 | Settings for a new user: move "Update Usage and Streak Data", "Clean Plugin Database" and "Auto Cleanup" under an Advanced heading. Hide "Toggle People Board" text when the board is hidden. Fewer rows in Starter. | settings | M |
-| W12 | Typo in the backup dialog: "how long much data". | backup | S |
+| W12 | Typo in the backup dialog. **Checked 22 October: done.** The text reads "how much data". | backup | S |
 | W13 | Experiment wizard, step 2: a suggested tracker the user does not have is shown as chosen (the fix "Tracker not added yet" is in place, check the flow end to end). Replace the two overlapping actions with one clear choice. | experiments | S |
 | W14 | Capture: a "#walk" with no tracker shows "No Match Found!" over the tool row. Show the hint below the field, once. | capture | S |
 | W15 | Splash: the logo and the "Daily Nomie 7" title overlap while the app loads. **Parked by Ronald**; the overlap is in `public/images/nomie-splash-on-blue-ai.svg` and needs the designer. | splash | parked |

@@ -363,7 +363,7 @@ export default {
       'pointer': 'Pointer',
       'required': '(required)',
       'samples-count': 'Samples: {{num}}',
-      'trackable': 'Trackable',
+      'trackable': 'Tracker',
       'will-refresh-in': 'Will refresh in {{time}}',
       'create-new-dashboard': 'Create new Dashboard',
       'widget-no-longer-exists': 'That widget no longer exists.',
