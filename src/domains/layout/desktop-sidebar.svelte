@@ -7,7 +7,7 @@
   import PulseOutline from '../../n-icons/PulseOutline.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
+  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
   import { openUnisearch } from '../../domains/search/UnisearchStore'
 
   import CalendarOutline from '../../n-icons/CalendarOutline.svelte'
@@ -202,9 +202,7 @@
         <span class="adv-corner">
           <IonIcon icon={item.icon} className="inactive" />
           <IonIcon icon={item.activeIcon} className="active" />
-          {#if item.feature}
-            <AdvancedBadge />
-          {/if}
+          <FeatureBadge feature={item.feature} />
         </span>
 
         <div class="mr-2 link-title">

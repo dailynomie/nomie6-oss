@@ -5,7 +5,7 @@
 
   // components
   import NHScroller from '../h-scroller/h-scroller.svelte'
-  import AdvancedBadge from '../advanced-badge/advanced-badge.svelte'
+  import FeatureBadge from '../advanced-badge/feature-badge.svelte'
 
   import './board-tabs.css'
   import IonIcon from '../icon/ion-icon.svelte'
@@ -153,9 +153,7 @@
             {#if item.icon}
               <IonIcon icon={item.icon} size={22} />
             {:else}{item.label}{/if}
-            {#if item.id === '_people' || item.id === '_context'}
-              <AdvancedBadge />
-            {/if}
+            <FeatureBadge feature={item.id === '_people' ? 'people-board' : item.id === '_context' ? 'context-board' : undefined} />
           </button>
         </div>
       </SortableList2>

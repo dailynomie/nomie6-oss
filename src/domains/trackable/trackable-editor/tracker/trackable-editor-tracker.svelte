@@ -12,7 +12,7 @@
    * God speed.
    */
   import ListItem from '../../../../components/list-item/list-item.svelte'
-  import AdvancedBadge from '../../../../components/advanced-badge/advanced-badge.svelte'
+  import FeatureBadge from '../../../../components/advanced-badge/feature-badge.svelte'
 
   import NToggle from '../../../../components/toggle-switch/toggle-switch.svelte'
   import NInput from '../../../../components/input/input.svelte'
@@ -458,7 +458,7 @@
           {#if advancedVisible}Less Options{:else}More Options{/if}
           <IonIcon name={advanced ? ChevronUpOutline : ChevronDownOutline} size={12} className="ml-2 text-ios-label2" />
         </Button>
-        <AdvancedBadge />
+        <FeatureBadge feature="advanced-tracker-options" />
       </span>
     </div>
   {/if}

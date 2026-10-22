@@ -61,6 +61,16 @@ export const resolveExperience = (prefs: Partial<PreferencesStateType> | undefin
 export const isFeatureVisible = (prefs: Partial<PreferencesStateType> | undefined, id: FeatureId): boolean =>
   resolveExperience(prefs) === 'full' || !STARTER_HIDDEN.includes(id)
 
+/**
+ * An item carries the crown when a Starter does not get it: its feature is in STARTER_HIDDEN,
+ * or its widget type is not in STARTER_WIDGET_TYPES. The lists are the only source.
+ */
+export const isFullOnlyItem = (item: { feature?: string; widgetType?: string }): boolean => {
+  if (item.feature !== undefined) return (STARTER_HIDDEN as ReadonlyArray<string>).includes(item.feature)
+  if (item.widgetType !== undefined) return !STARTER_WIDGET_TYPES.includes(item.widgetType)
+  return false
+}
+
 export const isWidgetTypeVisible = (prefs: Partial<PreferencesStateType> | undefined, widgetTypeId: string): boolean =>
   resolveExperience(prefs) === 'full' || STARTER_WIDGET_TYPES.includes(widgetTypeId)
 

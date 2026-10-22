@@ -264,6 +264,14 @@ These are the components with a specific look. Keep to the tokens and shapes in 
 
 ---
 
+### 7.1 Full-mode items (the crown)
+
+- **MUST (CROWN-01)** Every entry that a Starter does not see carries the crown: a grey circle with a gold crown on the icon's top-right corner. Draw it with `<FeatureBadge feature="…" />` (or `widgetType=…` for a widget type), from `src/components/advanced-badge/feature-badge.svelte`. Do not place `AdvancedBadge` by hand.
+- **MUST (CROWN-02)** The crown is driven by the Starter lists in `src/domains/preferences/experience.ts`: an item is Full-mode when its feature is in `STARTER_HIDDEN`, or its widget type is not in `STARTER_WIDGET_TYPES`. Changing a list changes the crown. Do not hard-code a crown on an item.
+- **MUST** Entries that share one icon corner (settings rows, the central menu, the sidebar, the board tabs, the widget picker) pass the feature from their data, so the crown follows the entry.
+- **SHOULD (UI-11)** A file that gates an entry with a Full-mode feature renders `FeatureBadge`. The check reads the list from `experience.ts`. A file whose entries are drawn by another component marks itself `guardrail-ok: UI-11 <where the crown is drawn>`.
+- The crown is grey with a gold glyph (decided by Ronald, Oct 2026). It is not a count and not a warning.
+
 ## 8. Dark mode
 
 - Every colour comes from a token, so no `dark:` variant is needed (UI-08).
@@ -315,6 +323,7 @@ Decisions change a rule. Add one here with a short reason, and change the rule i
 | D-sheet-dismiss | Sheets dismiss with tint text, never a round icon (Apple's sheets guidance). Information sheets: Done on the right. Editors: Cancel on the left. When a sheet has a toolbar action (Add, Edit, Clear, Calendar, a focus label), the action goes on the left and Done on the right. Round icons are for toolbar actions only (Add, search, settings). Decided by Ronald, Oct 2026. No exceptions remain. |
 | D-press | A pressed list row shows the fill token, with no ring. |
 | D-badge | Count badges use the tint fill and on-tint text. A remove badge uses the danger fill. |
+| D-crown | Entries a Starter does not get carry the crown, drawn from the Starter lists in experience.ts (CROWN-01 and CROWN-02). Grey circle, gold crown (decided by Ronald, Oct 2026). |
 | D-tab-badge | The unread count on a tab bar item is the danger fill with on-danger text, as UIKit's default tab badge is red (decided by Ronald, Oct 2026). |
 | D-chip | Text on a fill is the label or label-2 token. |
 | D-native | Browser-native controls are replaced by app components. |

@@ -2,7 +2,7 @@
 
 <script lang="ts">  import IosSelect from '../../components/ios-select/ios-select.svelte'
 
-  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
+  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
   import { Prefs } from '../preferences/Preferences'
   import { Lang } from '../../store/lang'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -150,7 +150,7 @@
   <ListItem bottomLine={57}>
     <span slot="left" class="adv-corner">
       <IconSquare color="#7D4AA8"><IonIcon icon={SparklesOutline} size={17} /></IconSquare>
-      <AdvancedBadge />
+      <FeatureBadge feature="ai" />
     </span>
     <div class="leading-tight">
       {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}

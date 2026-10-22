@@ -99,6 +99,19 @@ else
   MUST_FAILS=1
 fi
 
+# UI-11 SHOULD: a file that gates an entry with a Full-mode feature shows the crown (FeatureBadge)
+# The Full-mode features are read from STARTER_HIDDEN in experience.ts, so a profile change is checked too.
+STARTER_IDS=$(perl -0ne 'print "$1\n" while /STARTER_HIDDEN[^=]*=\s*\[(.*?)\]/sg' src/domains/preferences/experience.ts | grep -o "'[a-z-]*'" | tr -d "'")
+for id in $STARTER_IDS; do
+  for f in "${FILES[@]}"; do
+    [[ "$f" == *.svelte ]] || continue
+    if grep -q "FeatureVisible('$id')" "$f" && ! grep -q "FeatureBadge" "$f" && ! grep -q "guardrail-ok: UI-11" "$f"; then
+      echo "[UI-11 SHOULD] full-mode feature '$id' is gated here with no crown (FeatureBadge): $f"
+      SHOULD_HITS=$((SHOULD_HITS + 1))
+    fi
+  done
+done
+
 echo
 echo "MUST violations: $MUST_HITS   SHOULD warnings: $SHOULD_HITS"
 if [ $MUST_FAILS -ne 0 ]; then

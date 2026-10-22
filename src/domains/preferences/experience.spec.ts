@@ -3,6 +3,7 @@ import {
   isFeatureVisible,
   shouldOfferStarterNudge,
   isWidgetTypeVisible,
+  isFullOnlyItem,
   resolveExperience,
   STARTER_HIDDEN,
   STARTER_WIDGET_TYPES,
@@ -92,3 +93,22 @@ describe('shouldOfferStarterNudge', () => {
     expect(shouldOfferStarterNudge({ experience: 'starter', starterNudgeShown: true }, 40, 20)).toBe(false)
   })
 })
+
+describe('crown badge follows the starter lists', () => {
+  it('a feature carries the crown exactly when a starter does not get it', () => {
+    for (const feature of ALL_FEATURES) {
+      expect(isFullOnlyItem({ feature })).toBe(STARTER_HIDDEN.includes(feature))
+    }
+  })
+
+  it('a widget type carries the crown exactly when a starter does not get it', () => {
+    for (const widgetType of ['value', 'note', 'min-max', 'map', 'todos', 'habit', 'text']) {
+      expect(isFullOnlyItem({ widgetType })).toBe(!STARTER_WIDGET_TYPES.includes(widgetType))
+    }
+  })
+
+  it('an item with no feature and no widget type has no crown', () => {
+    expect(isFullOnlyItem({})).toBe(false)
+  })
+})
+

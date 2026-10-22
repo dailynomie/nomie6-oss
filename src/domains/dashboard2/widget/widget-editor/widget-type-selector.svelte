@@ -3,9 +3,8 @@
 <script lang="ts">
   import HScroller from '../../../../components/h-scroller/h-scroller.svelte'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
-  import AdvancedBadge from '../../../../components/advanced-badge/advanced-badge.svelte'
-  import { STARTER_WIDGET_TYPES } from '../../../preferences/experience'
-  import NomieAiButton from '../../../../components/aibutton2/NomieAiButton2.svelte'
+  import FeatureBadge from '../../../../components/advanced-badge/feature-badge.svelte'
+    import NomieAiButton from '../../../../components/aibutton2/NomieAiButton2.svelte'
 
   import { getWidgetTypes, type IWidgetType, widgetTypes } from '../widget-types'
   import { PluginStore } from '../../../plugins/PluginStore'
@@ -99,9 +98,7 @@ import type { WidgetClass } from '../widget-class';
         {:else if widgetType.emoji}
           <Avatar size={40} emoji={widgetType.emoji} />
         {/if}
-        {#if !STARTER_WIDGET_TYPES.includes(widgetType.id)}
-          <AdvancedBadge />
-        {/if}
+        <FeatureBadge widgetType={widgetType.id} />
       </div>
       <div class="text-ios-label filler w-full line-clamp-2 text-center text-xs pt-2 leading-tight break-words">
         {widgetType.label}

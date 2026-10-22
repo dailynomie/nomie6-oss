@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
+  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
   import { HelpCircleOutline, CopyOutline, DocumentTextOutline, ExtensionPuzzleOutline, LocationOutline, PricetagOutline, PulseOutline, CubeOutline } from '../../components/icon/nicons'
   import { ExperimentStore } from '../experiments/ExperimentStore'
   import { navigate } from '../../vendor/svelte-navigator'
@@ -212,7 +212,7 @@
             {#if $FeatureVisible('pointers')}
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPointersModal()} title="Pointers">
-                <span slot="left" class="adv-corner"><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#9A7FCB"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><FeatureBadge feature="pointers" /></span>
               </ListItem>
               </List>
             {/if}
@@ -226,7 +226,7 @@
             {#if $FeatureVisible('uoms')}
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => navigate('/uoms')} title="Units of Measure" description="What a tracker can count in">
-                <span slot="left" class="adv-corner"><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#8E6E53"><IonIcon icon={CubeOutline} size={17} /></IconSquare><FeatureBadge feature="uoms" /></span>
               </ListItem>
             </List>
             {/if}
@@ -242,10 +242,10 @@
             {#if $FeatureVisible('plugins')}
             <List solo className="mt-4">
               <ListItem detail bottomLine={57} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left" class="adv-corner"><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><FeatureBadge feature="plugins" /></span>
               </ListItem>
               <ListItem clickable bottomLine={showplugins ? 57 : undefined} title="Show Plugins" description="Click to show or hide the installed Plugins" on:click={toggleshowplugins}>
-                <span slot="left" class="adv-corner"><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><AdvancedBadge /></span>
+                <span slot="left" class="adv-corner"><IconSquare color="#F0963A"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare><FeatureBadge feature="plugins" /></span>
                 <div slot="right">
                   {#if showplugins}
                     <span><IonIcon icon={ChevronUpOutline} size={16} /></span>

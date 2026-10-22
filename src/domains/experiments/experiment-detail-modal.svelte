@@ -4,7 +4,7 @@
   import dayjs from 'dayjs'
 
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
-  import AdvancedBadge from '../../components/advanced-badge/advanced-badge.svelte'
+  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import Button from '../../components/button/button.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
@@ -298,7 +298,7 @@
       <!-- AI explanation: full mode with AI set up, only once the result is frozen -->
       {#if frozen && shownResult && $FeatureVisible('ai') && aiReady}
         <section class="relative ios-card p-4 space-y-3">
-          <AdvancedBadge />
+          <FeatureBadge feature="ai" />
           <div class="flex items-center gap-3">
             <NomieAiButton size="44px" label="Explain this result" onclick={tapEye} />
             <div class="min-w-0">
