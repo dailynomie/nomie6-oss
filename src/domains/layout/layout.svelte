@@ -6,10 +6,15 @@
 
   import './layout.css'
   import { onMount } from 'svelte'
+  import { showFreshBackupPrompt } from '../backup/fresh-backup-prompt'
   import { startCollapseOnScroll } from './collapse-on-scroll'
 
   // iOS look (3.1): the row under the title collapses when the page scrolls down
-  onMount(() => startCollapseOnScroll())
+  onMount(() => {
+    startCollapseOnScroll()
+    // once the stores have loaded their data
+    setTimeout(showFreshBackupPrompt, 3000)
+  })
   import { AppVersion } from '../../modules/app-version/app-version'
   import BackupMessage from '../../components/backup-message/backup-message.svelte'
   import nid from '../../modules/nid/nid'

@@ -515,6 +515,8 @@ export default {
       'empty-day': 'Er zijn geen gegevens gevonden',
     },
     export: {
+      'fresh-backup-title': 'Maak een nieuwe back-up',
+      'fresh-backup-message': 'Back-ups die je eerder maakte, bevatten je templates, prijzen, eenheden of instellingen niet. Een nieuwe back-up bewaart alles.',
       'export-date': 'Een back-up maken',
       'backup-description': 'Maak een back-upbestand dat je kunt importeren. Hiermee breng je je gegevens over van het ene apparaat naar het andere, met één bestand (JSON) dat AL je Nomie-gegevens bevat.',
       'backup-download': 'Back-up downloaden',

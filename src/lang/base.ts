@@ -516,6 +516,8 @@ export default {
       'empty-day': 'No data was found',
     },
     export: {
+      'fresh-backup-message': 'Backups made before the backup fix did not include your templates, awards, units or settings. A new backup keeps everything.',
+      'fresh-backup-title': 'Make a fresh backup',
       'export-date': 'Create a Backup',
       'backup-description':
         'Create an importable backup file. This allows you to transfer your data from one device to another using a single file (JSON) that contains ALL your Nomie data.',

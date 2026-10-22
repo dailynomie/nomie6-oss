@@ -52,6 +52,7 @@ export type PreferencesStateType = {
   experience?: 'starter' | 'full'
   starterNudgeShown?: boolean
   menuHintSeen?: boolean
+  freshBackupPromptSeen?: boolean
   startPage?: 'track' | 'timeline' | 'history' | 'goals' | 'dashboard'
   ai?: AIConfig
 }
