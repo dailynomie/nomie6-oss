@@ -256,7 +256,7 @@ Ask when a task reaches the decision. Record the answer in the commit message or
 | D12 | Plotly: lazy or Chart.js | P4, and C5 (critical findings in plotly.js) |
 | D13 | Hosted sync or self-hosted only | **Answered: both.** Encrypted sync (N4) is in 7.1 as opt-in (F10). |
 | D16 | AI key in the browser | **Answered: keep the browser calls.** The privacy text says so, and a notice is shown where the key is entered (C1). |
-| D17 | The related-view count: which intended formula | F8 |
+| D17 | The related-view count: which intended formula | **Answered 23 October: A, compared so far.** The count starts at 0 and follows the results found. | F8 |
 | D18 | Other languages for 7.0: keep German, Italian and Simplified Chinese (complete them) or hide them | F6 |
 
 ---
