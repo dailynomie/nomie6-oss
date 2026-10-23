@@ -30,6 +30,7 @@ export default {
       "running-count": "{{num}} laufend",
       "stored-on": "Gespeichert auf {{name}}",
       "version-number": "Version {{version}}",
+      "version-released": "Version {{version}} · {{date}}",
       "data-destroyed": "Deine Daten wurden gelöscht.",
       "invalid-storage-type": "{{type}} ist kein gültiger Speichertyp",
       "backup-reminder": "Backup-Erinnerung",

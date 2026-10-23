@@ -30,6 +30,7 @@ export default {
       'running-count': '{{num}} running',
       'stored-on': 'Stored on {{name}}',
       'version-number': 'Version {{version}}',
+      'version-released': 'Version {{version}} · {{date}}',
       'data-destroyed': 'Your data has been destroyed.',
       'invalid-storage-type': '{{type}} is not a valid storage type',
       'backup-reminder': 'Backup Reminder',

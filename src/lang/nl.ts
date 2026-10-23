@@ -30,6 +30,7 @@ export default {
       'running-count': '{{num}} lopend',
       'stored-on': 'Opgeslagen op {{name}}',
       'version-number': 'Versie {{version}}',
+      'version-released': 'Versie {{version}} · {{date}}',
       'data-destroyed': 'Je gegevens zijn verwijderd.',
       'invalid-storage-type': '{{type}} is geen geldig opslagtype',
       'backup-reminder': 'Back-up herinnering',

@@ -8,6 +8,9 @@
   import { Device } from '../../store/device-store'
   import { LedgerStore } from '../ledger/LedgerStore'
   import { Lang } from '../../store/lang'
+  import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
+  import { AppReleaseDate } from '../../modules/app-version/app-version'
   import ListItem from '../../components/list-item/list-item.svelte'
   import List from '../../components/list/list.svelte'
   import { TrackableStore } from '../trackable/TrackableStore'
@@ -246,7 +249,12 @@
 <List solo title={Lang.t('settings.version', 'Version')} outside className="mb-3">
   <ListItem
     bottomLine={16}
-    title={Lang.t('settings.version-number', { version: import.meta.env.PACKAGE_VERSION })}
+    title={AppReleaseDate
+      ? Lang.t('settings.version-released', {
+          version: import.meta.env.PACKAGE_VERSION,
+          date: dayjs(AppReleaseDate).format(getDateFormats().shortDate),
+        })
+      : Lang.t('settings.version-number', { version: import.meta.env.PACKAGE_VERSION })}
     detail
     on:click={() => {
       openModal({
