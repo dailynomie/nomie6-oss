@@ -10,7 +10,7 @@ export default {
   },
   it: {
     label: "Italian",
-    shipped: false,
+    shipped: true,
     load: () => import("./it"),
   },
   de: {
