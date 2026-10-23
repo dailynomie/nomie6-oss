@@ -21,6 +21,8 @@
   // the background analysis, started when the screen opens
   let suggestions = $state<Array<Suggestion>>([])
   let analysing = $state(true)
+  // the section starts collapsed; its header still shows how many there are
+  let suggestionsOpen = $state(false)
 
   // the manual pick
   let first = $state<any>(undefined)
@@ -104,7 +106,16 @@
     <p class="text-sm text-ios-label2">{Lang.t('correlations.intro', { days: WINDOW_DAYS })}</p>
 
     <section class="space-y-3">
-      <h3 class="text-xs font-semibold uppercase tracking-wide text-ios-label2">{Lang.t('correlations.suggested', 'Suggested links')}</h3>
+      <button
+        type="button"
+        class="w-full flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ios-label2"
+        aria-expanded={suggestionsOpen}
+        on:click={() => (suggestionsOpen = !suggestionsOpen)}
+      >
+        <span>{Lang.t('correlations.suggested', 'Suggested links')}{analysing ? '' : ` (${suggestions.length})`}</span>
+        <span aria-hidden="true">{suggestionsOpen ? '▾' : '▸'}</span>
+      </button>
+      {#if suggestionsOpen}
       {#if analysing}
         <p class="p-4 ios-card text-sm text-ios-label2">{Lang.t('correlations.analysing', 'Looking for links in the background…')}</p>
       {:else if suggestions.length === 0}
@@ -120,6 +131,7 @@
             {/if}
           </section>
         {/each}
+      {/if}
       {/if}
     </section>
 
