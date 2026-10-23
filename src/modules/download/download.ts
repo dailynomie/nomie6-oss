@@ -38,7 +38,8 @@ export const selectFile = async (
         }
         reader.readAsText(file)
       } catch (e) {
-        alert(e.message)
+        // loaded on demand: a static import of the store here closes a cycle with Preferences
+        import('../../store/interact').then(({ Interact }) => Interact.alert(Lang.t('storage.download-failed', 'Download failed'), e.message))
       }
     }
 
@@ -78,9 +79,11 @@ export default {
     const url = window.URL.createObjectURL(file)
     const link = document.createElement('a')
     link.href = url
-    link.setAttribute('download', file.name);
+    link.setAttribute('download', file.name)
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
   },
 }
+
+import { Lang } from '../../store/lang'

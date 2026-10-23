@@ -30,15 +30,15 @@
         .join(' ')
         .trim()
 
-    meta = tokenized
-      .filter((t) => {
-        return t.type !== 'generic'
-      })
-      .map((t) => {
-        return t.raw
-      })
-      .join(' ')
-      .trim()
+      meta = tokenized
+        .filter((t) => {
+          return t.type !== 'generic'
+        })
+        .map((t) => {
+          return t.raw
+        })
+        .join(' ')
+        .trim()
 
       if (meta.length) {
         trackable = strToTrackable(meta, $TrackableStore.trackables)
@@ -50,7 +50,7 @@
 <div class="n-label-meta space-x-2 flex items-center {selected ? 'selected' : ''} {className} h-8">
   {#if meta.length && label.length}
     <TrackableAvatar {trackable} />
-    <h2 class="{selected ? 'font-bold' : 'font-medium'}">{trackable.label}</h2>
+    <h2 class={selected ? 'font-bold' : 'font-medium'}>{trackable.label}</h2>
     <div class="opacity-50">
       {trackable.formatValue(trackable.value)}
     </div>

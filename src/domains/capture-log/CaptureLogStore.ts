@@ -89,8 +89,8 @@ const activeLogInit = () => {
       })
     },
     focus() {
-      const input = document.getElementById('textarea-capture-note');
-      if(input) input.focus();
+      const input = document.getElementById('textarea-capture-note')
+      if (input) input.focus()
     },
   }
 

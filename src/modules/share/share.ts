@@ -1,5 +1,6 @@
 import { Interact } from '../../store/interact'
 import download from '../download/download'
+import { Lang } from '../../store/lang'
 
 let _fallback = (service, title, url) => {
   let launchURL = ''
@@ -27,16 +28,16 @@ let _fallback = (service, title, url) => {
   }
 }
 
-export default (title:string, url?:string, file?:File) => {
+export default (title: string, url?: string, file?: File) => {
   let buttons = [
     {
-      title: 'Twitter',
+      title: Lang.t('ui.twitter', 'Twitter'),
       click() {
         _fallback('twitter', title, url)
       },
     },
     {
-      title: 'Facebook',
+      title: Lang.t('ui.facebook', 'Facebook'),
       click() {
         _fallback('facebook', title, url)
       },
@@ -48,35 +49,35 @@ export default (title:string, url?:string, file?:File) => {
       },
     },
     {
-      title: 'Reddit',
+      title: Lang.t('ui.reddit', 'Reddit'),
       click() {
         _fallback('reddit', title, url)
       },
     },
     {
-      title: 'Email',
+      title: Lang.t('ui.email', 'Email'),
       click() {
         _fallback('email', title, url)
       },
     },
   ]
   if (navigator.share) {
-    if(url) {
+    if (url) {
       return navigator.share({
         title: title,
         url: url,
       })
-    } else if(file) {
-      let fileArray = [file];
+    } else if (file) {
+      let fileArray = [file]
       navigator.share({
         files: fileArray,
         title: title,
-      });
+      })
     }
-  } else if(url && !file) {
+  } else if (url && !file) {
     Interact.popmenu({ id: 'share', buttons: buttons })
-  } else if(file) {
-    download.file(file);
+  } else if (file) {
+    download.file(file)
   }
   return Promise.resolve(null)
 }

@@ -10,7 +10,14 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
-  import { closeWritingPromptModal, openWritingPrompt, StaticWritingPrompts, WritingPrompt, WritingPromptStore, type WritingPromptType } from './useWritingPrompts'
+  import {
+    closeWritingPromptModal,
+    openWritingPrompt,
+    StaticWritingPrompts,
+    WritingPrompt,
+    WritingPromptStore,
+    type WritingPromptType,
+  } from './useWritingPrompts'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import List from '../../components/list/list.svelte'
@@ -56,48 +63,50 @@
     if (editing?.text.length > 1) {
       await WritingPromptStore.upsert(editing)
       editing = undefined
-      showToast({ message: 'Saved' })
+      showToast({ message: Lang.t('writing.saved', 'Saved') })
     }
   }
 
   const clicked = async (item) => {
     if (!editMode) {
-      closeWritingPromptModal();
-      openWritingPrompt(item);
-      if(onSelect) onSelect(item);
+      closeWritingPromptModal()
+      openWritingPrompt(item)
+      if (onSelect) onSelect(item)
     }
   }
 
   const deletePrompt = async (prompt: WritingPrompt) => {
-    const confirmed = await Interact.confirm('Delete this Prompt?')
+    const confirmed = await Interact.confirm(Lang.t('writing.delete-this-prompt', 'Delete this Prompt?'))
     if (confirmed) {
       await WritingPromptStore.remove(prompt)
-      showToast({ message: 'Deleted' })
+      showToast({ message: Lang.t('writing.deleted', 'Deleted') })
       initData()
     }
   }
 </script>
 
 <BackdropModal mainClass="px-2 lg:px-4">
-  <header slot="header" class="bg-white dark:bg-gray-950 shadow-sm">
+  <header slot="header" class="bg-ios-card shadow-sm">
     <ToolbarGrid>
-      <Button slot="left" on:click={() => closeModal(id)} clear primary>{Lang.t('general.close', 'Close')}</Button>
-      <h1 class="ntitle">
-        {Lang.t('general.writing-prompts', 'Writing Prompts')}
-      </h1>
-      <div slot="right">
+      <div slot="left">
         {#if editMode}
           <Button on:click={() => (editMode = false)} clear primary
-            ><span class="text-red-500">{Lang.t('general.done', 'Done')}</span></Button
+            ><span class="text-ios-tint">{Lang.t('general.done', 'Done')}</span></Button
           >
         {:else}
           <Button on:click={() => (editMode = true)} clear primary>{Lang.t('general.edit', 'Edit')}</Button>
         {/if}
       </div>
+      <h1 class="ntitle">
+        {Lang.t('general.writing-prompts', 'Writing Prompts')}
+      </h1>
+      {#if !editMode}
+        <Button slot="right" on:click={() => closeModal(id)} clear primary>{Lang.t('general.done', 'Done')}</Button>
+      {/if}
     </ToolbarGrid>
     <Toolbar>
       <ButtonGroup
-        className="bg-white dark:bg-black"
+        className="bg-ios-card"
         size="sm"
         value={activeTimeframe}
         buttons={[
@@ -136,29 +145,35 @@
 
   {#if editing}
     <div
-      class="p-4 lg:rounded-2xl absolute z-10 top-0 right-0 left-0 bottom-0 bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm"
+      class="p-4 lg:rounded-2xl absolute z-10 top-0 right-0 left-0 bottom-0 bg-ios-black bg-opacity-30 backdrop-filter backdrop-blur-sm"
     >
       <List solo>
         <ListItem>
-          <h1 class="font-bold text-lg">Create a Writing Prompt</h1>
+          <h1 class="font-bold text-lg">{Lang.t('writing.create-a-writing-prompt', 'Create a Writing Prompt')}</h1>
         </ListItem>
 
-        <Input type="select" listItem label="Time frame" bind:value={editing.time}>
-          <option value="any">Anytime</option>
-          <option value="morning">Morning</option>
-          <option value="afternoon">Afternoon</option>
-          <option value="evening">Evening</option>
-        </Input>
+        <Input
+          type="select"
+          listItem
+          label={Lang.t('writing.time-frame', 'Time frame')}
+          bind:value={editing.time}
+          options={[
+            { value: 'any', label: 'Anytime' },
+            { value: 'morning', label: 'Morning' },
+            { value: 'afternoon', label: 'Afternoon' },
+            { value: 'evening', label: 'Evening' },
+          ]}
+        />
         <Divider left={16} />
         <Textarea
-          class="bg-white dark:bg-gray-900 text-black dark:text-white px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-primary-500 ring-opacity-20"
-          placeholder="Writing Prompt"
+          class="bg-ios-card text-ios-label px-4 py-1 w-full focus:outline-none ring-inset focus:ring ring-ios-tint ring-opacity-20"
+          placeholder={Lang.t('writing.writing-prompt', 'Writing Prompt')}
           bind:value={editing.text}
         />
-        <!-- <Input type="text" placeholder="Writing Prompt" listItem bind:value={editing.text} /> -->
+        <!-- <Input type="text" placeholder={Lang.t('writing.writing-prompt', 'Writing Prompt')} listItem bind:value={editing.text} /> -->
         <Divider left={16} />
         <ListItem on:click={() => saveEditing()} clickable disabled={!canSave}>
-          <div class="w-full text-center text-primary-500">Save Prompt</div>
+          <div class="w-full text-center text-ios-tint">{Lang.t('writing.save-prompt', 'Save Prompt')}</div>
         </ListItem>
         <!-- <Divider left={16} /> -->
         <ListItem
@@ -167,7 +182,7 @@
             editing = undefined
           }}
         >
-          <div class="w-full text-center text-red-500">Cancel</div>
+          <div class="w-full text-center text-ios-tint">{Lang.t('writing.cancel', 'Cancel')}</div>
         </ListItem>
       </List>
     </div>
@@ -186,14 +201,14 @@
     }) as item}
       <ListItem on:click={() => clicked(item)} bottomLine={16} detail={!editMode}>
         <p class="font-medium">{item.text}</p>
-        <p class="text-gray-500 capitalize">{item.time}</p>
+        <p class="text-ios-label2 capitalize">{item.time}</p>
         <div slot="right" class="flex item-center space-x-1 -mr-2">
           {#if editMode}
             <Button
               on:click={() => {
                 deletePrompt(item)
               }}
-              className="text-red-500"
+              className="text-ios-danger"
               icon><IonIcon icon={TrashOutline} /></Button
             >
             <Button icon on:click={() => editPrompt(item)}><IonIcon icon={CreateOutline} /></Button>
@@ -210,7 +225,7 @@
         })
       }}
     >
-      <span class="text-primary-500">Add Custom Prompt</span>
+      <span class="text-ios-tint">{Lang.t('writing.add-custom-prompt', 'Add Custom Prompt')}</span>
     </ListItem>
   </List>
   <div class="h-4" />

@@ -4,8 +4,6 @@ public/bundle.*
 artifacts
 plugins/*
 public/vendors/*
-# Local Netlify folder
-.netlify
 
 
 /stats.html
@@ -195,3 +193,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+.claude/

@@ -24,6 +24,7 @@
   import { isTruthy } from '../../../utils/truthy/truthy'
   import List from '../../../components/list/list.svelte'
   import Title from '../../../components/title/title.svelte'
+  import { Lang } from '../../../store/lang'
 
   const { value, tracker } = $props()
 
@@ -94,17 +95,19 @@
   <List solo>
     {#each trackables as trackable, index}
       <article class="flex flex-col justify-center items-center" />
-      <ListItem bottomLine={64} className="bg-white dark:bg-gray-900">
+      <ListItem bottomLine={64} className="bg-ios-card">
         <TrackableAvatar slot="left" {trackable} size={46} />
         <main class="filler">
           <header class="flex items-center justify-between">
-            <Title>{trackable.label}</Title>
+            <Title className="text-ios-body font-semibold" style="text-align:left">{trackable.label}</Title>
             {#if trackable.tracker?.type == 'range'}
               <LetterTicker className="text-lg font-bold" text={trackable.tracker?.displayValue(trackable.value)} />
             {/if}
           </header>
           {#if trackable.tracker?.type === 'note'}
-            <div class="dark:text-white filler  py-1 text-sm ">Nested Combos are currently not supported</div>
+            <div class="text-ios-label filler py-1 text-sm">
+              {Lang.t('tracker.nested-combos-are-currently-not-supported', 'Nested Combos are currently not supported')}
+            </div>
           {/if}
           {#if trackable.tracker?.type === 'range'}
             <div class="">
@@ -126,7 +129,7 @@
             </div>
           {/if}
         </main>
-        <div slot="right" class="pr-2 text-right ">
+        <div slot="right" class="pr-2 text-right">
           {#if trackable.tracker?.type === 'value'}
             <div class="flex items-center">
               <input
@@ -141,7 +144,7 @@
                   //@ts-ignore
                   target.select()
                 }}
-                class="bg-gray-100 pr-10 stiff mr-2 dark:bg-gray-800 text-black dark:text-white text-lg rounded-md p-2 flex-shrink text-right w-24 font-bold"
+                class="bg-ios-fill pr-10 stiff mr-2 text-ios-label text-lg rounded-md p-2 flex-shrink text-right w-24 font-bold"
                 type="number"
                 bind:value={trackable.value}
               />
@@ -154,7 +157,7 @@
                 }}
                 icon
                 primary
-                title="Add value"><IonIcon icon={AddCircleOutline} /></Button
+                title={Lang.t('tracker.add-value', 'Add value')}><IonIcon icon={AddCircleOutline} /></Button
               >
             </div>
           {:else if trackable.tracker?.type === 'tick' || trackable.type === 'context' || trackable.type === 'pointer'}
@@ -165,13 +168,12 @@
                 fireChange()
               }}
             />
-            
           {:else if trackable.tracker?.type === 'timer'}
             <ManualTime size="sm" bind:value={trackable.value} />
             <!-- {:else if trackable.tracker?.type === 'note'} -->
           {:else if trackable.person || trackable.context || trackable.pointer}
             <ToggleSwitch
-              title="value"
+              title={Lang.t('tracker.value-2', 'value')}
               on:change={(evt) => {
                 trackable.value = evt.detail ? 1 : 0
                 fireChange()

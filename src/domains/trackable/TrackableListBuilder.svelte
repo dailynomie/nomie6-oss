@@ -20,8 +20,13 @@
   import ListItem from '../../components/list-item/list-item.svelte'
   import SortableList2 from '../../components/sortable-list/sortable-list2.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
+  import { Lang } from '../../store/lang'
 
-  let { value = $bindable(), className = '', onValueChange } = $props<{ value?: string, className?: string, onValueChange?: (newValue: string) => void }>()
+  let {
+    value = $bindable(),
+    className = '',
+    onValueChange,
+  } = $props<{ value?: string; className?: string; onValueChange?: (newValue: string) => void }>()
 
   let trackables: Array<Trackable> = $state([])
   let manualAdd: string = $state('')
@@ -101,7 +106,7 @@
       manualAdd = ''
     } else {
       showToast({
-        message: `${manualAdd} is not valid`,
+        message: Lang.t('trackable.not-valid', { name: manualAdd }),
       })
     }
   }
@@ -140,8 +145,8 @@
     <Input
       listItem
       className="px-4 py-0"
-      label="Add"
-      placeholder="e.g. #mood or @mom"
+      label={Lang.t('trackable.add-2', 'Add')}
+      placeholder={Lang.t('trackable.e-g-mood-or-mom', 'e.g. #mood or @mom')}
       on:enter={addManualItem}
       bind:value={manualAdd}
     >
@@ -184,7 +189,13 @@
     >
       <ListItem compact bottomLine={62}>
         <div slot="left">
-          <Button size="sm" icon color="danger" className="mr-4 text-white bg-red-500" on:click={() => remove(item)}>
+          <Button
+            size="sm"
+            icon
+            color="danger"
+            className="mr-4 text-ios-ondanger bg-ios-danger"
+            on:click={() => remove(item)}
+          >
             -
           </Button>
           <TrackableAvatar trackable={item} size={24} />
@@ -195,7 +206,7 @@
             <Badge on:click={() => updateDefault(item)} pad value={item.formatValue(item.value)} />
           {/if}
           <div class="trackable-drag-handle cursor-move">
-            <IonIcon icon={MenuOutline} className="text-gray-500" />
+            <IonIcon icon={MenuOutline} className="text-ios-label2" />
           </div>
         </div>
       </ListItem>

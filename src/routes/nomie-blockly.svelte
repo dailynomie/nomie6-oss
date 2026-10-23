@@ -10,6 +10,7 @@
   import { Prefs } from '../domains/preferences/Preferences'
   import { showToast } from '../components/toast/ToastStore'
   import { onMount } from 'svelte'
+  import { Lang } from '../store/lang'
 
   let showSetupModal = $state(true)
   let plugin: PluginClass | undefined = $state(undefined)
@@ -20,14 +21,14 @@
   if (typeof window !== 'undefined') {
     // First check immediately without waiting for subscription
     const currentPlugins = PluginStore.rawState()
-    const blocklyImmediate = currentPlugins.find(p => p.id === 'nomie-blockly') as PluginClass | undefined
+    const blocklyImmediate = currentPlugins.find((p) => p.id === 'nomie-blockly') as PluginClass | undefined
     if (blocklyImmediate) {
       plugin = blocklyImmediate
       showSetupModal = !blocklyImmediate.setupComplete
     }
 
     unsubscribe = PluginStore.subscribe((plugins) => {
-      const blockly = plugins.find(p => p.id === 'nomie-blockly') as PluginClass | undefined
+      const blockly = plugins.find((p) => p.id === 'nomie-blockly') as PluginClass | undefined
 
       // Update when plugin is found
       if (blockly) {
@@ -36,6 +37,13 @@
       }
     })
   }
+
+  // iOS look (guide 6, layers): the check-in card steps aside while the setup prompt is on screen
+  $effect(() => {
+    const prompting = showSetupModal && !!plugin && !plugin.setupComplete
+    document.body.classList.toggle('check-in-hidden', prompting)
+    return () => document.body.classList.remove('check-in-hidden')
+  })
 
   // Adjust height to account for footer position
   $effect(() => {
@@ -75,10 +83,8 @@
 
   // Check for duplicate Blockly plugins on page load
   onMount(() => {
-    const blocklyPlugins = $PluginStore.filter(p =>
-      p.name.toLowerCase().includes('blockly') &&
-      p.id !== 'nomie-blockly' &&
-      p.active
+    const blocklyPlugins = $PluginStore.filter(
+      (p) => p.name.toLowerCase().includes('blockly') && p.id !== 'nomie-blockly' && p.active
     )
 
     if (blocklyPlugins.length > 0) {
@@ -91,16 +97,18 @@
   })
 </script>
 
-<Layout pageTitle="Nomie Blockly">
+<Layout pageTitle="Nomie Blockly" className="h-full">
+  <!-- iOS look: the same header as the other pages (action row, then the large title), with the plugin below it -->
+  <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
+    <div class="flex items-center justify-end h-9"></div>
+    <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('routes.blockly', 'Blockly')}</h1>
+  </header>
+
   <!-- Always render the plugin in the background -->
   {#if plugin}
     <div class="plugin-wrapper" bind:this={wrapperElement}>
       <div class="plugin-container">
-        <PluginFrame
-          lid="blockly"
-          openAction="onUIOpened"
-          {plugin}
-        />
+        <PluginFrame lid="blockly" openAction="onUIOpened" {plugin} />
       </div>
     </div>
   {/if}
@@ -109,11 +117,7 @@
   {#if showSetupModal && plugin && !plugin.setupComplete}
     <div class="modal-overlay">
       <div class="modal-content">
-        <PluginSetupModal
-          {plugin}
-          on:confirm={handleSetupConfirm}
-          on:cancel={handleSetupCancel}
-        />
+        <PluginSetupModal {plugin} on:confirm={handleSetupConfirm} on:cancel={handleSetupCancel} />
       </div>
     </div>
   {/if}
@@ -130,7 +134,7 @@
 
   .modal-overlay {
     @apply fixed top-0 bottom-0 z-50 flex items-center justify-center;
-    @apply bg-gray-700 bg-opacity-50;
+    @apply bg-ios-black bg-opacity-50;
     @apply backdrop-filter backdrop-saturate-150 backdrop-blur-sm;
     left: 0;
     right: 0;

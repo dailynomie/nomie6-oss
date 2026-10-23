@@ -1,0 +1,240 @@
+#!/usr/bin/env python3
+"""Wrap visible text in Lang.t and add the keys to the base file (LANG-01, LANG-04).
+
+Usage:
+  python3 docs/guardrails/checks/lang-wrap.py <area> <file.svelte> [<file.svelte> ...]
+
+<area> is the key section the new keys go under (for example settings). Keys are the area plus
+a hyphenated slug of the English text. Brand names, URLs and user content are skipped; a file
+is only changed when every match is unique, so a mismatch stops the run instead of guessing.
+"""
+import json, os, re, subprocess, sys
+
+BRANDS = {'DailyNomie.com', 'Daily Nomie 7', '/r/nomie', 'Nomie', 'DailyNomie'}
+BASE = 'src/lang/base.ts'
+
+def slug(text):
+    s = re.sub(r"[^a-z0-9]+", '-', text.lower()).strip('-')
+    return s[:48] or 'text'
+
+def js_string(text):
+    # the default is a JS string literal: escape backslashes and single quotes, always
+    text = ' '.join(text.split())
+    return "'" + text.replace('\\', '\\\\').replace("'", "\\'") + "'"
+
+def hits(path):
+    out = []
+    text = open(path, encoding='utf8').read()
+    # strip script and style so only the template is scanned
+    scan = re.sub(r'<script[\s\S]*?</script>', lambda m: '\n' * m.group(0).count('\n'), text)
+    scan = re.sub(r'<style[\s\S]*?</style>', lambda m: '\n' * m.group(0).count('\n'), scan)
+    scan = re.sub(r'<!--[\s\S]*?-->', lambda m: '\n' * m.group(0).count('\n'), scan)
+    prev = None
+    while prev != scan:
+        prev = scan
+        scan = re.sub(r'\{[^{}]*\}', '', scan)
+    for m in re.finditer(r'>([^<>{}]*)<', scan):
+        t = m.group(1).strip()
+        if '\n' in t:
+            # a paragraph over several lines is wrapped by hand, so the text match stays exact
+            words = t.split()
+            if len(words) >= 2 and not any(c in t for c in '{}<>`') and re.search(r'[A-Za-z]{2,}', t):
+                out.append(('multiline', ' '.join(words)))
+            else:
+                out.append(('manual', ' '.join(words)))
+            continue
+        if re.search(r'[A-Za-z]{2,}', t) and t not in BRANDS:
+            out.append(('text', t))
+    for m in re.finditer(r'\b(title|description|placeholder|label|aria-label|buttonLabel)="([^"{}\n]*[A-Za-z]{2,}[^"{}\n]*)"', scan):
+        if m.group(2) not in BRANDS:
+            out.append(('attr', m.group(1), m.group(2)))
+    return out
+
+def existing_value(base, leaf):
+    m = re.search(r"\n\s+'?" + re.escape(leaf) + r"'?: *(['\"])((?:(?!\1).)*)\1", base)
+    return m.group(2) if m else None
+
+def choose_key(area, text, keys, base):
+    # the first free name for this text: the slug, or the slug with a number when the name is taken
+    root = slug(text)
+    for n in range(1, 50):
+        leaf = root if n == 1 else f'{root}-{n}'
+        key = f'{area}.{leaf}'
+        taken_here = any(k == key and t != text for t, k in keys.items())
+        value = existing_value(base, leaf)
+        if taken_here or (value is not None and value != text):
+            continue
+        return key
+    raise SystemExit(f'no free key for {text!r}')
+
+def wrap(path, area, keys, base):
+    src = open(path, encoding='utf8').read()
+    new = src
+    if not path.endswith('.svelte'):
+        # template text and attributes live in Svelte files only; .ts files get the dialog and toast mode
+        return False
+    for item in hits(path):
+        if item[0] == 'multiline':
+            _, t = item
+            key = keys[t] = keys.get(t) or choose_key(area, t, keys, base)
+            flex = r'\s+'.join(re.escape(w) for w in t.split())
+            pat = re.compile(r'(>\s*)' + flex + r'(\s*<)')
+            new, n = pat.subn(lambda m: m.group(1) + '{Lang.t(\'' + key + '\', ' + js_string(t) + ')}' + m.group(2), new)
+            if n == 0:
+                print(f'manual (multi-line, no exact match): {path}: {t[:70]}')
+            continue
+        if item[0] == 'manual':
+            print(f'manual (multi-line text, wrap by hand): {path}: {item[1][:70]}')
+            continue
+        if item[0] == 'attr':
+            _, attr, t = item
+            key = keys[t] = keys.get(t) or choose_key(area, t, keys, base)
+            old = f'{attr}="{t}"'
+            n = new.count(old)
+            if n == 0:
+                continue
+            new = new.replace(old, f'{attr}={{Lang.t(\'{key}\', {js_string(t)})}}')
+        else:
+            t = item[1]
+            key = keys[t] = keys.get(t) or choose_key(area, t, keys, base)
+            # text between tags, on its own or inline
+            pat = re.compile(r'(>\s*)' + re.escape(t) + r'(\s*<)')
+            new, n1 = pat.subn(lambda m: m.group(1) + '{Lang.t(\'' + key + '\', ' + js_string(t) + ')}' + m.group(2), new)
+            pat2 = re.compile(r'(^[ \t]*)' + re.escape(t) + r'([ \t]*$)', re.M)
+            new, n2 = pat2.subn(lambda m: m.group(1) + '{Lang.t(\'' + key + '\', ' + js_string(t) + ')}' + m.group(2), new)
+    if new != src:
+        open(path, 'w', encoding='utf8').write(new)
+    return new != src
+
+def base_values():
+    # every dotted key in the base file, with its English text (parsed, so sections are exact)
+    code = ("const ts=require('typescript'),fs=require('fs');"
+            "const js=ts.transpileModule(fs.readFileSync('" + BASE + "','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;"
+            "const m={exports:{}};new Function('module','exports',js)(m,m.exports);"
+            "const out={};const walk=(o,p)=>{for(const k of Object.keys(o)){const v=o[k];const q=p?p+'.'+k:k;"
+            "if(v&&typeof v==='object')walk(v,q);else out[q]=v}};"
+            "walk((m.exports.default||m.exports).translation,'');console.log(JSON.stringify(out));")
+    return json.loads(subprocess.check_output(['node', '-e', code], text=True))
+
+def add_keys(area, keys):
+    base = open(BASE, encoding='utf8').read()
+    marker = f'\n    {area}: {{\n'
+    create = base.count(marker) == 0
+    if base.count(marker) > 1:
+        raise SystemExit(f'more than one "{area}" section in {BASE}')
+    lines = []
+    values = base_values()
+    for text, key in sorted(keys.items(), key=lambda kv: kv[1]):
+        leaf = key.split('.', 1)[1]
+        if key in values:
+            if values[key] != text:
+                raise SystemExit(f'key {key} already exists with other text: {values[key]!r} != {text!r}')
+            continue
+        lines.append(f"      '{leaf}': {js_string(text)},\n")
+    if create and lines:
+        # a new section goes at the end of the translation object
+        close = '\n  },\n}'
+        if base.count(close) != 1:
+            raise SystemExit(f'cannot find the end of the translation object in {BASE}')
+        base = base.replace(close, f'\n    {area}: {{\n' + ''.join(lines) + '    },' + close, 1)
+    elif lines:
+        base = base.replace(marker, marker + ''.join(lines), 1)
+    open(BASE, 'w', encoding='utf8').write(base)
+    return len(lines)
+
+SCRIPT_CALL = re.compile(r"(Interact\.(?:alert|confirm|prompt|error|success)\(|showToast\(\{\s*message:\s*)([^\n]*)")
+
+def wrap_script(path, area, keys, base):
+    """Wrap quoted text in Interact.* dialog calls and toast messages (LANG-03), on one line."""
+    src = open(path, encoding='utf8').read()
+    changed = [False]
+    def fix_call(m):
+        head, rest = m.group(1), m.group(2)
+        def fix_lit(q):
+            text = q.group(2)
+            if not re.search(r'[A-Za-z]{2,}', text) or '${' in text:
+                return q.group(0)
+            key = keys[text] = keys.get(text) or choose_key(area, text, keys, base)
+            changed[0] = True
+            return "Lang.t('" + key + "', " + js_string(text) + ")"
+        # quoted literals up to the end of the call's line; stop at the first ")" that closes the call
+        rest2 = re.sub(r"(?<![\w.])(['\"])([^'\"\n]*)\1", fix_lit, rest)
+        return head + rest2
+    new = SCRIPT_CALL.sub(fix_call, src)
+    if changed[0]:
+        open(path, 'w', encoding='utf8').write(new)
+    return changed[0]
+
+
+def ensure_import(path):
+    """A file that calls Lang.t must import Lang (LANG-09)."""
+    s = open(path, encoding='utf8').read()
+    if 'Lang.t(' not in s or re.search(r'import\s*\{[^}]*\bLang\b[^}]*\}\s*from', s):
+        return False
+    rel = os.path.relpath('src/store/lang', os.path.dirname(path))
+    if not rel.startswith('.'):
+        rel = './' + rel
+    lines = s.split('\n')
+    idx = [i for i, l in enumerate(lines) if re.match(r'\s*import\b', l)]
+    if idx:
+        # the end of the last import statement: a statement that spans lines ends at its 'from' line
+        last = idx[-1]
+        while 'from' not in lines[last] and last + 1 < len(lines):
+            last += 1
+        at = last + 1
+    elif path.endswith('.ts'):
+        at = 0
+    else:
+        # no imports yet: the import goes inside the script block, right after its opening tag
+        opener = [i for i, l in enumerate(lines) if re.match(r'\s*<script\b', l)]
+        if not opener:
+            # a component with no script block gets one, holding only the import
+            lines.insert(0, "<script lang=\"ts\">")
+            lines.insert(1, "  import { Lang } from '" + rel + "'")
+            lines.insert(2, "</script>")
+            open(path, 'w', encoding='utf8').write('\n'.join(lines))
+            return True
+        at = opener[0] + 1
+    indent = '' if path.endswith('.ts') else '  '
+    lines.insert(at, indent + "import { Lang } from '" + rel + "'")
+    open(path, 'w', encoding='utf8').write('\n'.join(lines))
+    return True
+
+def backfill(files):
+    """Add keys that the code already uses with a literal default but the base file does not have."""
+    values = base_values()
+    found = {}
+    for f in files:
+        s = open(f, encoding='utf8').read()
+        for m in re.finditer(r"Lang\.t\(\s*['\"]([a-z0-9_.-]+)['\"]\s*,\s*(['\"])((?:(?!\2).)*)\2", s):
+            found.setdefault(m.group(1), m.group(3))
+    by_area = {}
+    for key, text in found.items():
+        if key in values or key.startswith('theme.'):
+            continue
+        area, leaf = key.split('.', 1)
+        by_area.setdefault(area, {})[text] = key
+    total = 0
+    for area, items in by_area.items():
+        total += add_keys(area, items)
+    return total
+
+if __name__ == '__main__':
+    if sys.argv[1] == '--backfill':
+        print(f'added {backfill(sys.argv[2:])} key(s) from the code defaults')
+        for f in sys.argv[2:]:
+            ensure_import(f)
+        raise SystemExit(0)
+    area, files = sys.argv[1], sys.argv[2:]
+    keys = {}
+    changed = []
+    base = open(BASE, encoding='utf8').read()
+    for f in files:
+        if wrap(f, area, keys, base):
+            changed.append(f)
+        if wrap_script(f, area, keys, base):
+            changed.append(f)
+    added = add_keys(area, keys)
+    for f in files:
+        ensure_import(f)
+    print(f'wrapped {len(changed)} file(s); added {added} key(s) to {area} in {BASE}')

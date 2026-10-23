@@ -1,7 +1,7 @@
 import type { WidgetClass } from './widget-class'
 import type { IWidgetType } from './widget-types'
 
-export function canSaveWidget(testWidget: WidgetClass, widgetTypes:Array<IWidgetType>): boolean {
+export function canSaveWidget(testWidget: WidgetClass, widgetTypes: Array<IWidgetType>): boolean {
   let type = widgetTypes.find((wdgt) => wdgt.id == testWidget.type)
   if (type) {
     let required = type.requires
@@ -20,6 +20,10 @@ export function canSaveWidget(testWidget: WidgetClass, widgetTypes:Array<IWidget
     }
     if (required.indexOf('timeframe') > -1 && !testWidget.timeRange) {
       console.info('This widget requires a timeframe')
+      return false
+    }
+    if (type.id === 'experiment' && !testWidget.data?.experimentId) {
+      console.info('Select an experiment to display')
       return false
     }
   } else {

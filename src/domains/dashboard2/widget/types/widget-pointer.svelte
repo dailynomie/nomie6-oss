@@ -4,6 +4,7 @@
   import { untrack } from 'svelte'
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   import type { WidgetClass } from '../widget-class'
+  import { Lang } from '../../../../store/lang'
 
   //export let logs: Array<NLog>
   const { widget = $bindable(), trackable = $bindable(), usage = $bindable(), logs = $bindable(undefined) } = $props()
@@ -34,6 +35,8 @@
       var temptracker = tempusage[i].trackers.filter(function (el) {
         return el.id == trackable.tracker.tag
       })
+      // a note tagged with the pointer but without a value for this tracker has nothing to draw
+      if (temptracker.length === 0) continue
       let tempvalue = temptracker[0].value
       let tempdate = tempusage[i].start
       let height = '100%'
@@ -47,6 +50,7 @@
         samples.push({ Date: samplestemp[j].Date, Value: samplestemp[j].Value, Height: samplestemp[j].Height })
       }
     }
+    if (samples.length === 0) return
     // first determin highest value
     let maxvalue = Math.max(...samples.map((o) => o.Value))
     // now make sure the height is adjusted to value (between 100% and 0%)
@@ -70,8 +74,10 @@
   })
 </script>
 
-<div class="current dark:text-white h-full w-full flex items-center justify-center flex-col">
-  {#if samples.length > 0}
+<div class="current text-ios-label h-full w-full flex items-center justify-center flex-col">
+  {#if samples.length === 0}
+    <div class="text-ios-label2">{Lang.t('dashboard.not-enough-data', 'Not enough data')}</div>
+  {:else}
     <div class="parent" style="font-size:60%">
       {#each samples as sample, i}
         <span id="third" class="bar" style="height:{sample.Height}; width: {barwidth}"
@@ -92,7 +98,7 @@
     margin-right: 2%;
     margin-top: -2%;
     transform: rotateX(180deg);
-    border-top: 1px solid black;
+    border-top: 1px solid var(--ios-separator);
   }
 
   span.bar {
@@ -111,34 +117,34 @@
   }
 
   #first {
-    background-color: #ed2527;
+    background-color: #ed2527; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #second {
-    background-color: #3db549;
+    background-color: #3db549; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #third {
-    background-color: #2289b4;
+    background-color: #2289b4; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #fourth {
-    background-color: #f79321;
+    background-color: #f79321; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #five {
-    background-color: #94afdc;
+    background-color: #94afdc; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #six {
-    background-color: #ff5f75;
+    background-color: #ff5f75; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #seven {
-    background-color: #00adef;
+    background-color: #00adef; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 
   #eight {
-    background-color: #935fa7;
+    background-color: #935fa7; /* guardrail-ok: UI-07 pointer colour, fixed by the pointer design (data, no token) */
   }
 </style>

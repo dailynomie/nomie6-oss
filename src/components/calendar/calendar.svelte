@@ -33,7 +33,23 @@
   let firstDayOfWeek = $state<'sunday' | 'monday'>('sunday')
 
   // Extract props first - initialDate is needed below
-  const { initialDate, size, className, style, height, width, events, offDays, showHeader, showControls, showCalControl, showDetails, tracker, compact, color = appConfig.primary_color } = $props()
+  const {
+    initialDate,
+    size,
+    className,
+    style,
+    height,
+    width,
+    events,
+    offDays,
+    showHeader,
+    showControls,
+    showCalControl,
+    showDetails,
+    tracker,
+    compact,
+    color = appConfig.primary_color,
+  } = $props()
 
   // Updating to be react...
   $effect(() => {
@@ -213,12 +229,14 @@
     getDayBorder(score) {
       if (score) {
         if (score > 0) {
-          return `font-weight:bold; border:solid 2px var(--color-green); color:#FFF; background-color:var(--color-green)`
+          // iOS look: positive days are the good token, the text is the on-save colour (4.5:1 in both modes)
+          return `font-weight:bold; border:solid 2px var(--ios-good); color:var(--ios-on-save); background-color:var(--ios-good)`
         } else {
-          return `font-weight:bold; border:solid 2px var(--color-red); color:#FFF; background-color:var(--color-red)`
+          return `font-weight:bold; border:solid 2px var(--ios-danger); color:var(--ios-on-danger); background-color:var(--ios-danger)`
         }
       } else {
-        return `font-weight:bold; border:solid 2px var(--color-primary-bright); color:#FFF; background-color:var(--color-primary-bright);`
+        // iOS look: a logged day is the tint with on-tint text
+        return `font-weight:bold; border:solid 2px var(--ios-tint); color:var(--ios-on-tint); background-color:var(--ios-tint);`
       }
     },
     getDayClass(day) {
@@ -227,7 +245,8 @@
         const stateDateFormat = state.date.format('YYYY-MM-DD')
         const selectedDateFormat = (state.selectedDate || dayjs()).format('YYYY-MM-DD')
         const todayFormat = dayjs().format('YYYY-MM-DD')
-        const activeToday = events.find((row) => {
+        // events and offDays are optional: without them the day classes still work (the selected day, today)
+        const activeToday = (events || []).find((row) => {
           if (dayFormat === stateDateFormat) {
             return true
           } else {
@@ -239,7 +258,7 @@
           `day-${day.format('D')}`,
           `weekday-${day.toDate().getDay()}`,
           activeToday ? 'selected' : 'not-selected',
-          offDays.includes(day.toDate().getDay()) ? 'off-day' : null,
+          (offDays || []).includes(day.toDate().getDay()) ? 'off-day' : null,
           dayFormat === todayFormat ? `today` : null,
           // Todo figure out how to deal with this
           dayFormat === selectedDateFormat ? 'active' : 'inactive',
@@ -264,7 +283,7 @@
       {#if showHeader}
         <div class="header flex">
           <div class="month filler pr-3">
-            <span class="text-black dark:text-white text-sm">{selectedMonthName} {selectedYear}</span>
+            <span class="text-ios-label text-sm">{selectedMonthName} {selectedYear}</span>
           </div>
           {#if showControls && !compact}
             <NextPrevCal
@@ -332,8 +351,7 @@
   .n-calendar .active:before {
     content: '';
 
-    @apply border border-green-500;
-    @apply border-2;
+    border: 2px solid var(--ios-tint);
     top: -4px;
     right: -4px;
     bottom: -4px;
@@ -350,7 +368,7 @@
     width: 4px;
     border-radius: 2px;
 
-    @apply bg-primary-500;
+    @apply bg-ios-tint;
     bottom: -5px;
     position: absolute;
   }
@@ -367,7 +385,7 @@
   }
   .n-calendar .n-calendar-container .body .day-name {
     color: var(--color-inverse);
-    @apply text-gray-200 dark:text-gray-800;
+    @apply text-ios-label2;
     @apply font-extrabold;
     @apply text-xs;
 
@@ -384,21 +402,20 @@
     @apply leading-none;
     border-radius: 32%;
     box-sizing: content-box;
-    @apply text-gray-500;
+    @apply text-ios-label2;
     height: var(--cal-day-size);
     min-width: var(--cal-day-size);
   }
   .n-calendar .n-calendar-container .body .day-container .day.selected {
-    border: 3px solid var(--color-solid-2);
-    @apple border border-3 border-pink-500;
+    border: 2px solid var(--ios-tint);
   }
   .n-calendar .n-calendar-container .body .day-container .day.off-day {
-    background-color: #e5e5e5;
+    background-color: var(--ios-fill);
     font-weight: bold;
   }
   .n-calendar .n-calendar-container .body .day-container .day:active {
     font-weight: bold;
-    @apply dark:bg-gray-700 bg-gray-200;
+    @apply bg-ios-card;
   }
   .n-calendar .n-calendar-container .body .day-container .day span {
     font-size: var(--cal-font-size);
@@ -447,12 +464,12 @@
   }
   .n-calendar .date-picker .body .day-container .day:hover {
     background-color: rgba(153, 66, 66, 0.5);
-    border: 2px solid #994242;
+    border: 2px solid var(--ios-tint);
     cursor: pointer;
   }
   .n-calendar .date-picker .body .day-container .day.selected {
-    border: 2px solid #994242;
-    color: #994242;
+    border: 2px solid var(--ios-tint);
+    color: var(--ios-tint);
   }
   .n-calendar .day.unfilled {
     background-color: transparent;

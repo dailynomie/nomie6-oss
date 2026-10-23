@@ -5,10 +5,10 @@
   import dayjs from 'dayjs'
   // utils
   import { createEventDispatcher } from 'svelte'
-  import { Device } from '../../store/device-store'
-  import DateTimeBar from '../date-time-bar/date-time-bar.svelte'
+  import IosDateTimeField from '../ios-date/ios-datetime-field.svelte'
 
   import { Prefs } from '../../domains/preferences/Preferences'
+  import { Lang } from '../../store/lang'
 
   // data
 
@@ -16,10 +16,10 @@
   const dispatch = createEventDispatcher()
   let { date = $bindable(), time = $bindable(), className, style, size } = $props()
 
-  let inputEle = $state<HTMLInputElement>(undefined)
-  let localDate = $state<any>(dayjs(new Date()).format('YYYY-MM-DDTHH:mm'))
-  let lastTime = $state(time)
   const dtlFormat = 'YYYY-MM-DDTHH:mm'
+  // An existing entry shows its own date and time; only a new entry starts from now
+  let localDate = $state<any>(dayjs(time ? new Date(time) : new Date()).format(dtlFormat))
+  let lastTime = $state(time)
   let dateTimeFormat = $derived($Prefs.use24hour ? 'dd/mm/yyyy HH:mm' : 'mm/dd/yyyy hh:mm a')
 
   $effect(() => {
@@ -36,47 +36,33 @@
   function fireChange(evt: any) {
     date = new Date(evt.target.value)
     time = date.getTime()
-    dispatch('change', date);
+    dispatch('change', date)
   }
 </script>
 
-<div class="n-date-picker {className}">
-  {#if Device.is(/(firefox)/gi)}
-    <DateTimeBar
-      {style}
-      bind:date={time}
-      on:change={(event) => {
-        
-        fireChange({ target: { value: event.detail }})
-      }}
-    />
-  {:else}
-    <input
-      {style}
-      type="datetime-local"
-      placeholder={dayjs().format(dateTimeFormat)}
-      class="native-datetime m-0 size-{size}"
-      on:input={fireChange}
-      bind:value={localDate}
-      bind:this={inputEle}
-    />
-  {/if}
+<div class="n-date-picker {className}" {style}>
+  <!-- iOS look (D-native): the app's own date and time field, the same in every browser -->
+  <IosDateTimeField
+    bind:value={localDate}
+    title={Lang.t('ui.date-and-time', 'Date and time')}
+    onchange={(next) => fireChange({ target: { value: next } })}
+  />
 </div>
 
 <style global lang="postcss">
   .native-datetime,
   .n-date-picker {
     @apply text-sm;
-    /* @apply bg-white dark:bg-black; */
+    /* @apply bg-ios-card; */
     @apply bg-transparent;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply px-2 py-1;
     @apply rounded-md;
     @apply flex-grow flex-shrink flex;
     @apply w-auto;
     @apply mx-auto;
     @apply text-center;
-    @apply placeholder-gray-500;
+    @apply placeholder-ios-label2;
   }
   .native-datetime.size-lg {
     @apply text-lg;

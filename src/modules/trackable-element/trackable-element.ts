@@ -93,7 +93,7 @@ export default class TrackableElement {
         case '^':
           this.prefix = '^'
           this.type = 'pointer'
-          break  
+          break
         case '@':
           this.prefix = '@'
           this.type = 'person'
@@ -170,7 +170,7 @@ export default class TrackableElement {
         return '+'
 
       case 'pointer':
-        return '^'  
+        return '^'
 
       default:
         return ''

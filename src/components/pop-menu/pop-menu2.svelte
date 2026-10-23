@@ -11,7 +11,6 @@
   import { closeModal } from '../backdrop/BackdropStore2'
   import { TrackableStore } from '../../domains/trackable/TrackableStore'
 
-
   const { menu, id } = $props()
 
   let displayTitle = $state(menu.trackable?.label || menu.title || '')
@@ -49,17 +48,15 @@
         <main class="py-0">
           {#if menu.title}
             <h5
-              aria-label="Title"
-              class="font-semibold text-black dark:text-white text-lg leading-tight {!menu.description
-                ? 'pb-1'
-                : 'mt-3'}"
+              aria-label={Lang.t('ui.title-2', 'Title')}
+              class="font-semibold text-ios-label text-lg leading-tight {!menu.description ? 'pb-1' : 'mt-3'}"
             >
               {displayTitle}
             </h5>
           {/if}
           {#if menu.description}
             <!-- DON'T MESS WITH THIS! THE BUTTONS ARE BELOW YOU KNUCKLE HEAD! -->
-            <p class="p-0 m-0 mb-2 mt-2 text-sm leading-tight text-gray-600 dark:text-gray-400 line-clamp-4">
+            <p class="p-0 m-0 mb-2 mt-2 text-sm leading-tight text-ios-label2 line-clamp-4">
               {menu.description}
             </p>
           {/if}
@@ -68,7 +65,7 @@
       </header>
     {/if}
     {#if menu.component}
-      <div class="rounded-xl overflow-hidden flex-shrink-0 text-gray-500">
+      <div class="rounded-xl overflow-hidden flex-shrink-0 text-ios-label2">
         <svelte:component this={menu.component} {...menu.componentProps || {}} />
       </div>
     {/if}
@@ -87,7 +84,7 @@
         on:click={() => {
           closeModal(id)
         }}
-        className="w-full bg-red-gradient text-white stiff"
+        className="w-full ios-sheet-cancel stiff"
         style="min-height:50px;">{Lang.t('general.close', 'Close')}</Button
       >
     </footer>
@@ -95,9 +92,17 @@
 </div>
 
 <style lang="postcss" global>
+  /* iOS look: the action sheet's Close is the cancel button: tint, semibold, on its own card */
+  .ios-sheet-cancel {
+    background: var(--ios-card);
+    color: var(--ios-tint);
+    font-size: calc(17px * var(--text-scale));
+    font-weight: 600;
+    border-radius: 14px;
+  }
   .pop-menu2 {
     @apply flex flex-col space-y-3;
-    @apply bg-gray-300 dark:bg-gray-900 p-2 lg:p-4 pt-2 lg:pb-3;
+    @apply bg-ios-card p-2 lg:p-4 pt-2 lg:pb-3;
     @apply rounded-2xl;
     box-shadow: 5px 13px 34px 1px rgba(0, 0, 0, 0.4) !important;
   }

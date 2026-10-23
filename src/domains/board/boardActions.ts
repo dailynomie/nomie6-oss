@@ -5,7 +5,6 @@ import {
   BookOutline,
   CalendarOutline,
   CreateOutline,
-
   PeopleOutline,
   SettingsOutline,
   TabsOutline,
@@ -77,10 +76,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers'
 export const createNewBoard = async () => {
   let res: any = await Interact.prompt(
     `${Lang.t('board.add-a-board', 'Add New Tab')}`,
-    `${Lang.t(
-      'board.add-a-board-description',
-      'Tabs help you organize your trackables into logical groups.'
-    )}`,
+    `${Lang.t('board.add-a-board-description', 'Tabs help you organize your trackables into logical groups.')}`,
     {
       placeholder: `${Lang.t('board.board-input-placeholder', 'Tab name or Emoji 👍')}`,
     }
@@ -90,7 +86,7 @@ export const createNewBoard = async () => {
     if (label.toLowerCase() !== 'all') {
       addNewBoard(label)
     } else {
-      Interact.error("Sorry, 'All' is a reserved word")
+      Interact.error("Sorry, Lang.t('board.all', 'All') is a reserved word")
     }
   }
 }
@@ -139,7 +135,7 @@ export const getAddTrackerButton = (board: UniboardType) => {
  */
 export const removeTrackableFromNomie = async (trackable: Trackable) => {
   const confirmed = await Interact.confirm(
-    `${Lang.t('general.remove-official', 'Remove Official Trackable')}`,
+    `${Lang.t('general.remove-official', 'Remove this tracker')}`,
     `${Lang.t(
       'tracker.delete-description',
       'No tracked data will be deleted, and you can always recreate this tracker'
@@ -148,8 +144,8 @@ export const removeTrackableFromNomie = async (trackable: Trackable) => {
   if (confirmed) {
     Interact.blocker('Deleting...')
     await deleteTrackableFromNomie(trackable, false)
-    Interact.stopBlocker();
-    Device.reload();
+    Interact.stopBlocker()
+    Device.reload()
   }
 }
 
@@ -159,7 +155,10 @@ export const removeTrackableFromNomie = async (trackable: Trackable) => {
  */
 export const removeTrackableFromBoard = async (trackable: Trackable, boardId?: string) => {
   const currentBoardId = boardId || getLastBoardId()
-  const confirmed = await Interact.confirm(`Remove ${trackable.tag} from this board?`, 'You can always re-add it later')
+  const confirmed = await Interact.confirm(
+    `Remove ${trackable.tag} from this board?`,
+    Lang.t('board.you-can-always-re-add-it-later', 'You can always re-add it later')
+  )
   if (confirmed) {
     const boards = await getBoardsFromStorage()
     const workingBoard = boards.find((b) => b.id === currentBoardId)
@@ -218,13 +217,14 @@ export const removeTrackable = async (trackable: Trackable) => {
 
   const buttons = [
     {
-      title: `Remove from Current Tab`,
+      title: Lang.t('board.remove-from-current-tab', 'Remove from Current Tab'),
       click() {
         removeTrackableFromBoard(trackable, currentBoardId)
       },
     },
     {
-      title: 'Remove official Trackable',
+      title: Lang.t('board.remove-this-tracker', 'Remove this tracker'),
+      danger: true,
       click() {
         removeTrackableFromNomie(trackable)
       },
@@ -235,7 +235,7 @@ export const removeTrackable = async (trackable: Trackable) => {
   Interact.popmenu({
     id: `delete-${trackable.tag}`,
     trackable: trackable,
-    title: `Delete ${trackable.label}`,
+    title: Lang.t('board.delete-name', { name: trackable.label }),
     buttons,
   })
 
@@ -249,7 +249,7 @@ export const removeTrackable = async (trackable: Trackable) => {
 export const showLogTrackablePopmenu = (log: NLog, trackable: Trackable) => {
   const buttons: Array<PopMenuButton> = [
     {
-      title: 'View Full Note',
+      title: Lang.t('board.view-full-note', 'View Full Note'),
       click() {
         openLogDisplay(log)
       },
@@ -269,7 +269,7 @@ export const showLogTrackablePopmenu = (log: NLog, trackable: Trackable) => {
   ]
   Interact.popmenu({
     id: `calendar-mode-${log._id}`,
-    title: 'What would you like to do?',
+    title: Lang.t('board.what-would-you-like-to-do', 'What would you like to do?'),
     buttons,
   })
 }
@@ -337,18 +337,16 @@ export const showTrackablePopmenu = async (
       },
     },
     {
-      title: Lang.t('general.entries','Entries'),
+      title: Lang.t('general.entries', 'Entries'),
       icon: CreateOutline,
       skipClosing: true,
       click() {
-        
         openTimelineModal({
           search: trackable.tag,
-          notes: true
+          notes: true,
         })
-        // SearchStore.view('history', trackable.tag)
-      }
-    }, 
+      },
+    },
     // {
     //   title: Lang.t('tracker.related', 'Related'),
     //   icon: RelatedOutline,
@@ -360,12 +358,11 @@ export const showTrackablePopmenu = async (
     //   },
     // },
     {
-      title: `Calendar`,
+      title: Lang.t('board.calendar', 'Calendar'),
       icon: CalendarOutline,
       skipClosing: true,
       click() {
         openCalendarView({ trackable: options.trackable })
-        // SearchStore.search(trackable.tag)
         // click()
       },
     },
@@ -383,6 +380,7 @@ export const showTrackablePopmenu = async (
     },
     {
       title: `${Lang.t('general.remove', 'Remove')}`,
+      danger: true,
       icon: TrashOutline,
 
       click() {
@@ -466,7 +464,6 @@ export const browseLibraryButton = {
   },
 }
 
-
 /* Creating a new tab button. */
 export const newTabButton = {
   title: `${Lang.t('general.new-tab', 'Add New Tab')}`,
@@ -476,7 +473,6 @@ export const newTabButton = {
     createNewBoard()
   },
 }
-
 
 /**
  * It returns an array of buttons that are used to add new trackables to a board
@@ -556,7 +552,7 @@ export const getBoardMenu = (board?: UniboardType): Array<PopMenuButton> => {
   })
 
   buttons.push({
-    title: 'Edit',
+    title: Lang.t('board.edit', 'Edit'),
     divider: true,
     icon: FilterCircleOutline,
     click() {

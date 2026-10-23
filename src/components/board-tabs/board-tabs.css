@@ -1,30 +1,90 @@
 .n-board-tabs button {
   @apply flex items-center justify-center;
   @apply rounded-full;
-  @apply py-1 px-1;
-  @apply text-base font-medium;
-  @apply text-gray-800 dark:text-gray-200;
+  height: 34px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  border-radius: 17px;
+  font-size: calc(15px * var(--text-scale));
+  font-weight: 500;
+  background: var(--ios-fill);
+  color: var(--ios-label);
   @apply transform;
   @apply transition-all;
 }
 .n-board-tabs {
   @apply h-10;
-  @apply shadow-inner lg:shadow-none;
+  box-shadow: none;
   @apply rounded-full;
   @apply overflow-hidden;
   @apply w-full lg:w-auto;
 }
 .n-board-tabs .wrapper {
-  @apply px-2;
+  padding: 0 16px;
+  gap: 8px;
   @apply h-10;
   @apply items-center;
 }
 .n-board-tabs button.selected {
-  @apply bg-white dark:bg-black;
-  @apply text-primary-500;
-  @apply shadow-md;
-  @apply px-4 py-1 rounded-full;
+  background: var(--ios-tint);
+  color: var(--ios-on-tint);
+  box-shadow: none;
+  padding: 0 16px;
+  border-radius: 17px;
+  font-weight: 600;
 }
 .n-board-tabs button {
   @apply whitespace-nowrap;
+}
+
+/* iOS look: tabs start at the left edge and scroll sideways, instead of centring (centring hid the first boards when they overflow) */
+.n-board-tabs,
+.n-board-tabs .wrapper,
+.n-board-tabs .wrapper.force-center {
+  justify-content: flex-start !important;
+}
+
+/* iOS look: on the selected board tab the SVG board icons (like the Show All elephant) turn white, so they stay visible on the tint */
+.n-board-tabs button.selected svg path {
+  fill: #ffffff !important;
+}
+
+/* iOS look (section 8): the 34 px capsules keep their look; their tap area is at least 44 px high */
+.n-board-tabs button {
+  position: relative;
+}
+.n-board-tabs button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -5px;
+  bottom: -5px;
+}
+
+/* iOS look: the delete badge on a tab in edit mode is the same as a tile's delete button (the .delete-button class):
+   the danger red, 24 px, in the top right corner. The tab rule above sets a 34 px height and side padding, so they are reset here. */
+.n-board-tabs button.tab-delete {
+  background: var(--ios-danger);
+  color: var(--ios-on-danger);
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 50;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 9999px;
+}
+
+/* iOS look (Phase 5 fix): in edit mode the strip is taller, so the 37 px tabs and their delete badges are not clipped */
+.n-board-tabs.is-editing {
+  height: 60px;
+  overflow: visible;
+}
+
+/* iOS look: in edit mode the label stops before the delete badge in the top right corner */
+.n-board-tabs.is-editing button.board-tab,
+.n-board-tabs.is-editing button.board-fixed {
+  padding-right: 28px;
 }

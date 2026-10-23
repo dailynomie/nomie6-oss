@@ -17,6 +17,7 @@
   import { AwardStore } from '../../domains/awards/AwardsStore'
   import { Interact } from '../../store/interact'
   import { getAwardById } from '../../domains/awards/helpers/usage-awards'
+  import { Lang } from '../../store/lang'
 
   let dispatch = createEventDispatcher()
   const { buttons, listType } = $props()
@@ -71,19 +72,22 @@
               : 'locked'
             : ''}"
         >
-          <div slot="left" class="text-gray-500">
+          <div slot="left" class="text-ios-label2">
             {#if button.checked}
               <div in:fly|global={{ y: 50 }} class="mr-4">
-                <IonIcon className="text-gray-800 dark:text-gray-200" icon={CheckmarkCircle} />
+                <IonIcon className="text-ios-tint" icon={CheckmarkCircle} />
               </div>
             {/if}
           </div>
           <div class="w-full pr-4">
-            <div class="title">
+            <div class="title" style={button.danger ? 'color: var(--ios-danger)' : undefined}>
               {button.title}
             </div>
             {#if button.description}
-              <div class="text-sm text-gray-500 leading-tight font-base text-left pr-4 mt-1" aria-label="Description">
+              <div
+                class="text-sm text-ios-label2 leading-tight font-base text-left pr-4 mt-1"
+                aria-label={Lang.t('ui.description', 'Description')}
+              >
                 <p class="line-clamp-3 leading-tight">{button.description}</p>
               </div>
             {/if}
@@ -91,7 +95,7 @@
 
           <div slot="right" class="flex items-center">
             {#if button.icon}
-              <IonIcon icon={button.icon} className="text-gray-500" />
+              <IonIcon icon={button.icon} className="text-ios-label2" />
             {:else if button.emoji}
               <Avatar emoji={button.emoji} size={42} />
             {/if}
@@ -121,16 +125,15 @@
   .pm2-button .right-text {
     @apply absolute right-5;
     @apply font-semibold;
-    @apply text-gray-500;
-    @apply bg-gray-500 rounded-md;
+    @apply text-ios-label2;
+    @apply bg-ios-fill rounded-md;
     min-width: 28px;
     @apply py-1;
     @apply text-center;
-    @apply bg-opacity-20;
     @apply -mr-2;
   }
   .pm2-button .title {
-    @apply text-black text-base leading-tight dark:text-white font-medium line-clamp-1 block w-full;
+    @apply text-ios-label text-base leading-tight font-medium line-clamp-1 block w-full;
     @apply text-left;
     @apply text-lg;
   }
@@ -138,9 +141,9 @@
   .pm2-button.locked::after {
     content: 'Locked';
     @apply absolute right-2;
-    @apply bg-red-500 bg-opacity-80;
+    @apply bg-ios-danger;
     @apply flex items-center justify-center;
-    @apply text-xs font-bold text-white;
+    @apply text-xs font-bold text-ios-ondanger;
     @apply rounded-full;
     @apply py-1 px-2;
   }
@@ -152,11 +155,11 @@
     @apply z-10;
     @apply transition-all transform duration-200 ease-in-out;
     border-bottom: solid 1px rgba(155, 155, 155, 0.3);
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply text-left;
   }
   .n-list.pop-buttons .nbtn:focus {
-    @apply ring-4 ring-primary-500 ring-inset;
+    @apply ring-4 ring-ios-tint ring-inset;
   }
   .n-list.pop-buttons .nbtn:first-child {
     @apply rounded-t-2xl;
@@ -166,15 +169,21 @@
     @apply border-none;
   }
 
+  /* iOS look: the 1 px gap between cells is the divider, so the grid's background is the separator token.
+     The 1 px padding shows the same token as an outline on all four sides, with the outer corner just outside the cells' 20 px corners. */
   .pop-buttons.list-grid {
     @apply grid grid-cols-2 gap-px;
+    background: var(--ios-separator);
+    padding: 1px;
+    border-radius: 21px;
+    overflow: hidden;
   }
   .pop-buttons.list-grid .nbtn {
     @apply flex flex-row-reverse;
     @apply text-center;
     @apply font-light;
     @apply items-center justify-end;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply rounded-none;
     @apply line-clamp-none;
 
@@ -203,7 +212,7 @@
   }
 
   .pop-buttons.list-grid .nbtn:focus {
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
   }
   .pop-buttons.list-grid .nbtn .main {
     @apply text-left;
@@ -213,13 +222,13 @@
   }
 
   .pop-buttons.list-grid .nbtn svg {
-    @apply text-gray-400 dark:text-gray-600;
+    @apply text-ios-label2;
     @apply mr-3;
   }
   .pop-buttons.list-grid .nbtn .main span {
     @apply text-base;
     @apply text-center;
     @apply block w-full line-clamp-1;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 </style>

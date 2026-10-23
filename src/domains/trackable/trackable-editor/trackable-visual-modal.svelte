@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import Avatar from '../../../components/avatar/avatar.svelte'
+  import { Interact } from '../../../store/interact'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
 
@@ -23,8 +24,9 @@
   import { getTrackableVisuals } from '../trackable-utils'
   import { base } from '../../../modules/colors/colors'
   import type { Trackable } from '../Trackable.class'
+  import { Lang } from '../../../store/lang'
 
-  const { id, trackable, onComplete } = $props<{ id: string, trackable: Trackable, onComplete: Function }>()
+  const { id, trackable, onComplete } = $props<{ id: string; trackable: Trackable; onComplete: Function }>()
 
   let emojiOrColor: 'color' | 'emoji' | 'image' = $state('emoji')
 
@@ -40,8 +42,14 @@
     ready = true
   }
 
-  const manualEmoji = () => {
-    const multiEmoji = prompt('Want multiple emojis? Do it here:', trackable.emoji)
+  const manualEmoji = async () => {
+    const multiEmoji = await Interact.prompt(
+      Lang.t('trackable.multiple-emojis', 'Multiple emojis'),
+      Lang.t('trackable.want-multiple-emojis-do-it-here', 'Want multiple emojis? Do it here:'),
+      {
+        value: trackable.emoji,
+      }
+    )
     if (multiEmoji) {
       trackable.emoji = multiEmoji
     }
@@ -74,13 +82,14 @@
   }
 </script>
 
-<BackdropModal className="" mainClass="bg-white dark:bg-gray-900">
-  <header slot="header" class="bg-gray-200 dark:bg-black">
+<BackdropModal className="" mainClass="bg-ios-card">
+  <header slot="header" class="bg-ios-bg">
     <Toolbar>
       <Button
         clear
         primary
         icon
+        ariaLabel={Lang.t('trackable.back', 'Back')}
         on:click={() => {
           close()
         }}
@@ -92,21 +101,21 @@
         id="visualizer-btn-group"
         buttons={[
           {
-            label: 'Emoji',
+            label: Lang.t('trackable.emoji', 'Emoji'),
             active: emojiOrColor === 'emoji',
             click() {
               emojiOrColor = 'emoji'
             },
           },
           {
-            label: 'Color',
+            label: Lang.t('trackable.color', 'Color'),
             active: emojiOrColor === 'color',
             click() {
               emojiOrColor = 'color'
             },
           },
           {
-            label: 'Image',
+            label: Lang.t('trackable.image', 'Image'),
             active: emojiOrColor === 'image',
             click() {
               emojiOrColor = 'image'
@@ -116,7 +125,7 @@
       />
       <div slot="right" />
     </Toolbar>
-    <section aria-label="Preview" class="px-4 py-2">
+    <section aria-label={Lang.t('trackable.preview', 'Preview')} class="px-4 py-2">
       <div class="p-4 text-center rounded-lg relative" style="background-color:{color}">
         {#if ready}
           <Avatar
@@ -125,7 +134,7 @@
               manualEmoji()
             }}
             src={avatar}
-            className="bg-white p-5 rounded-xl shadow-lg"
+            className="bg-ios-card p-5 rounded-xl shadow-lg"
             size={80}
           />
         {/if}
@@ -137,9 +146,9 @@
               refresh()
               // fireChange()
             }}
-            class="text-xs absolute top-2 right-3 py-1 px-3 rounded-full bg-black text-white"
+            class="text-xs absolute top-2 right-3 py-1 px-3 rounded-full bg-ios-black text-ios-white"
           >
-            Remove Image
+            {Lang.t('trackable.remove-image', 'Remove Image')}
           </button>
         {/if}
       </div>
@@ -163,7 +172,7 @@
   {:else if emojiOrColor === 'image'}
     <div class="p-5 flex flex-col space-y-2">
       <ImageUploader
-        label="Select Image..."
+        label={Lang.t('trackable.select-image', 'Select Image...')}
         className="w-full"
         on:image={(evt) => {
           avatar = evt.detail
@@ -174,9 +183,11 @@
           // fireChange()
         }}
       />
-      <div class="text-center pt-4 text-xs text-gray-500">Or provide a url to the image</div>
-      <div class="bg-white dark:bg-black rounded-md">
-        <Input listItem type="url" bind:value={avatar} placeholder="URL to image" />
+      <div class="text-center pt-4 text-xs text-ios-label2">
+        {Lang.t('trackable.or-provide-a-url-to-the-image', 'Or provide a url to the image')}
+      </div>
+      <div class="bg-ios-card rounded-md">
+        <Input listItem type="url" bind:value={avatar} placeholder={Lang.t('trackable.url-to-image', 'URL to image')} />
       </div>
     </div>
   {/if}

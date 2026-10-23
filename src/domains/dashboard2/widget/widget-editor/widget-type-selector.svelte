@@ -3,20 +3,21 @@
 <script lang="ts">
   import HScroller from '../../../../components/h-scroller/h-scroller.svelte'
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
+  import FeatureBadge from '../../../../components/advanced-badge/feature-badge.svelte'
   import NomieAiButton from '../../../../components/aibutton2/NomieAiButton2.svelte'
 
   import { getWidgetTypes, type IWidgetType, widgetTypes } from '../widget-types'
   import { PluginStore } from '../../../plugins/PluginStore'
   import { Prefs } from '../../../preferences/Preferences'
+  import { TrackableStore } from '../../../trackable/TrackableStore'
 
   import Avatar from '../../../../components/avatar/avatar.svelte'
-import type { WidgetClass } from '../widget-class';
-  const { widget = $bindable(), onWidgetTypeChange, updateTrigger = 0 } = $props();
+  import type { WidgetClass } from '../widget-class'
+  import { Lang } from '../../../../store/lang'
+  const { widget = $bindable(), onWidgetTypeChange, updateTrigger = 0 } = $props()
 
   function isAiConfigured(): boolean {
-    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[
-      $Prefs.ai?.selectedService || 'claude'
-    ]?.apiKey)
+    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[$Prefs.ai?.selectedService || 'claude']?.apiKey)
   }
 
   let mounted = $state(false)
@@ -65,6 +66,15 @@ import type { WidgetClass } from '../widget-class';
   })
 </script>
 
+<!-- Phase 7 (new users): a widget shows a tracker, so say so before the choices -->
+{#if Object.keys($TrackableStore.trackables).length === 0}
+  <p class="px-4 pt-1 text-ios-footnote text-ios-label2">
+    {Lang.t(
+      'dashboard.widgets-show-your-trackers-add-a-tracker-first-t',
+      'Widgets show your trackers. Add a tracker first, then come back here.'
+    )}
+  </p>
+{/if}
 <HScroller
   className="items-start justify-start"
   wrapperClass="snap-scroll-x flex   space-x-4 px-4 widget-type-selector py-2 "
@@ -73,9 +83,16 @@ import type { WidgetClass } from '../widget-class';
     {@const isInsightDisabled = widgetType.id === 'insight' && !isAiConfigured()}
     <button
       disabled={isInsightDisabled}
-      class="flex flex-col self-start focus:outline-none p-1 rounded-xl {isInsightDisabled ? 'opacity-50 cursor-not-allowed' : ''}"
+      class="flex flex-col self-start shrink-0 w-20 focus:outline-none p-1 rounded-xl {isInsightDisabled
+        ? 'opacity-50 cursor-not-allowed'
+        : ''}"
       aria-label={`${widgetType.label} widget${isInsightDisabled ? ' (requires AI configuration)' : ''}`}
-      title={isInsightDisabled ? 'Enable AI in settings and add your API key to use this widget' : ''}
+      title={isInsightDisabled
+        ? Lang.t(
+            'dashboard.enable-ai-in-settings-and-add-your-api-key-to-us',
+            'Enable AI in settings and add your API key to use this widget'
+          )
+        : ''}
       on:click={() => {
         select(widgetType)
       }}
@@ -83,7 +100,9 @@ import type { WidgetClass } from '../widget-class';
       <div
         class="{isWidgetTypeActive(widgetType)
           ? 'active-type scale-110'
-          : ''} w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center dark:bg-gray-900 dark:text-gray-400 shadow-md rounded-xl {isInsightDisabled ? 'opacity-60' : ''}"
+          : ''} relative w-20 h-14 lg:h-20 mb-1 lg:w-20 transition-all duration-100 transform stiff flex items-center justify-center bg-ios-card text-ios-label2 shadow-md rounded-xl {isInsightDisabled
+          ? 'opacity-60'
+          : ''}"
       >
         {#if widgetType.id === 'insight'}
           <NomieAiButton size="40px" />
@@ -92,8 +111,9 @@ import type { WidgetClass } from '../widget-class';
         {:else if widgetType.emoji}
           <Avatar size={40} emoji={widgetType.emoji} />
         {/if}
+        <FeatureBadge widgetType={widgetType.id} />
       </div>
-      <div class="text-gray-700 filler w-full line-clamp-2 dark:text-gray-300 text-center text-xs pt-2 leading-tight">
+      <div class="text-ios-label filler w-full line-clamp-2 text-center text-xs pt-2 leading-tight break-words">
         {widgetType.label}
       </div>
     </button>
@@ -102,8 +122,14 @@ import type { WidgetClass } from '../widget-class';
 
 <style lang="postcss" global>
   .widget-type-selector .active-type {
-    @apply bg-primary-500 text-white;
-    @apply ring ring-inset ring-white;
+    @apply bg-ios-tint text-ios-ontint;
+    /* iOS look: the tint fill alone marks the selected type; no extra ring */
+  }
+
+  /* the row runs past the right edge on a phone; the fade tells the user it scrolls */
+  .widget-type-selector {
+    -webkit-mask-image: linear-gradient(to right, black 88%, transparent);
+    mask-image: linear-gradient(to right, black 88%, transparent);
   }
 
   /* Blend NomieAiButton colors with background for light/dark themes */

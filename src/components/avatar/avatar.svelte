@@ -5,8 +5,29 @@
   import { initials } from '../../utils/text/text'
   import { strToColor } from '../dymoji/dymoji'
   import emojiCount from '../../modules/emoji-count/emoji-count'
+  import { readableTextOn } from '../../utils/contrast/readable-text'
 
-  const { size = 32, label = undefined, src = undefined, emoji = undefined, transparent = false, style = '', color = undefined, circle = false, className = '' } = $props<{ size?: number; label?: string; src?: string; emoji?: string; transparent?: boolean; style?: string; color?: string; circle?: boolean; className?: string }>()
+  const {
+    size = 32,
+    label = undefined,
+    src = undefined,
+    emoji = undefined,
+    transparent = false,
+    style = '',
+    color = undefined,
+    circle = false,
+    className = '',
+  } = $props<{
+    size?: number
+    label?: string
+    src?: string
+    emoji?: string
+    transparent?: boolean
+    style?: string
+    color?: string
+    circle?: boolean
+    className?: string
+  }>()
 
   const dispatch = createEventDispatcher()
 
@@ -20,7 +41,9 @@
       }
     } else if (label && label.length) {
       const thisColor = color || strToColor(label)
-      arr.push(`background-color:${thisColor}; text-shadow:0px 2px 2px rgba(0,0,0,0.2); color:#FFF !important`)
+      arr.push(
+        `background-color:${thisColor}; text-shadow:0px 2px 2px rgba(0,0,0,0.2); color:${readableTextOn(thisColor)} !important`
+      )
       arr.push(`font-size: ${size * 0.5}px`)
     }
     return arr
@@ -74,7 +97,7 @@
     overflow: hidden;
     letter-spacing: normal;
     @apply rounded-xl;
-    @apply text-gray-900 dark:text-gray-100;
+    @apply text-ios-label;
   }
 
   .n-avatar.rounded {
@@ -89,7 +112,7 @@
     height: var(--avatar-size);
   }
   .n-avatar.label {
-    color: #fff;
+    color: var(--ios-white);
     text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
     font-size: calc(var(--avatar-size) * 0.55);
     font-weight: bold;

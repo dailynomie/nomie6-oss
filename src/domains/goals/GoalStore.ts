@@ -2,8 +2,6 @@ import { getDurationFromGoals, getTimespanFromGoal } from './goal-utils'
 
 import type { Dayjs } from 'dayjs'
 import { GoalClass } from './goal-class'
-import GoalDetailModal from './goal-details-modal.svelte'
-import GoalEditorModal from './goal-editor-modal.svelte'
 import type { GoalScoreType } from './goal-class'
 import type { GoalType } from './goal-class'
 import type { ITrackables } from '../trackable/trackable-utils'
@@ -21,6 +19,7 @@ import { showConfetti } from '../../components/confetti/ConfettiStore'
 import { showToast } from '../../components/toast/ToastStore'
 import { wait } from '../../utils/tick/tick'
 import { writable } from 'svelte/store'
+import { Lang } from '../../store/lang'
 
 export type GoalUsageResponseType = {
   id: string
@@ -38,7 +37,7 @@ export type TodaysGoalsType = { today: undefined | 'success' | 'failure'; goal: 
 // export const GoalStore = writable<Array<TodaysGoalsType> | undefined>(undefined)
 
 export const GoalStore = createArrayStore(NPaths.storage.goals(), {
-  label: 'Goals',
+  label: Lang.t('goals.goals', 'Goals'),
   key: 'id',
   itemInitializer: (item) => {
     return new GoalClass(item)
@@ -108,11 +107,11 @@ export const loadGoalsForToday = async (
   // Update the Score Store
   // GoalScoreStore.update((s) => [successes, total])
   const showSuccess = (goal: GoalClass) => {
-    showToast({ type: 'success', message: `🎉 Congrats! You met your ${goal.tag} goal!` })
+    showToast({ type: 'success', message: Lang.t('goals.congrats-met', { name: goal.tag }) })
     showConfetti()
   }
   const showFailure = (goal) => {
-    showToast({ type: 'failure', message: `Keep working on that ${goal.tag} goal!` })
+    showToast({ type: 'failure', message: Lang.t('goals.keep-working', { name: goal.tag }) })
   }
 
   /**
@@ -184,7 +183,8 @@ export const loadGoalsForToday = async (
  * Open a Goal Detail Modal
  * @param goal
  */
-export const openGoalDetail = (goal: GoalClass) => {
+export const openGoalDetail = async (goal: GoalClass) => {
+  const { default: GoalDetailModal } = await import('./goal-details-modal.svelte')
   openModal({
     id: `goal-${goal.id}`,
     position: 'fullscreen',
@@ -199,7 +199,8 @@ export const openGoalDetail = (goal: GoalClass) => {
  * Open Editor Modal
  * @param goal
  */
-export const openGoalEditor = (goal?: GoalClass) => {
+export const openGoalEditor = async (goal?: GoalClass) => {
+  const { default: GoalEditorModal } = await import('./goal-editor-modal.svelte')
   openModal({
     id: `goal-${goal.id}-editor`,
     position: 'fullscreen',
@@ -219,6 +220,44 @@ export const openGoalEditor = (goal?: GoalClass) => {
  * @param trackables
  * @returns Array GoalUsageResponseType
  */
+// iOS look (guide 5.8): the history of a goal, one entry per period, hit (true) or missed (false).
+// Daily goals show the last 7 days, weekly goals the last 4 weeks, monthly goals the last 12 months.
+// It reads the usage only. Unlike getGoalUsage it does not write GoalScoreStore, so today's score is unchanged.
+const HISTORY_PERIODS: { [duration: string]: { count: number; unit: 'day' | 'week' | 'month' } } = {
+  day: { count: 7, unit: 'day' },
+  week: { count: 4, unit: 'week' },
+  month: { count: 12, unit: 'month' },
+}
+
+export const getGoalHistory = async (
+  _goals: Array<GoalClass>,
+  trackables
+): Promise<{ [goalId: string]: Array<boolean> }> => {
+  const history: { [goalId: string]: Array<boolean> } = {}
+  const goals = _goals.filter((g) => g && HISTORY_PERIODS[g.duration])
+  if (!goals.length) return history
+  const today = dayjs()
+  const queryStart = goals
+    .map((goal) => {
+      const { count, unit } = HISTORY_PERIODS[goal.duration]
+      return today.subtract(count - 1, unit).startOf(unit)
+    })
+    .reduce((earliest, start) => (start.isBefore(earliest) ? start : earliest))
+  const usages = await queryToUsageMap({ start: queryStart, end: today.endOf('day') }, trackables)
+  goals.forEach((goal: GoalClass) => {
+    const { count, unit } = HISTORY_PERIODS[goal.duration]
+    const usage = usages[goal.tag]
+    history[goal.id] = Array.from({ length: count }, (_, i) => {
+      const base = today.subtract(count - 1 - i, unit)
+      const span = getTimespanFromGoal(goal, base)
+      const truncatedUsage = usage ? usage.truncate(span.start, span.end) : undefined
+      const scores = goal.calculateScores(truncatedUsage)
+      return (!scores.length && goal.isDontDoIt) || (scores.length > 0 && scores[0].success === true)
+    })
+  })
+  return history
+}
+
 export const getGoalUsage = async (
   _goals: Array<GoalClass>,
   trackables,

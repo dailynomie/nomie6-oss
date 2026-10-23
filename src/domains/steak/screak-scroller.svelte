@@ -23,6 +23,7 @@
   import { getDateFormats } from '../preferences/Preferences'
   import { openDateOptionPopMenu } from '../../components/pop-menu/usePopmenu'
   import LetterTicker from '../../components/letter-ticker/letter-ticker.svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   let { endDate, trackable, loading = $bindable() } = $props()
@@ -51,7 +52,7 @@
     }, 200)
   }
 
-  let dateFormats = getDateFormats();
+  let dateFormats = getDateFormats()
 
   onMount(async () => {
     await loadLogs()
@@ -64,8 +65,6 @@
   onDestroy(() => {
     unsubLastUsedStore()
   })
-
-  
 
   /**
    * Track an event on a given day
@@ -108,17 +107,19 @@
     return true
   }
 
-  const showDateOptions = (date:Date, trackable:Trackable)=>{
-    openDateOptionPopMenu(date, [{
-      title: 'Track on this Day',
-      click() {
-        trackOnThisDay(trackable, dayjs(date).hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
-      }
-    }])
+  const showDateOptions = (date: Date, trackable: Trackable) => {
+    openDateOptionPopMenu(date, [
+      {
+        title: Lang.t('steak.track-on-this-day', 'Track on this Day'),
+        click() {
+          trackOnThisDay(trackable, dayjs(date).hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
+        },
+      },
+    ])
   }
 </script>
 
-<div class="streak-2 bg-white dark:bg-black py-1">
+<div class="streak-2 bg-ios-card py-1">
   <!-- {#if `${selectedIndex}`.length}
     <button
       on:click={() => {
@@ -128,10 +129,10 @@
         }
         dispatch('label-click', selectedIndex)
       }}
-      class="text-center w-full  text-black h-12  hover-primary  dark:text-white py-2 text-xl font-bold border-b border-gray-500 border-opacity-20"
+      class="text-center w-full  text-ios-label h-12  hover-primary  text-ios-label py-2 text-xl font-bold border-b border-ios-separator"
     >
       <LetterTicker text={selectedLabel || selectedIndex || ''} />
-      <IonIcon icon={ChevronForwardOutline} className="text-gray-500" size={16} />
+      <IonIcon icon={ChevronForwardOutline} className="text-ios-label2" size={16} />
     </button>
     <div class="flex items-center justify-center -mt-2">
       <IonIcon icon={CaretDown} />
@@ -156,25 +157,25 @@
     <div
       class="day {selectedIndex === index ? 'active' : ''}"
       data-index={index}
-      data-label={item.format('dddd, MMMM D')}
+      data-label={item.format(dateFormats.dateDay)}
       aria-controls="form"
     >
       <button
         on:click={() => {
           // openDateOptionPopMenu(item.toDate())
-          showDateOptions(item.toDate(), trackableUsage.trackable);
+          showDateOptions(item.toDate(), trackableUsage.trackable)
         }}
-        class="mb-1 text-solid border-dotted border-b border-gray-200 dark:border-gray-800 
+        class="mb-1 text-solid border-dotted border-b border-ios-separator
         "
       >
         <div class="text-xs opacity-70 leading-none">{item.format('ddd')}</div>
         <div class="leading-tight">{item.format(dateFormats.tinyNumber)}</div>
       </button>
-      
+
       <button
-      on:click={() => {
-        showDateOptions(item.toDate(), trackableUsage.trackable);
-      }}
+        on:click={() => {
+          showDateOptions(item.toDate(), trackableUsage.trackable)
+        }}
         class="day-wrapper"
       >
         {#if !isNaN(trackableUsage.values[index])}
@@ -194,9 +195,12 @@
           )}`}%;background-color:{trackableUsage.trackable.color}"
         />
       </button>
-      <button class="track-button" on:click={() => {
-        trackOnThisDay(trackableUsage.trackable, item.hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
-      }}>
+      <button
+        class="track-button"
+        on:click={() => {
+          trackOnThisDay(trackableUsage.trackable, item.hour(dayjs().hour()).toDate(), $TrackableStore.trackables)
+        }}
+      >
         +
       </button>
     </div>
@@ -218,12 +222,12 @@
   }
 
   .streak-2 .day:focus .day-wrapper {
-    @apply ring-2 ring-primary-500 ring-offset-1;
+    @apply ring-2 ring-ios-tint ring-offset-1;
     @apply text-center w-full rounded-md;
   }
 
   .streak-2 .track-button {
-    @apply bg-gray-200 dark:bg-gray-800;
+    background-color: var(--ios-fill);
     @apply w-full rounded-md;
     @apply mt-1;
   }
@@ -232,33 +236,43 @@
     @apply relative;
     @apply h-full;
     @apply overflow-hidden;
-    @apply bg-gray-200 dark:bg-gray-800;
+    /* the track is the fill token below the value band; the band itself stays on the card (no pill) */
+    background: linear-gradient(to bottom, transparent 20px, var(--ios-fill) 20px);
     @apply overflow-hidden;
     @apply w-12 h-14;
     @apply rounded-md;
     @apply flex flex-col items-center justify-end;
     @apply transform transition-all duration-100;
-    @apply p-0;
+    /* iOS look: the top 20 px is the value band; the bar's height percentage is of the space below it,
+       so bars keep their relative heights and never reach the value */
+    padding: 20px 0 0 0;
+  }
+  /* iOS look: the value is label text in the band above the bar, with no background */
+  /* a value longer than three characters (6h 16m) is set smaller so it stays inside the 48 px tile */
+  .streak-2 .day-wrapper .value.xs {
+    font-size: calc(11px * var(--text-scale));
   }
   .streak-2 .day-wrapper .value {
     @apply text-sm;
     @apply leading-none;
-    @apply text-white;
+    color: var(--ios-label);
     @apply px-1;
     @apply absolute;
-    @apply bottom-1;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.86);
-    @apply bg-black bg-opacity-10;
+    /* iOS look: the value is plain label text in its own band at the top, on one line, with no background:
+       the bar below is capped to leave room for that band (see .progress) */
+    top: 4px;
+    left: 0;
+    right: 0;
+    background: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
     @apply min-w-0;
-    @apply p-1;
-    @apply rounded-lg;
-    min-width: 20px;
     @apply text-center;
-    @apply inline-block;
   }
   .streak-2 .day:focus .wrapper,
   .streak-2 .day.active .day-wrapper {
-    @apply ring-primary-600;
+    @apply ring-ios-tint;
   }
 
   .streak-2 .day.active label {
@@ -275,12 +289,12 @@
 
   .streak-2 .day .not-used {
     @apply mt-4;
-    @apply bg-gray-500 bg-opacity-25;
+    @apply bg-ios-fill;
   }
 
   .streak-2 .day label {
     @apply block;
-    @apply text-gray-500 text-sm text-center;
+    @apply text-ios-label2 text-sm text-center;
     @apply pb-1;
   }
 </style>

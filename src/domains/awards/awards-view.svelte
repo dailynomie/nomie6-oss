@@ -13,10 +13,16 @@
   import { RemoveCircleOutline } from '../../components/icon/nicons'
   import { Device } from '../../store/device-store'
   import { Interact } from '../../store/interact'
+  import { Lang } from '../../store/lang'
 
   const resetAll = async () => {
-    var feedback = await Interact.confirm("Reset all Awards, they will be rebuild with next app restart")
-    if (feedback){
+    var feedback = await Interact.confirm(
+      Lang.t(
+        'awards.reset-all-awards-they-will-be-rebuild-with-next-',
+        'Reset all Awards, they will be rebuild with next app restart'
+      )
+    )
+    if (feedback) {
       $AwardStore.awards = []
       $AwardStore.newAwards = []
       $AwardStore.ready = true
@@ -26,32 +32,30 @@
   }
 </script>
 
-<Layout>
+<Layout checkIn={false}>
   <header slot="header">
     <ToolbarGrid>
       <div slot="left">
         <BackButton to="/settings" />
       </div>
-      <h1 class="ntitle">My Awards</h1>
       <div slot="right">
         <button
-          class="{$Device.width < 399 ? 'nbtn-icon circle' : 'clear'} flex items-center text-primary-500"
+          class="{$Device.width < 399 ? 'nbtn-icon circle' : 'clear'} flex items-center text-ios-tint"
           on:click={(evt) => resetAll()}
         >
-          <IonIcon icon={RemoveCircleOutline} className="text-primary-500" />
+          <IonIcon icon={RemoveCircleOutline} className="text-ios-tint" />
           {#if $Device.width > 400}
-            <span class="ml-2 text-primary-500">
-              Reset All
-            </span>
+            <span class="ml-2 text-ios-tint"> {Lang.t('awards.reset-all', 'Reset All')} </span>
           {/if}
         </button>
       </div>
     </ToolbarGrid>
+    <h1 class="ios-large-title">{Lang.t('awards.my-awards', 'My Awards')}</h1>
   </header>
-  <main class="h-full ">
+  <main class="h-full">
     <Container className="py-4">
       <div class="px-4 grid grid-cols-3 gap-3">
-        {#each $AwardStore.awards as award }
+        {#each $AwardStore.awards as award}
           <AwardBadge {award} />
         {/each}
       </div>

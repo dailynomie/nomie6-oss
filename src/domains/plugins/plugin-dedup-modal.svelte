@@ -9,7 +9,7 @@
   import ListItem from '../../components/list-item/list-item.svelte'
   import Divider from '../../components/divider/divider.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { CloseOutline, CircleOutline, CheckmarkCircle } from '../../components/icon/nicons'
+  import { CircleOutline, CheckmarkCircle } from '../../components/icon/nicons'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import { Interact } from '../../store/interact'
   import { showToast } from '../../components/toast/ToastStore'
@@ -19,6 +19,8 @@
   import type { CleanupLogEntry } from './PluginCleanupStore'
   import { getLastCleanupLog, saveCleanupLog } from './PluginCleanupStore'
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
+  import { Lang } from '../../store/lang'
 
   const id = 'plugin-dedup-modal'
 
@@ -43,7 +45,10 @@
       hasScanned = true
     } catch (e) {
       console.error('Scan error:', e)
-      showToast({ message: 'Error scanning for duplicates', type: 'error' })
+      showToast({
+        message: Lang.t('plugins.error-scanning-for-duplicates', 'Error scanning for duplicates'),
+        type: Lang.t('plugins.error-2', 'error'),
+      })
     } finally {
       isScanning = false
     }
@@ -65,7 +70,9 @@
       Interact.stopBlocker()
       saveCleanupLog(result, 'manual')
       loadCleanupLog()
-      showToast({ message: 'Plugin database cleaned successfully' })
+      showToast({
+        message: Lang.t('plugins.plugin-database-cleaned-successfully', 'Plugin database cleaned successfully'),
+      })
       scanResult = null
       hasScanned = false
       setTimeout(() => {
@@ -74,7 +81,10 @@
     } catch (e) {
       console.error('Cleanup error:', e)
       Interact.stopBlocker()
-      showToast({ message: 'Error cleaning plugin database', type: 'error' })
+      showToast({
+        message: Lang.t('plugins.error-cleaning-plugin-database', 'Error cleaning plugin database'),
+        type: Lang.t('plugins.error-2', 'error'),
+      })
     } finally {
       isLoading = false
     }
@@ -88,73 +98,98 @@
 <BackdropModal {id}>
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" clear icon on:click={handleClose}>
-        <IonIcon icon={CloseOutline} className="text-gray-700 dark:text-gray-300" />
-      </Button>
-      <Text bold slot="main" className="text-gray-900 dark:text-white">
-        Clean Plugin Database
-      </Text>
+      <Button slot="left" clear primary on:click={handleClose}>{Lang.t('plugins.cancel', 'Cancel')}</Button>
+      <Text bold slot="main" className="text-ios-label"
+        >{Lang.t('plugins.clean-plugin-database', 'Clean Plugin Database')}</Text
+      >
     </ToolbarGrid>
   </header>
 
   <main class="filler space-y-4 p-4">
     {#if !hasScanned}
       <div class="info-box p-4 rounded-lg">
-        <Text bold className="text-gray-800 dark:text-gray-100 mb-2">What This Does</Text>
-        <Text className="text-gray-700 dark:text-gray-200" size="sm">
-          Plugins are created by different developers and may store data differently. Over time, duplicate entries can accumulate in your plugin database—especially if you've synced data across devices.
+        <Text bold className="text-ios-label mb-2">{Lang.t('plugins.what-this-does', 'What This Does')}</Text>
+        <Text className="text-ios-label2" size="sm">
+          {Lang.t(
+            'plugins.plugins-are-created-by-different-developers-and-',
+            "Plugins are created by different developers and may store data differently. Over time, duplicate entries can accumulate in your plugin database—especially if you've synced data across devices."
+          )}
         </Text>
-        <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
-          This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their functionality are never affected—only the background storage is tidied up.
+        <Text className="text-ios-label2 mt-2" size="sm">
+          {Lang.t(
+            'plugins.this-tool-safely-removes-these-duplicates-and-cl',
+            'This tool safely removes these duplicates and cleans up orphaned plugin folders. Your actual plugins and their functionality are never affected—only the background storage is tidied up.'
+          )}
         </Text>
-        <Text className="text-gray-700 dark:text-gray-200 mt-2" size="sm">
-          No changes are made until you confirm. You can always scan again to verify the results.
+        <Text className="text-ios-label2 mt-2" size="sm">
+          {Lang.t(
+            'plugins.no-changes-are-made-until-you-confirm-you-can-al',
+            'No changes are made until you confirm. You can always scan again to verify the results.'
+          )}
         </Text>
       </div>
 
       {#if lastCleanupLog}
-        <div class="last-cleanup-box p-3 rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800">
-          <Text bold size="sm" className="text-blue-900 dark:text-blue-100 mb-1">Last Cleanup</Text>
-          <Text size="xs" className="text-blue-800 dark:text-blue-200">
-            {dayjs(lastCleanupLog.date).format('MMM D, YYYY [at] h:mm A')} ({lastCleanupLog.type})
+        <div class="last-cleanup-box p-3 rounded-lg bg-ios-card">
+          <Text bold size="sm" className="text-ios-label mb-1">{Lang.t('plugins.last-cleanup', 'Last Cleanup')}</Text>
+          <Text size="xs" className="text-ios-label">
+            {dayjs(lastCleanupLog.date).format(`${getDateFormats().mmm_d_yyyy} ${getDateFormats().time}`)} ({lastCleanupLog.type})
           </Text>
-          <Text size="xs" className="text-blue-700 dark:text-blue-300 mt-1">
-            Found {lastCleanupLog.duplicatesFound} duplicate{lastCleanupLog.duplicatesFound === 1 ? '' : 's'} and {lastCleanupLog.rogueFoldersFound} rogue folder{lastCleanupLog.rogueFoldersFound === 1 ? '' : 's'}
+          <Text size="xs" className="text-ios-label2 mt-1">
+            {Lang.t('plugins.cleanup-found', {
+              duplicates: lastCleanupLog.duplicatesFound,
+              duplicateWord: Lang.t(lastCleanupLog.duplicatesFound === 1 ? 'plugins.duplicate' : 'plugins.duplicates'),
+              folders: lastCleanupLog.rogueFoldersFound,
+              folderWord: Lang.t(
+                lastCleanupLog.rogueFoldersFound === 1 ? 'plugins.rogue-folder' : 'plugins.rogue-folders'
+              ),
+            })}
           </Text>
         </div>
       {/if}
 
-      <Button
-        primary
-        on:click={handleScan}
-        disabled={isScanning}
-      >
-        {isScanning ? 'Scanning...' : 'Scan for Duplicates'}
+      <Button primary on:click={handleScan} disabled={isScanning}>
+        {isScanning
+          ? Lang.t('plugins.scanning', 'Scanning...')
+          : Lang.t('plugins.scan-for-duplicates', 'Scan for Duplicates')}
       </Button>
     {:else if scanResult}
       {#if scanResult.hasDuplicates}
-        <div class="duplicate-alert p-4 rounded-lg flex gap-3">
+        <div class="duplicate-alert p-4 rounded-lg flex gap-3 bg-ios-card">
           <div class="flex-shrink-0">
-            <IonIcon icon={CircleOutline} className="text-orange-500 dark:text-orange-400" size={20} />
+            <IonIcon icon={CircleOutline} className="text-ios-label2" size={20} />
           </div>
           <div class="flex-grow">
-            <Text bold className="text-orange-900 dark:text-orange-100">
-              {scanResult.totalDuplicateEntries + scanResult.totalRogueFolders} Issue{scanResult.totalDuplicateEntries + scanResult.totalRogueFolders === 1 ? '' : 's'} Found
+            <Text bold className="text-ios-label">
+              {Lang.t(
+                scanResult.totalDuplicateEntries + scanResult.totalRogueFolders === 1
+                  ? 'plugins.count-issue-found'
+                  : 'plugins.count-issues-found',
+                { num: scanResult.totalDuplicateEntries + scanResult.totalRogueFolders }
+              )}
             </Text>
-            <Text size="sm" className="text-orange-800 dark:text-orange-200">
+            <Text size="sm" className="text-ios-label2">
               {#if scanResult.totalDuplicateEntries > 0}
-                {scanResult.totalDuplicateEntries} duplicate {scanResult.totalDuplicateEntries === 1 ? 'entry' : 'entries'}
+                {Lang.t(
+                  scanResult.totalDuplicateEntries === 1 ? 'plugins.duplicate-entry' : 'plugins.duplicate-entries',
+                  { num: scanResult.totalDuplicateEntries }
+                )}
               {/if}
               {#if scanResult.totalRogueFolders > 0}
-                {#if scanResult.totalDuplicateEntries > 0} • {/if}
-                {scanResult.totalRogueFolders} rogue folder{scanResult.totalRogueFolders === 1 ? '' : 's'}
+                {#if scanResult.totalDuplicateEntries > 0}
+                  •
+                {/if}
+                {Lang.t(
+                  scanResult.totalRogueFolders === 1 ? 'plugins.rogue-folder-count' : 'plugins.rogue-folders-count',
+                  { num: scanResult.totalRogueFolders }
+                )}
               {/if}
             </Text>
           </div>
         </div>
 
         <div class="mt-4">
-          <Text bold className="text-gray-900 dark:text-white mb-2">Issues Found:</Text>
+          <Text bold className="text-ios-label mb-2">{Lang.t('plugins.issues-found', 'Issues Found:')}</Text>
           <List transparent>
             {#each scanResult.pluginIssues as issue (issue.pluginId + issue.issueType)}
               <ListItem bottomLine={16}>
@@ -166,17 +201,19 @@
                   {/if}
                 </div>
                 <div class="flex-grow">
-                  <Text bold className="text-gray-900 dark:text-white">
+                  <Text bold className="text-ios-label">
                     {issue.pluginName}
                   </Text>
-                  <Text size="sm" className="text-gray-600 dark:text-gray-400">
+                  <Text size="sm" className="text-ios-label2">
                     {#if issue.issueType === 'duplicates-in-file'}
-                      {issue.duplicatesFound} duplicate {issue.duplicatesFound === 1 ? 'entry' : 'entries'}
+                      {Lang.t(issue.duplicatesFound === 1 ? 'plugins.duplicate-entry' : 'plugins.duplicate-entries', {
+                        num: issue.duplicatesFound,
+                      })}
                     {:else if issue.issueType === 'rogue-folder'}
-                      Orphaned plugin folder (not in plugins.json)
+                      {Lang.t('plugins.orphaned-folder', 'Orphaned plugin folder (not in plugins.json)')}
                     {/if}
                   </Text>
-                  <Text size="xs" className="text-gray-500 dark:text-gray-500 mt-1">
+                  <Text size="xs" className="text-ios-label2 mt-1">
                     {issue.fileLocation}
                   </Text>
                 </div>
@@ -186,12 +223,8 @@
         </div>
 
         <div class="mt-6 space-y-2">
-          <Button
-            primary
-            on:click={handleCleanup}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Cleaning...' : 'Clean Database'}
+          <Button primary on:click={handleCleanup} disabled={isLoading}>
+            {isLoading ? Lang.t('plugins.cleaning', 'Cleaning...') : Lang.t('plugins.clean-database', 'Clean Database')}
           </Button>
           <Button
             clear
@@ -200,20 +233,21 @@
               hasScanned = false
             }}
           >
-            Scan Again
+            {Lang.t('plugins.scan-again', 'Scan Again')}
           </Button>
         </div>
       {:else}
-        <div class="success-box p-4 rounded-lg flex gap-3">
+        <div class="success-box p-4 rounded-lg flex gap-3 bg-ios-goodsoft">
           <div class="flex-shrink-0">
-            <IonIcon icon={CheckmarkCircle} className="text-green-500 dark:text-green-400" size={20} />
+            <IonIcon icon={CheckmarkCircle} className="text-ios-good" size={20} />
           </div>
           <div class="flex-grow">
-            <Text bold className="text-green-900 dark:text-green-100">
-              No Issues Found
-            </Text>
-            <Text size="sm" className="text-green-800 dark:text-green-200">
-              Your plugin database is clean ({scanResult.totalPluginsInMainList} {scanResult.totalPluginsInMainList === 1 ? 'plugin' : 'plugins'}) with no duplicates or rogue folders
+            <Text bold className="text-ios-good">{Lang.t('plugins.no-issues-found', 'No Issues Found')}</Text>
+            <Text size="sm" className="text-ios-good">
+              {Lang.t('plugins.db-clean', {
+                num: scanResult.totalPluginsInMainList,
+                word: Lang.t(scanResult.totalPluginsInMainList === 1 ? 'plugins.plugin' : 'plugins.plugins'),
+              })}
             </Text>
           </div>
         </div>
@@ -224,7 +258,7 @@
             handleScan()
           }}
         >
-          Scan Again
+          {Lang.t('plugins.scan-again', 'Scan Again')}
         </Button>
       {/if}
     {/if}
@@ -232,35 +266,14 @@
 </BackdropModal>
 
 <style lang="postcss">
-  :global(.info-box) {
-    background-color: #eff6ff;
-  }
-
-  :global(.dark .info-box) {
-    background-color: #0c2940;
-  }
-
-  :global(.last-cleanup-box) {
-    background-color: #eff6ff;
-  }
-
-  :global(.dark .last-cleanup-box) {
-    background-color: #0c2940;
-  }
-
+  /* iOS look: notices are cards (info and caution, with a glyph); success is the good soft fill; dark mode follows the tokens */
+  :global(.info-box),
+  :global(.last-cleanup-box),
   :global(.duplicate-alert) {
-    background-color: #fffbeb;
-  }
-
-  :global(.dark .duplicate-alert) {
-    background-color: #78350f;
+    background-color: var(--ios-card);
   }
 
   :global(.success-box) {
-    background-color: #f0fdf4;
-  }
-
-  :global(.dark .success-box) {
-    background-color: #1b4332;
+    background-color: var(--ios-good-soft);
   }
 </style>

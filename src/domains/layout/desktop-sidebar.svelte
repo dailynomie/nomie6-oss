@@ -4,8 +4,10 @@
   import EaselOutline from '../../n-icons/EaselOutline.svelte'
 
   import RibbonOutline from '../../n-icons/RibbonOutline.svelte'
+  import FlaskOutline from '../../n-icons/FlaskOutline.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
+  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
   import { openUnisearch } from '../../domains/search/UnisearchStore'
 
   import CalendarOutline from '../../n-icons/CalendarOutline.svelte'
@@ -31,6 +33,7 @@
   import { RunningTimers } from '../tracker/TrackerStore'
 
   import { Prefs } from '../preferences/Preferences'
+  import { FeatureVisible, type FeatureId } from '../preferences/features'
 
   import { GoalScoreStore } from '../goals/GoalStore'
 
@@ -55,7 +58,7 @@
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ['class'],
     })
 
     return () => observer.disconnect()
@@ -64,6 +67,7 @@
   type NavType = {
     id: string
     path: string
+    feature?: FeatureId
     title: string
     icon: any
     activeIcon: any
@@ -119,7 +123,15 @@
       activeIcon: RibbonSolid,
     },
     {
+      id: 'experiments',
+      path: '/experiments',
+      title: Lang.t('tabs.experiments', 'Experiments'),
+      icon: FlaskOutline,
+      activeIcon: FlaskOutline,
+    },
+    {
       id: 'analytics',
+      feature: 'analytics',
       path: '/analytics',
       title: Lang.t('tabs.analytics', 'Analytics'),
       icon: CubeOutline,
@@ -134,8 +146,9 @@
     // },
     {
       id: 'blockly',
+      feature: 'blockly',
       path: '/nomie-blockly',
-      title: 'Nomie Blockly',
+      title: Lang.t('layout.nomie-blockly', 'Nomie Blockly'),
       icon: QRCode,
       activeIcon: QRCodeSolid,
     },
@@ -157,20 +170,24 @@
 </script>
 
 <aside
-  class="desktop-sidebar bg-white dark:bg-gray-900 px-4 shadow-xl z-50 not-printable"
+  class="desktop-sidebar px-4 z-50 not-printable"
   role="menu"
   aria-hidden="false"
-  title="Nomie Navigation"
+  title={Lang.t('layout.nomie-navigation', 'Nomie Navigation')}
 >
   <div class="logo-container">
     {#if loggedIn}
-      <img src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'} alt="app-logo" class="nomie-logo" />
+      <img
+        src={isDarkMode ? '/images/nomie-splash-dark.svg' : '/images/nomie-splash-light.svg'}
+        alt="Nomie"
+        class="nomie-logo"
+      />
       <!-- <Logo size={22} className="-mt-2" /> -->
     {/if}
   </div>
 
   {#if loggedIn}
-    {#each navigation as item}
+    {#each navigation.filter((item) => !item.feature || $FeatureVisible(item.feature)) as item}
       <a
         role="menuitem"
         href={item.path}
@@ -178,16 +195,19 @@
           navigate(item.path)
         }}
         class="nav-item ntitle {window.location.pathname == item.path ? 'current' : ''} {window.location.pathname ==
-          '/' && $Prefs.startPage == item.id
+          '/' && item.id == 'track'
           ? 'current'
           : ''}"
       >
         {#if item.path == '/' && $RunningTimers.length}
-          <Dot size={8} className="absolute animate-pulse top-1 bg-red-500 ml-2" />
+          <Dot size={8} className="absolute animate-pulse top-1 bg-ios-tint ml-2" />
         {/if}
 
-        <IonIcon icon={item.icon} className="inactive" />
-        <IonIcon icon={item.activeIcon} className="active" />
+        <span class="adv-corner">
+          <IonIcon icon={item.icon} className="inactive" />
+          <IonIcon icon={item.activeIcon} className="active" />
+          <FeatureBadge feature={item.feature} />
+        </span>
 
         <div class="mr-2 link-title">
           {item.title}
@@ -196,11 +216,12 @@
           {#if goalPercentage}
             <Badge
               className={`${
+                /* iOS look: the progress badge is a soft token: good, tint, or danger text on the card fill (4.5:1) */
                 goalPercentage > 80
-                  ? 'bg-green-300 text-green-900'
+                  ? 'bg-ios-goodsoft text-ios-good'
                   : goalPercentage > 49
-                  ? 'bg-yellow-200 text-yellow-800'
-                  : 'bg-red-200 text-red-800'
+                    ? 'bg-ios-tintsoft text-ios-tint'
+                    : 'bg-ios-card2 text-ios-danger'
               }`}><LetterTicker text={`${goalPercentage}%`} /></Badge
             >
           {/if}
@@ -214,15 +235,15 @@
         on:click={() => {
           openUnisearch()
         }}
-        class="focus:outline-none focus:ring-2 ring-primary-500 py-2 rounded-md flex items-center space-x-2 text-sm leading-tight px-4 text-left text-gray-500 my-10"
+        class="focus:outline-none focus:ring-2 ring-ios-tint py-2 rounded-md flex items-center space-x-2 text-sm leading-tight px-4 text-left text-ios-label2 my-10"
       >
         <IonIcon icon={SearchIcon} />
-        <span>Super Search</span>
+        <span>{Lang.t('layout.super-search', 'Super Search')}</span>
       </button>
     {/if}
   {:else}
-    <div class="text-gray-500 px-4 h-full text-sm flex flex-col  justify-center space-y-4">
-      <!-- <p class="font-bold dark:text-white text-black ">Welcome to Nomie 6!</p>
+    <div class="text-ios-label2 px-4 h-full text-sm flex flex-col justify-center space-y-4">
+      <!-- <p class="font-bold text-ios-label ">Welcome to Nomie 6!</p>
       <p>
         Nomie was created to enable neurodivergent people keep track of and monitor their lives in whichever way they
         like. Nomie doesn't put you in a box; instead, it adapts to your needs while keeping your information private.
@@ -233,13 +254,23 @@
 
 <style lang="postcss" global>
   @media print {
-      .not-printable { display: none; }
+    .not-printable {
+      display: none;
+    }
   }
+  /* iOS look: the sidebar is a card with a hairline on its right edge, no shadow */
+  .desktop-sidebar {
+    background: var(--ios-card);
+    border-right: 0.5px solid var(--ios-separator);
+    box-shadow: none;
+  }
+
   .desktop-sidebar .nav-item {
     @apply px-4 py-2;
+    min-height: 44px;
     @apply mb-2;
     @apply flex items-center;
-    @apply focus:ring-2 ring-inset ring-primary-500;
+    @apply focus:ring-2 ring-inset ring-ios-tint;
     @apply outline-none;
     @apply rounded-lg;
     @apply duration-200 transition-all transform;
@@ -248,19 +279,27 @@
   .desktop-sidebar .nav-item:active {
     @apply scale-95;
   }
+  /* The crown badge reaches about 14 px past the icon's corner, so the label starts after it */
+  .desktop-sidebar .nav-item .adv-corner {
+    margin-right: 16px;
+  }
+  /* The sidebar's icon margin (mr-4) would move the badge's corner, so the icon in the corner has none */
+  .desktop-sidebar .nav-item .adv-corner .ion-icon {
+    margin: 0;
+  }
   .desktop-sidebar .nav-item .ion-icon {
     /* @apply flex-grow-0 flex-shrink-0 flex items-center justify-center;
     @apply mr-4;
-    @apply bg-gray-500 bg-opacity-10;
+    @apply bg-ios-fill;
     @apply rounded-lg;
     @apply w-9 h-9; */
   }
   .desktop-sidebar .nav-item .ion-icon.inactive {
     @apply flex;
-    @apply text-gray-500;
+    color: var(--ios-label2);
   }
   .desktop-sidebar .nav-item:hover {
-    @apply bg-primary-500 bg-opacity-20;
+    background: var(--ios-fill);
   }
   .desktop-sidebar .nav-item .ion-icon.active {
     @apply hidden;
@@ -271,7 +310,8 @@
   }
 
   .desktop-sidebar .nav-item.current {
-    @apply bg-primary-500 bg-opacity-10;
+    background: var(--ios-tint-soft);
+    color: var(--ios-tint);
   }
 
   .desktop-sidebar .link-title {
@@ -283,7 +323,8 @@
     @apply hidden;
   }
   .desktop-sidebar .nav-item.current .ion-icon.active {
-    @apply text-primary-500 bg-primary-500 bg-opacity-10 scale-105 transform;
+    color: var(--ios-tint);
+    @apply scale-105 transform;
     @apply flex;
   }
 

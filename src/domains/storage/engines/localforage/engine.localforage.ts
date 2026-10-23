@@ -24,9 +24,9 @@ export const LocalForageEngine: IStorage = {
      * Request the browser persist the data
      */
     if (navigator.storage && navigator.storage.persist) {
-      const isPersisted = await navigator.storage.persisted();
+      const isPersisted = await navigator.storage.persisted()
       if (!isPersisted) {
-        await navigator.storage.persist();
+        await navigator.storage.persist()
       }
     }
     return this.fireReady()

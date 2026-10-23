@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Track</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{opacity:.85}
+button{font:inherit;cursor:pointer}
+input::placeholder{color:inherit;opacity:1}
+.chips > *{flex-shrink:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; box-sizing: border-box; background: {{t.bg}}; color: {{t.label}}; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+
+  <div style="padding: 54px 16px 0 16px; display: flex; flex-direction: column; gap: 6px">
+    <div style="height: 44px; display: flex; align-items: center; justify-content: space-between">
+      <button type="button" style="border: 0; background: none; padding: 0; font-size: 17px; color: {{t.tint}}; min-height: 44px">Edit</button>
+      <div style="display: flex; gap: 12px">
+        <button type="button" aria-label="Search" style="width: 36px; height: 36px; border-radius: 18px; border: 0; background: {{t.fill}}; color: {{t.label}}; display: flex; align-items: center; justify-content: center; padding: 0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
+        </button>
+        <button type="button" aria-label="Add tracker" style="width: 36px; height: 36px; border-radius: 18px; border: 0; background: {{t.fill}}; color: {{t.label}}; display: flex; align-items: center; justify-content: center; padding: 0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+      </div>
+    </div>
+    <h1 style="margin: 0; font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: 0.37px">Track</h1>
+    <div style="font-size: 15px; color: {{t.sec}}">Monday 19 October</div>
+  </div>
+
+  <div class="chips" style="display: flex; gap: 8px; padding: 16px 16px 14px 16px; overflow: hidden">
+    <button type="button" style="border: 0; border-radius: 17px; height: 34px; padding: 0 16px; font-size: 15px; font-weight: 600; background: {{t.tint}}; color: {{t.onTint}}">Main</button>
+    <button type="button" style="border: 0; border-radius: 17px; height: 34px; padding: 0 16px; font-size: 15px; font-weight: 500; background: {{t.fill}}; color: {{t.label}}">Health</button>
+    <button type="button" style="border: 0; border-radius: 17px; height: 34px; padding: 0 16px; font-size: 15px; font-weight: 500; background: {{t.fill}}; color: {{t.label}}">Mood</button>
+    <button type="button" style="border: 0; border-radius: 17px; height: 34px; padding: 0 16px; font-size: 15px; font-weight: 500; background: {{t.fill}}; color: {{t.label}}">Work</button>
+    <sc-if value="{{expBoard}}" hint-placeholder-val="{{ true }}">
+      <button type="button" style="border: 0; border-radius: 17px; height: 34px; padding: 0 12px; font-size: 15px; font-weight: 500; background: {{t.fill}}; color: {{t.label}}; display: flex; align-items: center; gap: 5px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"></path><path d="M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"></path></svg>
+        <span>Experiments</span>
+      </button>
+    </sc-if>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 0 16px">
+
+    <button type="button" style="border: 0; text-align: left; border-radius: 18px; height: 112px; padding: 12px; background: {{t.card}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: #8944AB; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 14c1 1.3 2.1 1.9 3.5 1.9s2.5-.6 3.5-1.9"></path><path d="M9 9.5v.5M15 9.5v.5"></path></svg>
+        </div>
+        <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 22px; font-weight: 700">7</div>
+      </div>
+      <div>
+        <div style="font-size: 15px; font-weight: 600">Mood</div>
+        <div style="font-size: 12px; color: {{t.sec}}">08:12 today</div>
+      </div>
+    </button>
+
+    <button type="button" style="border: 0; text-align: left; border-radius: 18px; height: 112px; padding: 12px; background: {{t.card}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: #3634A3; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10z"></path></svg>
+        </div>
+        <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 18px; font-weight: 700">7h 40</div>
+      </div>
+      <div>
+        <div style="font-size: 15px; font-weight: 600">Sleep</div>
+        <div style="font-size: 12px; color: {{t.sec}}">Last night</div>
+      </div>
+    </button>
+
+    <button type="button" style="border: 0; text-align: left; border-radius: 18px; height: 112px; padding: 12px; background: {{t.card}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: #0A6CC9; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5s6 6.4 6 10.7a6 6 0 0 1-12 0C6 9.9 12 3.5 12 3.5z"></path></svg>
+        </div>
+        <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 22px; font-weight: 700">6</div>
+      </div>
+      <div>
+        <div style="font-size: 15px; font-weight: 600">Water</div>
+        <div style="font-size: 12px; color: {{t.sec}}">6 of 8 cups</div>
+      </div>
+    </button>
+
+    <button type="button" style="border: 0; text-align: left; border-radius: 18px; height: 112px; padding: 12px; background: {{t.card}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: #C25E00; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h11v4.5A4.5 4.5 0 0 1 11.5 18h-2A4.5 4.5 0 0 1 5 13.5z"></path><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"></path><path d="M8.5 3.5v2.5M12 3.5v2.5"></path></svg>
+        </div>
+        <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 22px; font-weight: 700">2</div>
+      </div>
+      <div>
+        <div style="font-size: 15px; font-weight: 600">Coffee</div>
+        <div style="font-size: 12px; color: {{t.sec}}">Last at 10:30</div>
+      </div>
+    </button>
+
+    <button type="button" style="border: 0; text-align: left; border-radius: 18px; height: 112px; padding: 12px; background: {{t.card}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: #248A3D; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="4.5" r="1.8"></circle><path d="M8 12.5l2.5-3.5 3.5-.5 2.5 3.5 2 1"></path><path d="M12.5 9l-1.2 6.5L9 21"></path><path d="M11.3 15.5L15 18v3"></path></svg>
+        </div>
+        <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 18px; font-weight: 700">5.2 km</div>
+      </div>
+      <div>
+        <div style="font-size: 15px; font-weight: 600">Walk</div>
+        <div style="font-size: 12px; color: {{t.sec}}">13:05 today</div>
+      </div>
+    </button>
+
+    <button type="button" style="border: 0; text-align: left; border-radius: 18px; height: 112px; padding: 12px; background: {{t.card}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: #C2185B; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.5 3.5a4.95 4.95 0 0 1 7 7l-7 7a4.95 4.95 0 0 1-7-7z"></path><path d="M7 10l7 7"></path></svg>
+        </div>
+        <div style="width: 26px; height: 26px; border-radius: 13px; background: {{t.goodFill}}; color: {{t.good}}; display: flex; align-items: center; justify-content: center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 15px; font-weight: 600">Meds</div>
+        <div style="font-size: 12px; color: {{t.sec}}">Done · 08:15</div>
+      </div>
+    </button>
+
+    <button type="button" style="border: 0; text-align: left; border-radius: 18px; height: 112px; padding: 12px; background: {{t.card}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: #D70015; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"></path></svg>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 15px; font-weight: 600">Headache</div>
+        <div style="font-size: 12px; color: {{t.sec}}">3 days ago</div>
+      </div>
+    </button>
+
+    <button type="button" style="border: 0; text-align: left; border-radius: 18px; height: 112px; padding: 12px; background: {{t.card}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: #0E7C86; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"></path><path d="M5 19l7-7"></path></svg>
+        </div>
+        <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 18px; font-weight: 700">10 min</div>
+      </div>
+      <div>
+        <div style="font-size: 15px; font-weight: 600">Meditate</div>
+        <div style="font-size: 12px; color: {{t.sec}}">Yesterday</div>
+      </div>
+    </button>
+
+    <a href="Experiments.dc.html" style="border-radius: 18px; height: 112px; padding: 12px; box-sizing: border-box; background: {{t.tintFill}}; color: {{t.label}}; display: flex; flex-direction: column; justify-content: space-between; border: 1.5px dashed {{t.tint}}">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start">
+        <div style="width: 34px; height: 34px; border-radius: 9px; background: {{t.tint}}; color: {{t.onTint}}; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"></path><path d="M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"></path><path d="M7.5 15h9"></path></svg>
+        </div>
+        <div style="font-size: 12px; font-weight: 600; color: {{t.tint}}">Day 9</div>
+      </div>
+      <div>
+        <div style="font-size: 14px; line-height: 17px; font-weight: 600">No caffeine after 14:00</div>
+        <div style="font-size: 12px; color: {{t.tint}}; font-weight: 600">Check in</div>
+      </div>
+    </a>
+  </div>
+
+  <sc-if value="{{captureEmpty}}" hint-placeholder-val="{{ true }}">
+    <div style="position: absolute; left: 12px; right: 12px; bottom: 112px; border-radius: 22px; background: {{t.card}}; box-shadow: 0 6px 24px {{t.shadow}}; padding: 6px 6px 6px 16px; display: flex; align-items: center; gap: 4px">
+      <label style="flex: 1; min-width: 0">
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Note</span>
+        <input type="text" placeholder="What's up?" style="width: 100%; border: 0; outline: none; background: transparent; font-size: 17px; height: 32px; color: {{t.sec}}; font-family: inherit">
+      </label>
+      <button type="button" aria-label="Writing prompts" style="width: 40px; height: 40px; border-radius: 20px; border: 0; background: transparent; color: {{t.tint}}; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.6.5.9 1.1.9 1.8V17h6v-1c0-.7.3-1.3.9-1.8A6.5 6.5 0 0 0 12 2.5z"></path><rect x="9" y="18.2" width="6" height="1.8" rx="0.9"></rect><rect x="10" y="21" width="4" height="1.5" rx="0.75"></rect></svg>
+      </button>
+      <sc-if value="{{aiOn}}" hint-placeholder-val="{{ true }}">
+        <button type="button" aria-label="AI Insights" style="width: 40px; height: 40px; border-radius: 20px; border: 0; background: {{t.tintFill}}; color: {{t.tint}}; display: flex; align-items: center; justify-content: center; padding: 0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 3l1.6 4.4L16 9l-4.4 1.6L10 15l-1.6-4.4L4 9l4.4-1.6z"></path><path d="M17.5 13l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"></path></svg>
+        </button>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{captureTyping}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; right: 0; bottom: 83px; display: flex; flex-direction: column">
+      <div style="margin: 0 12px 10px 12px; border-radius: 22px; background: {{t.card}}; box-shadow: 0 6px 24px {{t.shadow}}; padding: 12px 12px 10px 16px; display: flex; flex-direction: column; gap: 10px">
+        <label>
+          <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Note</span>
+          <textarea rows="2" style="width: 100%; box-sizing: border-box; border: 0; outline: none; resize: none; background: transparent; font-size: 17px; line-height: 22px; color: {{t.label}}; font-family: inherit; padding: 0">Slept well #sleep(7.6) #mood(7) @em</textarea>
+        </label>
+        <div style="display: flex; align-items: center; gap: 6px">
+          <button type="button" aria-label="Positivity score: positive" style="height: 34px; padding: 0 10px; border-radius: 17px; border: 0; background: {{t.goodFill}}; color: {{t.good}}; display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 14c1 1.3 2.1 1.9 3.5 1.9s2.5-.6 3.5-1.9"></path><path d="M9 9.5v.5M15 9.5v.5"></path></svg>
+            <span>Positive</span>
+          </button>
+          <button type="button" aria-label="Location and date" style="width: 34px; height: 34px; border-radius: 17px; border: 0; background: {{t.fill}}; color: {{t.label}}; display: flex; align-items: center; justify-content: center; padding: 0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>
+          </button>
+          <button type="button" aria-label="Expand note" style="width: 34px; height: 34px; border-radius: 17px; border: 0; background: {{t.fill}}; color: {{t.label}}; display: flex; align-items: center; justify-content: center; padding: 0">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"></path></svg>
+          </button>
+          <span style="flex: 1"></span>
+          <button type="button" aria-label="Change date and time" style="height: 34px; padding: 0 12px; border-radius: 17px; border: 0; background: {{t.fill}}; color: {{t.label}}; font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums">Today 08:12</button>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 10px 16px 28px 16px; background: {{t.bar}}; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 0.5px solid {{t.barBorder}}">
+        <button type="button" style="border: 0; height: 44px; border-radius: 12px; background: {{t.fill}}; color: {{t.label}}; font-size: 17px; font-weight: 600">Cancel</button>
+        <button type="button" style="border: 0; height: 44px; border-radius: 12px; background: {{t.save}}; color: {{t.onSave}}; font-size: 17px; font-weight: 600">Save</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 83px">
+    <dc-import name="TabBar" active="track" dark="{{isDark}}" hint="{{hint}}" hint-size="390px,83px"></dc-import>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"capture":{"editor":"enum","options":["empty","typing"],"default":"empty"},"ai":{"editor":"boolean","default":true},"hint":{"editor":"boolean","default":false},"experimentsBoard":{"editor":"boolean","default":true},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const capture = this.props.capture ?? 'empty';
+    const light = { bg: '#F2F2F7', card: '#FFFFFF', label: '#000000', sec: '#6C6C70', fill: '#E5E5EA', tint: '#0A6CC9', onTint: '#FFFFFF', tintFill: '#E3EFFB', good: '#1E7A34', goodFill: '#DDF3E2', save: '#1E7A34', onSave: '#FFFFFF', bar: 'rgba(249,249,249,0.88)', barBorder: 'rgba(0,0,0,0.2)', shadow: 'rgba(0,0,0,0.12)' };
+    const night = { bg: '#000000', card: '#1C1C1E', label: '#FFFFFF', sec: '#AEAEB2', fill: '#2C2C2E', tint: '#4DB3FF', onTint: '#000000', tintFill: '#0B2236', good: '#30D158', goodFill: '#123620', save: '#30D158', onSave: '#000000', bar: 'rgba(22,22,24,0.88)', barBorder: 'rgba(255,255,255,0.16)', shadow: 'rgba(0,0,0,0.6)' };
+    return { t: dark ? night : light, isDark: dark, hint: this.props.hint ?? false, expBoard: this.props.experimentsBoard ?? true, captureEmpty: capture === 'empty', captureTyping: capture === 'typing', aiOn: this.props.ai ?? true };
+  }
+}
+</script>
+</body>
+</html>

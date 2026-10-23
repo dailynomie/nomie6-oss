@@ -38,7 +38,7 @@
           },
           $TrackableStore.trackables
         ),
-        timeoutPromise
+        timeoutPromise,
       ])
 
       if (result) {

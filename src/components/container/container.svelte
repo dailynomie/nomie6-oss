@@ -4,7 +4,7 @@
   const { size = 'md', className = '' } = $props<{ size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; className?: string }>()
 </script>
 
-<div class={`nui-container nui-container-${size} ${className}`}> 
+<div class={`nui-container nui-container-${size} ${className}`}>
   <slot />
 </div>
 

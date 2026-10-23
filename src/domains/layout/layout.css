@@ -28,20 +28,13 @@
 }
 
  .glass {
-  @apply bg-gray-100;
-  @apply dark:bg-gray-800;
-  @apply dark:bg-opacity-80;
-  @apply bg-opacity-80;
-  @apply backdrop-filter;
-  @apply backdrop-saturate-150;
-  @apply backdrop-blur-md;
+  background: var(--ios-bar);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
 }
 
 .glass-lite {
-  @apply bg-gray-100;
-  @apply dark:bg-gray-800;
-  @apply dark:bg-opacity-40;
-  @apply bg-opacity-40;
+  background-color: var(--ios-bar);
   @apply backdrop-filter;
   @apply backdrop-saturate-150;
   @apply backdrop-blur-md;
@@ -70,4 +63,17 @@
 }
 .n-layout #nav-tabs {
   height: 70px;
+}
+
+/* iOS look (section 3.1): the row under the large title collapses when the page is scrolled down */
+.collapsible-row {
+  max-height: 80px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+html.page-scrolled .collapsible-row {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
 }

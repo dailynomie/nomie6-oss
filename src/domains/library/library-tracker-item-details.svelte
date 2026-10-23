@@ -14,6 +14,7 @@
   import type { LibraryTrackerType } from './library-manager/LibraryManagerStore'
   import TrackerTypes from '../../modules/tracker-types/tracker-types'
   import { createEventDispatcher } from 'svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   const { libraryTracker } = $props()
@@ -32,7 +33,7 @@
 <List solo className="">
   {#if libraryTracker.trackers.length > 1}
     <ListItem clickable={false}>
-      <h1 class="font-medium text-gray-500">{libraryTracker.title}</h1>
+      <h1 class="font-medium text-ios-label2">{libraryTracker.title}</h1>
       <Button
         on:click={() => {
           dispatch('addAll', libraryTracker.trackers)
@@ -40,18 +41,19 @@
         size="sm"
         slot="right"
         shape="round"
-        className="px-2 py-1 whitespace-nowrap bg-gray-500 text-white">Add All</Button
+        className="px-2 py-1 whitespace-nowrap bg-ios-tint text-ios-ontint"
+        >{Lang.t('library.add-all', 'Add All')}</Button
       >
     </ListItem>
   {/if}
 
   {#each libraryTracker.trackers as tracker}
     <ListItem bottomLine={78}>
-      <div slot="left" class="bg-primary-400 bg-opacity-20 flex items-center justify-center p-1 rounded-lg">
+      <div slot="left" class="bg-ios-tintsoft flex items-center justify-center p-1 rounded-lg">
         <Avatar size={36} emoji={tracker.emoji} className="" />
       </div>
       <h1 class="ntitle">{tracker.label}</h1>
-      <p class="text-sm text-gray-500 leading-tight">
+      <p class="text-sm text-ios-label2 leading-tight">
         {getTypeLabel(tracker.type)}
       </p>
       <div slot="right">
@@ -61,11 +63,11 @@
               dispatch('add', tracker)
             }}
             primary
-            clear>Add</Button
+            clear>{Lang.t('library.add-2', 'Add')}</Button
           >
         {:else}
-          <Button type="clear" className="text-gray-500" size="xs"
-            >Added <IonIcon className="ml-2 opacity-50" icon={CheckmarkCircle} /></Button
+          <Button type="clear" className="text-ios-label2" size="xs"
+            >{Lang.t('library.added', 'Added')} <IonIcon className="ml-2 opacity-50" icon={CheckmarkCircle} /></Button
           >
         {/if}
       </div>

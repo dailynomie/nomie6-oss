@@ -1,40 +1,43 @@
 
 .nbtn-group {
-  @apply shadow-sm;
   @apply w-full;  
   @apply flex-grow;
   @apply flex;
   @apply items-center;
-  @apply rounded-lg;
-  @apply bg-gray-300 bg-opacity-70 dark:bg-gray-500 dark:bg-opacity-20;
-  padding:2px;
+  border-radius: 9px;
+  background: var(--ios-fill);
+  padding: 2px;
 }
 
 .nbtn-group button.active {
-  @apply bg-gradient-to-tr from-primary-400 via-primary-500 to-primary-600;
-  text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.24);
-  @apply focus:ring-2 ring-primary-800;
+  background: #ffffff;
+  box-shadow: var(--ios-shadow-thumb);
+  color: var(--ios-label);
   @apply focus:outline-none;
 }
 
 .nbtn-group button {
-  @apply text-base;
-  @apply font-medium;
+  font-size: calc(13px * var(--text-scale));
+  line-height: 18px;
+  font-weight: 600;
   @apply flex-grow flex-shrink;
   /* min-width:50px; */
   @apply px-3;
   @apply text-center;
   box-shadow: none;
-  @apply rounded-lg;
-  @apply text-black dark:text-white;
+  border-radius: 7px;
+  color: var(--ios-label);
+  min-height: 30px;
   @apply h-full;
   @apply bg-transparent;
   @apply transform transition-all duration-200;
   @apply outline-none;
 }
 
-.nbtn-group button:focus {
-  @apply outline-none ring-4 ring-inset ring-primary-500 ring-opacity-20;
+/* iOS look (D-focus): keyboard focus shows a tint outline; a tap shows nothing */
+.nbtn-group button:focus-visible {
+  @apply outline-none;
+  box-shadow: inset 0 0 0 2px var(--ios-tint);
 }
 .nbtn-group button:active {
   @apply scale-95;
@@ -52,9 +55,18 @@
 }
 
 .nbtn-group button.active {
-  @apply text-white;
-  @apply rounded-lg;
+  color: var(--ios-label);
+  border-radius: 7px;
 }
+
+/* iOS look: the selected segment is grey in dark mode */
+html.dark .nbtn-group button.active {
+  background: #636366;
+}
+.nbtn-group button:not(.active) {
+  color: var(--ios-label);
+}
+
 
 .nbtn-group.scrollable {
   @apply overflow-x-auto;
@@ -88,10 +100,9 @@
   border-radius: 8px !important;
   z-index: 10;
   @apply shadow-md;
-  @apply bg-white dark:bg-gray-600;
+  background: #ffffff;
   @apply font-bold;
-  @apply text-black dark:text-white;
-  @apply text-primary-500;
+  @apply text-ios-label;
   @apply rounded-full;
 }
 .nbtn-group .nbtn:first-child {
@@ -106,3 +117,8 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 } */
+
+/* iOS look: the selected segment is grey in dark mode, as the iOS segmented control */
+html.dark .nbtn-group .nbtn.active {
+  background: #636366;
+}

@@ -39,7 +39,6 @@
   style={`--trackable-color:${trackable.color};`}
 >
   <div class="slider-wrapper">
-
     <input
       aria-label={trackable.label}
       type="text"
@@ -77,7 +76,7 @@
   }
 
   .slider-wrapper .rangeSlider {
-    @apply dark:bg-gray-700 bg-gray-300;
+    @apply bg-ios-card;
     @apply m-0;
   }
 
@@ -115,10 +114,9 @@
     @apply -mt-1;
     @apply rounded-full;
     @apply shadow-md;
-    @apply bg-white;
+    @apply bg-ios-card;
   }
 
- 
   .tracker-input .slider-wrapper .rangeSlider__fill {
     background-color: var(--trackable-color);
   }

@@ -3,7 +3,7 @@
 <script lang="ts">
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-  import NMap from '../../domains/map/map.svelte'
+  import NMap from '../../domains/map/map-lazy.svelte'
 
   import NItem from '../../components/list-item/list-item.svelte'
 
@@ -20,7 +20,8 @@
   import List from '../../components/list/list.svelte'
   import Divider from '../../components/divider/divider.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { CheckmarkCircle, MenuOutline, PencilOutline, StarFilled, TrashOutline } from '../../components/icon/nicons'
+  import { CheckmarkCircle, MenuOutline, StarFilled } from '../../components/icon/nicons'
+  import RemoveCircle from '../../n-icons/RemoveCircle.svelte'
   import SortableList2 from '../../components/sortable-list/sortable-list2.svelte'
   import {
     LocationStore,
@@ -118,7 +119,10 @@
   }
 
   async function unfavorite(location) {
-    let confirmed = await Interact.confirm('Remove Location?', 'You can add it later')
+    let confirmed = await Interact.confirm(
+      Lang.t('map.remove-location-2', 'Remove Location?'),
+      Lang.t('map.you-can-add-it-later', 'You can add it later')
+    )
     if (confirmed) {
       state.mode = 'view'
       ready = false
@@ -142,13 +146,13 @@
         select(location)
       }
     } catch (e) {
-      Interact.error(`${Lang.t('location.unable-to-get-your-location', 'Unable to get your location')}`)
+      Interact.error(Lang.t('map.unable-to-get-your-location', 'Unable to get your location'))
     }
     state.locating = false
   }
 
   async function rename(location) {
-    let name = await Interact.prompt('New Name', null, {
+    let name = await Interact.prompt(Lang.t('map.new-name', 'New Name'), null, {
       value: location.name,
     })
     if (name) {
@@ -178,12 +182,12 @@
 
     if (loc) {
       if (!loc.name) {
-        let name = await Interact.prompt('📍 Name this location', null, {
+        let name = await Interact.prompt(Lang.t('map.name-this-location', '📍 Name this location'), null, {
           value: loc.name,
         })
         loc.name = name
       }
-      if(loc.name) {
+      if (loc.name) {
         await LocationStore.upsert(loc)
       }
     }
@@ -219,11 +223,11 @@
   }
 </script>
 
-<BackdropModal className="h-full bg-white dark:bg-gray-900 w-full">
-  <header slot="header" class="bg-white relative dark:bg-black pb-2 shadow-md z-40">
+<BackdropModal className="h-full bg-ios-card w-full">
+  <header slot="header" class="bg-ios-card relative pb-2 shadow-md z-40">
     <ToolbarGrid className="w-full stiff">
       <div slot="left">
-        <Button on:click={close} primary clear>{Lang.t('general.close', 'Close')}</Button>
+        <Button on:click={close} primary clear>{Lang.t('general.cancel', 'Cancel')}</Button>
       </div>
       <h1 class="ntitle">
         {#if state.active}
@@ -245,7 +249,7 @@
                 setViewMode('view')
               }}
             >
-              Done
+              {Lang.t('map.done', 'Done')}
             </Button>
           {/if}
         {:else if state.locations.length}
@@ -276,7 +280,7 @@
       />
       {#if searchResults.length && locationSearchTerm?.length && !resultsHidden}
         <div value={1} class="absolute left-4 right-4 top-8 z-50">
-          <List solo className="my-2  shadow-lg ring-1 ring-gray-500 ring-opacity-25">
+          <List solo className="my-2  shadow-lg ring-1 ring-ios-separator">
             {#each searchResults as locationType, index}
               <ListItem
                 bottomLine={24}
@@ -287,7 +291,7 @@
               >
                 <div slot="left">
                   {#if locationType.saved}
-                    <IonIcon icon={StarSolid} className="text-yellow-500" />
+                    <IonIcon icon={StarSolid} className="text-ios-star" />
                   {/if}
                 </div>
                 {locationType.name}
@@ -310,35 +314,37 @@
         </div>
       {/if}
       <!-- List Panel -->
-      <div class="flex-grow flex-shrink h-full overflow-y-auto ">
+      <div class="flex-grow flex-shrink h-full overflow-y-auto">
         <div class="list-wrapper px-2 lg:px-4 space-y-4">
           {#if mapLocation && mapLocation.lat}
             <List solo className="mb-2">
-              <NItem bottomLine={18}
+              <NItem
+                bottomLine={18}
                 clickable
-                aria-label="Save this Location"
+                aria-label={Lang.t('map.save-this-location', 'Save this Location')}
                 on:click={() => {
                   favorite(mapLocation)
                 }}
               >
-                Favorite <strong>{math.round(mapLocation.lat, 10000)},{math.round(mapLocation.lng, 10000)}</strong>
+                {Lang.t('map.favorite', 'Favorite')}
+                <strong>{math.round(mapLocation.lat, 10000)},{math.round(mapLocation.lng, 10000)}</strong>
               </NItem>
               <NItem
                 clickable
-                aria-label="Use this area"
+                aria-label={Lang.t('map.use-this-area', 'Use this area')}
                 on:click={() => {
-                  
                   select(mapLocation)
                 }}
               >
-                Select <strong>{math.round(mapLocation.lat, 10000)},{math.round(mapLocation.lng, 10000)}</strong>
+                {Lang.t('map.select', 'Select')}
+                <strong>{math.round(mapLocation.lat, 10000)},{math.round(mapLocation.lng, 10000)}</strong>
               </NItem>
             </List>
           {/if}
           <List solo className="mb-2">
             <NItem
               clickable
-              className="clickable py-1 dark:bg-gray-900 bg-white text-primary {state.locating ? 'opacity-50' : ''}"
+              className="clickable py-1 bg-ios-card text-ios-tint {state.locating ? 'opacity-50' : ''}"
               on:click={() => {
                 currentLocation()
               }}
@@ -357,12 +363,12 @@
               clickable
               on:click={() => {
                 showMap = !showMap
-              }}>Find on Map...</NItem
+              }}>{Lang.t('map.find-on-map', 'Find on Map...')}</NItem
             >
           </List>
 
           {#if state.locations.length == 0}
-            <Empty className="text-gray-500">
+            <Empty className="text-ios-label2">
               {Lang.t('general.no-favorites-found', 'No Favorites Found')}
             </Empty>
           {/if}
@@ -381,43 +387,35 @@
                 <div class="item-wrapper">
                   <!-- Edit -->
                   {#if state.mode === 'edit'}
-                    <NItem bottomLine={14} className="dark:bg-gray-900 bg-white">
-                      <div class="menu" slot="left">
-                        <IonIcon icon={MenuOutline} />
+                    <!-- iOS edit mode (guide 11.2): the red minus removes on the leading edge, the row opens its editor, and the reorder grip is on the trailing edge -->
+                    <NItem bottomLine={14} className="bg-ios-card" clickable on:click={() => rename(item)}>
+                      <div slot="left" class="flex items-center stiff">
+                        <button
+                          type="button"
+                          aria-label={Lang.t('map.remove-location', 'Remove location')}
+                          class="mr-3"
+                          on:click|preventDefault|stopPropagation={() => unfavorite(item)}
+                        >
+                          <IonIcon icon={RemoveCircle} size={24} className="text-ios-danger" />
+                        </button>
                       </div>
 
                       <h2 class="ntitle">
                         {item.name}
                         {#if state.active && item.hash == state.active.hash}
-                          <IonIcon icon={CheckmarkCircle} className="text-primary-500" />
+                          <IonIcon icon={CheckmarkCircle} className="text-ios-tint" />
                         {/if}
                       </h2>
 
-                      <div slot="right" class="flex">
-                        <Button
-                          icon
-                          className="tap-icon"
-                          on:click={() => {
-                            rename(item)
-                          }}
-                        >
-                          <IonIcon icon={PencilOutline} />
-                        </Button>
-                        <Button
-                          icon
-                          on:click={(evt) => {
-                            unfavorite(item)
-                          }}
-                        >
-                          <IonIcon icon={TrashOutline} className="text-red-500" />
-                        </Button>
+                      <div slot="right" class="menu flex items-center">
+                        <IonIcon icon={MenuOutline} className="text-ios-label2" />
                       </div>
                     </NItem>
                   {:else}
                     <NItem
                       clickable
                       bottomLine={14}
-                      className=" dark:bg-gray-900 bg-white"
+                      className=" bg-ios-card"
                       on:click={() => {
                         if (state.mode == 'view') {
                           select(item)
@@ -425,12 +423,12 @@
                       }}
                     >
                       <div slot="left">
-                        <IonIcon icon={StarFilled} className="text-yellow-500" size={22} />
+                        <IonIcon icon={StarFilled} className="text-ios-star" size={22} />
                       </div>
-                      <h2 class="text-base font-bold leading-tight text-black dark:text-white">
+                      <h2 class="text-base font-bold leading-tight text-ios-label">
                         {item.name}
                         {#if state.active && item.hash == state.active.hash}
-                          <IonIcon icon={CheckmarkCircle} className="fill-primary" />
+                          <IonIcon icon={CheckmarkCircle} className="fill-ios-tint" />
                         {/if}
                       </h2>
                     </NItem>

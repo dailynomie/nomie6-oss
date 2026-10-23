@@ -1,6 +1,8 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../../../components/ios-select/ios-select.svelte'
+
   import TrackableAvatar from '../../../components/avatar/trackable-avatar.svelte'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
@@ -21,12 +23,12 @@
   import { toTrackableArray } from '../trackable-utils'
   import type { TrackableTypes } from '../Trackable.class'
   import { Trackable } from '../Trackable.class'
-  import type {ITrackerType} from '../../../modules/tracker/TrackerClass'
+  import type { ITrackerType } from '../../../modules/tracker/TrackerClass'
 
   import { TrackableStore } from '../TrackableStore'
   import type { TrackableSelectorProps } from './TrackableSelectorStore'
 
-  const { id, payload } = $props<{ id: string, payload: TrackableSelectorProps }>()
+  const { id, payload } = $props<{ id: string; payload: TrackableSelectorProps }>()
 
   let selected: Array<Trackable> = $state([])
   let searchTerm: string | undefined = $state(undefined)
@@ -85,7 +87,7 @@
     selected = selected
   }
 
-  const cleanTerm = (str:string):string => {
+  const cleanTerm = (str: string): string => {
     return `${str || ''}`.replace(/(\@|\+|\#)/g, '')
   }
 
@@ -105,16 +107,18 @@
     }
   }
   let cleanedTerm = $derived(cleanTerm(searchTerm))
-  let filtered = $derived(known.filter((t) => {
-    if (cleanedTerm && payload.type) {
-      return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1 && t.type === payload.type
-    } else if (payload.type) {
-      return t.type === payload.type
-    } else if (searchTerm) {
-      return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1
-    }
-    return t
-  }))
+  let filtered = $derived(
+    known.filter((t) => {
+      if (cleanedTerm && payload.type) {
+        return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1 && t.type === payload.type
+      } else if (payload.type) {
+        return t.type === payload.type
+      } else if (searchTerm) {
+        return JSON.stringify(t).toLowerCase().search(cleanedTerm) > 1
+      }
+      return t
+    })
+  )
 
   $effect(() => {
     if (filtered) {
@@ -171,13 +175,13 @@
   }
 </script>
 
-<BackdropModal className="bg-gray-100 dark:bg-gray-900">
-  <header slot="header" class="bg-white dark:bg-black">
+<BackdropModal className="bg-ios-bg">
+  <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
-      <Button slot="left" clear primary on:click={close}>Close</Button>
+      <Button slot="left" clear primary on:click={close}>{Lang.t('trackable.cancel', 'Cancel')}</Button>
       <h1 class="ntitle">{Lang.t('general.trackables', 'Trackables')}</h1>
       <Button on:click={onSelect} slot="right" className="whitespace-nowrap" disabled={!selected.length} clear primary
-        >Select {selected.length ? `(${selected.length})` : ''}</Button
+        >{Lang.t('general.select', 'Select')} {selected.length ? `(${selected.length})` : ''}</Button
       >
     </ToolbarGrid>
     <Toolbar className="-mt-2 mb-2">
@@ -194,28 +198,30 @@
           onSearchTerm(evt.detail)
         }}
       >
-        <select
-          slot="right-inside"
-          value={type || ''}
-          on:input={(evt) => {
-            //@ts-ignore
-            payload.type = evt.target.value
-          }}
-          class="appearance-none text-right text-base text-primary-500 px-4 bg-transparent focus:outline-none rounded-md h-9 ring-inset focus:ring-1 ring-primary-500"
-        >
-          <option value="" selected>All Types</option>
-          <option value="tracker">{Lang.t('general.trackers', 'Trackers')}</option>
-          <option value="person">{Lang.t('general.people')}</option>
-          <option value="context">{Lang.t('general.context')}</option>
-          <option value="pointer">{Lang.t('general.pointer', 'Pointers')}</option>
-        </select>
+        <div slot="right-inside">
+          <IosSelect
+            compact
+            title={Lang.t('trackable.type-2', 'Type')}
+            value={type || ''}
+            onchange={(next) => {
+              payload.type = next
+            }}
+            options={[
+              { value: '', label: Lang.t('trackable.all-types', 'All Types') },
+              { value: 'tracker', label: Lang.t('general.trackers', 'Trackers') },
+              { value: 'person', label: Lang.t('general.people') },
+              { value: 'context', label: Lang.t('general.context') },
+              { value: 'pointer', label: Lang.t('general.pointer', 'Pointers') },
+            ]}
+          />
+        </div>
       </SearchBar>
     </Toolbar>
   </header>
 
   <section class="trackable-list relative">
     {#each groupedTrackables as [headerKey, trackables] (headerKey)}
-      <header class="sticky top-0 z-50 text-gray-900 dark:text-gray-100 font-bold px-4 py-2 glass">
+      <header class="sticky top-0 z-50 text-ios-label font-bold px-4 py-2 glass">
         {headerKey}
       </header>
       {#each trackables.filter((t) => t.tag) as trackable (trackable.tag)}
@@ -224,7 +230,7 @@
           <div>
             <h1 class="line-clamp-1">{trackable.label}</h1>
             <div class="flex items-center space-x-2">
-              <div class="text-sm text-gray-500 line-clamp-1">{trackable.tag}</div>
+              <div class="text-sm text-ios-label2 line-clamp-1">{trackable.tag}</div>
             </div>
           </div>
           <RadioButton slot="right" className="pointer-events-none" checked={selected.indexOf(trackable) > -1} />
@@ -232,7 +238,9 @@
       {/each}
     {/each}
     {#if filtered.length === 0}
-      <div class="px-4 text-center text-gray-500 py-4">No Known Trackers</div>
+      <div class="px-4 text-center text-ios-label2 py-4">
+        {Lang.t('trackable.no-known-trackers', 'No Known Trackers')}
+      </div>
 
       {#each unknownTrackables as trackable}
         <button
@@ -240,13 +248,13 @@
           on:click={() => toggleTrackable(trackable)}
         >
           {#if trackable.type == 'tracker'}
-            <h2 class="ntitle filler">As tracker: #{cleanSearchTerm}</h2>
+            <h2 class="ntitle filler">{Lang.t('trackable.as-tracker', { term: cleanSearchTerm })}</h2>
           {:else if trackable.type === 'context'}
-            <h2 class="ntitle filler">As context: +{cleanSearchTerm}</h2>
-            {:else if trackable.type === 'pointer'}
-            <h2 class="ntitle filler">As pointer: ^{cleanSearchTerm}</h2>
+            <h2 class="ntitle filler">{Lang.t('trackable.as-context', { term: cleanSearchTerm })}</h2>
+          {:else if trackable.type === 'pointer'}
+            <h2 class="ntitle filler">{Lang.t('trackable.as-pointer', { term: cleanSearchTerm })}</h2>
           {:else if trackable.type === 'person'}
-            <h2 class="ntitle filler">As person: @{cleanSearchTerm}</h2>
+            <h2 class="ntitle filler">{Lang.t('trackable.as-person', { term: cleanSearchTerm })}</h2>
           {/if}
           <RadioButton className="pointer-events-none" checked={selected.indexOf(trackable) > -1} />
         </button>

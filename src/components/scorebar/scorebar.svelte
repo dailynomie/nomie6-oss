@@ -9,6 +9,7 @@
    */
 
   import math from '../../utils/math/math'
+  import { Lang } from '../../store/lang'
 
   type ScoreType = {
     label: string
@@ -17,7 +18,8 @@
     color?: string
   }
 
-  const { scores, barClass, className, style, total, expanded } = $props()
+  const { scores, barClass, className, style, total, expanded: expandedProp = false } = $props()
+  let expanded = $state(expandedProp)
 
   const localScores = $derived.by(() => {
     const percentages = math.percentile(scores.map((s) => s.score))
@@ -34,7 +36,7 @@
 
 <button {style} on:click={() => (expanded = !expanded)} class="scorebar {className} {expanded ? 'expanded' : ''}">
   {#if total}
-    <div class="total {total > 0 ? 'text-green-500' : total < 0 ? 'text-red-500' : ''}">{total}</div>
+    <div class="total {total > 0 ? 'text-ios-good' : total < 0 ? 'text-ios-label' : ''}">{total}</div>
   {/if}
   {#each localScores as score, index}
     <div
@@ -42,7 +44,7 @@
       style="width:{score.score}%; {score.color ? `background-color:${score.color}` : ''}"
     >
       <div class="sb-label whitespace-nowrap">
-        <span class="sb-score bg-white bg-opacity-20 px-1 leading-3 rounded-md">{scores[index].score}</span>
+        <span class="sb-score bg-ios-white bg-opacity-20 px-1 leading-3 rounded-md">{scores[index].score}</span>
         {score.label}
       </div>
     </div>

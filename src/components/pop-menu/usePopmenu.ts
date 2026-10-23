@@ -3,20 +3,25 @@ import type { Trackable } from '../../domains/trackable/Trackable.class'
 import { getDatePopButtons } from '../../modules/pop-buttons/pop-buttons'
 import { openModal } from '../backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
+import { Lang } from '../../store/lang'
 
 export type PopMenuButton = {
   id?: string
   title?: string
   description?: string
   emoji?: string
+  // iOS look: a small pill next to the item, e.g. the days of a pivot; 'good' is green, 'tint' is the accent
+  badge?: { text: string; tone?: 'good' | 'tint' }
   icon?: any
   checked?: boolean
   disabled?: boolean
+  // iOS look (D-alert): a destructive action is shown in the danger colour
+  danger?: boolean
   right?: string
   click?: Function
   divider?: boolean
   skipClosing?: boolean
-  awardRequired?: string,
+  awardRequired?: string
   component?: any
 }
 
@@ -75,15 +80,14 @@ export const closePopMenu = (menu: IPopMenuOptions) => {
 }
 
 export const closeAllPopMenus = () => {
-
   PopMenuStore.update((s) => undefined)
 }
 
-export const openDateOptionPopMenu = (date: Date, extraButtons:Array<PopMenuButton>=[]) => {
+export const openDateOptionPopMenu = (date: Date, extraButtons: Array<PopMenuButton> = []) => {
   const buttons = getDatePopButtons(date)
   openPopMenu({
     id: `date-options-${date.toDateString()}`,
-    title: `Date Options`,
-    buttons: [...buttons, ...extraButtons ],
+    title: Lang.t('ui.date-options', 'Date Options'),
+    buttons: [...buttons, ...extraButtons],
   })
 }

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Experiment detail</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{opacity:.85}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; box-sizing: border-box; background: {{t.bg}}; color: {{t.label}}; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+
+  <div style="padding: 54px 16px 0 16px">
+    <div style="height: 44px; display: grid; grid-template-columns: 80px 1fr 80px; align-items: center">
+      <a href="Experiments.dc.html" style="font-size: 17px; color: {{t.tint}}; min-height: 44px; display: flex; align-items: center">Close</a>
+      <div style="text-align: center; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Experiment</div>
+      <span></span>
+    </div>
+    <h1 style="margin: 6px 0 0 0; font-size: 28px; line-height: 34px; font-weight: 700">No caffeine after 14:00</h1>
+  </div>
+
+  <div style="padding: 14px 16px 40px 16px; display: flex; flex-direction: column; gap: 12px">
+
+    <section style="border-radius: 16px; background: {{t.card}}; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <span style="font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 10px; background: {{t.blueBg}}; color: {{t.blueFg}}">Day 9 of 14</span>
+        <span style="font-size: 13px; color: {{t.sec}}">14 days · ends Saturday 24 October</span>
+      </div>
+      <div role="progressbar" aria-label="9 of 14 days" style="height: 6px; border-radius: 3px; background: {{t.fill}}; overflow: hidden">
+        <div style="width: 64%; height: 100%; border-radius: 3px; background: {{t.tint}}"></div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center">
+        <div style="border-radius: 12px; background: {{t.greenBg}}; padding: 8px 4px">
+          <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 20px; font-weight: 700; color: {{t.greenFg}}">8</div>
+          <div style="font-size: 12px; color: {{t.sec}}">Kept to it</div>
+        </div>
+        <div style="border-radius: 12px; background: {{t.inset}}; padding: 8px 4px">
+          <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 20px; font-weight: 700">0</div>
+          <div style="font-size: 12px; color: {{t.sec}}">Didn't</div>
+        </div>
+        <div style="border-radius: 12px; background: {{t.inset}}; padding: 8px 4px">
+          <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 20px; font-weight: 700">1</div>
+          <div style="font-size: 12px; color: {{t.sec}}">Not checked</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="border-radius: 16px; background: {{t.card}}; padding: 14px 16px 6px 16px">
+      <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: {{t.sec}}">Check in</div>
+      <div style="font-size: 15px; font-weight: 600; margin: 2px 0 6px 0">Did you stick to it?</div>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 48px; border-top: 0.5px solid {{t.sep}}">
+        <span style="font-size: 15px">Today</span>
+        <span style="display: flex; gap: 8px">
+          <button type="button" style="border: 0; height: 36px; padding: 0 14px; border-radius: 18px; background: {{t.tint}}; color: {{t.onTint}}; font-size: 15px; font-weight: 600">Kept to it</button>
+          <button type="button" style="border: 0; height: 36px; padding: 0 14px; border-radius: 18px; background: {{t.fill}}; color: {{t.label}}; font-size: 15px; font-weight: 600">Didn't</button>
+        </span>
+      </div>
+    </section>
+
+    <section style="border-radius: 16px; background: {{t.card}}; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 17px; font-weight: 600">Sleep quality</span>
+        <span style="align-self: flex-start; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 10px; background: {{t.amberBg}}; color: {{t.amberFg}}">Possibly a difference. Keep going to be sure.</span>
+      </div>
+      <div role="img" aria-label="{{chartLabel}}" style="display: flex; align-items: flex-end; gap: 3px; height: 64px; padding-top: 4px">
+        <sc-for list="{{bars}}" as="b" hint-placeholder-count="22">
+          <span style="flex: 1; border-radius: 3px; height: {{b.h}}; background: {{b.c}}"></span>
+        </sc-for>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 12px; color: {{t.sec}}">
+        <span>Before</span><span>During</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <div style="border-radius: 12px; background: {{t.inset}}; padding: 10px 12px">
+          <div style="font-size: 12px; color: {{t.sec}}">Before</div>
+          <div style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 22px; font-weight: 700">{{meanB}}</div>
+          <div style="font-size: 12px; color: {{t.sec}}">{{nB}} days</div>
+        </div>
+        <div style="border-radius: 12px; background: {{t.blueBg}}; padding: 10px 12px">
+          <div style="font-size: 12px; color: {{t.sec}}">During</div>
+          <div style="display: flex; align-items: baseline; gap: 6px">
+            <span style="font-family: ui-rounded, -apple-system, system-ui, sans-serif; font-size: 22px; font-weight: 700">{{meanE}}</span>
+            <span style="font-size: 13px; font-weight: 700; color: {{t.greenFg}}">{{pct}}</span>
+          </div>
+          <div style="font-size: 12px; color: {{t.sec}}">{{nE}} days</div>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{aiOn}}" hint-placeholder-val="{{ true }}">
+      <button type="button" style="border: 0; height: 48px; border-radius: 14px; background: {{t.card}}; color: {{t.tint}}; font-size: 17px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 3l1.6 4.4L16 9l-4.4 1.6L10 15l-1.6-4.4L4 9l4.4-1.6z"></path><path d="M17.5 13l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"></path></svg>
+        <span>Explain this result</span>
+      </button>
+    </sc-if>
+
+    <p style="margin: 0 4px; font-size: 12px; line-height: 16px; color: {{t.sec}}">This compares your own days before and during the experiment. Other things in your life change too, and one day affects the next, so treat this as a strong hint, not proof.</p>
+
+    <div style="border-radius: 12px; background: {{t.card}}; overflow: hidden">
+      <button type="button" style="width: 100%; border: 0; border-bottom: 0.5px solid {{t.sep}}; background: transparent; min-height: 48px; font-size: 17px; color: {{t.tint}}">Stop early</button>
+      <button type="button" style="width: 100%; border: 0; background: transparent; min-height: 48px; font-size: 17px; color: {{t.red}}">Delete experiment</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"ai":{"editor":"boolean","default":true},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const light = { bg: '#F2F2F7', card: '#FFFFFF', inset: '#F2F2F7', label: '#000000', sec: '#6C6C70', fill: '#E3E3E8', sep: '#D8D8DC', tint: '#0A6CC9', onTint: '#FFFFFF', blueBg: '#E3EFFB', blueFg: '#0A5BA8', greenBg: '#DDF3E2', greenFg: '#1E6B30', amberBg: '#FDF0D5', amberFg: '#7A4D00', red: '#D70015', before: '#AEAEB2' };
+    const night = { bg: '#000000', card: '#1C1C1E', inset: '#2C2C2E', label: '#FFFFFF', sec: '#AEAEB2', fill: '#3A3A3C', sep: '#38383A', tint: '#4DB3FF', onTint: '#000000', blueBg: '#0B2236', blueFg: '#7CC6FF', greenBg: '#123620', greenFg: '#5BE07F', amberBg: '#3A2A06', amberFg: '#FFD60A', red: '#FF6961', before: '#636366' };
+    const t = dark ? night : light;
+    const b = [6, 7, 6, 5, 7, 6, 7, 6, 6, 7, 5, 6, 7, 6];
+    const e = [7, 8, 7, 7, 8, 7, 8, 7];
+    const mean = (a) => a.reduce((s, x) => s + x, 0) / a.length;
+    const mB = mean(b), mE = mean(e), pct = ((mE - mB) / mB) * 100;
+    const bars = [...b.map((v) => ({ h: Math.round(v / 10 * 64) + 'px', c: t.before })), ...e.map((v) => ({ h: Math.round(v / 10 * 64) + 'px', c: t.tint }))];
+    return {
+      t, aiOn: this.props.ai ?? true, bars,
+      meanB: mB.toFixed(1), meanE: mE.toFixed(1), pct: (pct > 0 ? '+' : '') + pct.toFixed(0) + '%',
+      nB: b.length, nE: e.length,
+      chartLabel: 'Sleep quality per day: 14 days before, average ' + mB.toFixed(1) + '; 8 days during, average ' + mE.toFixed(1)
+    };
+  }
+}
+</script>
+</body>
+</html>

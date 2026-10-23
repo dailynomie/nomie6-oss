@@ -2,11 +2,67 @@
 
 <script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte'
-import is from '../../utils/is/is';
+  import is from '../../utils/is/is'
+  // iOS look (D-native): browser-native date, datetime and select controls are replaced by app-native ones
+  import IosSelect from '../ios-select/ios-select.svelte'
+  import IosDateField from '../ios-date/ios-date-field.svelte'
+  import IosDateTimeField from '../ios-date/ios-datetime-field.svelte'
 
   const dispatch = createEventDispatcher()
 
-  let { label = null, placeholder = null, inputmode = undefined, value = $bindable(), type = 'text', help = null, className = '', id = '', style = '', inputStyle = '', inputClass = '', pattern = '', width = '', disabled = undefined, solo = undefined, listItem = undefined, compact = undefined, rows = 2, accept = 'png,jpeg,jpg,csv', name = undefined, autocomplete = undefined, autocorrect = undefined, autocapitalize = undefined, autofocus = undefined } = $props<{ label?: any; placeholder?: any; inputmode?: any; value?: any; type?: string; help?: any; className?: string; id?: string; style?: string; inputStyle?: string; inputClass?: string; pattern?: string; width?: string; disabled?: any; solo?: any; listItem?: any; compact?: any; rows?: number; accept?: string; name?: any; autocomplete?: any; autocorrect?: any; autocapitalize?: any; autofocus?: any }>()
+  let {
+    label = null,
+    placeholder = null,
+    inputmode = undefined,
+    value = $bindable(),
+    type = 'text',
+    help = null,
+    className = '',
+    id = '',
+    style = '',
+    inputStyle = '',
+    inputClass = '',
+    pattern = '',
+    width = '',
+    disabled = undefined,
+    solo = undefined,
+    listItem = undefined,
+    compact = undefined,
+    rows = 2,
+    accept = 'png,jpeg,jpg,csv',
+    name = undefined,
+    autocomplete = undefined,
+    autocorrect = undefined,
+    autocapitalize = undefined,
+    autofocus = undefined,
+    options = [],
+  } = $props<{
+    options?: Array<{ value: any; label: string }>
+    label?: any
+    placeholder?: any
+    inputmode?: any
+    value?: any
+    type?: string
+    help?: any
+    className?: string
+    id?: string
+    style?: string
+    inputStyle?: string
+    inputClass?: string
+    pattern?: string
+    width?: string
+    disabled?: any
+    solo?: any
+    listItem?: any
+    compact?: any
+    rows?: number
+    accept?: string
+    name?: any
+    autocomplete?: any
+    autocorrect?: any
+    autocapitalize?: any
+    autofocus?: any
+  }>()
 
   let focused = $state(false)
   let _elInput = $state<any>(undefined)
@@ -36,7 +92,7 @@ import is from '../../utils/is/is';
   }
 
   let hasInput = $derived.by(() => {
-    if (value !== "" && (value === 0 || is.truthy(value))) {
+    if (value !== '' && (value === 0 || is.truthy(value))) {
       return true
     } else {
       return false
@@ -141,24 +197,11 @@ import is from '../../utils/is/is';
           on:blur={blur}
         />
       {:else if type == 'datetime-local'}
-        <!-- svelte-ignore a11y-autofocus -->
-        <input
-          bind:this={_elInput}
-          {id}
-          {disabled}
-          {inputmode}
-          type="datetime-local"
-          style={inputStyle}
-          class={inputClass}
-          {autofocus}
+        <IosDateTimeField
           bind:value
-          {autocomplete}
-          {autocorrect}
-          {autocapitalize}
-          {placeholder}
-          on:input={onInput}
-          on:focus={focus}
-          on:blur={blur}
+          {disabled}
+          title={label || placeholder || 'Date and time'}
+          onchange={() => dispatch('input', value)}
         />
       {:else if type == 'number'}
         <!-- svelte-ignore a11y-autofocus -->
@@ -181,38 +224,21 @@ import is from '../../utils/is/is';
           on:blur={blur}
         />
       {:else if type == 'date'}
-        <!-- svelte-ignore a11y-autofocus -->
-        <input
-          bind:this={_elInput}
-          {id}
-          {disabled}
-          {inputmode}
-          type="date"
-          style={inputStyle}
-          {autofocus}
-          class={inputClass}
+        <IosDateField
           bind:value
-          {placeholder}
-          on:input={onInput}
-          on:focus={focus}
-          on:blur={blur}
+          {disabled}
+          title={label || placeholder || 'Date'}
+          onchange={() => dispatch('input', value)}
         />
       {:else if type == 'select'}
-        <div class="select-wrap">
-          <select
-            {placeholder}
-            {id}
-            bind:this={_elInput}
-            {disabled}
-            on:input={(evt) => {
-              //@ts-ignore
-              dispatch('change', evt.target.value)
-            }}
-            bind:value
-          >
-            <slot />
-          </select>
-        </div>
+        <IosSelect
+          bind:value
+          {options}
+          {disabled}
+          title={label || placeholder || ''}
+          placeholder={placeholder || ''}
+          onchange={(next) => dispatch('change', `${next}`)}
+        />
       {:else if type == 'textarea'}
         <!-- svelte-ignore a11y-autofocus -->
         <textarea
@@ -275,36 +301,52 @@ import is from '../../utils/is/is';
   .n-input-container.list-item div.n-input label {
     left: 20px !important;
     top: 10px !important;
-    @apply text-black dark:text-white;
+    color: var(--ios-label);
   }
   .n-input-container.list-item .n-input-wrapper {
     border-radius: 0px !important;
   }
   .n-input-container.solid {
-    @apply bg-white dark:bg-black;
+    background: var(--ios-card);
   }
+  /* iOS look (D-field): a standalone field is a filled rounded box, not an outlined one. The placeholder keeps 4.5:1 on the fill. */
   .n-input-container.outline {
-    @apply border border-gray-500 dark:border-opacity-60 border-opacity-30;
+    background: var(--ios-fill);
+    border: none;
+    border-radius: 10px;
     @apply p-1;
+  }
+  .n-input-container.outline input::placeholder,
+  .n-input-container.outline textarea::placeholder {
+    color: var(--ios-label2);
+  }
+  html.dark .n-input-container.outline input::placeholder,
+  html.dark .n-input-container.outline textarea::placeholder {
+    color: var(--ios-label2);
   }
   .n-input-container {
     @apply relative;
     @apply w-full;
     @apply flex flex-col flex-grow flex-shrink;
     @apply mb-px;
-    
-    @apply rounded-md;
-    @apply focus-within:ring-2 ring-opacity-50 ring-inset ring-primary-500;
+
+    border-radius: 10px;
+  }
+  /* iOS look: touch focus shows the caret, not a coloured box. Keyboard users still get a visible focus ring (tint). */
+  .n-input-container input:focus-visible,
+  .n-input-container select:focus-visible,
+  .n-input-container textarea:focus-visible {
+    outline: 2px solid var(--ios-tint);
+    outline-offset: 2px;
   }
 
   .n-input-container input:invalid {
-      border-color: red !important;
+    border-color: red !important;
   }
-
 
   .n-input-container .helper {
     font-size: 0.65em;
-    color: var(--color-grey-5);
+    color: var(--ios-label2);
     padding: 3px 6px;
   }
   .n-input-container.list-item {
@@ -348,6 +390,13 @@ import is from '../../utils/is/is';
     padding-bottom: 0px;
     /* font-size: 1.05em; */
   }
+  /* iOS look: the app's date field sits in an input box, so it gets the same height and inset as a text field */
+  .n-input-container .n-input-wrapper .n-input .ios-date-field {
+    width: 100%;
+    min-height: 47px;
+    padding: 16px 10px 0;
+    box-sizing: border-box;
+  }
   .n-input-container.solo .n-input-wrapper {
     min-height: 48px;
   }
@@ -376,10 +425,9 @@ import is from '../../utils/is/is';
   .n-input-container.compact .n-input-wrapper .n-input select,
   .n-input-container.compact .n-input-wrapper .n-input textarea {
     min-height: 40px;
-    @apply text-base;
-    @apply leading-5;
-    /* @apply bg-white dark:bg-gray-900; */
-    @apply text-black dark:text-white;
+    font-size: calc(17px * var(--text-scale));
+    line-height: 22px;
+    color: var(--ios-label);
   }
   .n-input-container .n-input-wrapper {
     transition: all 0.2s ease-in-out;
@@ -422,12 +470,11 @@ import is from '../../utils/is/is';
     bottom: 0;
     height: 2px;
     @apply w-full;
-    @apply bg-primary-500;
+    @apply bg-ios-tint;
   } */
   .n-input-container .n-input-wrapper textarea,
   .n-input-container .n-input-wrapper input {
     border: none;
-
   }
   .n-input-container .n-input-wrapper .n-input {
     transition: all 0.2s ease-in-out;
@@ -435,7 +482,7 @@ import is from '../../utils/is/is';
     flex-direction: column;
     flex-grow: 1;
     flex-shrink: 1;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
   .n-input-container .n-input-wrapper .n-input label {
     transition: all 0.2s ease-in-out;
@@ -452,11 +499,11 @@ import is from '../../utils/is/is';
   }
 
   .n-input-type-textarea {
-    @apply bg-gray-100 dark:bg-gray-900;
+    @apply bg-ios-card;
   }
   .n-input-type-textarea textarea {
-    @apply placeholder-gray-400;
-    @apply dark:text-white;
+    @apply placeholder-ios-label2;
+    color: var(--ios-label);
     min-height: 90px;
     padding-top: 8px;
   }
@@ -469,12 +516,12 @@ import is from '../../utils/is/is';
     padding-left: 8px;
     padding-right: 8px;
     /* background-color: transparent !important; */
-    /* @apply bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-20; */
+    /* @apply bg-ios-card bg-opacity-10; */
     @apply rounded-md;
     @apply bg-transparent;
     outline: none;
-    @apply placeholder-gray-400;
-    @apply dark:text-white;
+    @apply placeholder-ios-label2;
+    color: var(--ios-label);
   }
   .n-input-container .n-input-wrapper .n-input input:disabled,
   .n-input-container .n-input-wrapper .n-input select:disabled,
@@ -491,10 +538,10 @@ import is from '../../utils/is/is';
     /* @apply appearance-none; */
     @apply px-3;
     @apply rounded-md;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply shadow-md;
     @apply flex items-center justify-center;
-    @apply focus:outline-none focus:ring-2 ring-primary-500 ring-inset;
+    @apply focus:outline-none focus:ring-2 ring-ios-tint ring-inset;
     @apply font-semibold;
     @apply h-10;
     @apply rounded-xl;
@@ -511,7 +558,7 @@ import is from '../../utils/is/is';
     content: '˯';
     @apply absolute;
     @apply right-2;
-    @apply text-gray-500;
+    @apply text-ios-label2;
   }
 
   .nselect-group {

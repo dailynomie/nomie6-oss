@@ -4,11 +4,20 @@
   import dayjs from 'dayjs'
   import type { Dayjs } from 'dayjs'
   import { createEventDispatcher } from 'svelte'
-import { getDateFormats } from '../../domains/preferences/Preferences';
-  
+  import { getDateFormats } from '../../domains/preferences/Preferences'
+  import IosSelect from '../ios-select/ios-select.svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
-  let { time = $bindable(), className, style, is24Hour, showDateButton, dateButtonClass, value = $bindable() } = $props()
+  let {
+    time = $bindable(),
+    className,
+    style,
+    is24Hour,
+    showDateButton,
+    dateButtonClass,
+    value = $bindable(),
+  } = $props()
 
   let lastValue = $state<any>(undefined) // Value to hold last reaction
   let hour = $state(0) // local hour
@@ -54,7 +63,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
     }
   })
 
-  const dateFormats = getDateFormats();
+  const dateFormats = getDateFormats()
 
   function onChange(evt?: Event) {
     let ogDate = value
@@ -82,51 +91,54 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
       <!-- Loop over hours -->
       <div class="flex items-center time-parts">
         {#if showDateButton}
-          <div class="section {dateButtonClass} border-r border-gray-500 border-opacity-30 mr-1">
-            <button on:click={()=>{
-              dispatch('dateClick');
-            }} class="text-sm font-bold px-2 uppercase">{value.format(dateFormats.tinyDate)}</button>
+          <div class="section {dateButtonClass} border-r border-ios-separator mr-1">
+            <button
+              on:click={() => {
+                dispatch('dateClick')
+              }}
+              class="text-sm font-bold px-2 uppercase">{value.format(dateFormats.tinyDate)}</button
+            >
           </div>
         {/if}
         {#if is24Hour}
-          <select on:blur bind:value={hour} class=" hour" on:change={onChange}>
-            {#each hours as h}
-              <option value={h} selected={h === hour} style="text-align:center;">
-                {`${h}`.length == 1 ? `0${h}` : h}
-              </option>
-            {/each}
-          </select>
+          <IosSelect
+            compact
+            title={Lang.t('ui.hour', 'Hour')}
+            bind:value={hour}
+            onchange={() => onChange()}
+            options={hours.map((h) => ({ value: h, label: `${h}`.length == 1 ? `0${h}` : `${h}` }))}
+          />
         {:else}
-          <select on:blur bind:value={hour12} class="hour" on:change={onChange}>
-            {#each hours as h}
-              <option
-                data-hour12={hour12}
-                data-mmatch={`${h}` == `${hour12}`}
-                value={h}
-                selected={`${h}` == `${hour12}`}
-                style="text-align:center;"
-              >
-                {`${h}`.length == 1 ? `0${h}` : h}
-              </option>
-            {/each}
-          </select>
+          <IosSelect
+            compact
+            title={Lang.t('ui.hour', 'Hour')}
+            bind:value={hour12}
+            onchange={() => onChange()}
+            options={hours.map((h) => ({ value: h, label: `${h}`.length == 1 ? `0${h}` : `${h}` }))}
+          />
         {/if}
         <span class="blinker">:</span>
         <!-- Loop over minutes -->
-        <select on:blur bind:value={minute} class="minutes" on:change={onChange}>
-          {#each minutes as m}
-            <option value={m} selected={m == minute}>
-              {`${m}`.length == 1 ? `0${m}` : m}
-            </option>
-          {/each}
-        </select>
+        <IosSelect
+          compact
+          title={Lang.t('ui.minute', 'Minute')}
+          bind:value={minute}
+          onchange={() => onChange()}
+          options={minutes.map((m) => ({ value: m, label: `${m}`.length == 1 ? `0${m}` : `${m}` }))}
+        />
       </div>
       <!-- If is not 24 hour - show ampm -->
       {#if !is24Hour}
-        <select bind:value={ampm} on:change={() => onChange()}>
-          <option value="am">AM</option>
-          <option value="pm">PM</option>
-        </select>
+        <IosSelect
+          compact
+          title={Lang.t('ui.am-or-pm', 'AM or PM')}
+          bind:value={ampm}
+          onchange={() => onChange()}
+          options={[
+            { value: 'am', label: Lang.t('ui.am', 'AM') },
+            { value: 'pm', label: Lang.t('ui.pm', 'PM') },
+          ]}
+        />
         <!-- <ButtonGroup
           style="min-width:80px; "
           className="ampm shadow-none"
@@ -158,7 +170,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
 <style global lang="postcss">
   .time-picker-wrapper {
     @apply rounded-xl;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
   }
   .time-picker {
     @apply overflow-hidden;
@@ -170,19 +182,19 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
     @apply flex-shrink;
     @apply flex-grow;
     @apply pr-2;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply shadow-md;
   }
   .time-picker select {
     @apply h-7;
     @apply text-sm;
     @apply font-semibold;
-    padding-left:4px; 
+    padding-left: 4px;
     padding-right: 4px;
     @apply bg-transparent;
     @apply appearance-none;
     @apply rounded-md;
-    @apply focus:outline-none ring-inset focus:ring-2 ring-primary-500;
+    @apply focus:outline-none ring-inset focus:ring-2 ring-ios-tint;
   }
   .time-picker .ampm {
     border: none;
@@ -191,7 +203,7 @@ import { getDateFormats } from '../../domains/preferences/Preferences';
 
   .time-picker .time-parts {
     @apply rounded-md;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
 
     @apply shadow-none;
   }

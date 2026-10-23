@@ -9,7 +9,6 @@
   let color: string = appConfig.primary_color
   const dispatch = createEventDispatcher()
 
-
   const { value, min, max, steps, className } = $props()
 </script>
 

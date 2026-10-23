@@ -33,7 +33,6 @@
   import { TodayStore } from '../domains/usage/today/TodayStore'
   import { TrackableStore } from '../domains/trackable/TrackableStore'
   import appConfig from '../config/appConfig'
-  import CaretDownCircle from '../n-icons/CaretDownCircle.svelte'
   import ExpandOutline from '../n-icons/ExpandOutline.svelte'
   import IonIcon from '../components/icon/ion-icon.svelte'
   import Logo from '../components/logo/logo.svelte'
@@ -44,6 +43,7 @@
   import type { Trackable } from '../domains/trackable/Trackable.class'
   import type { UniboardType } from '../domains/board/UniboardStore'
   import UpgradeMessage from '../components/upgrade-message/upgrade-message.svelte'
+  import { Lang } from '../store/lang'
 
   const location = undefined
   const style = ''
@@ -91,7 +91,7 @@
         ...addDividerToFirst(getBoardMenu($ActiveBoard)),
         ...[
           {
-            title: 'Search Nomie',
+            title: Lang.t('routes.search-nomie', 'Search Nomie'),
             divider: true,
             icon: SearchIcon,
             click() {
@@ -159,7 +159,7 @@
     await saveBoard(savingBoard)
     edittedUniboard = undefined
     disableBoardEditMode()
-    showToast({ message: `${savingBoard.label} updated` })
+    showToast({ message: Lang.t('board.name-updated', { name: savingBoard.label }) })
   }
 </script>
 
@@ -172,25 +172,25 @@
     editedUniboard={edittedUniboard}
     onToggleEditMode={() => toggleBoardEditMode()}
     onSaveEdits={() => saveBoardEdits()}
-    boardAddMenu={boardAddMenu}
+    {boardAddMenu}
     onBoardTabTap={async (evt) => {
       const newActiveBoard = evt.detail
       setActiveBoard(newActiveBoard)
       Device.scrollToTop()
     }}
     combinedBoards={$CombinedBoards}
-    searchFor={searchFor}
+    {searchFor}
     onSearchChange={(evt) => {
       searchFor = evt.detail
     }}
     onSearchClear={() => {
       searchFor = undefined
     }}
+    onOpenSearch={() => openUnisearch()}
     trackableCount={Object.keys($TrackableStore.trackables).length}
     deviceWidth={$Device.width}
     runningTimers={$RunningTimers}
     onShowRunningTimers={() => showRunningTimersModal()}
-    carouselIcon={CaretDownCircle}
     alarmIcon={AlarmOutline}
   />
   <!-- Include the Universial Board -->
@@ -206,15 +206,22 @@
         searchFor = evt.detail
       }}
     >
-      <Button icon slot="right-inside" on:click={() => openUnisearch(searchFor)}>
-        <IonIcon icon={ExpandOutline} className="text-gray-500" size={18} />
-      </Button>
+      <!-- iOS look: a plain icon, not a round button -->
+      <button
+        type="button"
+        slot="right-inside"
+        aria-label={Lang.t('routes.open-search', 'Open search')}
+        class="search-expand"
+        on:click={() => openUnisearch(searchFor)}
+      >
+        <IonIcon icon={ExpandOutline} size={18} />
+      </button>
     </SearchBar>
   {/if}
 
   <!-- Tracker Board -->
   <!-- {#if $Prefs.storageType === 'pouchdb'}
-    <div class="bg-red-500 text-white py-2 px-4 text-xs mt-2">
+    <div class="bg-ios-danger text-ios-ondanger py-2 px-4 text-xs mt-2">
       <p class="font-bold">
         CouchDB Deprecation Notice. <button
           class="underline"

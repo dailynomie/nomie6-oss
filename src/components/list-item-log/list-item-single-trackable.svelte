@@ -30,30 +30,30 @@
     dispatch('click', { log, trackable })
   }}
   type="menu"
-  class="rounded-md mock-item flex pl-1 items-start w-full text-left focus:ring-2 focus:ring-primary-500 {className}"
+  class="rounded-md mock-item flex pl-1 items-start w-full text-left focus:ring-2 focus:ring-ios-tint {className}"
   id="log-{log._id}"
 >
   <TrackableAvatar {trackable} size={42} className="mr-2 mt-4" />
-  <main class="flex py-3 items-start  flex-col w-full space-y-1">
+  <main class="flex py-3 items-start flex-col w-full space-y-1">
     <div class="flex item-center space-y-1 filler items-center justify-between w-full">
-      <h3 class="text-base leading-tight font-bold w-full dark:text-white">
+      <h3 class="text-base leading-tight font-bold w-full text-ios-label">
         {trackable.label}
-        <span class="text-base font-normal text-gray-500">{log.endDayjs().format(dateFormats.tinyDate)}</span>
+        <span class="text-base font-normal text-ios-label2">{log.endDayjs().format(dateFormats.tinyDate)}</span>
       </h3>
-      <p class="text-black dark:text-white font-bold text-xl text-right mr-4 leading-none whitespace-nowrap">
+      <p class="text-ios-label font-bold text-xl text-right mr-4 leading-none whitespace-nowrap">
         {trackable.formatValue(value)}
       </p>
     </div>
 
     {#if trackable.tracker?.type == 'timer' && !hideTime}
-      <TimeRangeText date={log.end} seconds={value} className=" dark:text-gray-300 leading-tight" />
+      <TimeRangeText date={log.end} seconds={value} className=" text-ios-label2 leading-tight" />
     {/if}
     {#if max && trackable.tracker}
       <div class="pr-2 pt-2 w-full">
         <ProgressBar percentage={math.percentage(max, value)} className="h-1 w-full" color={trackable.color} />
       </div>
     {:else}
-      <div class="text-sm text-gray-500 pr-2 pt-px w-full line-clamp-5">
+      <div class="text-sm text-ios-label2 pr-2 pt-px w-full line-clamp-5">
         {log.note}
       </div>
     {/if}

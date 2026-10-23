@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  
   import type { NLog } from './../../nomie-log/nomie-log'
 
   import { wait } from './../../../utils/tick/tick'
@@ -30,11 +29,11 @@
   import ListItemLog from '../../../components/list-item-log/list-item-log.svelte'
   import { showToast } from '../../../components/toast/ToastStore'
   import is from '../../../utils/is/is'
-  
+
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../../../components/toolbar/toolbar-grid.svelte'
-import Divider from '../../../components/divider/divider.svelte'
+  import Divider from '../../../components/divider/divider.svelte'
 
   let { id, fileUpload = $bindable() } = $props()
 
@@ -87,15 +86,15 @@ import Divider from '../../../components/divider/divider.svelte'
 
   let views = $state([
     {
-      title: 'Import CSV',
+      title: Lang.t('import.import-csv', 'Import CSV'),
       id: 'home',
     },
     {
-      title: 'Compose Note',
+      title: Lang.t('import.compose-note', 'Compose Note'),
       id: 'note',
     },
     {
-      title: 'Template',
+      title: Lang.t('import.template', 'Template'),
       id: 'template',
     },
   ])
@@ -111,7 +110,7 @@ import Divider from '../../../components/divider/divider.svelte'
 
   const fieldMapButtons = [
     {
-      title: 'End Time*',
+      title: Lang.t('import.end-time', 'End Time*'),
       required: true,
       id: 'end',
       click() {
@@ -119,35 +118,35 @@ import Divider from '../../../components/divider/divider.svelte'
       },
     },
     {
-      title: 'Start Time',
+      title: Lang.t('import.start-time', 'Start Time'),
       id: 'start',
       click() {
         setFieldMap('start', activeMapIndex)
       },
     },
     {
-      title: 'Latitude',
+      title: Lang.t('import.latitude', 'Latitude'),
       id: 'lat',
       click() {
         setFieldMap('lat', activeMapIndex)
       },
     },
     {
-      title: 'Longitude',
+      title: Lang.t('import.longitude', 'Longitude'),
       id: 'lng',
       click() {
         setFieldMap('lng', activeMapIndex)
       },
     },
     {
-      title: 'Location Name',
+      title: Lang.t('import.location-name', 'Location Name'),
       id: 'location',
       click() {
         setFieldMap('location', activeMapIndex)
       },
     },
     {
-      title: 'Source',
+      title: Lang.t('import.source', 'Source'),
       id: 'source',
       click() {
         setFieldMap('source', activeMapIndex)
@@ -158,7 +157,7 @@ import Divider from '../../../components/divider/divider.svelte'
   function mapField(fieldIndex) {
     activeMapIndex = fieldIndex
     Interact.popmenu({
-      title: `Map ${activeImporter ? activeImporter.getHeaders()[fieldIndex] : 'Unknown'}`,
+      title: `Map ${activeImporter ? activeImporter.getHeaders()[fieldIndex] : Lang.t('import.unknown', 'Unknown')}`,
       buttons: fieldMapButtons,
       id: 'field-map',
     })
@@ -189,9 +188,9 @@ import Divider from '../../../components/divider/divider.svelte'
     )
     if (confirmed) {
       if (activeImporter.length() > 1000) {
-        Interact.blocker(`Importer starting. With this many records it might freeze the UI, just give it time...`)
+        Interact.blocker(Lang.t('import.importer-starting-large', 'Importer starting. With this many records it might freeze the UI, just give it time...'))
       } else {
-        Interact.blocker(`Importer starting up...`)
+        Interact.blocker(Lang.t('import.importer-starting', 'Importer starting up...'))
       }
 
       let importer = new ImportLoader()
@@ -200,7 +199,7 @@ import Divider from '../../../components/divider/divider.svelte'
       })
 
       Interact.stopBlocker()
-      showToast({ message: `Import complete` })
+      showToast({ message: Lang.t('import.import-complete', 'Import complete') })
     }
   }
 
@@ -247,7 +246,7 @@ import Divider from '../../../components/divider/divider.svelte'
       Interact.popmenu({
         id: 'field-map-menu',
         title: title,
-        description: `Which field maps to ${title}?`,
+        description: Lang.t('import.which-field-maps', { title }),
         buttons,
       })
     })
@@ -270,15 +269,18 @@ import Divider from '../../../components/divider/divider.svelte'
   }
 
   async function remove(config: IImportConfig) {
-    let confirmed = await Interact.confirm(`Remove ${config.name} Importer?`, 'You can always remake it')
+    let confirmed = await Interact.confirm(
+      `Remove ${config.name} Importer?`,
+      Lang.t('import.you-can-always-remake-it', 'You can always remake it')
+    )
     if (confirmed) {
-     
-      alert('TODO')
-      // templates = templates.filter((template) => {
-      //   return template.id !== config.id
-      // })
-      // await UserStore.mstore('csv_templates', templates)
-      showToast({ message: 'Removed' })
+      try {
+        // iOS look (Ronald mandate, Phase 7): the importer is removed from the store, so the list updates
+        await CsvTemplateStore.remove(config)
+        showToast({ message: Lang.t('import.removed', 'Removed') })
+      } catch (e) {
+        Interact.error(e.message)
+      }
     }
   }
 
@@ -296,8 +298,7 @@ import Divider from '../../../components/divider/divider.svelte'
       //   templates.push(activeImporter.config)
       // }
       await CsvTemplateStore.upsert(activeImporter.config)
-      alert('Did it work?')
-      showToast({ message: `Import template saved` })
+      showToast({ message: Lang.t('import.template-saved', 'Import template saved') })
     } catch (e) {
       Interact.error(e.message)
     }
@@ -316,17 +317,17 @@ import Divider from '../../../components/divider/divider.svelte'
     <Button
       primary
       slot="left"
-      className="text-primary-500"
+      className="text-ios-tint"
       on:click={() => {
         closeModal(id)
-      }}>Close</Button
+      }}>{Lang.t('import.cancel', 'Cancel')}</Button
     >
-    <div class="ntitle main">Import CSV</div>
+    <div class="ntitle main">{Lang.t('import.import-csv', 'Import CSV')}</div>
     <div slot="right">
       {#if view && view.id == 'note'}
         <!-- <Button color="clear" on:click={save}>Save</Button> -->
       {:else if view && view.id == 'template'}
-        <Button color="clear" on:click={edit}>Edit</Button>
+        <Button color="clear" on:click={edit}>{Lang.t('import.edit', 'Edit')}</Button>
       {/if}
     </div>
   </ToolbarGrid>
@@ -336,23 +337,28 @@ import Divider from '../../../components/divider/divider.svelte'
       <ListItem bg="light" mainClass="py-4">
         <Text size="sm" bold>{truncateText(activeImporter.name, 26, 5)}</Text>
         <Text faded size="sm">
-          Records: {activeImporter.length()}, Columns: {activeImporter.parsed.data[0].length}
+          {Lang.t('import.records-columns', {
+            records: activeImporter.length(),
+            columns: activeImporter.parsed.data[0].length,
+          })}
         </Text>
       </ListItem>
     {/if}
     {#if view && view.id == 'home'}
       <div class=" p-0 import-csv-home">
         <ListItem bg="transparent">
-          <span class="text-gray-500 text-sm leading-tight"
-            >Select any CSV to begin. You can then map the appropriate fields to turn a row of data into a Note within
-            Nomie.</span
+          <span class="text-ios-label2 text-sm leading-tight"
+            >{Lang.t(
+              'import.select-any-csv-to-begin-you-can-then-map-the-app',
+              'Select any CSV to begin. You can then map the appropriate fields to turn a row of data into a Note within Nomie.'
+            )}</span
           >
         </ListItem>
 
         <ListItem>
           <FileUploader
             accept="csv"
-            placeholder="CSV File"
+            placeholder={Lang.t('import.csv-file', 'CSV File')}
             on:file={async (evt) => {
               await addToImporter(evt)
               stepId = 'note'
@@ -379,7 +385,7 @@ import Divider from '../../../components/divider/divider.svelte'
                 <Button
                   size="sm"
                   color="transparent"
-                  className="text-red"
+                  className="text-ios-tint"
                   on:click={() => {
                     listMode = 'list'
                   }}
@@ -413,7 +419,7 @@ import Divider from '../../../components/divider/divider.svelte'
                       remove(template)
                     }}
                   >
-                    Delete
+                    {Lang.t('import.delete', 'Delete')}
                   </Button>
                 {/if}
               </div>
@@ -429,9 +435,12 @@ import Divider from '../../../components/divider/divider.svelte'
           <Input type="text" bind:value={activeImporter.config.name} placeholder="Importer Name" />
         </ListItem> -->
         <ListItem>
-          <span>Does this have a header row?</span>
+          <span>{Lang.t('import.does-this-have-a-header-row', 'Does this have a header row?')}</span>
           <div slot="right">
-            <ToggleSwitch title="Header Row" bind:value={activeImporter.config.hasHeaders} />
+            <ToggleSwitch
+              title={Lang.t('import.header-row', 'Header Row')}
+              bind:value={activeImporter.config.hasHeaders}
+            />
           </div>
         </ListItem>
 
@@ -445,7 +454,7 @@ import Divider from '../../../components/divider/divider.svelte'
           />
         {:else}
           <div class="px-4 pt-4">
-            <div class="dark:text-white opacity-60 text-sm">
+            <div class="text-ios-label opacity-60 text-sm">
               {Lang.t('csv-import.map-fields', 'Map Fields')}
             </div>
           </div>
@@ -462,9 +471,11 @@ import Divider from '../../../components/divider/divider.svelte'
               {#if is.truthy(activeImporter.config.fieldMap[logField.id])}
                 {#if logField.id == 'end' || logField.id == 'start'}
                   <Text size="sm" bold>
-                    Parsed: {dayjs(previewRow[activeImporter.config.fieldMap[logField.id]]).format(
-                      `${dateFormats.date} ${dateFormats.time}`
-                    )}
+                    {Lang.t('import.parsed', {
+                      date: dayjs(previewRow[activeImporter.config.fieldMap[logField.id]]).format(
+                        `${dateFormats.date} ${dateFormats.time}`
+                      ),
+                    })}
                   </Text>
                 {/if}
                 <Text size="sm" faded>
@@ -472,17 +483,17 @@ import Divider from '../../../components/divider/divider.svelte'
                 </Text>
               {/if}
               <div slot="right">
-                <Button color="transparent" className="text-primary-500">
+                <Button color="transparent" className="text-ios-tint">
                   {#if is.truthy(activeImporter.config.fieldMap[logField.id])}
                     f{activeImporter.config.fieldMap[logField.id]}
-                  {:else}<span class="text-sm font-bold">Map</span>{/if}
-                  <IonIcon icon={ChevronDownOutline} size={14} className="text-primary-500 ml-2 -mr-2" />
+                  {:else}<span class="text-sm font-bold">{Lang.t('import.map', 'Map')}</span>{/if}
+                  <IonIcon icon={ChevronDownOutline} size={14} className="text-ios-tint ml-2 -mr-2" />
                 </Button>
               </div>
             </ListItem>
           {/each}
           <ListItem>
-            <div class="dark:text-white">Note*</div>
+            <div class="text-ios-label">{Lang.t('import.note-2', 'Note*')}</div>
             <Input
               type="textarea"
               placeholder={Lang.t('csv-import.compose-note', 'Compose a note for this CSV data')}
@@ -513,13 +524,13 @@ import Divider from '../../../components/divider/divider.svelte'
                     {:else}
                       <Button
                         color="clear"
-                        className="text-primary-500"
+                        className="text-ios-tint"
                         on:click={() => {
                           mapField(index)
                         }}
                       >
-                        Assign
-                        <IonIcon icon={ChevronDownOutline} className="text-primary-500" size={14} />
+                        {Lang.t('import.assign', 'Assign')}
+                        <IonIcon icon={ChevronDownOutline} className="text-ios-tint" size={14} />
                       </Button>
                     {/if}
                   {/if}
@@ -532,7 +543,7 @@ import Divider from '../../../components/divider/divider.svelte'
     {:else if view && view.id == 'template' && activeImporter}
       <div class="">
         <ListItem className="pb-0">
-          {activeImporter.config.name} Importer
+          {Lang.t('import.importer-name', { name: activeImporter.config.name })}
         </ListItem>
         <ListItem>
           <Input
@@ -544,10 +555,10 @@ import Divider from '../../../components/divider/divider.svelte'
         </ListItem>
         {#if !activeImporter.parsed}
           <ListItem bg="transparent">
-            <Text size="sm" faded>Select the CSV to process</Text>
+            <Text size="sm" faded>{Lang.t('import.select-the-csv-to-process', 'Select the CSV to process')}</Text>
             <FileUploader
               accept="csv"
-              label="CSV File"
+              label={Lang.t('import.csv-file', 'CSV File')}
               on:file={async (evt) => {
                 await addToImporter(evt)
               }}
@@ -557,12 +568,12 @@ import Divider from '../../../components/divider/divider.svelte'
       </div>
     {/if}
     {#if previewLog && is.truthy(previewIndex) && activeImporter.parsed}
-      {#if previewLog.note && previewLog.note !== "null"}
-      <Divider />
+      {#if previewLog.note && previewLog.note !== 'null'}
+        <Divider />
         <div class="examples bg-inverse-2 p-2 px-4">
           <div class="n-toolbar flex pl-2">
-            <div class="main dark:text-white text-sm">
-              Preview {previewIndex} of {activeImporter.length()}
+            <div class="main text-ios-label text-sm">
+              {Lang.t('import.preview-of', { index: previewIndex, total: activeImporter.length() })}
             </div>
             <div class="filler" />
             <NextPrevCal hideCal={true} on:next={nextPreview} on:previous={previousPreview} />
@@ -571,7 +582,7 @@ import Divider from '../../../components/divider/divider.svelte'
         </div>
         <ListItem>
           <Button primary block on:click={startImport}>
-            Import {activeImporter.length()} Logs...
+            {Lang.t('import.import-logs', { num: activeImporter.length() })}
           </Button>
         </ListItem>
       {/if}

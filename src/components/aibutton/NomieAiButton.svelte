@@ -15,19 +15,10 @@
    *   <NomieAiButton size="clamp(44px, 8vw, 96px)" /> <!-- fluid responsive -->
    */
 
-  let {
-    size = '64px',
-    label = 'AI insights',
-    onclick = () => {}
-  } = $props()
+  let { size = '64px', label = 'AI insights', onclick = () => {} } = $props()
 </script>
 
-<button
-  class="nomie-ai-btn"
-  style="--btn-size: {size}"
-  aria-label={label}
-  {onclick}
->
+<button class="nomie-ai-btn" style="--btn-size: {size}" aria-label={label} {onclick}>
   <!-- Pulse rings -->
   <span class="pulse-ring" aria-hidden="true"></span>
   <span class="pulse-ring" aria-hidden="true"></span>
@@ -96,7 +87,9 @@
       0 calc(var(--btn-size) * 0.02) calc(var(--btn-size) * 0.06) rgba(7, 40, 80, 0.4),
       inset 0 calc(var(--btn-size) * -0.06) calc(var(--btn-size) * 0.14) rgba(0, 0, 0, 0.35),
       inset 0 calc(var(--btn-size) * 0.02) calc(var(--btn-size) * 0.06) rgba(255, 255, 255, 0.15);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
     position: relative;
     overflow: hidden;
   }
@@ -144,12 +137,7 @@
     width: 55%;
     height: 55%;
     border-radius: 50%;
-    background: radial-gradient(
-      circle at 35% 30%,
-      #3a3a4a 0%,
-      #0a0a12 70%,
-      #000 100%
-    );
+    background: radial-gradient(circle at 35% 30%, #3a3a4a 0%, #0a0a12 70%, #000 100%);
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
     position: relative;
   }
@@ -210,7 +198,7 @@
     transform: translateX(-50%);
     font-size: clamp(9px, calc(var(--btn-size) * 0.15), 12px);
     font-weight: 500;
-    color: #1a80b6;
+    color: var(--ios-tint);
     white-space: nowrap;
     letter-spacing: 0.04em;
     opacity: 0;
@@ -228,9 +216,15 @@
       inset 0 calc(var(--btn-size) * 0.02) calc(var(--btn-size) * 0.06) rgba(255, 255, 255, 0.15);
   }
 
-  .nomie-ai-btn:hover .stars { opacity: 1; }
-  .nomie-ai-btn:hover .ai-label { opacity: 1; }
-  .nomie-ai-btn:active .sphere { transform: scale(0.96); }
+  .nomie-ai-btn:hover .stars {
+    opacity: 1;
+  }
+  .nomie-ai-btn:hover .ai-label {
+    opacity: 1;
+  }
+  .nomie-ai-btn:active .sphere {
+    transform: scale(0.96);
+  }
 
   /* Focus-visible ring for keyboard nav */
   .nomie-ai-btn:focus-visible .sphere {
@@ -240,12 +234,25 @@
 
   /* ─── Keyframes ──────────────────────────────────────────────────── */
   @keyframes pulse-out {
-    0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.55; }
-    100% { transform: translate(-50%, -50%) scale(1.65); opacity: 0; }
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.55;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.65);
+      opacity: 0;
+    }
   }
 
   @keyframes twinkle {
-    0%, 100% { opacity: 0.25; transform: scale(1); }
-    50%       { opacity: 1;    transform: scale(1.5); }
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.5);
+    }
   }
 </style>

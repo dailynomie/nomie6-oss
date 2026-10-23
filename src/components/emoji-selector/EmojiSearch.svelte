@@ -5,7 +5,7 @@
 
   import IonIcon from '../icon/ion-icon.svelte'
   import { CloseOutline, SearchIcon } from '../icon/nicons'
-
+  import { Lang } from '../../store/lang'
 
   let searchField
 
@@ -31,19 +31,19 @@
 <div class="svelte-emoji-picker__search">
   <input
     type="text"
-    class="border-gray-500 dark:text-white border border-opacity-20"
+    class="border-ios-separator text-ios-label border"
     autocapitalize="false"
     autocomplete="false"
-    placeholder="Search emojis..."
+    placeholder={Lang.t('ui.search-emojis-2', 'Search emojis...')}
     bind:value={searchText}
     bind:this={searchField}
     on:keydown={handleKeyDown}
   />
 
   {#if searchText}
-    <span class="icon clear-button" role="button" on:click|stopPropagation={clearSearchText}>
+    <button type="button" class="icon clear-button" aria-label={Lang.t('search.clear-search', 'Clear search')} on:click|stopPropagation={clearSearchText}>
       <IonIcon icon={CloseOutline} />
-    </span>
+    </button>
   {:else}
     <span class="icon">
       <IonIcon icon={SearchIcon} />
@@ -69,7 +69,7 @@
 
   .svelte-emoji-picker__search input:focus {
     outline: none;
-    border-color: #4f81e5;
+    border-color: var(--ios-tint);
   }
 
   .icon {

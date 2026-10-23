@@ -33,12 +33,12 @@
     closeModal(id)
   }
   const clearAll = async () => {
-    const confirmed = await Interact.confirm('Clear your Log Cache?')
+    const confirmed = await Interact.confirm(Lang.t('logcache.clear-your-log-cache', 'Clear your Log Cache?'))
     if (confirmed) {
       Interact.blocker('Deleting Cache...')
       await deleteAllFromCache()
       Interact.stopBlocker()
-      showToast({ message: 'Cache Deleted' })
+      showToast({ message: Lang.t('logcache.cache-deleted', 'Cache Deleted') })
       init()
     }
   }
@@ -87,11 +87,11 @@
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" primary clear on:click={close}>{Lang.t('general.close', 'Close')}</Button>
-      <h1 class="ntitle">Log Cache</h1>
-      <Button slot="right" className="whitespace-nowrap" primary clear on:click={clearAll}
+      <Button slot="left" className="whitespace-nowrap" primary clear on:click={clearAll}
         >{Lang.t('general.clear', 'Clear All')}</Button
       >
+      <h1 class="ntitle">{Lang.t('logcache.log-cache', 'Log Cache')}</h1>
+      <Button slot="right" primary clear on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
     <Toolbar>
       <HScroller wrapperClass="pl-2 space-x-4 pb-2 pt-1 py-2  w-full flex-nowrap">
@@ -101,8 +101,8 @@
             primary
             clear
             className="stiff {ldate.toDateString() != date.toDateString()
-              ? 'text-gray-500'
-              : 'bg-white dark:bg-black'} whitespace-nowrap"
+              ? 'text-ios-label2'
+              : 'bg-ios-card'} whitespace-nowrap"
             on:click={() => {
               newDate(ldate)
             }}>{dayjs(ldate).format(dateFormats.shortDate)}</Button
@@ -113,30 +113,29 @@
   </header>
   <main class="px-4 py-2">
     {#if !logs.length && !availableDates.length}
-      <Empty className="text-gray-500">Cache Empty</Empty>
+      <Empty className="text-ios-label2">{Lang.t('logcache.cache-empty', 'Cache Empty')}</Empty>
     {:else if !logs.length && availableDates.length}
-      <Empty className="text-gray-500">Select a date above</Empty>
+      <Empty className="text-ios-label2">{Lang.t('logcache.select-a-date-above', 'Select a date above')}</Empty>
     {/if}
     {#each logs as log}
-      <ListItemLog className="mb-2" {log} on:more={() => alert('more')}>
-        <div
-          class="flex space-x-2 justify-between items-center pt-4  border-t border-gray-500 border-opacity-20"
-          slot="item-footer"
-        >
-          <Button on:click={() => deleteLog(log)} confirm clear size="sm" className=" text-red-500">Delete</Button>
+      <ListItemLog className="mb-2" {log}>
+        <div class="flex space-x-2 justify-between items-center pt-4 border-t border-ios-separator" slot="item-footer">
+          <Button on:click={() => deleteLog(log)} confirm clear size="sm" className=" text-ios-danger"
+            >{Lang.t('logcache.delete', 'Delete')}</Button
+          >
 
           <Button
             size="sm"
             disabled={log == activeLog}
-            className="bg-gray-200 dark:bg-gray-800"
+            className="bg-ios-bg"
             on:click={() => {
               importLog(log)
             }}
           >
             {#if log === activeLog}
-              Importing...
+              {Lang.t('logcache.importing', 'Importing...')}
             {:else}
-              Import
+              {Lang.t('logcache.import', 'Import')}
             {/if}
           </Button>
         </div>
@@ -147,8 +146,8 @@
 
 <style lang="postcss" global>
   .day-button.active {
-    @apply bg-white dark:bg-black;
-    @apply text-primary-400;
+    @apply bg-ios-card;
+    @apply text-ios-tint;
     @apply py-1 px-2 rounded-lg;
     @apply shadow-md;
   }

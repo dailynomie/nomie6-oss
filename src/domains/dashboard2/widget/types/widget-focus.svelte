@@ -7,9 +7,15 @@
   import { TrackableStore } from '../../../trackable/TrackableStore'
   import FocusGraph from '../../../../components/charts/focus-graph.svelte'
   import type NLog from '../../../nomie-log/nomie-log'
+  import { Lang } from '../../../../store/lang'
 
   // export let widget: WidgetClass
-  const { logs = $bindable(), widget = $bindable(undefined), trackable = $bindable(undefined), usage = $bindable(undefined) } = $props()
+  const {
+    logs = $bindable(),
+    widget = $bindable(undefined),
+    trackable = $bindable(undefined),
+    usage = $bindable(undefined),
+  } = $props()
   let scores = $state<Array<IFocusResults>>([])
   let lastLogsLength = $state(0)
   let lastTrackableCount = $state(0)
@@ -35,7 +41,7 @@
   {#if scores.length > 0}
     <FocusGraph {scores} />
   {:else}
-    Loading...
+    {Lang.t('general.loading', 'Loading...')}
   {/if}
 </div>
 

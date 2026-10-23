@@ -1,8 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
-
   const { className, mainClass, headerClass, style } = $props()
 </script>
 
@@ -24,23 +22,27 @@
     min-width: 310px;
     width: 100%;
     @apply overflow-hidden;
-    @apply rounded-2xl;
-    @apply shadow-2xl;
-    @apply bg-gray-100 dark:bg-gray-800;
+    border-radius: 16px;
+    box-shadow: var(--ios-shadow-float);
+    background: var(--ios-bg);
   }
   .modal-fullscreen .bd-modal {
-    @apply rounded-none lg:rounded-2xl;
+    border-radius: 0;
+  }
+  @media (min-width: 500px) {
+    .modal-fullscreen .bd-modal {
+      border-radius: 16px;
+    }
   }
   .modal-fullscreen .bd-modal > main {
     max-height: 100vh !important;
   }
   .bd-modal > main {
     @apply overflow-y-auto;
-    @apply z-0; 
+    @apply z-0;
     @apply relative;
     max-height: calc(100vh - 50px);
     @apply flex-grow flex-shrink;
-
   }
 
   .bd-modal > header,

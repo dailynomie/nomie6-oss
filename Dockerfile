@@ -1,11 +1,20 @@
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
 WORKDIR /usr/app
-COPY ./package.json ./
-RUN npm install --force
+# A dependency downloads a browser on install; the build does not need it
+ENV PUPPETEER_SKIP_DOWNLOAD=1
+
+# Install from the lockfile, so the image matches what was tested
+COPY package.json package-lock.json ./
+RUN npm ci --legacy-peer-deps
+
 COPY ./ /usr/app
 RUN NODE_OPTIONS=--max-old-space-size=8192 npm run vbuild
 
-FROM nginx
-WORKDIR /usr/app
-COPY --from=0 /usr/app/dist /usr/share/nginx/html
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY security-headers.conf /etc/nginx/security-headers.conf
+COPY --from=build /usr/app/dist /usr/share/nginx/html
+
+EXPOSE 80

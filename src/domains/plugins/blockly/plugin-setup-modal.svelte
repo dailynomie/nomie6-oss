@@ -5,6 +5,7 @@
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import Button from '../../../components/button/button.svelte'
   import type { PluginClass } from '../plugin-helpers'
+  import { Lang } from '../../../store/lang'
 
   const { plugin } = $props<{ plugin: PluginClass }>()
 
@@ -19,7 +20,7 @@
   }
 </script>
 
-<BackdropModal mainClass="bg-gray-200 dark:bg-gray-800">
+<BackdropModal mainClass="bg-ios-bg">
   <div class="setup-content">
     <div class="plugin-icon">
       {plugin.emoji}
@@ -29,24 +30,11 @@
       {plugin.name}
     </h2>
 
-    <p class="confirmation-text">
-      Enable this plugin?
-    </p>
+    <p class="confirmation-text">{Lang.t('plugins.enable-this-plugin', 'Enable this plugin?')}</p>
 
     <div class="button-group">
-      <Button
-        outline
-        primary
-        on:click={handleCancel}
-      >
-        Cancel
-      </Button>
-      <Button
-        primary
-        on:click={handleConfirm}
-      >
-        Enable
-      </Button>
+      <Button outline primary on:click={handleCancel}>{Lang.t('plugins.cancel', 'Cancel')}</Button>
+      <Button primary on:click={handleConfirm}>{Lang.t('plugins.enable', 'Enable')}</Button>
     </div>
   </div>
 </BackdropModal>
@@ -62,11 +50,11 @@
   }
 
   .plugin-name {
-    @apply text-2xl font-bold text-center dark:text-white;
+    @apply text-2xl font-bold text-center text-ios-label;
   }
 
   .confirmation-text {
-    @apply text-center text-gray-700 dark:text-gray-300 mb-4;
+    @apply text-center text-ios-label2 mb-4;
   }
 
   .button-group {

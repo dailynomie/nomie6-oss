@@ -1,6 +1,15 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
+  import {
+    DocumentTextOutline,
+    FolderOutline,
+    RefreshOutline,
+    TimeOutline,
+    TrashOutline,
+  } from '../../components/icon/nicons'
+  import { ServerOutline } from '../../components/icon/nicons'
   import { useStorageSelectMenu } from './settings-functions'
 
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -13,6 +22,7 @@
   import { navigate } from '../../vendor/svelte-navigator'
 
   import { Prefs, saveStorageType } from '../preferences/Preferences'
+  import { FeatureVisible } from '../preferences/features'
   import { wait } from '../../utils/tick/tick'
   import { Device } from '../../store/device-store'
   import { Interact } from '../../store/interact'
@@ -28,11 +38,17 @@
   import { showToast } from '../../components/toast/ToastStore'
 
   import BackupListItems from '../../components/backup-message/backup-list-items.svelte'
+  import { generateBackup } from '../backup/BackupStore'
   import NomieServer from '../storage/engines/nomie-server/nomie-server.svelte'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import PluginDedupModal from '../plugins/plugin-dedup-modal.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
   import { autoCleanupPlugins } from '../plugins/PluginCleanupStore'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
+  import { HelpCircleOutline } from '../../components/icon/nicons'
+  import { openUnknownTrackables } from '../trackable/unknown-trackables-store'
+  import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { DownloadOutline } from '../../components/icon/nicons'
 
   // let fileInputF
   // let showImporter = false
@@ -49,7 +65,7 @@
       Interact.blocker('Analyzing Usage Data...')
       await updateAllLastUsed($TrackableStore.trackables)
       Interact.stopBlocker()
-      showToast({ message: 'Update Complete' })
+      showToast({ message: Lang.t('settings.update-complete', 'Update Complete') })
     }
   }
 
@@ -57,7 +73,7 @@
     openModal({
       id: 'plugin-dedup-modal',
       component: PluginDedupModal,
-      componentProps: {}
+      componentProps: {},
     })
   }
 
@@ -75,7 +91,7 @@
     const isNowEnabled = newDays !== -1
 
     if (wasDisabled && isNowEnabled) {
-      console.log('[Settings] Cleanup enabled - running initial scan')
+      console.info('[Settings] Cleanup enabled - running initial scan')
       await autoCleanupPlugins()
     }
 
@@ -141,28 +157,20 @@
 <List solo className="mb-4" title={Lang.t('settings.my-data', 'My Data')} outside>
   <!-- <Button clear primary slot="header-right" on:click={showStorageOptions}>
     {storageDetails.shortName}
-    <IonIcon icon={ChevronDownOutline} size={14} className="ml-2 text-black dark:text-white" />
+    <IonIcon icon={ChevronDownOutline} size={14} className="ml-2 text-ios-label" />
   </Button> -->
-  <ListItem on:click={showStorageOptions} detail>
+  <ListItem on:click={showStorageOptions} detail bottomLine={57}>
     <span slot="left">
-      {#if $Prefs.storageType === 'local'}
-        🗄
-      {:else if $Prefs.storageType === 'firebase'}
-        ☁️
-      {:else if $Prefs.storageType === 'nomie-server'}
-        ☁️
-      {:else if $Prefs.storageType == 'pouchdb'}
-        🛋
-      {/if}
+      <IconSquare color="#0B4F55"><IonIcon icon={ServerOutline} size={17} /></IconSquare>
     </span>
-    <div class="font-semibold leading-tight">Stored on {storageDetails.name}</div>
-    <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
+    <div class="leading-tight">{Lang.t('settings.stored-on', { name: storageDetails.name })}</div>
+    <div class="text-xs text-ios-label2 line-clamp-2 leading-tight mt-1">{storageDetails.description}</div>
   </ListItem>
   {#if $Prefs.storageType === 'pouchdb'}
     <Divider left={32} />
     <PouchdbSettings />
   {/if}
-  {#if $Prefs.storageType === "nomie-server"}
+  {#if $Prefs.storageType === 'nomie-server'}
     <Divider left={32} />
     <NomieServer />
   {/if}
@@ -175,50 +183,114 @@
   </p>
 {/if} -->
 
-<BackupListItems />
+<BackupListItems onGenerate={generateBackup} />
 
 <List solo className="mb-3 mt-4" outside>
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
     detail
     title={Lang.t('general.import-data', 'Import Data')}
     on:click={() => {
       showImportModal()
     }}
   >
-    <div slot="right" class="opacity-50 text-sm">CSV or Nomie Backup</div>
+    <span slot="left"><IconSquare color="#0E7C86"><IonIcon icon={DownloadOutline} size={17} /></IconSquare></span>
+    <div slot="right" class="opacity-50 text-sm">{Lang.t('settings.csv-or-nomie-backup', 'CSV or Nomie Backup')}</div>
   </ListItem>
 
-  <ListItem bottomLine={16} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv" />
+  {#if $FeatureVisible('csv')}
+    <ListItem bottomLine={57} detail title={Lang.t('settings.download-csv', 'Download CSV')} to="/settings/export/csv">
+      <span slot="left" class="adv-corner"
+        ><IconSquare color="#2A8E97"><IonIcon icon={DocumentTextOutline} size={17} /></IconSquare><FeatureBadge
+          feature="csv"
+        /></span
+      >
+    </ListItem>
+  {/if}
 </List>
 <List solo className="mb-3" outside>
-  <ListItem
-    bottomLine={16}
-    detail
-    title={Lang.t('general.browse-files', 'Browse Files')}
-    on:click={() => {
-      navigate('/files')
-    }}
-  />
+  {#if $FeatureVisible('files')}
+    <ListItem
+      bottomLine={57}
+      detail
+      title={Lang.t('general.browse-files', 'Browse Files')}
+      on:click={() => {
+        navigate('/files')
+      }}
+    >
+      <span slot="left" class="adv-corner"
+        ><IconSquare color="#3FA0A9"><IonIcon icon={FolderOutline} size={17} /></IconSquare><FeatureBadge
+          feature="files"
+        /></span
+      >
+    </ListItem>
+  {/if}
 
+  <!-- iOS look (Ronald request): tags in notes that have no trackable yet -->
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
+    detail
+    clickable
+    title={Lang.t('settings.manage-unknown-trackables', 'Manage Unknown Trackables')}
+    description={Lang.t(
+      'settings.tags-in-your-notes-that-have-no-tracker-yet',
+      'Tags in your notes that have no tracker yet'
+    )}
+    on:click={openUnknownTrackables}
+  >
+    <span slot="left"><IconSquare color="#68BDC4"><IonIcon icon={HelpCircleOutline} size={17} /></IconSquare></span>
+  </ListItem>
+
+</List>
+
+<!-- iOS look (W11): the technical maintenance rows sit under Advanced, so a new user sees fewer rows -->
+{#if $FeatureVisible('advanced-settings')}
+<List solo className="mb-3" outside title={Lang.t('settings.advanced', 'Advanced')}>
+  <ListItem
+    bottomLine={57}
     detail
     clickable
     title={Lang.t('settings.update-last-used-date', 'Update Last-Used Dates')}
     on:click={updateLastUsedDates}
-  />
+  >
+    <span slot="left" class="adv-corner"
+      ><IconSquare color="#5CB3BB"><IonIcon icon={RefreshOutline} size={17} /></IconSquare><FeatureBadge
+        feature="advanced-settings"
+      /></span
+    >
+  </ListItem>
 
   <ListItem
-    bottomLine={16}
+    bottomLine={57}
     detail
     clickable
-    title="Clean Plugin Database"
-    description="Find and remove duplicate plugin settings"
+    title={Lang.t('settings.clean-plugin-database', 'Clean Plugin Database')}
+    description={Lang.t(
+      'settings.find-and-remove-duplicate-plugin-settings',
+      'Find and remove duplicate plugin settings'
+    )}
     on:click={openPluginDedupModal}
-  />
+  >
+    <span slot="left" class="adv-corner"
+      ><IconSquare color="#7CC4CB"><IonIcon icon={TrashOutline} size={17} /></IconSquare><FeatureBadge
+        feature="advanced-settings"
+      /></span
+    >
+  </ListItem>
 
-  <ListItem title="Auto-PluginDB-Cleanup Schedule">
+  <ListItem
+    bottomLine={57}
+    title={Lang.t('settings.auto-cleanup', 'Auto Cleanup')}
+    description={Lang.t(
+      'settings.removes-duplicate-plugin-settings-on-a-schedule',
+      'Removes duplicate plugin settings on a schedule'
+    )}
+  >
+    <span slot="left" class="adv-corner"
+      ><IconSquare color="#9AD3D8"><IonIcon icon={TimeOutline} size={17} /></IconSquare><FeatureBadge
+        feature="advanced-settings"
+      /></span
+    >
     <div slot="right">
       <SelectPop
         id="plugin-cleanup-schedule"
@@ -232,12 +304,7 @@
     </div>
   </ListItem>
 </List>
-<!-- <p class="list-note -mt-2 mb-2">
-  {Lang.t(
-    'general.update-last-used-description',
-    `When you delete a note, Nomie sometimes loses track of when a tracker, person, or context was last used. Use 'Update Last-Used Dates'  to update all of the last-used dates and values from the previous year.`
-  )}
-</p> -->
+{/if}
 <!-- 
 <List transparent className=" px-2" outside title={Lang.t('settings.import-export', 'Import / Export')}>
   <p slot="subheader" class="list-note -mt-2">
@@ -248,7 +315,7 @@
     <Button
       role="menuitem"
       
-      className="dark:bg-gray-900 bg-white text-black dark:text-white"
+      className="bg-ios-card text-ios-label"
       title={`${Lang.t('settings.import', 'Import')}`}
       on:click={() => {
         showImportModal()
@@ -260,7 +327,7 @@
     <Button
       role="menuitem"
       
-      className="dark:bg-gray-900 bg-white text-black dark:text-white"
+      className="bg-ios-card text-ios-label"
       title={Lang.t('settings.export', 'Export')}
       on:click={() => generateBackup()}
     >

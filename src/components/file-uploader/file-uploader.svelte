@@ -6,6 +6,7 @@
   import Button from '../button/button.svelte'
 
   import Input from '../input/input.svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
 
@@ -52,7 +53,7 @@
 <Input {className} {placeholder} {label} value={uploadedFileName} disabled>
   <div slot="right" class="pr-2">
     {#if uploadedFileName}
-      <Button color="transparent" className="text-red" on:click={clear}>Clear</Button>
+      <Button color="transparent" className="text-ios-tint" on:click={clear}>{Lang.t('ui.clear', 'Clear')}</Button>
     {:else}
       <Button
         on:click={() => {
@@ -61,7 +62,7 @@
           }
         }}
       >
-        Select...
+        {Lang.t('ui.select-2', 'Select...')}
       </Button>
     {/if}
   </div>

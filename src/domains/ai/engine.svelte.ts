@@ -6,15 +6,11 @@ import { journalProfile } from './profiles/journal'
 import { alertProfile } from './profiles/alert'
 import { narrativeProfile } from './profiles/narrative'
 import { chatProfile } from './profiles/chat'
-import type {
-  AIRequest,
-  AIResponse,
-  Profile,
-  ProfileName
-} from './profiles/types'
+import { experimentProfile } from './profiles/experiment'
+import { reviewProfile } from './profiles/review'
+import type { AIRequest, AIResponse, Profile, ProfileName } from './profiles/types'
 import { Prefs } from '../preferences/Preferences'
 import { get } from 'svelte/store'
-import Anthropic from '@anthropic-ai/sdk'
 import dayjs from 'dayjs'
 import { timeFrames } from '../dashboard2/widget/widget-timeframe'
 import { decryptValue } from '../../modules/crypto/crypto-storage'
@@ -27,15 +23,17 @@ const profiles: Record<ProfileName, Profile> = {
   journal: journalProfile,
   alert: alertProfile,
   narrative: narrativeProfile,
-  chat: chatProfile
+  chat: chatProfile,
+  experiment: experimentProfile,
+  review: reviewProfile,
 }
 
 function getDateRangeFromTimeframe(timeframeId: string): { from: string; to: string } {
-  const timeframe = timeFrames.find(tf => tf.id === timeframeId)
+  const timeframe = timeFrames.find((tf) => tf.id === timeframeId)
   if (!timeframe) {
     return {
       from: dayjs().subtract(30, 'days').format('YYYY-MM-DD'),
-      to: dayjs().format('YYYY-MM-DD')
+      to: dayjs().format('YYYY-MM-DD'),
     }
   }
 
@@ -62,7 +60,7 @@ function getDateRangeFromTimeframe(timeframeId: string): { from: string; to: str
 
   return {
     from: start.format('YYYY-MM-DD'),
-    to: end.format('YYYY-MM-DD')
+    to: end.format('YYYY-MM-DD'),
   }
 }
 
@@ -70,7 +68,7 @@ export const aiState = $state({
   loading: false,
   error: null as string | null,
   lastResponse: null as AIResponse | null,
-  actualModel: null as string | null
+  actualModel: null as string | null,
 })
 
 export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> {
@@ -86,9 +84,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
   let apiKey = service?.apiKey
 
   if (!apiKey) {
-    throw new Error(
-      'AI is not configured. Please enable AI in Settings and add your API key.'
-    )
+    throw new Error('AI is not configured. Please enable AI in Settings and add your API key.')
   }
 
   // Decrypt if encrypted
@@ -114,9 +110,13 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
         summary: narrativeData.summary,
         goals: [],
         recentMetrics: {},
-        narrative_entries: narrativeData.entries_by_date
+        narrative_entries: narrativeData.entries_by_date,
       }
       systemPrompt = `${profile.systemPrompt(context, req.prompt)}\n\nJournal entries to analyze:\n${JSON.stringify(narrativeData.entries_by_date, null, 2)}`
+    } else if (req.profile === 'experiment') {
+      // Only the frozen result is sent, never the user's logs or summary
+      context = { summary: '', goals: [], recentMetrics: {} }
+      systemPrompt = profile.systemPrompt(context, req.prompt)
     } else if (req.profile === 'chat' || req.profile === 'insight') {
       context = await buildChatContext(req.contextHints)
       systemPrompt = profile.systemPrompt(context, req.prompt)
@@ -129,17 +129,17 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
 
     if (selectedService === 'openrouter') {
       // Use OpenRouter
-      const result = await queryOpenRouter(apiKey, [
-        { role: 'user', content: systemPrompt + '\n\n' + req.prompt }
-      ], {
+      const result = await queryOpenRouter(apiKey, [{ role: 'user', content: systemPrompt + '\n\n' + req.prompt }], {
         maxTokens: profile.maxTokens,
-        temperature: profile.temperature
+        temperature: profile.temperature,
       })
       raw = result.content
       aiState.actualModel = result.model
     } else {
       // Use Claude (default)
       aiState.actualModel = null
+      // the SDK is loaded when a Claude request is made, not at start-up
+      const { default: Anthropic } = await import('@anthropic-ai/sdk')
       const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
       const response = await client.messages.create({
         model: 'claude-opus-4-8',
@@ -148,10 +148,10 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
           {
             type: 'text',
             text: systemPrompt,
-            cache_control: { type: 'ephemeral' }
-          }
+            cache_control: { type: 'ephemeral' },
+          },
         ],
-        messages: [{ role: 'user', content: req.prompt }]
+        messages: [{ role: 'user', content: req.prompt }],
       })
       raw = response.content[0].type === 'text' ? response.content[0].text : ''
     }
@@ -161,7 +161,7 @@ export async function query<T = string>(req: AIRequest): Promise<AIResponse<T>> 
     const result: AIResponse<T> = {
       profile: req.profile,
       content,
-      raw
+      raw,
     }
 
     aiState.lastResponse = result as AIResponse
@@ -193,9 +193,7 @@ export async function streamQuery(
   let apiKey = service?.apiKey
 
   if (!apiKey) {
-    throw new Error(
-      'AI is not configured. Please enable AI in Settings and add your API key.'
-    )
+    throw new Error('AI is not configured. Please enable AI in Settings and add your API key.')
   }
 
   // Decrypt if encrypted
@@ -219,40 +217,40 @@ export async function streamQuery(
     }
 
     // Use richer context for chat and insight profiles
-    const context = req.profile === 'chat' || req.profile === 'insight'
-      ? await buildChatContext(contextHints)
-      : await buildContext(contextHints)
+    const context =
+      req.profile === 'chat' || req.profile === 'insight'
+        ? await buildChatContext(contextHints)
+        : await buildContext(contextHints)
 
     const systemPrompt = profile.systemPrompt(context, req.prompt)
 
     if (selectedService === 'openrouter') {
       // Use OpenRouter streaming
-      const messages = [
-        ...(conversationHistory || []),
-        { role: 'user' as const, content: req.prompt }
-      ]
+      const messages = [...(conversationHistory || []), { role: 'user' as const, content: req.prompt }]
 
       // Add system message to the beginning if not in conversation history
-      const withSystem = [
-        { role: 'user' as const, content: systemPrompt },
-        ...messages
-      ]
+      const withSystem = [{ role: 'user' as const, content: systemPrompt }, ...messages]
 
-      await streamOpenRouter(apiKey, withSystem, onChunk, {
-        maxTokens: profile.maxTokens,
-        temperature: profile.temperature
-      }, (model) => {
-        aiState.actualModel = model
-      })
+      await streamOpenRouter(
+        apiKey,
+        withSystem,
+        onChunk,
+        {
+          maxTokens: profile.maxTokens,
+          temperature: profile.temperature,
+        },
+        (model) => {
+          aiState.actualModel = model
+        }
+      )
     } else {
       // Use Claude streaming
+      // the SDK is loaded when a Claude request is made, not at start-up
+      const { default: Anthropic } = await import('@anthropic-ai/sdk')
       const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 
       // Build messages array with conversation history
-      const messages = [
-        ...(conversationHistory || []),
-        { role: 'user' as const, content: req.prompt }
-      ]
+      const messages = [...(conversationHistory || []), { role: 'user' as const, content: req.prompt }]
 
       const stream = client.messages.stream({
         model: 'claude-opus-4-8',
@@ -261,10 +259,10 @@ export async function streamQuery(
           {
             type: 'text',
             text: systemPrompt,
-            cache_control: { type: 'ephemeral' }
-          }
+            cache_control: { type: 'ephemeral' },
+          },
         ],
-        messages
+        messages,
       })
 
       for await (const chunk of stream) {

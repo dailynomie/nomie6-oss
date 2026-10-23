@@ -4,7 +4,6 @@
   import Toolbar from '../toolbar/toolbar.svelte'
   import Text from '../text/text.svelte'
 
-
   const { className, style, title, pad, compact, shadow, bodyClass } = $props()
 </script>
 
@@ -23,12 +22,13 @@
 <style global>
   .n-card {
     @apply relative;
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-ios-card;
     @apply shadow-md;
     @apply flex flex-col;
-    @apply rounded-lg;
+    /* iOS look: the same 12 px radius as the grouped lists */
+    @apply rounded-xl;
     @apply overflow-auto;
-    @apply text-gray-900 dark:text-white;
+    @apply text-ios-label;
   }
   .n-card.compact .title {
     font-size: 0.7em;

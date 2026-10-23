@@ -38,8 +38,8 @@ export type ITracker = {
   default?: number // Default value for a tracker
   max?: number // Max of a Range
   min?: number // Min of a Range
-  minLabel?: string;
-  maxLabel?: string;
+  minLabel?: string
+  maxLabel?: string
   step?: number // number of steps for a range
   score?: number // Current Score?
   score_calc?: any // Positivity Score calc
@@ -124,8 +124,8 @@ export default class TrackerClass {
       this.min = starter.max ? starter.min.toString() : '1'
       // step
       this.step = starter.step || '1'
-      this.minLabel = starter.minLabel;
-      this.maxLabel = starter.maxLabel;
+      this.minLabel = starter.minLabel
+      this.maxLabel = starter.maxLabel
     }
     // score
     this.score = starter.score
@@ -150,7 +150,7 @@ export default class TrackerClass {
     }
 
     this.picks = starter.picks || undefined
-    this.habitChoice = starter.habitChoice || ["Done","Failed"]
+    this.habitChoice = starter.habitChoice || ['Done', 'Failed']
 
     if (starter.label) {
       this.label = starter.label

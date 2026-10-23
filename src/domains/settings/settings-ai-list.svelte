@@ -1,6 +1,9 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../../components/ios-select/ios-select.svelte'
+
+  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
   import { Prefs } from '../preferences/Preferences'
   import { Lang } from '../../store/lang'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -11,8 +14,8 @@
   import Button from '../../components/button/button.svelte'
   import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { ChevronDownOutline, ChevronUpOutline } from '../../components/icon/nicons'
-  import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
+  import { ChevronDownOutline, ChevronUpOutline, SparklesOutline } from '../../components/icon/nicons'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
   import { showToast } from '../../components/toast/ToastStore'
   import type { AIServiceType } from '../preferences/Preferences'
   import { timeFrames } from '../dashboard2/widget/widget-timeframe'
@@ -30,7 +33,7 @@
   let isEncrypted = $state(false)
 
   const services = [
-    { label: 'Claude', value: 'claude' as AIServiceType },
+    { label: Lang.t('settings.claude', 'Claude'), value: 'claude' as AIServiceType },
     { label: 'OpenRouter', value: 'openrouter' as AIServiceType },
   ]
 
@@ -65,7 +68,7 @@
     try {
       if (config.enabled && !config.apiKey) {
         showToast({
-          message: 'API key is required',
+          message: Lang.t('settings.api-key-is-required', 'API key is required'),
           type: 'error',
         })
         isSaving = false
@@ -81,12 +84,16 @@
           apiKeyToSave = await encryptValue(config.apiKey, $Prefs.usePin)
           shouldEncrypt = true
           showToast({
-            message: 'API key will be encrypted with your PIN',
+            message: Lang.t(
+              'settings.api-key-will-be-encrypted-with-your-pin',
+              'API key will be encrypted with your PIN'
+            ),
             type: 'info',
           })
         } catch (error) {
           showToast({
-            message: 'Failed to encrypt API key: ' + (error as Error).message,
+            message:
+              Lang.t('settings.failed-to-encrypt-api-key', 'Failed to encrypt API key:') + (error as Error).message,
             type: 'error',
           })
           isSaving = false
@@ -118,7 +125,7 @@
       })
 
       showToast({
-        message: 'AI settings saved successfully',
+        message: Lang.t('settings.ai-settings-saved-successfully', 'AI settings saved successfully'),
         type: 'success',
       })
     } finally {
@@ -137,23 +144,27 @@
       return p
     })
     showToast({
-      message: 'API key cleared',
+      message: Lang.t('settings.api-key-cleared', 'API key cleared'),
       type: 'success',
     })
   }
-
 </script>
 
 <List solo className="mb-4" title={Lang.t('settings.ai', 'AI Integration')} outside>
-  <ListItem bottomLine={16}>
-    <span slot="left" class="flex items-center justify-center">
-      <NomieAiButton size="30px" />
+  <ListItem bottomLine={57}>
+    <span slot="left" class="adv-corner">
+      <IconSquare color="#7D4AA8"><IonIcon icon={SparklesOutline} size={17} /></IconSquare>
+      <FeatureBadge feature="ai" />
     </span>
-    <div class="font-semibold leading-tight">
-      {config.enabled ? 'AI Features Enabled' : 'AI Features Disabled'}
+    <div class="leading-tight">
+      {config.enabled
+        ? Lang.t('settings.ai-features-enabled', 'AI Features Enabled')
+        : Lang.t('settings.ai-features-disabled', 'AI Features Disabled')}
     </div>
-    <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">
-      {config.enabled ? `Using ${config.selectedService}` : 'Click to enable AI integration'}
+    <div class="text-xs text-ios-label2 line-clamp-2 leading-tight mt-1">
+      {config.enabled
+        ? Lang.t('settings.using-service', { name: config.selectedService })
+        : Lang.t('settings.click-to-enable-ai-integration', 'Click to enable AI integration')}
     </div>
     <div slot="right" class="flex items-center gap-3">
       {#if config.enabled}
@@ -161,7 +172,7 @@
           type="button"
           class="p-1 hover:opacity-70 transition-opacity flex-shrink-0"
           on:click={() => (isExpanded = !isExpanded)}
-          title={isExpanded ? 'Collapse' : 'Expand'}
+          title={isExpanded ? Lang.t('settings.collapse', 'Collapse') : Lang.t('settings.expand', 'Expand')}
         >
           <IonIcon icon={isExpanded ? ChevronUpOutline : ChevronDownOutline} size={20} />
         </button>
@@ -172,17 +183,23 @@
 
   {#if config.enabled && !$Prefs.usePin}
     <ListItem bottomLine={16}>
-      <div class="w-full py-3 p-3 bg-red-50 dark:bg-red-950 rounded-lg border border-red-200 dark:border-red-800">
+      <!-- iOS look: an information notice is a neutral card; red is reserved for destructive actions -->
+      <div class="w-full py-3 p-3 bg-ios-card2 rounded-xl">
         <div class="flex gap-2">
           <span class="flex-shrink-0 text-lg">⚠️</span>
           <div class="flex-grow min-w-0">
-            <p class="text-sm font-semibold text-red-900 mb-1">
-              API Key Encryption Available
+            <p class="text-sm font-semibold text-ios-label mb-1">
+              {Lang.t('settings.api-key-encryption-available', 'API Key Encryption Available')}
             </p>
-            <p class="text-xs text-red-800 leading-tight">
-              Your Nomie data always stays local on your device, which provides strong security. You can add an additional layer of protection by enabling a PIN in
-              <span class="font-semibold">More Settings → Security → Use PIN</span>
-              to encrypt your API key.
+            <p class="text-xs text-ios-label2 leading-tight">
+              {Lang.t(
+                'settings.api-key-local-security',
+                'Your Nomie data always stays local on your device, which provides strong security. You can add an additional layer of protection by enabling a PIN in'
+              )}
+              <span class="font-semibold"
+                >{Lang.t('settings.more-settings-security-use-pin', 'More Settings → Security → Use PIN')}</span
+              >
+              {Lang.t('settings.to-encrypt-your-api-key', 'to encrypt your API key.')}
             </p>
           </div>
         </div>
@@ -195,7 +212,9 @@
 
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
-        <label class="block text-sm font-semibold mb-3">Select AI Service</label>
+        <label class="block text-sm font-semibold mb-3"
+          >{Lang.t('settings.select-ai-service', 'Select AI Service')}</label
+        >
         <ButtonGroup
           compact
           bind:value={config.selectedService}
@@ -212,31 +231,43 @@
 
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
-        <label class="block text-sm font-semibold mb-2">API Key</label>
-        <p class="text-xs text-gray-500 mb-3">{getServiceDocs(config.selectedService)}</p>
+        <label class="block text-sm font-semibold mb-2">{Lang.t('settings.api-key', 'API Key')}</label>
+        <p class="text-xs text-ios-label2 mb-3">{getServiceDocs(config.selectedService)}</p>
         {#if config.apiKey}
           {#if isEncrypted}
-            <div class="flex items-center gap-2 mb-3 p-2 bg-green-100 dark:bg-green-900 rounded text-green-800 dark:text-green-200 text-xs">
+            <div class="flex items-center gap-2 mb-3 p-2 bg-ios-goodsoft rounded text-ios-good text-xs">
               <span>✓</span>
-              <span>API key is encrypted with your PIN</span>
+              <span>{Lang.t('settings.api-key-is-encrypted-with-your-pin', 'API key is encrypted with your PIN')}</span>
             </div>
           {:else if $Prefs.usePin}
-            <div class="flex items-center gap-2 mb-3 p-2 bg-yellow-100 dark:bg-yellow-900 rounded text-yellow-800 dark:text-yellow-200 text-xs">
+            <div class="flex items-center gap-2 mb-3 p-2 bg-ios-tintsoft rounded text-ios-tint text-xs">
               <span>⚠</span>
-              <span>API key will be encrypted on next save</span>
+              <span
+                >{Lang.t(
+                  'settings.api-key-will-be-encrypted-on-next-save',
+                  'API key will be encrypted on next save'
+                )}</span
+              >
             </div>
           {/if}
         {/if}
         <Input
           type="password"
-          placeholder="Enter your API key"
+          placeholder={Lang.t('settings.enter-your-api-key', 'Enter your API key')}
           bind:value={config.apiKey}
           className="mb-3"
         />
+        <p class="text-xs text-ios-label2 mb-3">
+          {Lang.t(
+            'settings.ai-key-notice',
+            'Requests go straight from this browser to the provider you chose. The key stays on this device. A short PIN gives little protection for the key.'
+          )}
+        </p>
         {#if config.apiKey}
-          <Button size="sm" className="bg-gray-200 dark:bg-gray-800 mr-2" on:click={clearApiKey}>
-            Clear Key
-          </Button>
+          <!-- iOS look (D-destructive-row): clearing the saved key removes data, so it is the red text control -->
+          <Button size="sm" clear className="text-ios-danger mr-2" on:click={clearApiKey}
+            >{Lang.t('settings.clear-key', 'Clear Key')}</Button
+          >
         {/if}
       </div>
     </ListItem>
@@ -245,16 +276,21 @@
 
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
-        <label class="block text-sm font-semibold mb-3">Default Data Timeframe</label>
-        <p class="text-xs text-gray-500 mb-3">Used for AI features that don't have their own timeframe</p>
-        <select
-          bind:value={config.defaultTimeframe}
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm"
+        <label class="block text-sm font-semibold mb-3"
+          >{Lang.t('settings.default-data-timeframe', 'Default Data Timeframe')}</label
         >
-          {#each timeFrames as timeframe}
-            <option value={timeframe.id}>{timeframe.label}</option>
-          {/each}
-        </select>
+        <p class="text-xs text-ios-label2 mb-3">
+          {Lang.t(
+            'settings.used-for-ai-features-that-don-t-have-their-own-t',
+            "Used for AI features that don't have their own timeframe"
+          )}
+        </p>
+        <IosSelect
+          className="w-full"
+          title={Lang.t('settings.default-data-timeframe', 'Default Data Timeframe')}
+          bind:value={config.defaultTimeframe}
+          options={timeFrames.map((timeframe) => ({ value: timeframe.id, label: timeframe.label }))}
+        />
       </div>
     </ListItem>
 
@@ -262,13 +298,10 @@
 
     <ListItem bottomLine={16}>
       <div class="w-full py-3">
-        <Button
-          primary
-          disabled={isSaving || !config.apiKey}
-          className="w-full"
-          on:click={saveConfig}
-        >
-          {isSaving ? 'Saving...' : 'Save Configuration'}
+        <Button primary disabled={isSaving || !config.apiKey} className="w-full" on:click={saveConfig}>
+          {isSaving
+            ? Lang.t('settings.saving', 'Saving...')
+            : Lang.t('settings.save-configuration', 'Save Configuration')}
         </Button>
       </div>
     </ListItem>

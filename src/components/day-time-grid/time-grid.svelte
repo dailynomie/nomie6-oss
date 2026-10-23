@@ -47,13 +47,13 @@
         <div class="day-label">{gridDay.daykey}</div>
         {#each gridDay.day as hour}
           <div
-            class="hour bg-white w-full {hour === 0 ? 'empty-hour' : 'active-hour'} "
+            class="hour bg-ios-card w-full {hour === 0 ? 'empty-hour' : 'active-hour'} "
             style="--percent:{math.percentage(max, hour) / 100};"
           />
         {/each}
       </div>
     {/each}
-    <div class="day-legend flex items-center ml-6 mt-1 text-opacity-50 text-black dark:text-white">
+    <div class="day-legend flex items-center ml-6 mt-1 text-opacity-50 text-ios-label">
       {#each Array(24).fill(0) as count, index}
         <div class="hour-label overflow-hidden">
           {formatHour(index)}
@@ -72,8 +72,8 @@
 
   .time-grid .day-label {
     @apply capitalize;
-    @apply text-gray-500;
-    font-size: 10px;
+    @apply text-ios-label2;
+    font-size: calc(10px * var(--text-scale));
     @apply text-right;
     @apply pr-1;
     @apply flex-shrink-0;
@@ -84,7 +84,7 @@
     @apply w-full;
   }
   .time-grid .day-legend .hour-label {
-    font-size: 8px;
+    font-size: calc(8px * var(--text-scale));
     width: 3.9%;
   }
 
@@ -106,6 +106,6 @@
   }
   .time-grid .hour.empty-hour {
     @apply bg-transparent;
-    @apply border border-gray-100 dark:border-gray-900;
+    @apply border border-ios-separator;
   }
 </style>

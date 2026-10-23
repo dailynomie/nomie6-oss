@@ -1,41 +1,41 @@
 export default class Log {
-  label: any;
-  render: boolean;
+  label: any
+  render: boolean
   constructor(label, render = true) {
-    this.label = label;
-    this.render = render;
+    this.label = label
+    this.render = render
   }
   success(title, v1?: any) {
     if (this.render) {
-      console.log("✅ ✅ ✅ ✅ " + this.label);
-      this.showArgs("✅ ", arguments);
-      console.log("");
+      console.info('✅ ✅ ✅ ✅ ' + this.label)
+      this.showArgs('✅ ', arguments)
+      console.info('')
     }
   }
   log(title, v1?) {
     if (this.render) {
-      this.showArgs(`${this.label} ↠`, arguments);
+      this.showArgs(`${this.label} ↠`, arguments)
     }
   }
   error(e) {
-    console.log("📛 📛 📛 📛 📛 📛 ");
-    console.log("📛 " + this.label);
-    this.showArgs("📛", arguments);
-    console.log("📛 📛 📛 📛 📛 📛 ");
-    console.log("");
+    console.info('📛 📛 📛 📛 📛 📛 ')
+    console.info('📛 ' + this.label)
+    this.showArgs('📛', arguments)
+    console.info('📛 📛 📛 📛 📛 📛 ')
+    console.info('')
   }
 
   notice(e) {
-    console.log("👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯");
-    console.log("👯 " + this.label);
-    this.showArgs("👯", arguments);
-    console.log("👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯");
-    console.log("");
+    console.info('👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯')
+    console.info('👯 ' + this.label)
+    this.showArgs('👯', arguments)
+    console.info('👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯👯')
+    console.info('')
   }
   showArgs(emoji, args) {
     if (args) {
       for (let i = 0; i < args.length; i++) {
-        console.log(i == 0 ? "⭐️ " + emoji : "✨   ", args[i]);
+        console.info(i == 0 ? '⭐️ ' + emoji : '✨   ', args[i])
       }
     }
   }

@@ -5,6 +5,7 @@
   import { closeModal } from '../backdrop/BackdropStore2'
   import DateTimeBar from '../date-time-bar/date-time-bar.svelte'
   import Alertbox from './alertbox.svelte'
+  import { Lang } from '../../store/lang'
 
   const ifOnEnter = (e, func) => {
     if (e.charCode === 13) {
@@ -20,7 +21,7 @@
     {#if payload.valueType == 'textarea'}
       <textarea
         name="value"
-        title="input value"
+        title={Lang.t('ui.input-value', 'input value')}
         placeholder={payload.placeholder}
         bind:value={payload.value}
         class="mt-2 form-control"
@@ -31,7 +32,7 @@
         name="value"
         pattern="[0-9]*"
         inputmode="numeric"
-        title="input value "
+        title={Lang.t('ui.input-value-2', 'input value')}
         on:keypress={(evt) => {
           ifOnEnter(evt, () => {
             payload.onInteract(payload)
@@ -55,7 +56,7 @@
       />
     {:else}
       <input
-        title="input value"
+        title={Lang.t('ui.input-value', 'input value')}
         on:keypress={(evt) => {
           ifOnEnter(evt, () => {
             payload.onInteract(payload)

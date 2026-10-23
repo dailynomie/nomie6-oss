@@ -6,7 +6,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
  * so these tests exercise the real export, detection, merge and restore code.
  */
 
-const memory = vi.hoisted(() => ({ files: new Map<string, any>(), failing: new Set<string>(), failingPut: new Set<string>() }))
+const memory = vi.hoisted(() => ({
+  files: new Map<string, any>(),
+  failing: new Set<string>(),
+  failingPut: new Set<string>(),
+}))
 
 vi.mock('./storage', () => ({
   default: {
@@ -34,7 +38,13 @@ vi.mock('../import-export/ImporterStore', () => ({
 }))
 vi.mock('../trackable/TrackableStore', () => ({ MasterTrackables: {}, saveTrackable: vi.fn() }))
 
-import { buildStorageArchive, importStorage, importStorageArchive, isStorageArchive, writeStorageArchive } from './import-export'
+import {
+  buildStorageArchive,
+  importStorage,
+  importStorageArchive,
+  isStorageArchive,
+  writeStorageArchive,
+} from './import-export'
 import { PREFERENCES_KEY } from '../backup/local-settings'
 import Importer from '../../modules/import/import'
 import { selectFile } from '../../modules/download/download'
@@ -111,7 +121,11 @@ const seedDevice = () => {
         useMetric: true,
         usePin: '1234',
         storageType: 'pouchdb',
-        ai: { enabled: true, selectedService: 'claude', services: { claude: { apiKey: 'sk-ant-secret', encrypted: false } } },
+        ai: {
+          enabled: true,
+          selectedService: 'claude',
+          services: { claude: { apiKey: 'sk-ant-secret', encrypted: false } },
+        },
       },
     })
   )
@@ -180,7 +194,12 @@ describe('storage archive round trip', () => {
     local.setItem(
       PREFERENCES_KEY,
       JSON.stringify({
-        state: { theme: 'light', usePin: '9999', storageType: 'local', ai: { services: { claude: { apiKey: 'sk-ant-this-device' } } } },
+        state: {
+          theme: 'light',
+          usePin: '9999',
+          storageType: 'local',
+          ai: { services: { claude: { apiKey: 'sk-ant-this-device' } } },
+        },
       })
     )
     await writeStorageArchive(JSON.parse(JSON.stringify(archive)))
@@ -188,7 +207,11 @@ describe('storage archive round trip', () => {
     expect(state.theme).toBe('dark')
     expect(state.usePin).toBe('9999')
     expect(state.storageType).toBe('local')
-    expect(state.ai).toEqual({ enabled: true, selectedService: 'claude', services: { claude: { apiKey: 'sk-ant-this-device' } } })
+    expect(state.ai).toEqual({
+      enabled: true,
+      selectedService: 'claude',
+      services: { claude: { apiKey: 'sk-ant-this-device' } },
+    })
   })
 
   it('restoring the same backup onto the same data changes nothing (no duplicates)', async () => {
@@ -347,6 +370,33 @@ describe('template install reports failure', () => {
     }
     const installed = await importStorageArchive(template as any, { silent: true, addMissingOnly: true })
     expect(installed).toBe(false)
+  })
+})
+
+describe('experiments are part of the backup', () => {
+  beforeEach(seedDevice)
+
+  it('includes experiments.json in a backup and restores it', async () => {
+    const experiments = [
+      {
+        id: 'e1',
+        title: 'No coffee after 14:00',
+        change: 'No coffee after 14:00',
+        status: 'running',
+        adherenceTag: 'exp_no_late_coffee',
+        outcomes: [{ tag: 'sleep_quality', direction: 'up' }],
+        start: '2026-10-01',
+        durationDays: 14,
+      },
+    ]
+    memory.files.set('experiments.json', experiments)
+
+    const { archive } = await buildStorageArchive()
+    expect(archive.files['experiments.json']).toEqual(experiments)
+
+    memory.files.clear()
+    await writeStorageArchive(JSON.parse(JSON.stringify(archive)))
+    expect(memory.files.get('experiments.json')).toEqual(experiments)
   })
 })
 

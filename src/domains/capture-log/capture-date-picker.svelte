@@ -9,6 +9,7 @@
   import HScroller from '../../components/h-scroller/h-scroller.svelte'
   import TimeSelect from '../../components/time-select/time-select.svelte'
   import { TodayStore } from '../usage/today/TodayStore'
+  import { Lang } from '../../store/lang'
 
   let { time = $bindable(new Date().getTime()), is24Hour = false } = $props<{ time?: any; is24Hour?: boolean }>()
 
@@ -32,7 +33,10 @@
   }
 </script>
 
-<section aria-label="date-time-setting" class="flex items-center justify-items-stretch">
+<section
+  aria-label={Lang.t('capture.date-time-setting', 'date-time-setting')}
+  class="flex items-center justify-items-stretch"
+>
   <div class="filler">
     <HScroller activeIndex={selectedDayIndex} wrapperClass="space-x-2 pr-1 snap-scroll-x" className="mr-2">
       {#each days as day, index}
@@ -41,8 +45,8 @@
             onDayMonthSelected(day, index)
           }}
           class="snap-end {selectedDayIndex == index
-            ? 'selected active bg-primary-500 my-1 px-2 text-white font-bold '
-            : ' text-primary-500'}  text-xs p-1 stiff rounded-full "
+            ? 'selected active bg-ios-tint my-1 px-2 text-ios-ontint font-bold '
+            : ' text-ios-tint'}  text-xs p-1 stiff rounded-full"
         >
           {day.format('MMM')}
           {day.format('D')}

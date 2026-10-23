@@ -14,11 +14,17 @@ import nid from '../../modules/nid/nid'
 import { objectHash } from '../../modules/object-hash/object-hash'
 import { toTrackableArray } from '../trackable/trackable-utils'
 
-import { getRawPrefs, type PreferencesStateType } from '../preferences/Preferences'
+import { getRawPrefs, Prefs, type PreferencesStateType } from '../preferences/Preferences'
+import { ExperimentStore } from '../experiments/ExperimentStore'
+import { EXPERIMENT_BOARD_ID, experimentBoardElements } from '../experiments/experiment-board'
+import ExperimentBoardIcon from '../../n-icons/board-tab-icons/ExperimentBoardIcon.svelte'
 
 import AllBoardIcon from '../../n-icons/board-tab-icons/AllBoardIcon.svelte'
 import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelte'
 import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
+import { isFeatureVisible } from '../preferences/experience'
+import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
+import { Lang } from '../../store/lang'
 // Define the Prop Typese
 export type UniboardType = {
   id: string
@@ -50,12 +56,12 @@ type UniboardStoreProps = {
  * Keep Last Board in LocalStorage as to avoid
  * conflict with multiple device users.
  */
-const LAST_BOARD_KEY = 'last-known-board'
+const LAST_BOARD_KEY = DEVICE_KEYS.lastBoard
 export const getLastBoardId = (): string => {
-  return localStorage.getItem(LAST_BOARD_KEY) || 'main'
+  return getDeviceSetting(LAST_BOARD_KEY) || 'main'
 }
 export const saveLastBoardId = (id: string) => {
-  localStorage.setItem(LAST_BOARD_KEY, id)
+  setDeviceSetting(LAST_BOARD_KEY, id)
 }
 
 export const deleteUniboard = async (board: UniboardType) => {
@@ -136,7 +142,7 @@ export const getBoardsFromStorage = async (): Promise<Array<UniboardType>> => {
   if (!uniboards.length) {
     const mainBoard: UniboardType = {
       id: 'main',
-      label: 'Main',
+      label: Lang.t('board.main', 'Main'),
       elements: [],
     }
     uniboards.push(mainBoard)
@@ -171,23 +177,44 @@ export const getBoardsFromStorage = async (): Promise<Array<UniboardType>> => {
  * @param $Prefs
  * @returns
  */
-const combineStoreBoards = ($Uniboard, $Prefs: PreferencesStateType): Array<UniboardType> => {
+const combineStoreBoards = (
+  $Uniboard,
+  $Prefs: PreferencesStateType,
+  experimentElements: Array<string> = []
+): Array<UniboardType> => {
   const peopleBoard = $Uniboard.dynamicBoards.people
   const contextBoard = $Uniboard.dynamicBoards.context
   const allBoard = $Uniboard.dynamicBoards.all
 
-  let boards = []
+  let boards: Array<UniboardType> = []
   if ($Prefs.allBoard) {
     if (allBoard?.elements?.length) boards = [...boards, ...[allBoard]]
   }
-  if ($Prefs.peopleBoard) {
+  // People and Context boards are Full-mode boards: Starter never shows them, even if a toggle was saved earlier
+  if ($Prefs.peopleBoard && isFeatureVisible($Prefs, 'people-board')) {
     if (peopleBoard?.elements?.length) boards = [...boards, ...[peopleBoard]]
   }
-  if ($Prefs.contextBoard) {
+  if ($Prefs.contextBoard && isFeatureVisible($Prefs, 'context-board')) {
     if (contextBoard?.elements?.length) boards = [...boards, ...[contextBoard]]
   }
 
-  boards = [...boards, ...$Uniboard.boards]
+  if ($Prefs.experimentBoard && experimentElements.length) {
+    boards = [
+      ...boards,
+      ...[
+        {
+          label: Lang.t('board.experiments', 'Experiments'),
+          icon: ExperimentBoardIcon,
+          id: EXPERIMENT_BOARD_ID,
+          elements: experimentElements,
+        },
+      ],
+    ]
+  }
+
+  // Dynamic tabs are never user boards. Earlier builds saved them into the user's boards, so they are ignored here
+  const DYNAMIC_BOARD_IDS = ['_all', '_people', '_context', '_timers', EXPERIMENT_BOARD_ID]
+  boards = [...boards, ...$Uniboard.boards.filter((b) => !DYNAMIC_BOARD_IDS.includes(b.id))]
 
   // Extract and always put 'main' board first for predictable positioning
   const mainBoard = boards.find((b) => b?.id === 'main')
@@ -201,9 +228,8 @@ const combineStoreBoards = ($Uniboard, $Prefs: PreferencesStateType): Array<Unib
   )
   // return $Uniboard.boards
 }
-export const CombinedBoards = derived(UniboardStore, ($Uniboard) => {
-  const prefs = getRawPrefs()
-  const combined = combineStoreBoards($Uniboard, prefs)
+export const CombinedBoards = derived([UniboardStore, Prefs, ExperimentStore], ([$Uniboard, $Prefs, $Experiments]) => {
+  const combined = combineStoreBoards($Uniboard, $Prefs, experimentBoardElements($Experiments as Array<any>))
   return combined.map((board) => {
     if ($Uniboard.activeId == board.id) {
       board.active = true
@@ -231,19 +257,19 @@ export const initUniboardStore = async (knownTrackables: ITrackables) => {
     s.hash = objectHash(boards)
 
     s.dynamicBoards.people = {
-      label: 'People',
+      label: Lang.t('board.people', 'People'),
       icon: PeopleBoardIcon,
       id: '_people',
       elements: trackables.filter((t) => t.person).map((t) => t.tag),
     }
     s.dynamicBoards.context = {
-      label: 'Context',
+      label: Lang.t('board.context', 'Context'),
       icon: ContextBoardIcon,
       id: '_context',
       elements: trackables.filter((t) => t.type === 'context').map((t) => t.tag),
     }
     s.dynamicBoards.all = {
-      label: 'All',
+      label: Lang.t('board.all', 'All'),
       icon: AllBoardIcon,
       id: '_all',
       elements: trackables.filter((t) => t.type === 'tracker').map((t) => t.tag),
@@ -287,8 +313,11 @@ export const saveBoardsToStorageAndUpdate = async (boards: Array<UniboardType>):
 
 export const saveSortedBoards = async (boards: Array<UniboardType>) => {
   const existing = await getBoardsFromStorage()
+  // iOS look (Phase 5 fix): only the user's own boards are stored. The dynamic tabs (All, People, Context,
+  // Experiments) are not stored, so they never end up in the saved boards. Their place is fixed.
+  const existingIds = existing.map((b) => b.id)
   const updated: Array<UniboardType> = boards.filter((b) => {
-    return b.id !== '_all'
+    return existingIds.includes(b.id)
   })
   const missing = existing.filter((eb) => {
     return !updated.find((ub) => ub.id === eb.id)

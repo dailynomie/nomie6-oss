@@ -1,6 +1,6 @@
 .pvtUi {
-    color: var(--fontcolor, #04A6F9);
-    font-family: Verdana;
+    color: var(--fontcolor, var(--ios-tint));
+    font-family: -apple-system, system-ui, sans-serif;
     border-collapse: collapse;
     border-radius: 5px;
 }
@@ -17,19 +17,20 @@
 }
 
 table.pvtTable {
-    font-size: 8pt;
+    /* iOS look: system font at footnote size, not 8 pt Verdana */
+    font-size: calc(13px * var(--text-scale));
     text-align: left;
     border-collapse: collapse;
     margin-top: 3px;
     margin-left: 3px;
-    font-family: Verdana;
+    font-family: -apple-system, system-ui, sans-serif;
     border-width: 2px;
-    border-color:var(--border,#04A6F9);
+    border-color:var(--border, var(--ios-tint));
 }
 table.pvtTable thead tr th,
 table.pvtTable tbody tr th {
-    background-color: var(--bg, #04A6F9);
-    border: 1px solid var(--border,#04A6F9);
+    background-color: var(--bg, var(--ios-tint));
+    border: 1px solid var(--border, var(--ios-tint));
     font-size: 8pt;
     padding: 5px;
 }
@@ -42,12 +43,13 @@ table.pvtTable .pvtTotalLabel {
 }
 
 table.pvtTable tbody tr td {
-    color: #2a3f5f;
+    color: var(--ios-label);
     padding: 5px;
     
-    border: 1px solid var(--border,#04A6F9);
+    border: 1px solid var(--border, var(--ios-tint));
     vertical-align: top;
     text-align: right;
+    background-color: var(--ios-card);
 }
 
 
@@ -74,8 +76,8 @@ table.pvtTable tbody tr td {
 .pvtAxisContainer,
 .pvtVals
  {
-    border: 1px solid var(--border,#04A6F9);
-    background: var(--bg, #DFF0F8);
+    border: 1px solid var(--border, var(--ios-tint));
+    background: var(--bg, var(--ios-tint-soft));
     padding: 1px;
     padding-bottom: 1px;
     min-width: 20px;
@@ -85,7 +87,7 @@ table.pvtTable tbody tr td {
     -webkit-border-radius: 1px;
     outline-style:solid;
     outline-width: 1px;
-    outline-color:var(--border,#04A6F9) ;
+    outline-color:var(--border, var(--ios-tint)) ;
     
 }
 
@@ -107,16 +109,16 @@ table.pvtTable tbody tr td {
     -khtml-user-select: none;
     -ms-user-select: none;
     margin: 3px;
-    color:var(--ddfont,#000000);
+    color:var(--ddfont, var(--ios-label));
 }
 
 .pvtDropdownIcon {
     float: right;
-    color: var(--ddicon,#a2b1c6) ;
+    color: var(--ddicon, var(--ios-label2)) ;
 }
 .pvtDropdownCurrent {
     text-align: left;
-    border: 1px solid var(--border,#04A6F9);
+    border: 1px solid var(--border, var(--ios-tint));
     border-radius: 4px;
     display: inline-block;
     position: relative;
@@ -133,8 +135,8 @@ table.pvtTable tbody tr td {
     position: absolute;
     margin-top: -1px;
     border-radius: 0 0 4px 4px;
-    border: 1px solid var(--border,#04A6F9);
-    border-top: 1px solid var(--border,#04A6F9);
+    border: 1px solid var(--border, var(--ios-tint));
+    border-top: 1px solid var(--border, var(--ios-tint));
     box-sizing: border-box;
     z-index: 100;
 }
@@ -146,7 +148,7 @@ table.pvtTable tbody tr td {
     width: 200px;
 }
 .pvtDropdownActiveValue {
-    background: var(--ddactive,#ebf0f8);
+    background: var(--ddactive, var(--ios-fill));
 }
 
 .pvtVals {
@@ -171,7 +173,7 @@ table.pvtTable tbody tr td {
     padding: 3px 15px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    border: 1px dashed var(--border,#04A6F9);
+    border: 1px dashed var(--border, var(--ios-tint));
 }
 .pvtAxisContainer li.pvtPlaceholder span.pvtAttr {
     display: none;
@@ -179,9 +181,9 @@ table.pvtTable tbody tr td {
 
 .pvtAxisContainer li span.pvtAttr {
     -webkit-text-size-adjust: 100%;
-    background: var(--btbg, #f3f6fa);
+    background: var(--btbg, var(--ios-fill));
     border: 1px solid;
-    border-color: var(--btborder, #c8d4e3);
+    border-color: var(--btborder, var(--ios-separator));
     padding: 0px;
     white-space: nowrap;
     -webkit-border-radius: 5px;
@@ -193,12 +195,12 @@ table.pvtTable tbody tr td {
     -khtml-user-select: none;
     -ms-user-select: none;
     font-size:medium;
-    color: var(--fontcolor, #04A6F9)
+    color: var(--fontcolor, var(--ios-tint))
 }
 
 .pvtTriangle {
     cursor: pointer;
-    color: var(--fontcolor, var(--border,#04A6F9));
+    color: var(--fontcolor, var(--border, var(--ios-tint)));
 }
 
 .pvtHorizList li {
@@ -241,62 +243,62 @@ table.pvtTable tbody tr td {
     position: absolute;
     right: 5px;
     top: 5px;
-    font-size: 18px;
+    font-size: calc(18px * var(--text-scale));
     cursor: pointer;
     text-decoration: none !important;
-    color:var(--fontcolor, #04A6F9);
+    color:var(--fontcolor, var(--ios-tint));
 }
 
 .pvtDragHandle {
     position: absolute;
     left: 5px;
     top: 5px;
-    font-size: 18px;
+    font-size: calc(18px * var(--text-scale));
     cursor: move;
-    color: var(--fontcolor, #04A6F9);
+    color: var(--fontcolor, var(--ios-tint));
 }
 
 .pvtButton {
-    color: #506784;
+    color: var(--ios-label2);
     border-radius: 5px;
     padding: 3px 6px;
-    background: #f2f5fa;
+    background: var(--ios-fill);
     border: 1px solid;
-    border-color: var(--border,#04A6F9);
-    font-size: 14px;
+    border-color: var(--border, var(--ios-tint));
+    font-size: calc(14px * var(--text-scale));
     margin: 3px;
     transition: 0.34s all cubic-bezier(0.19, 1, 0.22, 1);
     text-decoration: none !important;
 }
 
 .pvtButton:hover {
-    background: #e2e8f0;
-    border-color: #04A6F9;
+    background: var(--ios-fill);
+    border-color: var(--ios-tint);
 }
 
 .pvtButton:active {
-    background: #d1dae6;
+    background: var(--ios-fill);
 }
 
 .pvtFilterBox input {
-    border: 1px solid var(--border,#04A6F9);
+    border: 1px solid var(--border, var(--ios-tint));
     border-radius: 5px;
-    color: #506784;
+    color: var(--ios-label2);
     padding: 0 3px;
-    font-size: 14px;
-    background: var(--btbg, #f3f6fa);
+    font-size: calc(14px * var(--text-scale));
+    background: var(--btbg, var(--ios-fill));
 }
 
 .pvtFilterBox input:focus {
-    border-color: var(--border,#04A6F9);
+    border-color: var(--border, var(--ios-tint));
     outline: none;
 }
 
 .pvtFilterBox {
     z-index: 100;
     width: 300px;
-    border: 1px solid #506784;
-    background-color: var(--bg,#fff);
+    border: 1px solid var(--ios-label2);
+    background-color: var(--bg, var(--ios-card));
     position:  fixed;
     left: calc(50% - 150px);
     bottom:20%;
@@ -312,35 +314,35 @@ table.pvtTable tbody tr td {
 
 .pvtFilterBox h4 {
     margin: 15px;
-    color: var(--fontcolor, #04A6F9);
+    color: var(--fontcolor, var(--ios-tint));
 }
 .pvtFilterBox p {
     margin: 10px auto;
 }
 .pvtFilterBox button {
-    color: #2a3f5f;
-    background-color: var(--btbg, #f3f6fa);
-    color: var(--fontcolor, #04A6F9)
+    color: var(--ios-label);
+    background-color: var(--btbg, var(--ios-fill));
+    color: var(--fontcolor, var(--ios-tint))
 }
 
 .pvtFilterBox button:hover {
     background: hsl(353, 41%, 57%);
-    border-color: #04A6F9;
+    border-color: var(--ios-tint);
 }
 .pvtFilterBox input[type="text"] {
     width: 230px;
-    color: #2a3f5f;
+    color: var(--ios-label);
     margin-bottom: 5px;
 }
 
 .pvtCheckContainer {
     text-align: left;
-    font-size: 14px;
+    font-size: calc(14px * var(--text-scale));
     white-space: nowrap;
     overflow-y: scroll;
     width: 100%;
     max-height: 30vh;
-    border-top: 1px solid var(--border,#04A6F9);
+    border-top: 1px solid var(--border, var(--ios-tint));
 }
 
 .pvtCheckContainer p {
@@ -351,14 +353,14 @@ table.pvtTable tbody tr td {
 }
 
 .pvtCheckContainer p.selected {
-    background: var(--btbg,#DFF0F8);
+    background: var(--btbg, var(--ios-tint-soft));
 }
 
 .pvtOnly {
     display: none;
     width: 35px;
     float: left;
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     padding-left: 5px;
     cursor: pointer;
 }

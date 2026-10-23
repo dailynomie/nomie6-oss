@@ -28,12 +28,12 @@
   }
 </script>
 
-<BackdropModal className="h-full bg-gray-100 dark:bg-gray-900">
+<BackdropModal className="h-full bg-ios-bg">
   <ToolbarGrid slot="header">
-    <Button primary clear slot="left" on:click={close}>
-      {Lang.t('general.close', 'Close')}
+    <Button primary clear slot="right" on:click={close}>
+      {Lang.t('general.done', 'Done')}
     </Button>
-    <h1 class="ntitle">Running Timers</h1>
+    <h1 class="ntitle">{Lang.t('tracker.running-timers', 'Running Timers')}</h1>
   </ToolbarGrid>
   <main style="min-height:40vh">
     <List solo>
@@ -45,7 +45,12 @@
         >
           <TrackableAvatar {trackable} slot="left" />
           <h1 class="ntitle py-3">{trackable.label}</h1>
-          <Counter slot="right" initialDuration={trackable.tracker.timeTracked} started={trackable.tracker.started} color={trackable.tracker.color} />
+          <Counter
+            slot="right"
+            initialDuration={trackable.tracker.timeTracked}
+            started={trackable.tracker.started}
+            color={trackable.tracker.color}
+          />
         </ListItem>
         {#if index < trackables.length - 1}
           <Divider center />

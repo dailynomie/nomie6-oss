@@ -7,7 +7,6 @@
   import NSpinner from '../../../../components/spinner/spinner.svelte'
   import ToggleSwitch from '../../../../components/toggle-switch/toggle-switch.svelte'
 
-
   import { Lang } from '../../../../store/lang'
   import { Interact } from '../../../../store/interact'
   import Storage from '../../storage'
@@ -118,7 +117,7 @@
         connecting = false
       } catch (e) {
         console.error('error connecting', e.message)
-        Interact.alert(Lang.t('general.error-connecting', 'Error Connecting'), e.message)
+        Interact.alert(Lang.t('storage.error-connecting', 'Error Connecting'), e.message)
         connecting = false
       }
     },
@@ -214,13 +213,13 @@
   <div class="pouchdb storage-option">
     {#if state.canSync}
       <ListItem
-        title="Sync"
+        title={Lang.t('storage.sync', 'Sync')}
         on:click={() => {
           isOpen = !isOpen
         }}
       >
         <div slot="left" class={!state.syncEnabled ? 'opacity-20' : ''}>♻️</div>
-        <div class="line-clamp-1 text-xs text-gray-500">{connectionString}</div>
+        <div class="line-clamp-1 text-xs text-ios-label2">{connectionString}</div>
         <div slot="right">
           <ToggleSwitch
             bind:value={state.syncEnabled}
@@ -241,8 +240,8 @@
         listItem
         type="text"
         bind:value={state.form.host}
-        label="Server URL"
-        placeholder="https://my-couch-server:12345"
+        label={Lang.t('storage.server-url', 'Server URL')}
+        placeholder={Lang.t('storage.https-my-couch-server-12345', 'https://my-couch-server:12345')}
         autocomplete="off"
         autocorrect="false"
         autocapitalize="off"
@@ -252,7 +251,7 @@
         listItem
         type="text"
         bind:value={state.form.database}
-        placeholder="Database Name"
+        placeholder={Lang.t('storage.database-name', 'Database Name')}
         autocomplete="off"
         autocorrect="false"
         autocapitalize="off"
@@ -266,7 +265,7 @@
           autocorrect="false"
           autocapitalize="off"
           type="email"
-          placeholder="Username"
+          placeholder={Lang.t('storage.username', 'Username')}
           bind:value={state.form.username}
         />
         <Input
@@ -276,37 +275,49 @@
           autocorrect="false"
           autocapitalize="off"
           type="password"
-          placeholder="Password"
+          placeholder={Lang.t('storage.password', 'Password')}
           bind:value={state.form.password}
         />
       </div>
       <Divider left={16} />
+      <div class="px-4 mt-4 text-xs text-ios-label2 leading-snug">
+        {Lang.t(
+          'storage.sync-not-encrypted-notice',
+          'Sync sends your data to this server as it is. Daily Nomie does not encrypt it, so the operator of the server can read it. Use an https:// address and protect the server.'
+        )}
+        {#if state.form.host && state.form.host.trim().toLowerCase().startsWith('http://')}
+          <p class="mt-2 text-ios-danger font-semibold">
+            {Lang.t(
+              'storage.sync-http-warning',
+              'This address is not https://. Your data would travel unencrypted over the network.'
+            )}
+          </p>
+        {/if}
+      </div>
+      <Divider left={16} />
       <div class="grid grid-cols-1 xl:grid-cols-2 px-4 mt-4 items-center">
-        <div class="connection-string text-gray-500 text-sm py-2">
+        <div class="connection-string text-ios-label2 text-sm py-2">
           {#if connectionString}
             {connectionString}
           {:else}
-            No Connection String
+            {Lang.t('storage.no-connection-string', 'No Connection String')}
           {/if}
         </div>
         <div class="actions mb-4">
           {#if state.isValidSyncURL}
             {#if !connecting}
-              <Button block className="bg-primary-500 text-white font-bold" on:click={methods.connect}
-                >Connect...</Button
+              <Button block className="bg-ios-tint text-ios-ontint font-bold" on:click={methods.connect}
+                >{Lang.t('storage.connect', 'Connect...')}</Button
               >
             {:else}
-              <Button block className="bg-primary-500 text-white font-bold">
+              <Button block className="bg-ios-tint text-ios-ontint font-bold">
                 <NSpinner size={20} />
-                Connecting...
+                {Lang.t('storage.connecting-2', 'Connecting...')}
               </Button>
             {/if}
           {:else}
-            <Button
-              disabled
-              block
-              className="bg-gray-100 dark:bg-gray-900 text-gray-500 font-bold"
-              on:click={methods.connect}>Connect...</Button
+            <Button disabled block className="bg-ios-bg text-ios-label2 font-bold" on:click={methods.connect}
+              >{Lang.t('storage.connect', 'Connect...')}</Button
             >
           {/if}
         </div>

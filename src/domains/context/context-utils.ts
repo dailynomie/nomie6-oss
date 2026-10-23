@@ -6,11 +6,16 @@ import type NLog from '../nomie-log/nomie-log'
 import type { TrackableUsageMap } from '../usage/trackable-usage.class'
 import logsToTrackableUsage from '../usage/usage-utils'
 
-export const getContextOn = async (date: Date, knownTrackables: ITrackables,startdate?: Date,enddate?: Date): Promise<TrackableUsageMap> => {
+export const getContextOn = async (
+  date: Date,
+  knownTrackables: ITrackables,
+  startdate?: Date,
+  enddate?: Date
+): Promise<TrackableUsageMap> => {
   const dayjsDate = dayjs(date)
   const end = dayjs(enddate) || dayjsDate.add(30, 'day')
   const start = dayjs(startdate).subtract(90, 'day') || dayjsDate.subtract(30, 'day')
-  
+
   const notes: Array<NLog> = (await LedgerStore.query({ start: start, end: end })).filter((log: NLog) => {
     return log.elements.filter((e) => e.type == 'context')
   })

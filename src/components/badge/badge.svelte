@@ -1,15 +1,36 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte'
 
-  const { label = undefined, value = undefined, emoji = undefined, className = "light", pad = false, style = "", ballStyle = "" } = $props<{ label?: any; value?: any; emoji?: any; className?: string; pad?: boolean; style?: string; ballStyle?: string }>()
-  const emit = createEventDispatcher();
+  const {
+    label = undefined,
+    value = undefined,
+    emoji = undefined,
+    className = 'light',
+    pad = false,
+    style = '',
+    ballStyle = '',
+  } = $props<{
+    label?: any
+    value?: any
+    emoji?: any
+    className?: string
+    pad?: boolean
+    style?: string
+    ballStyle?: string
+  }>()
+  const emit = createEventDispatcher()
 </script>
 
-<div on:click={(evt)=>{
-  emit('click', evt)
-}} class:pad={pad} class="n-tag-badge badge badge-sm {className}" {style}>
+<div
+  on:click={(evt) => {
+    emit('click', evt)
+  }}
+  class:pad
+  class="n-tag-badge badge badge-sm {className}"
+  {style}
+>
   {#if emoji}
     <div class="emoji">{emoji}</div>
   {/if}
@@ -23,7 +44,6 @@ import { createEventDispatcher } from "svelte";
 </div>
 
 <style lang="postcss" global>
-
   .n-tag-badge.pad {
     @apply px-2;
   }
@@ -35,19 +55,17 @@ import { createEventDispatcher } from "svelte";
     @apply shadow-md;
     @apply px-1 py-px;
     @apply text-center;
-    font-size:0.65rem;
-    leading:0%;
+    font-size: 0.65rem;
+    leading: 0%;
   }
   .n-tag-badge.light {
-    @apply bg-gray-100 dark:bg-black;
+    @apply bg-ios-card;
   }
-
-
 
   .n-tag-badge .value {
     display: inline-block;
     @apply w-full text-center;
- 
+
     @apply text-center;
     /* padding: 2px 4px 2px;
     background-color: rgba(255, 255, 255, 0.2);

@@ -3,6 +3,7 @@
 <script lang="ts">
   import LetterTicker from '../letter-ticker/letter-ticker.svelte'
   import { onMount } from 'svelte'
+  import { accessibleTint, readableTextOn } from '../../utils/contrast/readable-text'
 
   const { started, initialDuration, lg, className, color, filled } = $props()
 
@@ -17,10 +18,10 @@
   const methods = {
     init() {
       setInterval(() => {
-        let ms = initialDuration*1000 + new Date().getTime() - started
+        let ms = initialDuration * 1000 + new Date().getTime() - started
         value = methods.secondsToTime(methods.msToSecond(ms))
       }, 1000)
-      let ms = initialDuration*1000 + new Date().getTime() - started
+      let ms = initialDuration * 1000 + new Date().getTime() - started
       value = methods.secondsToTime(methods.msToSecond(ms))
     },
     normalizeTime(time) {
@@ -56,7 +57,7 @@
   class="n-counter {className}
   {lg ? 'large' : 'small'}
   {filled ? 'filled' : ''}"
-  style={`color:${filled ? '#FFF' : color}; background-color:${filled ? color : ''}`}
+  style={filled ? `color:${readableTextOn(color)}; background-color:${color}` : `color:${accessibleTint(color)}`}
 >
   <LetterTicker text={value} />
 </div>
@@ -70,7 +71,7 @@
   .n-counter.large {
     display: flex;
     padding: 12px;
-    font-size: 40px;
+    font-size: calc(40px * var(--text-scale));
     flex-grow: 1;
     text-align: center;
     justify-content: center;

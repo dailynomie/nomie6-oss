@@ -18,21 +18,21 @@
   const { emoji, icon, title, description, className, style, buttonLabel, buttonClick, small } = $props()
 </script>
 
-<div class="empty-box {className} {loaded ? 'finish' : 'start'}" class:small={small} {style}>
+<div class="empty-box {className} {loaded ? 'finish' : 'start'}" class:small {style}>
   <slot name="emoji" />
   {#if emoji}
     <Avatar {emoji} size={80} className="mb-4" />
   {/if}
   {#if icon}
-    <IonIcon {icon} size={80} className="mb-4 text-primary-400" />
+    <IonIcon {icon} size={80} className="mb-4 text-ios-tint" />
   {/if}
   {#if title}
-    <div class="my-1 text-center text-lg font-extrabold leading-tight text-gray-800 dark:text-gray-50">
+    <div class="my-1 text-center text-ios-title3 font-bold text-ios-label">
       {title}
     </div>
   {/if}
   {#if description}
-    <div class="text-sm text-center text-gray-500 dark:text-gray-500">
+    <div class="text-ios-subhead text-center text-ios-label2">
       {description}
     </div>
   {/if}

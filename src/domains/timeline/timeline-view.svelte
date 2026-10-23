@@ -1,7 +1,9 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { dayTitle, isRelativeDayTitle } from './day-title'
   import type NLog from '../nomie-log/nomie-log'
+  import dayjs, { type Dayjs } from 'dayjs'
   import { logsToTimeline, type TimelineFilterProps, type TimelineItemType } from './timeline-utils'
 
   import { TrackableStore } from '../trackable/TrackableStore'
@@ -19,7 +21,6 @@
   import { openOnThisDayModal } from '../on-this-day/useOnThisDayModal'
 
   import math from '../../utils/math/math'
-  import ValueButton from '../../components/value-button/value-button.svelte'
 
   import { Device } from '../../store/device-store'
 
@@ -29,9 +30,9 @@
   import { textToId } from '../../utils/text/text'
 
   import ListItem from '../../components/list-item/list-item.svelte'
+  import { Lang } from '../../store/lang'
 
-
-  const { logs = [], filters = $bindable({}) } = $props<{ logs?: Array<NLog>, filters?: TimelineFilterProps }>()
+  const { logs = [], filters = $bindable({}) } = $props<{ logs?: Array<NLog>; filters?: TimelineFilterProps }>()
   const dispatch = createEventDispatcher()
 
   let timeline: Array<TimelineItemType> = $state([])
@@ -51,6 +52,9 @@
   })
 
   let topItem: TimelineItemType | undefined = $state(undefined)
+
+  const dayHeading = (day: Dayjs) => dayTitle(day, dateFormats.mmm_d_yyyy)
+  const showDateOnRight = (day: Dayjs) => isRelativeDayTitle(day)
 
   $effect(() => {
     if (listEndIndex === timeline.length && timeline.length > 0) {
@@ -76,32 +80,35 @@
   }}
 >
   <Container size="md">
-    <header class="text-center px-6 items-center mt-6 mb-2 font-bold text-gray-900 dark:text-gray-100">
+    <!-- iOS look: day title on the left (Today, Yesterday, or the weekday), date on the right -->
+    <header class="flex items-end justify-between gap-3" style="padding: 22px 16px 7px">
       <button
         type="button"
-        class=" text-left w-full font-bold hover:opacity-80"
+        class="tap-44 text-left hover:opacity-80 min-w-0"
         on:click={() => {
           openOnThisDayModal(item.logs[0].end)
         }}
       >
-        <div class="text-sm block font-normal  leading-none text-gray-500 mb-1">
-          {item.logs[0].endDayjs().fromNow()}
-        </div>
         <h2
-          class="transform block transition-all duration-500 filler text-xl md:text-2xl"
+          class="transform block transition-all duration-500 text-ios-title3 font-bold text-ios-label"
           class:text-sm={item.logs[0].endDayjs().format('YYYY-MM-DD') ==
             topItem?.logs[0].endDayjs().format('YYYY-MM-DD')}
         >
-          {item.logs[0].endDayjs().format(`ddd ${dateFormats.mmm_d_yyyy}`)}
+          {dayHeading(item.logs[0].endDayjs())}
           <IonIcon icon={ChevronForwardOutline} className="opacity-50" size={14} />
         </h2>
       </button>
+      {#if showDateOnRight(item.logs[0].endDayjs())}
+        <div class="text-ios-footnote text-ios-label2 whitespace-nowrap">
+          {item.logs[0].endDayjs().format(dateFormats.mmm_d_yyyy)}
+        </div>
+      {/if}
     </header>
 
     {#if filters.trackables}
       <div class="timeline-30">
         <div class="my-2 mx-4" class:hidden={!Object.keys(item.usage).length}>
-          <div class="trackables relative z-0 rounded-lg bg-white dark:bg-gray-950">
+          <div class="trackables relative z-0 rounded-group bg-ios-card">
             {#each Object.keys(item.usage)
               .map((tag) => {
                 return { usage: item.usage[tag], tag: tag, item }
@@ -110,7 +117,7 @@
                 return a.usage.logs[a.usage.logs.length - 1].end < b.usage.logs[b.usage.logs.length - 1].end ? 1 : -1
               }) as usageMapItem, index (usageMapItem.tag)}
               <!-- <TimelineItem {item} /> -->
-              <ListItem bottomLine={60} id="{textToId(usageMapItem.usage.trackable.tag)}-items">
+              <ListItem bottomLine={57} id="{textToId(usageMapItem.usage.trackable.tag)}-items">
                 <TrackablePill
                   transparent
                   slot="left"
@@ -118,9 +125,10 @@
                   value={usageMapItem.usage.trackable.formatValue(
                     usageMapItem.usage.trackable.tallyValues(usageMapItem.usage.values)
                   )}
-                  hideValue={usageMapItem.usage.trackable.type === 'person' || usageMapItem.usage.trackable.type === 'pointer'}
+                  hideValue={usageMapItem.usage.trackable.type === 'person' ||
+                    usageMapItem.usage.trackable.type === 'pointer'}
                   trackable={usageMapItem.usage.trackable}
-                  size={$Device.width < 350 ? 34 : 42}
+                  size={29}
                   className="stiff z-10 hover:scale-105 focus:scale-95 transition-all transform duration-200 mb-1 mr-1  lg:mr-2 shadow-md lg:col-span-3 md:col-span-6 col-span-6 timeline-pill w-full"
                 />
                 <div class="w-full">
@@ -130,20 +138,20 @@
                         return { value: v, log: usageMapItem.usage.logs[i], date: usageMapItem.usage.dates[i], usage: usageMapItem.usage, trackable: usageMapItem.usage.trackable, percentage: math.percentage(UsageStore[usageMapItem.usage.trackable.tag]?.max.v || v, v) }
                       })
                       .sort((a, b) => (a.log.end > b.log.end ? 1 : -1)) as usageItem, index (index)}
-                      <ValueButton
+                      <!-- iOS look: each value is a chip, the same as the chips on an entry: time, then the value in bold -->
+                      <button
+                        type="button"
+                        class="tiny-trackable m-px"
+                        aria-label={Lang.t('timeline.log-options-for-this-value', 'Log options for this value')}
                         on:click={() => {
                           Interact.logOptions(usageItem.log, {
                             description: usageItem.log.note,
                           })
                         }}
-                        percentage={usageItem.percentage}
-                        value={usageItem.trackable.formatValue(usageItem.value)}
-                        wrapperClass="m-px"
-                        size={48}
-                        date={usageItem.date}
-                        color={usageItem.trackable.color}
-                        topLabel={usageItem.date.format(dateFormats.time).replace(/( |M)/g, '').toLowerCase()}
-                      />
+                      >
+                        <span class="label">{usageItem.date.format(dateFormats.time)}</span>
+                        <span class="value">{usageItem.trackable.formatValue(usageItem.value)}</span>
+                      </button>
                     {/each}
                   </div>
                 </div>
@@ -155,18 +163,20 @@
     {/if}
 
     {#if filters.notes}
-      <div class="notes">
-        {#each item.logs.filter((nlog) => {
-          if (filters.trackables) return nlog.hasNote
-          return true
-        }).sort((a,b)=>{
-          if(a.pinned || b.pinned) {
-            return a.pinned < b.pinned ? 1 : -1
-          } else {
-            return a.end < b.end ? 1 : -1
-          }
-        }) as log}
-          <div class="px-4 py-2">
+      <div class="notes mx-4 rounded-group bg-ios-card">
+        {#each item.logs
+          .filter((nlog) => {
+            if (filters.trackables) return nlog.hasNote
+            return true
+          })
+          .sort((a, b) => {
+            if (a.pinned || b.pinned) {
+              return a.pinned < b.pinned ? 1 : -1
+            } else {
+              return a.end < b.end ? 1 : -1
+            }
+          }) as log}
+          <div class="log-row">
             <ListItemLog {log} hideTrackables={filters.trackables} />
           </div>
         {/each}
@@ -175,7 +185,7 @@
     <!-- {#if filters.maps}
       <div class="px-4 pb-4">
         {#if item.logs.filter(l=>l.lat).length}
-        <div class="map relative h-28 px-4 flex items-center justify-center bg-gray-200 dark:bg-gray-900 text-gray-500 text-opacity-50 rounded-lg">
+        <div class="map relative h-28 px-4 flex items-center justify-center bg-ios-fill text-ios-label2 text-opacity-50 rounded-lg">
           <Map lock records={item.logs} className="h-28 rounded-lg overflow-hidden shadow-md" />
         </div>
         {/if}
@@ -196,17 +206,16 @@
     @apply hidden;
   }
   .bubble {
-    @apply bg-white dark:bg-gray-950;
-    /* @apply bg-opacity-90 dark:bg-opacity-90; */
-    @apply rounded-xl;
+    background: var(--ios-card);
+    border-radius: 12px;
     @apply p-2 pb-1;
-    @apply shadow-sm;
+    box-shadow: none;
   }
 
   .timeline-token {
-    @apply text-black dark:text-white rounded-lg p-0;
-    @apply ring-primary-500 ring-offset-4;
-    @apply bg-primary-500 bg-opacity-20;
+    @apply text-ios-label rounded-lg p-0;
+    @apply ring-ios-tint ring-offset-4;
+    background: var(--ios-fill);
   }
   .timeline-token:active,
   .timeline-token:focus {
@@ -217,14 +226,23 @@
     @apply font-medium;
   }
 
-  .bubble .timeline-pill .title-value h3 {
-    @apply font-medium dark:text-gray-300;
+  /* iOS look: entries of one day share a grouped card, divided by 0.5 px lines */
+  .log-row + .log-row {
+    border-top: 0.5px solid var(--ios-separator);
+  }
+  .log-row .note-bubble {
+    border-radius: 0;
   }
 
-  .bubble.note-bubble .text-size-sm {
-    @apply text-base;
+  .bubble .timeline-pill .title-value h3 {
+    @apply font-medium text-ios-label;
   }
+
+  /* iOS look: short and long notes use the same 15 px text (scales with Font Size), regular weight, as in the mockup */
+  .bubble.note-bubble .text-size-sm,
   .bubble.note-bubble .text-size-big {
-    @apply text-lg;
+    font-size: 0.9375em;
+    line-height: 1.33em;
+    font-weight: 400;
   }
 </style>

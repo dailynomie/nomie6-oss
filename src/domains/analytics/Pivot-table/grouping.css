@@ -83,8 +83,9 @@ table.colGroupBefore td.pvtLevel4 {
 
 .pvtTotal,
 .pvtGrandTotal {
-    background-color: var(--totalcolor,#04A6F9) !important;
-    color: var(--fontcolor,#04A6F9) !important;
+    /* iOS look: no !important, so the heatmap colours set on the cell win; the default total is transparent */
+    background-color: var(--totalcolor, transparent);
+    color: var(--fontcolor, var(--ios-tint));
 }
 
 .pvtClickable {

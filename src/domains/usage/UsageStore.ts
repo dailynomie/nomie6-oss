@@ -12,7 +12,7 @@ import { parseNumber } from '../../utils/parseNumber/parseNumber'
 import logsToTrackableUsage, { lastUsedCompareAndMerge } from './usage-utils'
 import { derived } from 'svelte/store'
 import type { Trackable } from '../trackable/Trackable.class'
-
+import { Lang } from '../../store/lang'
 
 export type LastUsedCountUnit = { v: number; d: Date | string }
 export type TrackableLastUsedType = {
@@ -30,13 +30,12 @@ export type LastUsedStoreState = {
   [key: string]: TrackableLastUsedType
 }
 
-
 /**
  * $UsageStore[tag]
  * A Key Value Store for holding the last usage data for a trackable
  */
 export const UsageStore = createKVStore(NPaths.storage.trackableUsage(), {
-  label: 'Usage Store',
+  label: Lang.t('usage.usage-store', 'Usage Store'),
   key: 'tag',
   itemInitializer: (item, key) => {
     item.tag = key
@@ -99,7 +98,7 @@ export const getTrackableLastUsageHeavy = (trackable: Trackable): TrackableLastU
  */
 export const updateLastUsed = async (log: NLog): Promise<PreviousUsageMapType> => {
   // get the latest from storage first.
-  await UsageStore.init();
+  await UsageStore.init()
   const lastUsedState = UsageStore.rawState()
   return await processLogForLastUsage(log, lastUsedState)
 }
@@ -125,7 +124,7 @@ export const updateAllLastUsed = async (knownTrackables: ITrackables, daysBack: 
     if (knownTrackables[tag]) {
       // Group By Day?
       let usage = usages[tag]
-      
+
       if (usage) {
         try {
           let streakSummary = usage.streakSummary

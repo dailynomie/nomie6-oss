@@ -31,11 +31,13 @@
       } else {
         reverseUsage = usage
           .reverse()
-          .byDay.backfill(widget.getStartDate($Prefs.weekStarts).toDate(), widget.getEndDate($Prefs.weekStarts).toDate())
+          .byDay.backfill(
+            widget.getStartDate($Prefs.weekStarts).toDate(),
+            widget.getEndDate($Prefs.weekStarts).toDate()
+          )
       }
     }
   })
-
 
   // Build usages array based on available data
   $effect(() => {
@@ -75,10 +77,11 @@
       id={`usage-${nid(widget.id)}`}
       hideValues={widget.size == 'sm'}
       {usages}
-      dualAxis={usages.some(u => u.trackable?.id === '-alsoinclude-')}
+      dualAxis={usages.some((u) => u.trackable?.id === '-alsoinclude-')}
       {type}
       className="w-full"
       {widget}
+      iosLook
     />
   </div>
 {/if}

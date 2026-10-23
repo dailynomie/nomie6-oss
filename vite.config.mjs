@@ -13,18 +13,23 @@ import { string } from 'rollup-plugin-string'
 
 // Polyfill structuredClone for vite-plugin-pwa
 if (!globalThis.structuredClone) {
-  globalThis.structuredClone = (obj) => JSON.parse(JSON.stringify(obj));
+  globalThis.structuredClone = (obj) => JSON.parse(JSON.stringify(obj))
 }
 
 export default defineConfig({
+  worker: { format: 'es' },
   define: {
-    'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version)
+    'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version),
   },
   optimizeDeps: {
     allowNodeBuiltins: ['pouchdb-browser', 'pouchdb-utils'],
     exclude: ['canvas-confetti', 'tributejs', 'svelte-navigator'],
   },
   build: {
+    // top-level await (the chosen language is loaded before the app); iOS 15 and later support it
+    target: ['es2022', 'safari15', 'chrome100'],
+    // workers are ES modules, so they can share code with the app (the CSV worker imports domain code that loads languages)
+    // (see the build section below)
     rollupOptions: {
       // external: ['aws-sdk','aws-sdk/clients/S3'],
       output: {
@@ -32,9 +37,18 @@ export default defineConfig({
         //   'aws-sdk': 'AWS',
         //   'S3': 'aws-sdk/clients/S3'
         // },
+        // Libraries that change rarely get their own files, so they stay cached after an app update
+        manualChunks(id) {
+          if (id.includes('/node_modules/svelte/')) return 'vendor-svelte'
+          if (id.includes('/node_modules/dayjs/')) return 'vendor-dayjs'
+          if (id.includes('/node_modules/pouchdb')) return 'vendor-pouchdb'
+        },
       },
       plugins: [
-        // visualizer({ filename: 'stats.html' }),
+        // ANALYZE=1 npm run vbuild writes the bundle report (raw data, for the size baseline)
+        ...(process.env.ANALYZE
+          ? [visualizer({ filename: process.env.ANALYZE, template: 'raw-data', gzipSize: true })]
+          : []),
         rollupPluginsSvelte,
       ],
     },
@@ -45,22 +59,30 @@ export default defineConfig({
     },
   },
   plugins: [
-    svelte({
-
-    }),
+    svelte({}),
     svelteSVG({
       svgoConfig: {}, // See https://github.com/svg/svgo#configuration
     }),
 
     VitePWA({
       manifest: manifest,
-      maximumFileSizeToCacheInBytes: 20 * 1024 ** 2, // 20 MB (for 7.15 MB main JS bundle)
+      maximumFileSizeToCacheInBytes: 4 * 1024 ** 2, // the largest file that is cached in advance (the app chunk is about 1.7 MB)
 
       // Workbox configuration for intelligent caching strategies
       workbox: {
         // HTML - always network first (want latest version)
         navigateFallback: '/index.html',
-        maximumFileSizeToCacheInBytes: 20 * 1024 * 1024, // 20 MB for large JS bundle
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        // Only the shell and the start pages are cached in advance. Every other page is cached (CacheFirst, the /assets/ rule
+        // below) the first time it is opened, so the first install stays small.
+        globPatterns: [
+          '*.{html,webmanifest,ico}',
+          'app-icons/**/*.png',
+          'images/*.{png,svg}',
+          'assets/*.css',
+          'assets/index-*.js',
+          'assets/vendor-*.js',
+        ],
 
         // Caching strategies for different asset types
         runtimeCaching: [
@@ -95,12 +117,25 @@ export default defineConfig({
               },
             },
           },
-          // CSS and JS - cache first (versioned by build hash)
+          // Hashed build files under /assets/ - cache first, the name changes with every build
           {
-            urlPattern: /\.(?:js|css)$/,
+            urlPattern: /\/assets\/.*\.(?:js|css)$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'assets-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+          // Other JS and CSS (unhashed, such as public/js/vendors.js and plugin scripts) -
+          // serve the cached copy, but fetch the new one in the background for the next load
+          {
+            urlPattern: /\.(?:js|css)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'scripts-cache',
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days

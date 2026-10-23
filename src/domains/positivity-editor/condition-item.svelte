@@ -4,9 +4,15 @@
   import dayjs from 'dayjs'
 
   import { createEventDispatcher } from 'svelte'
+  import IosSelect from '../../components/ios-select/ios-select.svelte'
 
   import appConfig from '../../config/appConfig'
-  import { ConditionIfs, type ICondition, type IConditionIfUnit, type IConditionIsUnit } from '../../modules/scoring/score-tracker'
+  import {
+    ConditionIfs,
+    type ICondition,
+    type IConditionIfUnit,
+    type IConditionIsUnit,
+  } from '../../modules/scoring/score-tracker'
   import { ConditionIs } from '../../modules/scoring/score-tracker'
   import Ordinal from '../../utils/ordinal/ordinal'
   import { parseNumber } from '../../utils/parseNumber/parseNumber'
@@ -14,6 +20,7 @@
   import type { Trackable } from '../trackable/Trackable.class'
   import { TrackableStore } from '../trackable/TrackableStore'
   import { getTrackableInputValue } from '../tracker/input/TrackerInputStore'
+  import { Lang } from '../../store/lang'
 
   const { condition, index, trackable } = $props()
 
@@ -80,85 +87,87 @@
   }
 </script>
 
-<div class="w-full py-2 flex flex-col items-center text-black dark:text-white">
+<div class="w-full py-2 flex flex-col items-center text-ios-label">
   <header class="header px-2 flex w-full items-center justify-center">
     <slot name="left" />
     {#if index === 0}
-      <div class="filler text-lg font-bold">If this:</div>
+      <div class="filler text-lg font-bold">{Lang.t('positivity.if-this', 'If this:')}</div>
     {:else}
-      <div class="filler text-lg font-bold">else this:</div>
+      <div class="filler text-lg font-bold">{Lang.t('positivity.else-this', 'else this:')}</div>
     {/if}
     <div class="filler flex justify-end">
       <slot name="right" />
     </div>
   </header>
   {#if workingCondition}
-  <main class="condition-group px-8 w-full">
-    <select aria-label="Compare to What?" bind:value={workingCondition.if} class="condition-select">
-      {#each ConditionIfs as cif}
-        <option value={cif}>{convertValueType(cif)}</option>
-      {/each}
-    </select>
-    <select aria-label="Comparison Value IS" bind:value={workingCondition.is} class="condition-select">
-      {#each ConditionIs as is}
-        <option value={is}>{convertCondition(is)}</option>
-      {/each}
-    </select>
-    {#if workingCondition.if === 'value'}
-      {#if trackable?.type == 'tracker' && trackable?.tracker?.type == 'timer'}
-        <input
-          aria-label="Value to Compare against"
-          class="condition-select w-12 lg:w-14"
-          on:click={() => getTrackableValue()}
-          readonly
-          value={trackable.formatValue(workingCondition.v)}
-        />
-      {:else}
-        <input
-          class="condition-select w-12 lg:w-14"
-          aria-label="Value to Compare against"
+    <main class="condition-group px-8 w-full">
+      <IosSelect
+        ariaLabel="Compare to What?"
+        title={Lang.t('positivity.compare-to-what', 'Compare to What?')}
+        bind:value={workingCondition.if}
+        compact
+        options={ConditionIfs.map((cif) => ({ value: cif, label: convertValueType(cif) }))}
+      />
+      <IosSelect
+        ariaLabel="Comparison Value IS"
+        title={Lang.t('positivity.comparison-value-is', 'Comparison Value IS')}
+        bind:value={workingCondition.is}
+        compact
+        options={ConditionIs.map((is) => ({ value: is, label: convertCondition(is) }))}
+      />
+      {#if workingCondition.if === 'value'}
+        {#if trackable?.type == 'tracker' && trackable?.tracker?.type == 'timer'}
+          <input
+            aria-label={Lang.t('positivity.value-to-compare-against', 'Value to Compare against')}
+            class="condition-select w-12 lg:w-14"
+            on:click={() => getTrackableValue()}
+            readonly
+            value={trackable.formatValue(workingCondition.v)}
+          />
+        {:else}
+          <input
+            class="condition-select w-12 lg:w-14"
+            aria-label={Lang.t('positivity.value-to-compare-against', 'Value to Compare against')}
+            bind:value={workingCondition.v}
+          />
+        {/if}
+      {:else if workingCondition.if === 'hour'}
+        <IosSelect
+          ariaLabel="Hour of the Day"
+          title={Lang.t('positivity.hour-of-the-day', 'Hour of the Day')}
           bind:value={workingCondition.v}
+          compact
+          options={getHours().map((hour) => ({ value: hour.index, label: `${hour.value}` }))}
+        />
+      {:else if workingCondition.if === 'month'}
+        <IosSelect
+          ariaLabel="Day of the Month"
+          title={Lang.t('positivity.day-of-the-month', 'Day of the Month')}
+          bind:value={workingCondition.v}
+          compact
+          options={getDays().map((day) => ({ value: day.index, label: `${day.value}` }))}
         />
       {/if}
-    {:else if workingCondition.if === 'hour'}
-      <select aria-label="Hour of the Day" bind:value={workingCondition.v} class="condition-select w-12">
-        {#each getHours() as hour}
-          <option value={hour.index}>{hour.value}</option>
-        {/each}
-      </select>
-    {:else if workingCondition.if === 'month'}
-      <select aria-label="Day of the Month" bind:value={workingCondition.v} class="condition-select w-12">
-        {#each getDays() as day}
-          <option value={day.index}>{day.value}</option>
-        {/each}
-      </select>
-    {/if}
-    <select
-      value={`${workingCondition.sc}`}
-      class="condition-select emoji"
-      on:change={(evt) => {
-        //@ts-ignore
-        workingCondition.sc = parseNumber(evt.target.value)
-      }}
-    >
-      {#each appConfig.positivity as positivity}
-        {`${positivity.score} === ${workingCondition.sc}`}
-        <option selected={`${positivity.score}` == `${workingCondition.sc}`} value={`${positivity.score}`}
-          >{positivity.emoji}</option
-        >
-      {/each}
-    </select>
-  </main>
+      <IosSelect
+        value={`${workingCondition.sc}`}
+        title={Lang.t('positivity.positivity', 'Positivity')}
+        compact
+        onchange={(next) => {
+          workingCondition.sc = parseNumber(`${next}`)
+        }}
+        options={appConfig.positivity.map((positivity) => ({ value: `${positivity.score}`, label: positivity.emoji }))}
+      />
+    </main>
   {/if}
 </div>
 
 <style lang="postcss" global>
   .condition-select {
-    @apply text-base lg:text-lg appearance-none font-bold bg-gray-200;
-    @apply text-center dark:bg-gray-800;
-    @apply rounded-lg py-1 px-1 lg:px-2 text-primary-500;
+    @apply text-base lg:text-lg appearance-none font-bold bg-ios-fill;
+    @apply text-center;
+    @apply rounded-lg py-1 px-1 lg:px-2 text-ios-tint;
     @apply focus:outline-none;
-    @apply focus:ring-2 ring-primary-400 ring-opacity-75;
+    @apply focus:ring-2 ring-ios-tint ring-opacity-75;
   }
   .condition-select.emoji {
     @apply text-2xl lg:text-3xl;

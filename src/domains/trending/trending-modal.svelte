@@ -8,7 +8,7 @@
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import Button from '../../components/button/button.svelte'
   import List from '../../components/list/list.svelte'
-import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
+  import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
 
   import Spinner from '../../components/spinner/spinner.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
@@ -109,11 +109,11 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
     if (activeFocal === 'day') {
       title = dayjs(activeDate).format(dateFormats.mmm_d_yyyy)
     } else if (activeFocal === 'week') {
-      title = `${dayjs(activeDate).startOf('week').format(dateFormats.tinyDate)} - ${dayjs(activeDate)
+      title = `${dayjs(activeDate).startOf('week').format(dateFormats.shortDate)} - ${dayjs(activeDate)
         .endOf('week')
-        .format(`${dateFormats.tinyDate} YYYY`)}`
+        .format(dateFormats.shortDate)}`
     } else if (activeFocal === 'month') {
-      title = `${dayjs(activeDate).format('MMM YYYY')}`
+      title = `${dayjs(activeDate).format(dateFormats.monthYear)}`
     }
   })
 
@@ -121,22 +121,23 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
     closeModal(id)
   }
 
-  const changeDate = (dir: 'forward'|'backward') => {
-    let wDate = dayjs(activeDate);
-    if(activeFocal === 'day') {
-      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1,'day').toDate() : wDate.subtract(1,'day').toDate()
-    } else if(activeFocal == 'week') {
-      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1,'week').toDate() : wDate.subtract(1,'week').toDate()
-    }  else if(activeFocal == 'month') {
-      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1,'month').toDate() : wDate.subtract(1,'month').toDate()
-    } 
+  const changeDate = (dir: 'forward' | 'backward') => {
+    let wDate = dayjs(activeDate)
+    if (activeFocal === 'day') {
+      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1, 'day').toDate() : wDate.subtract(1, 'day').toDate()
+    } else if (activeFocal == 'week') {
+      $AroundThisTimeStore.date = dir == 'forward' ? wDate.add(1, 'week').toDate() : wDate.subtract(1, 'week').toDate()
+    } else if (activeFocal == 'month') {
+      $AroundThisTimeStore.date =
+        dir == 'forward' ? wDate.add(1, 'month').toDate() : wDate.subtract(1, 'month').toDate()
+    }
   }
 
-  const onNext = ()=>{
-    changeDate('forward');
+  const onNext = () => {
+    changeDate('forward')
   }
-  const onPrev = ()=>{
-    changeDate('backward');
+  const onPrev = () => {
+    changeDate('backward')
   }
 
   type FocalTypes = Array<{ id: ATTFocalUnit; label: string }>
@@ -179,61 +180,57 @@ import NextPrevCal from '../../components/next-prev-cal/next-prev-cal.svelte'
 </script>
 
 <BackdropModal>
-  <header slot="header" class="bg-white dark:bg-black">
+  <header slot="header" class="bg-ios-card">
     <ToolbarGrid>
-      <Button slot="left" clear primary on:click={close}>
-        {Lang.t('general.close', 'Close')}
+      <Button slot="left" clear primary on:click={changeFocal}>
+        {types.find((d) => d.id === activeFocal)?.label}
       </Button>
       <!-- <h2 class="ntitle">{title}</h2> -->
       <NextPrevCal hideCal on:next={onNext} on:previous={onPrev}>
         <h2 class="text-xs text-solid font-bold leading-tight text-center">{title}</h2>
       </NextPrevCal>
-        
-      <Button slot="right" clear primary on:click={changeFocal}>
-        {types.find((d) => d.id === activeFocal)?.label}
-      </Button>
+      <Button slot="right" clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
 
     <div role="menubar" class="px-4 pb-1">
       <ButtonGroup
         bind:value={onlyShow}
         buttons={[
-          { label: 'All', value: 'all' },
-          { label: 'Trackers', value: 'tracker' },
-          { label: 'People', value: 'person' },
-          { label: 'Context', value: 'context' },
-          { label: 'Pointer', value: 'pointer' },
+          { label: Lang.t('trending.all', 'All'), value: 'all' },
+          { label: Lang.t('trending.trackers', 'Trackers'), value: 'tracker' },
+          { label: Lang.t('trending.people', 'People'), value: 'person' },
+          { label: Lang.t('trending.context', 'Context'), value: 'context' },
+          { label: Lang.t('trending.pointer', 'Pointer'), value: 'pointer' },
         ]}
       />
     </div>
   </header>
   <section class="trending px-1">
-
     {#if loading}
       <div class="w-full h-40 flex items-center justify-center">
         <Spinner size={42} />
       </div>
     {:else}
       {#if newItems.length}
-        <List solo outside title="New">
+        <List solo outside title={Lang.t('trending.new', 'New')}>
           {#each newItems as uct, index (uct.trackableUsage.trackable)}
             <TrendingItem {uct} />
           {/each}
         </List>
       {/if}
 
-      <List solo outside title="Trending Up">
+      <List solo outside title={Lang.t('trending.trending-up', 'Trending Up')}>
         {#each trendingUp as uct, index (uct.trackableUsage.trackable)}
           <TrendingItem {uct} />
         {/each}
         {#if !trendingUp.length}
-          <div class="text-gray-500 px-4 py-4">No Up Trends</div>
+          <div class="text-ios-label2 px-4 py-4">{Lang.t('trending.no-up-trends', 'No Up Trends')}</div>
         {/if}
       </List>
 
-      <List solo outside title="Trending Down ">
+      <List solo outside title={Lang.t('trending.trending-down', 'Trending Down')}>
         {#if !trendingDown.length}
-          <div class="text-gray-500 px-4 py-4">No Down Trends</div>
+          <div class="text-ios-label2 px-4 py-4">{Lang.t('trending.no-down-trends', 'No Down Trends')}</div>
         {/if}
         {#each trendingDown as uct, index (uct.trackableUsage.trackable)}
           <TrendingItem {uct} />

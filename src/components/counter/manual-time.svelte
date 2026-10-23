@@ -1,10 +1,12 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../ios-select/ios-select.svelte'
   // Svelte
   import { createEventDispatcher } from 'svelte'
   // Utils
   import time from '../../utils/time/time'
+  import { Lang } from '../../store/lang'
   // export let started = undefined;
 
   // Consts
@@ -56,7 +58,7 @@
     // Set unit value by select box action
     setUnitValue(event, unit) {
       // Set to init
-      let selected = parseInt(event.target.value)
+      let selected = parseInt(`${event?.target?.value ?? event}`)
       // Set temp time chunks
       let dateChunks = {
         hours: data.hours,
@@ -108,54 +110,42 @@
 
 <div class="n-counter-manual size-{size} {className}">
   <div class="unit hours">
-    <select
-      name="hours"
-      id="hours"
+    <IosSelect
+      compact
+      title={Lang.t('ui.hours', 'Hours')}
+      ariaLabel="Hours"
       value={methods.getUnitValue('hours')}
-      on:change={(event) => {
-        methods.setUnitValue(event, 'hours')
-      }}
-    >
-      {#each time.getNumberedArray(300) as unit (unit)}
-        <option value={unit}>{unit}</option>
-      {/each}
-    </select>
+      options={time.getNumberedArray(300).map((unit) => ({ value: unit, label: `${unit}` }))}
+      onchange={(next) => methods.setUnitValue(next, 'hours')}
+    />
 
-    <label for="hours" aria-controls="hours">Hour</label>
+    <label for="hours" aria-controls="hours">{Lang.t('ui.hour', 'Hour')}</label>
   </div>
   <!-- Minutes -->
   <div class="unit hours">
-    <select
-      id="minutes"
-      name="minutes"
+    <IosSelect
+      compact
+      title={Lang.t('ui.minutes', 'Minutes')}
+      ariaLabel="Minutes"
       value={methods.getUnitValue('minutes')}
-      on:change={(event) => {
-        methods.setUnitValue(event, 'minutes')
-      }}
-    >
-      {#each time.getNumberedArray(59) as unit (unit)}
-        <option value={unit}>{unit}</option>
-      {/each}
-    </select>
+      options={time.getNumberedArray(59).map((unit) => ({ value: unit, label: `${unit}` }))}
+      onchange={(next) => methods.setUnitValue(next, 'minutes')}
+    />
     <!-- <NIcon icon={ChevronDown} className="fill-solid" /> -->
-    <label for="minutes" aria-controls="minutes">Min</label>
+    <label for="minutes" aria-controls="minutes">{Lang.t('ui.min-2', 'Min')}</label>
   </div>
   <!-- SEconds -->
   <div class="unit seconds">
-    <select
-      id="seconds"
-      name="seconds"
+    <IosSelect
+      compact
+      title={Lang.t('ui.seconds', 'Seconds')}
+      ariaLabel="Seconds"
       value={methods.getUnitValue('seconds')}
-      on:change={(event) => {
-        methods.setUnitValue(event, 'seconds')
-      }}
-    >
-      {#each time.getNumberedArray(59) as unit (unit)}
-        <option value={unit}>{unit}</option>
-      {/each}
-    </select>
+      options={time.getNumberedArray(59).map((unit) => ({ value: unit, label: `${unit}` }))}
+      onchange={(next) => methods.setUnitValue(next, 'seconds')}
+    />
     <!-- <NIcon icon={ChevronDown} className="fill-solid" /> -->
-    <label for="seconds" aria-controls="seconds">Sec</label>
+    <label for="seconds" aria-controls="seconds">{Lang.t('ui.sec', 'Sec')}</label>
   </div>
 </div>
 
@@ -174,7 +164,7 @@
   }
   .n-counter-manual span {
     line-height: 40px;
-    font-size: 40px;
+    font-size: calc(40px * var(--text-scale));
   }
   .n-counter-manual .unit {
     @apply rounded-lg;
@@ -185,24 +175,50 @@
     @apply flex-col;
   }
 
+  /* iOS look: each unit is a card tile with the number large; the app's select (IosSelect) renders as the tile */
+  .n-counter-manual .unit :global(.ios-select-compact) {
+    @apply w-full;
+    @apply justify-center;
+    height: 56px;
+    padding: 0 4px;
+    border-radius: 12px;
+    background: var(--ios-card);
+    color: var(--ios-label);
+    border: 0.5px solid var(--ios-separator);
+    font-size: calc(36px * var(--text-scale));
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .n-counter-manual .unit {
+    width: 100%;
+  }
+  /* the tile is the control; the chevron would sit on the digits */
+  .n-counter-manual .unit :global(.ios-select-chevron) {
+    display: none;
+  }
+  .n-counter-manual.size-sm .unit :global(.ios-select-compact) {
+    height: 28px;
+    font-size: calc(16px * var(--text-scale));
+    border: none;
+  }
   .n-counter-manual .unit select {
     @apply appearance-none;
     @apply rounded-lg;
-    @apply bg-white dark:bg-black;
-    @apply text-black dark:text-white;
-    @apply border border-gray-300 dark:border-gray-700;
+    @apply bg-ios-card;
+    @apply text-ios-label;
+    @apply border border-ios-separator;
     @apply h-14;
     @apply text-4xl;
     @apply font-bold;
     @apply outline-none;
-    @apply focus:ring-2 ring-primary-500 ring-inset;
+    @apply focus:ring-2 ring-ios-tint ring-inset;
   }
   .n-counter-manual .unit select option {
     text-align: center;
   }
   .n-counter-manual .unit label {
     @apply font-bold;
-    @apply text-gray-500;
+    @apply text-ios-label2;
     @apply text-sm;
     @apply p-1;
   }
@@ -221,7 +237,7 @@
     @apply text-base;
     @apply text-center;
     @apply border-none;
-    @apply bg-gray-100 dark:bg-gray-900;
+    @apply bg-ios-card;
     @apply m-0;
   }
 

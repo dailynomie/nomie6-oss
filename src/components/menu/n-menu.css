@@ -35,29 +35,30 @@
   @apply text-left;
   @apply focus:outline-none;
   @apply rounded-none;
-  @apply border-b border-gray-500 border-opacity-30;
+  @apply border-b border-ios-separator;
   @apply relative;
 }
 .n-menu .pop-button:focus {
   @apply outline-none;
   @apply ring-inset;
 }
+/* iOS look: the selected row keeps its card; the tint tick (see menu.svelte) shows the choice */
 .n-menu .pop-button.active {
-  @apply bg-primary-500 dark:bg-primary-500;
+  background: var(--ios-card);
 }
 .n-menu .pop-button .title {
   @apply font-semibold leading-tight;
-  @apply text-black dark:text-white;
+  @apply text-ios-label;
 }
 .n-menu .pop-button .description {
-  @apply dark:text-gray-400 text-gray-500  mt-1;
+  @apply text-ios-label2 mt-1;
 }
 .n-menu .pop-button.active .title {
-  @apply text-white;
+  color: var(--ios-label);
 }
 .n-menu .pop-button.active .description {
-  @apply leading-tight  text-primary-100;
-  
+  @apply leading-tight;
+  color: var(--ios-label2);
 }
 .n-menu .pop-button.disabled,
 .n-menu .pop-button:disabled {
@@ -94,12 +95,10 @@
 
 
 .n-menu .pop-button.focused {
-  @apply ring-2 ring-primary-500 ring-inset;
+  @apply ring-2 ring-ios-tint ring-inset;
 }
 
-.n-menu .pop-button.active {
-  @apply bg-primary-600 dark:bg-primary-400;
-}
+
 
 .n-menu .pop-button {
   @apply z-20 relative;
@@ -113,11 +112,11 @@
   @apply text-left;
   @apply focus:outline-none;
   @apply rounded-none;
-  @apply border-b border-gray-500 border-opacity-30;
+  @apply border-b border-ios-separator;
   @apply relative;
 }
 .n-menu .pop-button:hover {
-  @apply bg-black dark:bg-white dark:bg-opacity-5  bg-opacity-10;
+  @apply bg-ios-fill;
 }
 .n-menu a:focus {
   
@@ -135,7 +134,7 @@
   @apply max-w-lg;
   @apply border-b-4;
   @apply border-solid;
-  @apply border-gray-500 border-opacity-20;
+  @apply border-ios-separator;
   @apply w-full;
   /* background-color: var(--color-solid-2); */
 }

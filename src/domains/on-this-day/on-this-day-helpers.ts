@@ -1,5 +1,5 @@
 import { BookOutline, ChatboxOutline, MapOutline, PeopleOutline, TagOutline } from '../../components/icon/nicons'
-import BookmarksOutline from "../../n-icons/BookmarksOutline.svelte";
+import BookmarksOutline from '../../n-icons/BookmarksOutline.svelte'
 import { Lang } from '../../store/lang'
 import type NLog from '../nomie-log/nomie-log'
 import type Person from '../people/Person.class'
@@ -21,7 +21,7 @@ export let OTDViews: Array<OTDView> = [
   {
     view: 'all',
     icon: BookOutline,
-    label: `${Lang.t('general.all', 'All')}`, 
+    label: `${Lang.t('general.all', 'All')}`,
     reduce: (items: Array<NLog>) => {
       return items.length
     },
@@ -127,8 +127,6 @@ export function getPointers(day): Array<string> {
   })
   return pointers
 }
-
-
 
 export function getPeople(day, peopleStorePeople: any = {}): Array<Person> {
   let people = []

@@ -8,26 +8,32 @@
   import EmojiSearchResults from './EmojiSearchResults.svelte'
   import VariantPopup from './VariantPopup.svelte'
 
-  import emojiData from './data/emoji-light'
+  import { loadEmojiData } from './emoji-data-loader'
   import ButtonGroup from '../button-group/button-group.svelte'
   import Panel from '../panel/panel.svelte'
-
+  import { RecentEmojiStore, addRecentEmoji } from '../../store/recent-emojis'
+  import { Lang } from '../../store/lang'
 
   let variantsVisible = $state(false)
   let variants = $state(undefined)
   let currentEmoji = $state(undefined)
   let searchText = $state(undefined)
-  let recentEmojis = $state(JSON.parse(localStorage.getItem('recent-emojis')) || [])
+  let recentEmojis = $derived($RecentEmojiStore)
 
   const dispatch = createEventDispatcher()
 
-  const emojiCategories = {}
-  emojiData.forEach((emoji) => {
-    let categoryList = emojiCategories[emoji.c]
-    if (!categoryList) {
-      categoryList = emojiCategories[emoji.c] = []
-    }
-    categoryList.push(emoji)
+  let emojiCategories = $state<Record<string, Array<any>>>({})
+  // the emoji list loads when the picker opens, then the categories are filled in
+  loadEmojiData().then((emojiData) => {
+    const categories: Record<string, Array<any>> = {}
+    emojiData.forEach((emoji) => {
+      let categoryList = categories[emoji.c]
+      if (!categoryList) {
+        categoryList = categories[emoji.c] = []
+      }
+      categoryList.push(emoji)
+    })
+    emojiCategories = categories
   })
 
   const categoryOrder = ['People', 'Nature', 'Eat', 'Activities', 'Places', 'Objects', 'Symbols', 'Flags']
@@ -77,8 +83,7 @@
   }
 
   function saveRecent(emoji) {
-    recentEmojis = [emoji, ...recentEmojis.filter((recent) => recent.e !== emoji.e)].slice(0, maxRecents)
-    localStorage.setItem('recent-emojis', JSON.stringify(recentEmojis))
+    addRecentEmoji(emoji, maxRecents)
   }
 
   function hideVariants() {
@@ -142,12 +147,12 @@
     {/if}
   </Panel>
 
-  <section aria-label="search Emojis" />
+  <section aria-label={Lang.t('ui.search-emojis', 'search Emojis')} />
 
   <!-- {#if searchText}
     <EmojiSearchResults {searchText} on:emojihover={showEmojiDetails} on:emojiclick={onEmojiClick} />
   {:else}
-    <div class="text-black svelte-emoji-picker__emoji-tabs dark:text-gray-200">
+    <div class="text-ios-label svelte-emoji-picker__emoji-tabs">
       <ButtonGroup
         className="text-xl overscroll-y-auto"
         buttons={[

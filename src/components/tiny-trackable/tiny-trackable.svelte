@@ -13,34 +13,57 @@
   let color = $derived(trackable?.color)
 </script>
 
-{#if trackable.type == "pointer"}
-<button class="tiny-trackable" style="background-color: {color};border-radius: 90px" on:click={() => emit('click')}>
-  <TrackableAvatar className="items-center self-center" {trackable} size={18} />
-  
-</button>
+{#if trackable.type == 'pointer'}
+  <!-- iOS look: a pointer has no label, so it is a 24 px circle with the same emoji size as the other chips -->
+  <button class="tap-44 tiny-trackable pointer-chip" style="background-color: {color}" on:click={() => emit('click')}>
+    <TrackableAvatar className="items-center self-center" {trackable} size={16} />
+  </button>
 {:else}
-<button class="tiny-trackable" on:click={() => emit('click')}>
-  <TrackableAvatar className="items-center self-center" {trackable} size={23} />
-  <span class="label line-clamp-1">{trackable.label}</span>
-  {#if value}
-    <span class="value">{trackable.formatValue(value)}</span>
-  {/if}
-</button>
+  <button class="tap-44 tiny-trackable" on:click={() => emit('click')}>
+    <TrackableAvatar className="items-center self-center" {trackable} size={16} />
+    <span class="label line-clamp-1">{trackable.label}</span>
+    {#if value}
+      <span class="value">{trackable.formatValue(value)}</span>
+    {/if}
+  </button>
 {/if}
+
 <style lang="postcss" global>
+  /* iOS look: timeline chips are 24 px high, 13 px text, with a small emoji, the label, then the value in bold */
   .tiny-trackable {
     @apply flex items-center;
     @apply whitespace-nowrap;
     @apply space-x-1;
-    @apply text-base;
+    font-size: calc(13px * var(--text-scale));
+    line-height: 18px;
     @apply flex-shrink;
     @apply w-auto;
     @apply mr-1 mt-1;
-    @apply bg-gray-100 dark:bg-gray-900 rounded-lg;
+    background: var(--ios-fill);
+    border-radius: 12px;
+    height: 24px;
+    padding: 0 9px;
 
-    @apply py-1 px-2;
     @apply transform-gpu transition-all duration-100 ease-in-out;
     @apply max-w-full;
+  }
+  /* iOS look: the chip is 24 px high, but its tap area reaches 44 px (section 8, touch targets) */
+  .tiny-trackable {
+    position: relative;
+  }
+  .tiny-trackable::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10px;
+    bottom: -10px;
+  }
+  .tiny-trackable.pointer-chip {
+    width: 24px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 12px;
   }
   .tiny-trackable:hover {
     @apply scale-105;
@@ -50,11 +73,12 @@
   }
 
   .tiny-trackable .label {
-    @apply pl-1;
-    @apply font-semibold;
-    @apply text-black dark:text-white;
+    @apply font-normal;
+    color: var(--ios-label);
   }
+  /* iOS look: the value is the label colour on the fill (4.5:1 in both modes) */
   .tiny-trackable .value {
-    @apply text-gray-600 dark:text-gray-400;
+    @apply font-bold;
+    color: var(--ios-label);
   }
 </style>

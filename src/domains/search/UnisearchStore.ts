@@ -1,7 +1,6 @@
 import type NLog from '../nomie-log/nomie-log'
 import type { PopMenuButton } from '../../components/pop-menu/usePopmenu'
 import type { Trackable } from '../trackable/Trackable.class'
-import UnisearchModal from './unisearch-modal.svelte'
 import { getTrackablesFromStorage } from '../trackable/TrackableStore'
 import { closeModal, openModal } from '../../components/backdrop/BackdropStore2'
 import { toTrackableArray } from '../trackable/trackable-utils'
@@ -39,7 +38,8 @@ export const closeUnisearch = () => {
  * It opens a modal with the UnisearchModal component, and passes the searchTerm prop to it
  * @param {string} [term] - The search term to pre-fill the search bar with.
  */
-export const openUnisearch = (term?: string) => {
+export const openUnisearch = async (term?: string) => {
+  const { default: UnisearchModal } = await import('./unisearch-modal.svelte')
   openModal({
     id: 'unisearch',
     component: UnisearchModal,

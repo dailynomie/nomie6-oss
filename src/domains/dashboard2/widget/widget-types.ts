@@ -6,6 +6,7 @@ import {
   MapOutline,
   PieChartOutline,
   PulseOutline,
+  FlaskOutline,
   SparklesOutline,
   TextOutline,
   ThermometerIcon,
@@ -13,6 +14,9 @@ import {
 } from '../../../components/icon/nicons'
 import CheckmarkCircleOutlineSvelte from '../../../n-icons/CheckmarkCircleOutline.svelte'
 import type { PluginClass } from '../../plugins/plugin-helpers'
+import { getRawPrefs } from '../../preferences/Preferences'
+import { isWidgetTypeVisible } from '../../preferences/experience'
+import { Lang } from '../../../store/lang'
 
 export type IWidgetTypeUnit = 'timeframe' | 'cond-style' | 'token' | 'tokens' | 'pointer'
 
@@ -27,11 +31,13 @@ export type IWidgetType = {
   data?: any
 }
 
-export const getWidgetTypes = ($PluginStore:Array<PluginClass>):Array<IWidgetType> => {
-    const allWidgetTypes = [...widgetTypes];
-    $PluginStore.filter(p=>{
+export const getWidgetTypes = ($PluginStore: Array<PluginClass>): Array<IWidgetType> => {
+  const allWidgetTypes = [...widgetTypes]
+  $PluginStore
+    .filter((p) => {
       return p.active && p.addToWidgets
-    }).forEach((plugin:PluginClass)=>{
+    })
+    .forEach((plugin: PluginClass) => {
       allWidgetTypes.push({
         id: `plugin`,
         label: plugin.name,
@@ -39,17 +45,18 @@ export const getWidgetTypes = ($PluginStore:Array<PluginClass>):Array<IWidgetTyp
         optional: [],
         emoji: plugin.emoji,
         data: {
-          pluginId: plugin.id
-        }
+          pluginId: plugin.id,
+        },
       })
     })
-    return allWidgetTypes;
+  // Starter mode only offers the starter widget types. Existing widgets keep working.
+  const prefs = getRawPrefs()
+  return allWidgetTypes.filter((widgetType) => isWidgetTypeVisible(prefs, widgetType.id))
 }
-
 
 export const widgetTypes: Array<IWidgetType> = [
   {
-    label: 'Display Value',
+    label: Lang.t('dashboard.display-value', 'Display Value'),
     id: 'value',
     requires: ['timeframe', 'token'],
     optional: ['cond-style'],
@@ -57,7 +64,7 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: ThermometerIcon,
   },
   {
-    label: 'Latest Note',
+    label: Lang.t('dashboard.latest-note', 'Latest Note'),
     id: 'note',
     requires: ['timeframe', 'token'],
     optional: [],
@@ -65,7 +72,7 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: ChatboxOutline,
   },
   {
-    label: 'Bar Chart',
+    label: Lang.t('dashboard.bar-chart', 'Bar Chart'),
     id: 'barchart',
     requires: ['timeframe', 'token'],
     optional: [],
@@ -73,7 +80,7 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: BarChartSolid,
   },
   {
-    label: 'Line Chart',
+    label: Lang.t('dashboard.line-chart', 'Line Chart'),
     id: 'linechart',
     requires: ['timeframe', 'token'],
     optional: [],
@@ -82,7 +89,7 @@ export const widgetTypes: Array<IWidgetType> = [
   },
 
   {
-    label: 'Min / Max',
+    label: Lang.t('dashboard.min-max', 'Min / Max'),
     id: 'min-max',
     requires: ['timeframe', 'token'],
     optional: [],
@@ -90,7 +97,7 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: HighLowIcon,
   },
   {
-    label: 'Map',
+    label: Lang.t('dashboard.map', 'Map'),
     id: 'map',
     requires: ['timeframe', 'token'],
     optional: [],
@@ -98,29 +105,31 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: MapOutline,
   },
   {
-    label: 'Todos',
+    label: Lang.t('dashboard.todos', 'Todos'),
     id: 'todos',
     requires: ['timeframe'],
     optional: [],
     image: '/images/widget-types/latest-note.svg',
     icon: CheckmarkCircleOutlineSvelte,
   },
-  {label: 'Habits',
+  {
+    label: Lang.t('dashboard.habits', 'Habits'),
     id: 'habit',
     requires: ['timeframe', 'token'],
     optional: [],
     image: '/images/widget-types/display-value.svg',
     icon: PieChartOutline,
   },
-  {label: 'Pointers',
+  {
+    label: Lang.t('dashboard.pointers', 'Pointers'),
     id: 'pointer',
-    requires: ['timeframe','token', 'pointer'],
+    requires: ['timeframe', 'token', 'pointer'],
     optional: [],
     image: '/images/widget-types/display-value.svg',
     icon: TagOutline,
   },
   {
-    label: 'Mind, Body, Spirit',
+    label: Lang.t('dashboard.mind-body-spirit', 'Mind, Body, Spirit'),
     id: 'focus',
     requires: ['timeframe'],
     optional: [],
@@ -136,7 +145,7 @@ export const widgetTypes: Array<IWidgetType> = [
   //   optional: [],
   // },
   {
-    label: 'Positivity Chart',
+    label: Lang.t('dashboard.positivity-chart', 'Positivity Chart'),
     id: 'positivity',
     requires: ['timeframe'],
     // optional: ['token'],
@@ -145,7 +154,7 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: BarChartSolid,
   },
   {
-    label: 'Last Used',
+    label: Lang.t('dashboard.last-used', 'Last Used'),
     id: 'last-used',
     requires: ['token'],
     optional: ['cond-style'],
@@ -153,7 +162,7 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: CalendarOutline,
   },
   {
-    label: 'Just Text',
+    label: Lang.t('dashboard.just-text', 'Just Text'),
     id: 'text',
     requires: [],
     optional: [],
@@ -161,11 +170,19 @@ export const widgetTypes: Array<IWidgetType> = [
     icon: TextOutline,
   },
   {
-    label: 'Nomie Insights',
+    label: Lang.t('dashboard.nomie-insights', 'Nomie Insights'),
     id: 'insight',
     requires: ['timeframe'],
     optional: [],
     icon: SparklesOutline,
     emoji: '💡',
+  },
+  {
+    label: Lang.t('dashboard.experiment', 'Experiment'),
+    id: 'experiment',
+    requires: [],
+    optional: [],
+    icon: FlaskOutline,
+    emoji: '🧪',
   },
 ]

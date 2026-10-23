@@ -1,13 +1,15 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import { TrackableStore } from '../../domains/trackable/TrackableStore'
   import { Lang } from '../../store/lang'
 
   import { Prefs } from '../../domains/preferences/Preferences'
-  import { LaunchCount } from '../../domains/preferences/LaunchCount'
   // import { onMount } from 'svelte'
-  import { backupConfirmed, BackupDaysAgo, generateBackup } from '../../domains/backup/BackupStore'
   import { onMount } from 'svelte'
+
+  // The screen supplies the backup values and actions (CMP-08)
+  const { daysAgo = NaN, launchCount = 0, onGenerate = () => {}, onConfirmed = () => {} } = $props()
 
   let visible = $state(false)
   let mounted = $state(false)
@@ -15,10 +17,10 @@
   let lastBackupDaysBack = $state(0)
 
   $effect(() => {
-    if (isNaN($BackupDaysAgo)) {
+    if (isNaN(daysAgo)) {
       lastBackupDaysBack = 1001
     } else {
-      lastBackupDaysBack = $BackupDaysAgo
+      lastBackupDaysBack = daysAgo
     }
   })
 
@@ -28,9 +30,11 @@
       mounted &&
       lastBackupDaysBack &&
       dayWarning > -1 &&
-      $LaunchCount > 5 &&
+      launchCount > 5 &&
       lastBackupDaysBack >= dayWarning &&
-      !$Prefs.hideBackupMessage
+      !$Prefs.hideBackupMessage &&
+      // Phase 7 (new users): nothing to back up until the first tracker exists
+      Object.keys($TrackableStore.trackables).length > 0
     ) {
       visible = true
     } else {
@@ -46,32 +50,34 @@
 </script>
 
 {#if mounted && visible === true}
-  <div class="flex text-xs space-x-1 items-center justify-center container-sm bg-red-500 text-white">
+  <!-- iOS look (D-caution): a backup reminder is a caution, so it is a neutral card with a warning glyph; red is only for destructive actions -->
+  <div class="flex text-xs space-x-1 items-center justify-center container-sm ios-caution text-ios-label">
+    <span aria-hidden="true">⚠︎</span>
     <button
-      aria-label="Backup your data"
-      on:click={generateBackup}
-      class="flex items-center mr-2 text-xs py-1 text-center rounded-full backup"
+      aria-label={Lang.t('ui.backup-your-data', 'Backup your data')}
+      on:click={onGenerate}
+      class="tap-44 flex items-center mr-2 text-xs py-1 text-center rounded-full backup"
     >
       <!--- If it's way back - it's not really set-->
       {#if lastBackupDaysBack > 1000}
-        <div class="text-red-200">
+        <div class="text-ios-label">
           {Lang.t('general.no-known-backups', 'No recent backups')}
         </div>
       {:else}
-        <div class="text-red-200">
-          {lastBackupDaysBack} days since last backup
+        <div class="text-ios-label">
+          {Lang.t('storage.days-since-backup', { num: lastBackupDaysBack })}
         </div>
       {/if}
-      <div class="ml-2 font-bold">
+      <div class="ml-2 font-bold text-ios-tint">
         {Lang.t('general.download-backup', 'Download Backup')}
       </div>
     </button>
-    or
+    <span class="mx-1">{Lang.t('ui.or', 'or')}</span>
     <button
-      class="ml-2 font-bold"
+      class="tap-44 ml-2 font-bold text-ios-tint"
       on:click={() => {
-        backupConfirmed()
-      }}>Skip</button
+        onConfirmed()
+      }}>{Lang.t('ui.skip', 'Skip')}</button
     >
   </div>
 {/if}

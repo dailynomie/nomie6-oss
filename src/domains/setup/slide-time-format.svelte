@@ -7,8 +7,6 @@
   import Button from '../../components/button/button.svelte'
   import { Prefs } from '../preferences/Preferences'
   import Container from '../../components/container/container.svelte'
-import Badge from '../../components/badge/badge.svelte'
-import { Interact } from '../../store/interact';
 
   let initialized = $state(false)
 
@@ -26,14 +24,14 @@ import { Interact } from '../../store/interact';
 
 <Container className="filler px-5 flex items-center justify-center flex-col slide-location -mt-10">
   <div class="pt-3 mx-auto top center-grow min-w-full max-w-xl">
-    
-    <p class="mb-4 text-gray-500 dark:text-gray-400 text-center text-sm">Which looks right?</p>
+    <p class="mb-4 text-ios-label2 text-center text-sm">{Lang.t('setup.your-preferences', 'Your preferences')}</p>
 
-    <div class="big-group p-2 bg-white dark:bg-black flex items-center shadow-lg rounded-2xl">
+    <p class="mb-1 text-ios-label2 text-center text-sm">{Lang.t('setup.time', 'Time')}</p>
+    <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
         className="whitespace-no-wrap {!$Prefs.use24hour
-          ? 'bg-primary text-white font-bold'
-          : 'bg-white dark:bg-black text-gray-500'}"
+          ? 'bg-ios-tint text-ios-ontint font-bold'
+          : 'bg-ios-card text-ios-label2'}"
         block
         size="md"
         type="clear"
@@ -46,8 +44,8 @@ import { Interact } from '../../store/interact';
       </Button>
       <Button
         className="whitespace-nowrap {$Prefs.use24hour
-          ? 'bg-primary text-white font-bold'
-          : 'bg-white dark:bg-black text-gray-500'}"
+          ? 'bg-ios-tint text-ios-ontint font-bold'
+          : 'bg-ios-card text-ios-label2'}"
         type="clear"
         block
         size="md"
@@ -60,9 +58,10 @@ import { Interact } from '../../store/interact';
       </Button>
     </div>
 
-    <div class="big-group p-2 mt-4 bg-white dark:bg-black flex items-center shadow-lg rounded-2xl">
+    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">{Lang.t('setup.units', 'Units')}</p>
+    <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
-        className={!$Prefs.useMetric ? 'bg-primary text-white font-bold' : 'bg-white dark:bg-black text-gray-500'}
+        className={!$Prefs.useMetric ? 'bg-ios-tint text-ios-ontint font-bold' : 'bg-ios-card text-ios-label2'}
         block
         size="md"
         type="clear"
@@ -71,10 +70,10 @@ import { Interact } from '../../store/interact';
           $Prefs.useMetric = false
         }}
       >
-        10 lbs
+        {Lang.t('setup.10-lbs', '10 lbs')}
       </Button>
       <Button
-        className=" {$Prefs.useMetric ? 'bg-primary text-white font-bold' : 'bg-white dark:bg-black text-gray-500'}"
+        className=" {$Prefs.useMetric ? 'bg-ios-tint text-ios-ontint font-bold' : 'bg-ios-card text-ios-label2'}"
         type="clear"
         block
         size="md"
@@ -83,17 +82,17 @@ import { Interact } from '../../store/interact';
           $Prefs.useMetric = true
         }}
       >
-        4.5 kg
+        {Lang.t('setup.4-5-kg', '4.5 kg')}
       </Button>
     </div>
 
-    <p class="mt-4 mb-1 text-gray-500 dark:text-gray-400 text-center text-sm">Week Starts On:</p>
+    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">{Lang.t('setup.week-starts-on', 'Week starts on')}</p>
 
-    <div class="big-group p-2 mt-2 bg-white dark:bg-black flex items-center shadow-lg rounded-2xl">
+    <div class="big-group p-2 mt-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
-      className={$Prefs.weekStarts == 'sunday'
-          ? 'bg-primary text-white font-bold'
-          : 'bg-white dark:bg-black text-gray-500'}
+        className={$Prefs.weekStarts == 'sunday'
+          ? 'bg-ios-tint text-ios-ontint font-bold'
+          : 'bg-ios-card text-ios-label2'}
         block
         size="md"
         type="clear"
@@ -102,12 +101,12 @@ import { Interact } from '../../store/interact';
           $Prefs.weekStarts = 'sunday'
         }}
       >
-      Sun
-    </Button>
-    <Button
-    className=" {$Prefs.weekStarts == 'monday'
-          ? 'bg-primary text-white font-bold'
-          : 'bg-white dark:bg-black text-gray-500'}"
+        {Lang.t('setup.sun', 'Sun')}
+      </Button>
+      <Button
+        className=" {$Prefs.weekStarts == 'monday'
+          ? 'bg-ios-tint text-ios-ontint font-bold'
+          : 'bg-ios-card text-ios-label2'}"
         type="clear"
         block
         size="md"
@@ -116,19 +115,21 @@ import { Interact } from '../../store/interact';
           $Prefs.weekStarts = 'monday'
         }}
       >
-      Mon
-    </Button>
-  </div>
-  <p class="mt-4 mb-1 text-gray-500 dark:text-gray-400 text-center text-sm">Location Tracking <Badge on:click={()=>{
-    Interact.alert(`Location Tracking`,'Have Nomie save your current location (lat,long) each time you record data.')
-  }} value="?" /></p>
-  
-  
-    <div class="big-group p-2 bg-white dark:bg-black flex items-center shadow-lg rounded-2xl">
+        {Lang.t('setup.mon', 'Mon')}
+      </Button>
+    </div>
+    <p class="mt-4 mb-1 text-ios-label2 text-center text-sm">
+      {Lang.t('setup.location-tracking', 'Location tracking')}
+    </p>
+    <p class="mb-1 text-ios-label2 text-center text-xs">
+      {Lang.t('setup.location-tracking-help', 'Nomie saves where you are each time you record data.')}
+    </p>
+
+    <div class="big-group p-2 bg-ios-card flex items-center shadow-lg rounded-2xl">
       <Button
         className="whitespace-no-wrap {!$Prefs.alwaysLocate
-          ? 'bg-primary text-white font-bold'
-          : 'bg-white dark:bg-black text-gray-500'}"
+          ? 'bg-ios-tint text-ios-ontint font-bold'
+          : 'bg-ios-card text-ios-label2'}"
         block
         size="md"
         type="clear"
@@ -137,12 +138,12 @@ import { Interact } from '../../store/interact';
           $Prefs.alwaysLocate = false
         }}
       >
-        Disabled
+        {Lang.t('setup.disabled', 'Disabled')}
       </Button>
       <Button
         className="whitespace-nowrap {$Prefs.alwaysLocate
-          ? 'bg-primary text-white font-bold'
-          : 'bg-white dark:bg-black text-gray-500'}"
+          ? 'bg-ios-tint text-ios-ontint font-bold'
+          : 'bg-ios-card text-ios-label2'}"
         type="clear"
         block
         size="md"
@@ -151,13 +152,11 @@ import { Interact } from '../../store/interact';
           $Prefs.alwaysLocate = true
         }}
       >
-        Enabled
+        {Lang.t('setup.enabled', 'Enabled')}
       </Button>
     </div>
-      
-</div>
+  </div>
 </Container>
-
 
 <style lang="postcss" global>
   .big-group {

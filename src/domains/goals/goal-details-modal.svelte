@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import Button from '../../components/button/button.svelte'
@@ -40,18 +39,21 @@
 </script>
 
 <BackdropModal mainClass="relative">
-  <ToolbarGrid slot="header" className="bg-white dark:bg-black">
-    <Button slot="left" primary clear on:click={close}>
-      {Lang.t('general.close', 'Close')}
+  <ToolbarGrid slot="header" className="bg-ios-card">
+    <Button
+      slot="left"
+      primary
+      clear
+      on:click={() => {
+        openGoalEditor(boundGoal)
+      }}
+    >
+      {Lang.t('general.Edit', 'Edit')}
     </Button>
     <div>
       <TrackablePill hideValue transparent {trackable} />
     </div>
-    <Button slot="right" primary clear on:click={() => {
-      openGoalEditor(boundGoal)
-    }}>
-      {Lang.t('general.Edit', 'Edit')}
-    </Button>
+    <Button slot="right" primary clear on:click={close}>{Lang.t('general.done', 'Done')}</Button>
   </ToolbarGrid>
   <GoalDetail bind:goal={boundGoal} />
 </BackdropModal>

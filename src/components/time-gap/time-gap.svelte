@@ -7,7 +7,7 @@
   import math from '../../utils/math/math'
 
   let diff = $state<number>(0)
-  let display = $state<string>("")
+  let display = $state<string>('')
 
   async function main() {
     diff = log1.endDayjs().startOf('day').diff(log2.endDayjs().startOf('day'), 'day')
@@ -38,9 +38,9 @@
     @apply flex items-center space-x-2;
   }
   .time-gap .buffer {
-    @apply border-b border-gray-300 dark:border-gray-700;
+    @apply border-b border-ios-separator;
   }
   .time-gap .label {
-    @apply text-gray-500;
+    @apply text-ios-label2;
   }
 </style>

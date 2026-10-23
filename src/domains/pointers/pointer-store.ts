@@ -17,8 +17,9 @@ import { createArrayStore } from '../../store/ArrayStore'
 import dayjs from 'dayjs'
 // Svelte
 import { writable } from 'svelte/store'
-import pointersModalSvelte from "./pointers-modal.svelte";
-import { closeModal, openModal } from "../../components/backdrop/BackdropStore2";
+import pointersModalSvelte from './pointers-modal.svelte'
+import { closeModal, openModal } from '../../components/backdrop/BackdropStore2'
+import { Lang } from '../../store/lang'
 
 // Get Config
 
@@ -38,17 +39,15 @@ const searchForPointer = async () => {
     })
   } catch (e) {
     console.error(e)
-    Interact.alert('Error', e.message)
+    Interact.alert(Lang.t('pointers.error', 'Error'), e.message)
   }
   Interact.stopBlocker()
   return array_utils.unique(pointers)
 }
 
-
-
 export const PointerStore = createArrayStore(NPaths.storage.pointers(), {
   key: 'tag',
-  label: 'Pointer',
+  label: Lang.t('pointers.pointer', 'Pointer'),
   itemInitializer: (item) => {
     return new PointerClass(item)
   },
@@ -76,17 +75,14 @@ export const repairPrefixedPointerTags = async (pointers: Array<any>): Promise<A
   })
 }
 
-
 export const openPointersModal = () => {
   openModal({
     id: 'pointers',
     component: pointersModalSvelte,
-    componentProps: {
-
-    }
+    componentProps: {},
   })
 }
 
 export const closePointersModal = () => {
-  closeModal('pointers');
+  closeModal('pointers')
 }

@@ -1,78 +1,74 @@
-# Nomie 6 Privacy Policy
-Effective date: 3/27/2022
+# Privacy policy for Daily Nomie
 
-## Introduction
+Daily Nomie is an open source app. This policy explains what happens to your data, where it is kept, and what is sent to other parties when you use an optional feature. It is written in plain language, and it is not legal advice.
 
-This Privacy Policy ("Privacy Policy") applies to the use of the web and mobile application of Nomie 6 (hereinafter also referred as "we" or "us" or "Happy Data" or "Nomie"). Our registered office is at 11650 Olio Road, Suite 1000-118. Fishers, Indiana 46040.
+## The short version
 
-This Privacy Policy applies and has effect in respect specifically to the to Nomie 6 application.
+- Your data stays in your browser by default. We do not receive it.
+- Sync is optional. When you turn it on, your data goes to a CouchDB server that you choose. Daily Nomie does **not** encrypt the data before it is sent, so the operator of that server can read it.
+- Backups are files that you download. They are not encrypted by the app.
+- AI is optional and off by default. When you turn it on and add your own API key, the app sends each request straight from your browser to the AI provider you chose. We do not see those requests.
+- We run no analytics or tracking.
 
-If you have any questions or comments about this Privacy Policy, [please contact us here](mailto:support@happydata.org)
+## 1. Your data on this device
 
-We are committed to protecting and respecting your privacy. The Privacy Policy explains the details on what personal information we collect from you.
+Daily Nomie stores your logs, trackers, goals, experiments, dashboards, notes and settings in the storage of your browser (IndexedDB and localStorage). Nothing is sent to us. Your data reaches a server only if you turn on sync and choose a server (section 2).
 
-We may make changes to this Privacy Policy in the future. You should check this page from time to time to ensure you are aware of any changes. Where appropriate we may notify you of such changes.
-## Information we may collect about you
+- The app does not encrypt this storage. Anyone who can use your browser profile or your device can read it.
+- The PIN lock keeps the app closed until the PIN is entered. It is not encryption of your data.
 
-We collect and process the following information which may include your personal data.
+## 2. Sync with a CouchDB server (optional)
 
-### For Nomie Cloud Accounts
+You can sync your data to a CouchDB server in two ways:
 
-- Your email address so you can login to Nomie cloud.
-- Your billing address (if required by Stripe). 
-- That's it! All other data is stored end-to-end encrypted
+- **You run the server yourself.** You enter its address in the app. You, or the company or person who runs it for you, control it. We do not have access to it.
+- **You use the hosted sync service that Daily Nomie offers.** We run that server. This is not automatic: you request a user ID and password for it first, and you enter them in the app.
 
-### For Local / CouchDB Nomie Users
+Sync data is **not encrypted by the app**. The operator of the server, which is us for the hosted service, can read it. Anyone who gets access to the server can read it too.
 
-- No Personal information is collected
+- Use an address that starts with `https://`, so the connection is encrypted in transit.
+- Keep your device and your account safe.
+- Deleting data on your device does not remove copies that already reached the server. Delete them on the server as well.
 
-## Collecting, processing and using personal data
+## 3. Backups
 
-We only store and process your email address when you have voluntarily supplied us with it such as by signing up to the Service. Your email address will only be disclosed or otherwise transmitted if this is necessary to implement the contract, render our Services or you have given your prior consent.
+A backup is a file that you download to your device. It contains your data and most of your settings, in a readable format. It never contains your PIN, your storage type, your AI API keys or your server login details.
 
-## Cookies
+Keep backup files as private as you would keep your data. Anyone who has the file can read it.
 
-When using Nomie Cloud with a subscription, your data is stored on end-to-end encrypted on Firebase. But in order to validate you are who you say, Firebase will use Cookies to identify you. There are no marketing or advertising cookies in Nomie. 
+## 4. AI features (optional, off by default)
 
-## Web Hosting Access logging
+AI features only work when you turn them on in Settings and enter your own API key for a provider. Until then, no data is sent to an AI provider.
 
-During every access of our website user data is transmitted by the respective Internet browser and stored in protocol files, the so-called server log files. The datasets stored here may contain your IP address, referrer URL (original URL from which you arrived at the website), the amount of data transmitted, product and version information of the browser used.
+When you use an AI feature:
 
-## Data sharing - WE DON'T becaues we CAN'T.
+- The app sends the request **directly from your browser** to the provider you chose. The request contains the context that feature needs. Depending on the feature, that can include notes, journal text, tracker names and values, and experiment results.
+- The providers are **Anthropic (Claude)** and **OpenRouter**, which routes requests to other AI models. Their own privacy policies and terms apply to what they receive. OpenRouter's free models may be run by providers that keep logs of prompts.
+- Your API key is kept on your device, in the browser's storage. If you set a PIN, the key is encrypted with it. A short PIN gives little protection, so use a longer one if the key matters to you. Any script that can run in the app's page can read the key while the app is open.
+- You can turn AI off at any time in Settings. Turning it off stops the requests; it does not delete the key until you clear it.
 
-We will NOT share your email address with any third parties.
-We do not have any other data to share! It's all encrypted and unreadable by us. 
+Results that come from your data are calculated on your device. The AI only explains them.
 
-Required by law: we may disclose your email address to the extent that we are required to do so by law (which may include to government bodies and law enforcement agencies); in connection with any legal proceedings or prospective legal proceedings; and in order to establish, exercise or defend our legal rights.
+## 5. Analytics and tracking
 
-**For Law Enforcement and Government Agencies**:
- If a user is a Nomie Cloud users, all data is encrypted end-to-end. Meaning we have no way of accessing any user generated data.
+Daily Nomie does not load any analytics, advertising or tracking scripts.
 
-🐤 As of today, no government agencies have requested data on any users. 
+## 6. What we do not do
 
-## Data transmission
+- We do not sell your data, and we do not share it with advertisers.
+- We do not receive your logs, trackers or notes, unless you send them to us yourself, for example by email.
 
-**Nomie Cloud Subscription Users.** Your data is transmitted safely by using encryption. We secure our website and other systems with technical and organizational measures against the loss, destruction, access, change or dissemination of your data by unauthorized persons.
+## 7. Your choices
 
-## Your rights
+- You can export your data at any time with a backup.
+- You can delete your data in the app with "Destroy all Data" in Settings. This removes the data on your device. It does not remove copies on a sync server or on a provider's side.
 
-You have the following rights over the way your personal data are processed.
+## 8. Changes to this policy
 
-To make a request, please let us know by sending an email to [support@happydata.org](mailto:support@happydata.org).
+When this policy changes, we update the date below, and we announce the change in the What's New section of the app.
 
-a) You have the right to request a copy of the personal information we process about you and to have any inaccuracies corrected.
-b) You can ask for supplying, correcting or deleting personal information held about you.
-c) You can ask us to restrict, stop processing, or to delete your personal data.
-d) You can withdraw your consent for data processing.
-e) Obtain a copy of your personal data, which you can use with another service provider
-f) Make a complaint to a Supervisory Authority.
+## 9. Contact
 
-## Changes to this privacy policy
+[dailynomie@gmail.com](mailto:dailynomie@gmail.com)
 
-This Privacy Policy may be updated from time to time. We encourage you to review this website for the latest information on our privacy practices. If there are any material changes to this Privacy Policy, you will be notified by posting a notice on the website prior to the change becoming effective. If you do not accept any changes made to this Privacy Policy, please discontinue the use of the website and the Services.
-
-## Happy Data, LLC
-
-- (317) 606-3862
-- 11650 Olio Road, Suite 1000-118. Fishers, Indiana 46040.
-- https://happydata.org
+Last updated: 22 October 2026

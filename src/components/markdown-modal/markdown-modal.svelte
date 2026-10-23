@@ -16,6 +16,7 @@
   import BackdropModal from '../backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../toolbar/toolbar-grid.svelte'
   import { composeEmail } from '../../utils/text/text'
+  import { Lang } from '../../store/lang'
 
   let loading = $state(true)
   let content = $state<string>(undefined)
@@ -40,31 +41,31 @@
 </script>
 
 <BackdropModal className="min-h-75vh">
-  <ToolbarGrid slot="header" className="dark:bg-gray-900 bg-white">
-    <Button slot="left" primary icon on:click={close}>
+  <ToolbarGrid slot="header" className="bg-ios-card">
+    <Button slot="left" clear primary icon on:click={close}>
       <IonIcon icon={CloseOutline} size={28} />
     </Button>
-    <h2 class="text-black dark:text-white text-sm line-clamp-1 font-bold text-center">{props.title}</h2>
+    <h2 class="text-ios-label text-sm line-clamp-1 font-bold text-center">{props.title}</h2>
     <Button
       slot="right"
       primary
       size="sm"
       clear
       on:click={() => {
-        composeEmail('support@happydata.org', `RE: ${props.title}`, '')
+        composeEmail(props.replyTo || 'support@happydata.org', `RE: ${props.title}`, '')
       }}
     >
-      <span class="text-sm">Reply</span>
+      <span class="text-sm">{Lang.t('ui.reply', 'Reply')}</span>
     </Button>
   </ToolbarGrid>
 
-  <div class="min-h-full pt-4 pb-6 bg-white dark:bg-gray-900">
+  <div class="min-h-full pt-4 pb-6 bg-ios-card">
     {#if loading}
       <Empty>
         <Spinner size={32} />
       </Empty>
     {/if}
-    <div class="prose sm px-4 dark:text-white max-w-screen-lg mx-auto">
+    <div class="prose sm px-4 text-ios-label max-w-screen-lg mx-auto">
       <SvelteMarkdown source={content} />
     </div>
   </div>
@@ -83,21 +84,21 @@
   .prose h5 {
     @apply leading-tight;
     @apply font-bold;
-    @apply dark:text-white;
+    @apply text-ios-label;
   }
   .prose code {
-    @apply dark:text-white font-mono;
-    @apply bg-gray-500 bg-opacity-20;
+    @apply text-ios-label font-mono;
+    @apply bg-ios-fill;
   }
   .prose p {
-    @apply dark:text-gray-200;
+    @apply text-ios-label;
   }
   .prose strong {
-    @apply dark:text-white font-bold;
+    @apply text-ios-label font-bold;
   }
   .prose img {
     @apply shadow-2xl;
     @apply rounded-lg;
-    @apply ring-2 ring-gray-400 ring-opacity-20;
+    @apply ring-2 ring-ios-separator ring-opacity-20;
   }
 </style>

@@ -1,6 +1,18 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
+  import {
+    HelpCircleOutline,
+    CopyOutline,
+    DocumentTextOutline,
+    ExtensionPuzzleOutline,
+    LocationOutline,
+    PricetagOutline,
+    FlaskOutline,
+    CubeOutline,
+  } from '../../components/icon/nicons'
+  import { ExperimentStore } from '../experiments/ExperimentStore'
   import { navigate } from '../../vendor/svelte-navigator'
 
   import SettingsTweakList from './settings-tweak-list.svelte'
@@ -46,6 +58,7 @@
 
   import AwardsPreviewList from '../awards/components/awards-preview-list.svelte'
   import { enabledBetaFeatures, Prefs } from '../preferences/Preferences'
+  import { FeatureVisible } from '../preferences/features'
   import { showImportModal } from '../import-export/ImporterStore'
   import { deleteEverything } from './settings-functions'
   // import Logo from '../../components/logo/logo.svelte'
@@ -60,10 +73,11 @@
   import { openPointersModal } from '../pointers/pointer-store'
   import PluginsMoreMenu from '../plugins/plugins-more-menu.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import ChevronUpOutline from '../../n-icons/ChevronUpOutline.svelte';
+  import ChevronUpOutline from '../../n-icons/ChevronUpOutline.svelte'
 
   import ChevronDownOutline from '../../n-icons/ChevronDownOutline.svelte'
   import { openLocationModal } from '../locations/LocationStore'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
 
   const location = undefined
   const style = undefined
@@ -78,8 +92,11 @@
   }
 
   const toggleshowplugins = () => {
-    if (showplugins) {showplugins = false}
-    else {showplugins = true}
+    if (showplugins) {
+      showplugins = false
+    } else {
+      showplugins = true
+    }
   }
 
   let methods = {
@@ -96,7 +113,7 @@
       })
       showToast({
         type: 'success',
-        message: '🎁  Secret Beta Features Unlocked',
+        message: Lang.t('settings.secret-beta-features-unlocked', '🎁 Secret Beta Features Unlocked'),
       })
     },
     locations() {
@@ -135,18 +152,24 @@
         >
           <IonIcon
             icon={$MessageStore.unseen ? MailUnreadOutline : MailOutline}
-            className={$MessageStore.unseen ? 'text-red-500 animate-pulse' : 'text-gray-500'}
+            className={$MessageStore.unseen ? 'text-ios-tint animate-pulse' : 'text-ios-label2'}
           />
         </Button> -->
 
         <!-- <Logo size={22} /> -->
 
+        <span
+          slot="left"
+          title="Daily Nomie 7"
+          class="rounded-full bg-ios-tint text-ios-ontint text-xs font-bold px-2 py-0.5 leading-none">v7</span
+        >
+
         <div slot="right">
           <!-- {#if !hasChatInstalled} -->
           <a
-            title="Find a bug? Want to provide feedback?"
-            href={`mailto:${config.support_email}?subject=Nomie ${AppVersion} `}
-            class="font-semibold text-black dark:text-white text-sm flex items-center space-x-2"
+            title={Lang.t('settings.find-a-bug-want-to-provide-feedback', 'Find a bug? Want to provide feedback?')}
+            href={`mailto:${config.support_email}?subject=Daily Nomie ${AppVersion} `}
+            class="font-semibold text-ios-label text-sm flex items-center space-x-2"
             target="_blank"
           >
             <span>{Lang.t('general.feedback', 'Feedback')}</span>
@@ -155,10 +178,12 @@
           <!-- {/if} -->
         </div>
       </ToolbarGrid>
+      <!-- iOS look (guide 5.11): large title "More" -->
+      <h1 class="text-ios-large font-bold text-ios-label px-4 mt-1">{Lang.t('settings.more', 'More')}</h1>
     </Container>
   </div>
 
-  <div slot="content" class="pt-2 z-10 relative  lg:px-4">
+  <div slot="content" class="pt-2 z-10 relative lg:px-4">
     <Container>
       {#if $Prefs}
         <div class="page page-settings">
@@ -169,7 +194,7 @@
               <div class="grid grid-cols-2 gap-2">
                 <Button
                   role="menuitem"
-                  className="dark:bg-gray-800 bg-gray-100 text-black dark:text-white"
+                  className="bg-ios-card text-ios-label"
                   title={`${Lang.t('settings.sign-in', 'Sign-In')}`}
                   on:click={() => {
                     openLoginModal()
@@ -179,7 +204,7 @@
                 >
                 <Button
                   role="menuitem"
-                  className="dark:bg-gray-800 bg-gray-100 text-black dark:text-white"
+                  className="bg-ios-card text-ios-label"
                   title={Lang.t('settings.export', 'Export')}
                   on:click={() => openRegisterModal()}
                 >
@@ -188,48 +213,114 @@
               </div>
             </ListItem> -->
 
-            <List solo outside>
+            <List solo outside title={Lang.t('settings.views', 'Views')}>
               <AwardsPreviewList />
-            </List>
 
-            <!-- Sign-in and Register Block  -->
-            <List solo className="mt-4">
-              <ListItem detail bottomLine={16} on:click={() => openPluginsModal()} title="Manage Plugins">
-                <span slot="left">🔌</span>
+              <ListItem
+                detail
+                bottomLine={57}
+                on:click={() => openLocationModal()}
+                title={Lang.t('settings.locations', 'Locations')}
+              >
+                <span slot="left"
+                  ><IconSquare color="#1F5E2C"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span
+                >
               </ListItem>
-              <ListItem clickable on:click={toggleshowplugins}>
-                <span slot="left">🔌</span>
-                <div slot="right">
-                  {#if showplugins}
-                    <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
-                  {:else}
-                  <span><IonIcon icon={ChevronDownOutline} size={16} /></span>
-                  {/if}
-                </div>
-                <div class="font-semibold leading-tight">Show Plugins</div>
-                <div class="text-xs text-gray-500 line-clamp-2 leading-tight mt-1">Click to show or hide the installed Plugins</div>
-              </ListItem>
-              {#if showplugins}
-              <PluginsMoreMenu />
+
+              {#if $FeatureVisible('pointers')}
+                <ListItem
+                  detail
+                  bottomLine={57}
+                  on:click={() => openPointersModal()}
+                  title={Lang.t('settings.pointers', 'Pointers')}
+                >
+                  <span slot="left" class="adv-corner"
+                    ><IconSquare color="#2A7338"><IonIcon icon={PricetagOutline} size={17} /></IconSquare><FeatureBadge
+                      feature="pointers"
+                    /></span
+                  >
+                </ListItem>
               {/if}
-            </List>
 
-            <List solo className="mt-4">
-              <ListItem detail bottomLine={16} on:click={() => openLocationModal()} title="Locations">
-                <span slot="left">📍</span>
+              <ListItem
+                detail
+                bottomLine={57}
+                on:click={() => openTemplateManager()}
+                title={Lang.t('settings.templates', 'Templates')}
+              >
+                <span slot="left"
+                  ><IconSquare color="#35853F"><IonIcon icon={CopyOutline} size={17} /></IconSquare></span
+                >
               </ListItem>
-            </List>
-            
-            <List solo className="mt-4">
-              <ListItem detail bottomLine={16} on:click={() => openPointersModal()} title="Pointers">
-                <span slot="left">🏷</span>
-              </ListItem>
-              </List>
 
-            <List solo className="mt-4">
-              <ListItem detail bottomLine={16} on:click={() => openTemplateManager()} title="Templates">
-                <span slot="left">🏭</span>
+              {#if $FeatureVisible('uoms')}
+                <ListItem
+                  detail
+                  bottomLine={57}
+                  on:click={() => navigate('/uoms')}
+                  title={Lang.t('settings.units-of-measure', 'Units of Measure')}
+                  description={Lang.t('settings.what-a-tracker-can-count-in', 'What a tracker can count in')}
+                >
+                  <span slot="left" class="adv-corner"
+                    ><IconSquare color="#43984E"><IonIcon icon={CubeOutline} size={17} /></IconSquare><FeatureBadge
+                      feature="uoms"
+                    /></span
+                  >
+                </ListItem>
+              {/if}
+
+              <ListItem
+                detail
+                bottomLine={57}
+                on:click={() => navigate('/experiments')}
+                title={Lang.t('settings.experiments', 'Experiments')}
+                description={Lang.t('settings.running-count', {
+                  num: $ExperimentStore.filter((e: any) => e.status === 'running').length,
+                })}
+              >
+                <span slot="left"
+                  ><IconSquare color="#5DAE62"><IonIcon icon={FlaskOutline} size={17} /></IconSquare></span
+                >
               </ListItem>
+
+              {#if $FeatureVisible('plugins')}
+                <ListItem
+                  detail
+                  bottomLine={57}
+                  on:click={() => openPluginsModal()}
+                  title={Lang.t('settings.manage-plugins', 'Manage Plugins')}
+                >
+                  <span slot="left" class="adv-corner"
+                    ><IconSquare color="#7BC17F"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
+                    ><FeatureBadge feature="plugins" /></span
+                  >
+                </ListItem>
+                <ListItem
+                  clickable
+                  bottomLine={showplugins ? 57 : undefined}
+                  title={Lang.t('settings.show-plugins', 'Show Plugins')}
+                  description={Lang.t(
+                    'settings.click-to-show-or-hide-the-installed-plugins',
+                    'Click to show or hide the installed Plugins'
+                  )}
+                  on:click={toggleshowplugins}
+                >
+                  <span slot="left" class="adv-corner"
+                    ><IconSquare color="#9AD39D"><IonIcon icon={ExtensionPuzzleOutline} size={17} /></IconSquare
+                    ><FeatureBadge feature="plugins" /></span
+                  >
+                  <div slot="right">
+                    {#if showplugins}
+                      <span><IonIcon icon={ChevronUpOutline} size={16} /></span>
+                    {:else}
+                      <span><IonIcon icon={ChevronDownOutline} size={16} /></span>
+                    {/if}
+                  </div>
+                </ListItem>
+                {#if showplugins}
+                  <PluginsMoreMenu />
+                {/if}
+              {/if}
             </List>
 
             <!-- <List solo className="mt-4">
@@ -244,7 +335,10 @@
               </ListItem>
             </List> -->
 
-            <SettingsAIList />
+            {#if $FeatureVisible('ai')}
+              <!-- guardrail-ok: UI-11 the crown is drawn by SettingsAIList (FeatureBadge feature="ai") -->
+              <SettingsAIList />
+            {/if}
 
             <div id="data-marker" />
             <SettingsDataList
@@ -258,29 +352,15 @@
 
             <!-- END Views -->
 
-            <List solo className="mt-4">
-              <ListItem title={Lang.t('general.questions', 'Questions')} detail>
-                <span slot="left">🆘</span>
-                <div slot="right">
-                  <a href={`mailto:${config.support_email}?subject=Nomie ${AppVersion} `}>
-                    <Badge pad className="bg-gray-300 text-black">Email</Badge>
-                  </a>
-                </div>
-              </ListItem>
-            </List>
-
             <div id="about-marker" />
             <SettingsAboutList />
 
             <Spacer gap={1} />
 
-            <button class="w-full px-4 mt-4 mb-3 text-sm text-center " on:click={specialTap}>
-              <div class="text-sm text-black dark:text-white">
-                Version v{import.meta.env.PACKAGE_VERSION}
-              </div>
-              <div class="text-xs text-gray-800 dark:text-gray-500">
-                <strong>DailyNomie</strong>; Copyright 2014 - {dayjs().format('YYYY')}
-              </div>
+            <!-- iOS look: footer, centred, 13 px secondary, 24 px above -->
+            <button class="w-full px-4 mt-6 mb-3 text-center text-ios-footnote text-ios-label2" on:click={specialTap}>
+              <div>Daily Nomie {import.meta.env.PACKAGE_VERSION}</div>
+              <div>{Lang.t('settings.copyright', { year: dayjs().format('YYYY') })}</div>
             </button>
           </div>
           <!-- end container -->
@@ -289,7 +369,7 @@
 
       <List solo className="mb-3" outside title={Lang.t('settings.danger-zone', 'Danger Zone')}>
         <ListItem detail on:click={deleteEverything} clickable>
-          <Text className="text-red">
+          <Text className="text-ios-danger">
             {Lang.t('settings.destroy-all-data', 'Destroy all Data')}
           </Text>
         </ListItem>
@@ -320,7 +400,7 @@
     flex-direction: row !important;
     align-items: center;
     background: transparent !important;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     box-shadow: none !important;
     flex-wrap: nowrap;
     border-radius: 9900px;

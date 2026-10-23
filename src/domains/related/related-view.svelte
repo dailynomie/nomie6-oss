@@ -19,18 +19,14 @@
 
   import ProgressBar from '../../components/progress-bar/progress-bar.svelte'
 
-  
-
   import UsageChart from '../usage/usage-chart.svelte'
-  
 
   import Spinner from '../../components/spinner/spinner.svelte'
-
-
 
   import RelatedWorker from './related-worker?worker'
   import { BarChartOutline } from '../../components/icon/nicons'
   import BarChartSolid from '../../n-icons/BarChartSolid.svelte'
+  import { Lang } from '../../store/lang'
 
   const { className, style, trackable } = $props()
 
@@ -41,12 +37,14 @@
 
   let mounted = $state(false)
   let loading = $state(false)
-  let results = $state<Array<{
-    trackable: Trackable
-    score: number
-    percent: number
-    usage: TrackableUsage
-  }>>([])
+  let results = $state<
+    Array<{
+      trackable: Trackable
+      score: number
+      percent: number
+      usage: TrackableUsage
+    }>
+  >([])
 
   let lastTrackable = $state<Trackable>(undefined)
   let selfUsage = $state<TrackableUsage>(undefined) // this gets normalized
@@ -88,7 +86,6 @@
    * devices
    */
   const scoresToResults = (scores) => {
-    
     // Get the Max from all the Scores
     const scoresArray = Object.keys(scores).map((d) => scores[d].score)
     let max = math.max(scoresArray)
@@ -131,7 +128,6 @@
         // }
         // return true
       })
-    
   }
 
   let usages = $state<TrackableUsageMap>(undefined)
@@ -298,10 +294,7 @@
 </script>
 
 {#key usagesForChart}
-  <div
-    class="chart sticky dark:bg-gray-900 bg-gray-100 top-0  pb-2 flex items-center justify-center w-full"
-    style="min-height:180px;"
-  >
+  <div class="chart sticky bg-ios-bg top-0 pb-2 flex items-center justify-center w-full" style="min-height:180px;">
     {#if !chartLoading}
       <UsageChart className="w-full h-32" hideValues id="related-chart" usages={usagesForChart} isstatsview={true} />
     {:else}
@@ -312,11 +305,14 @@
 
 <div class="compare-view px-2 pt-2 {className}" {style}>
   {#if loading}
-    <div class="p-4 text-center text-gray-500 flex items-center space-x-2">
+    <div class="p-4 text-center text-ios-label2 flex items-center space-x-2">
       <Spinner size={26} />
       <span
-        >Comparing {Math.abs(results?.length || 0 - Object.keys(usages || {}).length)} of {Object.keys(usages || {})
-          .length} ...</span
+        >{Lang.t('related.comparing', {
+          // compared so far, starting at 0 (D17: the count was briefly the total when nothing was compared)
+          num: results?.length || 0,
+          total: Object.keys(usages || {}).length,
+        })}</span
       >
     </div>
   {/if}
@@ -337,12 +333,13 @@
       >
         <div class="flex items-center justify-center mb-1 w-full">
           <TrackableAvatar trackable={trackableRes.trackable} size={20} />
-          <span class="ml-2 w-full line-clamp-1 text-xs font-semibold text-black dark:text-white">{trackableRes.trackable.tag}</span>
+          <span class="ml-2 w-full line-clamp-1 text-xs font-semibold text-ios-label">{trackableRes.trackable.tag}</span
+          >
           <div class="filler" />
-          <span class="text-gray-500 text-sm">{(trackableRes.score * 100).toFixed(1)}</span>
+          <span class="text-ios-label2 text-sm">{(trackableRes.score * 100).toFixed(1)}</span>
         </div>
         <ProgressBar
-          className="w-full h-2 dark:bg-gray-900 bg-gray-200"
+          className="w-full h-2 bg-ios-fill"
           barClass="mx-auto"
           percentage={trackableRes.percent}
           color={trackableRes.score > 0 ? 'green' : 'red'}
@@ -351,11 +348,11 @@
       {#key usagesForChart}
         <button class="" on:click={() => toggleChartItem(trackableRes)}>
           {#if usagesForChart.find((tu) => tu.trackable.tag === trackableRes.trackable.tag) ? true : false}
-            <span class="text-primary-500 fill-current">
+            <span class="text-ios-tint fill-current">
               <BarChartSolid />
             </span>
           {:else}
-            <span class="text-gray-500 dark:text-gray-500 fill-current">
+            <span class="text-ios-label2 fill-current">
               <BarChartOutline />
             </span>
           {/if}

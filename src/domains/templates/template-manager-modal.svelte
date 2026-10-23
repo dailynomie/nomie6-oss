@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import { openTemplateEditor, openTemplateRef, TemplateStore } from './templates-svelte-helpers'
+  import { Interact } from '../../store/interact'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import Button from '../../components/button/button.svelte'
   import List from '../../components/list/list.svelte'
@@ -18,8 +19,9 @@
 
   import Toolbar from '../../components/toolbar/toolbar.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
-import TemplateEditorList from './template-editor-list.svelte'
-import AvailableTemplatesList from './available-templates-list.svelte'
+  import TemplateEditorList from './template-editor-list.svelte'
+  import AvailableTemplatesList from './available-templates-list.svelte'
+  import { Lang } from '../../store/lang'
 
   let view = $state<'templates' | 'mine'>('templates')
   let fileInput: HTMLInputElement
@@ -58,31 +60,34 @@ import AvailableTemplatesList from './available-templates-list.svelte'
       target.value = '' // Reset file input
     } catch (error) {
       console.error('Failed to upload template:', error)
-      alert('Failed to upload template. Please ensure it\'s a valid template JSON file.')
+      Interact.alert(
+        Lang.t('templates.upload-failed', 'Upload failed'),
+        "Please ensure it's a valid template JSON file."
+      )
     }
   }
-
-
 </script>
 
-<BackdropModal className="h-full" mainClass="bg-gray-100 dark:bg-gray-800">
+<BackdropModal className="h-full" mainClass="bg-ios-bg">
   <header slot="header">
     <ToolbarGrid>
-      <Button slot="left" primary clear on:click={() => closeTemplateManager()}>Close</Button>
-      <Title>Templates</Title>
+      <Button slot="right" primary clear on:click={() => closeTemplateManager()}
+        >{Lang.t('templates.done', 'Done')}</Button
+      >
+      <Title>{Lang.t('templates.templates', 'Templates')}</Title>
     </ToolbarGrid>
     <Toolbar>
       <ButtonGroup
         buttons={[
           {
-            label: 'Available',
+            label: Lang.t('templates.available', 'Available'),
             active: view == 'templates',
             click() {
               view = 'templates'
             },
           },
           {
-            label: 'Build',
+            label: Lang.t('templates.build', 'Build'),
             active: view == 'mine',
             click() {
               view = 'mine'
@@ -97,13 +102,15 @@ import AvailableTemplatesList from './available-templates-list.svelte'
       <List solo>
         {#if !$TemplateStore.length}
           <Empty
-            title="No custom templates found"
-            buttonLabel="Create a Custom Template"
+            title={Lang.t('templates.no-custom-templates-found', 'No custom templates found')}
+            buttonLabel={Lang.t('templates.create-a-custom-template', 'Create a Custom Template')}
             buttonClick={() => newTemplate()}
           />
           <div class="py-4 px-4 text-center">
-            <p class="text-gray-500 text-sm mb-2">Or</p>
-            <button class="text-primary py-2 px-4" on:click={() => uploadTemplate()}> Upload Template </button>
+            <p class="text-ios-label2 text-sm mb-2">{Lang.t('templates.or-2', 'Or')}</p>
+            <button class="text-ios-tint py-2 px-4" on:click={() => uploadTemplate()}>
+              {Lang.t('templates.upload-template', 'Upload Template')}
+            </button>
           </div>
         {:else}
           <TemplateEditorList />
@@ -111,27 +118,30 @@ import AvailableTemplatesList from './available-templates-list.svelte'
       </List>
 
       {#if $TemplateStore.length}
-      <div class="py-2 px-4 flex justify-center gap-4">
-        <button class="text-primary py-2 px-4" on:click={() => newTemplate()}> Create Template </button>
-        <button class="text-primary py-2 px-4" on:click={() => uploadTemplate()}> Upload Template </button>
-      </div>
+        <div class="py-2 px-4 flex justify-center gap-4">
+          <button class="text-ios-tint py-2 px-4" on:click={() => newTemplate()}>
+            {Lang.t('templates.create-template', 'Create Template')}
+          </button>
+          <button class="text-ios-tint py-2 px-4" on:click={() => uploadTemplate()}>
+            {Lang.t('templates.upload-template', 'Upload Template')}
+          </button>
+        </div>
       {/if}
-      <input
-        bind:this={fileInput}
-        type="file"
-        accept=".json"
-        style="display: none"
-        on:change={handleFileUpload}
-      />
-      
+      <input bind:this={fileInput} type="file" accept=".json" style="display: none" on:change={handleFileUpload} />
+
       <div class="px-4 py-4 text-center note-muted">
-        Build a custom Nomie Configuration that can be downloaded and shared with others
+        {Lang.t(
+          'templates.build-a-custom-nomie-configuration-that-can-be-d',
+          'Build a custom Nomie Configuration that can be downloaded and shared with others'
+        )}
       </div>
     {:else}
       <List solo>
         <AvailableTemplatesList />
       </List>
-      <div class="px-4 py-4 text-center note-muted">Use templates to quickly setup Nomie.</div>
+      <div class="px-4 py-4 text-center note-muted">
+        {Lang.t('templates.use-templates-to-quickly-setup-nomie', 'Use templates to quickly setup Nomie.')}
+      </div>
     {/if}
   </main>
 </BackdropModal>

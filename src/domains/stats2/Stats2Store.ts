@@ -4,7 +4,6 @@ import type { Dayjs } from 'dayjs'
 import type { ITrackables } from '../trackable/trackable-utils'
 import { LedgerStore } from '../ledger/LedgerStore'
 import type NLog from '../nomie-log/nomie-log'
-import Stats2Modal from './stats2-modal.svelte'
 import type { Stats2TimeSpanType } from './stats2-time-formats'
 import type { Trackable } from '../trackable/Trackable.class'
 import type { TrackableUsage } from '../usage/trackable-usage.class'
@@ -150,6 +149,8 @@ export const initStatsStore = async (trackable: Trackable, options: OpenStatsOpt
     return s
   })
   const dateRange = getDateRange(state.endDate, state.time)
+  // the stats screen, with its chart library, loads when it opens
+  const { default: Stats2Modal } = await import('./stats2-modal.svelte')
   openModal({
     id: textToId(`stats-${md5(trackable.tag)}`),
     component: Stats2Modal,
@@ -163,7 +164,7 @@ export const initStatsStore = async (trackable: Trackable, options: OpenStatsOpt
 export const getDateRange = (endDate: Date, timespan: Stats2TimeSpanType): { start: Dayjs; end: Dayjs } => {
   const end = dayjs(endDate)
   let start: Dayjs
-  
+
   if (timespan === 'd') {
     start = end.subtract(1, 'day')
   } else if (timespan === 'w') {

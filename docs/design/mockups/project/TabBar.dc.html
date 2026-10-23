@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tab bar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<nav aria-label="Main" style="width: 390px; height: 83px; position: relative; box-sizing: border-box; padding-top: 7px; background: {{t.bar}}; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 0.5px solid {{t.barBorder}}; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 76px minmax(0, 1fr) minmax(0, 1fr); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; color: {{t.sec}}">
+  <a href="Timeline.dc.html" aria-current="{{cur.timeline}}" style="display: flex; flex-direction: column; align-items: center; gap: 3px; color: {{col.timeline}}; height: 49px; text-decoration: none">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"></path><circle cx="4.5" cy="6" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="12" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="18" r="1.3" fill="currentColor"></circle></svg>
+    <span style="font-size: 10px; font-weight: {{wt.timeline}}">Timeline</span>
+  </a>
+  <a href="Dashboard.dc.html" aria-current="{{cur.dashboard}}" style="display: flex; flex-direction: column; align-items: center; gap: 3px; color: {{col.dashboard}}; height: 49px; text-decoration: none">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="9" rx="2"></rect><rect x="13.5" y="3.5" width="7" height="5" rx="2"></rect><rect x="13.5" y="11.5" width="7" height="9" rx="2"></rect><rect x="3.5" y="15.5" width="7" height="5" rx="2"></rect></svg>
+    <span style="font-size: 10px; font-weight: {{wt.dashboard}}">Dash</span>
+  </a>
+  <div style="position: relative; display: flex; justify-content: center; align-items: flex-start">
+    <sc-if value="{{hint}}" hint-placeholder-val="{{ false }}">
+      <span role="note" style="position: absolute; top: -62px; left: 50%; transform: translateX(-50%); padding: 5px 12px; border-radius: 14px; background: {{t.hintBg}}; color: {{t.hintFg}}; font-size: 12px; font-weight: 600; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.25)">Tap for more</span>
+    </sc-if>
+    <a href="RadialOpen.dc.html" aria-label="Actions" style="margin-top: -20px; width: 58px; height: 58px; border-radius: 29px; background: {{t.tint}}; color: {{t.onTint}}; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px {{t.hubShadow}}; border: 3px solid {{t.ring}}; box-sizing: border-box">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+    </a>
+  </div>
+  <a href="Main.dc.html" aria-current="{{cur.track}}" style="display: flex; flex-direction: column; align-items: center; gap: 3px; color: {{col.track}}; height: 49px; text-decoration: none">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2.2"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="2.2"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="2.2"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="2.2"></rect></svg>
+    <span style="font-size: 10px; font-weight: {{wt.track}}">Track</span>
+  </a>
+  <a href="Settings.dc.html" aria-current="{{cur.more}}" style="display: flex; flex-direction: column; align-items: center; gap: 3px; color: {{col.more}}; height: 49px; text-decoration: none">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.9"></circle><circle cx="12" cy="12" r="1.9"></circle><circle cx="19" cy="12" r="1.9"></circle></svg>
+    <span style="font-size: 10px; font-weight: {{wt.more}}">More</span>
+  </a>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["timeline","dashboard","track","more","none"],"default":"track"},"dark":{"editor":"boolean","default":false},"hint":{"editor":"boolean","default":false},"$preview":{"width":390,"height":83}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const active = this.props.active ?? 'track';
+    const light = { sec: '#6C6C70', tint: '#0A6CC9', onTint: '#FFFFFF', ring: '#F9F9F9', hubShadow: 'rgba(10,108,201,0.35)', hintBg: '#1C1C1E', hintFg: '#FFFFFF', bar: 'rgba(249,249,249,0.92)', barBorder: 'rgba(0,0,0,0.2)' };
+    const night = { sec: '#AEAEB2', tint: '#4DB3FF', onTint: '#000000', ring: '#161618', hubShadow: 'rgba(77,179,255,0.3)', hintBg: '#F2F2F7', hintFg: '#000000', bar: 'rgba(22,22,24,0.92)', barBorder: 'rgba(255,255,255,0.16)' };
+    const t = dark ? night : light;
+    const tabs = ['timeline', 'dashboard', 'track', 'more'];
+    const col = {}, wt = {}, cur = {};
+    tabs.forEach((id) => {
+      col[id] = id === active ? t.tint : t.sec;
+      wt[id] = id === active ? '600' : '500';
+      cur[id] = id === active ? 'page' : 'false';
+    });
+    return { t, col, wt, cur, hint: this.props.hint ?? false };
+  }
+}
+</script>
+</body>
+</html>

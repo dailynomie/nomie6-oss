@@ -13,14 +13,13 @@
   import { Interact } from '../../store/interact'
   import { Lang } from '../../store/lang'
 
-  import {  showLogTrackablePopmenu, showTrackablePopmenu } from '../board/boardActions'
+  import { showLogTrackablePopmenu, showTrackablePopmenu } from '../board/boardActions'
 
   import { getDateFormats } from '../preferences/Preferences'
   import { trackOnThisDay } from '../steak/StreakStore'
   import TrackablePill from '../trackable/trackable-pill.svelte'
 
   import { TrackableStore } from '../trackable/TrackableStore'
-  
 
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
@@ -32,7 +31,7 @@
 
   import Panel from '../../components/panel/panel.svelte'
   import ListItemLog from '../../components/list-item-log/list-item-log.svelte'
-import ListItemSingleTrackable from '../../components/list-item-log/list-item-single-trackable.svelte';
+  import ListItemSingleTrackable from '../../components/list-item-log/list-item-single-trackable.svelte'
 
   let starterDate = $state<Date>(undefined)
   let activeDate = $state<Dayjs>(undefined)
@@ -63,7 +62,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
         }
       }
     } else {
-      const confirmed = await Interact.confirm('Track on this Day?')
+      const confirmed = await Interact.confirm(Lang.t('calendar.track-on-this-day', 'Track on this Day?'))
       if (confirmed) {
         loading = true
         await trackOnThisDay(trackableUsage.trackable, date, $TrackableStore.trackables)
@@ -80,26 +79,26 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
 <BackdropModal className="calendar-view-modal">
   <Panel absolute className="overflow-hidden " mainClass="flex flex-col">
     <ToolbarGrid slot="header">
-      <Button slot="left" clear primary on:click={close}>{Lang.t('general.close', 'Close')}</Button>
-      <div class=" flex items-center space-x-2">
-        <h1 class="ntitle">
-          {starterDate
-            ? `${activeDate ? dayjs(activeDate).format(dateFormats.mmm_d_yyyy) : dayjs(starterDate).format('MMM YYYY')}`
-            : 'Loading...'}
-        </h1>
-      </div>
       <TrackablePill
         on:click={() => showTrackablePopmenu(props.trackable)}
         transparent
-        slot="right"
+        slot="left"
         className="rounded-full flex-row-reverse"
         trackable={props.trackable}
         hideValue
         size={32}
       />
+      <div class=" flex items-center space-x-2">
+        <h1 class="ntitle">
+          {starterDate
+            ? `${activeDate ? dayjs(activeDate).format(dateFormats.mmm_d_yyyy) : dayjs(starterDate).format('MMM YYYY')}`
+            : Lang.t('calendar.loading', 'Loading...')}
+        </h1>
+      </div>
+      <Button slot="right" clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
 
-    <Panel className="bg-gray-100 rounded-none dark:bg-gray-900 stiff shadow-2xl z-30 overflow-hidden">
+    <Panel className="bg-ios-bg rounded-none stiff shadow-2xl z-30 overflow-hidden">
       <TrackableUsageCalendar
         on:input={(evt) => {
           activeDate = dayjs(evt.detail)
@@ -117,14 +116,14 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
       />
     </Panel>
 
-    <section id="calendar-view-list" class="flex flex-col h-auto overflow-y-auto  bg-white dark:bg-black">
+    <section id="calendar-view-list" class="flex flex-col h-auto overflow-y-auto bg-ios-card">
       <!-- <div class="bg-transparent grid grid-cols-2 px-4 mt-2 rounded-md h-auto mb-2">
         {#if lastUsageData?.streak}
           <ListItem className="">
             <div class="font-bold text-center">
               {lastUsageData.streak.v}
               {lastUsageData.streak.v <= 1 ? Lang.t('general.days', 'day') : Lang.t('general.days', 'days')}
-              <span class="text-xs text-center text-gray-500">Current</span>
+              <span class="text-xs text-center text-ios-label2">Current</span>
             </div>
             <div class="text-xs opacity-60 py-1 text-center line-clamp-1 whitespace-nowrap">
               {dayjs(lastUsageData.last.d).subtract(lastUsageData.streak.v, 'day').format(dateFormats.shortDate)}
@@ -144,7 +143,7 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
             <div class="font-bold text-center leading-none">
               {lastUsageData.longest.v}
               {lastUsageData.longest.v <= 1 ? Lang.t('general.days', 'day') : Lang.t('general.days', 'days')}
-              <span class="text-xs text-center text-gray-500">Longest</span>
+              <span class="text-xs text-center text-ios-label2">Longest</span>
             </div>
 
             <div class="text-xs opacity-60 py-1 text-center line-clamp-1 whitespace-nowrap">
@@ -159,12 +158,13 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
       <Divider left={1} className="opacity-50" />
 
       {#if trackableUsage}
-        <div class="px-2 pt-2 lg:px-4 bg-gray-300 dark:bg-gray-800">
+        <div class="px-2 pt-2 lg:px-4 bg-ios-bg">
           {#if !trackableUsage.logs.length}
-            <div class="text-center p-10 text-gray-500">
-              No {trackableUsage.trackable.label} data for {dayjs(activeDate || starterDate).format(
-                dateFormats.mmm_d_yyyy
-              )}
+            <div class="text-center p-10 text-ios-label2">
+              {Lang.t('calendar.no-data-for', {
+                label: trackableUsage.trackable.label,
+                date: dayjs(activeDate || starterDate).format(dateFormats.mmm_d_yyyy),
+              })}
             </div>
           {/if}
           <!-- {#each trackableUsage.logs as log, index (index)}
@@ -183,11 +183,11 @@ import ListItemSingleTrackable from '../../components/list-item-log/list-item-si
           {/each}
         </div>
       {:else}
-        <Empty className="text-gray-500">
+        <Empty className="text-ios-label2">
           {#if loading}
-            Getting Data...
+            {Lang.t('calendar.getting-data', 'Getting Data...')}
           {:else}
-            No Data
+            {Lang.t('calendar.no-data', 'No Data')}
           {/if}
         </Empty>
       {/if}

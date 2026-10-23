@@ -3,7 +3,6 @@ import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import { Template } from './templates-utils'
 import { Trackable } from '../trackable/Trackable.class'
-import TemplateEditorModal from './template-editor-modal.svelte'
 import TemplateManagerModal from './template-manager-modal.svelte'
 import { Interact } from '../../store/interact'
 import { TemplateToImport } from '../storage/storage-export.helper'
@@ -17,14 +16,16 @@ import { initUniboardStore } from '../board/UniboardStore'
 import { LocationStore } from '../locations/LocationStore'
 import { GoalStore } from '../goals/GoalStore'
 import { PivotStore } from '../analytics/PivotStore'
+import { ExperimentStore } from '../experiments/ExperimentStore'
 import { PluginStore } from '../plugins/PluginStore'
 import is from '../../utils/is/is'
 import { navigate } from '../../vendor/svelte-navigator'
+import { Lang } from '../../store/lang'
 
 /* Creating a store for the templates. */
 export const TemplateStore = createArrayStore(NPaths.storage.templates(), {
   key: 'id',
-  label: 'Template',
+  label: Lang.t('templates.template', 'Template'),
   itemInitializer: (item) => {
     return new Template(item)
   },
@@ -61,11 +62,17 @@ export const closeTemplateManager = () => {
 /**
  * It prompts the user for a URL, then opens the template at that URL
  */
-export const openExternalTemplate = async (_url?:string) => {
+export const openExternalTemplate = async (_url?: string) => {
   try {
-    const url = _url || await Interact.prompt('Template URL', 'Full url to the template', {
-      placeholder: `https://url-to-template`,
-    })
+    const url =
+      _url ||
+      (await Interact.prompt(
+        Lang.t('templates.template-url', 'Template URL'),
+        Lang.t('templates.full-url-to-the-template', 'Full url to the template'),
+        {
+          placeholder: `https://url-to-template`,
+        }
+      ))
     if (`${url || ''}`.length) {
       if (is.url(url)) {
         openTemplateRef(url)
@@ -90,9 +97,7 @@ export const openTemplateRef = async (url: string) => {
     if (payload && payload.type == 'template') {
       // Convert trackables to Trackable instances for proper reactivity
       if (payload.trackables && Array.isArray(payload.trackables)) {
-        payload.trackables = payload.trackables.map((t: any) =>
-          t instanceof Trackable ? t : new Trackable(t)
-        )
+        payload.trackables = payload.trackables.map((t: any) => (t instanceof Trackable ? t : new Trackable(t)))
       }
       const template = new Template(payload)
       return openTemplatePreview(template)
@@ -121,7 +126,9 @@ export const openTemplatePreview = (template?: Template | undefined) => {
 /**
  * It opens a modal with the id `template-editor` and the component `TemplateEditorModal`
  */
-export const openTemplateEditor = (template?: Template | undefined) => {
+export const openTemplateEditor = async (template?: Template | undefined) => {
+  // the editor loads when it opens
+  const { default: TemplateEditorModal } = await import('./template-editor-modal.svelte')
   openModal({
     id: 'template-editor',
     component: TemplateEditorModal,
@@ -145,24 +152,28 @@ export const closeTemplateEditor = () => {
  * @param {string} closeModalId - Optional modal ID to close after import (defaults to 'template-preview')
  */
 export const useTemplate = async (template: Template, closeModalId: string = 'template-preview') => {
-  const confirmed = await Interact.confirm(`Install the ${template.name} template?`)
+  const confirmed = await Interact.confirm(Lang.t('templates.install-template-question', { name: template.name }))
   if (confirmed) {
     const backup: any = TemplateToImport(template, getRawPrefs().useMetric)
     const installed = await importStorageArchive(backup, { silent: true, addMissingOnly: true })
     if (!installed) {
-      await Interact.alert(`${template.name} could not be fully installed`, 'Some items could not be saved. Check the console for details.')
+      await Interact.alert(
+        `${template.name} could not be fully installed`,
+        'Some items could not be saved. Check the console for details.'
+      )
       return
     }
-    showToast({ message: `${template.name} installed` })
+    showToast({ message: Lang.t('templates.name-installed', { name: template.name }) })
     closeModal(closeModalId)
 
     // Reinitialize all stores to load newly imported data
-    let trackables = await InitTrackableStore();
-    initializeDashStore();
-    initUniboardStore(trackables);
-    LocationStore.init();
-    GoalStore.init();
-    PivotStore.init();
-    PluginStore.init();
+    let trackables = await InitTrackableStore()
+    initializeDashStore()
+    initUniboardStore(trackables)
+    LocationStore.init()
+    GoalStore.init()
+    PivotStore.init()
+    ExperimentStore.init()
+    PluginStore.init()
   }
 }

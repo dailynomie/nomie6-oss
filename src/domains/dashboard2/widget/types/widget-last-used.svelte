@@ -11,6 +11,7 @@
 
   import { getDateFormats } from '../../../preferences/Preferences'
   import { UsageStore } from '../../../usage/UsageStore'
+  import { Lang } from '../../../../store/lang'
 
   const { widget = $bindable(), trackable = $bindable(), usage = $bindable() } = $props()
 
@@ -34,17 +35,17 @@
   <div class="value last-used h-full flex flex-col items-center justify-center space-y-2">
     <div class="current">
       {#if lastUsedDate}
-        <div class="mb-1 dark:text-white break-words leading-tight px-2 text-center">
+        <div class="mb-1 text-ios-label break-words leading-tight px-2 text-center">
           <div class="text-2xl font-bold text-solid ml-1">
             {trackable.formatValue(lastUsedValue)}
           </div>
           <div class="text-base line-clamp-1 font-medium">{dayjs(lastUsedDate).fromNow()}</div>
         </div>
-        <div class="text-xs font-normal leading-tight text-gray-500">
+        <div class="text-xs font-normal leading-tight text-ios-label2">
           {dayjs(lastUsedDate).format(`${dateFormat.mmm_d_yyyy} ${dateFormat.time} `)}
         </div>
       {:else}
-        <div>Unknown</div>
+        <div>{Lang.t('dashboard.unknown', 'Unknown')}</div>
       {/if}
     </div>
   </div>

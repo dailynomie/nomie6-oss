@@ -1,6 +1,6 @@
 <svg viewBox="0 0 680 270" xmlns="http://www.w3.org/2000/svg"
      width="680" height="270"
-     role="img" aria-label="Nomie AI Edition">
+     role="img" aria-label="Daily Nomie 7">
   <defs>
     <radialGradient id="ns-sclera" cx="50%" cy="46%" r="52%">
       <stop offset="0%"   stop-color="#ffffff"/>
@@ -37,39 +37,6 @@
   <rect x="100" y="172" width="480" height="82" rx="41"
         fill="#0a2d5a" fill-opacity="0.35"/>
 
-  <!-- A — baseline at 235, vertically centred in pill -->
-  <text x="162" y="235" text-anchor="start" class="nomie-text" font-size="62"
-        filter="url(#txt-shadow)">A</text>
-
-  <!-- Eye centre at y=213 (pill vertical centre) -->
-  <g transform="translate(251, 213)" filter="url(#ns-glow)">
-    <circle fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5">
-      <animate attributeName="r" values="30;60" dur="2.6s" repeatCount="indefinite"/>
-      <animate attributeName="stroke-opacity" values="0.65;0" dur="2.6s" repeatCount="indefinite"/>
-    </circle>
-    <circle fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5">
-      <animate attributeName="r" values="30;60" dur="2.6s" begin="0.87s" repeatCount="indefinite"/>
-      <animate attributeName="stroke-opacity" values="0.65;0" dur="2.6s" begin="0.87s" repeatCount="indefinite"/>
-    </circle>
-    <circle fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5">
-      <animate attributeName="r" values="30;60" dur="2.6s" begin="1.74s" repeatCount="indefinite"/>
-      <animate attributeName="stroke-opacity" values="0.65;0" dur="2.6s" begin="1.74s" repeatCount="indefinite"/>
-    </circle>
-    <path d="M0,-14 C14,-14 29,-5 32,0 C29,5 14,14 0,14 C-14,14 -29,5 -32,0 C-29,-5 -14,-14 0,-14Z"
-          fill="url(#ns-sclera)"/>
-    <path d="M0,-14 C14,-14 29,-5 32,0"
-          stroke="#0a2d5a" stroke-opacity="0.25" stroke-width="4"
-          fill="none" stroke-linecap="round"/>
-    <circle cx="0" cy="0" r="9.2"  fill="url(#ns-iris)"/>
-    <circle cx="0" cy="0" r="5.2"  fill="url(#ns-pupil)"/>
-    <circle cx="-3" cy="-3" r="1.8" fill="rgba(255,255,255,0.95)"/>
-    <circle cx="3"  cy="2"  r="0.8" fill="rgba(255,255,255,0.5)"/>
-    <path d="M0,-14 C14,-14 29,-5 32,0 C29,5 14,14 0,14 C-14,14 -29,5 -32,0 C-29,-5 -14,-14 0,-14Z"
-          fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="0.8"/>
-  </g>
-
-  <!-- Edition — same baseline 235 -->
-  <text x="295" y="235" text-anchor="start" class="nomie-text" font-size="62"
-        filter="url(#txt-shadow)">Edition</text>
+  <text x="340" y="235" text-anchor="middle" class="nomie-text" font-size="50" filter="url(#txt-shadow)">Daily Nomie 7</text>
 
 </svg>

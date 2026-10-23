@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   const { steps, current, dark, stepClass, single, style } = $props()
 
   let _steps = $derived.by(() => {
@@ -44,7 +43,7 @@
     border-radius: 4px;
   }
   .n-stepper .step.primary-bright {
-    @apply border border-primary-500;
+    @apply border border-ios-tint;
   }
   .n-stepper .step.active {
     background-color: var(--color-translucent);
@@ -52,10 +51,10 @@
     height: 8px;
   }
   .n-stepper .step.active.primary-bright {
-    @apply bg-primary;
+    @apply bg-ios-tint;
   }
   .n-stepper.dark .step {
-    @apply bg-primary;
+    @apply bg-ios-tint;
     opacity: 0.2;
   }
   .n-stepper.dark .step.active {

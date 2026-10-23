@@ -19,13 +19,10 @@
   import TrackerClass from '../../modules/tracker/TrackerClass'
   import AppsOutline from '../../n-icons/AppsOutline.svelte'
 
-  import CloseOutline from '../../n-icons/CloseOutline.svelte'
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
 
   import PulseOutline from '../../n-icons/PulseOutline.svelte'
   import SearchIcon from '../../n-icons/SearchIcon.svelte'
-
-  import { SearchStore } from './search-store'
 
   import { addNewPerson, showTrackablePopmenu } from '../board/boardActions'
 
@@ -42,7 +39,8 @@
   import { onTrackerTap } from '../tracker/input/TrackerInputStore'
 
   import { getUnisearchResults, type UnisearchResultsType, UnisearchStore } from './UnisearchStore'
-import { openTimelineModal } from '../timeline/timeline-helpers';
+  import { openTimelineModal } from '../timeline/timeline-helpers'
+  import { Lang } from '../../store/lang'
 
   let results = $state<UnisearchResultsType | undefined>(undefined)
   let exactMatchOptions = $state<Array<PopMenuButton>>([])
@@ -145,14 +143,14 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
   const getExactMatchButtons = (): Array<PopMenuButton> => {
     return [
       {
-        title: `${results?.exactTrackable?.label} Stats`,
+        title: Lang.t('search.name-stats', { name: results?.exactTrackable?.label }),
         icon: PulseOutline,
         click() {
           openStats2(results?.exactTrackable, { date: new Date(), known: $TrackableStore.trackables })
         },
       },
       {
-        title: `Track ${results?.exactTrackable?.tag}`,
+        title: Lang.t('search.track-name', { name: results?.exactTrackable?.tag }),
         icon: AppsOutline,
         click() {
           if (results.exactTrackable?.type === 'tracker') {
@@ -167,7 +165,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
         },
       },
       {
-        title: `Edit ${results?.exactTrackable?.label}`,
+        title: Lang.t('search.edit-name', { name: results?.exactTrackable?.label }),
         icon: CreateOutline,
         click() {
           if (results.exactTrackable.type == 'tracker') {
@@ -215,13 +213,9 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
 
   <header
     slot="header"
-    class="input-wrapper w-full stuff flex items-stretch justify-items-stretch relative border-b border-gray-500 border-opacity-20"
+    class="input-wrapper w-full stuff flex items-stretch justify-items-stretch relative border-b border-ios-separator"
   >
-    <IonIcon
-      size={28}
-      icon={SearchIcon}
-      className="text-gray-600 dark:text-gray-400  text-opacity-50 absolute top-3 left-2"
-    />
+    <IonIcon size={28} icon={SearchIcon} className="text-ios-label2  text-opacity-50 absolute top-3 left-2" />
     <!-- svelte-ignore a11y-autofocus -->
     <input
       id="search-field"
@@ -232,12 +226,15 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
         debounceSearch(evt.target.value)
       }}
       type="text"
-      placeholder="Search your Nomie"
-      class="search-input rounded-t-2xl w-full"
+      placeholder={Lang.t('search.search-your-nomie', 'Search your Nomie')}
+      class="search-input rounded-t-2xl w-full pr-20"
     />
-    <button on:click={close} class="absolute top-3 rounded-full right-3 h-7 w-7 flex items-center justify-center">
-      <IonIcon size={28} icon={CloseOutline} className="text-gray-500" />
-    </button>
+    <button
+      type="button"
+      on:click={close}
+      class="absolute top-3 right-3 h-7 flex items-center text-ios-tint text-base font-semibold"
+      >{Lang.t('search.cancel', 'Cancel')}</button
+    >
   </header>
   <main class="">
     <div id="unisearch-scroll-point" />
@@ -271,7 +268,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
           }}
           class="list-header {!showCommands ? 'opacity-50' : ''}"
         >
-          Commands
+          {Lang.t('search.commands', 'Commands')}
         </header>
         <List className="rounded-none">
           {#if showCommands}
@@ -303,7 +300,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
           }}
           class="list-header {!showTrackables ? 'opacity-50' : ''}"
         >
-          Trackables
+          {Lang.t('search.trackables', 'Trackables')}
         </header>
       {/if}
       <List>
@@ -317,7 +314,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
             >
               <TrackableAvatar {trackable} size={22} />
               <main>{trackable.label}</main>
-              <span class="action">Open</span>
+              <span class="action">{Lang.t('search.open', 'Open')}</span>
             </button>
             {#if index < results.trackables.length - 1}
               <Divider left={48} />
@@ -331,9 +328,9 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
               }}
             >
               <main>
-                {searchTerm} doesn't exist
+                {Lang.t('search.doesnt-exist', { term: searchTerm })}
               </main>
-              <div class="action">Create...</div>
+              <div class="action">{Lang.t('search.create-2', 'Create...')}</div>
             </button>
           {:else if searchTerm?.substring(0, 1) === '@' && results.trackables.length === 0}
             <button
@@ -343,9 +340,9 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
               }}
             >
               <main>
-                {searchTerm} not found
+                {Lang.t('search.not-found', { term: searchTerm })}
               </main>
-              <div class="action">Create...</div>
+              <div class="action">{Lang.t('search.create-2', 'Create...')}</div>
             </button>
           {/if}
         {/if}
@@ -357,7 +354,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
         }}
         class="list-header {!showLogs ? 'opacity-50' : ''}"
       >
-        Notes
+        {Lang.t('search.notes', 'Notes')}
       </header>
 
       <List>
@@ -370,10 +367,10 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
               }}
             >
               <main>
-                <div class="time text-xs text-gray-500">
-                  {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
+                <div class="time text-xs text-ios-label2">
+                  {log.endDayjs().format(`${dateFormats.mmm_d_yyyy} ${dateFormats.time}`)}
                 </div>
-                <p class="text-sm line-clamp-2 ">{log.note}</p>
+                <p class="text-sm line-clamp-2">{log.note}</p>
               </main>
             </button>
             <Divider left={1} />
@@ -382,14 +379,13 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
             class="selectable"
             on:click={() => {
               openTimelineModal({
-                  search: searchTerm,
-                  notes: true
-                })
-              // SearchStore.view('history', escapeRegExp(searchTerm))
+                search: searchTerm,
+                notes: true,
+              })
             }}
           >
-            <main class="text-sm leading-tight">Search all notes for: {searchTerm}</main>
-            <div class="action">Search...</div>
+            <main class="text-sm leading-tight">{Lang.t('search.search-all-notes-for', { term: searchTerm })}</main>
+            <div class="action">{Lang.t('search.search-2', 'Search...')}</div>
           </button>
         {/if}
       </List>
@@ -407,25 +403,30 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
         }}
       >
         <main class="line-clamp-2">"{searchTerm}"</main>
-        <span class="stiff action">Save as Note</span>
+        <span class="stiff action">{Lang.t('search.save-as-note', 'Save as Note')}</span>
       </button>
     {/if}
   </main>
 
   {#if results}
     <div
-      class="hidden dark:text-gray-500 xl:flex px-4 w-full items-center border-t border-gray-500 border-opacity-20 py-2 stiff space-x-4"
+      class="hidden text-ios-label2 xl:flex px-4 w-full items-center border-t border-ios-separator py-2 stiff space-x-4"
     >
-      <div class="text-sm">↑↓ <span class="text-gray-400 text-sm">Select</span></div>
-      <div class="text-xs">⮐ <span class="text-gray-400 text-sm">Open</span></div>
+      <div class="text-sm">↑↓ <span class="text-ios-label2 text-sm">{Lang.t('search.select', 'Select')}</span></div>
+      <div class="text-xs">⮐ <span class="text-ios-label2 text-sm">{Lang.t('search.open', 'Open')}</span></div>
       <div class="filler" />
-      <div class="text-xs">esc <span class="text-gray-400 text-sm">Close</span></div>
+      <div class="text-xs">
+        {Lang.t('search.esc', 'esc')} <span class="text-ios-label2 text-sm">{Lang.t('search.close', 'Close')}</span>
+      </div>
     </div>
   {:else}
     <div
-      class="text-opacity-80 dark:bg-gray-900 text-gray-500 flex px-4 w-full items-center border-t text-xs leading-tight border-gray-500 border-opacity-20 py-2 pb-3 stiff space-x-4"
+      class="text-opacity-80 bg-ios-card text-ios-label2 flex px-4 w-full items-center border-t text-xs leading-tight border-ios-separator py-2 pb-3 stiff space-x-4"
     >
-      Search notes, trackables, and trigger commands (like Create...)
+      {Lang.t(
+        'search.search-notes-trackables-and-trigger-commands-lik',
+        'Search notes, trackables, and trigger commands (like Create...)'
+      )}
     </div>
   {/if}
   <!-- </section> -->
@@ -442,25 +443,24 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
   }
 
   .unisearch .search-input {
-    @apply bg-white dark:bg-black dark:text-white;
-    @apply text-lg py-3 pr-8 pl-10 focus:outline-none focus:ring-2 ring-inset ring-primary-500;
+    @apply bg-ios-card text-ios-label;
+    @apply text-lg py-3 pr-8 pl-10 focus:outline-none;
   }
 
   .unisearch .selectable .action {
     @apply inline-flex;
     @apply text-sm;
     @apply py-1 px-3 rounded-full;
-    @apply bg-primary-50 text-primary-600;
-    @apply dark:bg-primary-800 dark:text-primary-400;
+    @apply bg-ios-tintsoft text-ios-tint;
   }
 
   .unisearch .selectable:focus .action,
   .unisearch .selectable.selected .action {
-    @apply bg-primary-600 text-white;
+    @apply bg-ios-tint text-ios-ontint;
   }
   .unisearch .selectable:focus,
   .unisearch .selectable.selected {
-    @apply bg-primary-500 bg-opacity-20 dark:bg-primary-500 text-black dark:text-black;
+    @apply bg-ios-tintsoft text-ios-label;
     @apply outline-none;
   }
   .unisearch button.selectable {
@@ -469,18 +469,18 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
     @apply px-4 py-3;
     @apply space-x-2;
     @apply flex items-center justify-items-stretch;
-    @apply bg-white dark:bg-gray-800;
-    @apply text-black dark:text-white;
+    @apply bg-ios-card;
+    @apply text-ios-label;
   }
 
   .unisearch .list-header {
     @apply transition-all duration-100 ease-in-out;
-    @apply bg-gray-50 dark:bg-gray-900;
+    @apply bg-ios-bg;
     @apply z-20;
-    @apply text-sm px-4 py-1 text-gray-500;
+    @apply text-sm px-4 py-1 text-ios-label2;
   }
   .unisearch .n-list .list-header:hover {
-    @apply bg-gray-200 dark:bg-gray-600;
+    @apply bg-ios-fill;
   }
 
   .unisearch button.selectable main {

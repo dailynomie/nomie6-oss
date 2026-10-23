@@ -5,10 +5,12 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import ListItemLog from '../../components/list-item-log/list-item-log.svelte'
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
   import ChevronForwardOutline from '../../n-icons/ChevronForwardOutline.svelte'
   import { createEventDispatcher, onMount } from 'svelte'
 
   import { LedgerStore } from './LedgerStore'
+  import { Lang } from '../../store/lang'
   const dispatch = createEventDispatcher()
 
   onMount(async () => {
@@ -17,7 +19,7 @@
 </script>
 
 {#if $LedgerStore.memories.length > 0}
-  <section class="mt-3 bg-primary-500">
+  <section class="mt-3 bg-ios-tint">
     <Container className="px-4 pb-4">
       <!-- Show History if exists -->
 
@@ -25,15 +27,15 @@
         {#each $LedgerStore.memories as log}
           <div class="py-3 text-center memories-log-header">
             <button
-              aria-label="View logs from {dayjs(log.end).format('ddd MM YYYY')}"
+              aria-label={Lang.t('ledger.view-logs-from', { date: dayjs(log.end).format(`ddd ${getDateFormats().shortDate}`) })}
               class="flex items-center justify-center w-full py-2
-                  font-medium text-black bg-primary-500"
+                  font-medium text-ios-label bg-ios-tint"
               on:click={() => {
                 dispatch('date', log.end)
               }}
             >
               <span class="text-sm">{dayjs(log.end).fromNow()}</span>
-              <IonIcon icon={ChevronForwardOutline} className="fill-white" size={16} />
+              <IonIcon icon={ChevronForwardOutline} className="fill-ios-ontint" size={16} />
             </button>
           </div>
           <ListItemLog

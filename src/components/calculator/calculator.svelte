@@ -37,23 +37,23 @@
   function handleKeydown(evt) {
     const key = evt.key
     // Animate the keyboard
-    const buttonObj = document.getElementById(`calc-button-${key}`);
-    buttonObj?.classList?.add('pressing');
-    // Check validity 
+    const buttonObj = document.getElementById(`calc-button-${key}`)
+    buttonObj?.classList?.add('pressing')
+    // Check validity
     const valid = buttons.find((row) => {
       return row.find((b) => `${b}` === `${key}`)
     })
     if (valid) {
       insertBuffer(key)
-    } else if(`${key}` === `0`) {
-      insertBuffer(0);
+    } else if (`${key}` === `0`) {
+      insertBuffer(0)
     } else if (key == 'Backspace') {
       insertBuffer('⌫')
     }
     // Removing keyboard pressing state
-    setTimeout(()=>{
-      buttonObj?.classList?.remove('pressing');
-    },200)
+    setTimeout(() => {
+      buttonObj?.classList?.remove('pressing')
+    }, 200)
   }
 
   function change() {
@@ -101,7 +101,6 @@
 
   // Insert a key or operator into the buffer
   function insertBuffer(insert) {
-
     // Set last buffer
     let lastBuffer = buffer.length ? buffer[buffer.length - 1] : null
     // if its a number and so is the last buffer - merge the nubmers
@@ -257,7 +256,7 @@
   .n-calculator .nbtn {
     touch-action: manipulation;
     border: none;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     @apply rounded-xl;
     @apply w-full;
     /* @apply h-14 md:h-16; */
@@ -266,19 +265,19 @@
     @apply flex-shrink-0;
     @apply text-lg md:text-xl;
     @apply mx-auto;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply shadow-lg;
     @apply transition-all transform-gpu duration-100;
     min-height: 50px;
   }
   .n-calculator .nbtn:focus {
-    @apply ring-4 ring-inset ring-gray-500 ring-opacity-50;
+    @apply ring-4 ring-inset ring-ios-tint ring-opacity-50;
   }
   .n-calculator .nbtn:active,
   .n-calculator .nbtn.pressing {
     @apply scale-95;
     @apply shadow-md;
-    @apply ring-2 ring-primary-500 ring-inset;
+    @apply ring-2 ring-ios-tint ring-inset;
   }
 
   .calc-screen .value {
@@ -291,39 +290,32 @@
     top: 4pt;
     left: 8pt;
     opacity: 0.8;
-    color: #999;
+    color: var(--ios-label2);
     font-size: 0.8em;
   }
   .calc-screen .buffer {
     height: 20px;
     min-height: 22px;
     font-size: 0.8em;
-    color: #999;
+    color: var(--ios-label2);
   }
   .numberUp {
     display: inline-block;
     animation: numberUp 0.4s ease-in-out;
     -webkit-animation: numberUp 0.4s ease-in-out;
   }
-  .n-calculator .nbtn.r-0 {
-    color: #fff;
-    @apply bg-white dark:bg-black;
+  /* iOS look: digits are label text on the card-2 fill; the top row (C, +/-, %) is the fill;
+     the operators in the right column are the tint with on-tint text; delete is plain */
+  .n-calculator .nbtn {
+    background: var(--ios-card-2);
+    color: var(--ios-label);
   }
-  .n-calculator .nbtn.r-0.b-0 {
-    color: #fff;
-    @apply bg-red-500;
-  }
-  .n-calculator .nbtn.r-0.b-1 {
-    color: #fff;
-    @apply bg-gray-500;
-  }
-  .n-calculator .nbtn.r-0.b-2 {
-    color: #fff;
-    @apply bg-gray-500;
+  .n-calculator .nbtn.r-0:not(.b-3) {
+    background: var(--ios-fill);
   }
   .n-calculator .nbtn.b-3 {
-    color: #fff;
-    @apply bg-yellow-600;
+    background: var(--ios-tint);
+    color: var(--ios-on-tint);
   }
   .n-calculator .nbtn.b-0.r-4 {
     background-color: transparent;

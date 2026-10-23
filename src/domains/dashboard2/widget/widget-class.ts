@@ -74,8 +74,8 @@ export class WidgetClass {
   public timeRange?: TimeFramesType
   public type?: string = 'value'
   public loading?: boolean = false
-  public data?: any;
-  public pointer?: any;
+  public data?: any
+  public pointer?: any
 
   constructor(payload?: WidgetPayloadType) {
     payload = payload || {}
@@ -88,8 +88,8 @@ export class WidgetClass {
     if (typeof payload.compareValue == 'string') {
       payload.compareValue = parseNumber(payload.compareValue)
     }
-    this.data = payload.data || {};
-    this.pointer = payload.pointer || "";
+    this.data = payload.data || {}
+    this.pointer = payload.pointer || ''
     this.compareValue = payload.compareValue
     this.compareOverColor = payload.compareOverColor
     this.compareUnderColor = payload.compareUnderColor
@@ -142,28 +142,28 @@ export class WidgetClass {
     return trackable.color
   }
 
-  getTitle(def?:string): string {
+  getTitle(def?: string): string {
     if (this.type == 'text') {
       return truncateText(this.description, 30)
     } else if (this.token?.id) {
       return this.token?.id
-    } else if(def) {
-      return def;
-    } else if(this.type) {
+    } else if (def) {
+      return def
+    } else if (this.type) {
       // Map of widget type IDs to display labels
       const typeLabels: Record<string, string> = {
-        'insight': 'Nomie Insights',
-        'barchart': 'Bar Chart',
-        'linechart': 'Line Chart',
-        'value': 'Display Value',
-        'note': 'Latest Note',
+        insight: 'Nomie Insights',
+        barchart: 'Bar Chart',
+        linechart: 'Line Chart',
+        value: 'Display Value',
+        note: 'Latest Note',
         'min-max': 'Min / Max',
-        'map': 'Map',
-        'todos': 'Todos',
-        'habit': 'Habits',
-        'pointer': 'Pointers',
-        'focus': 'Mind, Body, Spirit',
-        'positivity': 'Positivity Chart',
+        map: 'Map',
+        todos: 'Todos',
+        habit: 'Habits',
+        pointer: 'Pointers',
+        focus: 'Mind, Body, Spirit',
+        positivity: 'Positivity Chart',
         'last-used': 'Last Used',
       }
       return typeLabels[this.type] || this.type

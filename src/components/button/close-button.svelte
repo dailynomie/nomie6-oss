@@ -9,8 +9,10 @@
   const { ...rest } = $props()
 </script>
 
+<!-- iOS look: Close in a header is tint text (clear), not a solid pill -->
 <Button
   primary
+  clear
   {...rest}
   on:click={(evt) => {
     emit('click', evt.detail)

@@ -5,12 +5,13 @@
 
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-  import Map from './map.svelte'
+  import Map from './map-lazy.svelte'
   import type { GeoType } from './LocationModalStore'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import type NLog from '../nomie-log/nomie-log'
-import Title from '../../components/title/title.svelte';
+  import Title from '../../components/title/title.svelte'
+  import { Lang } from '../../store/lang'
 
   // export let show = false
 
@@ -28,14 +29,13 @@ import Title from '../../components/title/title.svelte';
 </script>
 
 <BackdropModal>
-  <ToolbarGrid slot="header" className="bg-white dark:bg-black shadow-md z-40 relative">
-    <div slot="left">
-      <Button on:click={() => close()} primary clear>Close</Button>
+  <ToolbarGrid slot="header" className="bg-ios-card shadow-md z-40 relative">
+    <div slot="right">
+      <Button on:click={() => close()} primary clear>{Lang.t('map.done', 'Done')}</Button>
     </div>
     <Title className="line-clamp-1">
       {#if locations.length}{locations[0].name}{/if}
     </Title>
-    <div slot="right" />
   </ToolbarGrid>
   <div class="relative flex-grow h-full">
     <Map {locations} records={logs} />

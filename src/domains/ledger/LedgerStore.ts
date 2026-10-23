@@ -50,7 +50,6 @@ import textUtils from '../../utils/text/text'
 
 import { writable } from 'svelte/store'
 
-
 // Get the Geo Location module
 // Utils
 
@@ -171,7 +170,6 @@ const ledgerInit = () => {
       return ledgerTools.listBooks()
     },
     getLastUsed() {
-      alert('FIX THIS LedgerStore line 173')
       // return LastUsed
     },
     extractTrackerTagAndValues(logs): ITrackersSummary {
@@ -294,7 +292,7 @@ const ledgerInit = () => {
         // If no book and on blockstack
         if (!book && Storage.storageType() == 'firebase') {
           // Its blockstack, let's how this is for a new week.
-          showToast({ message: `Creating ${getBookIdFromDate(new Date())} in Nomie Cloud` })
+          showToast({ message: Lang.t('ledger.creating-book', { book: getBookIdFromDate(new Date()) }) })
           return []
         } else if (!book) {
           // It's local - so we will assume they're creating a new book
@@ -392,7 +390,7 @@ const ledgerInit = () => {
             message: `${Lang.t('general.saved', 'Saved')}: ${textUtils.truncate(log.note, 100)}`,
             timeout: 2200,
             type: 'success',
-            buttonLabel: 'Undo',
+            buttonLabel: Lang.t('ledger.undo', 'Undo'),
             buttonClick: () => {
               LedgerStore.deleteLogs([log]).then(async () => {
                 // Push the Last Known Ones back to the UsageStore
@@ -404,7 +402,7 @@ const ledgerInit = () => {
                   s.hash = `${Math.random()}`
                   return s
                 })
-                showToast({ message: 'Undo complete' })
+                showToast({ message: Lang.t('ledger.undo-complete', 'Undo complete') })
               })
             },
           })
@@ -520,7 +518,6 @@ const ledgerInit = () => {
         return a.end < b.end ? 1 : -1
       })
     },
-
 
     async getDay(date) {
       return methods.query({
@@ -656,7 +653,10 @@ export const prepareLog = async (log: NLog, knownTrackers?: ITrackers) => {
  */
 export const queryToUsageMap = async (query: IQueryOptions, known: ITrackables): Promise<TrackableUsageMap> => {
   const logs: Array<NLog> = await LedgerStore.query(query)
-  const usage = logsToTrackableUsage(logs, { trackables: known, caller: 'queryToUsageMap' })
+  const usage = logsToTrackableUsage(logs, {
+    trackables: known,
+    caller: 'queryToUsageMap',
+  })
   return usage
 }
 
@@ -721,7 +721,6 @@ export const promptForUpgrade = async () => {
     'You need to have a valid subscription to write to the Nomie encrypted cloud',
     'Upgrade'
   )
-
 }
 
 /**

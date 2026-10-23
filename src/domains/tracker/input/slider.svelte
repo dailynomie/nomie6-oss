@@ -42,7 +42,7 @@
     {/if}
 
     <RangeSlider
-      bind:values={values}
+      bind:values
       on:input={() => {
         dispatch('input', values[0])
       }}
@@ -65,14 +65,11 @@
       steps={parseFloat(tracker.step || 1)}
       pips
     />
-    <div class="value dark:bg-gray-700 bg-gray-300 px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
+    <div class="value ios-slider-value px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
       {#if tracker && tracker.uom !== 'num'}
-        <LetterTicker
-          text={`${tracker.displayValue(values[0])}`}
-          className=" font-bold text-gray-800 dark:text-white"
-        />
+        <LetterTicker text={`${tracker.displayValue(values[0])}`} className=" font-bold text-ios-label" />
       {:else if tracker}
-        <LetterTicker text={`${values[0]}`} className="font-bold text-gray-800 dark:text-white" />
+        <LetterTicker text={`${values[0]}`} className="font-bold text-ios-label" />
       {/if}
     </div>
   </div>
@@ -84,12 +81,18 @@
   }
 
   .tracker-input-slider .rangeNub {
-    @apply dark:bg-white;
+    @apply bg-ios-card;
     width: var(--nub-width);
   }
 
+  /* iOS look: the track is a grouped-card fill with a hairline edge */
   .tracker-input-slider .rangeSlider {
-    @apply bg-gray-100 border-gray-500 border border-opacity-30 dark:bg-gray-900;
+    background: var(--ios-card);
+    border: 0.5px solid var(--ios-separator);
+  }
+  .tracker-input-slider .ios-slider-value {
+    background: var(--ios-fill);
+    color: var(--ios-label);
   }
 
   .tracker-input-slider .rangeHandle {
@@ -105,15 +108,15 @@
 
   .tracker-input-slider .range-label {
     @apply block;
-    @apply text-gray-500 dark:text-gray-500;
     @apply absolute;
     @apply pointer-events-none;
     @apply pl-40;
     @apply text-left;
     @apply line-clamp-1;
-
-    @apply uppercase;
-    @apply font-semibold;
+    /* iOS look: secondary label in sentence case, 13 px semibold */
+    color: var(--ios-label2);
+    font-size: calc(13px * var(--text-scale));
+    font-weight: 600;
   }
   .tracker-input-slider .range-label.min-label {
     @apply bottom-8;
@@ -160,10 +163,10 @@
     height: 100px;
     cursor: pointer;
 
-    @apply bg-gray-500 dark:bg-black;
+    @apply bg-ios-fill;
     border-radius: 50px;
     padding: 0 6px;
-    @apply border border-gray-500;
+    @apply border border-ios-separator;
     position: relative;
     margin-left: 20px;
   } */
@@ -181,14 +184,14 @@
     margin-bottom: 10px;
   }
   .tracker-input-slider input[type='range']:focus::-webkit-slider-runnable-track {
-    @apply ring-2 ring-primary-500;
+    @apply ring-2 ring-ios-tint;
   }
   .tracker-input-slider input[type='range']::-moz-range-track {
     width: 48vh;
     height: 100px;
     cursor: pointer;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
-    @apply bg-gray-300 dark:bg-gray-700;
+    @apply bg-ios-fill;
     border-radius: 50px;
     border: 0px solid var(--color-solid-2);
   }
@@ -198,7 +201,7 @@
     height: 90px;
     width: 90px;
     border-radius: 45px;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
     cursor: pointer;
   }
   .tracker-input-slider input[type='range'] {

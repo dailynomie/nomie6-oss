@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
   const { hours, color } = $props()
 </script>
 
@@ -20,7 +19,7 @@
 
   .time-balls .active {
     @apply absolute;
-    @apply bg-white opacity-50;
+    @apply bg-ios-card opacity-50;
     flex-shrink: 0;
     flex-grow: 0;
     @apply h-1 w-1;

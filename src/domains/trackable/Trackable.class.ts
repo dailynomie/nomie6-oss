@@ -8,7 +8,6 @@ import TrackerClass from '../../modules/tracker/TrackerClass'
 import is from '../../utils/is/is'
 import { parseNumber } from '../../utils/parseNumber/parseNumber'
 
-
 export type TrackableTypes = 'person' | 'tracker' | 'context' | 'pointer'
 
 /**
@@ -79,12 +78,12 @@ export class Trackable {
       this.context = starter.context
       this.id = starter.id
       // Always create a new ContextClass to ensure we get a copy, not a shared reference
-      const ctxData = starter.ctx instanceof ContextClass ? starter.ctx.asObject : (starter.ctx || this.context)
+      const ctxData = starter.ctx instanceof ContextClass ? starter.ctx.asObject : starter.ctx || this.context
       this.ctx = new ContextClass(ctxData)
     } else if (starter.type === 'pointer') {
       this.pointer = starter.pointer
       this.id = starter.id
-      const ptrData = starter.ptr instanceof PointerClass ? starter.ptr.asObject : (starter.ptr || this.pointer)
+      const ptrData = starter.ptr instanceof PointerClass ? starter.ptr.asObject : starter.ptr || this.pointer
       this.ptr = new PointerClass(ptrData)
     }
     this.value = starter.value
@@ -103,7 +102,7 @@ export class Trackable {
       case 'context':
         return `${this.ctx.label || ''}`
       case 'pointer':
-        return `${this.ptr.label || ''}`  
+        return `${this.ptr.label || ''}`
     }
   }
 
@@ -120,7 +119,7 @@ export class Trackable {
       case 'context':
         return `+`
       case 'pointer':
-        return `^`  
+        return `^`
       default:
         return ''
     }
@@ -179,8 +178,8 @@ export class Trackable {
       this.person.username = src
     } else if (this.type == 'context') {
       this.ctx.tag = src
-    }  else if (this.type == 'pointer') {
-        this.ptr.tag = src
+    } else if (this.type == 'pointer') {
+      this.ptr.tag = src
     }
   }
 
@@ -225,7 +224,7 @@ export class Trackable {
 
   /**
    * If the type is tracker, return the avatar of the tracker, if the type is person, return the avatar
-   * of the person, if the type is context, return the avatar of the context, if the type is pointer, return the avatar of the pointer, 
+   * of the person, if the type is context, return the avatar of the context, if the type is pointer, return the avatar of the pointer,
    * otherwise return
    * undefined
    * @returns The avatar of the object.
@@ -245,7 +244,7 @@ export class Trackable {
 
   /**
    * If the type is tracker, return the tracker's emoji. If the type is person, return the person's
-   * emoji. If the type is context, return the context's emoji. If the type is pointer, 
+   * emoji. If the type is context, return the context's emoji. If the type is pointer,
    * return the cpointers's emoji.Otherwise, return undefined
    * @returns The emoji of the object
    */
@@ -295,7 +294,7 @@ export class Trackable {
       case 'context':
         return 1
       case 'pointer':
-        return 1  
+        return 1
     }
   }
 
@@ -328,7 +327,7 @@ export class Trackable {
   /**
    * If the type is tracker, return the tracker's color or a color based on the tracker's tag. If the
    * type is person, return the person's color or a color based on the person's username. If the type
-   * is context, return the context's color or a color based on the context's name. 
+   * is context, return the context's color or a color based on the context's name.
    * If the type
    * is pointer, return the pointer's color or a color based on the pointer's name.Otherwise, return a
    * color based on the item's id
@@ -357,22 +356,22 @@ export class Trackable {
   public getNoteValue(val?: number, expand: boolean = true): string {
     const tag = this.tag
     var value = val || this.value || this.defaultValue || NaN
-    if(this.value == 0) {
+    if (this.value == 0) {
       value = 0
     }
-    if(this.type == 'tracker') {
-      let parts = [];
-      if(!isNaN(value) && is.truthy(value)) {
+    if (this.type == 'tracker') {
+      let parts = []
+      if (!isNaN(value) && is.truthy(value)) {
         parts.push(`${tag}(${value})`)
       } else {
         parts.push(`${tag}`)
       }
 
       // Should we expand this note with the includes?
-      if(expand) {
-        parts.push(this.tracker.getIncluded(parseNumber(value)));
+      if (expand) {
+        parts.push(this.tracker.getIncluded(parseNumber(value)))
       }
-      return parts.join(' ');
+      return parts.join(' ')
     } else {
       if (isNumber(value) && this.type !== 'person') return `${tag}(${value})`
     }
@@ -381,7 +380,7 @@ export class Trackable {
 
   /**
    * If the type is tracker, return the tracker's tag, if the type is person, return the person's
-   * username, if the type is context, return the context's tag, if the type 
+   * username, if the type is context, return the context's tag, if the type
    * is pointer, return the pointer's tag, otherwise return undefined
    * @returns The tag of the object.
    */

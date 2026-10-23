@@ -16,7 +16,7 @@
   import nid, { md5 } from '../../modules/nid/nid'
 
   import type { ICondition } from '../../modules/scoring/score-tracker'
-  import CloseOutline from '../../n-icons/CloseOutline.svelte'
+  import RemoveCircle from '../../n-icons/RemoveCircle.svelte'
   import MenuOutline from '../../n-icons/MenuOutline.svelte'
   import { Interact } from '../../store/interact'
   import { Lang } from '../../store/lang'
@@ -28,25 +28,27 @@
   let workingCalc = $state<Array<ICondition>>([])
   let mounted = $state(false)
 
-  const dedupCalcs = (base):Array<ICondition>=>{
-    return base.filter((c,index)=>{
-        let foundIndex = base.findIndex(fc=>fc.key==c.key);
-        if(foundIndex > -1 && foundIndex !== index) {
-          return false;
-        } else {
-          return true;
-        }
-      })
+  const dedupCalcs = (base): Array<ICondition> => {
+    return base.filter((c, index) => {
+      let foundIndex = base.findIndex((fc) => fc.key == c.key)
+      if (foundIndex > -1 && foundIndex !== index) {
+        return false
+      } else {
+        return true
+      }
+    })
   }
 
   onMount(() => {
     if (props.calc.length) {
-      workingCalc = dedupCalcs([...props.calc]
-      .filter((c) => c)
-      .map((calc) => {
-        calc.key = md5(JSON.stringify(calc))
-        return calc
-      }));
+      workingCalc = dedupCalcs(
+        [...props.calc]
+          .filter((c) => c)
+          .map((calc) => {
+            calc.key = md5(JSON.stringify(calc))
+            return calc
+          })
+      )
     }
 
     if (workingCalc.length == 0) {
@@ -86,7 +88,7 @@
   }
 
   const removeCondition = async (condition: ICondition) => {
-    const confirmed = await Interact.confirm('Remove this condition?')
+    const confirmed = await Interact.confirm(Lang.t('positivity.remove-this-condition', 'Remove this condition?'))
     if (confirmed) {
       workingCalc = workingCalc.filter((w) => w !== condition)
     }
@@ -96,19 +98,19 @@
   const { id, props } = $props()
 </script>
 
-<BackdropModal className="bg-gray-200 dark:bg-gray-800 h-full">
+<BackdropModal className="bg-ios-bg h-full">
   <ToolbarGrid>
-    <Button clear primary slot="left" on:click={close}>Cancel</Button>
+    <Button clear primary slot="left" on:click={close}>{Lang.t('positivity.cancel', 'Cancel')}</Button>
     <h1 class="ntitle">
       {#if props.trackable}
         {props.trackable.label}
       {:else}
-        Positivity Editor
+        {Lang.t('positivity.editor-title', 'Positivity Editor')}
       {/if}
     </h1>
-    <Button clear primary slot="right" on:click={saveChanges}>Done</Button>
+    <Button clear primary slot="right" on:click={saveChanges}>{Lang.t('positivity.done', 'Done')}</Button>
   </ToolbarGrid>
-  <div class=" lg:px-2 md:px-1 py-4  filler">
+  <div class=" lg:px-2 md:px-1 py-4 filler">
     <List solo>
       {#if mounted}
         <SortableList2
@@ -129,28 +131,32 @@
             trackable={props.trackable}
             on:change={(evt) => {
               workingCalc[index] = evt.detail
-              workingCalc = workingCalc;
+              workingCalc = workingCalc
               // refresh()
             }}
           >
             <Button slot="right" icon className="menu-handle">
-              <IonIcon icon={MenuOutline} className="text-gray-500" />
+              <IonIcon icon={MenuOutline} className="text-ios-label2" />
             </Button>
-            <Button slot="left" icon className="" on:click={() => removeCondition(item)}>
-              <IonIcon icon={CloseOutline} className="text-gray-500" />
+            <!-- iOS look (guide 11.2): removing a row is the red minus on the leading edge -->
+            <Button slot="left" icon className="" ariaLabel="Remove condition" on:click={() => removeCondition(item)}>
+              <IonIcon icon={RemoveCircle} size={24} className="text-ios-danger" />
             </Button>
           </ConditionItem>
         </SortableList2>
       {/if}
     </List>
     <ListItem className="mt-2 pb-2" on:click={() => addCondition()}>
-      <div class="text-center text-primary-500 pb-2">
+      <div class="text-center text-ios-tint pb-2">
         {Lang.t('score.add-condition', 'Add Condition')}...
       </div>
     </ListItem>
   </div>
   <div class="list-note">
-    Add a single condition or a lot of them. The first thing that is true wins, and its score is used.
+    {Lang.t(
+      'positivity.add-a-single-condition-or-a-lot-of-them-the-firs',
+      'Add a single condition or a lot of them. The first thing that is true wins, and its score is used.'
+    )}
   </div>
   <ListItem />
 </BackdropModal>

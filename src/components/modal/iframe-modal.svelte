@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-import { onMount } from 'svelte';
+  import { onMount } from 'svelte'
 
   import CloseOutline from '../../n-icons/CloseOutline.svelte'
   import BackdropModal from '../backdrop/backdrop-modal.svelte'
@@ -10,18 +10,18 @@ import { onMount } from 'svelte';
   import IonIcon from '../icon/ion-icon.svelte'
   import ToolbarGrid from '../toolbar/toolbar-grid.svelte'
 
-  let frame:HTMLIFrameElement;
+  let frame: HTMLIFrameElement
 
   const close = () => {
     closeModal(id)
   }
 
-  onMount(()=>{
-    if(messagePayload) {
-      frame.onload=()=>{
-        setTimeout(()=>{
+  onMount(() => {
+    if (messagePayload) {
+      frame.onload = () => {
+        setTimeout(() => {
           frame.contentWindow.postMessage(messagePayload, '*')
-        },120)
+        }, 120)
       }
     }
   })
@@ -31,7 +31,7 @@ import { onMount } from 'svelte';
 
 <BackdropModal>
   <ToolbarGrid slot="header">
-    <Button icon primary slot="left" on:click={close}>
+    <Button icon clear primary slot="left" on:click={close}>
       <IonIcon icon={CloseOutline} />
     </Button>
     <h2 class="ntitle sm">{title}</h2>

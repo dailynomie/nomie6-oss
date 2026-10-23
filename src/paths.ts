@@ -1,7 +1,6 @@
 import config from './config/appConfig'
 
 const NPaths = {
-
   awardChainDoc(uid: string = 'local') {
     return `awards.json`
   },
@@ -11,6 +10,9 @@ const NPaths = {
     },
     analytics() {
       return `/analytics`
+    },
+    experiments() {
+      return `/experiments`
     },
     search() {
       return `/search`
@@ -71,6 +73,15 @@ const NPaths = {
     locations() {
       return `locations.json`
     },
+    customUoms() {
+      return `custom-uoms.json`
+    },
+    openStreak() {
+      return `open-streak.json`
+    },
+    chartOptions() {
+      return `chart-options.json`
+    },
     writingPrompts() {
       return `writing-prompts.json`
     },
@@ -79,6 +90,9 @@ const NPaths = {
     },
     goals() {
       return `goals.json`
+    },
+    experiments() {
+      return `experiments.json`
     },
     pivots() {
       return `pivots.json`

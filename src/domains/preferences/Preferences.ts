@@ -1,8 +1,10 @@
+import dayjs from 'dayjs'
 import { SideStore } from '../../domains/storage/side-storage'
 import type { StorageTypes } from '../../domains/storage/storage'
 import { writable } from 'svelte/store'
 
 import { showToast } from '../../components/toast/ToastStore'
+import { Lang } from '../../store/lang'
 
 export type ThemeTypes = 'dark' | 'light' | 'auto'
 export type PrefsWeekStartTypes = 'sunday' | 'monday'
@@ -30,6 +32,8 @@ export type PreferencesStateType = {
   betaFeatures?: boolean
   peopleBoard?: boolean
   contextBoard?: boolean
+  ignoredUnknownTags?: Array<string> // unknown tags the user chose to ignore (Manage Unknown Trackables)
+  experimentBoard?: boolean
   allBoard?: boolean
   nowBoard?: boolean
   theme?: 'dark' | 'light' | 'auto'
@@ -46,6 +50,10 @@ export type PreferencesStateType = {
   lastBackup?: string
   alwaysLocate?: boolean
   onboarded?: boolean
+  experience?: 'starter' | 'full'
+  starterNudgeShown?: boolean
+  menuHintSeen?: boolean
+  freshBackupPromptSeen?: boolean
   startPage?: 'track' | 'timeline' | 'history' | 'goals' | 'dashboard'
   ai?: AIConfig
 }
@@ -103,7 +111,10 @@ export const enabledBetaFeatures = async (): Promise<void> => {
     p.betaFeatures = true
     return p
   })
-  showToast({ message: 'Beta Features Enabled', type: 'success' })
+  showToast({
+    message: Lang.t('preferences.beta-features-enabled', 'Beta Features Enabled'),
+    type: Lang.t('preferences.success-2', 'success'),
+  })
 }
 
 // Media query listener for tracking OS theme changes
@@ -161,6 +172,15 @@ export const setDocumentTheme = (theme: ThemeTypes) => {
   }
 }
 
+/**
+ * The app's one date format: the short date of the language the app is in
+ * (en 10/22/2026, nl 22-10-2026, de 22.10.2026). English has no entry in dayjs, so it uses MM/DD/YYYY.
+ */
+const localeShortDate = (): string => dayjs.Ls[dayjs.locale()]?.formats?.L ?? 'MM/DD/YYYY'
+
+/** The same locale date without the year, for compact labels where the year is clear from context (W2). */
+const localeDayMonth = (): string => localeShortDate().replace(/\W*Y+\W*/, '')
+
 export const getDateFormats = (): {
   time: string
   date: string
@@ -173,10 +193,12 @@ export const getDateFormats = (): {
   tinyNumber: string
   monthYear: string
 } => {
+  const shortDate = localeShortDate()
+  const dayMonth = localeDayMonth()
   let format: {
     time: string
     date: string
-    dateDay: string,
+    dateDay: string
     shortDate: string
     tinyDate: string
     mmm_d_yyyy: string
@@ -188,26 +210,27 @@ export const getDateFormats = (): {
     time: 'h:mm A',
     hour: 'h A',
     hourCompact: 'ha',
-    date: 'MMM Do YYYY',
-    dateDay: 'ddd MMM Do YYYY',
-    shortDate: 'M/D/YYYY',
-    tinyDate: 'MMM D',
-    mmm_d_yyyy: 'MMM D, YYYY',
-    tinyNumber: 'M/D',
-    monthYear: 'MMM YYYY'
+    // every full date uses the locale's short date (W2); the compact labels below stay short on purpose
+    date: shortDate,
+    dateDay: `dddd ${shortDate}`,
+    shortDate,
+    tinyDate: dayMonth,
+    mmm_d_yyyy: shortDate,
+    tinyNumber: dayMonth,
+    monthYear: 'MMM YYYY',
   }
   if (localPrefs.use24hour) {
     format = {
       time: 'HH:mm',
       hour: 'HH00',
-      date: 'Do MMM YYYY',
-      dateDay: 'ddd Do MMM YYYY',
+      date: shortDate,
+      dateDay: `dddd ${shortDate}`,
       hourCompact: 'HH',
-      shortDate: 'D MM YYYY',
-      tinyDate: 'D MMM',
-      mmm_d_yyyy: 'D MMM, YYYY',
-      tinyNumber: 'D/M',
-      monthYear: 'MMM YYYY'
+      shortDate,
+      tinyDate: dayMonth,
+      mmm_d_yyyy: shortDate,
+      tinyNumber: dayMonth,
+      monthYear: 'MMM YYYY',
     }
   }
   return format

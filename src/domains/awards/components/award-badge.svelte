@@ -20,7 +20,7 @@
     @apply p-1 pt-0;
     @apply rounded-md;
     @apply focus:outline-none;
-    @apply focus:ring-2 ring-primary-500;
+    @apply focus:ring-2 ring-ios-tint;
     @apply text-center;
   }
   .award-badge img {
@@ -38,10 +38,10 @@
   }
 
   .award-badge .desc {
-    @apply text-gray-500 text-xs leading-tight;
+    @apply text-ios-label2 text-xs leading-tight;
   }
   .award-badge .title {
-    @apply leading-tight font-semibold text-sm dark:text-white;
+    @apply leading-tight font-semibold text-sm text-ios-label;
     @apply line-clamp-2;
     @apply mb-1;
   }

@@ -53,73 +53,78 @@
   })
 
   //let editMode: boolean = false
-  let hasLocked: boolean = false
-
-
 </script>
 
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
-      <Button on:click={closePointersModal} slot="left" clear primary>{Lang.t('general.close', 'Close')}</Button>
-      <h1 class="ntitle text-sm md:text-base">{Lang.t('general.pointers', 'Pointers')}</h1>
-      <div slot="right">
-        {#if !hasLocked}
-          <Button on:click={() => openTrackableEditor(
-            new Trackable({
-              type: 'pointer',
-            })
-          )} icon clear primary>
-            <IonIcon icon={PlusIcon} />
-          </Button>
-        {/if}
+      <div slot="left">
+        <Button
+          on:click={() =>
+            openTrackableEditor(
+              new Trackable({
+                type: 'pointer',
+              })
+            )}
+          icon
+          clear
+          primary
+        >
+          <IonIcon icon={PlusIcon} />
+        </Button>
       </div>
+      <h1 class="ntitle text-sm md:text-base">{Lang.t('general.pointers', 'Pointers')}</h1>
+      <Button slot="right" on:click={closePointersModal} clear primary>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
   </header>
   <section class="px-2 lg:px-4 py-4">
-    
-    
-
-      
-        <div class="h-4 stiff w-full min-h-4" />
-        <List solo>
-          {#if pointers.length === 0}
-          <Empty emoji="🏷" title="No Pointers Configured">
-            <p class="text-xs text-center text-gray-500 leading-snug">
-              Pointers allow you to tag single Nomie notes. This enables you to zoom in to these Notes later. <small
-                >EXAMPLE: Create a pointer named 'healthcheck'. Add this pointer to the note with your yearly healthcheck measurements..</small>
-            </p>
-          </Empty>
-          {:else}
-          <Empty emoji="🏷" title="Configured Pointers">
-            <p>.</p>
-            <PointerBoard bind:pointers></PointerBoard>
-          </Empty>
-          {/if}
-          <ListItem
-            clickable
-            on:click={() => {
-              openTrackableEditor(
-                new Trackable({
-                type: 'pointer',
-               })
-              )
-            }}
-            titleClass="text-center text-primary"
-            title="Add a Pointer"
-          />
-        </List>
-        <div class="relative top-1">
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-red-500 text-red-500">X.</span>
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-red-500">Pointer Reminder Overdue</span>
-        </div>
-        <div class="relative top-1">
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-green-500 text-green-500">X.</span>
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-green-500">Pointer Reminder Planned</span>
-        </div>
-        <div class="relative top-1">
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-small transform -translate-y-1/2 translate-x-1/2 border border-gray-400 bg-blue-500 text-blue-500">X.</span>
-          <span class="relative top-0 end-0 inline-flex items-center py-0.3 px-0.5 rounded-full text-xxs font-normal transform -translate-y-1/2 translate-x-4 text-blue-500">Pointer Reminder Disabled</span>
-        </div>
+    <div class="h-4 stiff w-full min-h-4" />
+    <List solo>
+      {#if pointers.length === 0}
+        <Empty emoji="🏷" title={Lang.t('pointers.no-pointers-configured', 'No Pointers Configured')}>
+          <p class="text-xs text-center text-ios-label2 leading-snug">
+            {Lang.t(
+              'pointers.pointers-allow-you-to-tag-single-nomie-notes-thi',
+              'Pointers allow you to tag single Nomie notes. This enables you to zoom in to these Notes later.'
+            )}
+            <small
+              >{Lang.t(
+                'pointers.example-create-a-pointer-named-healthcheck-add-t',
+                "EXAMPLE: Create a pointer named 'healthcheck'. Add this pointer to the note with your yearly healthcheck measurements.."
+              )}</small
+            >
+          </p>
+        </Empty>
+      {:else}
+        <Empty emoji="🏷" title={Lang.t('pointers.configured-pointers', 'Configured Pointers')}>
+          <p>.</p>
+          <PointerBoard bind:pointers></PointerBoard>
+        </Empty>
+      {/if}
+      <ListItem
+        clickable
+        on:click={() => {
+          openTrackableEditor(
+            new Trackable({
+              type: 'pointer',
+            })
+          )
+        }}
+        titleClass="text-center text-ios-tint"
+        title={Lang.t('pointers.add-a-pointer', 'Add a Pointer')}
+      />
+    </List>
+    <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
+      <span aria-hidden="true" class="text-ios-label">⚠︎</span>
+      <span>{Lang.t('pointers.pointer-reminder-overdue', 'Pointer Reminder Overdue')}</span>
+    </div>
+    <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
+      <span class="w-2.5 h-2.5 rounded-full bg-ios-good"></span>
+      <span>{Lang.t('pointers.pointer-reminder-planned', 'Pointer Reminder Planned')}</span>
+    </div>
+    <div class="flex items-center gap-2 px-4 py-0.5 text-ios-footnote text-ios-label2">
+      <span class="w-2.5 h-2.5 rounded-full bg-ios-tint"></span>
+      <span>{Lang.t('pointers.pointer-reminder-disabled', 'Pointer Reminder Disabled')}</span>
+    </div>
   </section>
 </BackdropModal>

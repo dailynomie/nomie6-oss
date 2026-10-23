@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import Container from '../../components/container/container.svelte'
+  import { Interact } from '../../store/interact'
   import ListItem from '../../components/list-item/list-item.svelte'
   import List from '../../components/list/list.svelte'
 
@@ -14,6 +15,7 @@
   import { Trackable } from '../trackable/Trackable.class'
   import { Template } from '../templates/templates-utils'
   import { openTemplatePreview } from '../templates/templates-svelte-helpers'
+  import { Lang } from '../../store/lang'
 
   let showAdvanced = $state(false)
   let fileInput: HTMLInputElement
@@ -43,17 +45,17 @@
       target.value = '' // Reset file input
     } catch (error) {
       console.error('Failed to upload template:', error)
-      alert('Failed to upload template. Please ensure it\'s a valid template JSON file.')
+      Interact.alert(Lang.t('setup.upload-failed', 'Upload failed'), "Please ensure it's a valid template JSON file.")
     }
   }
 
   const advancedButtons = [
     {
-      title: 'Open Template URL...',
+      title: Lang.t('ui.open-template-url', 'Open Template URL...'),
       click: openExternalTemplate,
     },
     {
-      title: 'Upload Template File...',
+      title: Lang.t('ui.upload-template-file', 'Upload Template File...'),
       click: uploadTemplate,
     },
     // {
@@ -84,13 +86,18 @@
 
 <Container className="filler  flex items-center  flex-col pt-3 px-5 slide-templates ">
   <div class="max-w-screen-lg mx-auto pt-6">
-    <h1 class="leading-tight dark:text-white text-center font-bold px-4 text-lg">Starter Templates</h1>
-    <p class="text-gray-500 text-sm leading-tight text-center px-2 py-1">
-      Want Nomie to be set up automatically? Use one of the following templates.
+    <h1 class="leading-tight text-ios-label text-center font-bold px-4 text-lg">
+      {Lang.t('setup.starter-templates', 'Starter Templates')}
+    </h1>
+    <p class="text-ios-label2 text-sm leading-tight text-center px-2 py-1">
+      {Lang.t(
+        'setup.want-nomie-to-be-set-up-automatically-use-one-of',
+        'Want Nomie to be set up automatically? Use one of the following templates.'
+      )}
     </p>
     <div class="h-4" />
 
-    <List solo outside title="Templates">
+    <List solo outside title={Lang.t('setup.templates', 'Templates')}>
       {#each buttons as button}
         <ListItem detail bottomLine={16} on:click={() => button.click()}>
           {button.title}
@@ -98,7 +105,7 @@
       {/each}
     </List>
 
-    <List solo outside title="Other Options">
+    <List solo outside title={Lang.t('setup.other-options', 'Other Options')}>
       {#each advancedButtons as button}
         <ListItem bottomLine={16} on:click={() => button.click()}>
           {button.title}
@@ -106,13 +113,7 @@
       {/each}
     </List>
 
-    <input
-      bind:this={fileInput}
-      type="file"
-      accept=".json"
-      style="display: none"
-      on:change={handleFileUpload}
-    />
+    <input bind:this={fileInput} type="file" accept=".json" style="display: none" on:change={handleFileUpload} />
   </div>
 
   <!-- <div class="flex items-center justify-center pt-6">
@@ -120,7 +121,7 @@
       on:click={() => {
         showAdvanced = !showAdvanced
       }}
-      class="nbtn-badge bg-gray-500 bg-opacity-10 text-gray-600 dark:text-gray-300 text-xs"
+      class="nbtn-badge bg-ios-fill text-ios-label text-xs"
     >
       {#if showAdvanced}Hide Advanced{:else}Show Advanced{/if}
     </button>
@@ -130,6 +131,6 @@
 
 <style global>
   .storage-select .n-menu .active {
-    @apply ring-2 ring-primary-500 ring-inset;
+    @apply ring-2 ring-ios-tint ring-inset;
   }
 </style>

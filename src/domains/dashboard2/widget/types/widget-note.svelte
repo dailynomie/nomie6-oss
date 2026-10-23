@@ -11,8 +11,8 @@
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
   import { ChevronBackCircleOutline, ChevronForwardCircleOutline } from '../../../../components/icon/nicons'
   import { getDateFormats } from '../../../preferences/Preferences'
-import { onLogNoteChange } from '../../../ledger/LedgerStore';
-import type NLog from '../../../nomie-log/nomie-log';
+  import { onLogNoteChange } from '../../../ledger/LedgerStore'
+  import type NLog from '../../../nomie-log/nomie-log'
 
   const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable(), logs = $bindable([]) } = $props()
   // export let trackable: Trackable
@@ -23,8 +23,8 @@ import type NLog from '../../../nomie-log/nomie-log';
   $effect(() => {
     if (usage && usage.logs.length > 0) {
       activeIndex = 0
-      sortedLogs = usage.logs.sort((a,b)=>{
-        return a.end < b.end ? 1 : -1;
+      sortedLogs = usage.logs.sort((a, b) => {
+        return a.end < b.end ? 1 : -1
       })
     }
   })
@@ -53,32 +53,37 @@ import type NLog from '../../../nomie-log/nomie-log';
 {:else}
   <div class="note-navigator flex items-start px-2 sm:px-0 h-full space-x-1">
     {#if sortedLogs.length > 1}
-      <Button title="Previous Note" className="tap-icon" icon on:click={previousNote}>
+      <Button
+        title={Lang.t('dashboard.previous-note', 'Previous Note')}
+        className="tap-icon"
+        icon
+        on:click={previousNote}
+      >
         <IonIcon icon={ChevronBackCircleOutline} />
       </Button>
     {/if}
     {#if activeIndex > -1}
       <div
-        class="note-wrapper flex flex-col h-full w-full max-h-full items-center justify-center "
-        style="font-size:12px;"
+        class="note-wrapper flex flex-col h-full w-full max-h-full items-center justify-center"
+        style="font-size:calc(12px * var(--text-scale));"
       >
         <div class="text-center overflow-y-auto max-h-36">
           <NoteTextualizer
-            on:noteChange={(evt)=>{
-              onLogNoteChange(evt.detail, sortedLogs[activeIndex]);
+            on:noteChange={(evt) => {
+              onLogNoteChange(evt.detail, sortedLogs[activeIndex])
             }}
             className="{widget.size === 'sm' ? 'text-xs' : 'text-sm'} leading-tight"
             note={sortedLogs[activeIndex].note}
           />
         </div>
-        <div class="text-center leading-tight text-xs line-clamp-2 w-full mt-2 text-gray-500">
+        <div class="text-center leading-tight text-xs line-clamp-2 w-full mt-2 text-ios-label2">
           {sortedLogs[activeIndex].endDayjs().format(`${dateFormats.date}`)}
           - {sortedLogs[activeIndex].endDayjs().fromNow()}
         </div>
       </div>
     {/if}
     {#if sortedLogs.length > 1}
-      <Button title="Next note" className="tap-icon" icon on:click={nextNote}>
+      <Button title={Lang.t('dashboard.next-note', 'Next note')} className="tap-icon" icon on:click={nextNote}>
         <IonIcon icon={ChevronForwardCircleOutline} />
       </Button>
     {/if}
@@ -94,6 +99,6 @@ import type NLog from '../../../nomie-log/nomie-log';
     @apply text-lg;
   }
   .widget-note.value {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
 </style>

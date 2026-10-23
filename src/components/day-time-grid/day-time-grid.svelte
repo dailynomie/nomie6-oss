@@ -1,3 +1,7 @@
 <svelte:options runes={true} />
 
-<div class="bg-red-400 text-white p-4">Needs fixing</div>
+<script lang="ts">
+  import { Lang } from '../../store/lang'
+</script>
+
+<div class="bg-ios-danger text-ios-white p-4">{Lang.t('ui.needs-fixing', 'Needs fixing')}</div>

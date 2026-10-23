@@ -3,12 +3,16 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import EmojiList from './EmojiList.svelte'
-  import emojiData from './data/emoji-light'
+  import { loadEmojiData } from './emoji-data-loader'
 
   import Empty from '../empty/empty.svelte'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   const { searchText } = $props()
+
+  let emojiData = $state<Array<any>>([])
+  loadEmojiData().then((data) => (emojiData = data))
 
   let searchResults = $derived(emojiData.filter((emoji) => emoji.n.indexOf((searchText || '').toLowerCase()) >= 0))
 </script>
@@ -17,7 +21,7 @@
   {#if searchResults.length}
     <EmojiList emojis={searchResults} withTabs={false} on:emojihover on:emojiclick />
   {:else}
-    <Empty title="No emojis found" emoji="😭" />
+    <Empty title={Lang.t('ui.no-emojis-found', 'No emojis found')} emoji="😭" />
   {/if}
 </div>
 
@@ -31,7 +35,7 @@
     margin: 0;
     font-size: 0.9em;
     margin: 0 auto;
-    color: #999999;
+    color: var(--ios-label2);
   }
 
   .svelte-emoji-picker__no-results {
@@ -44,6 +48,6 @@
   .svelte-emoji-picker__no-results .icon {
     margin: 0 auto;
     font-size: 3em;
-    color: #999999;
+    color: var(--ios-label2);
   }
 </style>

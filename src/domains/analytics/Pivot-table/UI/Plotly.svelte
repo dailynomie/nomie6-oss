@@ -1,51 +1,52 @@
-<script context="module">
-    let Plotly = $state(undefined);
-
-    export function initPlotly(module) {
-        Plotly = module;
-    }
-</script>
-
 <svelte:options runes={true} />
 
+<script context="module">
+  let Plotly = $state(undefined)
+
+  export function initPlotly(module) {
+    Plotly = module
+  }
+</script>
+
 <script>
-    import { untrack } from 'svelte';
+  import { untrack } from 'svelte'
+  import { Lang } from '../../../../store/lang'
 
-    const { data, layout, config } = $props()
-    const onUpdate = () => {}; // TODO: connect to plotly events
+  const { data, layout, config } = $props()
+  const onUpdate = () => {} // TODO: connect to plotly events
 
-    function create(node, options) {
-        // Extract plain values from reactive proxies so Plotly's mutations don't trigger reactivity
+  function create(node, options) {
+    // Extract plain values from reactive proxies so Plotly's mutations don't trigger reactivity
+    untrack(() => {
+      Plotly.newPlot(
+        node,
+        JSON.parse(JSON.stringify(options.data)),
+        JSON.parse(JSON.stringify(options.layout)),
+        options.config
+      )
+    })
+
+    return {
+      update(newOptions) {
+        // Extract plain values to prevent Plotly's mutations from triggering reactive updates
         untrack(() => {
-            Plotly.newPlot(
-                node,
-                JSON.parse(JSON.stringify(options.data)),
-                JSON.parse(JSON.stringify(options.layout)),
-                options.config
-            );
-        });
-
-        return {
-            update(newOptions) {
-                // Extract plain values to prevent Plotly's mutations from triggering reactive updates
-                untrack(() => {
-                    Plotly.newPlot(
-                        node,
-                        JSON.parse(JSON.stringify(newOptions.data)),
-                        JSON.parse(JSON.stringify(newOptions.layout)),
-                        newOptions.config
-                    );
-                });
-            },
-            destroy() {
-                Plotly.purge(node);
-            },
-        };
+          Plotly.newPlot(
+            node,
+            JSON.parse(JSON.stringify(newOptions.data)),
+            JSON.parse(JSON.stringify(newOptions.layout)),
+            newOptions.config
+          )
+        })
+      },
+      destroy() {
+        Plotly.purge(node)
+      },
     }
+  }
 </script>
 
 {#if Plotly}
-    <div use:create={{ data, layout, config }} />
+  <div use:create={{ data, layout, config }} />
 {:else}
-    <p>Error! Plotly.js not initialized.</p>
+  <p>{Lang.t('analytics.error-plotly-js-not-initialized', 'Error! Plotly.js not initialized.')}</p>
 {/if}

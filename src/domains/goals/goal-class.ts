@@ -45,7 +45,7 @@ export class GoalClass {
     this.trackable = starter.trackable ? new Trackable(starter.trackable) : undefined
     this.tag = starter.tag || this.trackable?.tag || undefined
 
-    this.duration = starter.duration || "day" // todo:// make this work for week
+    this.duration = starter.duration || 'day' // todo:// make this work for week
     this.target = parseNumber(starter.target)
     this.comparison = starter.comparison
     this.usedailyaverage = starter.usedailyaverage || false
@@ -58,7 +58,7 @@ export class GoalClass {
       target: this.target,
       comparison: this.comparison,
       tag: this.tag,
-      usedailyaverage: this.usedailyaverage
+      usedailyaverage: this.usedailyaverage,
     }
   }
 
@@ -74,8 +74,8 @@ export class GoalClass {
         return 'Weekly'
       case 'month':
         return 'Monthly'
-        case 'year':
-          return 'Yearly'  
+      case 'year':
+        return 'Yearly'
     }
   }
 
@@ -110,11 +110,9 @@ export class GoalClass {
     }
     if (this.duration === 'week' && trackableUsage) {
       usage = trackableUsage.groupBy('week', 'YYYY-MM-w')
-      
     }
     if (this.duration === 'day' && trackableUsage) {
       usage = trackableUsage.byDay
-      
     }
 
     // if we don't have any usage
@@ -122,6 +120,11 @@ export class GoalClass {
     //
     // } else
     if (usage) {
+      // A "don't do it" goal is reached on a day with no log, so fill those days in before scoring
+      if (this.comparison == 'lt' || this.comparison == 'lte') {
+        usage = usage.backfill()
+      }
+
       scores = usage.values.map((value, index) => {
         // If Not a Number
         let ogValue = value

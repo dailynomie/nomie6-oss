@@ -12,6 +12,7 @@
   import DayOfWeek, { type IDow } from './day-of-week'
   import type { Trackable } from '../trackable/Trackable.class'
   import type { TrackableUsage } from '../usage/trackable-usage.class'
+  import { Lang } from '../../store/lang'
 
   const { logs = $bindable(), usage, trackable } = $props()
 
@@ -23,14 +24,14 @@
   const getDowChartData = () => {
     return {
       labels: [
-        $Prefs.weekStarts == 'sunday' ? 'Sun' : null,
+        $Prefs.weekStarts == 'sunday' ? Lang.t('stats.sun', 'Sun') : null,
         'Mon',
         'Tue',
         'Wed',
         'Thu',
         'Fri',
         'Sat',
-        $Prefs.weekStarts == 'monday' ? 'Sun' : null,
+        $Prefs.weekStarts == 'monday' ? Lang.t('stats.sun', 'Sun') : null,
       ].filter((d) => d),
       datasets: [
         {
@@ -75,11 +76,11 @@
 </script>
 
 {#if loading}
-  <div class="skeleton-item h-36 bg-white dark:bg-black rounded-lg" />
-  <div class="skeleton-item h-48 bg-white dark:bg-black rounded-lg" />
+  <div class="skeleton-item h-36 bg-ios-card rounded-lg" />
+  <div class="skeleton-item h-48 bg-ios-card rounded-lg" />
 {:else}
-  <div class="p-2 h-42 bg-white dark:bg-black rounded-lg shadow-md">
-    <h2 class="ntitle mb-4 px-2 pt-2 text-center">{trackable.label} by day of week</h2>
+  <div class="p-2 h-42 bg-ios-card rounded-lg shadow-md">
+    <h2 class="ntitle mb-4 px-2 pt-2 text-center">{Lang.t('stats.by-day-of-week', { label: trackable.label })}</h2>
     <div class=" stiff">
       <ChartjsEle
         id="dow"
@@ -110,8 +111,8 @@
     </div>
   </div>
 
-  <div class="p-2 h-40 overflow-hidden bg-white dark:bg-black rounded-lg shadow-md">
-    <h2 class="ntitle mb-4 px-2 pt-2 text-center">{trackable.label} by day and hour</h2>
+  <div class="p-2 h-40 overflow-hidden bg-ios-card rounded-lg shadow-md">
+    <h2 class="ntitle mb-4 px-2 pt-2 text-center">{Lang.t('stats.by-day-and-hour', { label: trackable.label })}</h2>
     <div class="overflow-hidden w-full">
       <TimeGrid {usage} {trackable} className="rounded-lg shadow-md" />
     </div>

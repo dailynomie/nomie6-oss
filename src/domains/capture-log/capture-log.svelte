@@ -37,11 +37,11 @@
   import extract from '../../utils/extract/extract'
   import { getEmojiFromScore } from '../../utils/positivity/positivity'
 
-  import { ExpandOutline } from '../../components/icon/nicons'
+  import { ExpandOutline, ExtensionPuzzleOutline, MapOutline } from '../../components/icon/nicons'
 
   import CaptureDatePicker from './capture-date-picker.svelte'
 
-  import { Prefs } from '../preferences/Preferences'
+  import { getDateFormats, Prefs } from '../preferences/Preferences'
   import type { Token } from '../../modules/tokenizer/lite'
   import { loadToday, TodayStore } from '../usage/today/TodayStore'
 
@@ -63,12 +63,15 @@
   import Button from '../../components/button/button.svelte'
   import { openPluginModal, PluginStore } from '../plugins/PluginStore'
 
-  import TimeSelect from '../../components/time-select/time-select.svelte'
+  import { offerNewTrackersForNote } from '../trackable/TrackableStore'
+  import IosDatetimeField from '../../components/ios-date/ios-datetime-field.svelte'
   import CaptureAddonMenuController from './capture-addon-menu-controller.svelte'
   import NomieAiButton from '../../components/aibutton2/NomieAiButton2.svelte'
   import { navigate } from '../../vendor/svelte-navigator'
   import { openModal } from '../../components/backdrop/BackdropStore2'
-  import AIChatModal from '../ai/ai-chat-modal-compliant.svelte'
+  import { suggestNote, type Known } from './quick-suggest'
+  import { LocationStore } from '../locations/LocationStore'
+  import QuickSuggestModal from './quick-suggest-modal.svelte'
 
   // Consts
 
@@ -88,8 +91,8 @@
         return [
           ...getPromptMenu(),
           {
-            title: 'Integrated Blockly',
-            emoji: '📦',
+            title: Lang.t('ui.integrated-blockly', 'Integrated Blockly'),
+            icon: ExtensionPuzzleOutline,
             divider: true,
             click() {
               navigate('/nomie-blockly')
@@ -148,7 +151,9 @@
    * Active Dates Formatted
    */
   let dateTimeFormat = $state($Prefs.use24hour ? 'HH:mm' : 'h:mm a')
-  let selectedDateFormated = $derived(dayjs(new Date($ActiveLogStore.end || new Date().getTime())).format(dateTimeFormat))
+  let selectedDateFormated = $derived(
+    dayjs(new Date($ActiveLogStore.end || new Date().getTime())).format(dateTimeFormat)
+  )
 
   const setFocused = () => {
     showCaptureTextarea = true
@@ -189,7 +194,6 @@
     }
   }
 
-
   /**
    * Monitor Note Change
    *
@@ -202,13 +206,13 @@
     clearTimeout(clearMonitor)
     clearMonitor = setTimeout(() => {
       showCaptureTextarea = true
-      let parsed: Array<Token>;
+      let parsed: Array<Token>
       ActiveLogStore.update((s) => {
         parsed = extract.parse(s.note)
         // Calculate Score
         s.score = ScoreNote(s.note, new Date(), $TrackerStore)
         return s
-      });
+      })
       // Highligh any visuble tracker buttons
       highlightSelectedTrackers(parsed || [])
     }, 500)
@@ -240,7 +244,15 @@
       saving = true
 
       try {
-        await saveLog(new NLog($ActiveLogStore))
+        // Bug 4 fix: offer a tracker for each unknown #tag before the note is saved (the note is saved either way)
+        try {
+          const note = new NLog($ActiveLogStore)
+          await offerNewTrackersForNote(note)
+          await saveLog(note)
+        } catch (e) {
+          console.error(`Offer new trackers: ${e.message}`)
+          await saveLog(new NLog($ActiveLogStore))
+        }
         saving = false
         await wait(300)
         methods.clear()
@@ -315,9 +327,44 @@
 
   //   }, 10)
   // })
+  // I2: a suggestion from the words typed; the user checks it in a sheet, and only then is it saved
+  // the trackers and people the words can be matched against
+  const knownNames = $derived.by(() => {
+    const known: Known = { trackers: [], people: [], contexts: [], pointers: [], places: $LocationStore }
+    Object.values($TrackableStore.trackables).forEach((t: any) => {
+      const name = { tag: `${t.tag}`.replace(/^[#@+^]/, ''), label: `${t.label}` }
+      if (t.type === 'tracker') known.trackers.push(name)
+      if (t.type === 'person') known.people.push(name)
+      if (t.type === 'context') known.contexts.push(name)
+      if (t.type === 'pointer') known.pointers.push(name)
+    })
+    return known
+  })
+  // the button is shown only when the words give at least one label
+  const suggestion = $derived(suggestNote($ActiveLogStore.note || '', knownNames))
+
+  const suggestTags = () => {
+    openModal({
+      id: 'quick-suggest',
+      component: QuickSuggestModal,
+      componentProps: {
+        suggestion,
+        onConfirm: async (note: string, place?: { name: string; lat: number; lng: number }) => {
+          // a place the words named becomes the note's location, as a location picked by hand would
+          ActiveLogStore.update((s) => ({
+            ...s,
+            note,
+            ...(place ? { lat: place.lat, lng: place.lng, location: place.name } : {}),
+          }))
+          await methods.logSave()
+        },
+      },
+    })
+  }
+
   const confirmClear = async () => {
     if ($ActiveLogStore.note?.length > 0) {
-      const confirmed = await Interact.confirm('Discard this note?')
+      const confirmed = await Interact.confirm(Lang.t('capture.discard-this-note', 'Discard this note?'))
       if (confirmed) {
         methods.clear(true)
       }
@@ -326,23 +373,42 @@
     }
   }
 
-  const eventDateChange = (e: CustomEvent) => {
-    $ActiveLogStore.end = dayjs(e.detail).toDate()
+  const applyCaptureDate = (date: Date) => {
+    $ActiveLogStore.end = dayjs(date).toDate()
     loadToday({
       knownTrackables: $TrackableStore.trackables,
-      date: dayjs(e.detail),
+      date: dayjs(date),
     })
   }
+  const eventDateChange = (e: CustomEvent) => applyCaptureDate(dayjs(e.detail).toDate())
+
+  // iOS look (Phase 4): the pill reads "Today 08:12", or the day and time for another day
+  const captureLabel = $derived.by(() => {
+    const date = dayjs($TodayStore.date)
+    const time = date.format($Prefs.use24hour ? 'HH:mm' : 'h:mm A')
+    return date.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')
+      ? Lang.t('capture.today-time', { time })
+      : `${date.format(`ddd ${getDateFormats().shortDate}`)} ${time}`
+  })
+
+  // iOS look (Phase 4): the check-in card is hidden while the capture card is being typed in
+  $effect(() => {
+    const typing = isFocused || isPopulated
+    document.body.classList.toggle('capture-typing', typing)
+    return () => document.body.classList.remove('capture-typing')
+  })
 
   const { className } = $props()
 
-  function goToAiInsights() {
+  async function goToAiInsights() {
+    // the AI chat, with its markdown renderer, loads when it opens
+    const { default: AIChatModal } = await import('../ai/ai-chat-modal-compliant.svelte')
     openModal({
       id: 'ai-chat-modal',
       position: 'fullscreen',
       component: AIChatModal,
       componentProps: { id: 'ai-chat-modal' },
-      tappable: true
+      tappable: true,
     })
   }
 </script>
@@ -361,14 +427,15 @@
     <div class="capture-log" class:negative={$ActiveLogStore.score < 0} class:positive={$ActiveLogStore.score > 0}>
       <div class="p-0 relative">
         {#if !isPopulated}
-          <div class="absolute right-1 -top-1 flex items-center gap-0 ">
+          <div class="absolute right-1 -top-1 flex items-center gap-0">
             <MenuInline
               compact
               buttonStyle="width:40px !important;{!$Prefs.ai?.enabled ? 'position: relative; top: 8px;' : ''}"
               y="top"
               x="right"
               id="prompt-button"
-              buttonClass="stiff block max-w-8 h-8 w-8 z-40  text-primary bg-transparent rounded-full"
+              title={Lang.t('capture.writing-prompts', 'Writing prompts')}
+              buttonClass="tap-44 stiff block max-w-8 h-8 w-8 z-40  text-ios-tint bg-transparent rounded-full"
               menuButtons={promptMenu}
             >
               <IonIcon icon={BulbSolid} size={22} />
@@ -377,7 +444,7 @@
               <div class="-ml-3">
                 <NomieAiButton
                   size="36px"
-                  label="AI Insights"
+                  label={Lang.t('capture.ai-insights', 'AI Insights')}
                   onclick={goToAiInsights}
                 />
               </div>
@@ -387,18 +454,18 @@
 
         <!-- Note Input -->
         <div
-          class="mask-textarea min-h-10  {isFocused ? 'focused' : 'blurred'}
+          class="mask-textarea min-h-10 {isFocused ? 'focused' : 'blurred'}
           {isPopulated ? 'populated' : 'empty'}"
         >
           <!-- Date Time Selection -->
 
           <div
             data-placeholder={Lang.t('general.whats-up', "What's up?")}
-            class=" mask-textarea-wrapper  top-section mock-textarea"
+            class=" mask-textarea-wrapper top-section mock-textarea"
           >
             <CaptureTextarea
               bind:value={$ActiveLogStore.note}
-              aria-label="Note entry field"
+              aria-label={Lang.t('capture.note-entry-field', 'Note entry field')}
               id="textarea-capture-note"
               class="overflow-y-scroll"
               placeholder={isPopulated || isFocused ? Lang.t('general.whats-up', "What's up?") : ''}
@@ -419,19 +486,19 @@
           <!-- Toolbar for advanced options -->
           <!-- transition:fly={{ y: -47, duration: 200, opacity: 0, easing: quadInOut }} -->
           {#if isFocused || isPopulated}
-            <section aria-label="Note tools" class="bottom-section">
+            <section aria-label={Lang.t('capture.note-tools', 'Note tools')} class="bottom-section">
               <div class="flex-grow flex items-center space-x-1 py-1 px-0">
                 <!-- Positivity Selector -->
                 <div>
                   <MenuInline
                     id="pos-menu"
-                    buttonClass="text-xl rounded-full flex-shrink-0 focus:bg-gray-500 focus:bg-opacity-20 rounded-md flex items-center justify-center"
+                    buttonClass="text-xl rounded-full flex-shrink-0 focus:bg-ios-fill rounded-md flex items-center justify-center"
                     menuButtons={getPositivityButtons($ActiveLogStore.score, (score) => {
                       $ActiveLogStore.score = score.score
                     })}
                     y="bottom"
                   >
-                    <span class="w-8 dark:text-gray-300">{getEmojiFromScore($ActiveLogStore.score, true)}</span>
+                    <span class="w-8 text-ios-label">{getEmojiFromScore($ActiveLogStore.score, true)}</span>
                   </MenuInline>
                 </div>
 
@@ -440,14 +507,15 @@
                   class="flex relative px-1 rounded-lg items-center mx-0 text-2xl {$ActiveLogStore.lat
                     ? ''
                     : 'opacity-50'}"
-                  aria-label="Location and Date settings"
+                  aria-label={Lang.t('capture.location-and-date-settings', 'Location and Date settings')}
                   on:click={toggleCustomLocation}
                 >
-                  🗺 {#if $ActiveLogStore.lat}<span class="dot far-right positive -right-2" />{/if}
+                  <IonIcon icon={MapOutline} size={16} />
+                  {#if $ActiveLogStore.lat}<span class="dot far-right positive -right-2" />{/if}
                 </button>
 
                 <button
-                  aria-label="Expand Note"
+                  aria-label={Lang.t('capture.expand-note', 'Expand Note')}
                   class="clear-button flex items-center"
                   on:click={async (evt) => {
                     evt.preventDefault()
@@ -456,21 +524,21 @@
                     // confirmClear()
                   }}
                 >
-                  <IonIcon icon={ExpandOutline} size={22} className="text-gray-500" />
+                  <IonIcon icon={ExpandOutline} size={22} className="text-ios-label2" />
                 </button>
               </div>
 
-              <TimeSelect
-                className="stiff"
-                bind:value={$TodayStore.date}
-                is24Hour={$Prefs.use24hour}
-                showDateButton={true}
-                dateButtonClass={showDateSelector ? 'dark:text-primary-400 text-primary-600' : ''}
-                on:dateClick={() => {
+              <button
+                type="button"
+                class="time-pill"
+                aria-expanded={showDateSelector}
+                aria-label={Lang.t('capture.change-date-and-time', 'Change date and time')}
+                on:click={() => {
                   showDateSelector = !showDateSelector
                 }}
-                on:change={(evt) => eventDateChange(evt)}
-              />
+              >
+                {captureLabel}
+              </button>
 
               <!-- {#if $LedgerStoreSaving}
                 <button disabled id="save-log-button" aria-label="Save Note" class="save-button">
@@ -480,7 +548,7 @@
               {:else}
                 <button id="save-log-button" aria-label="Save Note" class="save-button" on:click={methods.logSave}>
                   <span class="md:text-lg">Save</span>
-                  <IonIcon icon={PaperPlaneSolid} size={18} className="ml-1 text-white " />
+                  <IonIcon icon={PaperPlaneSolid} size={18} className="ml-1 text-ios-ontint" />
                 </button>
               {/if} -->
             </section>
@@ -492,6 +560,12 @@
                 is24Hour={$Prefs.use24hour}
                 on:change={(e) => eventDateChange(e)}
               />
+              <div class="capture-time-row">
+                <IosDatetimeField
+                  value={$TodayStore.date.format('YYYY-MM-DDTHH:mm')}
+                  onchange={(v) => applyCaptureDate(dayjs(v).toDate())}
+                />
+              </div>
             </div>
           {/if}
         </div>
@@ -500,17 +574,23 @@
   </Container>
   {#if isFocused || isPopulated}
     <!-- transition:slide|global={{ delay: 75, duration: 75, easing: quintOut }} -->
-    <div class="glass absolute -bottom-14 xl:-bottom-8 z-50 h-14 w-full pt-2">
+    <div class="glass relative z-40 w-full pt-2 pb-2">
       <Container>
+        {#if (suggestion.recognised.length > 0 || suggestion.place) && !$LedgerStoreSaving}
+          <div class="text-center pb-2">
+            <button type="button" class="text-sm font-medium text-ios-tint" on:click={suggestTags}>
+              {Lang.t('capture.suggest-tags', 'Suggest labels')}
+            </button>
+          </div>
+        {/if}
         <div class=" xl:ml-auto xl:w-80 grid grid-cols-2 justify-center gap-4 items-center px-4">
-          <Button
-            className="bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-            on:click={() => confirmClear()}>{Lang.t('general.cancel', 'Cancel')}</Button
+          <Button className="bg-ios-fill text-ios-label" on:click={() => confirmClear()}
+            >{Lang.t('general.cancel', 'Cancel')}</Button
           >
           {#if $LedgerStoreSaving}
-            <Button className="bg-green-500 text-white" disabled>{Lang.t('general.saving', 'Saving')}...</Button>
+            <Button className="bg-ios-save text-ios-onsave" disabled>{Lang.t('general.saving', 'Saving')}...</Button>
           {:else}
-            <Button className="bg-green-500 text-white" on:click={methods.logSave}
+            <Button className="bg-ios-save text-ios-onsave" on:click={methods.logSave}
               >{Lang.t('general.save', 'Save')}</Button
             >
           {/if}
@@ -522,7 +602,7 @@
 
 <!-- <Backdrop id="positivty-selector" visible={showPositivitySelector}>
   <PositivitySelector
-    className="bg-primary-500 shadow-2xl"
+    className="bg-ios-tint text-ios-ontint shadow-2xl"
     size="lg"
     id="score"
     showClose={true}
@@ -546,7 +626,7 @@
     z-index: 8000;
   }
   .tribute-container ul {
-    @apply bg-white shadow-md rounded-md;
+    @apply bg-ios-card shadow-md rounded-md;
     @apply overflow-hidden;
   }
   .tribute-container ul li {
@@ -555,6 +635,6 @@
   }
   .tribute-container ul li:hover,
   .tribute-container ul li.highlight {
-    @apply bg-blue-500 text-white;
+    @apply bg-ios-tint text-ios-ontint;
   }
 </style>

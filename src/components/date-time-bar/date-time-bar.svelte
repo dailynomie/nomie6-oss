@@ -8,12 +8,12 @@
   import { onMount, createEventDispatcher } from 'svelte'
 
   import tick from '../../utils/tick/tick'
-  import { Prefs } from '../../domains/preferences/Preferences'
+  import { Prefs, getDateFormats } from '../../domains/preferences/Preferences'
 
   import TimeSelect from '../time-select/time-select.svelte'
   import Calendar from '../calendar/calendar.svelte'
   import { quintOut } from 'svelte/easing'
-// import Calendar4 from '../calendar4/calendar4.svelte';
+  // import Calendar4 from '../calendar4/calendar4.svelte';
 
   const dispatch = createEventDispatcher()
 
@@ -69,7 +69,7 @@
 </script>
 
 {#if _date}
-  <div class="date-time-bar-wrapper  {calendarPosition == 'top' ? 'calendar-top' : 'calendar-bottom'}">
+  <div class="date-time-bar-wrapper {calendarPosition == 'top' ? 'calendar-top' : 'calendar-bottom'}">
     <div class="date-time-bar" {style}>
       <div class="flex">
         <slot name="left" />
@@ -79,7 +79,7 @@
             toggleOpen()
           }}
         >
-          {$Prefs.use24hour ? _date.format('ddd D MMM YYYY') : _date.format('ddd MMM D YYYY')}
+          {_date.format(`ddd ${getDateFormats().shortDate}`)}
         </button>
       </div>
 
@@ -131,7 +131,7 @@
   }
   .date-time-bar {
     @apply flex items-center space-x-2;
-    @apply bg-white dark:bg-black;
+    @apply bg-ios-card;
 
     @apply justify-center items-center;
   }

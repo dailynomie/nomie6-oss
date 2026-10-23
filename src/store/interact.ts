@@ -21,11 +21,7 @@
 
 // Todo make this more type complete
 
-import {
-  addDividerToFirst,
-  getDatePopButtons,
-  getLogPopButtons,
-} from '../modules/pop-buttons/pop-buttons'
+import { addDividerToFirst, getDatePopButtons, getLogPopButtons } from '../modules/pop-buttons/pop-buttons'
 // vendors
 import type { Dayjs } from 'dayjs'
 
@@ -48,7 +44,6 @@ import { openLogEditor } from '../domains/nomie-log/LogEditorStore'
 import { closeModal, openModal } from '../components/backdrop/BackdropStore2'
 import { openPopMenu } from '../components/pop-menu/usePopmenu'
 import { showToast } from '../components/toast/ToastStore'
-
 
 import { wait } from '../utils/tick/tick'
 // Svelte
@@ -270,7 +265,7 @@ const interactInit = () => {
         id: 'blocker',
         position: 'center',
         transparent: true,
-        component: blockerModalSvelte
+        component: blockerModalSvelte,
       })
       update((state) => {
         state.blocker.show = true
@@ -280,7 +275,7 @@ const interactInit = () => {
       })
     },
     stopBlocker() {
-      closeModal('blocker');
+      closeModal('blocker')
       update((state) => {
         state.blocker.show = false
         state.blocker.message = undefined
@@ -362,7 +357,7 @@ const interactInit = () => {
     },
 
     async selectDate(starterDate: Date = new Date()) {
-      let selectedDate: any = await Interact.prompt('Date / Time', null, {
+      let selectedDate: any = await Interact.prompt(Lang.t('general.date-time', 'Date / Time'), null, {
         valueType: 'datetime',
         value: starterDate,
       })
@@ -377,13 +372,14 @@ const interactInit = () => {
       return new Promise((resolve, reject) => {
         const deleteButton = {
           title: `${Lang.t('general.delete-this-note', 'Delete this note...')}`,
+          danger: true,
           click: async () => {
             await wait(300)
             let confirmed = await methods.confirm('Delete this note?', 'Are you sure? Deleting a log cannot be undone.')
             if (confirmed) {
               try {
                 await LedgerStore.deleteLogs([log])
-                showToast({ message: Lang.t('general.note-deleted','Note Deleted') })
+                showToast({ message: Lang.t('general.note-deleted', 'Note Deleted') })
               } catch (e) {
                 methods.error(e.message)
               }

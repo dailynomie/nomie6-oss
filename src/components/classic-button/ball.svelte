@@ -3,7 +3,6 @@
 <script lang="ts">
   import Avatar from '../avatar/avatar.svelte'
 
-
   const { avatar, emoji, username, size, color, className, style, radius } = $props()
 </script>
 

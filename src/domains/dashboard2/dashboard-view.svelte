@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { Prefs } from './../preferences/Preferences'
+  import { getDateFormats, Prefs } from './../preferences/Preferences'
   import Button from '../../components/button/button.svelte'
 
   import Container from '../../components/container/container.svelte'
@@ -17,6 +17,9 @@
   import Layout from '../layout/layout.svelte'
   import { TrackableStore } from '../trackable/TrackableStore'
   import DashbardEditView from './dashbard-edit-view.svelte'
+  import dayjs from 'dayjs'
+  import SearchIcon from '../../n-icons/SearchIcon.svelte'
+  import { openUnisearch } from '../search/UnisearchStore'
   import type { DashboardClass } from './dashboard-class'
   import DashboardEmptyView from './dashboard-empty-view.svelte'
   import DashboardTabs from './dashboard-tabs.svelte'
@@ -39,7 +42,7 @@
   import EaselOutline from '../../n-icons/EaselOutline.svelte'
 
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
-  import CaretDownCircle from '../../n-icons/CaretDownCircle.svelte'
+  import SettingsOutline from '../../n-icons/SettingsOutline.svelte'
   import Empty from '../../components/empty/empty.svelte'
   import List from '../../components/list/list.svelte'
   import ListItem from '../../components/list-item/list-item.svelte'
@@ -51,6 +54,15 @@
   import ShareOutline from '../../n-icons/ShareOutline.svelte'
   import PrintOutline from '../../n-icons/PrintOutline.svelte'
   import UpgradeMessage from '../../components/upgrade-message/upgrade-message.svelte'
+  import { Lang } from '../../store/lang'
+  import { openModal } from '../../components/backdrop/BackdropStore2'
+  import WeeklyReviewModal from '../weekly-review/weekly-review-modal.svelte'
+
+  // I3: the weekly review, kept as a note only if the user chooses it. On a Sunday the button stands out.
+  const isSunday = dayjs().day() === 0
+  const openWeeklyReview = () => {
+    openModal({ id: 'weekly-review', component: WeeklyReviewModal, componentProps: {} })
+  }
 
   $effect(() => {
     if (Object.keys($TrackableStore.trackables)) {
@@ -69,14 +81,14 @@
   const getMainActionMenu = (): Array<PopMenuButton> => {
     return [
       {
-        title: 'Add New Widget',
+        title: Lang.t('dashboard.add-new-widget', 'Add New Widget'),
         icon: AddCircleOutline,
         click() {
           createNewWidget()
         },
       },
       {
-        title: 'Add New Dashboard',
+        title: Lang.t('dashboard.add-new-dashboard', 'Add New Dashboard'),
         icon: EaselOutline,
         click() {
           createNewDashboard()
@@ -91,11 +103,23 @@
           toggleDashboardEditMode()
         },
       },
+      {
+        // iOS look (Phase 7 bug fix): delete lives in the menu, not beside Add Widget on an empty dashboard
+        title: Lang.t('dashboard.delete-dashboard', 'Delete Dashboard'),
+        disabled: !$DashStore.activeDashboard,
+        icon: TrashOutline,
+        click() {
+          confirmDashboardDelete()
+        },
+      },
     ]
   }
 
   const confirmDashboardDelete = async () => {
-    const confirmed = await Interact.confirm('Delete this dashboard?', 'This cannot be undone')
+    const confirmed = await Interact.confirm(
+      Lang.t('dashboard.delete-this-dashboard', 'Delete this dashboard?'),
+      Lang.t('dashboard.this-cannot-be-undone', 'This cannot be undone')
+    )
     if (confirmed) {
       try {
         const deleted = await deleteDashboard($DashStore.activeDashboard)
@@ -131,12 +155,12 @@
       Interact.stopBlocker()
 
       Interact.popmenu({
-        title: 'Dashboard Report Generated',
-        description: 'You can now share this as an image',
+        title: Lang.t('dashboard.dashboard-report-generated', 'Dashboard Report Generated'),
+        description: Lang.t('dashboard.you-can-now-share-this-as-an-image', 'You can now share this as an image'),
         id: 'share-dashboard',
         buttons: [
           {
-            title: navigator.share ? 'Share...' : 'Download...',
+            title: navigator.share ? Lang.t('dashboard.share', 'Share...') : 'Download...',
             click() {
               shareOptions($DashStore.activeDashboard.label, undefined, screenshotImage)
             },
@@ -165,40 +189,70 @@
   }
 
   function printDashboard() {
-    setTimeout(function() {
-  
-   try {
-  if(!document.execCommand('print', false, null)) {
-    window.print()
+    setTimeout(function () {
+      try {
+        if (!document.execCommand('print', false, null)) {
+          window.print()
+        }
+      } catch {
+        window.print()
+      }
+    }, 100)
   }
-} catch {
-  window.print()
-}
-}, 100)
-
- }
 </script>
 
 <Layout className="h-full">
-  <Toolbar slot="header" className="pr-8">
-    <MenuInline id="dashboard-menu" y="bottom" menuButtons={mainMenu} buttonClass="menu-button-icon">
-      <IonIcon className="text-primary-500" icon={CaretDownCircle} size={32} />
-    </MenuInline>
-
-    {#if !$DashStore.editMode}
-      <DashboardTabs />
-    {:else}
-      <Button
-        shape="round"
-        size="sm"
-        className="ml-2 bg-primary-500 text-white w-32"
-        on:click={() => {
-          toggleDashboardEditMode()
-        }}
-        >Done
-      </Button>
-    {/if}
-  </Toolbar>
+  <!-- iOS look (same as the Timeline header): action row with the round menu, then the large title, then the dashboard names -->
+  <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
+    <div class="flex items-center justify-between h-9">
+      <button
+        type="button"
+        class="text-sm font-medium text-ios-tint {isSunday ? 'bg-ios-tintsoft rounded-full px-3 py-1' : ''}"
+        on:click={openWeeklyReview}
+      >
+        {Lang.t('review.button', 'Weekly review')}
+      </button>
+      <div class="flex items-center space-x-2">
+        <button
+          type="button"
+          class="ios-round"
+          aria-label={Lang.t('dashboard.search-nomie', 'Search Nomie')}
+          on:click={() => openUnisearch()}
+        >
+          <IonIcon icon={SearchIcon} size={18} />
+        </button>
+        <MenuInline
+          id="dashboard-menu"
+          title={Lang.t('dashboard.dashboard-options', 'Dashboard options')}
+          x="right"
+          y="bottom"
+          menuButtons={mainMenu}
+          buttonClass="ios-round"
+        >
+          <IonIcon icon={SettingsOutline} size={18} />
+        </MenuInline>
+      </div>
+    </div>
+    <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('dashboard.dashboard-2', 'Dashboard')}</h1>
+    <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format(getDateFormats().dateDay)}</p>
+    <div class="collapsible-row">
+      <Toolbar className="px-0 h-11 max-h-11 min-h-11">
+        {#if !$DashStore.editMode}
+          <DashboardTabs />
+        {:else}
+          <Button
+            shape="round"
+            size="sm"
+            className="ml-2 bg-ios-tint text-ios-ontint w-32"
+            on:click={() => {
+              toggleDashboardEditMode()
+            }}
+            >{Lang.t('dashboard.done', 'Done')}
+          </Button>
+        {/if}
+      </Toolbar>
+    </div>
+  </header>
 
   {#if $DashStore.activeDashboard}
     {#key $DashStore.activeDashboard.widgets.length}
@@ -220,62 +274,56 @@
         {/if}
       </Container>
     {/key}
-    <hr class="mt-4 mb-6 border-gray-500 dark:border-opacity-20 dark:border-gray-200 border-opacity-20" />
+    <hr class="mt-4 mb-6 border-ios-separator" />
     <Container size="md">
       <div class="non-printable">
-      <ListItem clickable on:click={() => createNewWidget()} bottomLine={24}>
-        <IonIcon icon={AddCircleOutline} slot="left" />
-        <span class="">Add Widget</span></ListItem
-      >
+        <ListItem clickable on:click={() => createNewWidget()} bottomLine={24}>
+          <IonIcon icon={AddCircleOutline} slot="left" />
+          <span class="">{Lang.t('dashboard.add-widget', 'Add Widget')}</span></ListItem
+        >
 
-      {#if $DashStore.activeDashboard?.widgets?.length > 0}
-        <ListItem
-          clickable
-          on:click={async () => {
-            await getSharedImageFile()
-          }}
-          bottomLine={24}
-        >
-          <IonIcon icon={ShareOutline} slot="left" />
-          Share Dashboard View</ListItem
-        >
-        <ListItem
-        clickable
-        on:click={async () => {
-          await printDashboard()
-        }}
-        bottomLine={24}
-      >
-        <IonIcon icon={PrintOutline} slot="left" />
-        Print Dashboard View</ListItem
-      >
-        <ListItem
-          bottomLine={24}
-          clickable
-          on:click={() => {
-            toggleDashboardEditMode()
-          }}
-        >
-          <IonIcon icon={PencilOutline} slot="left" />
-          <span>Edit Dashboard</span></ListItem
-        >
-      {/if}
-      <ListItem
-        clickable
-        on:click={() => {
-          confirmDashboardDelete()
-        }}
-      >
-        <IonIcon icon={TrashOutline} slot="left" />
-        <span class="text-danger">Delete Dashboard</span></ListItem
-      >
-    </div>
+        {#if $DashStore.activeDashboard?.widgets?.length > 0}
+          <ListItem
+            clickable
+            on:click={async () => {
+              await getSharedImageFile()
+            }}
+            bottomLine={24}
+          >
+            <IonIcon icon={ShareOutline} slot="left" />
+            {Lang.t('dashboard.share-dashboard-view', 'Share Dashboard View')}</ListItem
+          >
+          <ListItem
+            clickable
+            on:click={async () => {
+              await printDashboard()
+            }}
+            bottomLine={24}
+          >
+            <IonIcon icon={PrintOutline} slot="left" />
+            {Lang.t('dashboard.print-dashboard-view', 'Print Dashboard View')}</ListItem
+          >
+          <ListItem
+            bottomLine={24}
+            clickable
+            on:click={() => {
+              toggleDashboardEditMode()
+            }}
+          >
+            <IonIcon icon={PencilOutline} slot="left" />
+            <span>{Lang.t('dashboard.edit-dashboard', 'Edit Dashboard')}</span></ListItem
+          >
+        {/if}
+      </div>
     </Container>
   {:else}
     <Empty
-      title="No Dashboard Selected"
-      description="Create custom dashboards to highlight your data"
-      buttonLabel="Create a Dashboard"
+      title={Lang.t('dashboard.no-dashboard-selected', 'No Dashboard Selected')}
+      description={Lang.t(
+        'dashboard.create-custom-dashboards-to-highlight-your-data',
+        'Create custom dashboards to highlight your data'
+      )}
+      buttonLabel={Lang.t('dashboard.create-a-dashboard', 'Create a Dashboard')}
       buttonClick={() => {
         createNewDashboard()
       }}
@@ -286,6 +334,8 @@
 
 <style>
   @media print {
-      .non-printable { display: none; }
+    .non-printable {
+      display: none;
+    }
   }
 </style>

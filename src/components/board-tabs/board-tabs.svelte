@@ -5,17 +5,19 @@
 
   // components
   import NHScroller from '../h-scroller/h-scroller.svelte'
+  import FeatureBadge from '../advanced-badge/feature-badge.svelte'
 
   import './board-tabs.css'
   import IonIcon from '../icon/ion-icon.svelte'
-  import { ActiveBoard, CombinedBoards, deleteUniboard, saveSortedBoards } from '../../domains/board/UniboardStore'
   import type { UniboardType } from '../../domains/board/UniboardStore'
   import SortableList2 from '../sortable-list/sortable-list2.svelte'
+  import { EXPERIMENT_BOARD_ID } from '../../config/board-ids'
   import CloseOutline from '../../n-icons/CloseOutline.svelte'
 
   import { Interact } from '../../store/interact'
   import { showToast } from '../toast/ToastStore'
   import { Prefs } from '../../domains/preferences/Preferences'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
 
@@ -29,12 +31,21 @@
   let localBoards = $state<Array<UniboardType>>([])
   let active = $state<UniboardType>(undefined)
 
-  const { boards, className, editMode } = $props()
+  // The screen supplies the boards, the active board and the two actions (CMP-08)
+  const {
+    boards,
+    className,
+    editMode,
+    combinedBoards = [],
+    activeBoard = undefined,
+    onSortBoards = (_userBoards: Array<UniboardType>) => {},
+    onDeleteBoard = async (_board: UniboardType) => {},
+  } = $props()
 
   $effect(() => {
-    if ($CombinedBoards && $Prefs) {
-      localBoards = $CombinedBoards || []
-      active = $ActiveBoard
+    if (combinedBoards && $Prefs) {
+      localBoards = combinedBoards || []
+      active = activeBoard
     }
   })
 
@@ -56,6 +67,26 @@
     }
   })
 
+  // iOS look (Phase 5 decision, Ronald): Main, All, People, Context and Experiments keep their place.
+  // Only the user's own boards have the drag handle class, and a drop keeps the fixed tabs in front.
+  const isFixedBoard = (id: string) => id === 'main' || id.startsWith('_') || id === EXPERIMENT_BOARD_ID
+
+  function onSorted(sorted: Array<UniboardType>) {
+    const fixed = (combinedBoards || []).filter((b) => isFixedBoard(b.id))
+    const userBoards = sorted.filter((b) => !isFixedBoard(b.id))
+    localBoards = [...fixed, ...userBoards]
+    onSortBoards(userBoards)
+  }
+
+  // iOS look (Ronald decision): deleting All, People, Context or Experiments turns that board off in Settings,
+  // as its toggle does. Main has no delete badge.
+  function disableFixedBoard(id: string) {
+    if (id === '_all') $Prefs.allBoard = false
+    else if (id === '_people') $Prefs.peopleBoard = false
+    else if (id === '_context') $Prefs.contextBoard = false
+    else if (id === EXPERIMENT_BOARD_ID) $Prefs.experimentBoard = false
+  }
+
   async function deleteBoard(board) {
     let confirmed = await Interact.confirm(
       'Delete ' + board.label + ' tab?',
@@ -63,27 +94,27 @@
     )
     if (confirmed === true) {
       ready = false
-      await deleteUniboard(board)
+      await onDeleteBoard(board)
       ready = true
-      showToast({ message: 'Deleted' })
+      showToast({ message: Lang.t('ui.deleted', 'Deleted') })
     }
   }
 </script>
 
-{#if $CombinedBoards && $CombinedBoards.length === 1}
+{#if combinedBoards && combinedBoards.length === 1}
   <div
     class="flex items-center flex-grow flex-shrink n-board-tabs min-h-14 max-h-14 h-14 {className}"
     data-scroll="0"
   />
-{:else if $CombinedBoards && $CombinedBoards.length > 1}
-  <div class="n-board-tabs {className}">
+{:else if combinedBoards && combinedBoards.length > 1}
+  <div class="n-board-tabs {className} {state.editMode ? 'is-editing' : ''}">
     {#if !state.editMode}
       <NHScroller activeIndex={state.activeIndex} wrapperClass="space-x-2" className="n-board-tabs overflow-y-hidden">
         {#each localBoards as board}
           <button
             title={`${board.label} board tab`}
             type="menu"
-            class="tab board-{board.id}  {board.id === active?.id ? 'selected' : 'inactive'}"
+            class="tap-44 tab board-{board.id}  {board.id === active?.id ? 'selected' : 'inactive'}"
             on:click={() => {
               dispatch('tabTap', board)
             }}
@@ -98,32 +129,44 @@
       </NHScroller>
     {:else if ready}
       <SortableList2
-        containerClass="w-full items-center flex-nowrap flex overflow-x-auto overflow-y-hidden mx-auto max-w-screen-xl border-2 border-gray-500 border-opacity-20 rounded-full"
-        className="items-center h-10"
+        containerClass="w-full items-center flex-nowrap flex overflow-x-auto overflow-y-visible mx-auto max-w-screen-xl border-2 border-ios-separator rounded-full h-14"
+        className="items-center h-14"
         bind:items={localBoards}
         handleClass="board-tab"
         key="id"
         direction="x"
         on:update={(evt) => {
-          saveSortedBoards(evt.detail)
+          onSorted(evt.detail)
         }}
         let:item
       >
-        <div class="px-1">
+        <div class="px-1 relative">
+          {#if item.id !== 'main'}
+            <button
+              on:click|preventDefault={() => {
+                if (isFixedBoard(item.id)) {
+                  disableFixedBoard(item.id)
+                } else {
+                  deleteBoard(item)
+                }
+              }}
+              class="delete-button tab-delete"
+              aria-label={isFixedBoard(item.id) ? Lang.t('board.turn-off-tab', { name: item.label }) : Lang.t('board.delete-tab', { name: item.label })}
+            >
+              <IonIcon className="text-ios-ondanger" icon={CloseOutline} size={10} />
+            </button>
+          {/if}
           <button
-            on:click|preventDefault={() => {
-              deleteBoard(item)
-            }}
-            class="rounded-full h-4 w-4 absolute z-50 -right-2 bg-red-500 text-white"
-          >
-            <IonIcon className="text-white" icon={CloseOutline} size={10} />
-          </button>
-          <button
-            class="tab animate-shake-big board-tab mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
+            class="tab relative animate-shake-big {isFixedBoard(item.id)
+              ? 'board-fixed'
+              : 'board-tab'} mt-1 board-{item.id} {item == active ? 'selected ' : 'inactive'}"
           >
             {#if item.icon}
               <IonIcon icon={item.icon} size={22} />
             {:else}{item.label}{/if}
+            <FeatureBadge
+              feature={item.id === '_people' ? 'people-board' : item.id === '_context' ? 'context-board' : undefined}
+            />
           </button>
         </div>
       </SortableList2>

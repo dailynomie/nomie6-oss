@@ -20,8 +20,14 @@
   import { removePrefix } from '../../utils/text/text'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import AddIcon from '../../n-icons/AddIcon.svelte'
+  import { Lang } from '../../store/lang'
 
-  const { trackables = [], hideMore = false, hideAdd = false, searching = false } = $props<{
+  const {
+    trackables = [],
+    hideMore = false,
+    hideAdd = false,
+    searching = false,
+  } = $props<{
     trackables?: Array<Trackable>
     hideMore?: boolean
     hideAdd?: boolean
@@ -49,7 +55,7 @@
 {#if !trackables.length}
   <slot name="no-results" />
 {/if}
-<div class="item-grid">
+<div class="item-grid {$Prefs.compactTrackers ? 'item-grid-small' : ''}">
   {#each trackables as trackable, index}
     {#if trackable && trackable.tag}
       <ShortcutButton
@@ -77,7 +83,11 @@
       >
         <div slot="subtitle">
           {#if trackable.tracker?.started}
-            <Counter initialDuration={trackable.tracker.timeTracked} started={trackable.tracker.started} color={trackable.tracker.color} />
+            <Counter
+              initialDuration={trackable.tracker.timeTracked}
+              started={trackable.tracker.started}
+              color={trackable.tracker.color}
+            />
           {/if}
         </div>
       </ShortcutButton>
@@ -86,14 +96,15 @@
 
   {#if !hideAdd && !searching}
     <button
-      class="addButton filler border border-gray-500 rounded-2xl flex items-center justify-center opacity-25 hover:opacity-100 {$Prefs.compactTrackers
+      aria-label={Lang.t('board.add-tracker', 'Add tracker')}
+      class="addButton ios-add-tile filler flex items-center justify-center {$Prefs.compactTrackers
         ? 'h-14'
         : 'h-28 lg:h-32'}"
       on:click={() => {
         dispatch('add')
       }}
     >
-      <IonIcon className="text-gray-500" icon={AddIcon} />
+      <IonIcon className="text-ios-label2" icon={AddIcon} />
     </button>
   {/if}
 </div>

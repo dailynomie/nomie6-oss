@@ -19,8 +19,6 @@
     click?: Function
   }
 
-
-
   const dispatch = createEventDispatcher()
 
   let { buttons, size, labelClass, inverse, compact, className, style, id, scrollable, value = $bindable() } = $props()
@@ -40,9 +38,10 @@
         <button
           type="menu"
           title={button.label}
+          aria-pressed={!!(button.active || (value && value == button.value))}
           disabled={button.disabled}
           class="btn-group-btn btn-{index} {button.active || (value && value == button.value)
-            ? 'bg-primary-gradient active'
+            ? 'active'
             : 'text-solid-1'} {button.disabled ? 'opacity-50 cursor-not-allowed' : ''}"
           on:click={() => {
             if (button.disabled) return
@@ -61,8 +60,8 @@
             {/if}
             {#if button.badge}
               <div
-                style="font-size:9px;"
-                class="badge text-xs text-white bg-red-500 rounded-full px-2 text-center absolute -right-4 -top-1"
+                style="font-size:calc(9px * var(--text-scale));"
+                class="badge text-xs text-ios-ontint bg-ios-tint rounded-full px-2 text-center absolute -right-4 -top-1"
               >
                 {button.badge}
               </div>
@@ -80,4 +79,16 @@
 </div>
 
 <style lang="postcss" global>
+  /* iOS look (section 8): the segment keeps its look, and its tap area is at least 44 px high */
+  .nbtn-group .btn-group-btn {
+    position: relative;
+  }
+  .nbtn-group .btn-group-btn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -7px;
+    bottom: -7px;
+  }
 </style>

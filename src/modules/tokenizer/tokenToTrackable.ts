@@ -9,7 +9,7 @@ import { PointerClass } from '../../domains/pointers/pointer-class'
 import type { Trackable } from '../../domains/trackable/Trackable.class'
 
 export const tokenToTag = (token: Token, includeValue: boolean = false): string => {
-  if(includeValue && token.value) {
+  if (includeValue && token.value) {
     return `${token.prefix}${token.id}(${token.value})`
   } else {
     return `${token.prefix}${token.id}`
@@ -24,11 +24,10 @@ export const tokenToTrackable = (token: Token, knownTrackables: ITrackables = {}
     // If Found - return the trackable
     if (found) {
       found.value = parseNumber(token.value)
-      if(token.type == 'tracker' && found.value !== 1) {
-        // TODO: This is getting passed up to the 
-        // TrackableStore some how... 
+      if (token.type == 'tracker' && found.value !== 1) {
+        // TODO: This is getting passed up to the
+        // TrackableStore some how...
         // found.tracker.default = found.value;
-        
       }
       return found
     }
@@ -45,7 +44,7 @@ export const tokenToTrackable = (token: Token, knownTrackables: ITrackables = {}
         found = tracker.toTrackable()
         // Set value from trackable Element
         found.value = token.value ? parseNumber(`${token.value}`) : NaN
-        found.tracker.default = found.value;
+        found.tracker.default = found.value
         // If it's a person!
       } else if (token.type === 'person') {
         // Create a person using their username

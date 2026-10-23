@@ -3,7 +3,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
-  
   import { AwardStore } from '../../domains/awards/AwardsStore'
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
   import { wait } from '../../utils/tick/tick'
@@ -19,6 +18,8 @@
   let accessorySize = $state(24)
 
   const { buttons, size, className, style, id } = $props()
+  // a menu with any checkable row reserves the checkmark's width on every row
+  const hasCheckmarks = $derived(buttons.some((b: PopMenuButton) => b.checked !== undefined))
 
   const buttonGroup = $derived.by(() => {
     if (buttons) {
@@ -60,9 +61,9 @@
       data-award-required={button.awardRequired}
       aria-label={button.title}
       disabled={button.disabled}
-      class="pop-button  {button.checked
+      class="pop-button {button.checked
         ? 'active'
-        : ''} bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-80 nbtn-left pop-button-{index} {button.awardRequired
+        : ''} bg-ios-card bg-opacity-80 nbtn-left pop-button-{index} {button.awardRequired
         ? $AwardStore.awards.find((a) => a.id == button.awardRequired)
           ? 'unlocked'
           : 'locked'
@@ -76,15 +77,14 @@
     >
       {#if button.checked}
         <div>
-          <IonIcon className="text-gray-800 dark:text-gray-200" icon={CheckmarkCircle} />
+          <IonIcon className="text-ios-tint" icon={CheckmarkCircle} />
         </div>
+      {:else if hasCheckmarks}
+        <!-- iOS look: when a menu has checkable rows, every label starts at the same edge -->
+        <div class="check-space" aria-hidden="true"></div>
       {/if}
       <main class="flex-fill w-full transition-all">
-        <h1
-          class="{button.title.length > 25 || size == 'sm'
-            ? 'text-sm'
-            : 'text-lg'} leading-tight title"
-        >
+        <h1 class="{button.title.length > 25 || size == 'sm' ? 'text-sm' : 'text-lg'} leading-tight title">
           {button.title}
         </h1>
         {#if button.description}
@@ -93,7 +93,7 @@
       </main>
       <div class="flex items-center">
         {#if button.icon}
-          <IonIcon icon={button.icon} className="text-black dark:text-white" size={accessorySize} />
+          <IonIcon icon={button.icon} className="text-ios-label" size={accessorySize} />
         {:else if button.emoji}
           <Avatar emoji={button.emoji} size={32} />
         {/if}
@@ -103,6 +103,11 @@
 </div>
 
 <style global lang="postcss">
+  /* the width of the checkmark icon, reserved on rows that are not checked */
+  .check-space {
+    width: 22px;
+    flex-shrink: 0;
+  }
   .n-menu > button:first-child {
     @apply rounded-t-2xl;
   }

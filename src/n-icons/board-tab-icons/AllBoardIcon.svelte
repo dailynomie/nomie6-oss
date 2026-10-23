@@ -1,8 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-
-
   const { size } = $props()
 </script>
 

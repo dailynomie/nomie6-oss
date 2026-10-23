@@ -5,6 +5,7 @@
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import AIChat from './ai-chat.svelte'
   import Button from '../../components/button/button.svelte'
+  import { Lang } from '../../store/lang'
 
   interface Props {
     id: string
@@ -22,7 +23,11 @@
   headerClass="ai-chat-header"
   mainClass="ai-chat-main flex flex-col"
 >
-  <div slot="header" class="ai-chat-header" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem;">
+  <div
+    slot="header"
+    class="ai-chat-header"
+    style="display: flex; align-items: center; justify-content: space-between; padding: 1rem;"
+  >
     <!-- Twinkling stars background -->
     <div class="stars-background" aria-hidden="true">
       <span class="star" style="width:6px;height:6px;top:15%;left:10%;animation-delay:0s"></span>
@@ -37,13 +42,13 @@
         clear
         primary
         on:click={closeChat}
-        style="color: #ffffff; font-weight: 600; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);"
+        style="color: var(--ios-white); font-weight: 600; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);"
       >
-        Close
+        {Lang.t('ai.close', 'Close')}
       </Button>
     </div>
     <div class="header-title">
-      💬 Chat with
+      {Lang.t('ai.chat-with-2', '💬 Chat with')}
       <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo" />
     </div>
     <div style="flex-shrink: 0; width: 60px;" />
@@ -56,14 +61,7 @@
 
 <style>
   :global(.ai-chat-modal) {
-    background: linear-gradient(
-      135deg,
-      #b8eafc 0%,
-      #72d0f5 20%,
-      #2aa8e0 50%,
-      #1480b8 80%,
-      #0a4f80 100%
-    ) !important;
+    background: linear-gradient(135deg, #b8eafc 0%, #72d0f5 20%, #2aa8e0 50%, #1480b8 80%, #0a4f80 100%) !important;
   }
 
   :global(.ai-chat-header) {
@@ -85,16 +83,12 @@
   }
 
   :global(.ai-chat-header .main.title) {
-    color: #0a4f80 !important;
+    color: var(--ios-tint) !important;
     text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
   }
 
   :global(.ai-chat-main) {
-    background: linear-gradient(
-      to bottom,
-      rgba(42, 168, 224, 0.1),
-      rgba(10, 79, 128, 0.15)
-    );
+    background: linear-gradient(to bottom, rgba(42, 168, 224, 0.1), rgba(10, 79, 128, 0.15));
     position: relative;
     overflow: hidden;
   }
@@ -124,7 +118,8 @@
   }
 
   @keyframes twinkle {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.3;
       transform: scale(1);
     }
@@ -138,7 +133,7 @@
     z-index: 20;
     font-size: 1.3rem;
     font-weight: 700;
-    color: #0a4f80;
+    color: var(--ios-tint);
     text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
     /* Small screens: align right */
     position: absolute;

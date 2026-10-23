@@ -1,6 +1,6 @@
 export default {
-  name: 'Nomie 6 dev',
-  short_name: 'Nomie 6',
+  name: 'Daily Nomie dev',
+  short_name: 'Daily Nomie',
   start_url: '/',
   description: 'Private Life Tracking',
   orientation: 'portrait',

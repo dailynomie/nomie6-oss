@@ -1,110 +1,264 @@
-<script context="module">
-    let zIndexGlobal = 1000;
-</script>
-
 <svelte:options runes={true} />
 
-<script>
-    import { createEventDispatcher } from "svelte";
-    import { Prefs } from '../../../preferences/Preferences'
-
-    const dispatch = createEventDispatcher();
-    const { name, values, valueFilter: initialValueFilter = {}, menuLimit = 500 } = $props();
-
-    let valueFilter = $state(initialValueFilter);
-
-    let filterText = $state("");
-
-    let shown = $derived(values.filter(matchesFilter));
-
-    let theme = $state($Prefs.theme);
-    let cssVarStyles = $state("");
-    if (theme == 'dark') {
-        let bgbt= '#0D324F';
-        let borderbt ='#0D324F'
-        let fontcolorbt = '#C8C8C8'
-        cssVarStyles = `--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt}`;
-    } else {
-        let bgbt= '#DFF0F8';
-        let borderbt = '#CDEEFF'
-        let fontcolorbt = '#000000'
-        cssVarStyles = `--btbg:${bgbt};--btborder:${borderbt};--fontcolor:${fontcolorbt}`;
-    }
-
-    function toggleValue(value) {
-        value in valueFilter ? removeValuesFromFilter([value]) : addValuesToFilter([value]);
-        dispatch('change', valueFilter);
-    }
-
-    function setValuesInFilter(vals) {
-        Object.keys(valueFilter).forEach((key) => delete valueFilter[key]);
-        addValuesToFilter(vals);
-        dispatch('change', valueFilter);
-    }
-
-    function addValuesToFilter(vals) {
-        vals.forEach((v) => (valueFilter[v] = true));
-    }
-
-    function removeValuesFromFilter(vals) {
-        vals.forEach((v) => delete valueFilter[v]);
-    }
-
-    function matchesFilter(x) {
-        return x.toLowerCase().trim().includes(filterText.toLowerCase().trim());
-    }
-
-    function selectOnly(ev, value) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        setValuesInFilter(values.filter((y) => y !== value));
-    }
-
-    function select(all) {
-        const func = all ? removeValuesFromFilter : addValuesToFilter;
-        return function (ev) {
-            ev.stopPropagation();
-            func(values.filter(matchesFilter));
-        };
-    }
-
-    function init(node) {
-        node.style.zIndex = "" + zIndexGlobal++;
-    }
+<script context="module">
+  let zIndexGlobal = 1000
 </script>
 
+<script>
+  import { createEventDispatcher } from 'svelte'
+  import { Prefs } from '../../../preferences/Preferences'
+  import IonIcon from '../../../../components/icon/ion-icon.svelte'
+  import { CloseOutline, CheckmarkOutline } from '../../../../components/icon/nicons'
+  import { Lang } from '../../../../store/lang'
+
+  const dispatch = createEventDispatcher()
+  const { name, values, valueFilter: initialValueFilter = {}, menuLimit = 500 } = $props()
+
+  let valueFilter = $state(initialValueFilter)
+
+  let filterText = $state('')
+
+  let shown = $derived(values.filter(matchesFilter))
+
+  let theme = $state($Prefs.theme)
+  let cssVarStyles = $state('')
+  // iOS look: the same chip tokens in light and dark mode
+  cssVarStyles = '--btbg:var(--ios-fill);--btborder:transparent;--fontcolor:var(--ios-label)'
+
+  function toggleValue(value) {
+    value in valueFilter ? removeValuesFromFilter([value]) : addValuesToFilter([value])
+    dispatch('change', valueFilter)
+  }
+
+  function setValuesInFilter(vals) {
+    Object.keys(valueFilter).forEach((key) => delete valueFilter[key])
+    addValuesToFilter(vals)
+    dispatch('change', valueFilter)
+  }
+
+  function addValuesToFilter(vals) {
+    vals.forEach((v) => (valueFilter[v] = true))
+  }
+
+  function removeValuesFromFilter(vals) {
+    vals.forEach((v) => delete valueFilter[v])
+  }
+
+  function matchesFilter(x) {
+    return x.toLowerCase().trim().includes(filterText.toLowerCase().trim())
+  }
+
+  function selectOnly(ev, value) {
+    ev.preventDefault()
+    ev.stopPropagation()
+    setValuesInFilter(values.filter((y) => y !== value))
+  }
+
+  function select(all) {
+    const func = all ? removeValuesFromFilter : addValuesToFilter
+    return function (ev) {
+      ev.stopPropagation()
+      func(values.filter(matchesFilter))
+    }
+  }
+
+  function init(node) {
+    node.style.zIndex = '' + zIndexGlobal++
+  }
+</script>
+
+<!-- iOS look: a sheet with a grabber, a title with a round close button, a search field, pill actions and tinted check rows -->
 <div class="pvtFilterBox" style:display="block" style:cursor="initial" use:init>
-    <span class="pvtCloseX"> × </span>
-    <span class="pvtDragHandle">☰</span>
-    <h4>{name}</h4>
+  <div class="ios-sheet-grabber"><span class="pvtDragHandle" aria-label={Lang.t('analytics.move', 'Move')}></span></div>
+  <div class="ios-sheet-head">
+    <span class="ios-sheet-title">{name}</span>
+    <button type="button" class="pvtCloseX ios-sheet-close" aria-label={Lang.t('analytics.close', 'Close')}>
+      <IonIcon icon={CloseOutline} size={16} />
+    </button>
+  </div>
 
-    {#if values.length < menuLimit}
-        <p>
-            <input type="text" placeholder="Filter values" class="pvtSearch" bind:value={filterText} />
-            <br />
-            <button class="pvtButton" onclick={select(true)}>
-                Select {values.length === shown.length ? "All" : shown.length}
-            </button>{" "}
-            <button class="pvtButton" onclick={select(false)}>
-                Deselect {values.length === shown.length ? "All" : shown.length}
-            </button>
+  {#if values.length < menuLimit}
+    <div class="ios-sheet-search">
+      <input
+        type="search"
+        placeholder={Lang.t('analytics.filter-values', 'Filter values')}
+        class="pvtSearch"
+        bind:value={filterText}
+      />
+    </div>
+    <div class="ios-sheet-actions">
+      <button type="button" class="ios-pill" onclick={select(true)}>
+        {Lang.t('analytics.select', 'Select')}
+        {values.length === shown.length ? Lang.t('general.all', 'All') : shown.length}
+      </button>
+      <button type="button" class="ios-pill" onclick={select(false)}>
+        {Lang.t('analytics.deselect', 'Deselect')}
+        {values.length === shown.length ? Lang.t('general.all', 'All') : shown.length}
+      </button>
+    </div>
+
+    <div class="pvtCheckContainer ios-sheet-list">
+      {#each shown as x (x)}
+        <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <p onclick={() => toggleValue(x)} class="ios-row" style={cssVarStyles}>
+          <span class="ios-row-check" aria-hidden="true">
+            {#if !(x in valueFilter)}<IonIcon icon={CheckmarkOutline} size={18} />{/if}
+          </span>
+          <span class="ios-row-label"
+            >{#if x === ''}<em>{Lang.t('analytics.null', 'null')}</em>{:else}{x}{/if}</span
+          >
+          <!-- svelte-ignore a11y_missing_attribute -->
+          <!-- svelte-ignore a11y_click_events_have_key_events -->
+          <a class="pvtOnly ios-only" onclick={(ev) => selectOnly(ev, x)} role="button" tabindex="0">
+            {Lang.t('analytics.only', 'only')}
+          </a>
         </p>
-
-        <div class="pvtCheckContainer">
-            {#each shown as x (x)}
-                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-                <!-- svelte-ignore a11y_click_events_have_key_events -->
-                <p onclick={() => toggleValue(x)} class={x in valueFilter ? "" : "selected"} style={cssVarStyles}>
-                    <!-- svelte-ignore a11y_missing_attribute -->
-                    <!-- svelte-ignore a11y_click_events_have_key_events -->
-                    <a class="pvtOnly" onclick={(ev) => selectOnly(ev, x)} role="presentation"> only </a>
-                    <span class="pvtOnlySpacer">&nbsp;</span>
-
-                    {#if x === ""}<em>null</em>{:else}{x}{/if}
-                </p>
-            {/each}
-        </div>
-    {:else}
-        <p>(too many values to show)</p>
-    {/if}
+      {/each}
+    </div>
+  {:else}
+    <p class="ios-sheet-note">{Lang.t('analytics.too-many-values-to-show', '(too many values to show)')}</p>
+  {/if}
 </div>
+
+<style>
+  .pvtFilterBox {
+    width: min(calc(100vw - 32px), 360px);
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--ios-card);
+    border: 0;
+    border-radius: 14px;
+    box-shadow: var(--ios-shadow-float);
+    overflow: hidden;
+    text-align: left;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .ios-sheet-grabber {
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+  }
+  .ios-sheet-grabber .pvtDragHandle {
+    display: block;
+    width: 36px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--ios-separator);
+    cursor: grab;
+  }
+  .ios-sheet-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 16px 10px;
+  }
+  .ios-sheet-title {
+    font-size: calc(17px * var(--text-scale));
+    line-height: 22px;
+    font-weight: 600;
+    color: var(--ios-label);
+  }
+  .ios-sheet-close {
+    position: static;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ios-fill);
+    color: var(--ios-label2);
+    flex-shrink: 0;
+  }
+  .ios-sheet-search {
+    padding: 0 16px 8px;
+  }
+  .ios-sheet-search input {
+    width: 100%;
+    height: 36px;
+    border: 0;
+    border-radius: 10px;
+    padding: 0 12px;
+    background: var(--ios-fill);
+    color: var(--ios-label);
+    font-size: calc(17px * var(--text-scale));
+    outline: none;
+  }
+  .ios-sheet-search input::placeholder {
+    color: var(--ios-label2);
+  }
+  .ios-sheet-actions {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 10px;
+  }
+  .ios-pill {
+    height: 32px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 16px;
+    background: var(--ios-fill);
+    color: var(--ios-tint);
+    font-size: calc(15px * var(--text-scale));
+    font-weight: 500;
+  }
+  /* the pivot stylesheet has hover colours for buttons; the sheet keeps its own */
+  .ios-pill,
+  .ios-pill:hover,
+  .ios-pill:active,
+  .ios-pill:focus {
+    background: var(--ios-fill);
+    color: var(--ios-tint);
+    border-color: transparent;
+  }
+  .ios-sheet-list {
+    border-top: 0.5px solid var(--ios-separator);
+    overflow-y: auto;
+    max-height: 50vh;
+    white-space: normal;
+    width: 100%;
+  }
+  .ios-sheet-list :global(p.ios-row) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    margin: 0;
+    padding: 0 16px;
+    background: var(--ios-card);
+    border-bottom: 0.5px solid var(--ios-separator);
+    color: var(--ios-label);
+    font-size: calc(17px * var(--text-scale));
+    cursor: pointer;
+  }
+  .ios-row-check {
+    width: 20px;
+    color: var(--ios-tint);
+    display: flex;
+    justify-content: center;
+  }
+  .ios-row-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ios-only {
+    float: none;
+    display: inline !important;
+    width: auto;
+    font-size: calc(13px * var(--text-scale));
+    color: var(--ios-tint);
+    padding: 0 0 0 8px;
+  }
+  .ios-sheet-note {
+    padding: 12px 16px;
+    color: var(--ios-label2);
+    font-size: calc(15px * var(--text-scale));
+  }
+</style>

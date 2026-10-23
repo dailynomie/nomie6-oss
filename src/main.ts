@@ -1,6 +1,7 @@
 //@ts-ignore
 import NomieApp from './App.svelte'
 import { pwService } from './modules/pwa/PWAService'
+import { schedulePrefetch } from './routes/prefetch-pages'
 
 /* Initialize PWA service - handles service worker registration and update checks */
 pwService.initialize()
@@ -23,5 +24,8 @@ dayjs.extend(isoWeek)
 const app = new NomieApp({
   target: document.body,
 })
+
+// the tab-bar screens are loaded in the background once the Track board is up
+schedulePrefetch()
 
 export default app

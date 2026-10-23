@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
 
-
 import type { ITrackables } from '../../domains/ledger/ledger-tools'
 import type NLog from '../../domains/nomie-log/nomie-log'
 
@@ -10,20 +9,18 @@ import { calendarMap } from '../time/time'
 
 import { tokenToTag } from '../tokenizer/tokenToTrackable'
 
-import CSVColumnWorker from "./csv-column-worker?worker";
+import CSVColumnWorker from './csv-column-worker?worker'
 
 export const logsToCSV = async (
   logs: Array<NLog>,
   includeTrackables: Array<Trackable>,
   knownTrackables: ITrackables
 ): Promise<Array<any>> => {
-
-
   return new Promise((resolve) => {
     let csvWorker = new CSVColumnWorker()
     csvWorker.onmessage = (message) => {
       let data = message.data
-      resolve(data);
+      resolve(data)
     }
 
     // Convert Proxy objects to plain objects for Worker serialization
@@ -34,11 +31,9 @@ export const logsToCSV = async (
     csvWorker.postMessage({
       logs: plainLogs,
       includeTrackables: plainIncludeTrackables,
-      knownTrackables: plainKnownTrackables
+      knownTrackables: plainKnownTrackables,
     })
   })
-
-
 }
 
 export const logsToCSVOLD = async (
@@ -77,7 +72,7 @@ export const logsToCSVOLD = async (
         tuDay.dates.forEach((d, dIndex) => {
           const rowIndex = doc.findIndex((r) => r[0] === d.format('YYYY-MM-DD'))
           if (rowIndex > -1 && columnIndex > -1) {
-            const value = tuDay.values[dIndex];
+            const value = tuDay.values[dIndex]
             doc[rowIndex][columnIndex] = isNaN(value) ? 0 : value
           }
         })
@@ -104,20 +99,20 @@ export const logsToDetailedCSV = (logs: Array<NLog>, trackersToInclude: Array<an
     const localEnd = new Date(log.end.getTime() - tzoffset).toISOString().slice(0, -1)
 
     // Loop over tracker tags
-    const logTokens = log.elements.filter(t => t.type !== 'generic').map(t => tokenToTag(t));
+    const logTokens = log.elements.filter((t) => t.type !== 'generic').map((t) => tokenToTag(t))
     const found = logTokens.filter((obj: string) => {
-      return tokensToInclude.indexOf(obj) !== -1;
-    });
+      return tokensToInclude.indexOf(obj) !== -1
+    })
 
     // Should Push Log to CSV?
-    let pushLog: boolean = false;
+    let pushLog: boolean = false
 
-    // If no trackables provided 
+    // If no trackables provided
     if (!tokensToInclude.length) {
-      pushLog = true;
+      pushLog = true
     } else if (found.length) {
       // Otherwise, if we find a match
-      pushLog = true;
+      pushLog = true
     }
 
     if (pushLog) {

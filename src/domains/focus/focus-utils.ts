@@ -2,13 +2,14 @@ import math from '../../utils/math/math'
 import type { ITrackables } from '../ledger/ledger-tools'
 import type NLog from '../nomie-log/nomie-log'
 import logsToTrackableUsage from '../usage/usage-utils'
+import { Lang } from '../../store/lang'
 
 export type IFocusUnit = 'mind' | 'body' | 'spirit'
 
 export const focusTypes: Array<IFocus> = [
-  { id: 'mind', label: 'Mind', emoji: '🧠', color: '#087E8B' },
-  { id: 'body', label: 'Body', emoji: '🫀', color: '#EB5E55' },
-  { id: 'spirit', label: 'Spirit', emoji: '👻', color: '#FFB400' },
+  { id: 'mind', label: Lang.t('ui.mind', 'Mind'), emoji: '🧠', color: '#087E8B' },
+  { id: 'body', label: Lang.t('ui.body', 'Body'), emoji: '🫀', color: '#EB5E55' },
+  { id: 'spirit', label: Lang.t('ui.spirit', 'Spirit'), emoji: '👻', color: '#FFB400' },
 ]
 
 export type IFocus = {

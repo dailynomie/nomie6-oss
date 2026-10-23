@@ -20,16 +20,16 @@
 
   import { Lang } from '../../store/lang'
   import { wait } from '../../utils/tick/tick'
-  import { PivotClass  } from './pivot-class'
+  import { PivotClass } from './pivot-class'
   import { PivotStore } from './PivotStore'
   import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
 
-  const { id, pivot } = $props();
+  const { id, pivot } = $props()
 
   let name = $state('')
   let emoji = $state('')
   let days = $state(0)
-  let searchterms = $state("")
+  let searchterms = $state('')
   let searchenabled = $state(false)
   let countsearchterms = $state(0)
   let filters: Object = $state({})
@@ -42,28 +42,33 @@
   $effect(() => {
     if (pivot && mounted && !workingPivot) {
       workingPivot = new PivotClass(pivot)
-      name = workingPivot.tag;
-      emoji = workingPivot.emoji;
-      days = workingPivot.days;
-      searchterms = workingPivot.searchterm.terms || "";
-      searchenabled = workingPivot.searchterm.enabled || false;
-      filters = workingPivot.options.valueFilter;
-      amountoffilters = Object.keys(filters).length;
+      name = workingPivot.tag
+      emoji = workingPivot.emoji
+      days = workingPivot.days
+      searchterms = workingPivot.searchterm.terms || ''
+      searchenabled = workingPivot.searchterm.enabled || false
+      filters = workingPivot.options.valueFilter
+      amountoffilters = Object.keys(filters).length
       searchtermcounts()
     }
   })
 
-
   function searchtermcounts() {
-    countsearchterms = (searchterms.match(/;/g) || []).length;
-    if (searchterms != "" && searchterms.slice(-1) !=";") {countsearchterms = countsearchterms +1}}
+    countsearchterms = (searchterms.match(/;/g) || []).length
+    if (searchterms != '' && searchterms.slice(-1) != ';') {
+      countsearchterms = countsearchterms + 1
+    }
+  }
 
   onMount(() => {
     mounted = true
   })
 
   const deletePivot = async () => {
-    const confirmed = await Interact.confirm('Delete this pivot?', 'You can always recreate it later.')
+    const confirmed = await Interact.confirm(
+      Lang.t('analytics.delete-this-pivot', 'Delete this pivot?'),
+      Lang.t('analytics.you-can-always-recreate-it-later', 'You can always recreate it later.')
+    )
     if (confirmed) {
       await PivotStore.remove(workingPivot)
       closeModal(id)
@@ -76,9 +81,9 @@
       id: workingPivot.id,
       tag: name,
       emoji: emoji,
-      days:days,
-      searchterm:{"enabled":searchenabled,"terms":searchterms},
-      default:workingPivot.default,
+      days: days,
+      searchterm: { enabled: searchenabled, terms: searchterms },
+      default: workingPivot.default,
       grouping: workingPivot.grouping,
       compactRows: workingPivot.compactRows,
       rowGroupBefore: workingPivot.rowGroupBefore,
@@ -93,8 +98,8 @@
       options: plain.options,
     })
     newPivot.options.data = []
-    newPivot.options.valueFilter = $state.snapshot(filters);
-    Interact.blocker(`Saving ${workingPivot.tag} pivot...`)
+    newPivot.options.valueFilter = $state.snapshot(filters)
+    Interact.blocker(Lang.t('analytics.saving-pivot', { name: workingPivot.tag }))
     try {
       await PivotStore.upsert(newPivot)
     } catch (e) {
@@ -103,54 +108,128 @@
     } finally {
       Interact.stopBlocker()
     }
-    showToast({ message: 'Pivot Saved' })
+    showToast({ message: Lang.t('analytics.pivot-saved', 'Pivot Saved') })
     close()
   }
 
   const selectemoji = async () => {
     await wait(100)
-    emojiselector = true;
+    emojiselector = true
   }
 
   const selectdays = () => {
-    let createlist = [{"title":"30 Days","checked":30==days,click() {
-        if (days !== 30) {days = 30} },},
-        {"title":"60 Days","checked":60==days,click() {
-        if (days !== 60) {days = 60} },},
-        {"title":"90 Days","checked":90==days,click() {
-        if (days !== 90) {days = 90} },},
-        {"title":"120 Days","checked":120==days,click() {
-        if (days !== 120) {days = 120} },},
-        {"title":"150 Days","checked":150==days,click() {
-        if (days !== 150) {days = 150} },},
-        {"title":"180 Days","checked":180==days,click() {
-        if (days !== 180) {days = 180} },},
-        {"title":"270 Days","checked":270==days,click() {
-        if (days !== 270) {days = 270} },},
-        {"title":"365 Days","checked":365==days,click() {
-        if (days !== 365) {days = 365} },},
-        {"title":"2 Years","checked":730==days,click() {
-        if (days !== 730) {days = 730} },},
-        {"title":"3 Years","checked":1095==days,click() {
-        if (days !== 1095) {days = 1095} },}];
-        
-    const buttons:Array<PopMenuButton> = createlist;
-    
+    let createlist = [
+      {
+        title: Lang.t('analytics.30-days', '30 Days'),
+        checked: 30 == days,
+        click() {
+          if (days !== 30) {
+            days = 30
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.60-days', '60 Days'),
+        checked: 60 == days,
+        click() {
+          if (days !== 60) {
+            days = 60
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.90-days', '90 Days'),
+        checked: 90 == days,
+        click() {
+          if (days !== 90) {
+            days = 90
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.120-days', '120 Days'),
+        checked: 120 == days,
+        click() {
+          if (days !== 120) {
+            days = 120
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.150-days', '150 Days'),
+        checked: 150 == days,
+        click() {
+          if (days !== 150) {
+            days = 150
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.180-days', '180 Days'),
+        checked: 180 == days,
+        click() {
+          if (days !== 180) {
+            days = 180
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.270-days', '270 Days'),
+        checked: 270 == days,
+        click() {
+          if (days !== 270) {
+            days = 270
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.365-days', '365 Days'),
+        checked: 365 == days,
+        click() {
+          if (days !== 365) {
+            days = 365
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.2-years', '2 Years'),
+        checked: 730 == days,
+        click() {
+          if (days !== 730) {
+            days = 730
+          }
+        },
+      },
+      {
+        title: Lang.t('analytics.3-years', '3 Years'),
+        checked: 1095 == days,
+        click() {
+          if (days !== 1095) {
+            days = 1095
+          }
+        },
+      },
+    ]
+
+    const buttons: Array<PopMenuButton> = createlist
+
     openPopMenu({
-      id:"days-list",
+      id: 'days-list',
       buttons,
     })
   }
 
-  const resetfilters = async () =>{
-    const confirmed = await Interact.confirm('Reset all filters?', 'You can always recreate it later.')
+  const resetfilters = async () => {
+    const confirmed = await Interact.confirm(
+      Lang.t('analytics.reset-all-filters', 'Reset all filters?'),
+      Lang.t('analytics.you-can-always-recreate-it-later', 'You can always recreate it later.')
+    )
     if (confirmed) {
-      filters = {};
-      amountoffilters = Object.keys(filters).length;
+      filters = {}
+      amountoffilters = Object.keys(filters).length
     }
-    
   }
-  
+
   const close = () => {
     closeModal(id)
   }
@@ -159,31 +238,31 @@
 <BackdropModal mainClass="px-2 lg:px-4 py-2 lg:py-4">
   <ToolbarGrid slot="header">
     <Button slot="left" primary clear on:click={close}>
-      {Lang.t('general.close', 'Close')}
+      {Lang.t('general.cancel', 'Cancel')}
     </Button>
 
-    <h1 class="ntitle capitalize">{emoji} {name} Pivot</h1>
+    <h1 class="ntitle capitalize">{Lang.t('analytics.pivot-title', { emoji, name })}</h1>
 
     <Button slot="right" primary clear disabled={!name || !emoji} on:click={save}>
       {Lang.t('general.save', 'Save')}
     </Button>
   </ToolbarGrid>
   {#if emojiselector}
-  <EmojiSelector
+    <EmojiSelector
       on:emoji={(evt) => {
         emoji = evt.detail
         emojiselector = false
       }}
     />
-  {/if}  
+  {/if}
   <List solo>
     <ListItem clickable on:click={selectemoji}>
-      <div class="py-2">Which Emoji?</div>
+      <div class="py-2">{Lang.t('analytics.which-emoji', 'Which Emoji?')}</div>
       <div slot="right">
         {#if emoji}
-        <span class="text-primary-500">{emoji}</span>
+          <span class="text-ios-tint">{emoji}</span>
         {:else}
-          <span class="text-primary-500">Select</span>
+          <span class="text-ios-tint">{Lang.t('analytics.select', 'Select')}</span>
         {/if}
       </div>
     </ListItem>
@@ -193,61 +272,81 @@
       value={name}
       on:input={(evt) => (name = evt.detail)}
       listItem
-      label="Pivot Name"
-      placeholder="Pivot Name"
+      label={Lang.t('analytics.pivot-name', 'Pivot Name')}
+      placeholder={Lang.t('analytics.pivot-name', 'Pivot Name')}
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
         {#if name && !emoji}
-          <div class="text-gray-500">{name}</div>
+          <div class="text-ios-label2">{name}</div>
         {:else if name && emoji}
-        <div class="text-gray-500">{emoji}{name}</div>
+          <div class="text-ios-label2">{emoji}{name}</div>
         {/if}
-        
       </div>
     </Input>
     <Divider left={16} />
     <ListItem clickable on:click={selectdays}>
-      <div class="py-2">How Many Days of History?</div>
+      <div class="py-2">{Lang.t('analytics.how-many-days-of-history', 'How Many Days of History?')}</div>
       <div slot="right">
         {#if days}
-        <span class="text-primary-500">{days}</span>
+          <span class="text-ios-tint">{days}</span>
         {:else}
-          <span class="text-primary-500">Select</span>
+          <span class="text-ios-tint">{Lang.t('analytics.select', 'Select')}</span>
         {/if}
       </div>
     </ListItem>
     <Divider left={16} />
     <ListItem clickable on:click={resetfilters}>
-      <div class="py-2">Reset (all) {amountoffilters} Filters?</div>
+      <div class="py-2">{Lang.t('analytics.reset-filters', 'Reset Filters')}</div>
       <div slot="right">
-          <span class="text-primary-500">Reset</span>
-        
+        <span class="text-ios-label2 tabular-nums">{amountoffilters}</span>
       </div>
     </ListItem>
     <Divider left={16} />
-    <ListItem bottomLine={52} title={"🕵🏻‍♂️ Enable Search Terms"}>
-      
+    <ListItem bottomLine={16} title={'Enable Search Terms'}>
       <div slot="right">
-        <ToggleSwitch bind:value={searchenabled} title="Toggle Search Terms" />
+        <ToggleSwitch
+          bind:value={searchenabled}
+          title={Lang.t('analytics.toggle-search-terms', 'Toggle Search Terms')}
+        />
       </div>
     </ListItem>
     <Divider left={16} />
     <Input
       type="text"
-      on:input={(evt) => {searchterms = evt.detail; searchtermcounts();}}
+      on:input={(evt) => {
+        searchterms = evt.detail
+        searchtermcounts()
+      }}
       value={searchterms}
       listItem
-      label="Searchterms"
-      placeholder="Search Terms"
+      label={Lang.t('analytics.searchterms', 'Searchterms')}
+      placeholder={Lang.t('analytics.search-terms', 'Search Terms')}
     >
       <div slot="right" class="flex items-center space-x-2 whitespace-nowrap text-xs">
-       
-        <div class="text-gray-500">{countsearchterms} SearchTerms</div>
-    
-        
+        <div class="text-ios-label2">{countsearchterms} {countsearchterms === 1 ? 'search term' : 'search terms'}</div>
       </div>
     </Input>
   </List>
 
-  <Button clear className="text-red-500 mt-10 mx-auto text-sm" on:click={() => deletePivot()}>Delete Pivot</Button>
+  <!-- iOS look: the destructive action is a row of its own in a card, in the danger colour -->
+  <div class="ios-card mx-2 mt-8 overflow-hidden">
+    <button type="button" class="ios-delete-row" on:click={() => deletePivot()}
+      >{Lang.t('analytics.delete-pivot-2', 'Delete Pivot')}</button
+    >
+  </div>
 </BackdropModal>
+
+<style>
+  .ios-delete-row {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 0;
+    background: transparent;
+    color: var(--ios-danger);
+    font-size: calc(17px * var(--text-scale));
+    line-height: 22px;
+    text-align: center;
+  }
+</style>

@@ -1,10 +1,12 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../ios-select/ios-select.svelte'
   import dayjs from 'dayjs'
   import { createEventDispatcher } from 'svelte'
 
   import { Prefs } from '../../domains/preferences/Preferences'
+  import { Lang } from '../../store/lang'
 
   const dispatch = createEventDispatcher()
   const { value, className, style } = $props()
@@ -73,34 +75,43 @@
     <div class="time-select">
       <!-- Loop over hours -->
       {#if is24Hour}
-        24
-        <select bind:value={hour} class=" hour" on:change={onChange}>
-          {#each hours as h}
-            <option value={h} selected={h == hour} style="text-align:center;">{`${h}`.length == 1 ? `0${h}` : h}</option
-            >
-          {/each}
-        </select>
+        <IosSelect
+          compact
+          title={Lang.t('ui.hour', 'Hour')}
+          bind:value={hour}
+          onchange={() => onChange()}
+          options={hours.map((h) => ({ value: h, label: `${h}`.length == 1 ? `0${h}` : `${h}` }))}
+        />
       {:else}
-        {hour}
-        <select bind:value={hour} class="hour" on:change={onChange}>
-          {#each hours as h}
-            <option value={h} style="text-align:center;">{`${h}`.length == 1 ? `0${h}` : h}</option>
-          {/each}
-        </select>
+        <IosSelect
+          compact
+          title={Lang.t('ui.hour', 'Hour')}
+          bind:value={hour}
+          onchange={() => onChange()}
+          options={hours.map((h) => ({ value: h, label: `${h}`.length == 1 ? `0${h}` : `${h}` }))}
+        />
       {/if}
       <span class="blinker">:</span>
       <!-- Loop over minutes -->
-      <select bind:value={minute} class="minutes" on:change={onChange}>
-        {#each minutes as m}
-          <option value={m}>{`${m}`.length == 1 ? `0${m}` : m}</option>
-        {/each}
-      </select>
+      <IosSelect
+        compact
+        title={Lang.t('ui.minute', 'Minute')}
+        bind:value={minute}
+        onchange={() => onChange()}
+        options={minutes.map((m) => ({ value: m, label: `${m}`.length == 1 ? `0${m}` : `${m}` }))}
+      />
       <!-- If is not 24 hour - show ampm -->
       {#if !is24Hour}
-        <select bind:value={ampm} class="filler ampm" on:change={onChange} style="margin-left:4px">
-          <option value="am" selected={ampm === 'am'}>AM</option>
-          <option value="pm" selected={ampm === 'pm'}>PM</option>
-        </select>
+        <IosSelect
+          compact
+          title={Lang.t('ui.am-or-pm', 'AM or PM')}
+          bind:value={ampm}
+          onchange={() => onChange()}
+          options={[
+            { value: 'am', label: Lang.t('ui.am', 'AM') },
+            { value: 'pm', label: Lang.t('ui.pm', 'PM') },
+          ]}
+        />
       {/if}
     </div>
   </div>
@@ -114,8 +125,8 @@
     @apply items-center;
     @apply justify-end;
     @apply flex-grow flex-shrink;
-    @apply text-gray-500;
-    @apply bg-white dark:bg-black;
+    @apply text-ios-label2;
+    @apply bg-ios-card;
     @apply rounded-lg;
     @apply h-6;
     @apply text-xs;
@@ -125,7 +136,7 @@
     flex-shrink: 0;
     flex-grow: 0;
     @apply appearance-none;
-    @apply bg-gray-100 dark:bg-gray-800;
+    @apply bg-ios-card;
     text-align: center;
     -webkit-appearance: none;
     @apply p-1;

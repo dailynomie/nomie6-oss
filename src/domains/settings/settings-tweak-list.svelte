@@ -1,7 +1,18 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../../components/ios-select/ios-select.svelte'
+
+  import IonIcon from '../../components/icon/ion-icon.svelte'
+  import {
+    CalendarOutline,
+    GlobeOutline,
+    LanguageOutline,
+    ResizeOutline,
+    TimeOutline,
+  } from '../../components/icon/nicons'
   import ListItem from '../../components/list-item/list-item.svelte'
+  import IconSquare from '../../components/icon-square/icon-square.svelte'
 
   import NToggle from '../../components/toggle-switch/toggle-switch.svelte'
   import { Lang } from '../../store/lang'
@@ -21,7 +32,7 @@
 -->
 <!-- Use Location -->
 
-<!-- <ListItem bottomLine={42} title={Lang.t('settings.base-font-size', 'Text Size')}>
+<!-- <ListItem bottomLine={57} title={Lang.t('settings.base-font-size', 'Text Size')}>
     <Avatar slot="left"  className="-ml-1" emoji="🅰" />
     <div slot="right">
       <ButtonGroup>
@@ -48,8 +59,8 @@
   <!-- 24 Hour -->
 
   <!-- firstDayOfWeek -->
-  <ListItem bottomLine={42} title={Lang.t('settings.unit-system,', 'Units')}>
-    <Avatar slot="left" emoji="📐" className="-ml-1 mr-2" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.unit-system,', 'Units')}>
+    <span slot="left"><IconSquare color="#9E4A00"><IonIcon icon={ResizeOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ButtonGroup
         buttons={[
@@ -72,8 +83,8 @@
     </div>
   </ListItem>
 
-  <ListItem bottomLine={42} title={Lang.t('settings.week-starts', 'Week Starts')}>
-    <Avatar slot="left" emoji="🗓" className="-ml-1 mr-2" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.week-starts', 'Week Starts')}>
+    <span slot="left"><IconSquare color="#B95500"><IonIcon icon={CalendarOutline} size={17} /></IconSquare></span>
     <div slot="right">
       <ButtonGroup
         bind:value={$Prefs.weekStarts}
@@ -91,33 +102,27 @@
     </div>
   </ListItem>
 
-  <ListItem bottomLine={42} title={Lang.t('settings.24-hour-clock', '24 hour clock')}>
-    <Avatar slot="left" emoji="⌚️" className="-ml-1 mr-2" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.24-hour-clock', '24 hour clock')}>
+    <span slot="left"><IconSquare color="#C25E00"><IonIcon icon={TimeOutline} size={17} /></IconSquare></span>
     <div slot="right">
-      <NToggle title="24 Hour Mode" bind:value={$Prefs.use24hour} />
+      <NToggle title={Lang.t('settings.24-hour-mode', '24 Hour Mode')} bind:value={$Prefs.use24hour} />
     </div>
   </ListItem>
 
   <!-- Language -->
-  <ListItem bottomLine={42} title={Lang.t('settings.language', 'Language')}>
-    <Avatar slot="left" emoji="🌎" className="-ml-1 mr-2" size={22} />
+  <ListItem bottomLine={57} title={Lang.t('settings.language', 'Language')}>
+    <span slot="left"><IconSquare color="#D06A14"><IonIcon icon={LanguageOutline} size={17} /></IconSquare></span>
     <div slot="right">
-      <select
-        title="Select a Language"
-        class="nselect clear"
+      <IosSelect
+        title={Lang.t('settings.select-a-language', 'Select a Language')}
         bind:value={$Lang.lang}
-        on:change={(event) => {
-          Lang.setLang($Lang.lang)
-        }}
-      >
-        {#each Lang.getLangs() as lang}
-          <option value={lang.key}>{lang.label}</option>
-        {/each}
-      </select>
+        onchange={() => Lang.setLang($Lang.lang)}
+        options={Lang.getLangs().map((lang) => ({ value: lang.key, label: lang.label }))}
+      />
     </div>
   </ListItem>
 </List>
 <!-- 
-  <ListItem bottomLine={42} title={Lang.t('settings.translate-nomie', 'Help Translate Nomie')} to="/lang" detail>
-    <Avatar slot="left"  emoji="🌍" className="-ml-1 mr-2" size={22}/>
+  <ListItem bottomLine={57} title={Lang.t('settings.translate-nomie', 'Help Translate Nomie')} to="/lang" detail>
+    <span slot="left"><IconSquare color="#DE7B2A"><IonIcon icon={GlobeOutline} size={17} /></IconSquare></span>
   </ListItem> -->

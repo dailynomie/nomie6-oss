@@ -2,9 +2,17 @@ import type { Profile, UserContext } from './types'
 
 function hasDetailKeywords(text?: string): boolean {
   if (!text) return false
-  const keywords = ['in depth', 'in-depth', 'extensive', 'full report', 'detailed', 'comprehensive analysis', 'thorough']
+  const keywords = [
+    'in depth',
+    'in-depth',
+    'extensive',
+    'full report',
+    'detailed',
+    'comprehensive analysis',
+    'thorough',
+  ]
   const lowerText = text.toLowerCase()
-  return keywords.some(keyword => lowerText.includes(keyword))
+  return keywords.some((keyword) => lowerText.includes(keyword))
 }
 
 export const chatProfile: Profile = {
@@ -30,29 +38,29 @@ export const chatProfile: Profile = {
     // Format contexts
     const contextsList = context.contexts
       ? Object.entries(context.contexts)
-        .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} times`)
-        .join(', ')
+          .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} times`)
+          .join(', ')
       : 'None tracked'
 
     // Format pointers
     const pointersList = context.pointers
       ? Object.entries(context.pointers)
-        .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} occurrences`)
-        .join(', ')
+          .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} occurrences`)
+          .join(', ')
       : 'None tracked'
 
     // Format locations with coordinates and recent dates for Claude to interpret
     const locationsList = context.locations
       ? context.locations
-        .map((loc: any) => {
-          const name = loc.name ? `${loc.name}` : `[Coordinates: ${loc.lat?.toFixed(4)}, ${loc.lng?.toFixed(4)}]`
-          const coords = loc.lat && loc.lng ? ` (lat: ${loc.lat?.toFixed(4)}, lng: ${loc.lng?.toFixed(4)})` : ''
-          const recentDates = loc.recentDates && loc.recentDates.length > 0 ? `, recent visits: ${loc.recentDates.join(', ')}` : ''
-          return `${name}${coords} - visited ${loc.count} times, last on ${loc.lastUsed}${recentDates}`
-        })
-        .join('\n')
+          .map((loc: any) => {
+            const name = loc.name ? `${loc.name}` : `[Coordinates: ${loc.lat?.toFixed(4)}, ${loc.lng?.toFixed(4)}]`
+            const coords = loc.lat && loc.lng ? ` (lat: ${loc.lat?.toFixed(4)}, lng: ${loc.lng?.toFixed(4)})` : ''
+            const recentDates =
+              loc.recentDates && loc.recentDates.length > 0 ? `, recent visits: ${loc.recentDates.join(', ')}` : ''
+            return `${name}${coords} - visited ${loc.count} times, last on ${loc.lastUsed}${recentDates}`
+          })
+          .join('\n')
       : 'None tracked'
-
 
     return `You are a helpful AI assistant analyzing the user's comprehensive tracking data including metrics, locations, contexts, and journal entries.
 Provide ${responseGuidance}. Be friendly, encouraging, and insightful.
@@ -104,5 +112,5 @@ Provide analysis that helps the user understand patterns and connections between
 
   parseResponse: (raw: string) => {
     return raw.trim()
-  }
+  },
 }

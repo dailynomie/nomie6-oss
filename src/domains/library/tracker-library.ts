@@ -5,7 +5,6 @@
 
 // utils
 import Logger from '../../utils/log/log'
-import TrackableLibraryModal from './library-modal.svelte'
 import { openModal } from '../../components/backdrop/BackdropStore2'
 // Svelte
 import { writable } from 'svelte/store'
@@ -60,11 +59,12 @@ const TrackerLibInit = () => {
 
 export const TrackerLibrary = TrackerLibInit()
 
-export const openTrackableLibrary = (first: boolean = false) => {
+export const openTrackableLibrary = async (first: boolean = false) => {
   TrackerLibrary.update((p) => {
     p.show = true
     return p
   })
+  const { default: TrackableLibraryModal } = await import('./library-modal.svelte')
   openModal({
     id: 'trackable-library',
     component: TrackableLibraryModal,

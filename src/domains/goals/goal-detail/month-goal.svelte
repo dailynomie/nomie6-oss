@@ -19,6 +19,7 @@
   import type { TrackableUsage } from '../../usage/trackable-usage.class'
   import type { GoalClass, GoalScoreType } from '../goal-class'
   import { getGoalComparisonSymbol } from '../goal-utils'
+  import { Lang } from '../../../store/lang'
 
   let { goal = $bindable() } = $props<{ goal: GoalClass }>()
 
@@ -28,9 +29,7 @@
   let loading: boolean = $state(true)
   let showLoading: boolean = $state(true)
 
-
   let years: Array<Array<GoalScoreType>> = $state([])
-
 
   let totalMonths: number | undefined = $state(undefined)
   let totalSuccess: number | undefined = $state(undefined)
@@ -46,7 +45,6 @@
   })
 
   const generateYearsFromScores = () => {
-    
     let yearMap: any = {}
     scores
       .sort((a, b) => {
@@ -64,7 +62,7 @@
         yearMap[startOfYear] = yearMap[startOfYear] || []
         yearMap[startOfYear].push(score)
       })
-    
+
     return Object.keys(yearMap)
       .map((id) => {
         return yearMap[id]
@@ -75,7 +73,6 @@
   }
 
   const getPast = async () => {
-    
     showLoading = true
     const start = dayjs(startDate).subtract(2, 'year')
     const end = dayjs(startDate).endOf('day')
@@ -84,7 +81,6 @@
     let backFilled = usage.byDay.backfill(start.toDate(), end.toDate())
     scores = [...scores, ...goal.calculateScores(backFilled)]
 
-    
     totalMonths = scores.length
     totalSuccess = scores.filter((s) => s.success).length
 
@@ -126,18 +122,18 @@
 </script>
 
 {#if goal && totalMonths}
-  <div class="bg-white  dark:bg-black px-4 pb-4  flex flex-col space-y-2">
-    <h1 class="text-xl font-bold text-black dark:text-white leading-tight mt-4 pb-">
+  <div class="bg-ios-card px-4 pb-4 flex flex-col space-y-2">
+    <h1 class="text-xl font-bold text-ios-label leading-tight mt-4 pb-">
       {trackable.label}
       {getGoalComparisonSymbol(goal.comparison)}
       {trackable.formatValue(goal.target)}
     </h1>
     {#if scores}
-      <p class="text-gray-600 dark:text-gray-400 leading-snug pb-2">
-        Goal hit <strong class="text-black dark:text-white"
-          >{math.round(math.percentage(totalMonths, totalSuccess))}%</strong
-        >
-        <strong>{totalSuccess}</strong> out of {totalMonths} months.
+      <p class="text-ios-label2 leading-snug pb-2">
+        {Lang.t('goals.goal-hit', 'Goal hit')}
+        <strong class="text-ios-label">{math.round(math.percentage(totalMonths, totalSuccess))}%</strong>
+        <strong>{totalSuccess}</strong>
+        {Lang.t('goals.out-of-months', { total: totalMonths })}
         <br />
       </p>
       <ProgressBar
@@ -149,7 +145,9 @@
     {/if}
   </div>
 {:else if !loading && !totalMonths}
-  <div class="bg-white dark:bg-black flex items-center justify-center h-40 p-10">Not enough data. Keep Tracking!</div>
+  <div class="bg-ios-card flex items-center justify-center h-40 p-10">
+    {Lang.t('goals.not-enough-data-keep-tracking', 'Not enough data. Keep Tracking!')}
+  </div>
 {/if}
 {#if loading}
   <Empty>
@@ -171,65 +169,67 @@
           {item[0].date.format(dateFormats.monthYear)} → {item[item.length - 1].date.format(dateFormats.monthYear)}
         </h2>
         {#if item.length < 4}
-         <div class="goal-balls">
-          
-          {#each item as month, i}
-          {#if i < 1}
-          <button
-              on:click={() => openDateOptions(month.date.toDate())}
-              style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {month.success == true ? 'bg-green-500' : ''} {month.failure == true
-                ? 'bg-red-500'
-                : ''}"
-            >
-              {month.date.format('MMM')}
-            </button>
-
-          {:else if item[i].date.format('MMM') != item[i-1].date.format('MMM')}
-          
-            <button
-              on:click={() => openDateOptions(month.date.toDate())}
-              style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {month.success == true ? 'bg-green-500' : ''} {month.failure == true
-                ? 'bg-red-500'
-                : ''}"
-            >
-              {month.date.format('MMM')}
-            </button>
-            {/if}
-            
-          {/each}
-        </div>
+          <div class="goal-balls">
+            {#each item as month, i}
+              {#if i < 1}
+                <button
+                  on:click={() => openDateOptions(month.date.toDate())}
+                  style="transform: scale({getPad(month.percent)})"
+                  class="goal-ball-month transition-all {month.success == true ? 'bg-ios-good' : ''} {month.failure ==
+                  true
+                    ? 'ios-goal-missed'
+                    : ''}"
+                >
+                  {month.date.format('MMM')}
+                </button>
+              {:else if item[i].date.format('MMM') != item[i - 1].date.format('MMM')}
+                <button
+                  on:click={() => openDateOptions(month.date.toDate())}
+                  style="transform: scale({getPad(month.percent)})"
+                  class="goal-ball-month transition-all {month.success == true ? 'bg-ios-good' : ''} {month.failure ==
+                  true
+                    ? 'ios-goal-missed'
+                    : ''}"
+                >
+                  {month.date.format('MMM')}
+                </button>
+              {/if}
+            {/each}
+          </div>
         {:else}
-        <div class="goal-balls">
-          
-          {#each item as month, i}
-          {#if i < 1}
-          <button
-              on:click={() => openDateOptions(month.date.toDate())}
-              style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-green-500' : ''} {!Number.isNaN(month.og) && month.failure == true
-              ? 'bg-red-500'
-              : ''} {Number.isNaN(month.og) ? 'bg-gray-500' : ''}"
-          >
-              {month.date.format('MMM')}
-            </button>
-
-          {:else if item[i].date.format('MMM') != item[i-1].date.format('MMM')}
-          
-            <button
-              on:click={() => openDateOptions(month.date.toDate())}
-              style="transform: scale({getPad(month.percent)})"
-              class="goal-ball-month transition-all  {!Number.isNaN(month.og) && month.success == true ? 'bg-green-500' : ''} {!Number.isNaN(month.og) && month.failure == true
-                ? 'bg-red-500'
-                : ''} {Number.isNaN(month.og) ? 'bg-gray-500' : ''}"
-            >
-              {month.date.format('MMM')}
-            </button>
-           
-            {/if}
-          { /each}
-        </div>
+          <div class="goal-balls">
+            {#each item as month, i}
+              {#if i < 1}
+                <button
+                  on:click={() => openDateOptions(month.date.toDate())}
+                  style="transform: scale({getPad(month.percent)})"
+                  class="goal-ball-month transition-all {!Number.isNaN(month.og) && month.success == true
+                    ? 'bg-ios-good'
+                    : ''} {!Number.isNaN(month.og) && month.failure == true ? 'ios-goal-missed' : ''} {Number.isNaN(
+                    month.og
+                  )
+                    ? 'bg-ios-fill goal-nodata'
+                    : ''}"
+                >
+                  {month.date.format('MMM')}
+                </button>
+              {:else if item[i].date.format('MMM') != item[i - 1].date.format('MMM')}
+                <button
+                  on:click={() => openDateOptions(month.date.toDate())}
+                  style="transform: scale({getPad(month.percent)})"
+                  class="goal-ball-month transition-all {!Number.isNaN(month.og) && month.success == true
+                    ? 'bg-ios-good'
+                    : ''} {!Number.isNaN(month.og) && month.failure == true ? 'ios-goal-missed' : ''} {Number.isNaN(
+                    month.og
+                  )
+                    ? 'bg-ios-fill goal-nodata'
+                    : ''}"
+                >
+                  {month.date.format('MMM')}
+                </button>
+              {/if}
+            {/each}
+          </div>
         {/if}
       </div>
     {/if}
@@ -242,7 +242,7 @@
     percent: number -->
     <!-- <ListItem clickable on:click={() => openDateOptions(item.date.toDate())}>
       <main class="flex flex-col space-y-1">
-        <div class="text-sm text-gray-500 leading-none">{item.date.format(`dddd`)}</div>
+        <div class="text-sm text-ios-label2 leading-none">{item.date.format(`dddd`)}</div>
         <div class="font-semibold text-base">{item.date.format(`${dateFormats.mmm_d_yyyy}`)}</div>
         <div />
         <ProgressBar
@@ -267,7 +267,7 @@
     @apply px-4;
   }
   .goal-scroller .month h2 {
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
     @apply text-xs lg:text-lg;
     @apply font-medium;
     @apply mt-4 mb-2 lg:mt-10;
@@ -276,8 +276,7 @@
     @apply flex items-center justify-between;
     @apply leading-tight;
     @apply w-full;
-    @apply max-w-md;  
-
+    @apply max-w-md;
   }
   .goal-ball-month {
     @apply rounded-full;
@@ -286,24 +285,23 @@
     @apply flex items-center justify-center text-center;
     @apply h-9 w-9;
     @apply flex-grow-0 flex-shrink-0;
-    @apply text-white;
+    color: var(--ios-on-save);
     @apply transition-all duration-100 ease-in-out;
-    width:7%;
-    font-size: .500rem;
+    width: 7%;
+    font-size: 0.5rem;
     flex-shrink: 1;
     flex-grow: 1;
-
   }
   .day-score-button {
     @apply relative;
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-ios-card;
     @apply flex flex-col items-center justify-center;
     @apply py-1 px-3 rounded-2xl;
     @apply shadow-xl;
   }
   .day-score-button .success-check {
     @apply absolute;
-    @apply bg-white;
+    background-color: var(--ios-card);
     @apply h-5 w-5 rounded-full;
     @apply leading-none;
   }
@@ -311,5 +309,8 @@
     margin-left: -2px;
     margin-top: -2px;
   }
+  /* iOS look: a day with no data is the fill token with secondary text (contrast 4.5:1) */
+  .goal-nodata {
+    color: var(--ios-label2) !important;
+  }
 </style>
-

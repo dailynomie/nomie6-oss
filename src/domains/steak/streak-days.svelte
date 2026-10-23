@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import dayjs from 'dayjs'
+  import { getDateFormats } from '../preferences/Preferences'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { CheckmarkCircle } from '../../components/icon/nicons'
@@ -42,11 +43,11 @@
           height:{size}px; width:{size}px; "
         >
           {#if loopDate.used}
-            <IonIcon icon={CheckmarkCircle} className="fill-white" size={size * 0.6} />
+            <IonIcon icon={CheckmarkCircle} className="text-ios-ontint" size={size * 0.6} />
           {/if}
         </div>
         <Text size="xxs" faded={!loopDate.used}>
-          {loopDate.date.format('MM/DD')}
+          {loopDate.date.format(getDateFormats().tinyNumber)}
         </Text>
       </div>
     {/each}

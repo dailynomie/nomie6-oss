@@ -12,7 +12,7 @@
   let { goal = $bindable() } = $props<{ goal: GoalClass }>()
 </script>
 
-<div class="goal-detail flex flex-col h-full filler ">
+<div class="goal-detail flex flex-col h-full filler">
   {#if goal}
     {#if goal.duration === 'day'}
       <DayGoal bind:goal />

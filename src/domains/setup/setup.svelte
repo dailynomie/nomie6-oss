@@ -94,6 +94,8 @@
         state.activeSlide = state.activeSlide + 1
       } else if (state.activeSlide === slides.length - 1) {
         $Prefs.onboarded = true
+        // New users start in starter mode. Existing users are already onboarded and keep the full app.
+        $Prefs.experience = $Prefs.experience ?? 'starter'
         wait(100).then(() => {
           window.location.href = '/'
         })
@@ -108,6 +110,6 @@
 
 <style lang="postcss" global>
   .setup-main {
-    @apply bg-gray-100 dark:bg-gray-900;
+    @apply bg-ios-bg;
   }
 </style>

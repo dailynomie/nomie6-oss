@@ -11,6 +11,7 @@
   import { getDateFormats } from '../preferences/Preferences'
   import { TrackableStore } from '../trackable/TrackableStore'
   import { loadToday, TodayStore } from './today/TodayStore'
+  import { Lang } from '../../store/lang'
 
   let dateFormats = $state(getDateFormats())
   let daysBack = $state(30)
@@ -39,7 +40,7 @@
 
 <div
   transition:slide|global={{ delay: 250, duration: 300, easing: quintOut }}
-  class="date-setting flex items-center justify-center bg-red-500"
+  class="date-setting flex items-center justify-center bg-ios-tint"
 >
   <Scroller
     className="filler min-w-0 py-2"
@@ -60,23 +61,24 @@
       class="{dayjs()
         .subtract(daysBack - (item + 1), 'day')
         .format('YYYY-MM-DD') === $TodayStore.date.format('YYYY-MM-DD')
-        ? 'active ring-2 ring-white'
-        : 'inactive'}  bit-button  whitespace-nowrap py-1 my-1 w-auto stiff flex-wrap leading-tight text-sm font-semibold  px-2 rounded-lg"
+        ? 'active ring-2 ring-ios-tint'
+        : 'inactive'}  bit-button whitespace-nowrap py-1 my-1 w-auto stiff flex-wrap leading-tight text-sm font-semibold px-2 rounded-lg"
     >
       {dayjs()
         .subtract(daysBack - (item + 1), 'day')
         .format(dateFormats.tinyDate)}
     </button>
   </Scroller>
-  <button class="bg-white text-red-500 py-1 w-auto  leading-tight px-3 rounded-full mx-2 stiff" on:click={done}
-    >Done</button
+  <button class="bg-ios-card text-ios-tint py-1 w-auto leading-tight px-3 rounded-full mx-2 stiff" on:click={done}
+    >{Lang.t('usage.done', 'Done')}</button
   >
 </div>
 
 <style lang="postcss" global>
+  /* iOS look: a day picker bar is the tint (red is for destructive actions) */
   .date-setting {
-    @apply bg-red-500;
-    @apply text-white;
+    @apply bg-ios-tint;
+    @apply text-ios-ontint;
   }
   .date-setting .bit-button:last-child {
     margin-right: 20px !important;

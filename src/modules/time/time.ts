@@ -1,6 +1,7 @@
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { Lang } from '../../store/lang'
 
 dayjs.extend(relativeTime)
 

@@ -46,7 +46,6 @@
   import Empty from '../components/empty/empty.svelte'
   import { ActiveLogStore } from '../domains/capture-log/CaptureLogStore'
   import ButtonGroup from '../components/button-group/button-group.svelte'
-  import Toolbar from '../components/toolbar/toolbar.svelte'
   import type { OTDViewOption } from '../domains/on-this-day/on-this-day-helpers'
   import { OTDViews } from '../domains/on-this-day/on-this-day-helpers'
   import OnThisDayViews from '../domains/on-this-day/on-this-day-views.svelte'
@@ -57,7 +56,7 @@
   import { showTrackablePopmenu } from '../domains/board/boardActions'
   import { openStats2 } from '../domains/stats2/Stats2Store'
   import { Trackable } from '../domains/trackable/Trackable.class'
-  import { ChevronForwardOutline, SearchIcon } from '../components/icon/nicons'
+  import { CalendarOutline, ChevronForwardOutline, SearchIcon } from '../components/icon/nicons'
   import { selectFuzzyDate } from '../domains/timeline/select-date-fuzzy'
   import { openUnisearch } from '../domains/search/UnisearchStore'
 
@@ -164,7 +163,6 @@
       methods.scrollTop()
     },
     search() {
-      // SearchStore.view('history')
       openUnisearch()
     },
     trackerTapped(tracker, log) {
@@ -231,61 +229,65 @@
 </script>
 
 <NLayout pageTitle={appTitle} {style}>
-  <header slot="header" class="items-center flex-column z-30">
-    <Container>
-      <Toolbar className=" px-2 items-center">
-        <Button icon on:click={methods.search}>
-          <IonIcon className="text-primary-500" icon={SearchIcon} size={24} />
-        </Button>
+  <!-- iOS look (3.1): action row with round buttons, then the large title, as on the Timeline -->
+  <header slot="header" class="glass z-30 px-4 pt-2 pb-3">
+    <div class="flex items-center justify-between gap-2 h-11">
+      <button type="button" aria-label={Lang.t('routes.search', 'Search')} class="ios-round" on:click={methods.search}>
+        <IonIcon icon={SearchIcon} size={18} />
+      </button>
+      <div class="flex items-center gap-2">
         {#if refreshing}
           <Spinner size={16} />
         {/if}
-        <h1 class="leading-none ntitle line-clamp-1 text-left ml-2" aria-label="Current Active Date">
-          {state.date.format('ddd')}
-          {state.date.format(dateFormats.date)}
-        </h1>
-        <div class="filler" />
         <NextPrevCal on:previous={methods.previous} on:next={methods.next} on:calendar={methods.selectDate} {isToday} />
-      </Toolbar>
-      {#if logs.length}
-        <Toolbar className="px-4">
-          <ButtonGroup
-            compact
-            bind:value={view}
-            buttons={OTDViews.map((otd) => {
-              return {
-                label: otd.view,
-                icon: otd.icon,
-                value: otd.view,
-              }
-            })}
-          >
-            <!-- {#each OTDViews as loopView}
-              <Button
-                size="sm"
-                className={view === loopView.view ? 'active' : ''}
-                icon
-                on:click={() => {
-                  view = loopView.view
-                }}
-              >
-                <div class="relative pt-1">
-                  <IonIcon icon={loopView.icon} size={28} />
-                  <div data-count={loopView.reduce(logs)} class="notification-badge" />
-                </div>
-              </Button>
-            {/each} -->
-          </ButtonGroup>
-        </Toolbar>
-      {/if}
-    </Container>
+      </div>
+    </div>
+    <h1
+      class="text-ios-large font-bold text-ios-label mt-1 line-clamp-1"
+      aria-label={Lang.t('routes.current-active-date', 'Current Active Date')}
+    >
+      {Lang.t('on-this-day.header', {
+        date: `${state.date.format('ddd')} ${state.date.format(dateFormats.date)}`,
+      })}
+    </h1>
+    {#if logs.length}
+      <div class="mt-2">
+        <ButtonGroup
+          compact
+          bind:value={view}
+          buttons={OTDViews.map((otd) => {
+            return {
+              label: otd.view,
+              icon: otd.icon,
+              value: otd.view,
+            }
+          })}
+        >
+          <!-- {#each OTDViews as loopView}
+            <Button
+              size="sm"
+              className={view === loopView.view ? 'active' : ''}
+              icon
+              on:click={() => {
+                view = loopView.view
+              }}
+            >
+              <div class="relative pt-1">
+                <IonIcon icon={loopView.icon} size={28} />
+                <div data-count={loopView.reduce(logs)} class="notification-badge" />
+              </div>
+            </Button>
+          {/each} -->
+        </ButtonGroup>
+      </div>
+    {/if}
   </header>
   <!-- end header-content header -->
 
   <main slot="content" class="flex flex-col h-full page flex-grow h-75vh page-history">
-    <div class="relative flex-grow min-h-full  h-full">
+    <div class="relative flex-grow min-h-full h-full">
       <OfflineQueue />
-      
+
       {#if loading}
         <div class="flex items-center justify-center w-full max-h-full h-75vh">
           <Spinner />
@@ -293,19 +295,23 @@
       {:else if !loading && !logs.length}
         <Container className="flex items-center justify-center max-h-full h-75vh">
           <Empty
-            emoji="⏳"
-            title={state.date.format($Prefs.use24hour ? 'ddd Do MMM YYYY' : 'ddd MMM Do YYYY')}
+            icon={CalendarOutline}
+            title={state.date.format(`ddd ${dateFormats.date}`)}
             description={`${Lang.t('history.empty-day', 'No data was found on this day')}`}
             buttonLabel={Lang.t('history.add-a-note', 'Add a Note...')}
             buttonClick={composeHere}
           />
         </Container>
       {/if}
-      <OnThisDayViews {view} {logs} on:date={(evt)=>{
-        methods.getDate(dayjs(evt.detail));
-      }} />
+      <OnThisDayViews
+        {view}
+        {logs}
+        on:date={(evt) => {
+          methods.getDate(dayjs(evt.detail))
+        }}
+      />
     </div>
-    
+
     <div class="h-20" />
   </main>
 </NLayout>
@@ -340,8 +346,8 @@
     @apply w-4;
     @apply h-4;
     @apply rounded-full;
-    @apply bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-50;
-    @apply text-gray-700 dark:text-gray-300;
+    @apply bg-ios-card;
+    @apply text-ios-label2;
     @apply shadow-sm;
     @apply absolute;
     @apply top-0;
@@ -349,12 +355,12 @@
     @apply flex;
     @apply items-center;
     @apply justify-center;
-    font-size: 9px;
+    font-size: calc(9px * var(--text-scale));
     @apply font-bold;
   }
   .active .notification-badge {
-    @apply bg-primary-500;
-    @apply text-white;
+    @apply bg-ios-danger;
+    @apply text-ios-ondanger;
   }
   .notification-badge[data-count='0'] {
     @apply hidden;

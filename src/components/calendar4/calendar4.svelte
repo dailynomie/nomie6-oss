@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import IosSelect from '../ios-select/ios-select.svelte'
   import dayjs from 'dayjs'
   import type { Dayjs } from 'dayjs'
   import { createEventDispatcher } from 'svelte'
@@ -101,53 +102,55 @@
 
       <!-- Month Selector -->
       <div class="divide-x-2 divide-opacity-30 divide-gray-500 flex items-center nselect-group">
-        <select
-          class="nselect rounded-r-none"
-          class:sm={size == 'sm'}
+        <IosSelect
+          compact
+          title={Lang.t('ui.month', 'Month')}
           value={month}
-          on:input={(evt) => {
-            //@ts-ignore
-            let newDate = datejs.month(evt.target.value)
+          options={Array.from({ length: 12 }, (_, index) => ({
+            value: index,
+            label: dayjs().month(index).startOf('month').format('MMM'),
+          }))}
+          onchange={(next) => {
+            let newDate = datejs.month(parseNumber(`${next}`))
             date = newDate.toDate()
             dispatch('dateChange', newDate.toDate())
           }}
-        >
-          {#each Array(12)
-            .fill(0)
-            .map((c, index) => {
-              return dayjs().month(index).startOf('month').format('MMM')
-            }) as lmonth, index}
-            <option value={index}>{lmonth}</option>
-          {/each}
-        </select>
+        />
 
         <!-- Year Selector -->
-        <select
-          class="nselect rounded-l-none"
-          class:sm={size == 'sm'}
+        <IosSelect
+          compact
+          title={Lang.t('ui.year', 'Year')}
           value={year}
-          on:input={(evt) => {
-            //@ts-ignore
-            let newDate = datejs.year(parseNumber(evt.target.value))
+          options={Array.from({ length: 12 }, (_, index) => {
+            const y = parseNumber(dayjs().format('YYYY')) - index
+            return { value: y, label: `${y}` }
+          })}
+          onchange={(next) => {
+            let newDate = datejs.year(parseNumber(`${next}`))
             date = newDate.toDate()
             dispatch('dateChange', newDate)
           }}
-        >
-          {#each Array(12)
-            .fill(0)
-            .map((c, index) => {
-              return parseNumber(dayjs().format('YYYY')) - index
-            }) as lyear, index}
-            <option value={lyear}>{lyear}</option>
-          {/each}
-        </select>
+        />
       </div>
       <div class="filler" />
 
-      <button class="nselect clear" class:sm={size == 'sm'} on:click={() => nextPrev('previous')}>
+      <button
+        type="button"
+        aria-label={Lang.t('ui.previous', 'Previous')}
+        class="nselect clear"
+        class:sm={size == 'sm'}
+        on:click={() => nextPrev('previous')}
+      >
         <IonIcon icon={ChevronBackOutline} size={22} />
       </button>
-      <button class="nselect clear" class:sm={size == 'sm'} on:click={() => nextPrev('next')}>
+      <button
+        type="button"
+        aria-label={Lang.t('ui.next', 'Next')}
+        class="nselect clear"
+        class:sm={size == 'sm'}
+        on:click={() => nextPrev('next')}
+      >
         <IonIcon icon={ChevronForwardOutline} size={22} />
       </button>
       {#if date.toDateString() !== new Date().toDateString()}
@@ -156,7 +159,7 @@
           class="nselect"
           on:click={() => {
             date = new Date()
-          }}>Today</button
+          }}>{Lang.t('ui.today', 'Today')}</button
         >
       {/if}
     </div>
@@ -212,10 +215,10 @@
           <ProgressBar
             className=" h-1 absolute bottom-1 left-1 right-1"
             barClass="h-1 {dayItem.positivity === 'positive'
-              ? 'bg-green-500'
+              ? 'bg-ios-good'
               : dayItem.positivity == 'negative'
-              ? 'bg-red-500'
-              : 'bg-primary-500'}"
+                ? 'bg-ios-danger'
+                : 'bg-ios-tint'}"
             percentage={dayItem.percentage}
           />
         {/if}
@@ -243,8 +246,8 @@
   .calendar-4.xs {
   }
   .calendar-4 header {
-    @apply bg-gray-200 dark:bg-gray-800;
-    @apply text-gray-600 dark:text-gray-400;
+    @apply bg-ios-card;
+    @apply text-ios-label2;
   }
   .calendar-4 .header-days .cell {
     @apply px-3 py-1;
@@ -260,21 +263,21 @@
     @apply text-sm;
     @apply p-1;
     @apply flex items-center justify-center;
-    @apply border-b border-l border-gray-200 dark:border-gray-700;
+    @apply border-b border-l border-ios-separator;
     @apply h-10;
     @apply focus:outline-none;
   }
   .calendar-4 .calendar-days .day span {
     @apply block;
     @apply relative;
-    @apply text-black dark:text-white;
+    @apply text-ios-label;
   }
   .calendar-4 .calendar-days .day:focus {
-    @apply ring-2 ring-primary-300 ring-inset;
+    @apply ring-2 ring-ios-tint ring-inset;
   }
   .calendar-4 .calendar-days .day.today span {
-    @apply text-green-500 font-bold;
-    @apply bg-primary-500 text-white;
+    @apply text-ios-good font-bold;
+    @apply bg-ios-tint text-ios-ontint;
     @apply rounded-full;
     @apply h-6 w-6;
     @apply flex items-center justify-center;
@@ -292,9 +295,9 @@
   }
 
   .calendar-4 .calendar-days .day.has-value.is-positive::after {
-    @apply bg-green-500;
+    @apply bg-ios-good;
   }
   .calendar-4 .calendar-days .day.has-value.is-negative::after {
-    @apply bg-red-500;
+    @apply bg-ios-danger;
   }
 </style>

@@ -69,19 +69,19 @@
             toast.buttonClick()
             removeToast(toast)
           }}
-          class="text-primary-500 uppercase font-semibold text-sm px-2 py-1 rounded-full focus:outline-none focus:ring-2 ring-primary-500"
+          class="text-ios-tint uppercase font-semibold text-sm px-2 py-1 rounded-full focus:outline-none focus:ring-2 ring-ios-tint"
         >
           {toast.buttonLabel}
         </button>
       {/if}
       {#if toast.timeout > 2500}
-        <IonIcon icon={CloseOutline} className="text-gray-500 pr-2" />
+        <IonIcon icon={CloseOutline} className="text-ios-label2 pr-2" />
       {/if}
     </div>
     {#if toast.buttonLabel}
       <div class="progress h-1 absolute bottom-1 left-1 right-1 overflow-hidden;">
         {#if percentage}
-          <ProgressBar percentage={100 - percentage} className="bg-black h-1" barClass="h-1 bg-gray-800 w-full" />
+          <ProgressBar percentage={100 - percentage} className="bg-ios-black h-1" barClass="h-1 bg-ios-label2 w-full" />
         {/if}
       </div>
     {/if}
@@ -90,7 +90,7 @@
 
 <style lang="postcss" global>
   .toast-type {
-    @apply h-7 w-7 rounded-full bg-black;
+    @apply h-7 w-7 rounded-full bg-ios-black;
     @apply absolute -top-2 -left-2;
     @apply flex items-center justify-center;
   }
@@ -98,6 +98,6 @@
     @apply h-7 w-7;
   }
   .toast-type.success {
-    @apply text-green-500;
+    @apply text-ios-good;
   }
 </style>

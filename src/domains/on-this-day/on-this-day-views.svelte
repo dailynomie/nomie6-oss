@@ -8,7 +8,6 @@
   import Grid from '../../components/grid/grid.svelte'
   import { People } from '../../components/icon/nicons'
   import ListItemLog from '../../components/list-item-log/list-item-log.svelte'
-  
 
   import { tokenToTrackable } from '../../modules/tokenizer/tokenToTrackable'
   import { TrackerStore } from '../tracker/TrackerStore'
@@ -18,7 +17,7 @@
   import { showTrackablePopmenu } from '../board/boardActions'
   import { getFocusScoresFromLogs, type IFocusResults } from '../focus/focus-utils'
   import { getTrackersAndValuesFromLogs } from '../ledger/ledger-tools'
-  import Map from '../map/map.svelte'
+  import Map from '../map/map-lazy.svelte'
   import type NLog from '../nomie-log/nomie-log'
   import { PeopleStore } from '../people/PeopleStore'
   import type Person from '../people/Person.class'
@@ -30,7 +29,7 @@
   import ContextChart from '../context/context-chart.svelte'
   import ListItem from '../../components/list-item/list-item.svelte'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
-  
+
   import PositivityGrid from '../../components/positivity-bar/positivity-grid.svelte'
   import Memories from '../ledger/Memories.svelte'
   import { createEventDispatcher } from 'svelte'
@@ -80,7 +79,7 @@
   })
 </script>
 
-{#if view !== 'context' || 'pointers' }
+{#if view !== 'context' || 'pointers'}
   <Container className="px-2 z-10">
     <div class="px-2 flex space-y-2 lg:space-y-0 lg:space-x-2 lg:flex-row flex-col items-center">
       <PositivityGrid {logs} />
@@ -92,7 +91,7 @@
               score: fs.score,
               color: fs.focus.color,
               label: fs.focus.label,
-              className: 'text-white',
+              className: 'text-ios-white',
             }
           })}
         />
@@ -135,7 +134,6 @@
       {/each}
     </Container>
   {/if}
-  
 {:else if view === 'notes'}
   {#if !notes.length}
     <Empty title={Lang.t('on-this-day.no-notes', 'No Notes on this Day')} emoji="✍🏽" />
@@ -161,7 +159,7 @@
         >
           <TrackableAvatar trackable={person.toTrackable()} slot="left" size={42} />
           <h2 class="ntitle">{person.displayName}</h2>
-          <div class="text-sm text-gray-500" slot="right">@{person.username}</div>
+          <div class="text-sm text-ios-label2" slot="right">@{person.username}</div>
         </ListItem>
       {/each}
     </Container>

@@ -1,13 +1,5 @@
 export type UOMGroupingTypes =
-  | 'general'
-  | 'currency'
-  | 'timer'
-  | 'time'
-  | 'distance'
-  | 'temperature'
-  | 'weight'
-  | 'volume'
-  | 'health'
+  'general' | 'currency' | 'timer' | 'time' | 'distance' | 'temperature' | 'weight' | 'volume' | 'health'
 
 export interface UOMElement {
   singular: string
@@ -20,6 +12,7 @@ export interface UOMElement {
   system?: 'metric' | 'imperial'
   cousin?: string
   key?: string
+  custom?: boolean
   convert?: Function
 }
 

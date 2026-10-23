@@ -10,8 +10,6 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { CheckmarkCircle } from '../../components/icon/nicons'
 
-
-
   const dispatch = createEventDispatcher()
 
   const { emoji, title, status, count } = $props()
@@ -23,14 +21,14 @@
     <h1 class="ntitle">
       {title}
     </h1>
-    <span class="text-xs font-semibold  px-2 rounded-full bg-gray-300 dark:bg-gray-700">{count || '0'}</span>
+    <span class="text-xs font-semibold px-2 rounded-full bg-ios-fill">{count || '0'}</span>
   </main>
   <slot />
   <div slot="right" class="flex items-center space-x-2">
     {#if status.running}
       <Spinner size={24} />
     {:else if status.done}
-      <IonIcon icon={CheckmarkCircle} className="text-primary-500" />
+      <IonIcon icon={CheckmarkCircle} className="text-ios-tint" />
     {:else}
       <Button
         clear
