@@ -672,6 +672,10 @@ export default {
       'note-tracker': '{{label}}: {{total}} ({{previous}} the week before)',
     },
     correlations: {
+      'suggested': 'Suggested links',
+      'analysing': 'Looking for links in the background…',
+      'none-suggested': 'No clear links yet. A suggestion needs at least two weeks of days with both items, and three in four days in the same direction.',
+      'own': 'Or choose two trackers',
       'find-links': 'Find links',
       'title': 'Find links',
       'intro': 'Looks at the last {{days}} days. A link is shown when one tracker moves the same way on most of the days the other is high.',

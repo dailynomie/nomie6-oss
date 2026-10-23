@@ -22,11 +22,22 @@ const valuesOf = (series: Series): Array<number> =>
   Object.values(series).filter((v): v is number => v !== undefined)
 
 /** The link from A to B at one lag, or undefined when the data does not show a clear one. */
-export const findLink = (a: Series, b: Series, lag: 0 | 1): Link | undefined => {
+export type LinkRule = { minDays: number; share: number }
+
+/** The rule for the manual pick: a link needs seven days and a clear majority. */
+export const MANUAL_RULE: LinkRule = { minDays: MIN_LINK_DAYS, share: CLEAR_SHARE }
+
+/**
+ * The rule for the background analysis: many pairs are compared, so chance links are more likely.
+ * A suggestion needs two weeks and three in four days going the same way.
+ */
+export const SUGGESTION_RULE: LinkRule = { minDays: 14, share: 0.75 }
+
+export const findLink = (a: Series, b: Series, lag: 0 | 1, rule: LinkRule = MANUAL_RULE): Link | undefined => {
   const aDays = Object.keys(a).filter((day) => a[day] !== undefined)
   const aValues = valuesOf(a)
   const bValues = valuesOf(b)
-  if (aValues.length < MIN_LINK_DAYS || bValues.length < MIN_LINK_DAYS) return undefined
+  if (aValues.length < rule.minDays || bValues.length < rule.minDays) return undefined
 
   const aUsual = median(aValues)
   const bUsual = median(bValues)
@@ -41,9 +52,9 @@ export const findLink = (a: Series, b: Series, lag: 0 | 1): Link | undefined => 
   }
 
   const total = lower + higher
-  if (total < MIN_LINK_DAYS) return undefined
+  if (total < rule.minDays) return undefined
   const matches = Math.max(lower, higher)
-  if (matches / total < CLEAR_SHARE) return undefined
+  if (matches / total < rule.share) return undefined
   return { lag, direction: lower >= higher ? 'lower' : 'higher', matches, total }
 }
 

@@ -670,6 +670,10 @@ export default {
       'note-tracker': '{{label}}: {{total}} ({{previous}} de week ervoor)',
     },
     correlations: {
+      'suggested': 'Voorgestelde verbanden',
+      'analysing': 'Verbanden zoeken op de achtergrond…',
+      'none-suggested': 'Nog geen duidelijke verbanden. Een voorstel heeft minstens twee weken dagen met beide nodig, en in drie van de vier dagen dezelfde kant op.',
+      'own': 'Of kies zelf twee trackers',
       'find-links': 'Verbanden zoeken',
       'title': 'Verbanden zoeken',
       'intro': 'Kijkt naar de laatste {{days}} dagen. Een verband wordt getoond als de ene tracker op de meeste dagen dat de andere hoog is, dezelfde kant op beweegt.',
