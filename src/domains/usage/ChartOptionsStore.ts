@@ -1,26 +1,13 @@
 import { writable } from 'svelte/store'
 import type { Trackable } from '../trackable/Trackable.class'
 import Storage from '../storage/storage'
-import NPaths from '../../paths'
 
 type ChartOptions = {
   type: 'bar' | 'line'
   startWithZero: boolean
-  ignoreZero: boolean
-  stats:
-    | 'none'
-    | 'avg'
-    | 'sma-7'
-    | 'sma-15'
-    | 'sma-30'
-    | 'ema-7'
-    | 'ema-15'
-    | 'ema-30'
-    | 'split-11'
-    | 'split-12'
-    | 'split-13'
-    | 'cumm'
-  include?: string // Store as trackable ID (e.g., "#tracker-name") instead of Trackable object
+  ignoreZero:boolean
+  stats: 'none' | "avg" | 'sma-7' | 'sma-15' | 'sma-30' | 'ema-7' | 'ema-15' | 'ema-30' | 'split-11' | 'split-12' | 'split-13' | 'cumm'
+  include?: string  // Store as trackable ID (e.g., "#tracker-name") instead of Trackable object
   showContext: boolean
 }
 export type ChartOptionsStoreState = {
@@ -36,12 +23,12 @@ export const saveChartOptions = async (id: string, options: any) => {
     startWithZero: options.startWithZero,
     ignoreZero: options.ignoreZero,
     stats: options.stats,
-    include: options.include?.id || options.include, // Store trackable ID if it's an object, or use as-is if already a string
+    include: options.include?.id || options.include,  // Store trackable ID if it's an object, or use as-is if already a string
     showContext: options.showContext,
   }
   chartOptionsCache[id] = optionsToSave
   // Save to CouchDB via Storage for multi-device sync
-  await Storage.put(NPaths.storage.chartOptions(), chartOptionsCache)
+  await Storage.put('chart-options.json', chartOptionsCache)
 }
 
 export const getChartOption = (id: string): ChartOptions | undefined => {
@@ -60,7 +47,7 @@ export const getChartOptions = (): ChartOptionsStoreState => {
 export const registerChartOptionsListener = async () => {
   try {
     // Register listener for chart option changes from CouchDB sync
-    Storage.get(NPaths.storage.chartOptions(), (changedOptions: ChartOptionsStoreState) => {
+    Storage.get('chart-options.json', (changedOptions: ChartOptionsStoreState) => {
       // Update the cache with synced options
       if (changedOptions) {
         chartOptionsCache = changedOptions
@@ -69,7 +56,7 @@ export const registerChartOptionsListener = async () => {
     })
 
     // Load initial options from Storage
-    const initialOptions = await Storage.get(NPaths.storage.chartOptions())
+    const initialOptions = await Storage.get('chart-options.json')
     if (initialOptions) {
       chartOptionsCache = initialOptions
       ChartOptionsStore.set(chartOptionsCache)

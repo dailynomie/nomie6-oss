@@ -5,10 +5,7 @@
   import type { AIResponse } from './profiles/types'
   import { marked } from 'marked'
   import dayjs from 'dayjs'
-  import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { ChatboxOutline, PaperPlaneSolid } from '../../components/icon/nicons'
   import { Prefs } from '../preferences/Preferences'
-  import { Lang } from '../../store/lang'
 
   interface ChatMessage {
     id: string
@@ -26,10 +23,10 @@
   let providerInfo = $derived.by(() => {
     const selectedService = $Prefs.ai?.selectedService || 'claude'
     const service = $Prefs.ai?.services?.[selectedService]
-
+    
     let provider = ''
     let model = ''
-
+    
     if (selectedService === 'claude') {
       provider = 'Claude'
       model = 'claude-opus-4-8'
@@ -38,7 +35,7 @@
       // Use actual model from response if available, otherwise show endpoint
       model = aiState.actualModel || 'openrouter/free'
     }
-
+    
     return { provider, model }
   })
 
@@ -81,7 +78,7 @@
       id: `msg-${Date.now()}`,
       role: 'user',
       content: inputText,
-      timestamp: new Date(),
+      timestamp: new Date()
     }
 
     messages.push(userMessage)
@@ -93,7 +90,7 @@
       role: 'assistant',
       content: '',
       timestamp: new Date(),
-      loading: true,
+      loading: true
     }
 
     messages.push(assistantMessage)
@@ -103,15 +100,15 @@
       const messageIndex = messages.length - 1
 
       // Build conversation history from previous messages (excluding the current loading message)
-      const conversationHistory = messages.slice(0, -1).map((msg) => ({
+      const conversationHistory = messages.slice(0, -1).map(msg => ({
         role: msg.role as 'user' | 'assistant',
-        content: msg.content,
+        content: msg.content
       }))
 
       await streamQuery(
         {
           profile: 'chat',
-          prompt: userMessage.content,
+          prompt: userMessage.content
         },
         (chunk) => {
           fullResponse += chunk
@@ -130,9 +127,9 @@
 
       // Format error message for OpenRouter account setup
       if (errorMsg.includes('openrouter.ai/settings/credits')) {
-        messages[messageIndex].content = `⚠︎ **Account Setup Required**\n\n${errorMsg}`
+        messages[messageIndex].content = `⚠️ **Account Setup Required**\n\n${errorMsg}`
       } else {
-        messages[messageIndex].content = `Error: ${errorMsg}`
+        messages[messageIndex].content = `❌ Error: ${errorMsg}`
       }
 
       messages[messageIndex].loading = false
@@ -162,25 +159,13 @@
   <div bind:this={scrollContainer} class="flex-1 overflow-y-auto p-4 space-y-4 relative z-10">
     {#if messages.length === 0}
       <div class="flex items-center justify-center h-full text-center">
-        <!-- iOS look (contrast): the welcome sits on a card, so its text keeps 4.5:1 on the brand background -->
-        <div class="rounded-2xl bg-ios-card shadow-md px-6 py-6 mx-4">
-          <div class="mb-6 flex justify-center">
-            <IonIcon icon={ChatboxOutline} size={48} className="text-ios-tint" />
-          </div>
-          <p class="font-bold text-2xl text-ios-label">{Lang.t('ai.start-a-conversation', 'Start a conversation')}</p>
-          <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap text-ios-label2">
-            <span>{Lang.t('ai.ask', 'Ask')}</span>
-            <img
-              src="/images/nomie-words.svg"
-              alt="Nomie"
-              style="height: 18px; width: auto; vertical-align: middle; display: inline-block; margin-top: -2px;"
-            />
-            <span
-              >{Lang.t(
-                'ai.about-your-tracking-data-goals-and-insights',
-                'about your tracking data, goals, and insights'
-              )}</span
-            >
+        <div>
+          <p class="text-5xl mb-6">💬</p>
+          <p class="font-bold text-2xl" style="color: #0a4f80; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);">Start a conversation</p>
+          <div class="text-base mt-3 font-semibold flex items-center justify-center gap-2 flex-wrap px-4" style="color: #ffffff; text-shadow: 0 1px 3px rgba(10, 79, 128, 0.5);">
+            <span>Ask</span>
+            <img src="/images/nomie-words.svg" alt="Nomie" style="height: 18px; width: auto; filter: brightness(0) invert(1); vertical-align: middle; display: inline-block; margin-top: -2px;" />
+            <span>about your tracking data, goals, and insights</span>
           </div>
         </div>
       </div>
@@ -191,8 +176,8 @@
         <div
           class={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg break-words backdrop-blur-sm border ${
             message.role === 'user'
-              ? 'bg-ios-tint text-ios-ontint rounded-br-none border-ios-tint'
-              : 'bg-ios-card text-ios-label rounded-bl-none border-ios-separator'
+              ? 'bg-blue-500 text-white rounded-br-none border-blue-400'
+              : 'bg-white/80 dark:bg-white/10 text-gray-900 dark:text-white rounded-bl-none border-white/30'
           }`}
           style="backdrop-filter: blur(10px);"
         >
@@ -207,7 +192,7 @@
           {:else}
             <p class="text-sm leading-relaxed">{message.content}</p>
           {/if}
-          <p class={`text-xs mt-1 ${message.role === 'user' ? 'text-ios-ontint opacity-80' : 'text-ios-label2'}`}>
+          <p class={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-700 dark:text-gray-300'}`}>
             {dayjs(message.timestamp).format('HH:mm')}
           </p>
         </div>
@@ -216,45 +201,38 @@
   </div>
 
   <!-- Input Container -->
-  <div class="flex-shrink-0 border-t border-ios-separator p-4 relative z-20 bg-ios-card">
+  <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-4 relative z-20 bg-white dark:bg-gray-900">
     <div class="flex gap-2 items-end">
       <textarea
         bind:this={inputField}
         bind:value={inputText}
         on:keydown={handleKeydown}
-        placeholder={Lang.t('ai.ask-about-your-tracking-data', 'Ask about your tracking data...')}
+        placeholder="Ask about your tracking data..."
         disabled={aiState.loading}
-        class="flex-1 px-4 py-2 border border-ios-separator rounded-lg resize-none focus:outline-none bg-ios-card text-ios-label disabled:opacity-50"
+        class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
         rows={1}
       />
       <button
         on:click={sendMessage}
         disabled={!inputText.trim() || aiState.loading}
         class="ai-send-btn flex-shrink-0"
-        title={aiState.loading
-          ? Lang.t('ai.waiting-for-response', 'Waiting for response...')
-          : Lang.t('ai.send-message', 'Send message')}
+        title={aiState.loading ? 'Waiting for response...' : 'Send message'}
       >
-        <span class="send-icon"
-          >{#if aiState.loading}…{:else}<IonIcon icon={PaperPlaneSolid} size={18} />{/if}</span
-        >
+        <span class="send-icon">{aiState.loading ? '⏳' : '✉️'}</span>
       </button>
     </div>
     {#if aiState.error}
-      <div class="mt-3 p-3 rounded-lg bg-ios-card2 text-ios-label">
-        <p class="text-sm leading-tight whitespace-pre-wrap">
-          <span aria-hidden="true">⚠︎</span>
+      <div class="mt-3 p-3 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800">
+        <p class="text-red-700 dark:text-red-300 text-sm leading-tight whitespace-pre-wrap">
           {#if aiState.error.includes('openrouter.ai/settings/credits')}
-            <span class="font-semibold block mb-1"
-              >{Lang.t('ai.openrouter-setup-needed', 'OpenRouter Setup Needed')}</span
-            >
+            <span class="font-semibold block mb-1">🔗 OpenRouter Setup Needed</span>
           {/if}
           {aiState.error}
         </p>
       </div>
     {/if}
 
-    <div class="mt-1 text-right text-ios-label2" style="font-size: 0.625rem;">
+    <div class="mt-1 text-right text-gray-400 dark:text-gray-500" style="font-size: 0.625rem;">
       {providerInfo.provider}
       {#if providerInfo.model}
         • <span class="font-mono">{providerInfo.model}</span>
@@ -284,8 +262,7 @@
   }
 
   @keyframes twinkle {
-    0%,
-    100% {
+    0%, 100% {
       opacity: 0.2;
       transform: scale(1);
     }
@@ -304,7 +281,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #2aa8e0 0%, #1480b8 50%, #0a4f80 100%);
+    background: linear-gradient(
+      135deg,
+      #2aa8e0 0%,
+      #1480b8 50%,
+      #0a4f80 100%
+    );
     box-shadow: 0 4px 12px rgba(10, 79, 128, 0.4);
     transition: all 0.2s ease;
     position: relative;

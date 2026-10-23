@@ -1,6 +1,8 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+
+
   const { emoji } = $props()
 </script>
 

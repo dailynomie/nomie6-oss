@@ -20,11 +20,11 @@ test('It should handle 2nd line no space', () => {
   expect(token.find((t) => t.type == 'tracker').raw).toBe('#bb(0.4)')
 })
 
-test('it should handle duplicate trackers with different values', () => {
-  const tokens = tokenizeLite('#water(1) #water(2)')
-  expect(tokens.length).toBe(2)
-  expect(tokens[0].value).toBe(1)
-  expect(tokens[1].value).toBe(2)
+test('it should handle duplicate trackers with different values', ()=>{
+  const tokens = tokenizeLite('#water(1) #water(2)');
+  expect(tokens.length).toBe(2);
+  expect(tokens[0].value).toBe(1);
+  expect(tokens[1].value).toBe(2);
 })
 
 test('should parse a note', () => {

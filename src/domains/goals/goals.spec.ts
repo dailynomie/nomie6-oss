@@ -125,16 +125,8 @@ describe('Goals!', () => {
   })
 
   test('it should calculate the day scores for a DONTDOIT goal', () => {
-    // 7 March to 5 April 2021 is 30 days, including days without a log
     const scores = CoffeeGoal.calculateScores(usages['#coffee'])
-    expect(scores.length).toBe(30)
-  })
-
-  test('it should count a day with no log as a success for a DONTDOIT goal', () => {
-    const scores = CoffeeGoal.calculateScores(usages['#coffee'])
-    const daysWithoutLog = scores.filter((score) => isNaN(score.og))
-    expect(daysWithoutLog.length).toBeGreaterThan(0)
-    daysWithoutLog.forEach((score) => expect(score.success).toBe(true))
+    expect(scores.length).toBeGreaterThan(11)
   })
 
   // test('it should calculate Month Long Goals', () => {

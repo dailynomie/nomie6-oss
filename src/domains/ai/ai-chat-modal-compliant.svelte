@@ -7,8 +7,8 @@
   import Text from '../../components/text/text.svelte'
   import Button from '../../components/button/button.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { CloseOutline } from '../../components/icon/nicons'
   import AIChat from './ai-chat.svelte'
-  import { Lang } from '../../store/lang'
 
   interface Props {
     id: string
@@ -21,7 +21,10 @@
   }
 </script>
 
-<BackdropModal className="ai-chat-modal-compliant modal-fullscreen" mainClass="ai-chat-main flex flex-col">
+<BackdropModal
+  className="ai-chat-modal-compliant modal-fullscreen"
+  mainClass="ai-chat-main flex flex-col"
+>
   <header slot="header" class="ai-chat-header-compliant">
     <!-- Twinkling stars background -->
     <div class="stars-background" aria-hidden="true">
@@ -33,14 +36,24 @@
     </div>
 
     <ToolbarGrid>
+      <Button
+        slot="left"
+        clear
+        icon
+        on:click={closeChat}
+        className="text-white dark:text-gray-100 relative z-10"
+      >
+        <IonIcon icon={CloseOutline} className="text-white dark:text-gray-100" size={24} />
+      </Button>
+
       <div slot="main" class="flex items-center justify-center gap-2 relative z-10">
-        <Text bold size="md" className="text-ios-ontint">{Lang.t('ai.chat-with', 'Chat with')}</Text>
+        <Text bold size="md" className="text-white dark:text-gray-100">
+          💬 Chat with
+        </Text>
         <img src="/images/nomie-words.svg" alt="Nomie" class="header-nomie-logo" />
       </div>
 
-      <Button slot="right" clear primary on:click={closeChat} className="text-ios-ontint relative z-10"
-        >{Lang.t('general.done', 'Done')}</Button
-      >
+      <div slot="right" />
     </ToolbarGrid>
   </header>
 
@@ -51,11 +64,25 @@
 
 <style lang="postcss">
   :global(.ai-chat-modal-compliant) {
-    background: linear-gradient(135deg, #b8eafc 0%, #72d0f5 20%, #2aa8e0 50%, #1480b8 80%, #0a4f80 100%) !important;
+    background: linear-gradient(
+      135deg,
+      #b8eafc 0%,
+      #72d0f5 20%,
+      #2aa8e0 50%,
+      #1480b8 80%,
+      #0a4f80 100%
+    ) !important;
   }
 
   :global(.dark .ai-chat-modal-compliant) {
-    background: linear-gradient(135deg, #0a4f80 0%, #1480b8 20%, #2aa8e0 50%, #1a5a8f 80%, #052840 100%) !important;
+    background: linear-gradient(
+      135deg,
+      #0a4f80 0%,
+      #1480b8 20%,
+      #2aa8e0 50%,
+      #1a5a8f 80%,
+      #052840 100%
+    ) !important;
   }
 
   :global(.ai-chat-header-compliant) {
@@ -81,13 +108,21 @@
   }
 
   :global(.ai-chat-main-compliant) {
-    background: linear-gradient(to bottom, rgba(42, 168, 224, 0.1), rgba(10, 79, 128, 0.15));
+    background: linear-gradient(
+      to bottom,
+      rgba(42, 168, 224, 0.1),
+      rgba(10, 79, 128, 0.15)
+    );
     position: relative;
     overflow: hidden;
   }
 
   :global(.dark .ai-chat-main-compliant) {
-    background: linear-gradient(to bottom, rgba(10, 79, 128, 0.2), rgba(5, 40, 64, 0.3));
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 79, 128, 0.2),
+      rgba(5, 40, 64, 0.3)
+    );
   }
 
   :global(.ai-chat-main-compliant)::before {
@@ -115,8 +150,7 @@
   }
 
   @keyframes twinkle {
-    0%,
-    100% {
+    0%, 100% {
       opacity: 0.3;
       transform: scale(1);
     }

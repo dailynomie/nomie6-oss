@@ -3,10 +3,9 @@ import dayjs from 'dayjs'
 import { Prefs } from '../preferences/Preferences'
 import { cleanupPluginDuplicates, scanForPluginDuplicates, type DedupResult } from './plugin-dedup'
 import { showToast } from '../../components/toast/ToastStore'
-import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 
-const CLEANUP_STORAGE_KEY = DEVICE_KEYS.lastPluginCleanupDate
-const CLEANUP_LOG_KEY = DEVICE_KEYS.lastPluginCleanupLog
+const CLEANUP_STORAGE_KEY = 'last-plugin-cleanup-date'
+const CLEANUP_LOG_KEY = 'last-plugin-cleanup-log'
 
 export type CleanupLogEntry = {
   date: string
@@ -16,11 +15,13 @@ export type CleanupLogEntry = {
   totalPlugins: number
 }
 
-export const PluginCleanupStore = writable<undefined | string>(getDeviceSetting(CLEANUP_STORAGE_KEY))
+export const PluginCleanupStore = writable<undefined | string>(
+  localStorage.getItem(CLEANUP_STORAGE_KEY)
+)
 
 PluginCleanupStore.subscribe((s) => {
   if (s) {
-    setDeviceSetting(CLEANUP_STORAGE_KEY, s)
+    localStorage.setItem(CLEANUP_STORAGE_KEY, s)
   }
 })
 
@@ -45,7 +46,7 @@ export const cleanupConfirmed = async () => {
  * Get the last cleanup log entry
  */
 export const getLastCleanupLog = (): CleanupLogEntry | null => {
-  const log = getDeviceSetting(CLEANUP_LOG_KEY)
+  const log = localStorage.getItem(CLEANUP_LOG_KEY)
   return log ? JSON.parse(log) : null
 }
 
@@ -60,8 +61,8 @@ export const saveCleanupLog = (result: DedupResult, type: 'manual' | 'scheduled'
     rogueFoldersFound: result.totalRogueFolders,
     totalPlugins: result.totalPluginsInMainList,
   }
-  setDeviceSetting(CLEANUP_LOG_KEY, JSON.stringify(logEntry))
-  console.info(`[PluginCleanup] Saved ${type} cleanup log:`, logEntry)
+  localStorage.setItem(CLEANUP_LOG_KEY, JSON.stringify(logEntry))
+  console.log(`[PluginCleanup] Saved ${type} cleanup log:`, logEntry)
 }
 
 /**
@@ -70,7 +71,7 @@ export const saveCleanupLog = (result: DedupResult, type: 'manual' | 'scheduled'
  */
 export const autoCleanupPlugins = async (): Promise<boolean> => {
   try {
-    console.info('[PluginCleanup] Starting auto-cleanup scheduler...')
+    console.log('[PluginCleanup] Starting auto-cleanup scheduler...')
 
     // Get current preferences
     let prefs: any
@@ -80,21 +81,21 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
 
     // Check if cleanup is enabled
     if (!prefs || prefs.pluginCleanupDays === undefined || prefs.pluginCleanupDays === -1) {
-      console.info('[PluginCleanup] Auto-cleanup is disabled (pluginCleanupDays: -1)')
+      console.log('[PluginCleanup] Auto-cleanup is disabled (pluginCleanupDays: -1)')
       return false
     }
 
-    console.info(`[PluginCleanup] Auto-cleanup interval: ${prefs.pluginCleanupDays} days`)
+    console.log(`[PluginCleanup] Auto-cleanup interval: ${prefs.pluginCleanupDays} days`)
 
     // Get days since last cleanup
-    const lastCleanup = getDeviceSetting(CLEANUP_STORAGE_KEY)
+    const lastCleanup = localStorage.getItem(CLEANUP_STORAGE_KEY)
     if (!lastCleanup) {
       // First cleanup, run it
-      console.info('[PluginCleanup] No previous cleanup found - running initial cleanup')
+      console.log('[PluginCleanup] No previous cleanup found - running initial cleanup')
       try {
         // Scan first to see what needs cleaning
         const scanResult = await scanForPluginDuplicates()
-        console.info('[PluginCleanup] Initial scan results:', {
+        console.log('[PluginCleanup] Initial scan results:', {
           hasDuplicates: scanResult.hasDuplicates,
           totalDuplicateEntries: scanResult.totalDuplicateEntries,
           totalRogueFolders: scanResult.totalRogueFolders,
@@ -103,7 +104,7 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
 
         // Now perform cleanup
         const cleanupResult = await cleanupPluginDuplicates()
-        console.info('[PluginCleanup] Initial cleanup completed')
+        console.log('[PluginCleanup] Initial cleanup completed')
 
         // Always update last cleanup timestamp, even if no issues found
         await cleanupConfirmed()
@@ -125,16 +126,14 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
 
     // Check if enough days have passed
     const daysSinceCleanup = dayjs().diff(new Date(lastCleanup), 'day')
-    console.info(`[PluginCleanup] Days since last cleanup: ${daysSinceCleanup}`)
+    console.log(`[PluginCleanup] Days since last cleanup: ${daysSinceCleanup}`)
 
     if (daysSinceCleanup >= prefs.pluginCleanupDays) {
-      console.info(
-        `[PluginCleanup] Interval elapsed (${daysSinceCleanup} >= ${prefs.pluginCleanupDays}) - running cleanup`
-      )
+      console.log(`[PluginCleanup] Interval elapsed (${daysSinceCleanup} >= ${prefs.pluginCleanupDays}) - running cleanup`)
       try {
         // Scan first to see what needs cleaning
         const scanResult = await scanForPluginDuplicates()
-        console.info('[PluginCleanup] Scan results:', {
+        console.log('[PluginCleanup] Scan results:', {
           hasDuplicates: scanResult.hasDuplicates,
           totalDuplicateEntries: scanResult.totalDuplicateEntries,
           totalRogueFolders: scanResult.totalRogueFolders,
@@ -143,7 +142,7 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
 
         // Now perform cleanup
         const cleanupResult = await cleanupPluginDuplicates()
-        console.info('[PluginCleanup] Cleanup completed')
+        console.log('[PluginCleanup] Cleanup completed')
 
         // Always update last cleanup timestamp, even if no issues found
         await cleanupConfirmed()
@@ -163,9 +162,7 @@ export const autoCleanupPlugins = async (): Promise<boolean> => {
       }
     }
 
-    console.info(
-      `[PluginCleanup] Interval not yet elapsed - next cleanup in ${prefs.pluginCleanupDays - daysSinceCleanup} days`
-    )
+    console.log(`[PluginCleanup] Interval not yet elapsed - next cleanup in ${prefs.pluginCleanupDays - daysSinceCleanup} days`)
     return false
   } catch (e) {
     console.error('[PluginCleanup] Error in autoCleanupPlugins:', e)

@@ -127,7 +127,7 @@
         await LedgerStore.updateLog(workingLog, log.end)
         ActiveLogStore.clear()
         showToast({
-          message: Lang.t('log.saved-note', { note: workingLog.note.substring(0, 100) }),
+          message: `Saved: ${workingLog.note.substring(0, 100)}`,
         })
         close()
       } catch (e) {
@@ -166,15 +166,15 @@
   })
 </script>
 
-<BackdropModal mainClass="bg-ios-card filler" className="h-full bg-ios-card">
+<BackdropModal mainClass="bg-white dark:bg-black filler" className="h-full bg-white dark:bg-gray-800">
   <div slot="header" class="shadow-md z-40 relative">
     {#if workingLog}
       <ToolbarGrid>
         <Button slot="left" clear primary on:click={close}>
-          {Lang.t('general.cancel', 'Cancel')}
+          {Lang.t('general.close', 'Close')}
         </Button>
 
-        <div class="line-clamp-1 text-sm w-full min-w-0 text-ios-label">
+        <div class="line-clamp-1 text-sm w-full min-w-0 text-black dark:text-white">
           {workingLog.note}
         </div>
 
@@ -182,7 +182,7 @@
           {Lang.t('general.save', 'Save')}
         </Button>
       </ToolbarGrid>
-      <!-- <div class="w-full flex items-center relative pl-4 h-10 border-t border-ios-separator">
+      <!-- <div class="w-full flex items-center relative pl-4 h-10 border-t border-gray-500 border-opacity-20">
 
       </div> -->
 
@@ -191,15 +191,11 @@
           slot="left"
           id="log-editor-options"
           x="left"
-          title={Lang.t('log.select-score-for-this-note', 'Select Score for this note')}
+          title="Select Score for this note"
           buttonClass="text-lg "
           menuButtons={positivityButtons}
         >
-          <div
-            title={Lang.t('log.select-score-for-this-note', 'Select Score for this note')}
-            class="w-full text-center"
-            style="width:100%;"
-          >
+          <div title="Select Score for this note" class="w-full text-center" style="width:100%;">
             <div class="value w-10">
               {updateTrigger >= 0 ? getEmojiFromScore(workingLog.score).emoji : ''}
             </div>
@@ -216,7 +212,7 @@
         />
 
         <Button
-          title={Lang.t('log.pin-unpin-entry-to-top-of-day', 'Pin/Unpin Entry to top of Day')}
+          title="Pin/Unpin Entry to top of Day"
           slot="right"
           clear
           icon
@@ -226,9 +222,9 @@
           }}
         >
           {#if updateTrigger >= 0 && workingLog.pinned}
-            <IonIcon icon={MagnetSolid} className="text-ios-good" />
+            <IonIcon icon={MagnetSolid} className="text-green-500 dark:text-green-400" />
           {:else if updateTrigger >= 0}
-            <IonIcon icon={MagnetOutline} className="text-ios-tint opacity-80" />
+            <IonIcon icon={MagnetOutline} className="text-primary opacity-80" />
           {/if}
         </Button>
       </ToolbarGrid>
@@ -246,16 +242,16 @@
         }}
       >
         {#if workingLog?.lat}
-          <span class="text-ios-good"
+          <span class="text-green-500"
             >{workingLog.location || `${math.round(workingLog.lat, 100)},${math.round(workingLog.lng, 100)}`}</span
           >
         {:else}
-          <span class="text-ios-label2">{Lang.t('general.no-location', 'No Location Set')}</span>
+          <span class="text-gray-500">{Lang.t('general.no-location', 'No Location Set')}</span>
         {/if}
       </button>
       {#if workingLog?.lat}
         <button class="flex items-center px-1 rounded-md" on:click={() => removeLocation()}
-          ><IonIcon icon={CloseOutline} size={16} className="text-ios-danger" /></button
+          ><IonIcon icon={CloseOutline} size={16} className="text-red-500" /></button
         >
       {/if}
     </div>
@@ -264,8 +260,8 @@
       <CaptureTextarea
         autofocus
         id="editor"
-        placeholder={Lang.t('log.what-s-up', "What's up?")}
-        class="p-4 pt-2 w-full focus:outline-none placeholder-ios-label2 focus:ring ring-inset ring-ios-tint ring-opacity-20 bg-transparent"
+        placeholder="What's up?"
+        class="p-4 pt-2 w-full focus:outline-none dark:text-gray-200 placeholder-gray-500 focus:ring ring-inset ring-primary-500 ring-opacity-20 bg-transparent"
         bind:value={workingLog.note}
         style="min-height:300px;"
       />
@@ -292,17 +288,17 @@
     @apply p-2;
   }
   .meta-bar > * {
-    @apply border border-ios-separator;
+    @apply border border-gray-500 border-opacity-20;
     @apply rounded-lg;
     @apply py-2 px-1;
     @apply w-full;
   }
   .meta-bar .label {
     @apply text-xs;
-    @apply text-ios-label;
+    @apply text-gray-800 dark:text-gray-200;
   }
   .meta-bar .value {
-    @apply text-lg text-ios-label;
+    @apply text-lg text-black dark:text-white;
     @apply line-clamp-1;
   }
 </style>

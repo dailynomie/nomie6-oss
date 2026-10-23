@@ -8,7 +8,6 @@
   import Spinner from '../../../../components/spinner/spinner.svelte'
   import { wait } from '../../../../utils/tick/tick'
   import { Interact } from '../../../../store/interact'
-  import { Lang } from '../../../../store/lang'
 
   let server = $state<any>({
     url: null,
@@ -46,8 +45,8 @@
       await NomieServierStorage.init({
         server: {
           url: server.url,
-          token: server.token,
-        },
+          token: server.token
+        }
       })
       isConnected = true
       storedUrl = server.url
@@ -67,10 +66,7 @@
   }
 
   const handleDisconnect = async () => {
-    const confirmed = await Interact.confirm(
-      Lang.t('storage.disconnect-from-nomie-server', 'Disconnect from Nomie Server?'),
-      Lang.t('storage.you-can-always-reconnect-later', 'You can always reconnect later.')
-    )
+    const confirmed = await Interact.confirm('Disconnect from Nomie Server?', 'You can always reconnect later.')
     if (confirmed) {
       localStorage.removeItem('nomie-server-url')
       localStorage.removeItem('nomie-server-token')
@@ -92,68 +88,59 @@
 
 <!-- <div class="p-4 md:p-6 text-center">
   <h2 class="text-2xl font-bold">Nomie Server</h2>
-  <p class="text-ios-label2 max-w-sm mx-auto">
+  <p class="text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
     Connect to a <a
       href="https://github.com/open-nomie/nomie-server"
       target="_blank"
-      class="text-ios-tint">Nomie Server</a
+      class="text-primary-500">Nomie Server</a
     > instance for storing your data.
   </p>
 </div> -->
-<div>
+<div >
   {#if isConnected}
-    <div class="p-4 bg-ios-goodsoft">
+    <div class="p-4 bg-green-500/20 dark:bg-green-500/10 ">
       <div class="flex items-start justify-between">
         <div class="flex-1">
-          <div class="flex justify-between items-center">
-            <div class="text-sm font-semibold text-ios-good mb-2">{Lang.t('storage.connected', 'Connected')}</div>
-            <button
-              on:click={handleDisconnect}
-              type="button"
-              class="text-xs px-3 py-1 bg-ios-danger text-ios-ondanger rounded-md transition-colors"
-            >
-              {Lang.t('storage.disconnect', 'Disconnect')}
-            </button>
-          </div>
-          <div class="text-xs text-ios-label2 space-y-1">
-            <div><span class="font-medium">{Lang.t('storage.endpoint', 'Endpoint:')}</span> {storedUrl}</div>
-            <div>
-              <span class="font-medium">{Lang.t('storage.api-key-2', 'API Key:')}</span>
-              {maskToken(storedToken)}
+            <div class="flex justify-between items-center">
+                <div class="text-sm font-semibold text-green-700 dark:text-green-300 mb-2">Connected</div>
+                <button
+                    on:click={handleDisconnect}
+                    type="button"
+                    class="text-xs px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
+                    >
+                    Disconnect
+                    </button>
             </div>
+          <div class="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+            <div><span class="font-medium">Endpoint:</span> {storedUrl}</div>
+            <div><span class="font-medium">API Key:</span> {maskToken(storedToken)}</div>
           </div>
         </div>
+
       </div>
     </div>
   {:else}
     <form on:submit|preventDefault={connect} class="px-4">
-      <Input
-        bind:value={server.url}
-        name="url"
-        label={Lang.t('storage.server-url', 'Server URL')}
-        required
-        placeholder={Lang.t('storage.https-your-server-com', 'https://your-server.com')}
-      />
-      <hr class="border-ios-separator" />
+      <Input bind:value={server.url} name="url" label="Server URL" required placeholder="https://your-server.com" />
+      <hr class="dark:border-gray-600" />
       <Input
         bind:value={server.token}
         name="token"
-        label={Lang.t('storage.api-token', 'API Token')}
+        label="API Token"
         required
-        placeholder={Lang.t('storage.sk-live', 'sk_live_...')}
+        placeholder="sk_live_..."
+
       />
-      <hr class="border-ios-separator" />
+      <hr class="dark:border-gray-600" />
       {#if error}
-        <div class="p-2 bg-ios-card2 text-ios-label rounded-md text-sm my-4">{error}</div>
+        <div class="p-2 bg-red-500/20 text-red-700 dark:text-red-300 rounded-md text-sm my-4">{error}</div>
       {/if}
       <div class="flex items-center justify-end my-4">
         {#if connecting}
           <Spinner />
-          <span class="ml-2">{Lang.t('storage.connecting-2', 'Connecting...')}</span>
+          <span class="ml-2">Connecting...</span>
         {:else}
-          <Button on:click={connect} type="submit" primary
-            >{Lang.t('storage.connect-to-server', 'Connect to Server')}</Button
-          >
+          <Button on:click={connect} type="submit" primary>Connect to Server</Button>
         {/if}
       </div>
     </form>

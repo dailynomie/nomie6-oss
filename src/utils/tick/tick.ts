@@ -2,12 +2,12 @@ const tick = (time: number, callback?: Function) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       if (callback) {
-        callback()
+        callback();
       }
-      resolve(true)
-    }, time)
-  })
-}
+      resolve(true);
+    }, time);
+  });
+};
 
-export default tick
-export const wait = tick
+export default tick;
+export const wait = tick;

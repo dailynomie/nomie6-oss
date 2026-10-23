@@ -2,55 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* iOS look: design tokens (DAILY_NOMIE_7_IOS_DESIGN_GUIDE.md section 2) */
-:root {
-  --ios-bg: #F2F2F7; --ios-card: #FFFFFF; --ios-card-2: #F2F2F7;
-  --ios-label: #000000; --ios-label-2: #636368; --ios-label2: var(--ios-label-2);
-  --ios-fill: #E5E5EA; --ios-separator: #D8D8DC;
-  --ios-tint: #0A6CC9; --ios-on-tint: #FFFFFF; --ios-tint-soft: #EBF4FD;
-  --ios-good: #1E7A34; --ios-good-soft: #DDF3E2;
-  --ios-save: #1E7A34; --ios-on-save: #FFFFFF; --ios-danger: #D70015; --ios-on-danger: #FFFFFF; --ios-white: #FFFFFF; --ios-black: #000000; --ios-star: #F5C542;
-  --ios-switch-on: #34C759; --ios-switch-off: #E3E3E8;
-  --ios-bar: rgba(249,249,249,0.92); --ios-bar-border: rgba(0,0,0,0.2);
-  --ios-scrim: rgba(0,0,0,0.38);
-  --ios-shadow-float: 0 6px 24px rgba(0,0,0,0.12);
-  --ios-shadow-thumb: 0 2px 6px rgba(0,0,0,0.12);
-  --ios-shadow-hub: 0 6px 16px rgba(10,108,201,0.35);
-  --ios-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
-  --ios-font-rounded: ui-rounded, -apple-system, system-ui, sans-serif;
-  /* Text size: --font-setting is the Text Size choice (set by setFontSize), --screen-scale is the screen step.
-     Every text size in the app is written as calc(Npx * var(--text-scale)), so both apply everywhere. */
-  --font-setting: 1;
-  --screen-scale: 1;
-  --text-scale: calc(var(--font-setting) * var(--screen-scale));
-}
-/* Large screens (iPad, desktop) get a slightly larger base, so text reads at a distance */
-@media (min-width: 1024px) {
-  :root {
-    --screen-scale: 1.08;
+@layer base {
+  .bg-primary-gradient,
+  .primary-gradient {
+    @apply bg-gradient-to-tr from-blue-400 via-primary-500 to-indigo-700;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.24);
+  }
+
+  .bg-red-gradient,
+  .red-gradient {
+    @apply bg-gradient-to-tr from-red-600  to-red-500;
+    text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.24);
   }
 }
-html.dark {
-  --ios-bg: #000000; --ios-card: #1C1C1E; --ios-card-2: #2C2C2E;
-  --ios-label: #FFFFFF; --ios-label-2: #AEAEB2; --ios-label2: var(--ios-label-2);
-  --ios-fill: #2C2C2E; --ios-separator: #48484A;
-  --ios-tint: #4DB3FF; --ios-on-tint: #000000; --ios-tint-soft: #0B2236;
-  --ios-good: #30D158; --ios-good-soft: #123620;
-  --ios-save: #30D158; --ios-on-save: #000000; --ios-danger: #FF6961; --ios-on-danger: #000000; --ios-white: #FFFFFF; --ios-black: #000000; --ios-star: #F5C542;
-  --ios-switch-off: #39393D;
-  --ios-bar: rgba(22,22,24,0.92); --ios-bar-border: rgba(255,255,255,0.16);
-  --ios-scrim: rgba(0,0,0,0.55);
-  --ios-shadow-float: 0 6px 24px rgba(0,0,0,0.6);
-  --ios-shadow-thumb: 0 2px 6px rgba(0,0,0,0.5);
-  --ios-shadow-hub: 0 6px 16px rgba(77,179,255,0.30);
-}
-
 
 body {
   overflow-x: hidden;
-  font-family: var(--ios-font);
-  color: var(--ios-label);
-  -webkit-font-smoothing: antialiased;
   --header-height: 56px;
   --color-darkest: #fff;
   --color-darkest-translucent: rgba(255, 255, 255, 0.89);
@@ -148,17 +115,18 @@ body {
 
 html {
   height: -webkit-fill-available;
-  /* Base root size: 18.4 px is the 6.x default (md = 1.15em). rem text follows the setting too. */
-  font-size: calc(18.4px * var(--text-scale));
 }
 
-/* iOS look: the danger text is the danger token (light and dark) */
 .text-danger {
-  color: var(--ios-danger);
+  @apply text-red-600 dark:text-red-400;
+}
+.text-primary {
+  @apply text-primary-600;
+  @apply dark:text-primary-400;
 }
 
 .bg-solid {
-  @apply bg-ios-card;
+  @apply bg-white dark:bg-black;
 }
 
 .dot {
@@ -178,19 +146,19 @@ html {
 }
 
 .dot.positive {
-  border-color: var(--ios-good);
-  background-color: var(--ios-good);
+  @apply border-green-700;
+  @apply bg-green-500;
 }
 .dot.negative {
-  border-color: var(--ios-label2);
-  background-color: var(--ios-label2);
+  @apply border-red-700;
+  @apply bg-red-500;
 }
 
 .faded-badge {
   @apply inline-block;
   @apply px-1 py-px;
-  @apply bg-ios-fill;
-  @apply text-ios-label2;
+  @apply bg-gray-300 dark:bg-gray-700;
+  @apply text-gray-700 dark:text-white;
   @apply font-semibold;
   @apply rounded-md;
   @apply inline-block;
@@ -199,17 +167,17 @@ html {
 
 .note-muted {
   @apply text-xs;
-  @apply text-ios-label2;
+  @apply dark:text-gray-400 text-gray-500;
   @apply leading-tight;
 }
 
 .text-description {
-  @apply text-ios-label2;
+  @apply dark:text-gray-400 text-gray-500;
   @apply leading-tight;
 }
 
 .text-solid {
-  @apply text-ios-label;
+  @apply text-black dark:text-white;
 }
 
 .min-h-fill {
@@ -218,10 +186,9 @@ html {
 }
 
 .ntitle {
-  @apply text-lg;
-  @apply font-extrabold;
-  @apply tracking-tight;
-  @apply text-ios-label;
+  @apply text-base;
+  @apply font-bold;
+  @apply text-black dark:text-white;
   @apply leading-tight;
   @apply w-full;
   @apply focus:outline-none;
@@ -230,45 +197,11 @@ html {
   @apply text-sm;
 }
 
-/* iOS look: large title for pushed screens, placed under the nav bar (guide 3.1) */
-.ios-large-title {
-  font-size: calc(34px * var(--text-scale));
-  line-height: calc(41px * var(--text-scale));
-  font-weight: 700;
-  letter-spacing: 0.37px;
-  color: var(--ios-label);
-  padding: 4px 16px 8px;
-}
-
-/* iOS look: page titles in the header use the 17 px nav-bar style (large titles come per screen) */
-h1.ntitle {
-  font-size: calc(17px * var(--text-scale));
-  line-height: calc(22px * var(--text-scale));
-  font-weight: 600;
-  letter-spacing: -0.2px;
-  color: var(--ios-label);
-}
-
-/* iOS look: modal titles are 17 px semibold and centred */
-h2.ntitle {
-  font-size: calc(17px * var(--text-scale));
-  line-height: calc(22px * var(--text-scale));
-  font-weight: 600;
-  letter-spacing: -0.2px;
-  text-align: center;
-  color: var(--ios-label);
-}
-
 html {
-  background: var(--ios-bg);
-}
-
-/* The app page, on the token background in both modes */
-.n-layout {
-  background: var(--ios-bg);
+  @apply bg-gray-200 dark:bg-gray-800;
 }
 html.mode-dark {
-  background: var(--ios-bg);
+  @apply bg-gray-800;
 }
 
 .full-screen {
@@ -277,40 +210,23 @@ html.mode-dark {
 }
 
 .text-xxs {
-  font-size: calc(10px * var(--text-scale));
+  font-size: 10px;
 }
 
 
 .hover-primary {
-  @apply hover:text-ios-tint;
+  @apply hover:text-primary-500;
   @apply transition-colors duration-200;
 }
 
+.primary-gradient {
+  @apply bg-gradient-to-tr from-primary-400 via-primary-500 to-primary-600;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.24);
+}
 
 .item-grid {
   /* @apply grid grid-cols-3 md:grid-cols-3 gap-2 p-2 md:gap-3 md:px-2 lg:grid-cols-4 xl:grid-cols-5; */
-  /* iOS look: three columns on phones, 10 px gaps and 16 px side padding (decision 2) */
-  @apply grid grid-cols-3 gap-2.5 px-4 py-2 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 xl:gap-6 xl:px-6 2xl:grid-cols-5;
-}
-
-/* Small tracker buttons: two columns on phones, more columns as the screen gets wider */
-.item-grid.item-grid-small {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-@media (min-width: 500px) {
-  .item-grid.item-grid-small {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-@media (min-width: 900px) {
-  .item-grid.item-grid-small {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-@media (min-width: 1200px) {
-  .item-grid.item-grid-small {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
+  @apply grid grid-cols-2 md:grid-cols-2 gap-2 lg:gap-4 p-2 md:gap-3 md:px-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 xl:gap-6 xl:px-6;
 }
 
 .item-grid-compact {
@@ -320,7 +236,7 @@ html.mode-dark {
 .list-note {
   @apply px-4 py-2;
   @apply text-xs leading-snug;
-  @apply text-ios-label2;
+  @apply text-gray-600 dark:text-gray-400;
 }
 
 .stiff {
@@ -346,9 +262,9 @@ html.mode-dark {
 .skeleton-item {
   @apply animate-pulse;
   @apply shadow-md;
-  @apply bg-ios-card;
+  @apply bg-white dark:bg-black;
   @apply flex items-center justify-center;
-  @apply text-ios-label2;
+  @apply text-gray-500 text-opacity-25;
   @apply relative;
   @apply overflow-hidden;
   content: 'Loading...';
@@ -404,7 +320,7 @@ html.mode-dark {
 }
 
 .basic-select {
-  @apply px-3 bg-ios-fill rounded-lg text-ios-label;
+  @apply px-3 bg-gray-200 rounded-lg dark:bg-gray-900 dark:text-white;
 }
 
 .animate-shake {
@@ -446,21 +362,18 @@ html {
   min-height: 50vh;
 }
 .tap-icon {
-  @apply text-ios-tint;
+  @apply text-primary-500;
   @apply bg-transparent;
   @apply focus:outline-none;
   @apply rounded-full;
-  @apply focus:ring-1 ring-ios-tint ring-opacity-25;
+  @apply focus:ring-1 ring-primary-500 ring-opacity-25;
 }
 
 .delete-button {
-  /* iOS look: the remove badge is the danger token, with the on-danger icon (white in light mode) */
-  @apply rounded-full;
-  background: var(--ios-danger);
-  color: var(--ios-on-danger);
+  @apply bg-red-500 rounded-full;
   @apply focus:outline-none;
   @apply h-6 w-6;
-  box-shadow: 0 0 0 2px var(--ios-card);
+  @apply ring-2 ring-white;
   @apply p-0;
   @apply shadow-md;
   @apply absolute top-1 right-1 z-50;
@@ -480,7 +393,7 @@ html {
 }
 
 ::-webkit-calendar-picker-indicator {
-  @apply bg-ios-tint;
+  @apply bg-primary-500;
   @apply rounded-md;
 }
 
@@ -488,7 +401,7 @@ html {
 hr.divider {
   margin: 0;
   padding: 0;
-  @apply border-t border-ios-separator;
+  @apply border-t border-gray-200 dark:border-gray-600;
   @apply bg-transparent;
 }
 hr.divider.center {
@@ -503,265 +416,3 @@ hr.divider.indent {
   @apply h-40 w-full;
   @apply flex items-center justify-center;
 }
-
-/* iOS look: cards, inner boxes and the experiment progress bar (guide sections 4.6 and 4.7) */
-.ios-card {
-  background: var(--ios-card);
-  border-radius: 16px;
-  box-shadow: none;
-}
-.ios-box {
-  background: var(--ios-card-2);
-  border-radius: 12px;
-}
-.ios-box-tint {
-  background: var(--ios-tint-soft);
-  border-radius: 12px;
-}
-.ios-box-good {
-  background: var(--ios-good-soft);
-  border-radius: 12px;
-}
-.ios-progress-track.n-progress-bar {
-  height: 6px;
-  border-radius: 3px;
-  background: var(--ios-fill);
-}
-.ios-progress-track .ios-progress-fill {
-  border-radius: 3px;
-  background: var(--ios-tint);
-}
-
-/* iOS look: the selected segment (white in light mode, grey in dark mode) and the floating shadow */
-.ios-thumb {
-  background: #ffffff;
-  box-shadow: var(--ios-shadow-thumb);
-}
-html.dark .ios-thumb {
-  background: #636366;
-}
-.ios-float {
-  box-shadow: var(--ios-shadow-float);
-}
-
-/* iOS look (dark mode): map tiles are darkened to match the app; the markers keep their colours */
-html.dark .leaflet-tile {
-  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.92);
-}
-
-/* iOS look: a chosen option in a two-way choice group (setup: time, weight, week, location) is the tint.
-   The block button's fill rule would otherwise win over the choice's tint. */
-.big-group .nbtn.bg-ios-tint {
-  background: var(--ios-tint) !important;
-  color: var(--ios-on-tint) !important;
-}
-
-/* iOS look (D-native): number fields show no browser spin buttons; the app's own steppers and keys change values */
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type='number'] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-/* iOS look (D-focus): Tailwind focus:ring utilities show only for keyboard focus. A tap or click
-   leaves no ring; selected states (ring classes without focus) are not affected. */
-:focus:not(:focus-visible) {
-  --tw-ring-shadow: 0 0 #0000 !important;
-}
-
-/* iOS look: the router moves focus to the page heading after a route change (for screen readers).
-   That heading is not a control, so it should not get a white focus box around the title. */
-:is(h1, h2, h3, h4, h5, h6)[tabindex='-1']:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-/* iOS look: round action buttons (36 px, fill), used in page headers: Timeline, Dashboard and Track */
-.ios-round {
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
-  border: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ios-fill);
-  color: var(--ios-label);
-}
-/* iOS look (section 8): the 36 px round button keeps its look; its tap area is 44 px */
-.ios-round {
-  position: relative;
-  /* the transparent 44 px area sits above its neighbours, so a tap in it reaches the control */
-  z-index: 1;
-}
-.ios-round::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-}
-/* iOS look (F4): a small control keeps its size; its tap area is at least 44 px in both directions */
-.tap-44 {
-  position: relative;
-}
-.tap-44::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: max(100%, 44px);
-  height: max(100%, 44px);
-  transform: translate(-50%, -50%);
-}
-/* iOS look (decision 3): a missed goal is a neutral outlined ball, not red; the fill token stays for "no data" */
-.goal-ball.ios-goal-missed {
-  background-color: var(--ios-card2);
-  color: var(--ios-label);
-  box-shadow: inset 0 0 0 2px var(--ios-label2);
-}
-/* iOS look (D-caution): a caution banner is a card with label text, not red */
-.ios-caution {
-  background-color: var(--ios-card);
-  padding: 8px 12px;
-  border-radius: 12px;
-  margin: 8px 16px 0;
-}
-/* iOS look (desktop): the header of a list screen sits in the same centred column as its list */
-@media (min-width: 900px) {
-  .ios-desktop-column {
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-/* iOS look: a tap or click focuses an element without drawing a box. Keyboard focus keeps a visible outline. */
-:focus:not(:focus-visible) {
-  outline: none;
-}
-.ios-round-alert {
-  background: var(--ios-danger);
-  color: #ffffff;
-}
-/* The inline menu stretches its buttons to full width; keep the round action buttons at 36 px */
-.menu-inline button.ios-round {
-  width: 36px;
-  height: 36px;
-}
-
-/* iOS look (guide section 8, rule 9): people who ask the system for less motion get no sliding, scaling or pulsing */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* iOS look: a wrapper that holds a settings icon square and its corner badge (see advanced-badge) */
-.adv-corner {
-  position: relative;
-  display: inline-flex;
-  flex-shrink: 0;
-}
-
-/* iOS look: the Track search expand button is a plain grey icon */
-.search-expand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: transparent;
-  color: var(--ios-label2);
-}
-
-/* iOS look: the "add tracker" tile is a card with a plain plus, not an outlined box */
-.ios-add-tile {
-  background: var(--ios-card);
-  border-radius: 18px;
-  color: var(--ios-label2);
-}
-
-/* iOS look (Phase 4): the check-in card steps aside while the capture card is being typed in */
-body.capture-typing .experiment-check-in-card {
-  display: none;
-}
-
-/* iOS look (guide 8.2): a small control keeps a 44 px touch area. The area is a transparent pseudo-element,
-   so the layout and the look do not change. Absolutely positioned controls keep their own position. */
-.touch-44,
-.more,
-.widget-options,
-.ios-round,
-.search-expand,
-.chart-config-button,
-.log-mood,
-.tiny-trackable,
-.ios-loc,
-.onoffswitch-btn {
-  position: relative;
-  /* the transparent 44 px area sits above its neighbours, so a tap in it reaches the control */
-  z-index: 1;
-}
-.touch-44::after,
-.more::after,
-.widget-options::after,
-.ios-round::after,
-.search-expand::after,
-.chart-config-button::after,
-.log-mood::after,
-.tiny-trackable::after,
-.ios-loc::after,
-.onoffswitch-btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: max(100%, 44px);
-  height: max(100%, 44px);
-  transform: translate(-50%, -50%);
-}
-
-/* iOS look (guide 8.2): the same 44 px touch area for the round "+" buttons, the small text buttons,
-   the widget footer and header controls, and the pin toggle */
-.exp-round,
-.goals-round,
-.nbtn-sm,
-.toggle-pin-button,
-.ios-search,
-.trackable-pill.transparent,
-.dashboard-widget .widget-footer button,
-.dashboard-widget footer button {
-  position: relative;
-  /* the transparent 44 px area sits above its neighbours, so a tap in it reaches the control */
-  z-index: 1;
-}
-.exp-round::after,
-.goals-round::after,
-.nbtn-sm::after,
-.toggle-pin-button::after,
-.ios-search::after,
-.trackable-pill.transparent::after,
-.dashboard-widget .widget-footer button::after,
-.dashboard-widget footer button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: max(100%, 44px);
-  height: max(100%, 44px);
-  transform: translate(-50%, -50%);
-}
-
-/* iOS look (guide 6, layers): the check-in card is hidden while a full-screen prompt is on screen */
-body.check-in-hidden .experiment-check-in-card {
-  display: none;
-}
-

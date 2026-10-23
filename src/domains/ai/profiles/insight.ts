@@ -2,17 +2,9 @@ import type { Profile, UserContext, DualInsightResponse } from './types'
 
 function hasDetailKeywords(text?: string): boolean {
   if (!text) return false
-  const keywords = [
-    'in depth',
-    'in-depth',
-    'extensive',
-    'full report',
-    'detailed',
-    'comprehensive analysis',
-    'thorough',
-  ]
+  const keywords = ['in depth', 'in-depth', 'extensive', 'full report', 'detailed', 'comprehensive analysis', 'thorough']
   const lowerText = text.toLowerCase()
-  return keywords.some((keyword) => lowerText.includes(keyword))
+  return keywords.some(keyword => lowerText.includes(keyword))
 }
 
 export const insightProfile: Profile = {
@@ -22,23 +14,23 @@ export const insightProfile: Profile = {
   systemPrompt: (ctx: UserContext, prompt?: string) => {
     const contextsList = ctx.contexts
       ? Object.entries(ctx.contexts)
-          .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} times`)
-          .join(', ')
+        .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count} times`)
+        .join(', ')
       : ''
 
     const locationsList = ctx.locations
       ? ctx.locations
-          .map((loc: any) => {
-            const name = loc.name || `${loc.lat?.toFixed(2)},${loc.lng?.toFixed(2)}`
-            return `${name} (${loc.count}x)`
-          })
-          .join(', ')
+        .map((loc: any) => {
+          const name = loc.name || `${loc.lat?.toFixed(2)},${loc.lng?.toFixed(2)}`
+          return `${name} (${loc.count}x)`
+        })
+        .join(', ')
       : ''
 
     const pointersList = ctx.pointers
       ? Object.entries(ctx.pointers)
-          .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count}x`)
-          .join(', ')
+        .map(([key, data]: [string, any]) => `${key.substring(1)}: ${data.count}x`)
+        .join(', ')
       : ''
 
     const isDetailRequest = hasDetailKeywords(prompt)
@@ -94,7 +86,7 @@ Ensure both sections use markdown formatting for easy processing.
       return {
         summary: summaryMatch[1].trim(),
         extended: extendedMatch[1].trim(),
-        raw,
+        raw
       }
     }
 
@@ -102,7 +94,7 @@ Ensure both sections use markdown formatting for easy processing.
     return {
       summary: raw,
       extended: raw,
-      raw,
+      raw
     }
-  },
+  }
 }

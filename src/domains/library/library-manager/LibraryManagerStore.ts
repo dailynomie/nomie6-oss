@@ -1,8 +1,9 @@
+
 import { writable } from 'svelte/store'
 import type { ITracker } from '../../../modules/tracker/TrackerClass'
 import TrackerClass from '../../../modules/tracker/TrackerClass'
 
-import trackables from '../all-individual-trackers.json'
+import trackables from '../all-individual-trackers.json';
 
 export type LibraryCategoryType = {
   id: string
@@ -27,22 +28,27 @@ const initialState: LibraryManagerStateType = {
 export const LibraryManagerStore = writable(initialState)
 
 export const getLibraryCategories = async (): Promise<Array<LibraryCategoryType>> => {
+
   return []
 }
 
-export const saveLibraryTracker = async (props: LibraryTrackerType) => {}
+
+
+export const saveLibraryTracker = async (props: LibraryTrackerType) => {
+
+}
 
 export const getAllLibraryTrackers = async () => {
-  const fullist = trackables.trackables
+  const fullist = trackables.trackables;
   let libraryTrackers: Array<LibraryTrackerType> = []
   for (var tracker of fullist) {
-    var newtracker: LibraryTrackerType = { title: '', trackers: [], tags: [] }
-    newtracker.title = tracker.tracker.label
+    var newtracker: LibraryTrackerType = {title:"",trackers:[],tags:[]}
+    newtracker.title = tracker.tracker.label;
     newtracker.trackers = [new TrackerClass(tracker.tracker)]
-    newtracker._id = tracker.tracker.id
+    newtracker._id = tracker.tracker.id;
     libraryTrackers.push(newtracker)
-  }
-  return libraryTrackers
+}
+  return libraryTrackers;
 }
 
 export const getLibraryTrackersByCategory = async (

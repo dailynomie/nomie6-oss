@@ -79,7 +79,7 @@
 
 {#if $DropdownMenuStore.visible}
   <div
-    class="drop-menu-background cursor-pointer"
+    class="drop-menu-background cursor-pointer "
     id="drop-menu"
     on:click|self={() => {
       wait(200).then(() => {
@@ -106,8 +106,7 @@
 
 <style global lang="postcss">
   .drop-menu-background {
-    /* iOS look: an open menu is above the check-in card (z-index 9999), so its options can be tapped */
-    z-index: 10000 !important;
+    z-index: 6000 !important;
   }
   .dropdown-menu {
     @apply z-50;
@@ -131,13 +130,9 @@
     @apply bg-transparent;
   }
 
-  /* iOS look: the same backdrop as the widget options sheet (backdrop2): a translucent grey over the blurred page */
   .drop-menu-background {
     @apply fixed top-0 bottom-0 left-0 right-0;
-    @apply z-50;
-    background: rgba(107, 114, 128, 0.5);
-    -webkit-backdrop-filter: blur(4px) saturate(1.5);
-    backdrop-filter: blur(4px) saturate(1.5);
+    @apply bg-gray-300 bg-opacity-10 z-50;
   }
 
   .dropmenu {

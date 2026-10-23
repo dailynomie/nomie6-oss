@@ -41,7 +41,7 @@
           closeModal(id)
         }
       } else {
-        Interact.error(Lang.t('pin.pin-must-be-between-1-and-6-characters', 'Pin must be between 1 and 6 characters'))
+        Interact.error('Pin must be between 1 and 6 characters')
       }
     },
     cancelInput() {
@@ -53,18 +53,18 @@
 <BackdropModal>
   <div
     aria-modal
-    aria-label={Lang.t('pin.lock-screen', 'Lock Screen')}
+    aria-label="Lock Screen"
     style="zIndex: 10000"
-    class="lock-screen relative p-4 w-full ios-card
-    flex-col full-screen"
+    class="lock-screen relative p-4 w-full rounded-xl shadow-xl 
+    flex-col full-screen bg-primary-500"
   >
-    <Text center size="sm" faded className="lock-hint mb-2">
+    <Text center size="sm" faded className="text-white mb-2">
       {Lang.t('settings.pin-requirements', '1 to 6 digits')}
     </Text>
     <h1>{title}</h1>
 
     <!-- Pin Display -->
-    <div class="text-2xl pin-holder">
+    <div class="text-2xl text-white pin-holder ">
       {#each _pin.split('') as d}•{/each}
     </div>
     <!-- Keypad Input -->
@@ -79,9 +79,9 @@
 
 <style global lang="postcss">
   .lock-screen h1 {
-    color: var(--ios-label);
+    color: #fff;
     margin-bottom: 20px;
-    border-bottom: 0.5px solid var(--ios-separator);
+    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
     padding-bottom: 20px;
     width: 100%;
     text-align: center;
@@ -92,21 +92,15 @@
   .lock-screen .pin-holder {
     @apply w-full;
     @apply text-center text-3xl;
-    background: var(--ios-fill);
-    color: var(--ios-label);
+    @apply bg-white bg-opacity-20;
     @apply flex items-center justify-center;
     @apply h-10;
-    border-radius: 10px;
+    @apply rounded-lg;
     @apply mb-4;
-  }
-  .lock-screen .lock-hint {
-    color: var(--ios-label2);
-  }
-  .lock-screen .nbtn.pin-close-btn {
-    color: var(--ios-label);
   }
   .lock-screen .pin-close-btn {
     @apply absolute;
+    @apply text-white;
     top: 20px;
     left: 20px;
   }

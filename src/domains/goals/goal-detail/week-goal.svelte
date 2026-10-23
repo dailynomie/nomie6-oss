@@ -19,7 +19,6 @@
   import type { TrackableUsage } from '../../usage/trackable-usage.class'
   import type { GoalClass, GoalScoreType } from '../goal-class'
   import { getGoalComparisonSymbol } from '../goal-utils'
-  import { Lang } from '../../../store/lang'
 
   let { goal = $bindable() } = $props<{ goal: GoalClass }>()
 
@@ -47,6 +46,7 @@
   })
 
   const generateMonthsFromScores = () => {
+    
     let monthMap: any = {}
     scores
       .sort((a, b) => {
@@ -64,7 +64,7 @@
         monthMap[startOfMonth] = monthMap[startOfMonth] || []
         monthMap[startOfMonth].push(score)
       })
-
+    
     return Object.keys(monthMap)
       .map((id) => {
         return monthMap[id]
@@ -75,6 +75,7 @@
   }
 
   const getPast = async () => {
+    
     showLoading = true
     const start = dayjs(startDate).subtract(2, 'month')
     const end = dayjs(startDate).endOf('day')
@@ -125,18 +126,18 @@
 </script>
 
 {#if goal && totalWeeks}
-  <div class="bg-ios-card px-4 pb-4 flex flex-col space-y-2">
-    <h1 class="text-xl font-bold text-ios-label leading-tight mt-4 pb-">
+  <div class="bg-white  dark:bg-black px-4 pb-4  flex flex-col space-y-2">
+    <h1 class="text-xl font-bold text-black dark:text-white leading-tight mt-4 pb-">
       {trackable.label}
       {getGoalComparisonSymbol(goal.comparison)}
       {trackable.formatValue(goal.target)}
     </h1>
     {#if scores}
-      <p class="text-ios-label2 leading-snug pb-2">
-        {Lang.t('goals.goal-hit', 'Goal hit')}
-        <strong class="text-ios-label">{math.round(math.percentage(totalWeeks, totalSuccess))}%</strong>
-        <strong>{totalSuccess}</strong>
-        {Lang.t('goals.out-of-weeks', { total: totalWeeks })}
+      <p class="text-gray-600 dark:text-gray-400 leading-snug pb-2">
+        Goal hit <strong class="text-black dark:text-white"
+          >{math.round(math.percentage(totalWeeks, totalSuccess))}%</strong
+        >
+        <strong>{totalSuccess}</strong> out of {totalWeeks} weeks.
         <br />
       </p>
       <ProgressBar
@@ -148,9 +149,7 @@
     {/if}
   </div>
 {:else if !loading && !totalWeeks}
-  <div class="bg-ios-card flex items-center justify-center h-40 p-10">
-    {Lang.t('goals.not-enough-data-keep-tracking', 'Not enough data. Keep Tracking!')}
-  </div>
+  <div class="bg-white dark:bg-black flex items-center justify-center h-40 p-10">Not enough data. Keep Tracking!</div>
 {/if}
 {#if loading}
   <Empty>
@@ -173,43 +172,41 @@
           {item[0].date.format('YYYY')}
         </h2>
         {#if item.length < 4}
-          <div class="goal-balls" style="width:{(100 / 6) * item.length}%">
-            {#each item as week, i}
-              <button
-                on:click={() => openDateOptions(week.date.toDate())}
-                style="transform: scale({getPad(week.percent)})"
-                class="goal-ball transition-all {!Number.isNaN(week.og) && week.success == true
-                  ? 'bg-ios-good'
-                  : ''} {!Number.isNaN(week.og) && week.failure == true ? 'ios-goal-missed' : ''} {Number.isNaN(week.og)
-                  ? 'bg-ios-fill goal-nodata'
-                  : ''}"
-              >
-                <!--{week.date.format('ddd').substring(0, 1)} -->
-                {Lang.t('goals.week-abbr', { num: i + 1 })}
+        <div class="goal-balls" style="width:{(100/6)*item.length}%">
+          
+          {#each item as week, i}
+            <button
+              on:click={() => openDateOptions(week.date.toDate())}
+              style="transform: scale({getPad(week.percent)})"
+              class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-green-500' : ''} {!Number.isNaN(week.og) && week.failure == true
+              ? 'bg-red-500'
+              : ''} {Number.isNaN(week.og) ? 'bg-gray-500' : ''}"
+          >
+              <!--{week.date.format('ddd').substring(0, 1)} -->
+              wk{i+1}
 
-                <!-- {day.date.format(dateFormats.tinyNumber)} -->
-              </button>
-            {/each}
-          </div>
+              <!-- {day.date.format(dateFormats.tinyNumber)} -->
+            </button>
+          {/each}
+        </div>
         {:else}
-          <div class="goal-balls">
-            {#each item as week, i}
-              <button
-                on:click={() => openDateOptions(week.date.toDate())}
-                style="transform: scale({getPad(week.percent)})"
-                class="goal-ball transition-all {!Number.isNaN(week.og) && week.success == true
-                  ? 'bg-ios-good'
-                  : ''} {!Number.isNaN(week.og) && week.failure == true ? 'ios-goal-missed' : ''} {Number.isNaN(week.og)
-                  ? 'bg-ios-fill goal-nodata'
-                  : ''}"
-              >
-                <!--{week.date.format('ddd').substring(0, 1)} -->
-                {Lang.t('goals.week-abbr', { num: i + 1 })}
+        <div class="goal-balls">
+          
+          {#each item as week, i}
+            <button
+              on:click={() => openDateOptions(week.date.toDate())}
+              style="transform: scale({getPad(week.percent)})"
+              class="goal-ball transition-all  {!Number.isNaN(week.og) && week.success == true ? 'bg-green-500' : ''} {!Number.isNaN(week.og) && week.failure == true
+              ? 'bg-red-500'
+              : ''} {Number.isNaN(week.og) ? 'bg-gray-500' : ''}"
+          >
+              <!--{week.date.format('ddd').substring(0, 1)} -->
+              wk{i+1}
 
-                <!-- {day.date.format(dateFormats.tinyNumber)} -->
-              </button>
-            {/each}
-          </div>
+              <!-- {day.date.format(dateFormats.tinyNumber)} -->
+            </button>
+          {/each}
+        </div>
         {/if}
       </div>
     {/if}
@@ -222,7 +219,7 @@
     percent: number -->
     <!-- <ListItem clickable on:click={() => openDateOptions(item.date.toDate())}>
       <main class="flex flex-col space-y-1">
-        <div class="text-sm text-ios-label2 leading-none">{item.date.format(`dddd`)}</div>
+        <div class="text-sm text-gray-500 leading-none">{item.date.format(`dddd`)}</div>
         <div class="font-semibold text-base">{item.date.format(`${dateFormats.mmm_d_yyyy}`)}</div>
         <div />
         <ProgressBar
@@ -247,7 +244,7 @@
     @apply px-4;
   }
   .goal-scroller .month h2 {
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
     @apply text-xs lg:text-lg;
     @apply font-medium;
     @apply mt-4 mb-2 lg:mt-10;
@@ -256,7 +253,8 @@
     @apply flex items-center justify-between;
     @apply leading-tight;
     @apply w-full;
-    @apply max-w-md;
+    @apply max-w-md;  
+
   }
   .goal-ball {
     @apply rounded-full;
@@ -265,19 +263,19 @@
     @apply flex items-center justify-center text-center;
     @apply h-9 w-9;
     @apply flex-grow-0 flex-shrink-0;
-    color: var(--ios-on-save);
+    @apply text-white;
     @apply transition-all duration-100 ease-in-out;
   }
   .day-score-button {
     @apply relative;
-    @apply bg-ios-card;
+    @apply bg-white dark:bg-gray-900;
     @apply flex flex-col items-center justify-center;
     @apply py-3 px-3 rounded-2xl;
     @apply shadow-xl;
   }
   .day-score-button .success-check {
     @apply absolute;
-    background-color: var(--ios-card);
+    @apply bg-white;
     @apply h-5 w-5 rounded-full;
     @apply leading-none;
   }
@@ -285,8 +283,5 @@
     margin-left: -2px;
     margin-top: -2px;
   }
-  /* iOS look: a day with no data is the fill token with secondary text (contrast 4.5:1) */
-  .goal-nodata {
-    color: var(--ios-label2) !important;
-  }
 </style>
+

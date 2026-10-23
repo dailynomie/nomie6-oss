@@ -1,4 +1,4 @@
-export type ProfileName = 'insight' | 'data' | 'advice' | 'journal' | 'alert' | 'narrative' | 'chat' | 'experiment' | 'review'
+export type ProfileName = 'insight' | 'data' | 'advice' | 'journal' | 'alert' | 'narrative' | 'chat'
 
 export interface AIRequest {
   profile: ProfileName
@@ -32,27 +32,18 @@ export interface RichContext {
   recentMetrics: Record<string, unknown>
   goals: string[]
   summary: string
-  people?: Record<
-    string,
-    {
-      count: number
-      recent: (string | number)[]
-    }
-  >
-  contexts?: Record<
-    string,
-    {
-      count: number
-      recent: (string | number)[]
-    }
-  >
-  pointers?: Record<
-    string,
-    {
-      count: number
-      recent: (string | number)[]
-    }
-  >
+  people?: Record<string, {
+    count: number
+    recent: (string | number)[]
+  }>
+  contexts?: Record<string, {
+    count: number
+    recent: (string | number)[]
+  }>
+  pointers?: Record<string, {
+    count: number
+    recent: (string | number)[]
+  }>
   locations?: Array<{
     name?: string
     lat?: number
@@ -85,13 +76,10 @@ export interface JournalContext {
 
 // People-focused context
 export interface PeopleContext {
-  people?: Record<
-    string,
-    {
-      count: number
-      recent: (string | number)[]
-    }
-  >
+  people?: Record<string, {
+    count: number
+    recent: (string | number)[]
+  }>
   summary: string
 }
 
@@ -143,7 +131,7 @@ export interface JournalPrompt {
 }
 
 export interface DualInsightResponse {
-  summary: string // 3-4 lines for widget display
-  extended: string // ~1000 tokens for modal
-  raw: string // Full unparsed response
+  summary: string      // 3-4 lines for widget display
+  extended: string     // ~1000 tokens for modal
+  raw: string         // Full unparsed response
 }

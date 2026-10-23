@@ -1,6 +1,8 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+
+
   const { style, rounded, relative, absolute, className, mainClass, clear, id } = $props()
 </script>
 
@@ -35,8 +37,8 @@
   }
 
   .nui-panel.nui-rounded {
-    border-radius: 16px;
-    box-shadow: var(--ios-shadow-float);
+    @apply rounded-xl;
+    @apply shadow-lg;
   }
   .nui-panel.clear {
     @apply bg-transparent;

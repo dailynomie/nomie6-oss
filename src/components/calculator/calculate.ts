@@ -1,29 +1,29 @@
 //Originally from https://github.com/tusnolobov/svelte-calculator/blob/master/src/helpers.js
 export function calculate(input: string | Array<any> = []) {
   if (typeof input === 'string') {
-    input = input.split('')
+    input = input.split("");
   }
 
   const result = input.reduce((acc, val, idx, arr) => {
-    const nextNumber = Number(arr[idx + 1])
+    const nextNumber = Number(arr[idx + 1]);
 
-    if (isNaN(nextNumber)) return acc
+    if (isNaN(nextNumber)) return acc;
 
     switch (val) {
-      case '+':
-        return acc + nextNumber
-      case '−':
-        return acc - nextNumber
-      case '×':
-        return acc * nextNumber
-      case '÷':
-        return acc / nextNumber
+      case "+":
+        return acc + nextNumber;
+      case "−":
+        return acc - nextNumber;
+      case "×":
+        return acc * nextNumber;
+      case "÷":
+        return acc / nextNumber;
     }
 
-    return acc
-  }, Number(input[0]))
+    return acc;
+  }, Number(input[0]));
 
-  return result
+  return result;
 }
 
 // export function calculatorKey(value: any, input: Array<any>, result: any): Array<any> {

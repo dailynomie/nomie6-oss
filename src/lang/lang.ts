@@ -1,36 +1,27 @@
+import Italian from "./it";
+import SimplifiedChinese from "./zh-cn";
+import Test from "./test";
 import base from "./base";
-
-// English is in the first load. The other languages load when they are chosen (see store/lang.ts).
+import de from "./de";
 export default {
-  // shipped: offered in the language picker for 7.0. The others are kept, and hidden until they are complete (F6).
   en: {
     label: "English",
-    shipped: true,
     lang: base,
   },
   it: {
     label: "Italian",
-    shipped: true,
-    load: () => import("./it"),
+    lang: Italian,
   },
   de: {
     label: "German",
-    shipped: true,
-    load: () => import("./de"),
-  },
-  nl: {
-    label: "Dutch",
-    shipped: true,
-    load: () => import("./nl"),
+    lang: de,
   },
   zhcn: {
     label: "Simplified Chinese",
-    shipped: false,
-    load: () => import("./zh-cn"),
+    lang: SimplifiedChinese,
   },
   test: {
     label: "Tester",
-    shipped: false,
-    load: () => import("./test"),
+    lang: Test,
   },
 };

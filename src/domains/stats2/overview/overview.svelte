@@ -31,12 +31,12 @@
   import UsageChart from '../../usage/usage-chart.svelte'
 
   import { getDateRange, Stats2Store } from '../Stats2Store'
-  import { Lang } from '../../../store/lang'
   // import OverviewRange from './overview-range.svelte'
   // import OverviewTimer from './overview-timer.svelte'
   // import OverviewValue from './overview-value.svelte'
 
   const { trackable, usage, className = '' } = $props()
+
 
   const dateFormats = getDateFormats()
 
@@ -60,6 +60,7 @@
     usageByDay = chartUsage.byDay
     if ($Stats2Store.time === '1y') {
       chartUsage = chartUsage.groupBy('month', 'MMM YYYY')
+
     } else {
       chartUsage = chartUsage.byDay
     }
@@ -90,7 +91,7 @@
   // onDestroy(() => unsub())
 </script>
 
-<div class="bg-ios-card p-2 relative {className}">
+<div class="bg-white p-2 dark:bg-black  relative {className}">
   {#if localUsage}
     <UsageChart
       id={`usage-${nid(localUsage.trackable.tag)}`}
@@ -100,30 +101,30 @@
       type="bar"
     />
   {:else if $Stats2Store.loading}
-    <div class="skeleton-item h-40 w-full bg-ios-card rounded-lg" />
+    <div class="skeleton-item h-40 w-full bg-white rounded-lg dark:bg-gray-900" />
   {:else}
-    <div class="h-40 flex items-center justify-center text-ios-label2">{Lang.t('stats.no-data', 'No Data')}</div>
+    <div class="h-40 flex items-center justify-center text-gray-500">No Data</div>
   {/if}
 </div>
 
-<main class="grid grid-cols-2 gap-2 text-ios-label">
+<main class="grid grid-cols-2 gap-2 dark:text-white">
   <div class="h-auto text-center">
-    <strong class="text-sm font-semibold">{Lang.t('stats.daily-avg', 'Daily Avg')} </strong>
-    <div class="text-2xl line-clamp-1 font-semibold bg-ios-card shadow-md rounded-md px-4 py-2 mt-1">
+    <strong class="text-sm font-semibold">Daily Avg </strong>
+    <div class="text-2xl line-clamp-1 font-semibold bg-white shadow-md dark:bg-black rounded-md px-4 py-2 mt-1">
       {#if usageByDay}
         {usageByDay.trackable.formatValue(usageByDay.average)}
       {:else}
-        <span class="text-ios-label2">{Lang.t('stats.loading', 'Loading...')}</span>
+        <span class="text-gray-500">Loading...</span>
       {/if}
     </div>
   </div>
   <div class="text-center">
-    <strong class="text-sm font-semibold">{Lang.t('stats.total', 'Total')} </strong>
-    <div class="text-2xl line-clamp-1 font-semibold bg-ios-card shadow-md rounded-md px-4 py-2 mt-1">
+    <strong class="text-sm font-semibold">Total </strong>
+    <div class="text-2xl line-clamp-1 font-semibold bg-white shadow-md dark:bg-black rounded-md px-4 py-2 mt-1">
       {#if usage}
         {usage.displayValue}
       {:else}
-        <span class="text-ios-label2">{Lang.t('stats.loading', 'Loading...')}</span>
+        <span class="text-gray-500">Loading...</span>
       {/if}
     </div>
   </div>
@@ -134,12 +135,12 @@
     {#if lastUsageData}
       <ListItem
         bottomLine={18}
-        className="bg-ios-card shadow-md h-24 rounded-xl"
+        className="dark:bg-black bg-white shadow-md h-24 rounded-xl"
         on:click={() => {
           openLatest(lastUsageData)
         }}
       >
-        {Lang.t('stats.latest', { date: dayjs(lastUsageData.last.d).format(dateFormats.mmm_d_yyyy) })}
+        Latest: {dayjs(lastUsageData.last.d).format(dateFormats.mmm_d_yyyy)}
         <div slot="right">{trackable.formatValue(lastUsageData.last.v, true)}</div>
       </ListItem>
     {/if}
@@ -151,7 +152,7 @@
         openDateOptionPopMenu(date.toDate())
       }}
     >
-      <strong>{Lang.t('stats.max-2', 'Max')} </strong>
+      <strong>Max </strong>
       <div slot="right" class="item-center space-x-2 flex">
         {#if usageByDay.max}
           <Badge className="pad">{dayjs(usageByDay.max.date).format(dateFormats.mmm_d_yyyy)}</Badge>
@@ -167,7 +168,7 @@
         openDateOptionPopMenu(usageByDay.min.date.toDate())
       }}
     >
-      <strong>{Lang.t('stats.min-2', 'Min')} </strong>
+      <strong>Min </strong>
       <div slot="right" class="item-center space-x-2 flex">
         <Badge className="pad">{usageByDay.min ? dayjs(usageByDay.min.date).format(dateFormats.mmm_d_yyyy) : ''}</Badge>
         <span>{usageByDay.min ? trackable.formatValue(usageByDay.min.value) : ''}</span>
@@ -175,7 +176,7 @@
     </ListItem>
 
     <ListItem>
-      <strong>{Lang.t('stats.score', 'Score')}</strong>
+      <strong>Score</strong>
 
       <div slot="right">
         {usage.getTotalScore($TrackerStore)}

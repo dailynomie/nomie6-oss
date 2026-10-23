@@ -41,20 +41,14 @@
     {
       type: 'column',
       required: ['trackables'],
-      label: Lang.t('routes.trackable-per-column', 'Trackable Per Column'),
-      description: Lang.t(
-        'routes.each-day-is-a-row-with-each-trackable-and-its-va',
-        'Each day is a row, with each trackable and its value a column'
-      ),
+      label: 'Trackable Per Column',
+      description: 'Each day is a row, with each trackable and its value a column',
     },
     {
       type: 'detailed',
       required: [],
-      label: Lang.t('routes.note-view', 'Note View'),
-      description: Lang.t(
-        'routes.each-note-containing-any-matching-trackables',
-        'Each Note containing any matching trackables'
-      ),
+      label: 'Note View',
+      description: `Each Note containing any matching trackables`,
     },
   ])
 
@@ -154,7 +148,7 @@
 <NLayout pageTitle="Export your Data" className="Export">
   <ToolbarGrid slot="header">
     <NBackButton slot="left" to="/settings" />
-    <h1 class="ntitle">{Lang.t('routes.export-to-csv', 'Export to CSV')}</h1>
+    <h1 class="ntitle">Export to CSV</h1>
   </ToolbarGrid>
 
   <Container>
@@ -172,37 +166,29 @@
             <IonIcon
               slot="left"
               icon={csvTypeLoop === csvType ? CheckmarkCircle : CircleOutline}
-              className={csvTypeLoop === csvType ? 'text-ios-tint' : ''}
+              className={csvTypeLoop === csvType ? 'text-primary-500' : ''}
             />
             <main>
               <h1 class="ntitle">{csvTypeLoop.label}</h1>
-              <p class="text-ios-label2 text-xs leading-tight">{csvTypeLoop.description}</p>
+              <p class="text-gray-500 text-xs leading-tight">{csvTypeLoop.description}</p>
             </main>
           </NItem>
         {/each}
       </List>
 
-      <div class="list-note">
-        {Lang.t('routes.which-trackables-would-you-like-to-include', 'Which trackables would you like to include?')}
-      </div>
+      <div class="list-note">Which trackables would you like to include?</div>
       <List solo className="pt-2 mb-4">
         <NItem title={'All Official Trackables'}>
-          <ToggleSwitch
-            bind:value={useAllTrackables}
-            title={Lang.t('routes.export-all-known-trackables', 'Export all Known Trackables')}
-            slot="right"
-          />
+          <ToggleSwitch bind:value={useAllTrackables} title="Export all Known Trackables" slot="right" />
         </NItem>
 
         {#if !useAllTrackables}
           <NItem
             disabled={useAllTrackables}
-            title={csvType.required.indexOf('trackables') > -1
-              ? 'Select Trackables (required)'
-              : Lang.t('routes.trackables', 'Trackables')}
+            title={csvType.required.indexOf('trackables') > -1 ? 'Select Trackables (required)' : 'Trackables'}
             on:click={methods.selectTrackers}
           >
-            <div class="text-ios-tint" slot="right">
+            <div class="text-primary" slot="right">
               {Lang.t('general.add', 'Add')}
             </div>
           </NItem>
@@ -216,7 +202,7 @@
                 }}
                 size="sm"
                 type="clear"
-                className="text-sm  text-ios-danger"
+                className="text-sm  text-red-500"
                 slot="right"
               >
                 <IonIcon icon={RemoveCircleOutline} /></Button
@@ -230,7 +216,11 @@
         <Input listItem type="date" bind:value={state.start} label={Lang.t('general.start-date', 'Start Date')} />
         <Input listItem type="date" bind:value={state.end} label={Lang.t('general.end-date', 'End Date')} />
         <div class="p-4 flex items-center space-x-2">
-          <Button disabled={generating} on:click={methods.generateCSV} className="w-full bg-ios-tint text-ios-ontint">
+          <Button
+            disabled={generating}
+            on:click={methods.generateCSV}
+            className="text-primary-50 w-full bg-primary-500"
+          >
             {#if generating}
               <span class="mr-2"><Spinner size={22} /></span>
               <span>{Lang.t('general.generating', 'Generating')}...</span>
@@ -239,11 +229,7 @@
             {/if}
           </Button>
           {#if doc.length}
-            <Button
-              disabled={doc.length == 0}
-              on:click={methods.download}
-              className="bg-ios-save text-ios-onsave w-full"
-            >
+            <Button disabled={doc.length == 0} on:click={methods.download} className="bg-green-500 text-white w-full">
               <IonIcon icon={DownloadOutline} className="mr-2" />
               <span>{Lang.t('general.download', 'Download')}</span>
             </Button>
@@ -253,11 +239,13 @@
 
       <div class="csv-preview overflow-y-auto py-4 px-2">
         {#if doc.length > 1}
-          <table class="border border-ios-separator p-2 w-full rounded-lg">
+          <table class="border border-gray-500 p-2 w-full rounded-lg ">
             {#each doc.filter((d, i) => i < 10) as row}
               <tr>
                 {#each row as cell}
-                  <td class="cell text-xs p-2 border border-ios-separator text-ios-label2 font-mono">{cell || ''}</td>
+                  <td class="cell text-xs p-2 border border-gray-500 text-gray-600 font-mono dark:text-gray-300"
+                    >{cell || ''}</td
+                  >
                 {/each}
               </tr>
             {/each}

@@ -17,7 +17,6 @@
       openTemplateRef(templateRef.url)
     }}
   >
-    <!-- iOS look: list titles are left-aligned body text -->
-    <Title className="text-ios-body font-semibold" style="text-align:left">{templateRef.title}</Title>
+    <Title>{templateRef.title}</Title>
   </ListItem>
 {/each}

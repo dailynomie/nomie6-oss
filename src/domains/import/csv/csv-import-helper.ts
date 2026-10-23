@@ -1,21 +1,23 @@
+
 import Papa from 'papaparse'
 import dayjs from 'dayjs'
-import NLog from '../../nomie-log/nomie-log'
+import  NLog from '../../nomie-log/nomie-log'
 import nid from '../../../modules/nid/nid'
 import NPaths from '../../../paths'
 import { createArrayStore } from '../../../store/ArrayStore'
-import { Lang } from '../../../store/lang'
 
 export const CsvTemplateStore = createArrayStore(NPaths.storage.csvTemplates(), {
   key: 'id',
   label: 'CSVTemplate',
   itemInitializer: (item) => {
-    return item
+    return item;
   },
   itemSerializer: (item: IImportConfig) => {
     return item
   },
 })
+
+
 
 export interface IFieldMapItem {
   index: number
@@ -132,7 +134,7 @@ class CSVRImport {
       }
     } catch (e) {
       console.error('toLog Error', e.message)
-      log = new NLog({ note: `Invalid row data` }) // lang-ok: this text is saved in the log, it is data
+      log = new NLog({ note: `Invalid row data` })
     }
     return log
   }

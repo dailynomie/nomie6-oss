@@ -15,7 +15,7 @@
   } from 'chart.js'
   import type { ChartConfiguration } from 'chart.js'
   import { createEventDispatcher, onMount } from 'svelte'
-  import annotationPlugin from 'chartjs-plugin-annotation'
+  import annotationPlugin from 'chartjs-plugin-annotation';
 
   Chart.register(
     BarElement,

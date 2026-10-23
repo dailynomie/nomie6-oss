@@ -14,15 +14,16 @@
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
   import type { WidgetClass } from '../widget-class'
-  import type { DualInsightResponse } from '../../../ai/profiles/types'
-  import { Lang } from '../../../../store/lang'
+import type { DualInsightResponse } from '../../../ai/profiles/types'
 
   dayjs.extend(relativeTime)
 
   const { widget = $bindable() } = $props()
 
   function isAiEnabled(): boolean {
-    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[$Prefs.ai?.selectedService || 'claude']?.apiKey)
+    return !!($Prefs.ai?.enabled && $Prefs.ai?.services?.[
+      $Prefs.ai?.selectedService || 'claude'
+    ]?.apiKey)
   }
 
   function openFullInsightModal() {
@@ -46,6 +47,7 @@
       component: InsightModal,
     })
   }
+
 
   // Set to true to use mock/dummy responses instead of real Claude API
   // Useful for testing without spending credits
@@ -233,7 +235,7 @@ Correlation analysis reveals three major relationship clusters with predictive a
 
     // Check for new dual-level cache first
     if (widget.data?.insightSummary && widget.data?.cachedDate === today) {
-      console.info('[Insight Widget] Using cached dual-level insight from', widget.data.cachedDate)
+      console.log('[Insight Widget] Using cached dual-level insight from', widget.data.cachedDate)
       insightSummary = widget.data.insightSummary
       insightExtended = widget.data.insightExtended || widget.data.insightSummary
       lastFetchDate = widget.data.cachedDate
@@ -243,7 +245,7 @@ Correlation analysis reveals three major relationship clusters with predictive a
 
     // Fallback: check for legacy single-level cache
     if (widget.data?.cachedInsight && widget.data?.cachedDate === today) {
-      console.info('[Insight Widget] Using legacy cached insight from', widget.data.cachedDate)
+      console.log('[Insight Widget] Using legacy cached insight from', widget.data.cachedDate)
       insightSummary = widget.data.cachedInsight
       insightExtended = widget.data.cachedInsight
       lastFetchDate = widget.data.cachedDate
@@ -300,14 +302,14 @@ Correlation analysis reveals three major relationship clusters with predictive a
       // Query AI for insight (or use mock if in test mode)
       let response: any
       if (USE_MOCK_MODE) {
-        await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate network delay
         const mockContent = getMockResponse(widget.data.promptValue)
         response = {
           content: {
             summary: mockContent,
             extended: mockContent,
-            raw: mockContent,
-          },
+            raw: mockContent
+          }
         }
       } else {
         response = await query({
@@ -441,39 +443,34 @@ Correlation analysis reveals three major relationship clusters with predictive a
   {#if !isAiEnabled()}
     <div class="flex items-center justify-center h-full">
       <div class="text-center px-4">
-        <p class="text-xs text-ios-label2">{Lang.t('dashboard.ai-is-disabled', 'AI is disabled')}</p>
-        <p class="text-xs text-ios-label2 mt-1">
-          {Lang.t('dashboard.enable-in-settings-to-use-insights', 'Enable in settings to use insights')}
-        </p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">AI is disabled</p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Enable in settings to use insights</p>
       </div>
     </div>
   {:else if loading}
     <div class="flex items-center justify-center h-full">
       <div class="text-center">
         <div class="spinner mb-2"></div>
-        <p class="text-xs text-ios-label2">{Lang.t('dashboard.generating-insight', 'Generating insight...')}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Generating insight...</p>
       </div>
     </div>
   {:else if error}
     <div class="flex items-center justify-center h-full">
       <div class="text-center px-4">
-        <p class="text-xs text-ios-label2 font-semibold"><span aria-hidden="true">⚠︎</span> {error}</p>
+        <p class="text-xs text-red-600 dark:text-red-400 font-semibold">{error}</p>
       </div>
     </div>
   {:else if insightSummary}
     <div class="px-2 h-full flex flex-col">
-      <div
-        class="insight-container px-3 py-2 cursor-pointer hover:bg-ios-fill transition border border-ios-separator rounded mb-2"
-        onclick={openFullInsightModal}
-      >
-        <div class="text-xs leading-relaxed text-ios-label markdown-content">
+      <div class="insight-container px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition border border-primary-300 rounded mb-2" onclick={openFullInsightModal}>
+        <div class="text-xs leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
           {@html renderedInsight}
         </div>
       </div>
     </div>
   {:else}
     <div class="flex items-center justify-center h-full">
-      <p class="text-xs text-ios-label2">{Lang.t('dashboard.no-insight-available', 'No insight available')}</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400">No insight available</p>
     </div>
   {/if}
 </div>
@@ -484,11 +481,17 @@ Correlation analysis reveals three major relationship clusters with predictive a
     width: 20px;
     height: 20px;
     border: 3px solid #e5e7eb;
-    border-top-color: var(--ios-tint);
+    border-top-color: #3b82f6;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
 
+  @media (prefers-color-scheme: dark) {
+    .spinner {
+      border-color: #374151;
+      border-top-color: #60a5fa;
+    }
+  }
 
   @keyframes spin {
     to {

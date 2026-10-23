@@ -3,7 +3,6 @@
 <script lang="ts">
   import { LedgerStore } from '../ledger/LedgerStore'
   import dayjs from 'dayjs'
-  import { getDateFormats } from '../preferences/Preferences'
   import Button from '../../components/button/button.svelte'
   import ButtonGroup from '../../components/button-group/button-group.svelte'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
@@ -85,7 +84,7 @@
     closeModal(id)
   }
 
-  const gotoDate = (date: Date) => {
+  const gotoDate = (date:Date)=>{
     if (date) {
       changeOnThisDay(date)
       loadDay()
@@ -94,7 +93,7 @@
 
   const jumpTo = async () => {
     let date = await selectFuzzyDate(dayjs($OnThisDayModalStore), false)
-    gotoDate(date.toDate())
+    gotoDate(date.toDate());
   }
 
   onMount(async () => {
@@ -105,9 +104,22 @@
 </script>
 
 <BackdropModal>
-  <header slot="header" class="bg-ios-card">
+  <header slot="header" class="bg-white dark:bg-black">
     <ToolbarGrid>
-      <div class="-ml-2" slot="left">
+      <Button slot="left" primary clear on:click={close}>
+        {Lang.t('general.close', 'Close')}
+      </Button>
+
+      <div class="title">
+        <h2 class="text-center text-black dark:text-white font-bold leading-none text-sm line-clamp-1">
+          {dayjs($OnThisDayModalStore).format('ddd MMM D, YYYY')}
+        </h2>
+        <div class="text-xs text-gray-500 font-medium leading-none mt-1">
+          {dayjs($OnThisDayModalStore).fromNow()}
+        </div>
+      </div>
+
+      <div class="-mr-2" slot="right">
         <NextPrevCal
           on:previous={() => {
             previousDay()
@@ -122,19 +134,6 @@
           </Button>
         </NextPrevCal>
       </div>
-
-      <div class="title">
-        <h2 class="text-center text-ios-label font-bold leading-none text-sm line-clamp-1">
-          {Lang.t('on-this-day.header', {
-            date: dayjs($OnThisDayModalStore).format(`ddd ${getDateFormats().shortDate}`),
-          })}
-        </h2>
-        <div class="text-xs text-ios-label2 font-medium leading-none mt-1">
-          {dayjs($OnThisDayModalStore).fromNow()}
-        </div>
-      </div>
-
-      <Button slot="right" clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
     </ToolbarGrid>
 
     <Toolbar className="px-4">
@@ -158,19 +157,15 @@
 
   <main class="h-full relative min-h-full h-50vh pt-3">
     {#if !loading}
-      <OnThisDayViews
-        {view}
-        on:date={(evt) => {
-          gotoDate(evt.detail)
-        }}
-        logs={state.records}
-      />
+      <OnThisDayViews {view} on:date={(evt)=>{
+        gotoDate(evt.detail);
+      }} logs={state.records} />
     {:else if loading}
       <Empty>
         <Spinner />
       </Empty>
     {:else}
-      <Empty className="text-ios-label2">{Lang.t('onthisday.no-data-on-this-day', 'No data on this day')}</Empty>
+      <Empty className="text-gray-500">No data on this day</Empty>
     {/if}
   </main>
 </BackdropModal>

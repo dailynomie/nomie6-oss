@@ -22,7 +22,6 @@ import { showTrackablePopmenu } from '../../domains/board/boardActions'
 import { wait } from '../../utils/tick/tick'
 import MagnetOutlineSvelte from '../../n-icons/MagnetOutline.svelte'
 import { LedgerStore, saveLog } from '../../domains/ledger/LedgerStore'
-import { Lang } from '../../store/lang'
 
 const dateFormats = getDateFormats()
 
@@ -54,7 +53,7 @@ export const addDividerToFirst = (buttons: Array<PopMenuButton>): Array<PopMenuB
 export const getLogPopButtons = (log: NLog, includeDescription: boolean = true): Array<PopMenuButton> => {
   const buttons = [
     {
-      title: Lang.t('ui.view-note', 'View Note'),
+      title: 'View Note',
       description: includeDescription ? `${log.note.substring(0, 200)}` : undefined,
       icon: EyeSolid,
       click() {
@@ -62,39 +61,39 @@ export const getLogPopButtons = (log: NLog, includeDescription: boolean = true):
       },
     },
     {
-      title: Lang.t('ui.edit-note', 'Edit Note'),
+      title: 'Edit Note',
       icon: CreateOutline,
       click() {
         openLogEditor(log)
       },
-    },
+    }
   ]
-  if (log.pinned) {
+  if(log.pinned) {
     buttons.push({
-      title: Lang.t('ui.unpin-note', 'Unpin Note'),
+      title: 'Unpin Note',
       icon: MagnetOutlineSvelte,
       click() {
-        delete log.pinned
-        LedgerStore.updateLog(log)
-      },
+        delete log.pinned;
+        LedgerStore.updateLog(log);
+      }
     })
   } else {
     buttons.push({
-      title: Lang.t('ui.pin-note', 'Pin Note'),
+      title: 'Pin Note',
       icon: MagnetOutlineSvelte,
       click() {
-        log.pinned = true
-        LedgerStore.updateLog(log)
-      },
+        log.pinned = true;
+        LedgerStore.updateLog(log);
+      }
     })
   }
-  return buttons
+  return buttons;
 }
 
 export const getTrackableDetailPopButton = (trackable: Trackable): Array<PopMenuButton> => {
   return [
     {
-      title: Lang.t('trackable.usage-title', { name: capitalize(trackable.label) }),
+      title: `${capitalize(trackable.label)} Usage...`,
       icon: SparklesOutline,
       async click() {
         await wait(400)

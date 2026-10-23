@@ -8,7 +8,6 @@
   import RadioButton from '../../../../components/radio-button/radio-button.svelte'
   import { parseNumber } from '../../../../utils/parseNumber/parseNumber'
   import type { Trackable } from '../../Trackable.class'
-  import { Lang } from '../../../../store/lang'
 
   let { trackable = $bindable() } = $props<{ trackable: Trackable }>()
 
@@ -20,29 +19,27 @@
   })
 </script>
 
+
 <List solo>
-  <Input
+  <Input 
     type="textarea"
-    label={Lang.t('trackable.provide-background-of-pointer', 'Provide background of pointer')}
-    placeholder={Lang.t('trackable.please-enter-description', '..please enter description')}
+    label="Provide background of pointer"
+    placeholder="..please enter description"
     bind:value={trackable.ptr.description}
-    rows={5}
-    on:change={(evt) => {
-      trackable.ptr.description = evt.detail
-      console.info(evt.detail)
-    }}
-  ></Input>
-</List>
-<div class="mb-4" />
-<List solo>
+    rows={5} 
+    on:change = {(evt) => {
+      trackable.ptr.description = (evt.detail)
+      console.log(evt.detail)
+    }} >
+    
+    
+  </Input>
+  </List>
+  <div class="mb-4" />
+  <List solo>
   <ListItem bottomLine={70}>
     <div>
-      <h1 class="line-clamp-1">
-        {Lang.t(
-          'trackable.do-you-want-to-activate-a-reminder-for-this-poin',
-          'Do you want to activate a reminder for this pointer?'
-        )}
-      </h1>
+      <h1 class="line-clamp-1">Do you want to activate a reminder for this pointer?</h1>
     </div>
     <RadioButton slot="right" bind:checked={reminderEnabled} />
   </ListItem>
@@ -52,15 +49,15 @@
   <Input
     type="date"
     disabled={!reminderEnabled}
-    label={Lang.t('trackable.provide-next-reminder-date', 'Provide next reminder date')}
+    label="Provide next reminder date"
     placeholder="01/01/2099"
     bind:value={trackable.ptr.reminderdate}
     rows={1}
   />
 </List>
 <p class="list-note">
-  {Lang.t(
-    'trackable.a-pointer-is-literaly-a-point-in-time-you-can-as',
-    'A pointer is literaly a point in time. You can assign pointers to individual notes to quickly find them later. You can aslo set a reminder date so Nomie will remind you when you anticipated to log info tagged with a specific pointer. Example: you can create a pointer for your yearly health checkup results (combo tracker) and let Nomie remind you to schedule a next health checkup.'
-  )}
+  A pointer is literaly a point in time. You can assign pointers to individual notes to quickly find them later.
+  You can aslo set a reminder date so Nomie will remind you when you anticipated to log info tagged with a specific pointer.
+  Example: you can create a pointer for your yearly health checkup results (combo tracker) and let Nomie remind you to schedule 
+  a next health checkup.
 </p>

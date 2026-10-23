@@ -34,7 +34,7 @@ export class PointerClass {
       this.tag = starter.tag
       this.label = starter.label || starter.tag || ''
       this.duration = starter.duration || 1
-      this.description = starter.description || ''
+      this.description = starter.description || ""
       this.reminder = starter.reminder || false
       this.reminderdate = starter.reminderdate || new Date()
       this.avatar = starter.avatar

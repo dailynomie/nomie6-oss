@@ -37,11 +37,9 @@
   // Import CSS from Leaflet and plugins.
   import 'leaflet/dist/leaflet.css'
 
-  // Marker images, imported so Vite serves them in development and bundles them for the PWA.
-  // (A new URL(...import.meta.url) path resolved to the app's index.html in development, so the marker showed as a broken image.)
-  import markerIconUrl from 'leaflet/dist/images/marker-icon.png'
-  import markerIcon2xUrl from 'leaflet/dist/images/marker-icon-2x.png'
-  import markerShadowUrl from 'leaflet/dist/images/marker-shadow.png'
+  // Import images directly that got missed via the CSS imports above.
+  import 'leaflet/dist/images/marker-icon-2x.png'
+  import 'leaflet/dist/images/marker-shadow.png'
 
   // Import JS from Leaflet and plugins.
   // import 'leaflet/dist/leaflet'
@@ -50,9 +48,9 @@
 
   // Configure Leaflet default icon paths for PWA compatibility
   L.Icon.Default.mergeOptions({
-    iconUrl: markerIconUrl,
-    iconRetinaUrl: markerIcon2xUrl,
-    shadowUrl: markerShadowUrl,
+    iconUrl: new URL('leaflet/dist/images/marker-icon.png', import.meta.url).href,
+    iconRetinaUrl: new URL('leaflet/dist/images/marker-icon-2x.png', import.meta.url).href,
+    shadowUrl: new URL('leaflet/dist/images/marker-shadow.png', import.meta.url).href,
   })
 
   // consts
@@ -87,18 +85,7 @@
   let lastLocations = $state(undefined)
   let markers = $state<Array<any>>([])
 
-  let {
-    locations = $bindable(),
-    records = $bindable(),
-    small,
-    picker,
-    height,
-    className,
-    style,
-    lock = $bindable(),
-    hideFavorite,
-    methods,
-  } = $props()
+  let { locations = $bindable(), records = $bindable(), small, picker, height, className, style, lock = $bindable(), hideFavorite, methods } = $props()
 
   $effect(() => {
     if (locations && JSON.stringify(locations) !== lastLocations) {
@@ -138,14 +125,14 @@
 
               // Add markers for each location
               locations.forEach((loc) => {
-                L.marker([loc.lat, loc.lng])
-                  .addTo(MAP)
-                  .bindPopup(loc.name || 'Location')
+                L.marker([loc.lat, loc.lng]).addTo(MAP).bindPopup(loc.name || 'Location')
               })
 
               // Fit map to show all locations
               if (locations.length > 1) {
-                const bounds = L.latLngBounds(locations.map((loc) => [loc.lat, loc.lng]))
+                const bounds = L.latLngBounds(
+                  locations.map((loc) => [loc.lat, loc.lng])
+                )
                 MAP.fitBounds(bounds, { padding: [50, 50] })
               }
             }
@@ -216,6 +203,7 @@
     })
   }
 
+
   // Reactive Location Lookup
   // $: getLocation = () => {
   //   return new Promise(resolve => {
@@ -254,7 +242,7 @@
       on:click={() => {
         lock = false
       }}
-      class="map-lock-cover absolute top-0 left-0 right-0 bottom-0 w-full flex bg-opacity-10 p-5 justify-end items-start bg-ios-black z-10"
+      class="map-lock-cover absolute top-0 left-0 right-0 bottom-0 w-full flex bg-opacity-10 p-5 justify-end items-start bg-black  z-10"
     >
       <IonIcon icon={LockClosedSolid} />
     </button>
@@ -302,24 +290,15 @@
     height: 100%;
   }
 
-  /* iOS look: the search field is a card with label text, in both modes */
   .geocoder-control-input {
-    background-color: var(--ios-card);
-    color: var(--ios-label);
+    @apply dark:bg-black bg-white;
+    @apply text-black dark:text-white;
   }
 
-  /* iOS look: the search glyph is the outline magnifier in the label2 token, not an emoji */
   .leaflet-touch .geocoder-control::after {
-    content: '';
+    content: '🔎';
     display: block;
     z-index: 1000;
-    width: 18px;
-    height: 18px;
-    background-color: var(--ios-label2);
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E")
-      no-repeat center / contain;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E")
-      no-repeat center / contain;
   }
 
   .n-map-container .n-map-wrapper {
@@ -342,43 +321,38 @@
     justify-content: center;
     z-index: 2000;
   }
-  /* iOS look: the centre pin is the tint (readable on light and dark maps) */
   .picker-cover svg {
-    fill: var(--ios-tint);
-    opacity: 0.85;
+    fill: red;
+    opacity: 0.5;
   }
   .map-lock-cover {
   }
-  /* iOS look: map controls are cards with label text in both modes */
   .leaflet-control-attribution {
-    background-color: color-mix(in srgb, var(--ios-card) 80%, transparent);
-    color: var(--ios-label2);
+    @apply dark:bg-black dark:text-gray-600;
   }
   .leaflet-control-attribution a {
-    color: var(--ios-tint);
+    @apply dark:text-primary-500 dark:text-opacity-50;
   }
   .leaflet-control-zoom {
-    background-color: var(--ios-card);
+    @apply dark:bg-black;
     @apply rounded-lg;
     @apply overflow-hidden;
   }
   .leaflet-control-zoom a {
     border: none !important;
-    background-color: var(--ios-card);
-    color: var(--ios-label);
+    @apply dark:bg-black dark:text-white;
     @apply border-none;
   }
   .leaflet-control-zoom-in .leaflet-disabled {
-    background-color: var(--ios-card);
-    color: var(--ios-label);
+    @apply dark:bg-black dark:text-white;
     @apply opacity-25;
   }
   .leaflet-control-zoom a.leaflet-disabled {
-    color: var(--ios-label2);
+    @apply dark:text-gray-700;
     @apply border-none;
   }
   .leaflet-container .leaflet-control-attribution {
-    background-color: color-mix(in srgb, var(--ios-card) 80%, transparent);
+    @apply dark:bg-black;
   }
   .n-map-container .n-map {
     width: 100%;
@@ -392,7 +366,7 @@
     top: 10px;
     right: 10px;
     z-index: 200;
-    background-color: color-mix(in srgb, var(--ios-card) 70%, transparent);
+    background-color: rgba(255, 255, 255, 0.7);
   }
   .geocoder-control {
     display: none;

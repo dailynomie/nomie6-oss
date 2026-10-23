@@ -39,11 +39,7 @@
   })
 </script>
 
-<div
-  class="virtual-list-wrapper overflow-hidden {className}"
-  bind:this={wrapper}
-  style={height ? `height: ${height}` : 'height: 100vh'}
->
+<div class="virtual-list-wrapper overflow-hidden {className}" bind:this={wrapper} style={height ? `height: ${height}` : 'height: 100vh'}>
   <VirtualList {items} bind:start {height} let:item bind:end>
     <slot {item} />
   </VirtualList>

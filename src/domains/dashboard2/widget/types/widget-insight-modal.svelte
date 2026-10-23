@@ -8,17 +8,16 @@
   import { marked } from 'marked'
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
-  import { Lang } from '../../../../store/lang'
 
   dayjs.extend(relativeTime)
 
   // Font size mapping from preference to rem values
   const fontSizeMap: Record<string, number> = {
-    xs: 0.75, // 12px
-    sm: 0.875, // 14px
-    md: 1, // 16px (base)
-    lg: 1.125, // 18px
-    xl: 1.25, // 20px
+    xs: 0.75,    // 12px
+    sm: 0.875,   // 14px
+    md: 1,       // 16px (base)
+    lg: 1.125,   // 18px
+    xl: 1.25     // 20px
   }
 
   function calculateInsightFontSize(prefFontSize: string): string {
@@ -54,34 +53,6 @@
     }
   }
 </script>
-
-<BackdropModal mainClass="bg-ios-card flex flex-col">
-  <div slot="header" class="flex items-center justify-between p-4 border-b border-ios-separator">
-    <button onclick={close} class="text-ios-tint font-medium transition"> {Lang.t('dashboard.close', 'Close')} </button>
-    <h2 class="text-lg font-semibold text-ios-label">{Lang.t('dashboard.nomie-insights', 'Nomie Insights')}</h2>
-    <div class="w-12" />
-  </div>
-  <div class="flex-1 flex flex-col p-6 overflow-hidden">
-    <div class="flex-1 overflow-y-auto border border-ios-tint rounded p-4" style="font-size: {insightFontSize}">
-      <div class="leading-relaxed text-ios-label markdown-content">
-        {@html renderedInsight}
-      </div>
-    </div>
-    <div class="mt-4 space-y-2">
-      {#if lastFetchDate}
-        <p class="text-xs text-ios-label2">
-          {Lang.t('dashboard.will-refresh-in', { time: getRefreshTime() })}
-        </p>
-      {/if}
-      <p class="text-xs text-ios-label2" style="font-size: 0.625rem;">
-        {Lang.t('dashboard.generated-with', { provider: aiProvider })}
-        {#if aiModel}
-          • <span class="font-mono">{aiModel}</span>
-        {/if}
-      </p>
-    </div>
-  </div>
-</BackdropModal>
 
 <style lang="postcss" global>
   .markdown-content p {
@@ -120,3 +91,37 @@
     }
   }
 </style>
+
+<BackdropModal mainClass="bg-white dark:bg-gray-900 flex flex-col">
+  <div slot="header" class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+    <button
+      onclick={close}
+      class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 font-medium transition"
+    >
+      Close
+    </button>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Nomie Insights</h2>
+    <div class="w-12" />
+  </div>
+  <div class="flex-1 flex flex-col p-6 overflow-hidden">
+    <div class="flex-1 overflow-y-auto border border-primary-300 rounded p-4" style="font-size: {insightFontSize}">
+      <div class="leading-relaxed text-gray-900 dark:text-gray-100 markdown-content">
+        {@html renderedInsight}
+      </div>
+    </div>
+    <div class="mt-4 space-y-2">
+      {#if lastFetchDate}
+        <p class="text-xs text-gray-600 dark:text-gray-400">
+          Will refresh in {getRefreshTime()}
+        </p>
+      {/if}
+      <p class="text-xs text-gray-500 dark:text-gray-500" style="font-size: 0.625rem;">
+        Generated with {aiProvider}
+        {#if aiModel}
+          • <span class="font-mono">{aiModel}</span>
+        {/if}
+      </p>
+    </div>
+  </div>
+</BackdropModal>
+

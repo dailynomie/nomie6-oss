@@ -34,10 +34,10 @@ export const createKVStore = (path: string, props: DocStorePropTypes) => {
   /**
    * Initialize the Store
    */
-  const init = async (_data?: any): Promise<KVStoreState> => {
+  const init = async (_data?:any): Promise<KVStoreState> => {
     // Get the Map From Storage
     let map = (await Storage.get(path)) || {}
-    data = _data || {}
+    data = _data || {};
 
     // Handle corrupted data: if array was stored instead of object, convert it
     if (Array.isArray(map)) {
@@ -62,8 +62,8 @@ export const createKVStore = (path: string, props: DocStorePropTypes) => {
     })
     update((s) => map)
 
-    if (props.initialized) {
-      props.initialized(map, data)
+    if(props.initialized) {
+      props.initialized(map, data);
     }
     return map
   }
@@ -77,7 +77,7 @@ export const createKVStore = (path: string, props: DocStorePropTypes) => {
     // Clone State
     // const serverState = await _read();
     // Try pulling from server for anything not on this device
-    const _state = state
+    const _state = state;
 
     // Loop over keys and serialize if serializer
     Object.keys(_state).map((key) => {

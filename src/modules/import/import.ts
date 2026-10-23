@@ -46,21 +46,17 @@ export function dashCase(str: string): string {
 
 // Convert new backup format (with files) to old format expected by normalizers
 function convertNewFormatToOldFormat(payload: any): any {
-  console.info('convertNewFormatToOldFormat - payload:', {
-    hasFiles: !!payload.files,
-    hasVersion: !!payload.version,
-    version: payload.version,
-  })
+  console.log('convertNewFormatToOldFormat - payload:', { hasFiles: !!payload.files, hasVersion: !!payload.version, version: payload.version })
 
   if (payload.files && payload.version) {
-    console.info('Converting new backup format to old format')
+    console.log('Converting new backup format to old format')
     const converted: any = {
       nomie: {
         number: payload.version,
         created: payload.created,
         startDate: payload.startDate,
         endDate: payload.endDate,
-      },
+      }
     }
 
     if (payload.files) {
@@ -78,10 +74,10 @@ function convertNewFormatToOldFormat(payload: any): any {
       if (events.length) converted.events = events
     }
 
-    console.info('Converted payload keys:', Object.keys(converted))
+    console.log('Converted payload keys:', Object.keys(converted))
     return converted
   }
-  console.info('Returning original payload (not new format)')
+  console.log('Returning original payload (not new format)')
   return payload
 }
 
@@ -94,21 +90,21 @@ export default class Importer {
       this.original = importPayload
 
       const normalizedPayload = convertNewFormatToOldFormat(importPayload)
-      console.info('normalizedPayload received in Importer constructor')
+      console.log('normalizedPayload received in Importer constructor')
 
       // Support both old format (nomie.number) and new format (version)
       let versionString = normalizedPayload?.nomie?.number || importPayload?.version
-      console.info('versionString:', versionString)
+      console.log('versionString:', versionString)
 
       // Extract major version number (handles both "6.7.4..." and "dn6.8.0v..." formats)
       let majorVersionMatch = versionString?.match(/\d+/)
       this.version = majorVersionMatch ? parseInt(majorVersionMatch[0]) : NaN
-      console.info('Parsed version:', this.version)
+      console.log('Parsed version:', this.version)
 
       if (!this.version) {
         throw new Error('Invalid Nomie Backup file - could not extract version')
       } else if (this.version >= 4) {
-        console.info('Using N5ImportNormalizer for version', this.version)
+        console.log('Using N5ImportNormalizer for version', this.version)
         this.normalized = N5ImportNormalizer(normalizedPayload)
       } else if (this.version == 3) {
         this.normalized = N3ImportNormalizer(normalizedPayload)
@@ -117,7 +113,7 @@ export default class Importer {
       } else if (this.version == 1) {
         this.normalized = N1ImportNormalizer(normalizedPayload)
       }
-      console.info('Importer initialized successfully')
+      console.log('Importer initialized successfully')
     } catch (e) {
       console.error('Importer constructor error:', e)
       throw e

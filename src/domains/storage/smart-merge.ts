@@ -47,7 +47,8 @@ const assertSameShape = (v1: any, v2: any) => {
 // the last match wins (kept for compatibility with existing stored data).
 const KEYS = ['_id', 'key', 'id', 'tag']
 
-const isPlainObject = (item: any): boolean => item !== null && typeof item === 'object' && !Array.isArray(item)
+const isPlainObject = (item: any): boolean =>
+  item !== null && typeof item === 'object' && !Array.isArray(item)
 
 const fingerprint = (item: any): string => {
   try {
@@ -57,8 +58,7 @@ const fingerprint = (item: any): string => {
   }
 }
 
-const deepMerge = (v1: any, v2: any): any =>
-  mergeDeep(v1, v2, { arrayMerge: (target, source) => mergeArray(target, source) })
+const deepMerge = (v1: any, v2: any): any => mergeDeep(v1, v2, { arrayMerge: (target, source) => mergeArray(target, source) })
 
 /**
  * Merge two arrays without creating duplicates.
@@ -89,8 +89,7 @@ export const addMissing = (existing: any, raw: any): any => {
   assertSameShape(existing, incoming)
   if (Array.isArray(existing) && Array.isArray(incoming)) {
     const id = idKeyOf([...existing, ...incoming])
-    const keyOf = (item: any) =>
-      id !== undefined && isPlainObject(item) && item[id] != null ? `id:${item[id]}` : fingerprint(item)
+    const keyOf = (item: any) => (id !== undefined && isPlainObject(item) && item[id] != null ? `id:${item[id]}` : fingerprint(item))
     const known = new Set(existing.map(keyOf))
     return [...existing, ...incoming.filter((item) => !known.has(keyOf(item)))]
   }

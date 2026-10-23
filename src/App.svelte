@@ -55,20 +55,15 @@
   import { loadToday } from './domains/usage/today/TodayStore'
 
   import { trackLaunch } from './domains/preferences/LaunchCount'
-  import { checkStarterNudge } from './domains/preferences/starter-nudge'
   import PluginLoader from './domains/plugins/plugin-loader.svelte'
   import PointerLoader from './domains/pointers/pointer-loader.svelte'
-  import {
-    PluginStore,
-    initializeBuildinPlugins,
-    registerPluginPreferencesListeners,
-  } from './domains/plugins/PluginStore'
+  import { PluginStore, initializeBuildinPlugins, registerPluginPreferencesListeners } from './domains/plugins/PluginStore'
   import { registerChartOptionsListener } from './domains/usage/ChartOptionsStore'
   import { autoCleanupPlugins } from './domains/plugins/PluginCleanupStore'
   import Setup from './domains/setup/setup.svelte'
   import locate from './modules/locate/locate'
-  import { Lang } from './store/lang'
 
+  
   // initiailze gestures
   gestures()
 
@@ -83,7 +78,9 @@
    * Fire off the MinuteChecker30 every 30 minutes
    * This will check if the day changed
    */
-  let todayCheckPeriod = 1000 * 60 * 2
+  let todayCheckPeriod = 1000 * 60 * 2 
+  
+  
 
   let todayCheckFormat = 'YYYY-MM-DD'
   // let todayKey = dayjs().format(todayCheckFormat)
@@ -101,10 +98,10 @@
    */
   const checkIfNewDay = () => {
     let checkKey = dayjs().format(todayCheckFormat)
-
+    
     // Compare now key to today key
     if (todayKey !== checkKey) {
-      showToast({ message: Lang.t('general.its-day', { day: dayjs().format('dddd') }) })
+      showToast({ message: `It's ${dayjs().format('dddd')}!` })
       // Set today key to check key
       todayKey = checkKey
       bootCoreComponents($TrackableStore.trackables)
@@ -125,6 +122,7 @@
     setDocParams()
   }, todayCheckPeriod)
 
+  
   const hideSplashScreen = () => {
     document.querySelectorAll('.delete-on-app').forEach((d) => {
       d.classList.add('deleted')
@@ -190,7 +188,6 @@
         wait(2000).then(() => {
           checkGoals('storage-init')
           trackLaunch()
-          checkStarterNudge().catch((e) => console.error(e))
         })
       })
     }
@@ -285,8 +282,13 @@
 <PointerLoader />
 
 <div id="photo-holder" class="hidden" style="display:none">
-  <img id="photo-holder-image " alt="" />
+  <img id="photo-holder-image " alt="avatar-holder" />
 </div>
 
 <style lang="postcss" global>
+  .bg-primary-gradient,
+  .priamry-gradient {
+    @apply bg-gradient-to-tr from-primary-400 via-primary-500 to-indigo-600;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.24);
+  }
 </style>

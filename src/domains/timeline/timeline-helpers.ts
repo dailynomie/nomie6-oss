@@ -1,7 +1,8 @@
 import { createLSStore } from '../../store/LSStore'
 import type { TimelineFilterProps } from './timeline-utils'
-import { openModal } from '../../components/backdrop/BackdropStore2'
-import { md5 } from '../../modules/nid/nid'
+import TimelineModal from "./timeline-modal.svelte";
+import { openModal } from '../../components/backdrop/BackdropStore2';
+import { md5 } from '../../modules/nid/nid';
 export const TimelineOptionsStore = createLSStore('timeline-settings', {
   default: {
     notes: true,
@@ -16,14 +17,12 @@ export const TimelineOptionsStore = createLSStore('timeline-settings', {
  * @param {TimelineFilterProps} props - TimelineFilterProps - this is the type of the props that will
  * be passed to the modal component.
  */
-export async function openTimelineModal(props: TimelineFilterProps) {
-  // the timeline modal loads when it opens
-  const { default: TimelineModal } = await import('./timeline-modal.svelte')
+export function openTimelineModal(props:TimelineFilterProps) {
   openModal({
     id: `timeline-modal-${md5(props.search)}`,
     component: TimelineModal,
     componentProps: {
-      filters: props,
-    },
+      filters: props
+    }
   })
 }

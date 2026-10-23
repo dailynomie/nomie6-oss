@@ -1,26 +1,6 @@
 {
   "features": [
     {
-      "version": "7.0.0",
-      "title": "A fresh iOS-style look with full dark mode"
-    },
-    {
-      "version": "7.0.0",
-      "title": "Experiments: test whether one change affects something you track"
-    },
-    {
-      "version": "7.0.0",
-      "title": "Starter mode: a simpler Daily Nomie for new users. Switch to Full any time in Settings"
-    },
-    {
-      "version": "7.0.0",
-      "title": "Explain this result: an AI explanation for finished experiments"
-    },
-    {
-      "version": "7.0.0",
-      "title": "Daily Nomie 7 is here: the first release of the new version"
-    },
-    {
       "version": "dn6.8.0v20261014",
       "title": "What's New is grouped per version, with features and fixes expandable"
     },{

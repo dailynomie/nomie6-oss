@@ -1,38 +1,28 @@
-name: Docker image
-
-# One image repository per branch, each with a version tag, a latest tag and a commit tag:
-#   ghcr.io/dailynomie/dailynomie_prod  (master)
-#   ghcr.io/dailynomie/dailynomie_beta  (beta)
-#   ghcr.io/dailynomie/dailynomie_dev   (dev)
-# The image is built only after the tests pass.
+name: Svelte 5 - Create and publish a Docker image
 
 on:
   push:
-    branches: ["dev", "beta", "master"]
+    branches: ["master","dev"]
 
   # Allows this workflow to be run manually from the Actions tab
   workflow_dispatch:
 
-permissions:
-  contents: read
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  tests:
-    uses: ./.github/workflows/test.yml
-
   build-and-push-image:
-    needs: tests
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     env:
-      NODE_OPTIONS: "--max_old_space_size=8192"
-      REGISTRY: ghcr.io
+      NODE_OPTIONS: '--max_old_space_size=8192'
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -41,37 +31,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Work out the image name and tags
-        id: image
-        run: |
-          case "$GITHUB_REF_NAME" in
-            master) ENVIRONMENT=prod ;;
-            beta) ENVIRONMENT=beta ;;
-            dev) ENVIRONMENT=dev ;;
-            *) echo "No image for branch $GITHUB_REF_NAME"; exit 1 ;;
-          esac
-          VERSION=$(node -p "require('./package.json').version")
-          OWNER=$(echo "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')
-          IMAGE="$REGISTRY/$OWNER/dailynomie_$ENVIRONMENT"
-
-          # A released version is never overwritten: a second build of the same prod version stops here.
-          if [ "$ENVIRONMENT" = "prod" ] && docker manifest inspect "$IMAGE:$VERSION" > /dev/null 2>&1; then
-            echo "$IMAGE:$VERSION already exists. Bump the version in package.json before releasing."
-            exit 1
-          fi
-
-          {
-            echo "tags<<EOF"
-            echo "$IMAGE:$VERSION"
-            echo "$IMAGE:latest"
-            echo "$IMAGE:sha-${GITHUB_SHA::7}"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-          echo "Building $IMAGE:$VERSION for $GITHUB_REF_NAME"
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch,suffix=-svelte5
+            type=sha,suffix=-svelte5
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ steps.image.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

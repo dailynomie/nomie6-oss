@@ -1,17 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import FeatureBadge from '../../components/advanced-badge/feature-badge.svelte'
-  import {
-    CloudUploadOutline,
-    ContractOutline,
-    ContrastOutline,
-    HomeOutline,
-    LocationOutline,
-    LockClosedOutline,
-    NotificationsOffOutline,
-    TextOutline,
-  } from '../../components/icon/nicons'
   import capitalize from 'lodash/capitalize'
   import ListItem from '../../components/list-item/list-item.svelte'
   import ToggleSwitch from '../../components/toggle-switch/toggle-switch.svelte'
@@ -37,14 +26,8 @@
   import PeopleBoardIcon from '../../n-icons/board-tab-icons/PeopleBoardIcon.svelte'
   import ContextBoardIcon from '../../n-icons/board-tab-icons/ContextBoardIcon.svelte'
   import SelectPop from '../../select-pop/select-pop.svelte'
-  import ExperimentBoardIcon from '../../n-icons/board-tab-icons/ExperimentBoardIcon.svelte'
-  import IconSquare from '../../components/icon-square/icon-square.svelte'
-  import { FlaskOutline, PulseOutline } from '../../components/icon/nicons'
-  import { FeatureVisible, resolveExperience } from '../preferences/features'
 
   const themes: Array<ThemeTypes> = ['light', 'dark', 'auto']
-  // The start page choice is hidden: the Track board is the start page. The code is kept; set this to true to show the row again.
-  const SHOW_START_PAGE = false
   let hasPin: boolean = $state(false)
 
   $effect(() => {
@@ -73,89 +56,56 @@
           $Prefs.usePin = undefined
         } else {
           $Prefs.usePin = pin
-          showToast({ message: Lang.t('settings.pin-enabled', '🔐 Pin Enabled') })
+          showToast({ message: '🔐 Pin Enabled' })
         }
       } else {
-        let confirmDisable = await Interact.confirm(Lang.t('settings.disable-pin-question', 'Disable Pin?'))
+        let confirmDisable = await Interact.confirm(' Disable Pin?')
         if (confirmDisable) {
           $Prefs.usePin = undefined
           hasPin = false
-          showToast({ message: Lang.t('settings.pin-disabled', '🔓 Pin Disabled') })
+          showToast({ message: '🔓 Pin Disabled' })
         }
       }
     },
   }
 </script>
 
-<List solo outside title={Lang.t('settings.customize-2', 'Customize')}>
-  <!-- iOS look (guide 5.11): Experience is a segmented control with the explanation under it -->
-  <div class="px-4 py-3 space-y-2">
-    <div class="text-ios-subhead font-semibold text-ios-label">
-      {Lang.t('settings.how-much-do-you-want-to-see', 'How much do you want to see?')}
-    </div>
-    <ButtonGroup
-      value={resolveExperience($Prefs)}
-      buttons={[
-        { label: Lang.t('settings.starter', 'Starter'), value: 'starter' },
-        { label: Lang.t('settings.full', 'Full'), value: 'full' },
-      ]}
-      on:change={(evt) => {
-        $Prefs.experience = evt.detail.value
-      }}
-    />
-    <div class="text-ios-footnote text-ios-label2">
-      {resolveExperience($Prefs) === 'full'
-        ? Lang.t(
-            'settings.full-shows-everything-switching-never-deletes-da',
-            'Full shows everything. Switching never deletes data.'
-          )
-        : Lang.t(
-            'settings.starter-shows-the-essentials-nothing-is-deleted',
-            'Starter shows the essentials. Nothing is deleted.'
-          )}
-    </div>
-  </div>
-
-  {#if SHOW_START_PAGE}
-    <ListItem bottomLine={57} title={Lang.t('settings.start-page', 'Start Page')}>
-      <span slot="left"><IconSquare color="#4E2470"><IonIcon icon={HomeOutline} size={17} /></IconSquare></span>
-      <div slot="right">
-        <SelectPop
-          id="start-page"
-          value={capitalize($Prefs.startPage)}
-          on:change={(evt) => {
-            $Prefs.startPage = evt.detail.key
-          }}
-          options={['track', 'dashboard', 'goals', 'timeline', 'history'].map((t) => {
-            return { key: t, value: capitalize(t), selected: $Prefs.startPage == t }
-          })}
-        />
-        <!-- <select title="Select a Start Page" class="nselect clear" bind:value={$Prefs.startPage} on:change={(event) => {}}>
+<List solo outside title="Customize">
+  <ListItem bottomLine={16} title={Lang.t('settings.start-page', 'Start Page')}>
+    <div slot="right">
+      <SelectPop
+        id="start-page"
+        value={capitalize($Prefs.startPage)}
+        on:change={(evt) => {
+          $Prefs.startPage = evt.detail.key
+        }}
+        options={['track', 'dashboard', 'goals', 'timeline', 'history'].map((t) => {
+          return { key: t, value: capitalize(t), selected: $Prefs.startPage == t }
+        })}
+      />
+      <!-- <select title="Select a Start Page" class="nselect clear" bind:value={$Prefs.startPage} on:change={(event) => {}}>
         <option value={'track'}>Track Tab</option>
         <option value={'dashboard'}>Dashboard</option>
         <option value={'goals'}>Goals</option>
         <option value={'timeline'}>Timeline</option>
         <option value={'history'}>History</option>
       </select> -->
-      </div>
-    </ListItem>
-  {/if}
+    </div>
+  </ListItem>
 
-  <ListItem bottomLine={57} title={Lang.t('settings.use-location', 'Use Location')}>
-    <span slot="left"><IconSquare color="#5B2C7A"><IonIcon icon={LocationOutline} size={17} /></IconSquare></span>
+  <ListItem bottomLine={16} title={Lang.t('settings.use-location', 'Use Location')}>
     <div slot="right" class="ml-2">
-      <ToggleSwitch title={Lang.t('settings.location-lookup', 'Location Lookup')} bind:value={$Prefs.alwaysLocate} />
+      <ToggleSwitch title="Location Lookup" bind:value={$Prefs.alwaysLocate} />
     </div>
   </ListItem>
 
   <!-- Pin Code -->
   <!-- description={Lang.t('settings.require-pin-description', "Don't forget it!")} -->
-  <ListItem bottomLine={57} title={Lang.t('settings.require-pin', 'Require Access Pin')}>
-    <span slot="left"><IconSquare color="#6E3A96"><IonIcon icon={LockClosedOutline} size={17} /></IconSquare></span>
+  <ListItem bottomLine={16} title={Lang.t('settings.require-pin', 'Require Access Pin')}>
     <div slot="right" class="ml-2">
       {#if hasPin}
         <button
-          class=" toggle-pin-button whitespace-nowrap text-ios-tint text-right"
+          class=" toggle-pin-button whitespace-nowrap text-primary-500 text-right"
           on:click={() => {
             methods.lockToggle(false)
           }}
@@ -164,7 +114,7 @@
         </button>
       {:else}
         <button
-          class=" toggle-pin-button whitespace-nowrap text-ios-tint text-right"
+          class=" toggle-pin-button whitespace-nowrap text-primary-500 text-right"
           on:click={() => {
             methods.lockToggle(true)
           }}
@@ -176,12 +126,14 @@
       {hasPin ? 'has pin' : 'has no pin'} -->
     </div>
   </ListItem>
+
+  
 </List>
 
 <div class="mb-4" />
 <List solo>
-  <ListItem bottomLine={57} title={Lang.t('settings.theme', 'Theme')}>
-    <span slot="left"><IconSquare color="#7D4AA8"><IonIcon icon={ContrastOutline} size={17} /></IconSquare></span>
+  <ListItem bottomLine={52} title={Lang.t('settings.theme', 'Theme')}>
+    <Avatar slot="left" className="-ml-1 mr-2" emoji="💡" size={22} />
     <div slot="right">
       <SelectPop
         id="theme"
@@ -217,8 +169,8 @@
     </div>
   </ListItem>
 
-  <ListItem bottomLine={57} title={Lang.t('settings.font-size', 'Font Size')}>
-    <span slot="left"><IconSquare color="#8944AB"><IonIcon icon={TextOutline} size={17} /></IconSquare></span>
+  <ListItem bottomLine={52} title={Lang.t('settings.font-size', 'Font Size')}>
+    <Avatar slot="left" className="-ml-1 mr-2" emoji="🔎" size={22} />
     <div slot="right">
       <ButtonGroup style="width:170px;">
         {#each ['xs', 'sm', 'md', 'lg', 'xl'] as size}
@@ -247,95 +199,46 @@
 <div class="mb-4" />
 
 <List solo>
-  <ListItem bottomLine={57} title={Lang.t('settings.show-all-board', 'Show All Board')}>
-    <span slot="left"
-      ><IconSquare color="#9455B8"><span class="board-white"><AllBoardIcon size={17} /></span></IconSquare></span
-    >
+  <ListItem bottomLine={52} title={Lang.t('settings.show-all-board', 'Show All Board')}>
+    <IonIcon icon={AllBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
     <div slot="right">
-      <ToggleSwitch bind:value={$Prefs.allBoard} title={Lang.t('settings.toggle-all-board', 'Toggle All Board')} />
+      <ToggleSwitch bind:value={$Prefs.allBoard} title="Toggle People Board" />
     </div>
   </ListItem>
-  {#if $FeatureVisible('people-board')}
-    <ListItem bottomLine={57} title={Lang.t('settings.show-people-board', 'Show People Board')}>
-      <span slot="left" class="adv-corner"
-        ><IconSquare color="#9E62C0"><span class="board-white"><PeopleBoardIcon size={17} /></span></IconSquare
-        ><FeatureBadge feature="people-board" /></span
-      >
-      <div slot="right">
-        <ToggleSwitch
-          bind:value={$Prefs.peopleBoard}
-          title={Lang.t('settings.toggle-people-board', 'Toggle People Board')}
-        />
-      </div>
-    </ListItem>
-  {/if}
-  {#if $FeatureVisible('context-board')}
-    <ListItem bottomLine={57} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
-      <span slot="left" class="adv-corner"
-        ><IconSquare color="#A066C0"><span class="board-white"><ContextBoardIcon size={17} /></span></IconSquare
-        ><FeatureBadge feature="context-board" /></span
-      >
-      <div slot="right">
-        <ToggleSwitch
-          bind:value={$Prefs.contextBoard}
-          title={Lang.t('settings.toggle-context-board', 'Toggle Context Board')}
-        />
-      </div>
-    </ListItem>
-  {/if}
-  <!-- iOS look: teal icon square for the Experiments board -->
-  <ListItem bottomLine={57} title={Lang.t('settings.show-experiments-board', 'Show Experiments Board')}>
-    <span slot="left"><IconSquare color="#A96BC9"><IonIcon icon={FlaskOutline} size={17} /></IconSquare></span>
+  <ListItem bottomLine={52} title={Lang.t('settings.show-people-board', 'Show People Board')}>
+    <IonIcon icon={PeopleBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
     <div slot="right">
-      <ToggleSwitch
-        value={$Prefs.experimentBoard === true}
-        title={Lang.t('settings.toggle-experiments-board', 'Toggle Experiments Board')}
-        on:change={(evt) => {
-          $Prefs.experimentBoard = evt.detail
-        }}
-      />
+      <ToggleSwitch bind:value={$Prefs.peopleBoard} title="Toggle People Board" />
+    </div>
+  </ListItem>
+  <ListItem bottomLine={52} title={Lang.t('settings.show-context-board', 'Show Context Board')}>
+    <IonIcon icon={ContextBoardIcon} slot="left" size={22} className="-ml-1 mr-2" />
+    <div slot="right">
+      <ToggleSwitch bind:value={$Prefs.contextBoard} title="Toggle Context Board" />
     </div>
   </ListItem>
 </List>
 
 <div class="mb-4" />
 <List solo>
-  <ListItem bottomLine={57} title={Lang.t('settings.small-tracker-buttons', 'Compact Trackers')}>
-    <span slot="left"><IconSquare color="#B07AD0"><IonIcon icon={ContractOutline} size={17} /></IconSquare></span>
+  <ListItem bottomLine={52} title={Lang.t('settings.small-tracker-buttons', 'Compact Trackers')}>
+    <Avatar slot="left" className="-ml-1 mr-2" emoji="🐭" size={22} />
     <div slot="right">
-      <ToggleSwitch
-        bind:value={$Prefs.compactTrackers}
-        title={Lang.t('settings.compact-tracker-buttons', 'Compact Tracker Buttons')}
-      />
+      <ToggleSwitch bind:value={$Prefs.compactTrackers} title="Compact Tracker Buttons" />
     </div>
   </ListItem>
 
-  <ListItem bottomLine={57} title={Lang.t('settings.hide-backup-reminder', 'Hide Backup Reminder')}>
-    <span slot="left"><IconSquare color="#B985D8"><IonIcon icon={CloudUploadOutline} size={17} /></IconSquare></span>
+  <ListItem bottomLine={52} title={Lang.t('settings.hide-backup-reminder', 'Hide Backup Reminder')}>
+    <Avatar slot="left" className="-ml-1 mr-2" emoji="💾" size={22} />
     <div slot="right">
-      <ToggleSwitch
-        bind:value={$Prefs.hideBackupMessage}
-        title={Lang.t('settings.hide-backup-message', 'Hide Backup Message')}
-      />
+      <ToggleSwitch bind:value={$Prefs.hideBackupMessage} title="Hide Backup Message" />
     </div>
   </ListItem>
 
-  <ListItem bottomLine={57} title={Lang.t('settings.hide-message-notifications', 'Hide Message Alerts')}>
-    <span slot="left"
-      ><IconSquare color="#C192DE"><IonIcon icon={NotificationsOffOutline} size={17} /></IconSquare></span
-    >
+  <ListItem bottomLine={52} title={Lang.t('settings.hide-message-notifications', 'Hide Message Alerts')}>
+    <Avatar slot="left" className="-ml-1 mr-2" emoji="📢" size={22} />
     <div slot="right">
-      <ToggleSwitch
-        bind:value={$Prefs.hideMessages}
-        title={Lang.t('settings.hide-nomie-messages', 'Hide Nomie Messages')}
-      />
+      <ToggleSwitch bind:value={$Prefs.hideMessages} title="Hide Nomie Messages" />
     </div>
   </ListItem>
 </List>
-
-<style>
-  /* iOS look: the board icons are white glyphs on the purple square */
-  .board-white :global(path) {
-    fill: var(--ios-white) !important;
-  }
-</style>

@@ -7,14 +7,14 @@
  * @param str
  */
 export default function emojiCount(str: string): number {
-  const joiner = '\u{200D}'
-  const split = str.replace(/[a-zA-Z0-9]+/g, '').split(joiner)
-  let count = 0
+  const joiner = "\u{200D}";
+  const split = str.replace(/[a-zA-Z0-9]+/g, "").split(joiner);
+  let count = 0;
 
   for (const s of split) {
-    const num = Array.from(s.split(/[\ufe00-\ufe0f]/).join('')).length
-    count += num
+    const num = Array.from(s.split(/[\ufe00-\ufe0f]/).join("")).length;
+    count += num;
   }
 
-  return count / split.length
+  return count / split.length;
 }

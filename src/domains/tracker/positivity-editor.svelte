@@ -31,6 +31,7 @@
 
   // Prosp
 
+
   // consts
   const dispatch = createEventDispatcher()
 
@@ -108,9 +109,7 @@
       })
       if (saved) {
         dispatch('save', tracker)
-        showToast({
-          message: Lang.t('tracker.saved', 'Saved'),
-        })
+        showToast({ message: Lang.t('general.saved', 'Saved') })
       }
     },
     removeCondition(index) {
@@ -130,17 +129,20 @@
       listItem
       type="select"
       bind:value={tracker.score}
-      placeholder={`😐 ${Lang.t('tracker.neutral', 'Neutral')}`}
+      placeholder="Select a Positivity"
       on:change={methods.change}
       label={Lang.t('tracker.positivity', 'Positivity')}
-      options={[
-        ...appConfig.positivity.map((positivity) => ({
-          value: `${positivity.score}`,
-          label: `${positivity.emoji} ${positivity.label}`,
-        })),
-        { value: 'custom', label: Lang.t('general.customize', 'Custom') },
-      ]}
-    />
+    >
+      <div slot="left" class="pt-3 text-black dark:text-white">
+        {#if !tracker.score}
+          <div class="pl-2">😐 {Lang.t('tracker.neutral', 'Neutral')}</div>
+        {/if}
+      </div>
+      {#each appConfig.positivity as positivity}
+        <option value={`${positivity.score}`}>{positivity.emoji} {positivity.label}</option>
+      {/each}
+      <option value="custom">🛠 {Lang.t('general.customize', ' Custom')}</option>
+    </NInput>
     {#if tracker.score === 'custom'}
       <section class="points-editor">
         {#if !state.showConditionForm}
@@ -156,9 +158,7 @@
               })
             }}
           >
-            <div class="text-center text-ios-tint">
-              {Lang.t('positivity.edit-conditions', { num: tracker.score_calc?.length || '' })}
-            </div>
+            <div class="text-center text-primary-500">Edit {tracker.score_calc?.length || ''} Conditions</div>
           </ListItem>
         {/if}
       </section>

@@ -5,7 +5,6 @@ import type { ITrackers } from '../import/import'
 import { Interact } from '../../store/interact'
 import { onTrackerTap } from '../../domains/tracker/input/TrackerInputStore'
 import { saveLog } from '../../domains/ledger/LedgerStore'
-import { Lang } from '../../store/lang'
 
 /**
  * Long Press a Tracker
@@ -32,7 +31,7 @@ export const onTrackerLongPress = async (tracker, trackers: ITrackers) => {
   // If we have a note
   if (note && note.length) {
     // Add element to Capture Log
-    const confirmed = await Interact.confirm(Lang.t('general.save-note-question', 'Save Note?'), note)
+    const confirmed = await Interact.confirm('Save Note?', note)
     if (confirmed) {
       ActiveLogStore.addElement(note)
       // Save it

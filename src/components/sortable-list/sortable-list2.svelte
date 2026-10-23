@@ -28,7 +28,7 @@
     handleClass = undefined,
     key,
     id = `sl2-${nid()}`,
-    enabled = true,
+    enabled = true
   } = $props()
 
   $effect(() => {
@@ -261,7 +261,7 @@
   }
 
   .sl2-grid .murri {
-    @apply border-4 border-ios-tint;
+    @apply border-4 border-blue-500;
   }
 
   .n-sortable {
@@ -271,7 +271,7 @@
     @apply flex flex-row flex-nowrap;
     @apply items-center justify-start;
     @apply px-4;
-    @apply bg-ios-fill;
+    @apply bg-pink-800;
     @apply w-full min-w-full;
     @apply relative;
   } */

@@ -8,50 +8,27 @@
   import Button from '../button/button.svelte'
   import TimeBalls from '../time-balls/time-balls.svelte'
 
-  import { CheckmarkOutline, MoreVertical } from '../icon/nicons'
-  import { Lang } from '../../store/lang'
+  import { MoreVertical } from '../icon/nicons'
 
-  const {
-    title,
-    subtitle,
-    value,
-    color,
-    emoji,
-    avatar,
-    style,
-    id,
-    hideMore,
-    hideValue,
-    className,
-    compact,
-    moreIcon = MoreVertical,
-    oneTap,
-    hoursUsed,
-  } = $props()
-  // a habit shows a thumb for its state; any other tracker shows its value
-  // a habit that is done shows a green check in a soft circle (guide 5.2)
-  const habitDone = $derived(id.includes('habit') && value >= 0.3)
-  const valueLabel = $derived(id.includes('habit') ? (value < -0.5 ? '👎' : value < 0.3 ? '🤙' : '👍') : value)
+  const { title, subtitle, value, color, emoji, avatar, style, id, hideMore, hideValue, className, compact, moreIcon = MoreVertical, oneTap, hoursUsed } = $props()
 
   let clickSkip = $state(undefined)
 
   const dispatch = createEventDispatcher()
 
-  let emojiSize = $derived(compact ? 30 : 20)
-  // Experiment check-in trackers have an id that contains exp_
-  let isExperiment = $derived(is.truthy(id) && String(id).includes('exp_'))
+  let emojiSize = $derived(compact ? 30 : 40)
 
   async function more() {
     dispatch('more')
   }
 </script>
 
-<div class="button-wrapper relative w-full flex-grow flex-shrink {compact ? 'compact' : 'normal'}">
+<div class="button-wrapper relative w-full flex-grow flex-shrink  {compact ? 'compact' : 'normal'}">
   {#if !hideMore}
     <button
       type="button"
-      aria-label={Lang.t('ui.more-about-this-trackable', 'More about this Trackable')}
-      class="more {is.truthy(value) ? 'has-value text-ios-label' : 'no-value text-ios-label2'}"
+      aria-label="More about this Trackable"
+      class="more {is.truthy(value) ? 'has-value text-white' : 'no-value text-gray-500 dark:text-white'}"
       on:click={(evt) => {
         evt.preventDefault()
         evt.stopPropagation()
@@ -69,9 +46,9 @@
     color="clear"
     className="w-full {className} {compact ? 'compact' : 'normal'} shortcut-button {is.truthy(value)
       ? 'has-value'
-      : 'no-value'}
-  {compact ? 'compact' : ''} {isExperiment ? 'experiment-check-in' : ''}"
-    style={[style, `--tracker-color:${color};`].join('')}
+      : 'no-value bg-white dark:bg-black'}
+  {compact ? 'compact' : ''}"
+    style={[style, `--tracker-color:${color};`, value ? `background-color:${color};` : ``].join('')}
     on:longpress={() => {
       dispatch('longpress')
       clickSkip = true
@@ -83,7 +60,7 @@
       clickSkip = undefined
     }}
   >
-    <div class="emoji-holder" style={is.truthy(value) ? 'color:var(--ios-white)' : `color:${color}`}>
+    <div class="emoji-holder" style={is.truthy(value) ? 'color:#FFF' : `color:${color}`}>
       {#if emoji || avatar || title}
         {#key emoji || avatar || title}
           <Avatar label={title} {emoji} src={avatar} size={emojiSize} />
@@ -95,25 +72,23 @@
     <div class="subtitle-slot"><slot name="subtitle" /></div>
 
     <slot />
-    {#if value && !hideValue && !compact}
-      <div class="tile-value {String(value).length > 4 ? 'long' : ''}">
-        {#if habitDone}
-          <span class="habit-done"><IonIcon icon={CheckmarkOutline} size={16} /></span>
-        {:else}
-          <span class="value">{valueLabel}</span>
-        {/if}
-      </div>
-    {/if}
     <div class="title-value">
       {#if title}
         <div class="title {title.length > 15 ? 'long' : ''} {compact ? 'line-clamp-1' : 'line-clamp-2'}">{title}</div>
       {/if}
       <div class="value-sub">
-        {#if value && !hideValue && compact}
-          {#if habitDone}
-            <span class="habit-done"><IonIcon icon={CheckmarkOutline} size={16} /></span>
+        {#if value && !hideValue}
+          {#if id.includes('habit')}
+            {#if value < -0.5}
+            <span class="value">👎</span>
+            {:else if value <0.3}
+            <span class="value">🤙</span>
+            {:else}
+            <span class="value">👍</span>
+            {/if}
+          
           {:else}
-            <span class="value">{valueLabel}</span>
+          <span class="value">{value}</span>
           {/if}
         {/if}
         {#if subtitle}
@@ -130,15 +105,14 @@
 
 <style global lang="postcss">
   .shortcut-button {
-    border-radius: 18px;
-    box-shadow: none;
-    background: var(--ios-card);
+    @apply rounded-2xl;
+    @apply shadow-md;
     @apply overflow-visible;
-    @apply text-ios-label;
-    overflow: hidden;
+    @apply text-black dark:text-white;
+    overflow:hidden;
   }
   .shortcut-button.normal {
-    height: 112px;
+    @apply h-28 lg:h-32;
   }
   .shortcut-button.compact {
     @apply h-14;
@@ -147,7 +121,7 @@
     @apply leading-tight;
   }
   .shortcut-button.compact .title-value {
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
     @apply absolute;
     @apply left-12 right-3 top-0 bottom-0;
     @apply text-base;
@@ -156,94 +130,19 @@
     @apply flex flex-col justify-center justify-items-center;
   }
   .shortcut-button .title {
-    font-size: calc(15px * var(--text-scale));
-    font-weight: 600;
-    line-height: 18px;
+    @apply font-semibold;
+    @apply leading-tight;
   }
   .shortcut-button .title.long {
-    font-size: calc(14px * var(--text-scale));
+    font-size: .825rem;
   }
   .shortcut-button.normal .emoji-holder {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: color-mix(in srgb, var(--tracker-color) 16%, transparent);
-    color: var(--ios-label);
-  }
-  :global(html.dark) .shortcut-button.normal .emoji-holder {
-    background: color-mix(in srgb, var(--tracker-color) 28%, transparent);
+    @apply absolute top-2 left-2;
+    @apply text-black dark:text-white;
   }
   .shortcut-button.compact .emoji-holder {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: color-mix(in srgb, var(--tracker-color) 16%, transparent);
-    color: var(--ios-label);
-  }
-  :global(html.dark) .shortcut-button.compact .emoji-holder {
-    background: color-mix(in srgb, var(--tracker-color) 28%, transparent);
-  }
-  /* a done habit: a 26 px soft green circle with a green check (guide 5.2) */
-  .shortcut-button .habit-done {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 9999px;
-    background: var(--ios-good-soft);
-    color: var(--ios-good);
-  }
-  /* iOS look (Phase 4, decision B): on a normal tile the value is top right, and the menu button moves to the bottom right */
-  .shortcut-button.normal .tile-value {
-    position: absolute;
-    top: 14px;
-    right: 12px;
-    max-width: calc(100% - 60px);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-family: var(--ios-font-rounded);
-    font-size: calc(22px * var(--text-scale));
-    font-weight: 700;
-    line-height: 1;
-    color: var(--ios-label);
-    z-index: 10;
-  }
-  .shortcut-button.normal .tile-value.long {
-    font-size: calc(18px * var(--text-scale));
-  }
-  .button-wrapper.normal .more {
-    top: auto;
-    bottom: 0;
-    right: 0;
-  }
-  /* Phase 7 (clipped names): the menu button sits in the bottom right corner, so the name and the subtitle keep
-     clear of it; a long single word wraps, and a long subtitle ends with an ellipsis */
-  .shortcut-button.normal .title-value {
-    padding-right: 28px; /* the three dots are drawn in the last ~24 px of the menu button */
-  }
-  .shortcut-button.normal .title {
-    overflow-wrap: anywhere;
-  }
-  .shortcut-button.normal .subtitle {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    @apply absolute top-0 bottom-0 left-2;
+    @apply flex items-center;
   }
   .button-wrapper .more {
     @apply absolute top-0 right-0 flex items-center justify-center z-40 w-10 h-10 rounded-full;
@@ -254,30 +153,29 @@
     @apply px-3 pb-3;
   }
   .shortcut-button .subtitle {
-    font-size: calc(12px * var(--text-scale));
-    line-height: 16px;
-    color: var(--ios-label2);
+    @apply text-sm;
+    @apply opacity-60;
+  }
+  .shortcut-button.has-value,
+  .shortcut-button.has-value .title {
+    color: #fff !important;
   }
 
   .shortcut-button .value-sub {
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
     @apply line-clamp-1;
     @apply leading-none;
   }
 
   .shortcut-button.normal .value-sub {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    @apply flex;
+    @apply items-center;
+    @apply justify-between;
+    @apply space-x-2;
   }
 
   .shortcut-button.normal .value-sub .value {
-    font-size: calc(15px * var(--text-scale));
-    font-weight: 600;
-    line-height: 18px;
-    font-family: var(--ios-font-rounded);
-    white-space: nowrap;
+    @apply whitespace-nowrap;
   }
   .shortcut-button.normal .value-sub .subtitle {
     @apply whitespace-nowrap;
@@ -285,7 +183,7 @@
   }
 
   .shortcut-button.has-value .value-sub {
-    color: var(--ios-label);
+    @apply text-white;
   }
   .shortcut-button .value-sub .value {
     @apply leading-tight;
@@ -308,13 +206,13 @@
   }
 
   .shortcut-button.has-value .subtitle-slot .letter-ticker {
-    color: var(--ios-white);
+    color: #fff;
   }
   .shortcut-button.compact .n-counter {
     @apply text-xs;
-    @apply bg-ios-card;
+    @apply bg-white dark:bg-black;
     @apply z-40;
-    @apply border border-ios-separator;
+    @apply border border-black dark:border-white border-opacity-20 dark:border-opacity-40;
     @apply rounded-full;
     @apply shadow-md;
     @apply block;
@@ -329,7 +227,7 @@
     @apply rounded-l-none rounded-r-2xl;
   }
   .shortcut-button.in-note {
-    @apply ring-2 ring-ios-tint ring-offset-4 ring-offset-ios-card;
+    @apply ring-2 ring-primary-500 ring-offset-4 ring-offset-gray-300 dark:ring-offset-gray-600;
     @apply animate-pulse;
   }
   .shortcut-button .highlight {
@@ -338,31 +236,14 @@
     @apply absolute bottom-1 left-3 right-3;
   }
   .shortcut-button .highlight.one-tap {
-    @apply bg-ios-card bg-opacity-40;
+    @apply bg-gray-300 dark:bg-gray-800 bg-opacity-40;
   }
 
   .shortcut-button.has-value .highlight.one-tap {
-    @apply bg-ios-white bg-opacity-20;
+    @apply bg-white bg-opacity-20;
   }
 
   .shortcut-button.compact .highlight {
     @apply hidden;
-  }
-
-  /* Experiment check-in trackers: a soft tint with a dashed tint border */
-  /* A value today: a small value in the top-right corner, and a soft tint glow around the card */
-  /* iOS look: a tile with a value gets a light tint of its colour, and the glow. Both sizes (normal and compact) share this rule. */
-  .shortcut-button.has-value {
-    background: color-mix(in srgb, var(--tracker-color) 12%, var(--ios-card));
-    box-shadow: 0 0 10px 0 color-mix(in srgb, var(--tracker-color) 22%, transparent);
-  }
-  :global(html.dark) .shortcut-button.has-value {
-    background: color-mix(in srgb, var(--tracker-color) 22%, var(--ios-card));
-    box-shadow: 0 0 14px 2px color-mix(in srgb, var(--tracker-color) 40%, transparent);
-  }
-
-  .shortcut-button.experiment-check-in {
-    background: var(--ios-tint-soft);
-    border: 1.5px dashed var(--ios-tint);
   }
 </style>

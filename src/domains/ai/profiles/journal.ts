@@ -6,17 +6,11 @@ export const journalProfile: Profile = {
   maxTokens: 800,
   systemPrompt: (ctx: UserContext) => {
     const locationsList = ctx.locations
-      ? ctx.locations
-          .slice(0, 3)
-          .map((loc: any) => loc.name || `${loc.lat?.toFixed(2)},${loc.lng?.toFixed(2)}`)
-          .join(', ')
+      ? ctx.locations.slice(0, 3).map((loc: any) => loc.name || `${loc.lat?.toFixed(2)},${loc.lng?.toFixed(2)}`).join(', ')
       : ''
 
     const contextsList = ctx.contexts
-      ? Object.keys(ctx.contexts)
-          .slice(0, 3)
-          .map((k) => k.substring(1))
-          .join(', ')
+      ? Object.keys(ctx.contexts).slice(0, 3).map(k => k.substring(1)).join(', ')
       : ''
 
     return `
@@ -52,5 +46,5 @@ Return ONLY a JSON object:
   parseResponse(raw: string): JournalPrompt {
     const clean = raw.replace(/```json|```/g, '').trim()
     return JSON.parse(clean) as JournalPrompt
-  },
+  }
 }

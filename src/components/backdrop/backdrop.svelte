@@ -103,11 +103,13 @@
     @apply flex;
     @apply flex-col;
     @apply justify-center;
-    background: var(--ios-scrim);
+    @apply bg-gray-700;
+    @apply bg-opacity-50;
     @apply flex-shrink-0;
     @apply flex-grow-0;
     @apply backdrop-filter backdrop-saturate-150 backdrop-blur-sm;
     padding-bottom: calc(env(safe-area-inset-bottom));
+ 
   }
   .nui-backdrop.nui-pos-center {
     @apply justify-center;
@@ -128,7 +130,7 @@
     @apply flex-shrink-0;
     @apply flex-grow-0;
     background-color: transparent;
-
+    
     @apply transition-all;
   }
   .nui-backdrop--children.nui-pos-bottom {
@@ -158,7 +160,7 @@
   .nui-backdrop--children.in-background::after {
     content: '';
     @apply absolute -top-10 -bottom-10 -left-10 -right-10;
-    background: var(--ios-scrim);
+    @apply bg-gray-400 bg-opacity-50 dark:bg-gray-600 dark:bg-opacity-50;
     @apply backdrop-blur-sm backdrop-filter;
     @apply z-40;
   }

@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  
   import type { NLog } from './../../nomie-log/nomie-log'
 
   import { wait } from './../../../utils/tick/tick'
@@ -29,11 +30,11 @@
   import ListItemLog from '../../../components/list-item-log/list-item-log.svelte'
   import { showToast } from '../../../components/toast/ToastStore'
   import is from '../../../utils/is/is'
-
+  
   import { closeModal } from '../../../components/backdrop/BackdropStore2'
   import BackdropModal from '../../../components/backdrop/backdrop-modal.svelte'
   import ToolbarGrid from '../../../components/toolbar/toolbar-grid.svelte'
-  import Divider from '../../../components/divider/divider.svelte'
+import Divider from '../../../components/divider/divider.svelte'
 
   let { id, fileUpload = $bindable() } = $props()
 
@@ -86,15 +87,15 @@
 
   let views = $state([
     {
-      title: Lang.t('import.import-csv', 'Import CSV'),
+      title: 'Import CSV',
       id: 'home',
     },
     {
-      title: Lang.t('import.compose-note', 'Compose Note'),
+      title: 'Compose Note',
       id: 'note',
     },
     {
-      title: Lang.t('import.template', 'Template'),
+      title: 'Template',
       id: 'template',
     },
   ])
@@ -110,7 +111,7 @@
 
   const fieldMapButtons = [
     {
-      title: Lang.t('import.end-time', 'End Time*'),
+      title: 'End Time*',
       required: true,
       id: 'end',
       click() {
@@ -118,35 +119,35 @@
       },
     },
     {
-      title: Lang.t('import.start-time', 'Start Time'),
+      title: 'Start Time',
       id: 'start',
       click() {
         setFieldMap('start', activeMapIndex)
       },
     },
     {
-      title: Lang.t('import.latitude', 'Latitude'),
+      title: 'Latitude',
       id: 'lat',
       click() {
         setFieldMap('lat', activeMapIndex)
       },
     },
     {
-      title: Lang.t('import.longitude', 'Longitude'),
+      title: 'Longitude',
       id: 'lng',
       click() {
         setFieldMap('lng', activeMapIndex)
       },
     },
     {
-      title: Lang.t('import.location-name', 'Location Name'),
+      title: 'Location Name',
       id: 'location',
       click() {
         setFieldMap('location', activeMapIndex)
       },
     },
     {
-      title: Lang.t('import.source', 'Source'),
+      title: 'Source',
       id: 'source',
       click() {
         setFieldMap('source', activeMapIndex)
@@ -157,7 +158,7 @@
   function mapField(fieldIndex) {
     activeMapIndex = fieldIndex
     Interact.popmenu({
-      title: `Map ${activeImporter ? activeImporter.getHeaders()[fieldIndex] : Lang.t('import.unknown', 'Unknown')}`,
+      title: `Map ${activeImporter ? activeImporter.getHeaders()[fieldIndex] : 'Unknown'}`,
       buttons: fieldMapButtons,
       id: 'field-map',
     })
@@ -188,9 +189,9 @@
     )
     if (confirmed) {
       if (activeImporter.length() > 1000) {
-        Interact.blocker(Lang.t('import.importer-starting-large', 'Importer starting. With this many records it might freeze the UI, just give it time...'))
+        Interact.blocker(`Importer starting. With this many records it might freeze the UI, just give it time...`)
       } else {
-        Interact.blocker(Lang.t('import.importer-starting', 'Importer starting up...'))
+        Interact.blocker(`Importer starting up...`)
       }
 
       let importer = new ImportLoader()
@@ -199,7 +200,7 @@
       })
 
       Interact.stopBlocker()
-      showToast({ message: Lang.t('import.import-complete', 'Import complete') })
+      showToast({ message: `Import complete` })
     }
   }
 
@@ -246,7 +247,7 @@
       Interact.popmenu({
         id: 'field-map-menu',
         title: title,
-        description: Lang.t('import.which-field-maps', { title }),
+        description: `Which field maps to ${title}?`,
         buttons,
       })
     })
@@ -269,18 +270,15 @@
   }
 
   async function remove(config: IImportConfig) {
-    let confirmed = await Interact.confirm(
-      `Remove ${config.name} Importer?`,
-      Lang.t('import.you-can-always-remake-it', 'You can always remake it')
-    )
+    let confirmed = await Interact.confirm(`Remove ${config.name} Importer?`, 'You can always remake it')
     if (confirmed) {
-      try {
-        // iOS look (Ronald mandate, Phase 7): the importer is removed from the store, so the list updates
-        await CsvTemplateStore.remove(config)
-        showToast({ message: Lang.t('import.removed', 'Removed') })
-      } catch (e) {
-        Interact.error(e.message)
-      }
+     
+      alert('TODO')
+      // templates = templates.filter((template) => {
+      //   return template.id !== config.id
+      // })
+      // await UserStore.mstore('csv_templates', templates)
+      showToast({ message: 'Removed' })
     }
   }
 
@@ -298,7 +296,8 @@
       //   templates.push(activeImporter.config)
       // }
       await CsvTemplateStore.upsert(activeImporter.config)
-      showToast({ message: Lang.t('import.template-saved', 'Import template saved') })
+      alert('Did it work?')
+      showToast({ message: `Import template saved` })
     } catch (e) {
       Interact.error(e.message)
     }
@@ -317,17 +316,17 @@
     <Button
       primary
       slot="left"
-      className="text-ios-tint"
+      className="text-primary-500"
       on:click={() => {
         closeModal(id)
-      }}>{Lang.t('import.cancel', 'Cancel')}</Button
+      }}>Close</Button
     >
-    <div class="ntitle main">{Lang.t('import.import-csv', 'Import CSV')}</div>
+    <div class="ntitle main">Import CSV</div>
     <div slot="right">
       {#if view && view.id == 'note'}
         <!-- <Button color="clear" on:click={save}>Save</Button> -->
       {:else if view && view.id == 'template'}
-        <Button color="clear" on:click={edit}>{Lang.t('import.edit', 'Edit')}</Button>
+        <Button color="clear" on:click={edit}>Edit</Button>
       {/if}
     </div>
   </ToolbarGrid>
@@ -337,28 +336,23 @@
       <ListItem bg="light" mainClass="py-4">
         <Text size="sm" bold>{truncateText(activeImporter.name, 26, 5)}</Text>
         <Text faded size="sm">
-          {Lang.t('import.records-columns', {
-            records: activeImporter.length(),
-            columns: activeImporter.parsed.data[0].length,
-          })}
+          Records: {activeImporter.length()}, Columns: {activeImporter.parsed.data[0].length}
         </Text>
       </ListItem>
     {/if}
     {#if view && view.id == 'home'}
       <div class=" p-0 import-csv-home">
         <ListItem bg="transparent">
-          <span class="text-ios-label2 text-sm leading-tight"
-            >{Lang.t(
-              'import.select-any-csv-to-begin-you-can-then-map-the-app',
-              'Select any CSV to begin. You can then map the appropriate fields to turn a row of data into a Note within Nomie.'
-            )}</span
+          <span class="text-gray-500 text-sm leading-tight"
+            >Select any CSV to begin. You can then map the appropriate fields to turn a row of data into a Note within
+            Nomie.</span
           >
         </ListItem>
 
         <ListItem>
           <FileUploader
             accept="csv"
-            placeholder={Lang.t('import.csv-file', 'CSV File')}
+            placeholder="CSV File"
             on:file={async (evt) => {
               await addToImporter(evt)
               stepId = 'note'
@@ -385,7 +379,7 @@
                 <Button
                   size="sm"
                   color="transparent"
-                  className="text-ios-tint"
+                  className="text-red"
                   on:click={() => {
                     listMode = 'list'
                   }}
@@ -419,7 +413,7 @@
                       remove(template)
                     }}
                   >
-                    {Lang.t('import.delete', 'Delete')}
+                    Delete
                   </Button>
                 {/if}
               </div>
@@ -435,12 +429,9 @@
           <Input type="text" bind:value={activeImporter.config.name} placeholder="Importer Name" />
         </ListItem> -->
         <ListItem>
-          <span>{Lang.t('import.does-this-have-a-header-row', 'Does this have a header row?')}</span>
+          <span>Does this have a header row?</span>
           <div slot="right">
-            <ToggleSwitch
-              title={Lang.t('import.header-row', 'Header Row')}
-              bind:value={activeImporter.config.hasHeaders}
-            />
+            <ToggleSwitch title="Header Row" bind:value={activeImporter.config.hasHeaders} />
           </div>
         </ListItem>
 
@@ -454,7 +445,7 @@
           />
         {:else}
           <div class="px-4 pt-4">
-            <div class="text-ios-label opacity-60 text-sm">
+            <div class="dark:text-white opacity-60 text-sm">
               {Lang.t('csv-import.map-fields', 'Map Fields')}
             </div>
           </div>
@@ -471,11 +462,9 @@
               {#if is.truthy(activeImporter.config.fieldMap[logField.id])}
                 {#if logField.id == 'end' || logField.id == 'start'}
                   <Text size="sm" bold>
-                    {Lang.t('import.parsed', {
-                      date: dayjs(previewRow[activeImporter.config.fieldMap[logField.id]]).format(
-                        `${dateFormats.date} ${dateFormats.time}`
-                      ),
-                    })}
+                    Parsed: {dayjs(previewRow[activeImporter.config.fieldMap[logField.id]]).format(
+                      `${dateFormats.date} ${dateFormats.time}`
+                    )}
                   </Text>
                 {/if}
                 <Text size="sm" faded>
@@ -483,17 +472,17 @@
                 </Text>
               {/if}
               <div slot="right">
-                <Button color="transparent" className="text-ios-tint">
+                <Button color="transparent" className="text-primary-500">
                   {#if is.truthy(activeImporter.config.fieldMap[logField.id])}
                     f{activeImporter.config.fieldMap[logField.id]}
-                  {:else}<span class="text-sm font-bold">{Lang.t('import.map', 'Map')}</span>{/if}
-                  <IonIcon icon={ChevronDownOutline} size={14} className="text-ios-tint ml-2 -mr-2" />
+                  {:else}<span class="text-sm font-bold">Map</span>{/if}
+                  <IonIcon icon={ChevronDownOutline} size={14} className="text-primary-500 ml-2 -mr-2" />
                 </Button>
               </div>
             </ListItem>
           {/each}
           <ListItem>
-            <div class="text-ios-label">{Lang.t('import.note-2', 'Note*')}</div>
+            <div class="dark:text-white">Note*</div>
             <Input
               type="textarea"
               placeholder={Lang.t('csv-import.compose-note', 'Compose a note for this CSV data')}
@@ -524,13 +513,13 @@
                     {:else}
                       <Button
                         color="clear"
-                        className="text-ios-tint"
+                        className="text-primary-500"
                         on:click={() => {
                           mapField(index)
                         }}
                       >
-                        {Lang.t('import.assign', 'Assign')}
-                        <IonIcon icon={ChevronDownOutline} className="text-ios-tint" size={14} />
+                        Assign
+                        <IonIcon icon={ChevronDownOutline} className="text-primary-500" size={14} />
                       </Button>
                     {/if}
                   {/if}
@@ -543,7 +532,7 @@
     {:else if view && view.id == 'template' && activeImporter}
       <div class="">
         <ListItem className="pb-0">
-          {Lang.t('import.importer-name', { name: activeImporter.config.name })}
+          {activeImporter.config.name} Importer
         </ListItem>
         <ListItem>
           <Input
@@ -555,10 +544,10 @@
         </ListItem>
         {#if !activeImporter.parsed}
           <ListItem bg="transparent">
-            <Text size="sm" faded>{Lang.t('import.select-the-csv-to-process', 'Select the CSV to process')}</Text>
+            <Text size="sm" faded>Select the CSV to process</Text>
             <FileUploader
               accept="csv"
-              label={Lang.t('import.csv-file', 'CSV File')}
+              label="CSV File"
               on:file={async (evt) => {
                 await addToImporter(evt)
               }}
@@ -568,12 +557,12 @@
       </div>
     {/if}
     {#if previewLog && is.truthy(previewIndex) && activeImporter.parsed}
-      {#if previewLog.note && previewLog.note !== 'null'}
-        <Divider />
+      {#if previewLog.note && previewLog.note !== "null"}
+      <Divider />
         <div class="examples bg-inverse-2 p-2 px-4">
           <div class="n-toolbar flex pl-2">
-            <div class="main text-ios-label text-sm">
-              {Lang.t('import.preview-of', { index: previewIndex, total: activeImporter.length() })}
+            <div class="main dark:text-white text-sm">
+              Preview {previewIndex} of {activeImporter.length()}
             </div>
             <div class="filler" />
             <NextPrevCal hideCal={true} on:next={nextPreview} on:previous={previousPreview} />
@@ -582,7 +571,7 @@
         </div>
         <ListItem>
           <Button primary block on:click={startImport}>
-            {Lang.t('import.import-logs', { num: activeImporter.length() })}
+            Import {activeImporter.length()} Logs...
           </Button>
         </ListItem>
       {/if}

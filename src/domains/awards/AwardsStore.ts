@@ -107,7 +107,7 @@ export const awardMonitorAppOpened = async (chain: AwardChain) => {
     streak: 0,
   }
   // Get the Streak From Storage
-  const openStreak: AppOpenStreakProps = (await Storage.get(NPaths.storage.openStreak())) || defaultStreak
+  const openStreak: AppOpenStreakProps = (await Storage.get('open-streak.json')) || defaultStreak
 
   // Calculate number of days this user has been using nomie
   const daysUsing = Math.floor(dateDiff(firstDate, new Date()))
@@ -138,7 +138,7 @@ export const awardMonitorAppOpened = async (chain: AwardChain) => {
   })
 
   // Save the update
-  Storage.put(NPaths.storage.openStreak(), openStreak)
+  Storage.put('open-streak.json', openStreak)
 }
 
 /**

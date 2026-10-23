@@ -6,12 +6,11 @@ import dayjs from 'dayjs'
 
 // Nomie 6 storage archive: backs up every stored file, so new features are included automatically
 import { exportStorage } from '../storage/import-export'
-import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 
-const STORAGE_KEY = DEVICE_KEYS.lastBackupDate
-export const BackupStore = writable<undefined | string>(getDeviceSetting(STORAGE_KEY))
+const STORAGE_KEY = 'last-backup-date'
+export const BackupStore = writable<undefined | string>(localStorage.getItem(STORAGE_KEY))
 BackupStore.subscribe((s) => {
-  setDeviceSetting(STORAGE_KEY, s)
+  localStorage.setItem(STORAGE_KEY, s)
 })
 
 export const BackupDaysAgo = derived(BackupStore, ($BackupStore) => {

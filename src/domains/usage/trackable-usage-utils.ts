@@ -27,7 +27,7 @@ export type CompareDataResponse = {
  *   - firstTUStdEr
  */
 export const splitCompareTrackableUsage = (_tu: TrackableUsage): CompareDataResponse => {
-  let tu: TrackableUsage = !_tu.groupedBy ? _tu.byDay : _tu
+  let tu: TrackableUsage = !_tu.groupedBy ? _tu.byDay : _tu;
   let valueCount = tu.values.length
   let half = Math.floor(valueCount * 0.5)
 

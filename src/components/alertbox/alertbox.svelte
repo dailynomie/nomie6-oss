@@ -6,7 +6,7 @@
   import type { AlertType } from '../../store/interact'
   import KeyDown from '../../modules/keyDown/keyDown.svelte'
   import { closeModal } from '../backdrop/BackdropStore2'
-  import Markdown from '../markdown/lazy-markdown.svelte'
+import Markdown from '../markdown/markdown.svelte'
 
   let hasSlot = false
 
@@ -40,30 +40,35 @@
 <div class="alert-dialog-window card" role="alertdialog" aria-modal="true" aria-hidden={!showBase}>
   <div class="px-3 pt-3">
     {#if payload.title}
-      <h2 role="alert" class="card-title {!hasSlot && !payload.message ? 'message-less' : 'has-message'}">
-        {payload.title}
-      </h2>
-    {/if}
+    <h2 role="alert" class="card-title {!hasSlot && !payload.message ? 'message-less' : 'has-message'}">
+      {payload.title}
+    </h2>
+  {/if}
 
-    {#if payload.message && !hasSlot}
-      <div role="alert" class="card-body message">
-        <Markdown content={payload.message} />
-      </div>
-    {:else if hasSlot && !payload.message}
-      <div class="pt-0 slot-holder card-body">
-        <slot />
-      </div>
-    {:else if hasSlot && payload.message}
-      <div class="pt-0 slot-holder card-body">
-        <Text size="sm">{payload.message}</Text>
-        <slot />
-      </div>
-    {/if}
-    <slot />
+  {#if payload.message && !hasSlot}
+    <div role="alert" class="card-body message">
+      <Markdown content={payload.message} />
+    </div>
+  {:else if hasSlot && !payload.message}
+    <div class="pt-0 slot-holder card-body">
+      <slot />
+    </div>
+  {:else if hasSlot && payload.message}
+    <div class="pt-0 slot-holder card-body">
+      <Text size="sm">{payload.message}</Text>
+      <slot />
+    </div>
+  {/if}
+  <slot />
   </div>
 
   <div class="footer">
-    <button id="alert-ok" aria-label={payload.ok} class="primary" on:click={methods.onOk}>
+    <button
+      id="alert-ok"
+      aria-label={payload.ok}
+      class="primary"
+      on:click={methods.onOk}
+    >
       {payload.ok}
     </button>
     {#if payload.cancel}
@@ -115,13 +120,14 @@
     opacity: 0;
   }
   .alert-dialog-window.card {
-    @apply bg-ios-card;
+    @apply bg-white dark:bg-black;
     @apply rounded-2xl;
     @apply flex-col;
     @apply m-2;
     @apply flex-grow-0;
     @apply flex-shrink;
     @apply space-y-2;
+  
 
     transition: all 0.2s ease-in-out;
     max-width: 400px;
@@ -130,7 +136,7 @@
     width: 200px;
     min-width: 300px !important;
 
-    @apply bg-ios-card;
+    @apply bg-white dark:bg-black;
     border: solid 1px var(--color-faded-1);
     box-shadow: var(--box-shadow);
     display: flex;
@@ -138,9 +144,9 @@
     align-content: stretch;
     color: var(--color-inverse-2);
   }
-  .alert-dialog-window .card-title {
+  .alert-dialog-window .card-title  {
     line-height: 115%;
-    @apply text-ios-label;
+    @apply text-gray-900 dark:text-gray-50;
     @apply font-bold;
     @apply text-base;
     @apply px-3;
@@ -154,12 +160,12 @@
     @apply focus:outline-none;
 
     @apply w-full;
-    @apply bg-ios-fill;
+    @apply bg-gray-200;
     @apply px-2;
     @apply mt-4;
     @apply rounded-lg;
-    @apply focus:ring-2 ring-ios-tint ring-inset;
-    @apply bg-ios-card text-ios-label;
+    @apply focus:ring-2 ring-primary-500 ring-inset;
+    @apply dark:bg-gray-800 dark:text-white;
   }
   .alert-dialog-window .message {
     @apply leading-tight;
@@ -171,7 +177,7 @@
     @apply px-3;
     @apply text-sm;
     @apply leading-snug;
-    @apply text-ios-label2;
+    @apply text-gray-700 dark:text-gray-400;
     flex-grow: 1;
     flex-shrink: 1;
     overflow-y: auto;
@@ -180,7 +186,7 @@
   .alert-dialog-window .footer {
     @apply flex flex-col;
     @apply pt-2;
-
+    
     /* @apply space-y-2; */
   }
 
@@ -192,18 +198,18 @@
     @apply py-2;
     @apply text-base;
     @apply font-semibold;
-    @apply border-t border-ios-separator;
+    @apply border-t dark:border-gray-700 border-gray-300;
   }
-  /* iOS look (D-alert): Cancel is the bold tint, not red. Red is for destructive actions only. */
   .alert-dialog-window .footer button.cancel {
-    @apply text-ios-tint font-semibold;
+    @apply text-red-500 dark:text-red-400
   }
   .alert-dialog-window .footer button.primary {
-    @apply text-ios-tint;
+    @apply text-primary-500 dark:text-primary-400
   }
   .alert-dialog-window .footer button:last-child {
     @apply rounded-b-2xl;
     @apply pb-3;
+    
   }
   .alert-dialog-window .btn-toolbar .btn {
     /* min-width: 100px; */

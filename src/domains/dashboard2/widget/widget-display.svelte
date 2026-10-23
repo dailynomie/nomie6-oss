@@ -17,14 +17,14 @@
   import { IncludedTrackableStore } from './types/included-trackable-store'
   import Spinner from '../../../components/spinner/spinner.svelte'
   import type NLog from '../../nomie-log/nomie-log'
-  import { MoreVertical, PricetagOutline, ResizeOutline } from '../../../components/icon/nicons'
+  import { MoreVertical } from '../../../components/icon/nicons'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { timeFrames } from './widget-timeframe'
   import { openDropMenu } from '../../../components/menu/useDropmenu'
   import { Interact } from '../../../store/interact'
   import { Lang } from '../../../store/lang'
   import { showToast } from '../../../components/toast/ToastStore'
-  import { PluginStore } from '../../plugins/PluginStore'
+  import { PluginStore } from "../../plugins/PluginStore"
   import dayjs from 'dayjs'
   import relativeTime from 'dayjs/plugin/relativeTime'
   import { saveDashboard, DashStore } from '../DashStore'
@@ -35,14 +35,7 @@
 
   const dispatch = createEventDispatcher()
   const id = nid()
-  const {
-    widget,
-    trackable,
-    loaded = $bindable(),
-    usage,
-    logs,
-    hideTools = false,
-  } = $props<{
+  const { widget, trackable, loaded = $bindable(), usage, logs, hideTools = false } = $props<{
     widget: WidgetClass
     trackable: Trackable
     loaded: boolean
@@ -80,19 +73,17 @@
   }
 
   function titleCase(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
-  }
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
   const showSizeMenu = (htmlTarget) => {
     const buttons = [
-      { id: 'sm', label: Lang.t('dashboard.small', 'Small') },
-      { id: 'md', label: Lang.t('dashboard.medium', 'Medium') },
-      { id: 'lg', label: Lang.t('dashboard.large', 'Large') },
+      { id: 'sm', label: 'Small' },
+      { id: 'md', label: 'Medium' },
+      { id: 'lg', label: 'Large' },
     ].map((b) => {
       return {
         title: b.label,
-        // iOS look: the current size carries a blue checkmark, as the timeframe menu does
-        checked: b.id == widget.size,
         click() {
           // Mutate widget and force re-render via updateTrigger
           widget.size = b.id
@@ -108,17 +99,13 @@
     const buttons = timeFrames.map((tf) => {
       return {
         title: tf.label,
-        // iOS look: the current time frame carries a checkmark, as in an iOS picker
-        checked: tf.id == widget.timeRange,
         async click() {
           // Mutate widget and force re-render via updateTrigger
           widget.timeRange = tf.id
           updateTrigger = updateTrigger + 1
           try {
             await upsertWidget(widget)
-            showToast({
-              message: Lang.t('dashboard.saved', 'Saved'),
-            })
+            showToast({ message: Lang.t('general.saved', 'Saved') })
           } catch (e) {
             showToast({ message: e.message })
           }
@@ -127,7 +114,7 @@
     })
     Interact.popmenu({
       id: `widget-time-frame`,
-      title: Lang.t('dashboard.time-frame', 'Time Frame'),
+      title: 'Time Frame',
       buttons,
     })
   }
@@ -143,7 +130,7 @@
       if (widget.type == 'last-used') {
         value = new Date().getTime() - usage.lastDate.getTime()
       } else {
-        value = usage.displayValue
+        value = usage.displayValue;
       }
     }
     value = value || 0
@@ -167,11 +154,11 @@
 
   $effect(() => {
     if (widget.type == 'plugin') {
-      const plugin = $PluginStore.find((p) => p.id == widget.data.pluginId)
+      const plugin = $PluginStore.find(p => p.id == widget.data.pluginId)
       if (plugin) {
         label = `${plugin.emoji} ${plugin.name}`
       } else {
-        label = 'Unknown Plugin'
+        label = "Unknown Plugin"
       }
     }
   })
@@ -201,15 +188,13 @@
       }
     }
   }
+
+
 </script>
 
 {#if widget && widget.type !== 'text'}
   <div class="dashboard-widget {getClass(widget, updateTrigger)}" {id}>
-    <!-- iOS look (guide 5.10): the card name is in the series colour (the tracker colour), 15 px weight 600 -->
-    <div
-      class="flex widget-header px-4 pt-3 pb-1 items-center gap-1"
-      style={trackable ? `--series-color:${trackable.color}` : ''}
-    >
+    <div class="flex widget-header px-2 py-1 items-center gap-1">
       {#if trackable && widget.type != 'pointer'}
         <div class="flex items-center gap-1">
           {#if includedTrackable && ['barchart', 'linechart'].includes(widget.type)}
@@ -223,39 +208,31 @@
             <TrackablePill hideValue size={30} transparent trackable={includedTrackable} on:click={widgetActions} />
           </div>
         {/if}
-      {:else if widget.type == 'pointer'}
-        <!-- iOS look: the pointer name has the full width, and its tracker sits under it -->
-        <div class="flex flex-col min-w-0 gap-0.5">
-          <span class="widget-title break-words flex items-center gap-1"
-            ><IonIcon icon={PricetagOutline} size={14} className="text-ios-label2" />{titleCase(
-              widget.pointer.id
-            )}</span
-          >
-          <div class="flex"><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions} /></div>
-        </div>
+        {:else if widget.type == 'pointer'}
+        <p style="font-size: 90%"><b>🏷 {titleCase(widget.pointer.id)}</b></p><TrackablePill hideValue size={20} transparent {trackable} on:click={widgetActions}/>
       {:else if widget.type == 'plugin'}
-        <span class="widget-title">{label}</span>
+        {label}
       {:else if widget.type == 'insight'}
         <div class="flex items-center gap-1.5">
           <NomieAiButton size="18px" />
-          <span class="capitalize widget-title">{widgetInstance.getTitle()}</span>
+          <span class="capitalize text-xs font-semibold pt-1">{widgetInstance.getTitle()}</span>
         </div>
       {:else}
-        <span class="capitalize widget-title">{widgetInstance.getTitle()}</span>
+        <span class="capitalize text-xs font-semibold pt-1 pl-1">{widgetInstance.getTitle()}</span>
       {/if}
       <div class="filler" />
       {#if !hideTools}
-        <!-- The three-dot menu as it was: a plain icon, not the round icon button -->
-        <button
-          type="button"
-          aria-label={Lang.t('dashboard.widget-options', 'Widget options')}
-          class="widget-options"
+        <Button
+          size="xs"
+          icon
+          primary
+          className="p-1 -mr-1 bg-gray-500 bg-opacity-5 mt-px"
           on:click={() => {
             showWidgetPopmenu(widget)
           }}
         >
           <IonIcon icon={MoreVertical} size={16} />
-        </button>
+        </Button>
       {/if}
     </div>
     <div class="widget-main">
@@ -266,38 +243,40 @@
       {:else if usage || logs}
         <WidgetDisplayType {widget} {trackable} {logs} {usage} />
       {:else if loaded && !usage}
-        <div class="flex items-center justify-center px-4 py-6 h-28">{Lang.t('dashboard.no-value', 'No Value')}</div>
+        <div class="flex items-center justify-center px-4 py-6 h-28">No Value</div>
       {/if}
     </div>
-    <footer class="px-4 pb-3 flex widget-footer space-x-2 justify-between">
-      {#if widget.timeRange && widget.type !== 'plugin'}
+    <footer class="px-1 flex widget-footer space-x-2 justify-between">
+      {#if widget.timeRange &&  widget.type !== 'plugin'}
         <button on:click={(evt) => showTimeframeMenu(evt)} class="">
-          {(updateTrigger, widgetInstance.getLabel().replace('days', ''))}
+          {updateTrigger, widgetInstance.getLabel().replace('days', '')}
         </button>
       {/if}
       {#if !hideTools}
         <button
-          class="text-xs px-1"
-          aria-label={Lang.t('dashboard.change-widget-size', 'Change widget size')}
+          class="text-xs  px-1 "
           on:click={(evt) => {
             // TODO: Move this to the new drop menu - when it follows better
             showSizeMenu(evt.target)
           }}
         >
-          <!-- iOS look: the size control is the outline resize icon in the secondary label colour -->
-          <IonIcon icon={ResizeOutline} size={16} className="text-ios-label2" />
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect y="6" width="7" height="7" fill="#868686" fill-opacity="0.31"/>
+          <rect x="0.5" y="6.5" width="6" height="6" stroke="white" stroke-opacity="0.34"/>
+          <rect x="3" width="10" height="10" fill="#868686" fill-opacity="0.31"/>
+          <rect x="3.5" y="0.5" width="9" height="9" stroke="white" stroke-opacity="0.34"/>
+          </svg>
+
         </button>
       {/if}
       <div class="filler pointer-events-none" />
       {#if widget.type === 'insight' && widget.data?.cachedDate}
         <div class="flex items-center gap-1">
-          <span class="text-xs text-ios-label2"
-            >{Lang.t('dashboard.will-refresh-in', { time: getInsightRefreshTime() })}</span
-          >
+          <span class="text-xs text-gray-600 dark:text-gray-400">Will refresh in {getInsightRefreshTime()}</span>
           <button
             class="text-xs px-1"
             on:click={clearInsightCache}
-            title={Lang.t('dashboard.clear-cache-and-fetch-fresh-insight', 'Clear cache and fetch fresh insight')}
+            title="Clear cache and fetch fresh insight"
           >
             ↻
           </button>
@@ -308,7 +287,7 @@
 {:else}
   <div
     {id}
-    class="dashboard-text type-text text-center widget-size-md"
+    class="dashboard-text type-text text-center widget-size-{widget.size}"
     on:click={() => {
       dispatch('click')
     }}
@@ -318,62 +297,25 @@
 {/if}
 
 <style lang="postcss" global>
-  /* The widget's three-dot menu: a plain icon in the secondary colour */
-  .dashboard-widget .widget-options {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    margin-right: -4px;
-    background: transparent;
-    color: var(--ios-label2);
-  }
   .dashboard-text.widget-size-md {
     font-size: 1em;
     font-weight: 500;
     padding: 8px 16px;
     line-height: 1.1em;
-    @apply text-ios-label2;
+    @apply text-gray-600 dark:text-gray-400;
   }
-  /* a text widget always spans the full width of the dashboard, it has no size */
-  .dashboard-text.type-text {
-    @apply col-span-2 lg:col-span-6;
+  .dashboard-text.widget-size-lg {
+    padding: 8px 16px;
+    font-size: 1.6em;
+    line-height: 1.7em;
+    font-weight: 700;
+    padding: 16px;
+    @apply text-gray-600 dark:text-gray-400;
   }
-  /* iOS look (guide 5.10): the tracker name in a card header is the series colour, 15 px weight 600 */
-  .dashboard-widget .widget-header .trackable-pill.transparent h3 {
-    color: var(--series-color, var(--ios-label));
-    font-size: calc(15px * var(--text-scale)) !important;
-    font-weight: 600;
-    line-height: 18px;
-  }
-  /* dark mode: a dark series colour is lifted towards white so the name keeps its contrast on the dark card (guide 8) */
-  :global(html.dark) .dashboard-widget .widget-header .trackable-pill.transparent h3 {
-    color: color-mix(in srgb, var(--series-color, var(--ios-label)) 55%, white);
-  }
-  /* iOS look (5.10): widget titles are the same size as the tracker names in the tiles (about 12 px on phones,
-     which is 37% of the 30 px pill, as the pill sets its names), and a little larger on desktop */
-  .widget-title {
-    font-size: calc(12.2px * var(--text-scale));
-    font-weight: 600;
-    line-height: 15px;
-  }
-  @media (min-width: 900px) {
-    .widget-title {
-      font-size: calc(14px * var(--text-scale));
-      line-height: 18px;
-    }
-  }
-  /* iOS look: footer controls are small pills on the card-2 token (4.5:1 for the secondary text), with 13 px secondary text */
   .dashboard-widget footer button,
   .dashboard-widget .usage-chart-tools button {
-    background: var(--ios-card-2);
-    border-radius: 8px;
-    height: 28px;
-    padding: 0 10px;
-    @apply whitespace-nowrap;
-    font-size: calc(13px * var(--text-scale));
-    color: var(--ios-label2);
+    @apply bg-gray-100 dark:bg-gray-900 rounded-md h-6 px-2;
+    @apply text-xs whitespace-nowrap text-gray-600 dark:text-gray-400;
     @apply flex-shrink-0 flex-grow-0 flex items-center;
     @apply z-40;
   }
@@ -385,13 +327,14 @@
   }
 
   .dashboard-widget .usage-chart-tools .filler {
-    display: none !important;
+    display:none !important;
   }
 
-  .dashboard-widget footer button:hover,
-  .dashboard-widget .usage-chart-tools button:hover {
+  .dashboard-widget footer button:hover ,
+  .dashboard-widget .usage-chart-tools button:hover { 
+    
   }
-
+  
   .dashboard-text + .dashboard-text {
     padding-top: 0px !important;
     padding-bottom: 16px;
@@ -400,12 +343,11 @@
     @apply transition-all duration-100 ease-in-out;
     max-height: 300px;
     position: relative;
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
   }
 
+
   .dashboard-widget:after {
-    /* iOS look: no colour wash on the card; the colour lives in the values */
-    display: none;
     content: '';
     @apply pointer-events-none;
     @apply bottom-0;
@@ -416,10 +358,10 @@
     z-index: 1;
   }
   .dashboard-widget.over .widget-footer .n-text {
-    color: var(--ios-white) !important;
+    color: #fff !important;
   }
   .dashboard-widget.under .widget-footer .n-text {
-    color: var(--ios-white) !important;
+    color: #fff !important;
   }
   .dashboard-widget.widget-red .widget-footer .n-text {
     color: var(--color-red) !important;
@@ -449,9 +391,10 @@
   .dashboard-widget {
     display: flex;
     flex-direction: column;
-    background: var(--ios-card);
-    color: var(--ios-label);
-    border-radius: 16px;
+    @apply bg-white dark:bg-black;
+    @apply text-gray-900 dark:text-gray-100;
+    @apply shadow-md;
+    @apply rounded-lg;
     @apply flex-grow flex-shrink;
     @apply overflow-hidden;
   }

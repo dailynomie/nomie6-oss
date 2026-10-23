@@ -51,7 +51,7 @@ export const trackableToToken = (trackable: Trackable): Token => {
       break
     case 'pointer':
       id = trackable.id.replace('^', '')
-      break
+      break 
   }
   const token: Token = {
     id,

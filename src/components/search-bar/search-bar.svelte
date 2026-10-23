@@ -48,17 +48,7 @@
   //   }
   // }
 
-  let {
-    searchTerm = $bindable(),
-    placeholder,
-    style,
-    className,
-    inputClass,
-    compact,
-    showClose,
-    autofocus,
-    searchButton,
-  } = $props()
+  let { searchTerm = $bindable(), placeholder, style, className, inputClass, compact, showClose, autofocus, searchButton } = $props()
 </script>
 
 <Toolbar className="search-bar {className}" {style}>
@@ -81,7 +71,7 @@
       {placeholder}
     >
       <div slot="left" class="flex items-center pl-2">
-        <IonIcon icon={SearchIcon} size={20} className="text-ios-label2" />
+        <IonIcon icon={SearchIcon} size={20} className="text-gray-500" />
       </div>
       <div slot="right" class="flex items-center">
         <slot name="right-inside" />
@@ -95,7 +85,7 @@
     <slot name="right" />
     {#if searchButton}
       <Button color="clear" icon on:click={fireSearch}>
-        <IonIcon icon={SearchIcon} size={20} className="text-ios-label2" />
+        <IonIcon icon={SearchIcon} size={20} className="text-gray-500" />
       </Button>
     {/if}
   </Container>
@@ -109,33 +99,22 @@
     @apply flex-grow flex-shrink;
   }
   .search-bar input {
-    background: transparent !important;
+    background:transparent !important;
   }
 
   .search-bar .btn-action-clear {
-    font-size: calc(14px * var(--text-scale));
+    font-size: 14px;
   }
   .search-bar input {
     width: calc(100% - 30px);
-    font-size: calc(20px * var(--text-scale));
+    font-size: 20px;
   }
 
   .search-bar .n-input-container {
     margin-bottom: 0 !important;
-    @apply bg-ios-fill;
+    @apply bg-gray-400 dark:bg-gray-600 bg-opacity-30 dark:bg-opacity-30;
   }
   .search-bar .n-input-container .n-input-wrapper input {
-    /* iOS look: the placeholder keeps 4.5:1 on the search fill (label-2 is 4.2:1 there) */
-    color: var(--ios-label);
-    opacity: 0.6;
-  }
-  .search-bar .n-input label,
-  .search-bar .n-input-container label {
-    color: var(--ios-label);
-    opacity: 0.6;
-  }
-  .search-bar .n-input-container .n-input-wrapper input::placeholder {
-    color: var(--ios-label);
-    opacity: 0.6;
+    @apply placeholder-gray-500;
   }
 </style>

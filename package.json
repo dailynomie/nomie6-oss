@@ -1,14 +1,14 @@
 {
-  "name": "daily-nomie",
-  "version": "7.0.0",
-  "homepage": "https://github.com/dailynomie/dailynomie7",
+  "name": "nomie",
+  "version": "dn6.8.0v20261017",
+  "homepage": "https://github.com/dailynomie/nomie-oss",
   "bugs": {
-    "url": "https://github.com/dailynomie/dailynomie7/issues",
+    "url": "https://github.com/dailynomie/nomie-oss/issues",
     "email": "ronald_de_lange@hotmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dailynomie/dailynomie7.git"
+    "url": "https://github.com/dailynomie/nomie-oss.git"
   },
   "author": {
     "name": "Ronald de Lange",
@@ -22,18 +22,17 @@
     "serve": "vite serve",
     "generate-whatsnew": "node build-tools/generate-whats-new.js && git add . && git commit -m 'build: whats new'",
     "generate-zip": "npm run vbuild && node build-tools/generate-zip.js",
+    "commit": "git cz",
     "pre:run": "node build-tools/move-resources.js && node build-tools/bundle-vendors.js",
     "autobuild": "rollup -c -w",
-    "test": "vitest run",
-    "e2e": "vitest run --config vitest.e2e.config.ts",
-    "test-coverage": "vitest run --coverage",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test-coverage": "NODE_OPTIONS=--experimental-vm-modules jest  --collect-coverage",
     "todo": "node build-tools/get-todo.js",
     "release:patch": "release-it patch --no-npm.publish",
     "release:pre": "release-it pre --no-npm.publish",
     "release:minor": "release-it minor --no-npm.publish",
     "vtest": "vitest",
-    "vtest:coverage": "vitest run --coverage",
-    "format": "prettier --write src"
+    "vtest:coverage": "vitest run --coverage"
   },
   "release-it": {
     "git": {
@@ -45,7 +44,14 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
+  },
   "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@kazzkiq/svelte-preprocess-scss": "^0.1.3",
@@ -53,18 +59,20 @@
     "@sveltejs/vite-plugin-svelte": "^4.0.4",
     "@tailwindcss/typography": "^0.4.1",
     "@tsconfig/svelte": "^5.0.4",
+    "@types/jest": "^29.5.3",
     "@types/lodash": "^4.14.196",
     "@types/papaparse": "^5.3.7",
     "@types/pouchdb": "^6.4.0",
     "autoprefixer": "^10.4.14",
+    "babel-jest": "^29.6.2",
     "boolean-parser": "0.0.2",
     "c8": "^8.0.1",
+    "commitizen": "^4.3.0",
     "commitlint": "^17.6.7",
     "concurrently": "^8.2.0",
     "cors": "^2.8.6",
     "deepmerge": "^4.3.1",
     "eslint": "^8.46.0",
-    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-svelte3": "^4.0.0",
     "esri-leaflet-geocoder": "^3.1.4",
     "events": "^3.3.0",
@@ -75,15 +83,16 @@
     "html-to-image": "^1.11.11",
     "husky": "^8.0.3",
     "i18next": "^23.4.1",
+    "import-sort-style-eslint": "^6.0.0",
+    "jest": "^29.6.2",
+    "jest-environment-jsdom": "^29.6.2",
     "js-yaml": "^3.15.0",
-    "jsdom": "^25.0.1",
+    "md-to-pdf": "^5.2.5",
     "node-fetch": "^3.3.2",
     "npm-run-all": "^4.1.5",
     "playwright": "^1.61.1",
     "postcss-load-config": "^3.1.0",
     "pouchdb": "^8.0.1",
-    "prettier": "^3.9.10",
-    "prettier-plugin-svelte": "^4.1.1",
     "rollup-plugin-string": "^3.0.0",
     "rollup-plugin-svelte-svg": "^1.0.0-beta.6",
     "rollup-plugin-visualizer": "^5.9.2",
@@ -98,7 +107,7 @@
     "ts-md5": "^1.3.1",
     "typescript": "^5.1.6",
     "vite": "^5.0.0",
-    "vitest": "^4.1.12",
+    "vitest": "^1.0.0",
     "workbox-window": "^7.0.0"
   },
   "dependencies": {
@@ -125,6 +134,7 @@
     "math-expression-evaluator": "^2.0.3",
     "muuri": "^0.9.5",
     "papaparse": "^5.4.1",
+    "plotly.js": "^2.25.0",
     "plotly.js-dist-min": "^2.25.0",
     "pocketbase": "^0.16.0",
     "postcss": "^8.4.5",

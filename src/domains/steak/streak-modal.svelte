@@ -14,11 +14,12 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import ListItemSingleTrackable from '../../components/list-item-log/list-item-single-trackable.svelte'
   import { openDateOptionPopMenu } from '../../components/pop-menu/usePopmenu'
-  import Spinner from '../../components/spinner/spinner.svelte'
+import Spinner from '../../components/spinner/spinner.svelte'
 
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
-  import { wait } from '../../utils/tick/tick'
+  import CloseOutline from '../../n-icons/CloseOutline.svelte'
+import { wait } from '../../utils/tick/tick';
   import { onMount } from 'svelte'
   import Calendar3 from '../calendar-view/calendar3.svelte'
 
@@ -32,8 +33,7 @@
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
   import { UsageStore } from '../usage/UsageStore'
-  import { streakSummary, type StreakSummaryResults } from './streak-helper'
-  import { Lang } from '../../store/lang'
+import { streakSummary, type StreakSummaryResults } from './streak-helper';
 
   let { trackable, date = $bindable(), id } = $props()
 
@@ -69,7 +69,7 @@
   let rawUsage = $state<TrackableUsage>(undefined)
   let loading = $state(false)
   const loadUsage = async () => {
-    loading = true
+    loading = true;
     rawUsage = await queryToTrackableUsage(
       trackable,
       {
@@ -121,14 +121,16 @@
   let streak = $state<StreakSummaryResults>(undefined)
 </script>
 
-<BackdropModal headerClass="glass mb-2" mainClass="bg-ios-bg filler">
+<BackdropModal headerClass="glass mb-2" mainClass="bg-white filler dark:bg-black">
   <header slot="header">
     <ToolbarGrid>
+      <Button slot="left" primary icon on:click={close}>
+        <IonIcon icon={CloseOutline} />
+      </Button>
       <h1 class="ntitle capitalize line-clamp-1">
         <TrackableAvatar {trackable} size={22} />
-        {Lang.t('steak.streak-title', { label: trackable.label })}
+        {trackable.label} Streak
       </h1>
-      <Button slot="right" clear primary on:click={close}>{Lang.t('steak.done', 'Done')}</Button>
     </ToolbarGrid>
     {#if rawUsage && rawUsage.logs}
       <Calendar3
@@ -136,22 +138,25 @@
         loading={false}
         date={_startDate}
         bind:trackableUsage={rawUsage}
-        on:input={(evt) => {}}
+        on:input={(evt) => {
+          
+        }}
         on:dateChange={(evt) => {
-          date = new Date(evt.detail)
+          date = new Date(evt.detail)          
         }}
       />
+     
     {/if}
     {#if streak}
-      <section class="flex w-full py-2">
+      <section class="flex w-full  py-2">
         <div class="rounded-full flex space-x-4 items-center mx-auto w-auto">
           <div class="leading-tight text-center flex items-center space-x-2 text-xs text-description">
-            <div class="">{Lang.t('steak.current', 'Current')}</div>
-            <div class="font-bold">{Lang.t('steak.days', { num: streak.currentStreak })}</div>
+            <div class="">Current</div>
+            <div class="font-bold">{streak.currentStreak} days</div>
           </div>
           <div class="leading-tight text-center flex items-center space-x-2 text-xs text-description">
-            <div class="">{Lang.t('steak.longest', 'Longest')}</div>
-            <div class="font-bold">{Lang.t('steak.days', { num: streak.longestStreak })}</div>
+            <div class="">Longest</div>
+            <div class="font-bold">{streak.longestStreak} days</div>
           </div>
         </div>
       </section>
@@ -160,7 +165,7 @@
 
   <VirtualList bind:end={listEndIndex} bind:start={listStartIndex} items={values} let:item>
     <div
-      class="px-4 flex bg-ios-card justify-items-stretch items-center {isNaN(item.value)
+      class="px-4 flex bg-white dark:bg-black justify-items-stretch  items-center {isNaN(item.value)
         ? 'no-activity'
         : 'has-activity'}"
       style="--trackable-color:{trackable.color}"
@@ -171,7 +176,7 @@
         {!isNaN(values[item.index + 1]?.value) ? 'next-sib-active' : 'next-sib-inactive'}"
       />
       {#if isNaN(item.value)}
-        <div class="streak-item no-activity relative w-full text-ios-label2 font-semibold">
+        <div class="streak-item no-activity relative w-full  text-gray-500 font-semibold ">
           {item.date.format(dateFormats.mmm_d_yyyy)}
         </div>
       {:else}
@@ -179,19 +184,19 @@
           <TrackableAvatar {trackable} size={52} slot="left" />
           <main class="w-full">
             <h1 class="font-semibold leading-none flex items-end space-x-2">
-              <span class="text-lg text-ios-label">{trackable.label}</span>
+              <span class="text-lg text-black dark:text-white">{trackable.label}</span>
               <span
-                class="opacity-80 ml-2 font-bold bg-ios-fill text-ios-label text-xs rounded-full px-3 py-1 leading-none "
+                class="opacity-80 ml-2 font-bold bg-gray-300 dark:bg-gray-700 dark:text-white text-xs rounded-full px-3 py-1 leading-none "
                 >{trackable.formatValue(item.value)}</span
               >
             </h1>
             <div class="grid w-full grid-cols-1 lg:grid-2 items-center">
-              <div class="text-xl font-bold pt-1 text-ios-label">
+              <div class="text-xl font-bold pt-1 text-black dark:text-white">
                 {item.date.format(dateFormats.mmm_d_yyyy)}
               </div>
             </div>
             <ProgressBar
-              className="h-2 bg-ios-fill"
+              className="h-2 bg-gray-500 bg-opacity-20"
               barClass="h-2"
               color={trackable.color}
               percentage={math.percentage(max, item.value)}
@@ -211,16 +216,16 @@
           log={trackable.type === 'person' && item.logs && item.logs.length
             ? new NLog({ note: item.logs[0].note })
             : item.logs.length == 1
-              ? new NLog(item.logs[0])
-              : new NLog({ note: `${trackable.tag}(${item.value})`, end: item.date })}
+            ? new NLog(item.logs[0])
+            : new NLog({ note: `${trackable.tag}(${item.value})`, end: item.date })}
         />
       {/if}
     </div>
   </VirtualList>
   {#if loading}
-    <div class="absolute bottom-4 right-4 z-50">
-      <Spinner size={20} />
-    </div>
+  <div class="absolute bottom-4 right-4 z-50">
+    <Spinner size={20} />
+  </div>
   {/if}
 </BackdropModal>
 
@@ -242,7 +247,7 @@
   }
 
   .no-activity .connector-ball {
-    @apply bg-ios-fill;
+    @apply bg-gray-500 bg-opacity-40;
     @apply h-11;
   }
 

@@ -24,7 +24,6 @@
   import { randomEmoji } from '../tracker/editor/TrackerEditorStore'
   import { PluginClass, type PluginType } from './plugin-helpers'
   import { broadcastPluginMessage, PluginStore } from './PluginStore'
-  import { Lang } from '../../store/lang'
 
   let id = $state<string>(undefined)
   let pluginDetails = $state<any | PluginType>({})
@@ -89,7 +88,7 @@
 
   onMount(() => {
     window.addEventListener('message', messageListener)
-    console.info('Plugin installer mounted', url)
+    console.log('Plugin installer mounted', url)
     if (url && is.url(url)) {
       loadPlugin()
     }
@@ -106,7 +105,7 @@
       if (confirmEnabled) {
         plugin.active = true
         await PluginStore.upsert(plugin)
-        showToast({ message: Lang.t('plugins.name-enabled', { name: plugin.name }) })
+        showToast({ message: `${plugin.name} enabled` })
       }
       emit('installed')
       clearPluginDetail(true)
@@ -121,7 +120,7 @@
     await wait(500)
     loading = false
     if (!pluginDetails.name) {
-      Interact.error(Lang.t('plugins.unable-to-load', 'Unable to load that Plugin. Check its URL and try again.'))
+      Interact.error(`Unable to load that Plugin. Check its URL and try again.`)
     }
   }
 
@@ -145,22 +144,22 @@
           <div class="faded-badge text-center">{use}</div>
         {/each}
         {#if pluginDetails.addToCaptureMenu}
-          <div class="faded-badge text-center">{Lang.t('plugins.menu-item', 'menu item')}</div>
+          <div class="faded-badge text-center">menu item</div>
         {/if}
         {#if pluginDetails.addToWidgets}
-          <div class="faded-badge text-center">{Lang.t('plugins.widget-2', 'widget')}</div>
+          <div class="faded-badge text-center">widget</div>
         {/if}
       </div>
     </ListItem>
     <ListItem bottomLine={1} on:click={installPluginDetails}>
-      <div class="text-ios-tint w-full text-center">{Lang.t('plugins.install-plugin', 'Install Plugin')}</div>
+      <div class="text-primary w-full text-center">Install Plugin</div>
     </ListItem>
     <ListItem
       on:click={() => {
         emit('cancel')
       }}
     >
-      <div class="text-ios-tint w-full text-center">{Lang.t('plugins.cancel', 'Cancel')}</div>
+      <div class="text-red-500 w-full text-center">Cancel</div>
     </ListItem>
   </List>
 {:else}
@@ -168,24 +167,24 @@
     <Input
       autocorrect={false}
       autocapitalize={false}
-      label={Lang.t('plugins.plugin-url', 'Plugin URL')}
-      placeholder={Lang.t('plugins.https-url-to-plugin', 'https://url-to-plugin')}
+      label="Plugin URL"
+      placeholder="https://url-to-plugin"
       help="Full url to the plugin"
       type="url"
       listItem
       bind:value={url}
     >
-      <Button primary disabled={!is}>{Lang.t('plugins.load', 'Load')}</Button>
+      <Button primary disabled={!is}>Load</Button>
     </Input>
     <Divider left={16} />
     {#if !pluginDetails.name}
       <ListItem clickable on:click={loadPlugin} disabled={!is.url(url) || loading}>
-        <div class="text-ios-tint w-full flex items-center justify-center text-center space-x-2">
+        <div class="text-primary w-full flex items-center justify-center text-center space-x-2">
           {#if loading}
             <Spinner size={20} />
-            <span>{Lang.t('plugins.loading-plugin', 'Loading Plugin...')}</span>
+            <span>Loading Plugin...</span>
           {:else}
-            <span>{Lang.t('plugins.load-plugin', 'Load Plugin')}</span>
+            <span>Load Plugin</span>
           {/if}
         </div>
       </ListItem>
@@ -198,7 +197,7 @@
     on:error={iframeError}
     on:load={iframeLoaded}
     src={url}
-    title={Lang.t('plugins.plugin-iframe', 'plugin iframe')}
+    title="plugin iframe"
     id={`plugin-${id}`}
   />
 {/if}

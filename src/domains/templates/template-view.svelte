@@ -9,7 +9,7 @@
   import { Trackable } from '../trackable/Trackable.class'
   import type { Template } from './templates-utils'
   import { useTemplate } from './templates-svelte-helpers'
-  import { Lang } from '../../store/lang'
+
 
   const { template = $bindable() } = $props()
 </script>
@@ -21,7 +21,7 @@
     </h1>
   </div>
   {#if template.description}
-    <p class="text-sm text-ios-label2">
+    <p class="text-sm text-gray-500 dark:text-gray-400">
       <span>{template.description}</span>
     </p>
   {/if}
@@ -31,15 +31,12 @@
     shape="rounded"
     color="primary"
     size="sm"
-    className="w-full max-w-xs my-4">{Lang.t('templates.use-this-template', 'Use this Template')}</Button
+    className="w-full max-w-xs my-4">Use this Template</Button
   >
-  <hr class="mt-2 mb-4 border-ios-separator" />
+  <hr class="mt-2 mb-4 dark:border-gray-700" />
   {#if template.trackables.length}
     <section>
-      <Title
-        className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.trackables', 'Trackables')}</Title
-      >
+      <Title className="mb-2">Trackables</Title>
       <div class="flex flex-wrap">
         {#each template.trackables as trackable}
           <TrackablePill solid hideValue size={32} trackable={new Trackable(trackable)} className="m-1" />
@@ -49,17 +46,14 @@
   {/if}
   {#if template.boards.length}
     <section>
-      <Title
-        className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.tabs', 'Tabs')}</Title
-      >
+      <Title className="mb-2">Tabs</Title>
 
       <div class="flex flex-wrap">
         {#each template.boards as board}
           <div class="pill">
             <div class="ntitle">{board.label}</div>
-            <div class="text-xs text-ios-label2 whitespace-nowrap">
-              {Lang.t('templates.trackable-count', { num: board.elements.length })}
+            <div class="text-xs text-gray-500 whitespace-nowrap">
+              {board.elements.length} trackables
             </div>
           </div>
         {/each}
@@ -68,17 +62,14 @@
   {/if}
   {#if template.dashboards.length}
     <section>
-      <Title
-        className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.dashboards', 'Dashboards')}</Title
-      >
+      <Title className="mb-2">Dashboards</Title>
 
       <div class="flex flex-wrap">
         {#each template.dashboards as board}
           <div class="pill">
             <div class="ntitle">{board.label}</div>
-            <div class="text-xs text-ios-label2 whitespace-nowrap">
-              {Lang.t('templates.widget-count', { num: board.widgets.length })}
+            <div class="text-xs text-gray-500 whitespace-nowrap">
+              {board.widgets.length} widgets
             </div>
           </div>
         {/each}
@@ -87,16 +78,13 @@
   {/if}
   {#if template.goals.length}
     <section>
-      <Title
-        className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.goals', 'Goals')}</Title
-      >
+      <Title className="mb-2">Goals</Title>
 
       <div class="flex flex-wrap">
         {#each template.goals as goal}
           <div class="pill">
             <div class="ntitle">{goal.tag} {goal.comparison} {goal.target}</div>
-            <div class="text-xs text-ios-label2 whitespace-nowrap" />
+            <div class="text-xs text-gray-500 whitespace-nowrap" />
           </div>
         {/each}
       </div>
@@ -104,16 +92,13 @@
   {/if}
   {#if template.pivots.length}
     <section>
-      <Title
-        className="mb-2 uppercase text-sm font-semibold tracking-wide"
-        style="text-align:left; color: var(--ios-label2)">{Lang.t('templates.pivots', 'Pivots')}</Title
-      >
+      <Title className="mb-2">Pivots</Title>
 
       <div class="flex flex-wrap">
         {#each template.pivots as pivot}
           <div class="pill">
             <div class="ntitle">{pivot.emoji}{pivot.tag}</div>
-            <div class="text-xs text-ios-label2 whitespace-nowrap" />
+            <div class="text-xs text-gray-500 whitespace-nowrap" />
           </div>
         {/each}
       </div>

@@ -1,25 +1,42 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  // iOS look (D-native): the settings selects are the app's IosSelect (the value row and the action sheet with a tick).
-  // Callers pass options as { key, value, selected } and listen for change with the picked option.
-  import { createEventDispatcher } from 'svelte'
-  import IosSelect from '../components/ios-select/ios-select.svelte'
+import { createEventDispatcher } from 'svelte';
 
-  const emit = createEventDispatcher()
-  const { className, value, placeholder, id, options = [], ...rest } = $props()
+  import IonIcon from '../components/icon/ion-icon.svelte'
+  import { openPopMenu, type PopMenuButton } from '../components/pop-menu/usePopmenu'
+import CheckmarkOutline from '../n-icons/CheckmarkOutline.svelte';
 
-  let current = $derived(options.find((o: any) => o.selected))
+  import ChevronDownOutline from '../n-icons/ChevronDownOutline.svelte'
+
+
+  const emit = createEventDispatcher();
+  const showMenu = () => {
+    const buttons:Array<PopMenuButton> = options.map((option) => {
+      return {
+        title: option.value,
+        icon: option.selected ? CheckmarkOutline : undefined,
+        click() {
+          emit('change', option)
+        },
+      }
+    })
+    openPopMenu({
+      id,
+      buttons,
+    })
+  }
+
+  const { className, value, placeholder, id, options, ...rest } = $props()
 </script>
 
-<IosSelect
-  className="select-pop {rest.class || ''} {className || ''}"
-  title={placeholder || value || ''}
-  placeholder={placeholder || value || ''}
-  value={current?.key}
-  options={options.map((o: any) => ({ value: o.key, label: o.value }))}
-  onchange={(key) => {
-    const picked = options.find((o: any) => o.key == key)
-    if (picked) emit('change', picked)
-  }}
-/>
+<button on:click={showMenu} class="select-pop {rest.class || ''} {className || ''}" {...rest}>
+  <span class="mr-4 font-medium">{value || placeholder}</span>
+  <IonIcon icon={ChevronDownOutline} size={16} />
+</button>
+
+<style lang="postcss">
+  .select-pop {
+    @apply flex items-center;
+  }
+</style>

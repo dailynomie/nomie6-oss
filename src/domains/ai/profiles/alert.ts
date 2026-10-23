@@ -39,11 +39,11 @@ Critical = immediate attention needed. Warning = worth investigating.
     }
 
     return parsed.filter(
-      (item) =>
+      item =>
         item.metric &&
         item.message &&
         (item.severity === 'warning' || item.severity === 'critical') &&
         (item.trend === 'up' || item.trend === 'down' || item.trend === 'flat')
     )
-  },
+  }
 }

@@ -1,21 +1,21 @@
 export default [
   {
-    question: 'What should I track?',
+    question: "What should I track?",
     answer: `That's really up to you. But, you can't go wrong tracking your 
 				mood a couple times a day, and each time you drink water. From there, you'll start to see what 
 				else you might want to track and understand.`,
   },
   {
-    question: 'Can I order my trackers?',
+    question: "Can I order my trackers?",
     answer: `On the Track view, tap the ••• icon in the upper right, then select "Manage this tab"`,
   },
   {
-    question: 'Can I delete a tracker off the main screen?',
+    question: "Can I delete a tracker off the main screen?",
     answer:
-      'Only if you want to delete that tracker from Nomie. You can always recreate it, and the data you tracked with that tracker will remain. Only the tracker button will be deleted.',
+      "Only if you want to delete that tracker from Nomie. You can always recreate it, and the data you tracked with that tracker will remain. Only the tracker button will be deleted.",
   },
   {
-    question: 'When should I track?',
+    question: "When should I track?",
     answer: `That's really up to you too, but the key is to keep it balanced, 
 				track a few times throughout the day maybe?`,
   },
@@ -49,4 +49,4 @@ export default [
     question: `Why create Nomie?`,
     answer: `Because I (@brandoncorbin) need it.`,
   },
-]
+];

@@ -55,5 +55,5 @@ Focus on extracting meaningful patterns that reveal the person's inner world, no
   parseResponse(raw: string): NarrativeAnalysis {
     const clean = raw.replace(/```json|```/g, '').trim()
     return JSON.parse(clean) as NarrativeAnalysis
-  },
+  }
 }

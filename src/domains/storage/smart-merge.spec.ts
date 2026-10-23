@@ -3,63 +3,59 @@ import { it, describe, expect } from 'vitest'
 import { smartMerge } from './smart-merge'
 describe('modules/smart-merge', function () {
   it('should get should merge arrays', () => {
-    let array1 = [
-      {
-        id: '12345',
-        names: ['Bob', 'Taco', 'Silly'],
-        count: 2,
-      },
-      {
-        id: '123456',
-        names: ['Paul', 'Grace', 'Billy'],
-      },
-    ]
+    let array1 = [{
+      id: '12345',
+      names: ['Bob', 'Taco', 'Silly'],
+      count: 2
+    },
+    {
+      id: '123456',
+      names: ['Paul', 'Grace', 'Billy']
+    }]
 
-    let array2 = [
-      {
-        id: '12345',
-        names: ['Shifty', 'Lefty', 'Grandma'],
-        count: 4,
-      },
-      {
-        id: '124',
-        names: ['Frank', 'Betty', 'Sam'],
-      },
-      {
-        id: '1246',
-        names: ['Six', '5', 'For'],
-      },
-    ]
+    let array2 = [{
+      id: '12345',
+      names: ['Shifty', 'Lefty',  'Grandma'],
+      count: 4
+    },
+    {
+      id: '124',
+      names: ['Frank', 'Betty', 'Sam']
+    },
+    {
+      id: '1246',
+      names: ['Six', '5', 'For']
+    }]
 
-    const merged = smartMerge(array1, array2)
-    console.log(merged)
-    expect(merged).toBeTruthy()
-    expect(merged.length).toBe(4)
-    expect(merged[merged.length - 1].id).toBe('1246')
-    expect(merged[0].names.join(',')).toBe('Bob,Taco,Silly,Shifty,Lefty,Grandma')
+    const merged = smartMerge(array1, array2);
+    console.log(merged);
+    expect(merged).toBeTruthy();
+    expect(merged.length).toBe(4);
+    expect(merged[merged.length-1].id).toBe('1246')
+    expect(merged[0].names.join(",")).toBe("Bob,Taco,Silly,Shifty,Lefty,Grandma")
     expect(merged[0].count).toBe(4)
   })
 
-  it('should merge objects', () => {
-    let obj1 = {
-      name: 'Brandon',
+  it("should merge objects", ()=>{
+    let obj1={
+      name: "Brandon",
       age: 45,
       tags: ['turkey'],
-      sub: { time: true },
+      sub: { time: true }
     }
-    let obj2 = {
-      type: 'Person',
+    let obj2={
+      type: "Person",
       age: 55,
       tags: ['fly'],
-      sub: { notime: true },
+      sub: { notime: true }
     }
-    const merged = smartMerge(obj1, obj2)
-    expect(merged.age).toBe(55)
+    const merged = smartMerge(obj1, obj2);
+    expect(merged.age).toBe(55);
     expect(merged.name).toBe('Brandon')
-    expect(merged.type).toBe('Person')
-    expect(merged.tags.join(',')).toBe('turkey,fly')
-    expect(merged.sub.notime).toBe(true)
-    expect(merged.sub.time).toBe(true)
+    expect(merged.type).toBe('Person');
+    expect(merged.tags.join(",")).toBe('turkey,fly')
+    expect(merged.sub.notime).toBe(true);
+    expect(merged.sub.time).toBe(true);
   })
 
   it('should not duplicate shared items in nested lists', () => {
@@ -79,17 +75,7 @@ describe('modules/smart-merge', function () {
 
   it('should merge nested objects that share an id instead of duplicating them', () => {
     const local = { dashboards: [{ id: 'd1', widgets: [{ id: 'w1', title: 'Old' }] }] }
-    const incoming = {
-      dashboards: [
-        {
-          id: 'd1',
-          widgets: [
-            { id: 'w1', title: 'New' },
-            { id: 'w2', title: 'Added' },
-          ],
-        },
-      ],
-    }
+    const incoming = { dashboards: [{ id: 'd1', widgets: [{ id: 'w1', title: 'New' }, { id: 'w2', title: 'Added' }] }] }
     const merged = smartMerge(local, incoming)
     expect(merged.dashboards[0].widgets).toEqual([
       { id: 'w1', title: 'New' },
@@ -104,13 +90,7 @@ describe('modules/smart-merge', function () {
   })
 
   it('should merge every copy when more than two items share an id', () => {
-    const merged = smartMerge(
-      [{ id: 'x', a: 1 }],
-      [
-        { id: 'x', b: 2 },
-        { id: 'x', c: 3 },
-      ]
-    )
+    const merged = smartMerge([{ id: 'x', a: 1 }], [{ id: 'x', b: 2 }, { id: 'x', c: 3 }])
     expect(merged).toEqual([{ id: 'x', a: 1, b: 2, c: 3 }])
   })
 
@@ -122,10 +102,7 @@ describe('modules/smart-merge', function () {
   })
 
   it('a null in the backup does not erase a value on this device', () => {
-    const merged = smartMerge(
-      { tracker: { label: 'Mood', color: '#f00' } },
-      { tracker: { label: 'Mood', color: null } }
-    )
+    const merged = smartMerge({ tracker: { label: 'Mood', color: '#f00' } }, { tracker: { label: 'Mood', color: null } })
     expect(merged.tracker.color).toBe('#f00')
   })
 

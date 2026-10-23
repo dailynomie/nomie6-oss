@@ -11,15 +11,10 @@
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
   import { ChevronBackCircleOutline, ChevronForwardCircleOutline } from '../../../../components/icon/nicons'
   import { getDateFormats } from '../../../preferences/Preferences'
-  import { onLogNoteChange } from '../../../ledger/LedgerStore'
-  import type NLog from '../../../nomie-log/nomie-log'
+import { onLogNoteChange } from '../../../ledger/LedgerStore';
+import type NLog from '../../../nomie-log/nomie-log';
 
-  const {
-    widget = $bindable(),
-    logs = $bindable([]),
-    trackable = $bindable(undefined),
-    usage = $bindable(undefined),
-  } = $props()
+  const { widget = $bindable(), logs = $bindable([]), trackable = $bindable(undefined), usage = $bindable(undefined) } = $props()
   // export let trackable: Trackable
   // export let usage: TrackableUsage
 
@@ -29,7 +24,7 @@
   let todoLogs = $state<Array<NLog>>([])
 
   $effect(() => {
-    todoLogs = logs.filter((l) => {
+    todoLogs = logs.filter((l)=>{
       return l.hasTodo
     })
   })
@@ -58,44 +53,39 @@
 </script>
 
 {#if !todoLogs || !todoLogs.length}
-  <div class="text-center px-4 -mt-2 empty value flex items-center justify-center text-ios-label2 h-full text-xs">
+  <div class="text-center px-4 -mt-2 empty value flex items-center justify-center text-gray-500 h-full text-xs">
     {Lang.t('general.no-todos-found', 'No todos found.')}
-    <br />{Lang.t(
-      'dashboard.include-or-x-to-turn-an-entry-into-a-todo',
-      'Include [] or [x] to turn an entry into a todo'
-    )}
+    <br />Include [] or [x] to turn an entry into a todo
   </div>
 {:else}
   <div class="note-navigator flex items-start px-2 sm:px-0 h-full space-x-1">
     {#if todoLogs.length > 1}
-      <Button
-        title={Lang.t('dashboard.previous-note', 'Previous Note')}
-        className="tap-icon"
-        icon
-        on:click={previousNote}
-      >
+      <Button title="Previous Note" className="tap-icon" icon on:click={previousNote}>
         <IonIcon icon={ChevronBackCircleOutline} />
       </Button>
     {/if}
     {#if activeIndex > -1}
-      <div class="note-wrapper pb-4 px-2 lg:px-4 pt-2 flex flex-col h-full w-full max-h-full" style="font-size:calc(12px * var(--text-scale));">
+      <div
+        class="note-wrapper pb-4 px-2 lg:px-4 pt-2 flex flex-col h-full w-full max-h-full "
+        style="font-size:12px;"
+      >
         <div class="text-xs overflow-y-auto max-h-36">
           <NoteTextualizer
-            on:noteChange={(evt) => {
-              onLogNoteChange(evt.detail, todoLogs[activeIndex])
+            on:noteChange={(evt)=>{
+              onLogNoteChange(evt.detail, todoLogs[activeIndex]);
             }}
             className="{widget.size === 'sm' ? 'text-xs' : 'text-sm'} leading-1"
             note={todoLogs[activeIndex].note}
           />
         </div>
-        <div class="leading-tight text-xs line-clamp-2 w-full mt-2 text-ios-label2">
+        <div class="leading-tight text-xs line-clamp-2 w-full mt-2 text-gray-500">
           {todoLogs[activeIndex].endDayjs().format(`${dateFormats.date}`)}
           - {todoLogs[activeIndex].endDayjs().fromNow()}
         </div>
       </div>
     {/if}
     {#if todoLogs.length > 1}
-      <Button title={Lang.t('dashboard.next-note', 'Next note')} className="tap-icon" icon on:click={nextNote}>
+      <Button title="Next note" className="tap-icon" icon on:click={nextNote}>
         <IonIcon icon={ChevronForwardCircleOutline} />
       </Button>
     {/if}
@@ -111,6 +101,6 @@
     @apply text-lg;
   }
   .widget-note.value {
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
   }
 </style>

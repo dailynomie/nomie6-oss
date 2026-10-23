@@ -1,3 +1,5 @@
+import ImporterModal from './importer.svelte'
+import csvImportView from '../import/csv/csv-import-view.svelte'
 import { closeModal, openModal } from '../../components/backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
 
@@ -7,8 +9,7 @@ const initialState = {
 
 export const ImporterStore = writable(initialState)
 
-export const showImportModal = async (archive?: any) => {
-  const { default: ImporterModal } = await import('./importer.svelte')
+export const showImportModal = (archive?: any) => {
   openModal({
     id: 'importer',
     component: ImporterModal,
@@ -27,8 +28,7 @@ export const hideImportModal = () => {
   closeModal('importer')
 }
 
-export const showCSVImportModal = async (archive?: any) => {
-  const { default: csvImportView } = await import('../import/csv/csv-import-view.svelte')
+export const showCSVImportModal = (archive?: any) => {
   openModal({
     id: 'csv-importer',
     component: csvImportView,

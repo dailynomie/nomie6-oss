@@ -3,16 +3,11 @@
   padding-bottom: 12px;
 }
 
-/* iOS look (D-focus): the keyboard focus outline is the tint; a tap shows nothing */
-header[slot="header"] .nbtn.clear:not(.nbtn-icon) {
+header[slot="header"] .nbtn.clear {
   @apply focus:outline-none;
   @apply rounded-xl;
-}
-header[slot="header"] .nbtn.clear.nbtn-icon {
-  @apply focus:outline-none;
-}
-header[slot="header"] .nbtn.clear:focus-visible {
-  box-shadow: 0 0 0 2px var(--ios-tint);
+  @apply focus:ring-2 ring-yellow-500;
+  
 }
 
 .nbtn {
@@ -33,22 +28,15 @@ header[slot="header"] .nbtn.clear:focus-visible {
   border: none;
 }
 
-/* iOS look (D-focus): the focus ring is for keyboard focus only; a tap leaves no ring */
 button, .nbtn {
   @apply focus:outline-none;
-  @apply ring-ios-tint;
-}
-button:focus-visible, .nbtn:focus-visible {
-  @apply ring-2;
-}
-button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
-  box-shadow: none;
+  @apply focus:ring-2 ring-primary-500;
 }
 .hit-mark {
   @apply transition-all duration-200 ease-in-out;
   @apply opacity-0;
   @apply pointer-events-none;
-  @apply bg-ios-fill;
+  @apply bg-primary-500;
   @apply absolute;
   @apply top-0 right-0 left-0 bottom-0;
 }
@@ -58,7 +46,7 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
 
 .nbtn:active  .hit-mark {
   @apply opacity-30;
-  background: var(--ios-fill);
+  @apply dark:bg-white bg-primary-500;
 }
 
 .nbtn .main {
@@ -104,9 +92,9 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
   @apply px-2 py-1 rounded-md;
 }
 .nbtn-solid {
-  @apply bg-ios-card;
+  @apply bg-white dark:bg-black;
   @apply shadow-sm;
-  @apply text-ios-label2;
+  @apply text-gray-900 dark:text-gray-100;
 }
 
 .nbtn-md {
@@ -167,22 +155,29 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
 }
 .nbtn-primary,
 .nbtn-primary-bright {
-  /* iOS look (D-primary): primary buttons are the tint with on-tint text */
-  background: var(--ios-tint);
-  color: var(--ios-on-tint);
+  @apply bg-primary-500;
+  @apply text-white;
 }
 .nbtn-danger {
-  background: var(--ios-danger);
-  color: var(--ios-on-danger);
+  @apply bg-red-500;
+  @apply text-white;
 }
 .nbtn-success,
 .nbtn-green {
-  background: var(--ios-save);
-  color: var(--ios-on-save);
+  @apply bg-green-500;
+  @apply text-white;
+}
+.nbtn-orange {
+  @apply bg-yellow-500;
+  @apply text-white;
+}
+.nbtn-dark {
+  @apply bg-gray-700 dark:bg-gray-300;
+  @apply text-white dark:text-black;
 }
 .nbtn-light {
-  color: var(--ios-tint);
-  background: var(--ios-card-2);
+  @apply text-primary-500;
+  @apply bg-gray-50;
 }
 .nbtn-clear,
 .nbtn-transparent,
@@ -277,41 +272,4 @@ button:focus:not(:focus-visible), .nbtn:focus:not(:focus-visible) {
 .nbtn-icon,
 .nbtn.tap-icon {
   box-shadow: none;
-}
-
-/* iOS look: buttons (DAILY_NOMIE_7_IOS_DESIGN_GUIDE.md section 4.4) */
-.nbtn.clear {
-  color: var(--ios-tint);
-  min-height: 44px;
-  font-size: calc(17px * var(--text-scale));
-}
-/* iOS look: a clear icon button is a 36 px circle; the 44 px text-button height must not stretch it into an oval */
-.nbtn.clear.nbtn-icon {
-  min-height: 0;
-  width: 36px;
-  height: 36px;
-}
-.nbtn.clear.text-ios-danger {
-  color: var(--ios-danger);
-}
-.nbtn.nbtn-tint:not(.clear):not(.nbtn-icon) {
-  background: var(--ios-tint);
-  color: var(--ios-on-tint);
-  border-radius: 12px;
-  min-height: 44px;
-  font-size: calc(17px * var(--text-scale));
-  font-weight: 600;
-}
-.nbtn-block:not(.clear):not(.nbtn-tint):not(.nbtn-icon) {
-  background: var(--ios-fill);
-  color: var(--ios-label);
-  border-radius: 12px;
-  min-height: 44px;
-}
-.nbtn.nbtn-icon {
-  background: var(--ios-fill);
-  color: var(--ios-label);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
 }

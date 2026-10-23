@@ -24,6 +24,6 @@
 <style lang="postcss" global>
   .markdown a {
     @apply underline;
-    @apply text-ios-tint;
+    @apply text-primary-500 dark:text-primary-400;
   }
 </style>

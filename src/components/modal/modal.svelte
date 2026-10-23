@@ -12,20 +12,9 @@
   const dispatch = createEventDispatcher()
   // Props
 
-  const {
-    padding,
-    title,
-    allowClose,
-    fullscreen,
-    flexBody,
-    show,
-    className,
-    type,
-    bodyClass,
-    closeOnBackgroundTap,
-    ariaLabel,
-    level,
-  } = $props()
+
+
+  const { padding, title, allowClose, fullscreen, flexBody, show, className, type, bodyClass, closeOnBackgroundTap, ariaLabel, level } = $props()
 
   const has_header = !!$$slots.header
   const has_raw_header = !!$$slots['raw-header']
@@ -133,7 +122,7 @@
     width: 100%;
   }
   .n-modal-frame {
-    @apply bg-ios-black bg-opacity-50;
+    @apply bg-gray-700 bg-opacity-50;
     @apply backdrop-filter backdrop-blur-md backdrop-saturate-150;
     position: fixed;
     top: 0;
@@ -211,7 +200,7 @@
     width: 100%;
   }
   .n-modal {
-    @apply bg-ios-card;
+    @apply bg-white dark:bg-black;
     @apply shadow-2xl;
     min-width: 320px;
     min-height: 200px;
@@ -255,7 +244,7 @@
     z-index: 2;
   }
   .n-modal-header {
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
     min-height: 40px;
     border-bottom: solid 1px rgba(0, 0, 0, 0.1);
     display: flex;

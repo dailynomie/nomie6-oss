@@ -12,30 +12,7 @@
   let confirming = $state(false)
   let confirmTimeout = $state()
 
-  const {
-    id = `auto-${md5('default')}`,
-    size = 'md',
-    type = '',
-    color = '',
-    className = '',
-    mainClass = '',
-    block = false,
-    style = '',
-    disabled = false,
-    delay = 300,
-    icon = false,
-    title = undefined,
-    ariaLabel = undefined,
-    prevent = false,
-    inline = false,
-    text = false,
-    confirm = false,
-    role = '',
-    autofocus = false,
-    primary = false,
-    clear = false,
-    shape = '',
-  } = $props()
+  const { id = `auto-${md5('default')}`, size = 'md', type = '', color = '', className = '', mainClass = '', block = false, style = '', disabled = false, delay = 300, icon = false, title = undefined, ariaLabel = undefined, prevent = false, inline = false, text = false, confirm = false, role = '', autofocus = false, primary = false, clear = false, shape = '' } = $props()
 
   const onClick = async (evt) => {
     if (confirm) {
@@ -64,8 +41,7 @@
   {disabled}
   type="button"
   class:confirming
-  class:text-ios-tint={primary}
-  class:nbtn-tint={primary}
+  class:text-primary={primary}
   class:clear
   class={`${className} nbtn ${block ? 'nbtn-block' : ''} ${
     icon ? 'nbtn-icon' : ''
@@ -123,10 +99,10 @@
     @apply shadow-none;
   }
   .nbtn.confirming {
-    @apply bg-ios-danger;
+    @apply bg-red-500;
     @apply animate-pulse;
-    box-shadow: inset 0 0 0 2px var(--ios-card);
-    color: var(--ios-on-danger);
+    @apply ring-2 ring-white ring-inset ring-opacity-100 focus:ring-opacity-100;
+    color: #fff;
   }
 
   .btn.btn-inline {

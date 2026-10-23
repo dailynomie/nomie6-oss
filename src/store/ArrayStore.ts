@@ -5,8 +5,8 @@ type DocStorePropTypes = {
   label: string
   key: string
   itemInitializer?: Function
-  itemSerializer?: Function
-  onInitalized?(items: Array<any>, data?: any): void
+  itemSerializer?: Function,
+  onInitalized?(items:Array<any>, data?:any):void
 }
 
 export type ArrayStoreState = Array<any>
@@ -21,11 +21,11 @@ export type ArrayStoreState = Array<any>
 export const createArrayStore = (path: string, props: DocStorePropTypes) => {
   const baseState: ArrayStoreState = []
   const { update, subscribe, set } = writable(baseState)
-  let data: any = {}
+  let data: any = {};
   /**
    * Initialize the Store
    */
-  const init = async (_data?: any): Promise<ArrayStoreState> => {
+  const init = async (_data?:any): Promise<ArrayStoreState> => {
     // If any data passed, save it for later
     data = _data
     // Get the Map From Storage
@@ -45,7 +45,7 @@ export const createArrayStore = (path: string, props: DocStorePropTypes) => {
     })
 
     update((s) => items)
-    if (props.onInitalized) props.onInitalized(items, data)
+    if(props.onInitalized) props.onInitalized(items, data);
     return items
   }
 

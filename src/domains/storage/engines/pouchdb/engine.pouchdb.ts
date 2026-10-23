@@ -25,10 +25,7 @@ let dbKey = 'nomie6-pouch'
 export const PouchDBEngine: IStorage = {
   name: 'PouchDB',
   syncValid: false,
-  description: Lang.t(
-    'storage.stored-locally-with-couchdb-syncing-support',
-    'Stored locally, with CouchDB Syncing support'
-  ),
+  description: 'Stored locally, with CouchDB Syncing support',
   authRequired: false,
   remote: null, // object to store username, password, host
   sync: false, // if we should sync
@@ -86,7 +83,7 @@ export const PouchDBEngine: IStorage = {
     this.syncing = false
   },
   onError(error) {
-    Interact.alert(Lang.t('storage.sync-error-2', 'Sync Error'), error.message)
+    Interact.alert(Lang.t('sync.error', 'Sync Error'), error.message)
     console.error(error)
     this.syncing = false
   },
@@ -138,13 +135,7 @@ export const PouchDBEngine: IStorage = {
           this.onError(e)
           errorCount++
           if (errorCount > 10) {
-            Interact.alert(
-              Lang.t('storage.sync-problem', 'Sync problem'),
-              Lang.t(
-                'storage.repeated-storage-errors-your-latest-changes-may-',
-                'Repeated storage errors. Your latest changes may not be saved.'
-              )
-            )
+            alert('Something bad is going on')
           }
         })
     }
@@ -187,16 +178,14 @@ export const PouchDBEngine: IStorage = {
     // check if it exists
     let exists = await this.getFullDoc(path)
     try {
-      // awaited, so a failed write is caught here and the error reaches the caller (STO-04)
       if (exists) {
-        return await this.db.put({ ...exists, ...payload })
+        return this.db.put({ ...exists, ...payload })
       } else {
-        return await this.db.put(payload)
+        return this.db.put(payload)
       }
     } catch (e) {
       console.error(e)
       Interact.error(e.message)
-      throw e
     }
   },
   async getFullDoc(path) {
@@ -215,10 +204,10 @@ export const PouchDBEngine: IStorage = {
         try {
           doc = await this.db.get(path)
         } catch (retryError) {
-          console.info('getFullDoc retry failed', path, retryError)
+          console.log('getFullDoc retry failed', path, retryError)
         }
       } else if (e.status !== 404) {
-        console.info('getFullDoc error found: ', e)
+        console.log('getFullDoc error found: ', e)
       }
     }
     return doc
@@ -232,9 +221,7 @@ export const PouchDBEngine: IStorage = {
     try {
       let fullDoc = await this.getFullDoc(path)
       doc = fullDoc ? fullDoc.data : null
-    } catch (e) {
-      console.info('get error')
-    }
+    } catch (e) {console.log("get error") }
     return doc
   },
   async getStrict(path) {
