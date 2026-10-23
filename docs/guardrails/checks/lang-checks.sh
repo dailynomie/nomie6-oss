@@ -104,7 +104,7 @@ else
   echo "[LANG-11 MUST] text in script code is wrapped (pass)"
 fi
 # LANG-07 every language file has every base key with the same placeholders. The languages in ENFORCED must be complete; the others are reported until they are translated.
-ENFORCED="nl"
+ENFORCED="nl de"
 COVER=$(node -e "
 const ts=require('typescript'),fs=require('fs'),path=require('path');
 const load=(f)=>{const js=ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;const m={exports:{}};new Function('module','exports',js)(m,m.exports);return (m.exports.default||m.exports).translation;};
