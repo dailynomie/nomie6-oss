@@ -246,8 +246,9 @@
       class="text-ios-large font-bold text-ios-label mt-1 line-clamp-1"
       aria-label={Lang.t('routes.current-active-date', 'Current Active Date')}
     >
-      {state.date.format('ddd')}
-      {state.date.format(dateFormats.date)}
+      {Lang.t('on-this-day.header', {
+        date: `${state.date.format('ddd')} ${state.date.format(dateFormats.date)}`,
+      })}
     </h1>
     {#if logs.length}
       <div class="mt-2">

@@ -549,6 +549,7 @@ export default {
       'no-people': 'No People on this Day',
       'no-context': 'No Context on this Day',
       'no-pointers': 'No Pointers on this Day',
+      header: 'On This Day: {{date}}',
     },
     location: {
       'saved-locations': 'Saved Locations',

@@ -15,7 +15,7 @@ export default {
   },
   de: {
     label: "German",
-    shipped: false,
+    shipped: true,
     load: () => import("./de"),
   },
   nl: {

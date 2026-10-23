@@ -5,6 +5,6 @@ import langs from './lang'
 describe('language picker', () => {
   it('ships the complete languages only', () => {
     const shipped = Object.keys(langs).filter((key) => (langs as any)[key].shipped)
-    expect(shipped.sort()).toEqual(['en', 'it', 'nl'])
+    expect(shipped.sort()).toEqual(['de', 'en', 'it', 'nl'])
   })
 })

@@ -547,6 +547,7 @@ export default {
       "no-people": "Nessuna Person in questo giorno",
       "no-context": "Nessun Context in questo giorno",
       "no-pointers": "Nessun Pointer in questo giorno",
+      "header": "On This Day: {{date}}",
     },
     "location": {
       "saved-locations": "Luoghi salvati",

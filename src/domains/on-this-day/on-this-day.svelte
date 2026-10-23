@@ -125,7 +125,9 @@
 
       <div class="title">
         <h2 class="text-center text-ios-label font-bold leading-none text-sm line-clamp-1">
-          {dayjs($OnThisDayModalStore).format(`ddd ${getDateFormats().shortDate}`)}
+          {Lang.t('on-this-day.header', {
+            date: dayjs($OnThisDayModalStore).format(`ddd ${getDateFormats().shortDate}`),
+          })}
         </h2>
         <div class="text-xs text-ios-label2 font-medium leading-none mt-1">
           {dayjs($OnThisDayModalStore).fromNow()}
