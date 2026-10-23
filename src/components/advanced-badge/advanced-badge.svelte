@@ -24,6 +24,15 @@
   .advanced-badge.low {
     top: 12px;
   }
+  /* Other rules size every svg in a nav item or list (for example h-5 w-5), which made the crown bigger than its circle */
+  .advanced-badge :global(svg) {
+    width: 10px !important;
+    height: 10px !important;
+  }
+  /* The sidebar gives every icon a right margin (mr-4), which pushed the crown off the centre of its circle */
+  .advanced-badge :global(.ion-icon) {
+    margin: 0 !important;
+  }
   .advanced-badge {
     position: absolute;
     top: -6px;
