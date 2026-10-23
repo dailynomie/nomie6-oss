@@ -13,11 +13,34 @@ const NUMBER_WORDS: { [word: string]: number } = {
 const bare = (word: string): string => word.toLowerCase().replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '')
 const trailing = (word: string): string => (word.match(/[^a-zA-Z0-9]*$/) || [''])[0]
 
-/** A word that is the tracker's tag or label, or its plural or past form: coffee, coffees, walk, walked. */
-const matchesName = (word: string, name: KnownName): boolean => {
-  const label = name.label.toLowerCase()
-  const tag = name.tag.toLowerCase()
-  return word === tag || word === label || word === `${label}s` || word === `${label}ed` || word === `${label}d`
+// Past forms that do not end in -ed: "slept" for sleep, "ran" for run
+const IRREGULAR: { [label: string]: Array<string> } = {
+  sleep: ['slept'],
+  run: ['ran'],
+  eat: ['ate', 'eaten'],
+  drink: ['drank'],
+  feel: ['felt'],
+  go: ['went'],
+  swim: ['swam'],
+}
+
+/** The words a tracker can be named by: its label (one or more words), its tag, and the plural or past forms. */
+const namesOf = (name: KnownName): Array<Array<string>> => {
+  const words = name.label.toLowerCase().split(/\s+/).filter(Boolean)
+  const last = words[words.length - 1] || ''
+  const head = words.slice(0, -1)
+  const forms: Array<Array<string>> = [words, [...head, `${last}s`], [...head, `${last}ed`], [...head, `${last}d`]]
+  ;(IRREGULAR[last] || []).forEach((past) => forms.push([...head, past]))
+  forms.push([name.tag.toLowerCase()])
+  return forms
+}
+
+/** How many words, from position i, name this tracker (0 when they do not). */
+const consumedBy = (words: Array<string>, i: number, name: KnownName): number => {
+  for (const form of namesOf(name)) {
+    if (form.length && words.slice(i, i + form.length).every((w, k) => w === form[k])) return form.length
+  }
+  return 0
 }
 
 export const suggestNote = (text: string, known: Known): Suggestion => {
@@ -46,8 +69,21 @@ export const suggestNote = (text: string, known: Known): Suggestion => {
       }
     }
 
-    const tracker = known.trackers.find((t) => matchesName(word, t))
+    // the longest name first, so "deep work" is taken before a tracker called "deep"
+    const normalised = tokens.map(bare)
+    const candidates = [...known.trackers].sort((a, b) => b.label.split(/\s+/).length - a.label.split(/\s+/).length)
+    let tracker: KnownName | undefined
+    let names = 0
+    for (const candidate of candidates) {
+      names = consumedBy(normalised, i, candidate)
+      if (names) {
+        tracker = candidate
+        break
+      }
+    }
     if (tracker) {
+      i += names - 1
+      const nextWord = tokens[i + 1] ? bare(tokens[i + 1]) : ''
       // a number word before the name ("two coffees") or a digit after it ("coffee 2") is the value
       let value: number | undefined
       const before = out.length ? bare(out[out.length - 1]) : ''
@@ -58,7 +94,7 @@ export const suggestNote = (text: string, known: Known): Suggestion => {
         value = parseInt(nextWord, 10)
         i++
       }
-      const suffix = trailing(token)
+      const suffix = trailing(tokens[i])
       out.push(`#${tracker.tag}${value !== undefined ? `(${value})` : ''}${suffix}`)
       recognised.push({ tag: `#${tracker.tag}`, value })
       continue

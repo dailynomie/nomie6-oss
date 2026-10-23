@@ -6,6 +6,7 @@ const known: Known = {
     { tag: 'coffee', label: 'Coffee' },
     { tag: 'walk', label: 'Walk' },
     { tag: 'sleep', label: 'Sleep' },
+    { tag: 'deepwork', label: 'Deep work' },
   ],
   people: [{ tag: 'em', label: 'Em' }],
 }
@@ -13,8 +14,9 @@ const known: Known = {
 describe('suggestNote', () => {
   it('turns the words of a sentence into tags, with values and a person', () => {
     const result = suggestNote('slept badly, two coffees, walked with Em', known)
-    expect(result.text).toBe('slept badly, #coffee(2), #walk @em')
+    expect(result.text).toBe('#sleep badly, #coffee(2), #walk @em')
     expect(result.recognised).toEqual([
+      { tag: '#sleep', value: undefined },
       { tag: '#coffee', value: 2 },
       { tag: '#walk', value: undefined },
       { tag: '@em' },
@@ -34,11 +36,23 @@ describe('suggestNote', () => {
   })
 
   it('changes nothing when no word matches a tracker', () => {
-    const plain = 'slept badly and felt tired'
+    const plain = 'badly and felt tired'
     expect(suggestNote(plain, known)).toEqual({ text: plain, recognised: [] })
   })
 
   it('keeps the punctuation after a word', () => {
     expect(suggestNote('two coffees.', known).text).toBe('#coffee(2).')
+  })
+
+  it('takes a name of more than one word', () => {
+    expect(suggestNote('did deep work until noon', known).text).toBe('did #deepwork until noon')
+  })
+
+  it('knows the past form of an irregular name', () => {
+    expect(suggestNote('slept badly, slept 7 hours', known).text).toBe('#sleep badly, #sleep(7) hours')
+  })
+
+  it('keeps the punctuation after a digit value', () => {
+    expect(suggestNote('coffee 3, good', known).text).toBe('#coffee(3), good')
   })
 })
