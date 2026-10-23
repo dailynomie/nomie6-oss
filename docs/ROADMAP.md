@@ -36,7 +36,7 @@ The rules for working on a task, and the rules for backups, Starter mode and AI,
 | D6 | Pinch zoom | **Answered: no pinch zoom.** `maximum-scale=1` stays; this is a design rule (UI-09). |
 | D7 | Collapsing large title | Open |
 | D8 | "Don't do it" goals count days without logs as successes | **Answered: yes**, by the test and the code. |
-| D9 | Naming and the Nomie trademark | Open. Needed before the announcement. |
+| D9 | Naming and the Nomie trademark | Decided: use "Daily Nomie". |
 | D10 | Privacy policy text | **Approved 22 October.** The text is in `public/content/privacy.md`. |
 | D11 | CSP strictness and allowed origins | Report-only is in place. Enforcing needs the reports. |
 | D12 | Plotly: lazy-load or replace | Open |
