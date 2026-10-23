@@ -69,4 +69,16 @@ describe('suggestNote', () => {
   it('does not change a word that only looks like a context', () => {
     expect(suggestNote('working late', known).text).toBe('working late')
   })
+
+  it('offers a saved place named in the words, and keeps the words', () => {
+    const withPlaces = { ...known, places: [{ name: 'Central Park', lat: 52.1, lng: 5.1 }] }
+    const result = suggestNote('walked in central park today', withPlaces)
+    expect(result.place).toEqual({ name: 'Central Park', lat: 52.1, lng: 5.1 })
+    expect(result.text).toBe('#walk in central park today')
+  })
+
+  it('offers no place when no saved place is named', () => {
+    const withPlaces = { ...known, places: [{ name: 'Gym', lat: 1, lng: 2 }] }
+    expect(suggestNote('walked home', withPlaces).place).toBeUndefined()
+  })
 })

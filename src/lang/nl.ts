@@ -1623,6 +1623,7 @@ export default {
       'you-already-have-them-all': 'Je hebt ze al allemaal!',
     },
     capture: {
+      'place-found': 'Plaats: {{name}}. Die wordt opgeslagen als locatie van deze notitie.',
       'suggest-tags': 'Labels voorstellen',
       'suggest-title': 'Voorgestelde notitie',
       'suggest-intro': 'Controleer het voorstel. Er wordt niets opgeslagen tot je Opslaan kiest.',

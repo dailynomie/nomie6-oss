@@ -1625,6 +1625,7 @@ export default {
       'you-already-have-them-all': 'You already have them all!',
     },
     capture: {
+      'place-found': 'Place: {{name}}. It is saved as the location of this note.',
       'suggest-tags': 'Suggest labels',
       'suggest-title': 'Suggested note',
       'suggest-intro': 'Check the suggestion. Nothing is saved until you choose Save.',

@@ -7,12 +7,12 @@
   import Button from '../../components/button/button.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
   import { Lang } from '../../store/lang'
-  import type { Suggestion } from './quick-suggest'
+  import type { Place, Suggestion } from './quick-suggest'
 
   const { id, suggestion, onConfirm } = $props<{
     id: string
     suggestion: Suggestion
-    onConfirm: (note: string) => void | Promise<void>
+    onConfirm: (note: string, place?: Place) => void | Promise<void>
   }>()
 
   let text = $state(suggestion.text)
@@ -22,7 +22,7 @@
 
   const save = async () => {
     closeModal(id)
-    await onConfirm(text.trim())
+    await onConfirm(text.trim(), suggestion.place)
   }
 </script>
 
@@ -42,6 +42,9 @@
     <p class="text-sm text-ios-label2">
       {found ? Lang.t('capture.recognised', { items: found }) : Lang.t('capture.nothing-recognised', 'No trackers or people were recognised.')}
     </p>
+    {#if suggestion.place}
+      <p class="text-sm text-ios-label2">{Lang.t('capture.place-found', { name: suggestion.place.name })}</p>
+    {/if}
     <textarea class="w-full p-3 rounded-xl ios-card text-ios-label outline-none" rows="4" bind:value={text}></textarea>
     <Button block primary disabled={!text.trim()} on:click={save}>{Lang.t('capture.save-suggestion', 'Save this note')}</Button>
   </main>

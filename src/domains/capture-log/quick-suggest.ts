@@ -2,11 +2,13 @@
 // The words are matched against the user's own trackers and people. Unknown words stay as they are.
 
 export type KnownName = { tag: string; label: string }
+export type Place = { name: string; lat: number; lng: number }
 export type Known = {
   trackers: Array<KnownName>
   people: Array<KnownName>
   contexts: Array<KnownName>
   pointers: Array<KnownName>
+  places?: Array<Place>
 }
 
 // People, contexts and pointers are written with their prefix: @em, +work, ^healthy
@@ -16,7 +18,7 @@ const PREFIXES: Array<{ type: keyof Pick<Known, 'people' | 'contexts' | 'pointer
   { type: 'pointers', prefix: '^' },
 ]
 export type Recognised = { tag: string; value?: number }
-export type Suggestion = { text: string; recognised: Array<Recognised> }
+export type Suggestion = { text: string; recognised: Array<Recognised>; place?: Place }
 
 const NUMBER_WORDS: { [word: string]: number } = {
   one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
@@ -128,5 +130,12 @@ export const suggestNote = (text: string, known: Known): Suggestion => {
     out.push(token)
   }
 
-  return { text: out.join(' '), recognised }
+  // a saved place named in the words is offered as the note's location; the words stay as they are
+  const normalised = tokens.map(bare)
+  const place = (known.places || []).find((p) => {
+    const words = p.name.toLowerCase().split(/\s+/).filter(Boolean)
+    return words.length > 0 && normalised.some((_, i) => words.every((w, k) => normalised[i + k] === w))
+  })
+
+  return { text: out.join(' '), recognised, place }
 }

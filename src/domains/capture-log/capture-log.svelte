@@ -70,6 +70,7 @@
   import { navigate } from '../../vendor/svelte-navigator'
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import { suggestNote, type Known } from './quick-suggest'
+  import { LocationStore } from '../locations/LocationStore'
   import QuickSuggestModal from './quick-suggest-modal.svelte'
 
   // Consts
@@ -329,7 +330,7 @@
   // I2: a suggestion from the words typed; the user checks it in a sheet, and only then is it saved
   // the trackers and people the words can be matched against
   const knownNames = $derived.by(() => {
-    const known: Known = { trackers: [], people: [], contexts: [], pointers: [] }
+    const known: Known = { trackers: [], people: [], contexts: [], pointers: [], places: $LocationStore }
     Object.values($TrackableStore.trackables).forEach((t: any) => {
       const name = { tag: `${t.tag}`.replace(/^[#@+^]/, ''), label: `${t.label}` }
       if (t.type === 'tracker') known.trackers.push(name)
@@ -348,8 +349,13 @@
       component: QuickSuggestModal,
       componentProps: {
         suggestion,
-        onConfirm: async (note: string) => {
-          ActiveLogStore.update((s) => ({ ...s, note }))
+        onConfirm: async (note: string, place?: { name: string; lat: number; lng: number }) => {
+          // a place the words named becomes the note's location, as a location picked by hand would
+          ActiveLogStore.update((s) => ({
+            ...s,
+            note,
+            ...(place ? { lat: place.lat, lng: place.lng, location: place.name } : {}),
+          }))
           await methods.logSave()
         },
       },
@@ -570,7 +576,7 @@
     <!-- transition:slide|global={{ delay: 75, duration: 75, easing: quintOut }} -->
     <div class="glass relative z-40 w-full pt-2 pb-2">
       <Container>
-        {#if suggestion.recognised.length > 0 && !$LedgerStoreSaving}
+        {#if (suggestion.recognised.length > 0 || suggestion.place) && !$LedgerStoreSaving}
           <div class="text-center pb-2">
             <button type="button" class="text-sm font-medium text-ios-tint" on:click={suggestTags}>
               {Lang.t('capture.suggest-tags', 'Suggest labels')}
