@@ -304,6 +304,16 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
   }
 
+  /* The crown sits at 2 o'clock on the button's edge, half over the button and in front of it. The centre is
+     60 degrees from the top on the 27 px radius: x = 27 + 27 sin 60 = 50.4, y = 27 - 27 cos 60 = 13.5. A 16 px
+     badge is then 8 px either side of that point. */
+  .radial-icon :global(.advanced-badge) {
+    z-index: 1;
+    top: 5.5px;
+    right: auto;
+    left: 42.4px;
+  }
+
   .radial-notify {
     position: absolute;
     top: -6px;
