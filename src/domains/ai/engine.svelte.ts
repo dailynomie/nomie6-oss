@@ -7,6 +7,7 @@ import { alertProfile } from './profiles/alert'
 import { narrativeProfile } from './profiles/narrative'
 import { chatProfile } from './profiles/chat'
 import { experimentProfile } from './profiles/experiment'
+import { reviewProfile } from './profiles/review'
 import type { AIRequest, AIResponse, Profile, ProfileName } from './profiles/types'
 import { Prefs } from '../preferences/Preferences'
 import { get } from 'svelte/store'
@@ -24,6 +25,7 @@ const profiles: Record<ProfileName, Profile> = {
   narrative: narrativeProfile,
   chat: chatProfile,
   experiment: experimentProfile,
+  review: reviewProfile,
 }
 
 function getDateRangeFromTimeframe(timeframeId: string): { from: string; to: string } {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildReview, reviewNote, MAX_TRACKERS_SHOWN } from './weekly-review'
+import { buildReview, reviewNote, reviewPrompt, MAX_TRACKERS_SHOWN } from './weekly-review'
 
 describe('buildReview', () => {
   it('keeps the trackers with values, the biggest total first', () => {
@@ -41,5 +41,14 @@ describe('reviewNote', () => {
       tracker: (t) => `${t.label}: ${t.total} (${t.previous})`,
     })
     expect(note).toBe('Weekly review\n5 days\nCoffee: 9 (12)')
+  })
+})
+
+describe('reviewPrompt', () => {
+  it('gives the numbers and the language, and nothing else', () => {
+    const review = buildReview({ days: 6, previousDays: 7, trackers: [{ tag: 'mood', label: 'Mood', total: 33, previous: 36 }] })
+    expect(reviewPrompt(review, 'English')).toBe(
+      'Days logged in the last 7 days: 6. In the 7 days before: 7.\nTrackers (last 7 days / the 7 days before):\n- Mood: 33 / 36\nReply in English.'
+    )
   })
 })

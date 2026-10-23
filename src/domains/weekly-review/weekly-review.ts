@@ -24,6 +24,15 @@ export const buildReview = (input: {
     .slice(0, MAX_TRACKERS_SHOWN),
 })
 
+/** The numbers the AI writes from: the days, then each tracker's total this week and the week before. */
+export const reviewPrompt = (review: Review, language: string): string =>
+  [
+    `Days logged in the last 7 days: ${review.days}. In the 7 days before: ${review.previousDays}.`,
+    'Trackers (last 7 days / the 7 days before):',
+    ...review.trackers.map((t) => `- ${t.label}: ${t.total} / ${t.previous}`),
+    `Reply in ${language}.`,
+  ].join('\n')
+
 /** The text kept as a note: one line for the days, then one line per tracker. */
 export const reviewNote = (review: Review, lines: { title: string; days: string; tracker: (t: TrackerWeek) => string }): string =>
   [lines.title, lines.days, ...review.trackers.map(lines.tracker)].join('\n')
