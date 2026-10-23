@@ -9,6 +9,8 @@ const known: Known = {
     { tag: 'deepwork', label: 'Deep work' },
   ],
   people: [{ tag: 'em', label: 'Em' }],
+  contexts: [{ tag: 'work', label: 'Work' }],
+  pointers: [{ tag: 'healthy', label: 'Healthy' }],
 }
 
 describe('suggestNote', () => {
@@ -54,5 +56,17 @@ describe('suggestNote', () => {
 
   it('keeps the punctuation after a digit value', () => {
     expect(suggestNote('coffee 3, good', known).text).toBe('#coffee(3), good')
+  })
+
+  it('finds a person anywhere in the sentence, not only after "with"', () => {
+    expect(suggestNote('Em came over, had a nice time', known).text).toBe('@em came over, had a nice time')
+  })
+
+  it('finds a context and a pointer with their prefix', () => {
+    expect(suggestNote('long day at work, healthy lunch', known).text).toBe('long day at +work, ^healthy lunch')
+  })
+
+  it('does not change a word that only looks like a context', () => {
+    expect(suggestNote('working late', known).text).toBe('working late')
   })
 })

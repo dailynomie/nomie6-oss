@@ -2,7 +2,19 @@
 // The words are matched against the user's own trackers and people. Unknown words stay as they are.
 
 export type KnownName = { tag: string; label: string }
-export type Known = { trackers: Array<KnownName>; people: Array<KnownName> }
+export type Known = {
+  trackers: Array<KnownName>
+  people: Array<KnownName>
+  contexts: Array<KnownName>
+  pointers: Array<KnownName>
+}
+
+// People, contexts and pointers are written with their prefix: @em, +work, ^healthy
+const PREFIXES: Array<{ type: keyof Pick<Known, 'people' | 'contexts' | 'pointers'>; prefix: string }> = [
+  { type: 'people', prefix: '@' },
+  { type: 'contexts', prefix: '+' },
+  { type: 'pointers', prefix: '^' },
+]
 export type Recognised = { tag: string; value?: number }
 export type Suggestion = { text: string; recognised: Array<Recognised> }
 
@@ -99,6 +111,19 @@ export const suggestNote = (text: string, known: Known): Suggestion => {
       recognised.push({ tag: `#${tracker.tag}`, value })
       continue
     }
+
+    // a person, context or pointer is named by its own label or tag, exactly, and gets its prefix
+    let named = false
+    for (const { type, prefix } of PREFIXES) {
+      const name = known[type].find((n) => word === n.label.toLowerCase() || word === n.tag.toLowerCase())
+      if (name) {
+        out.push(`${prefix}${name.tag}${trailing(token)}`)
+        recognised.push({ tag: `${prefix}${name.tag}` })
+        named = true
+        break
+      }
+    }
+    if (named) continue
 
     out.push(token)
   }

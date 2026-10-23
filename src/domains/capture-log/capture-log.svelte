@@ -329,11 +329,13 @@
   // I2: a suggestion from the words typed; the user checks it in a sheet, and only then is it saved
   // the trackers and people the words can be matched against
   const knownNames = $derived.by(() => {
-    const known: Known = { trackers: [], people: [] }
+    const known: Known = { trackers: [], people: [], contexts: [], pointers: [] }
     Object.values($TrackableStore.trackables).forEach((t: any) => {
-      const name = { tag: `${t.tag}`.replace(/^[#@]/, ''), label: `${t.label}` }
+      const name = { tag: `${t.tag}`.replace(/^[#@+^]/, ''), label: `${t.label}` }
       if (t.type === 'tracker') known.trackers.push(name)
       if (t.type === 'person') known.people.push(name)
+      if (t.type === 'context') known.contexts.push(name)
+      if (t.type === 'pointer') known.pointers.push(name)
     })
     return known
   })
