@@ -1606,10 +1606,10 @@ export default {
       'you-already-have-them-all': 'You already have them all!',
     },
     capture: {
-      'suggest-tags': 'Suggest tags',
+      'suggest-tags': 'Suggest labels',
       'suggest-title': 'Suggested note',
       'suggest-intro': 'Check the suggestion. Nothing is saved until you choose Save.',
-      'keep-my-words': 'Keep my words',
+      'keep-my-words': 'Back',
       'save-suggestion': 'Save this note',
       'recognised': 'Found: {{items}}',
       'nothing-recognised': 'No trackers or people were recognised.',

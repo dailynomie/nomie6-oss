@@ -327,18 +327,25 @@
   //   }, 10)
   // })
   // I2: a suggestion from the words typed; the user checks it in a sheet, and only then is it saved
-  const suggestTags = () => {
+  // the trackers and people the words can be matched against
+  const knownNames = $derived.by(() => {
     const known: Known = { trackers: [], people: [] }
     Object.values($TrackableStore.trackables).forEach((t: any) => {
       const name = { tag: `${t.tag}`.replace(/^[#@]/, ''), label: `${t.label}` }
       if (t.type === 'tracker') known.trackers.push(name)
       if (t.type === 'person') known.people.push(name)
     })
+    return known
+  })
+  // the button is shown only when the words give at least one label
+  const suggestion = $derived(suggestNote($ActiveLogStore.note || '', knownNames))
+
+  const suggestTags = () => {
     openModal({
       id: 'quick-suggest',
       component: QuickSuggestModal,
       componentProps: {
-        suggestion: suggestNote($ActiveLogStore.note || '', known),
+        suggestion,
         onConfirm: async (note: string) => {
           ActiveLogStore.update((s) => ({ ...s, note }))
           await methods.logSave()
@@ -561,10 +568,10 @@
     <!-- transition:slide|global={{ delay: 75, duration: 75, easing: quintOut }} -->
     <div class="glass relative z-40 w-full pt-2 pb-2">
       <Container>
-        {#if $ActiveLogStore.note && !$LedgerStoreSaving}
+        {#if suggestion.recognised.length > 0 && !$LedgerStoreSaving}
           <div class="text-center pb-2">
             <button type="button" class="text-sm font-medium text-ios-tint" on:click={suggestTags}>
-              {Lang.t('capture.suggest-tags', 'Suggest tags')}
+              {Lang.t('capture.suggest-tags', 'Suggest labels')}
             </button>
           </div>
         {/if}

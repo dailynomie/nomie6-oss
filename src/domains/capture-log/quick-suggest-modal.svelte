@@ -30,7 +30,7 @@
   <header slot="header">
     <ToolbarGrid>
       <div slot="left">
-        <Button clear primary on:click={() => closeModal(id)}>{Lang.t('capture.keep-my-words', 'Keep my words')}</Button>
+        <Button clear primary on:click={() => closeModal(id)}>{Lang.t('capture.keep-my-words', 'Back')}</Button>
       </div>
       <h2 class="ntitle">{Lang.t('capture.suggest-title', 'Suggested note')}</h2>
       <div slot="right"></div>
