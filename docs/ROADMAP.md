@@ -169,8 +169,8 @@ These three build on things that already exist, so they are small enough for 7.0
 | # | Innovation | What the user gets | Built from | Size |
 | --- | --- | --- | --- | --- |
 | I1 | **Correlations** (old T7): pick two trackers and see same-day and next-day links, with the number of days behind each. **Done 23 October:** Find links on the Experiments page; a link can start an experiment. Not yet: a check on a phone with a year of data. | | M |
-| I2 | **Capture with confirmation** (old T4). **Done 23 October:** Suggest tags on the capture box turns plain words into tags, for your own trackers and people, and shows the suggestion for confirmation before anything is saved. Not yet: irregular verbs (slept) and multi-word names are not matched. | | M |
-| I3 | **Weekly review** (old N7). **Done 23 October:** the Dashboard button shows the last 7 days against the 7 before, from the code; it is kept as a note only when chosen. Not yet: it is not limited to Sunday, and the AI explanation is not added. | | S–M |
+| I2 | **Capture with confirmation** (old T4). **Done 23 October:** Suggest labels appears only when a label is found. It matches your trackers, people, contexts and pointers, multi-word names and irregular past forms (slept). Places are not matched: a location is attached by its position, not written as a word. | | M |
+| I3 | **Weekly review** (old N7). **Done 23 October:** the Dashboard button shows the last 7 days against the 7 before, from the code. An AI button writes a short reading of these numbers when AI is on; Keep as a note saves the numbers and the reading. Not yet: it is not limited to Sunday, and the AI call has not been run with a real key. | | S–M |
 
 I1 and I3 need no new AI provider. I2 works without AI, because the tokenizer does the proposal; AI is only an optional better parser.
 
