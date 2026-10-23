@@ -168,7 +168,7 @@ These three build on things that already exist, so they are small enough for 7.0
 
 | # | Innovation | What the user gets | Built from | Size |
 | --- | --- | --- | --- | --- |
-| I1 | **Correlations** (old T7): pick two trackers and see same-day and next-day links, with the number of days behind each. **Done 23 October:** Find links on the Experiments page; a link can start an experiment. Not yet: a check on a phone with a year of data. | | M |
+| I1 | **Correlations** (old T7): pick two trackers and see same-day and next-day links, with the number of days behind each. **Done 23 October:** Find links analyses the last 90 days in the background for all trackers, people, contexts and pointers, and lists the clearest links in a section that starts collapsed; a manual pick of two trackers is below it. A suggestion needs two weeks of days and three in four days in one direction. An experiment can start from a link whose outcome is a tracker. Not yet: a check on a phone with a year of data. | | M |
 | I2 | **Capture with confirmation** (old T4). **Done 23 October:** Suggest labels appears only when a label is found. It matches your trackers, people, contexts and pointers, multi-word names and irregular past forms (slept). Places are not matched: a location is attached by its position, not written as a word. | | M |
 | I3 | **Weekly review** (old N7). **Done 23 October:** the Dashboard button shows the last 7 days against the 7 before, from the code. An AI button writes a short reading of these numbers when AI is on; Keep as a note saves the numbers and the reading. Not yet: it is not limited to Sunday, and the AI call has not been run with a real key. | | S–M |
 
