@@ -104,7 +104,7 @@ else
   echo "[LANG-11 MUST] text in script code is wrapped (pass)"
 fi
 # LANG-07 every language file has every base key with the same placeholders. The languages in ENFORCED must be complete; the others are reported until they are translated.
-ENFORCED="nl de"
+ENFORCED="nl de it"
 COVER=$(node -e "
 const ts=require('typescript'),fs=require('fs'),path=require('path');
 const load=(f)=>{const js=ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;const m={exports:{}};new Function('module','exports',js)(m,m.exports);return (m.exports.default||m.exports).translation;};
@@ -113,7 +113,7 @@ const ph=(s)=>[...s.matchAll(/\{\{(\w+)\}\}/g)].map(m=>m[1]).sort().join(',');
 const base=flat(load('src/lang/base.ts'),'',{});
 for(const f of fs.readdirSync('src/lang')){
   // en.ts is an old generated stub that nothing imports; the English language is base.ts
-  if(!/\.ts$/.test(f)||['base.ts','lang.ts','en.ts'].includes(f)) continue;
+  if(!/\.ts$/.test(f)||/\.spec\.ts$/.test(f)||['base.ts','lang.ts','en.ts'].includes(f)) continue;
   const lang=path.basename(f,'.ts');
   const t=flat(load('src/lang/'+f),'',{});
   const missing=Object.keys(base).filter(k=>!(k in t));
