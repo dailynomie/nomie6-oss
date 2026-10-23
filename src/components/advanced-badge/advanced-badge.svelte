@@ -35,8 +35,10 @@
   }
   .advanced-badge {
     position: absolute;
-    top: -6px;
-    right: -6px;
+    /* The circle is 16 px across. Its centre sits 8 px out along the diagonal from the icon's top-right corner,
+       so the circle's edge just touches that corner. The offset is fixed, so it holds at every text size. */
+    top: -14px;
+    right: -14px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
