@@ -58,7 +58,8 @@
   import { openModal } from '../../components/backdrop/BackdropStore2'
   import WeeklyReviewModal from '../weekly-review/weekly-review-modal.svelte'
 
-  // I3: the weekly review, kept as a note only if the user chooses it
+  // I3: the weekly review, kept as a note only if the user chooses it. On a Sunday the button stands out.
+  const isSunday = dayjs().day() === 0
   const openWeeklyReview = () => {
     openModal({ id: 'weekly-review', component: WeeklyReviewModal, componentProps: {} })
   }
@@ -204,7 +205,11 @@
   <!-- iOS look (same as the Timeline header): action row with the round menu, then the large title, then the dashboard names -->
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
     <div class="flex items-center justify-between h-9">
-      <button type="button" class="text-sm font-medium text-ios-tint" on:click={openWeeklyReview}>
+      <button
+        type="button"
+        class="text-sm font-medium text-ios-tint {isSunday ? 'bg-ios-tintsoft rounded-full px-3 py-1' : ''}"
+        on:click={openWeeklyReview}
+      >
         {Lang.t('review.button', 'Weekly review')}
       </button>
       <div class="flex items-center space-x-2">
