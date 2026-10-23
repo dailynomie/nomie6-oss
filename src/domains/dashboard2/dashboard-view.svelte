@@ -203,31 +203,33 @@
 <Layout className="h-full">
   <!-- iOS look (same as the Timeline header): action row with the round menu, then the large title, then the dashboard names -->
   <header slot="header" class="glass z-50 px-4 pt-1 pb-1">
-    <div class="flex items-center justify-end h-9 space-x-2">
-      <button
-        type="button"
-        class="ios-round"
-        aria-label={Lang.t('dashboard.search-nomie', 'Search Nomie')}
-        on:click={() => openUnisearch()}
-      >
-        <IonIcon icon={SearchIcon} size={18} />
+    <div class="flex items-center justify-between h-9">
+      <button type="button" class="text-sm font-medium text-ios-tint" on:click={openWeeklyReview}>
+        {Lang.t('review.button', 'Weekly review')}
       </button>
-      <MenuInline
-        id="dashboard-menu"
-        title={Lang.t('dashboard.dashboard-options', 'Dashboard options')}
-        x="right"
-        y="bottom"
-        menuButtons={mainMenu}
-        buttonClass="ios-round"
-      >
-        <IonIcon icon={SettingsOutline} size={18} />
-      </MenuInline>
+      <div class="flex items-center space-x-2">
+        <button
+          type="button"
+          class="ios-round"
+          aria-label={Lang.t('dashboard.search-nomie', 'Search Nomie')}
+          on:click={() => openUnisearch()}
+        >
+          <IonIcon icon={SearchIcon} size={18} />
+        </button>
+        <MenuInline
+          id="dashboard-menu"
+          title={Lang.t('dashboard.dashboard-options', 'Dashboard options')}
+          x="right"
+          y="bottom"
+          menuButtons={mainMenu}
+          buttonClass="ios-round"
+        >
+          <IonIcon icon={SettingsOutline} size={18} />
+        </MenuInline>
+      </div>
     </div>
     <h1 class="text-ios-large font-bold text-ios-label">{Lang.t('dashboard.dashboard-2', 'Dashboard')}</h1>
     <p class="text-ios-subhead text-ios-label2 -mt-1 pb-1">{dayjs().format(getDateFormats().dateDay)}</p>
-    <button type="button" class="text-sm font-medium text-ios-tint -mt-1 pb-2" on:click={openWeeklyReview}>
-      {Lang.t('review.button', 'Weekly review')}
-    </button>
     <div class="collapsible-row">
       <Toolbar className="px-0 h-11 max-h-11 min-h-11">
         {#if !$DashStore.editMode}
