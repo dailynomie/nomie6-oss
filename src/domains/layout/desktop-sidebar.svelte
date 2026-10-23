@@ -279,6 +279,10 @@
   .desktop-sidebar .nav-item:active {
     @apply scale-95;
   }
+  /* The crown badge sticks 6 px out of the icon box, so the label starts after it at any text size */
+  .desktop-sidebar .nav-item .adv-corner {
+    margin-right: 12px;
+  }
   .desktop-sidebar .nav-item .ion-icon {
     /* @apply flex-grow-0 flex-shrink-0 flex items-center justify-center;
     @apply mr-4;
