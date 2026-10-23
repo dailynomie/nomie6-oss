@@ -651,6 +651,11 @@ export default {
       auto: 'Automatisch',
     },
     review: {
+      'ai-title': 'Korte lezing door AI',
+      'ai-button': 'Vraag de AI om een korte review',
+      'ai-working': 'Bezig met schrijven…',
+      'ai-needs-setup': 'Zet AI aan in Instellingen en voeg je sleutel toe om dit te gebruiken.',
+      'ai-language': 'Nederlands',
       'button': 'Weekoverzicht',
       'title': 'Weekoverzicht',
       'intro': 'De laatste {{days}} dagen, vergeleken met de {{days}} dagen ervoor.',

@@ -653,6 +653,11 @@ export default {
       auto: 'Auto',
     },
     review: {
+      'ai-title': 'Short reading by AI',
+      'ai-button': 'Ask AI for a short review',
+      'ai-working': 'Writing…',
+      'ai-needs-setup': 'Turn on AI in Settings and add your key to use this.',
+      'ai-language': 'English',
       'button': 'Weekly review',
       'title': 'Weekly review',
       'intro': 'The last {{days}} days, compared with the {{days}} before.',
