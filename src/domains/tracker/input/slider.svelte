@@ -115,7 +115,7 @@
     @apply line-clamp-1;
     /* iOS look: secondary label in sentence case, 13 px semibold */
     color: var(--ios-label2);
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     font-weight: 600;
   }
   .tracker-input-slider .range-label.min-label {

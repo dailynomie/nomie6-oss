@@ -36,7 +36,7 @@
     height: 34px;
     padding: 0 16px;
     border-radius: 17px;
-    font-size: 15px;
+    font-size: calc(15px * var(--text-scale));
     font-weight: 500;
     background: var(--ios-fill);
     color: var(--ios-label);

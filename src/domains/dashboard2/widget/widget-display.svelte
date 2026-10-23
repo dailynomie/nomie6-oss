@@ -343,7 +343,7 @@
   /* iOS look (guide 5.10): the tracker name in a card header is the series colour, 15 px weight 600 */
   .dashboard-widget .widget-header .trackable-pill.transparent h3 {
     color: var(--series-color, var(--ios-label));
-    font-size: 15px !important;
+    font-size: calc(15px * var(--text-scale)) !important;
     font-weight: 600;
     line-height: 18px;
   }
@@ -354,13 +354,13 @@
   /* iOS look (5.10): widget titles are the same size as the tracker names in the tiles (about 12 px on phones,
      which is 37% of the 30 px pill, as the pill sets its names), and a little larger on desktop */
   .widget-title {
-    font-size: 12.2px;
+    font-size: calc(12.2px * var(--text-scale));
     font-weight: 600;
     line-height: 15px;
   }
   @media (min-width: 900px) {
     .widget-title {
-      font-size: 14px;
+      font-size: calc(14px * var(--text-scale));
       line-height: 18px;
     }
   }
@@ -372,7 +372,7 @@
     height: 28px;
     padding: 0 10px;
     @apply whitespace-nowrap;
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     color: var(--ios-label2);
     @apply flex-shrink-0 flex-grow-0 flex items-center;
     @apply z-40;

@@ -213,7 +213,7 @@
     border-radius: 9999px;
     background: var(--ios-label);
     color: var(--ios-card);
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     font-weight: 600;
     white-space: nowrap;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
@@ -315,7 +315,7 @@
     border-radius: 10px;
     background: var(--ios-label2);
     color: var(--ios-white);
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     font-weight: 700;
     line-height: 20px;
     white-space: nowrap;
@@ -325,7 +325,7 @@
   .radial-label {
     background: var(--ios-label);
     color: var(--ios-card);
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     font-weight: 600;
     line-height: 1;
     padding: 3px 9px;

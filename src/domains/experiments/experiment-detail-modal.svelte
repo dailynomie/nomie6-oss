@@ -298,12 +298,12 @@
             <div class="grid grid-cols-2 gap-3">
               <div class="ios-box p-3">
                 <div class="text-xs text-ios-label2">{Lang.t('experiments.before', 'Before')}</div>
-                <div class="font-bold" style="font-size: 22px; line-height: 26px">{outcome.meanB.toFixed(1)}</div>
+                <div class="font-bold" style="font-size: calc(22px * var(--text-scale)); line-height: 26px">{outcome.meanB.toFixed(1)}</div>
                 <div class="text-xs text-ios-label2">{Lang.t('experiments.days', { num: outcome.nB })}</div>
               </div>
               <div class="ios-box-tint p-3">
                 <div class="text-xs text-ios-label2">{Lang.t('experiments.during', 'During')}</div>
-                <div class="font-bold" style="font-size: 22px; line-height: 26px">
+                <div class="font-bold" style="font-size: calc(22px * var(--text-scale)); line-height: 26px">
                   {outcome.meanE.toFixed(1)}
                   {#if outcome.pct !== undefined}
                     <span class="text-ios-footnote font-bold {outcome.pct >= 0 ? 'text-ios-good' : 'text-ios-danger'}"
@@ -414,7 +414,7 @@
     display: block;
     width: 100%;
     height: 48px;
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     line-height: 22px;
     text-align: center;
     background: transparent;

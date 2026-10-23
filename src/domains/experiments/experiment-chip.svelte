@@ -27,7 +27,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     line-height: 16px;
     font-weight: 600;
     padding: 3px 9px;

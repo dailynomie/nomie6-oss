@@ -34,7 +34,7 @@
     @apply flex items-center;
     @apply whitespace-nowrap;
     @apply space-x-1;
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     line-height: 18px;
     @apply flex-shrink;
     @apply w-auto;

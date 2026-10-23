@@ -84,7 +84,7 @@
     align-items: center;
     gap: 6px;
     color: var(--ios-tint);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     line-height: 22px;
     white-space: nowrap;
     background: transparent;
@@ -107,7 +107,7 @@
     border-radius: 8px;
     background: var(--ios-fill);
     color: var(--ios-label);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
   }
   .ios-select-value.is-placeholder {
     color: var(--ios-label2);

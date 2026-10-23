@@ -277,7 +277,7 @@
     width: 56px;
     flex-shrink: 0;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     font-weight: 600;
     line-height: 22px;
     padding-top: 0;
@@ -302,7 +302,7 @@
     inset: -12px;
   }
   .log-mood {
-    font-size: 15px;
+    font-size: calc(15px * var(--text-scale));
     line-height: 20px;
   }
   /* The note text is 15 px at the default size, and scales with the Font Size setting (em based) */
@@ -322,13 +322,13 @@
     right: 6px;
   }
   .ios-loc {
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     line-height: 16px;
   }
 
   /* iOS look: the entry time uses tabular figures; the "ago" text is regular weight */
   .ios-time {
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
@@ -338,7 +338,7 @@
     min-width: 40px;
   }
   .ios-ago {
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     font-weight: 400;
   }
 

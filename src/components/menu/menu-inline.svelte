@@ -145,7 +145,7 @@
     padding: 0 7px;
     margin-right: 8px;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     font-weight: 600;
     line-height: 1;
   }

@@ -78,7 +78,7 @@
       </Button>
     {/if}
     {#if activeIndex > -1}
-      <div class="note-wrapper pb-4 px-2 lg:px-4 pt-2 flex flex-col h-full w-full max-h-full" style="font-size:12px;">
+      <div class="note-wrapper pb-4 px-2 lg:px-4 pt-2 flex flex-col h-full w-full max-h-full" style="font-size:calc(12px * var(--text-scale));">
         <div class="text-xs overflow-y-auto max-h-36">
           <NoteTextualizer
             on:noteChange={(evt) => {

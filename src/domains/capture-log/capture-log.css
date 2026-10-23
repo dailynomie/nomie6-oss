@@ -175,7 +175,7 @@
   /* @apply px-4;
   @apply pt-1; */
   @apply text-ios-label;
-  font-size: 17px;
+  font-size: calc(17px * var(--text-scale));
   line-height: 22px;
   @apply flex;
   @apply flex-col;
@@ -223,7 +223,7 @@
   @apply absolute top-0 bottom-0 right-8 left-4;
   @apply flex items-center;
   color: var(--ios-label2);
-  font-size: 17px;
+  font-size: calc(17px * var(--text-scale));
   @apply opacity-100;
   
 }
@@ -247,7 +247,7 @@
   border-radius: 17px;
   background: var(--ios-fill);
   color: var(--ios-label);
-  font-size: 15px;
+  font-size: calc(15px * var(--text-scale));
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }

@@ -156,12 +156,12 @@
     @apply flex flex-col justify-center justify-items-center;
   }
   .shortcut-button .title {
-    font-size: 15px;
+    font-size: calc(15px * var(--text-scale));
     font-weight: 600;
     line-height: 18px;
   }
   .shortcut-button .title.long {
-    font-size: 14px;
+    font-size: calc(14px * var(--text-scale));
   }
   .shortcut-button.normal .emoji-holder {
     position: absolute;
@@ -217,14 +217,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     font-family: var(--ios-font-rounded);
-    font-size: 22px;
+    font-size: calc(22px * var(--text-scale));
     font-weight: 700;
     line-height: 1;
     color: var(--ios-label);
     z-index: 10;
   }
   .shortcut-button.normal .tile-value.long {
-    font-size: 18px;
+    font-size: calc(18px * var(--text-scale));
   }
   .button-wrapper.normal .more {
     top: auto;
@@ -254,7 +254,7 @@
     @apply px-3 pb-3;
   }
   .shortcut-button .subtitle {
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     line-height: 16px;
     color: var(--ios-label2);
   }
@@ -273,7 +273,7 @@
   }
 
   .shortcut-button.normal .value-sub .value {
-    font-size: 15px;
+    font-size: calc(15px * var(--text-scale));
     font-weight: 600;
     line-height: 18px;
     font-family: var(--ios-font-rounded);

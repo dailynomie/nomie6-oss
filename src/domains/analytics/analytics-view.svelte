@@ -678,7 +678,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     line-height: 18px;
     color: var(--ios-label2);
   }

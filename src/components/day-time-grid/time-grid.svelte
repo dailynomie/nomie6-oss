@@ -73,7 +73,7 @@
   .time-grid .day-label {
     @apply capitalize;
     @apply text-ios-label2;
-    font-size: 10px;
+    font-size: calc(10px * var(--text-scale));
     @apply text-right;
     @apply pr-1;
     @apply flex-shrink-0;
@@ -84,7 +84,7 @@
     @apply w-full;
   }
   .time-grid .day-legend .hour-label {
-    font-size: 8px;
+    font-size: calc(8px * var(--text-scale));
     width: 3.9%;
   }
 

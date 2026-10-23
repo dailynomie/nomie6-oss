@@ -147,7 +147,7 @@
     @apply border border-ios-separator;
     @apply mx-px;
     @apply text-center;
-    font-size: 10px;
+    font-size: calc(10px * var(--text-scale));
   }
 
   .n-note-textualized.inherit {

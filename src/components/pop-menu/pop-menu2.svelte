@@ -96,7 +96,7 @@
   .ios-sheet-cancel {
     background: var(--ios-card);
     color: var(--ios-tint);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     font-weight: 600;
     border-radius: 14px;
   }

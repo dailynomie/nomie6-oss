@@ -250,7 +250,7 @@
   /* iOS look: the value is label text in the band above the bar, with no background */
   /* a value longer than three characters (6h 16m) is set smaller so it stays inside the 48 px tile */
   .streak-2 .day-wrapper .value.xs {
-    font-size: 11px;
+    font-size: calc(11px * var(--text-scale));
   }
   .streak-2 .day-wrapper .value {
     @apply text-sm;

@@ -71,7 +71,7 @@
   .n-counter.large {
     display: flex;
     padding: 12px;
-    font-size: 40px;
+    font-size: calc(40px * var(--text-scale));
     flex-grow: 1;
     text-align: center;
     justify-content: center;

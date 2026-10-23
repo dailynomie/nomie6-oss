@@ -90,7 +90,7 @@
     gap: 10px;
     width: 100%;
     /* the widget's value styles set a large bold font on the parent; reset it here */
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     font-weight: 400;
     color: var(--ios-label);
   }
@@ -109,7 +109,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
+    font-size: calc(26px * var(--text-scale));
     line-height: 1;
   }
   .ios-legend {
@@ -125,7 +125,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     line-height: 18px;
   }
   .ios-dot {
@@ -152,7 +152,7 @@
     color: var(--ios-label2);
   }
   .ios-empty {
-    font-size: 15px;
+    font-size: calc(15px * var(--text-scale));
     line-height: 20px;
     font-weight: 400;
     color: var(--ios-label2);

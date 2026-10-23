@@ -425,7 +425,7 @@
   .n-input-container.compact .n-input-wrapper .n-input select,
   .n-input-container.compact .n-input-wrapper .n-input textarea {
     min-height: 40px;
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     line-height: 22px;
     color: var(--ios-label);
   }

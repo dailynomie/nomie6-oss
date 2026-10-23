@@ -131,6 +131,7 @@ On Android and Windows these fall back to the system font. That is intended. Bod
 Section headers above grouped lists: 13 px, uppercase, letter-spacing 0.3 px, `--ios-label-2`, 16 px from the left edge.
 
 - **MUST (UI-01)** No arbitrary Tailwind values such as `text-[11px]` or `min-h-[60vh]`. Use the type classes in section 2.3, or a value in the component's `<style>` block.
+- **MUST (UI-13)** Every px font size goes through the text size setting: write `font-size: calc(17px * var(--text-scale))`, never a bare `font-size: 17px`. The Tailwind type classes do the same, and `rem` and `em` sizes follow the root size, which also follows the setting. The setting (More > Text size) sets `--font-setting` on `<html>`; `--screen-scale` adds a step on screens 1024 px wide and up (`main.css`). A new size that must not scale needs `guardrail-ok: UI-13 <reason>` on its line. Check: `ui-checks.sh` fails on a bare px font size in `.svelte`, `.ts` and `.css` files.
 
 ---
 

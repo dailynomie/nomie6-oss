@@ -38,6 +38,7 @@ check() {
       svelte) [[ "$f" == *.svelte ]] && targets+=("$f") ;;
       code)   [[ "$f" == *.svelte || "$f" == *.ts ]] && targets+=("$f") ;;
       css)    [[ "$f" == *.css ]] && targets+=("$f") ;;
+      all)    targets+=("$f") ;;
     esac
   done
   [ ${#targets[@]} -eq 0 ] && return
@@ -140,6 +141,9 @@ for fid in ids:
 PY
 )
 done
+
+# UI-13 MUST: a px font size goes through the text size setting (calc(Npx * var(--text-scale)))
+check UI-13 MUST all "bare px font size (wrap it: calc(Npx * var(--text-scale)))" 'font-size\s*:\s*(?!calc\()\d+(\.\d+)?px'
 
 # UI-12 MUST: the icon squares of one list (one file) are shades of one hue, within 30 degrees
 for f in "${FILES[@]}"; do

@@ -455,7 +455,7 @@
     background-repeat: no-repeat;
     padding-left: 35px;
     padding-top: 10px;
-    font-size: 11px;
+    font-size: calc(11px * var(--text-scale));
     line-height: 150%;
   }
 
@@ -464,7 +464,7 @@
     @apply text-ios-label;
   }
   pre {
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     padding: 10px;
   }
 </style>

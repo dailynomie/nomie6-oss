@@ -156,7 +156,7 @@
     padding: 8px 16px 10px;
   }
   .ios-sheet-title {
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     line-height: 22px;
     font-weight: 600;
     color: var(--ios-label);
@@ -185,7 +185,7 @@
     padding: 0 12px;
     background: var(--ios-fill);
     color: var(--ios-label);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     outline: none;
   }
   .ios-sheet-search input::placeholder {
@@ -203,7 +203,7 @@
     border-radius: 16px;
     background: var(--ios-fill);
     color: var(--ios-tint);
-    font-size: 15px;
+    font-size: calc(15px * var(--text-scale));
     font-weight: 500;
   }
   /* the pivot stylesheet has hover colours for buttons; the sheet keeps its own */
@@ -232,7 +232,7 @@
     background: var(--ios-card);
     border-bottom: 0.5px solid var(--ios-separator);
     color: var(--ios-label);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     cursor: pointer;
   }
   .ios-row-check {
@@ -252,13 +252,13 @@
     float: none;
     display: inline !important;
     width: auto;
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     color: var(--ios-tint);
     padding: 0 0 0 8px;
   }
   .ios-sheet-note {
     padding: 12px 16px;
     color: var(--ios-label2);
-    font-size: 15px;
+    font-size: calc(15px * var(--text-scale));
   }
 </style>

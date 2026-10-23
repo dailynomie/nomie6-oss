@@ -113,11 +113,11 @@
   }
 
   .search-bar .btn-action-clear {
-    font-size: 14px;
+    font-size: calc(14px * var(--text-scale));
   }
   .search-bar input {
     width: calc(100% - 30px);
-    font-size: 20px;
+    font-size: calc(20px * var(--text-scale));
   }
 
   .search-bar .n-input-container {

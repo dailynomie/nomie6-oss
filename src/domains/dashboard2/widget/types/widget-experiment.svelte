@@ -93,6 +93,6 @@
     height: 34px;
     border-radius: 9px;
     background: var(--ios-tint-soft);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
   }
 </style>

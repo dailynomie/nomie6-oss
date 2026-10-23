@@ -258,7 +258,7 @@ button.n-item:active {
 /* iOS look: row titles are regular weight at 17 px, and the chevron uses the secondary label colour */
 .n-item .title {
   font-weight: 400;
-  font-size: 17px;
+  font-size: calc(17px * var(--text-scale));
   line-height: 22px;
 }
 .ios-chevron {

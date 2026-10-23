@@ -139,7 +139,7 @@
 
 <style>
   .ios-section-title {
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     line-height: 18px;
     font-weight: 400;
     text-transform: uppercase;
@@ -157,13 +157,13 @@
   }
   .ios-field-label {
     display: block;
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     line-height: 18px;
     color: var(--ios-label2);
   }
   .ios-field-hint {
     display: block;
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     line-height: 18px;
     color: var(--ios-label2);
     font-style: italic;
@@ -176,7 +176,7 @@
     border: 0;
     background: transparent;
     color: var(--ios-label);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     line-height: 22px;
     outline: none;
     resize: vertical;
@@ -187,7 +187,7 @@
     min-height: 48px;
     padding: 12px 16px;
     text-align: center;
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     line-height: 22px;
     border-top: 0.5px solid var(--ios-separator);
   }
@@ -196,7 +196,7 @@
   }
   .ios-text-action {
     color: var(--ios-tint);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     line-height: 22px;
     padding: 8px 4px;
   }

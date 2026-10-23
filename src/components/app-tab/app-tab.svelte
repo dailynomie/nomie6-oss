@@ -33,7 +33,7 @@
     /* iOS look: the icon starts 6 px from the top of the 49 pt bar, the label keeps 4 px above the bottom */
     padding: 6px 10px 4px;
     justify-content: flex-start;
-    font-size: 10px;
+    font-size: calc(10px * var(--text-scale));
     line-height: 12px;
     font-weight: 500;
     gap: 2px;
@@ -48,7 +48,7 @@
   }
   .tab-wrap a i {
     pointer-events: none;
-    font-size: 26px;
+    font-size: calc(26px * var(--text-scale));
     transition: all 0.2s ease-in-out;
   }
   .tab-wrap a .label {
@@ -84,7 +84,7 @@
     @apply z-40;
     color: var(--ios-on-danger);
     @apply font-semibold;
-    font-size: 11px;
+    font-size: calc(11px * var(--text-scale));
     @apply h-4 flex items-center justify-center;
     @apply px-1 py-1;
     @apply rounded-full;

@@ -354,7 +354,7 @@
     @apply flex;
     @apply items-center;
     @apply justify-center;
-    font-size: 9px;
+    font-size: calc(9px * var(--text-scale));
     @apply font-bold;
   }
   .active .notification-badge {

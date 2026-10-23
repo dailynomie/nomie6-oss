@@ -54,12 +54,20 @@ const getDeviceSize = function (width: number) {
   }
 }
 
-const fontSizes = {
-  xs: '0.94em',
-  sm: '0.98em',
-  md: '1.15em',
-  lg: '1.25em',
-  xl: '1.4em',
+// Text size setting. Each value multiplies the base text size in main.css.
+// The ratios come from the 6.x steps (0.94em to 1.4em, with md = 1.15em), so md is the default look.
+const fontSizes: Record<string, number> = {
+  xs: 0.82,
+  sm: 0.85,
+  md: 1,
+  lg: 1.09,
+  xl: 1.22,
+}
+
+// Sets the --font-setting variable on <html>. main.css turns it into --text-scale,
+// which every text size uses, so the setting reaches all screens and components.
+const applyFontSize = (size: string) => {
+  document.documentElement.style.setProperty('--font-setting', `${fontSizes[size] || 1}`)
 }
 
 const DeviceStoreInit = () => {
@@ -81,15 +89,15 @@ const DeviceStoreInit = () => {
 
   const { update, subscribe, set } = writable(baseState)
 
-  ;((document.documentElement.style.fontSize = fontSizes[baseState.fontSize] || '16px'),
-    function state(s: any) {
-      let _state
-      update((state) => {
-        _state = { ...state, ...s }
-        return _state
-      })
+  applyFontSize(baseState.fontSize)
+  ;(function state(s: any) {
+    let _state
+    update((state) => {
+      _state = { ...state, ...s }
       return _state
     })
+    return _state
+  })
 
   const state = (updatedState: any) => {
     update((s: any) => {
@@ -189,9 +197,8 @@ const DeviceStoreInit = () => {
 export const Device = DeviceStoreInit()
 
 export const setFontSize = (size: 'sm' | 'md' | 'lg' | 'xl' | 'xs' | string) => {
-  const pixels = fontSizes[size] || '16px'
   setDeviceSetting(DEVICE_KEYS.fontSize, size)
-  document.documentElement.style.fontSize = pixels
+  applyFontSize(size)
   Device.update((s) => {
     s.fontSize = size
     return s

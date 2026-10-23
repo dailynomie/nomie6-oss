@@ -109,7 +109,7 @@
     padding: 8px 12px 12px;
     background: var(--ios-card);
     color: var(--ios-label);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
   }
   .ios-cal-head {
     display: flex;
@@ -138,7 +138,7 @@
     justify-items: center;
   }
   .ios-cal-weekday {
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     font-weight: 600;
     color: var(--ios-label2);
     padding: 4px 0;

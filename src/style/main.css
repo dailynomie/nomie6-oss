@@ -18,6 +18,17 @@
   --ios-shadow-hub: 0 6px 16px rgba(10,108,201,0.35);
   --ios-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
   --ios-font-rounded: ui-rounded, -apple-system, system-ui, sans-serif;
+  /* Text size: --font-setting is the Text Size choice (set by setFontSize), --screen-scale is the screen step.
+     Every text size in the app is written as calc(Npx * var(--text-scale)), so both apply everywhere. */
+  --font-setting: 1;
+  --screen-scale: 1;
+  --text-scale: calc(var(--font-setting) * var(--screen-scale));
+}
+/* Large screens (iPad, desktop) get a slightly larger base, so text reads at a distance */
+@media (min-width: 1024px) {
+  :root {
+    --screen-scale: 1.08;
+  }
 }
 html.dark {
   --ios-bg: #000000; --ios-card: #1C1C1E; --ios-card-2: #2C2C2E;
@@ -137,6 +148,8 @@ body {
 
 html {
   height: -webkit-fill-available;
+  /* Base root size: 18.4 px is the 6.x default (md = 1.15em). rem text follows the setting too. */
+  font-size: calc(18.4px * var(--text-scale));
 }
 
 /* iOS look: the danger text is the danger token (light and dark) */
@@ -219,8 +232,8 @@ html {
 
 /* iOS look: large title for pushed screens, placed under the nav bar (guide 3.1) */
 .ios-large-title {
-  font-size: 34px;
-  line-height: 41px;
+  font-size: calc(34px * var(--text-scale));
+  line-height: calc(41px * var(--text-scale));
   font-weight: 700;
   letter-spacing: 0.37px;
   color: var(--ios-label);
@@ -229,8 +242,8 @@ html {
 
 /* iOS look: page titles in the header use the 17 px nav-bar style (large titles come per screen) */
 h1.ntitle {
-  font-size: 17px;
-  line-height: 22px;
+  font-size: calc(17px * var(--text-scale));
+  line-height: calc(22px * var(--text-scale));
   font-weight: 600;
   letter-spacing: -0.2px;
   color: var(--ios-label);
@@ -238,8 +251,8 @@ h1.ntitle {
 
 /* iOS look: modal titles are 17 px semibold and centred */
 h2.ntitle {
-  font-size: 17px;
-  line-height: 22px;
+  font-size: calc(17px * var(--text-scale));
+  line-height: calc(22px * var(--text-scale));
   font-weight: 600;
   letter-spacing: -0.2px;
   text-align: center;
@@ -264,7 +277,7 @@ html.mode-dark {
 }
 
 .text-xxs {
-  font-size: 10px;
+  font-size: calc(10px * var(--text-scale));
 }
 
 

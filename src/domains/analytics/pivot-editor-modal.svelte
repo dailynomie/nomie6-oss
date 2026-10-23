@@ -345,7 +345,7 @@
     border: 0;
     background: transparent;
     color: var(--ios-danger);
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     line-height: 22px;
     text-align: center;
   }

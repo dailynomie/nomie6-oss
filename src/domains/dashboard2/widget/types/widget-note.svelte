@@ -65,7 +65,7 @@
     {#if activeIndex > -1}
       <div
         class="note-wrapper flex flex-col h-full w-full max-h-full items-center justify-center"
-        style="font-size:12px;"
+        style="font-size:calc(12px * var(--text-scale));"
       >
         <div class="text-center overflow-y-auto max-h-36">
           <NoteTextualizer

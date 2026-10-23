@@ -120,7 +120,7 @@
 
   /* iOS look: section headings above lists are 13 px uppercase in the secondary label colour */
   .ios-section {
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     line-height: 18px;
     letter-spacing: 0.3px;
     color: var(--ios-label2);

@@ -372,7 +372,7 @@
                       }}
                     />
                   {:else}
-                    <span style="color: var(--ios-label2); font-size: 12px;"
+                    <span style="color: var(--ios-label2); font-size: calc(12px * var(--text-scale));"
                       >{Lang.t('dashboard.initializing', 'initializing...')}</span
                     >
                   {/if}

@@ -18,7 +18,7 @@
 
 table.pvtTable {
     /* iOS look: system font at footnote size, not 8 pt Verdana */
-    font-size: 13px;
+    font-size: calc(13px * var(--text-scale));
     text-align: left;
     border-collapse: collapse;
     margin-top: 3px;
@@ -243,7 +243,7 @@ table.pvtTable tbody tr td {
     position: absolute;
     right: 5px;
     top: 5px;
-    font-size: 18px;
+    font-size: calc(18px * var(--text-scale));
     cursor: pointer;
     text-decoration: none !important;
     color:var(--fontcolor, var(--ios-tint));
@@ -253,7 +253,7 @@ table.pvtTable tbody tr td {
     position: absolute;
     left: 5px;
     top: 5px;
-    font-size: 18px;
+    font-size: calc(18px * var(--text-scale));
     cursor: move;
     color: var(--fontcolor, var(--ios-tint));
 }
@@ -265,7 +265,7 @@ table.pvtTable tbody tr td {
     background: var(--ios-fill);
     border: 1px solid;
     border-color: var(--border, var(--ios-tint));
-    font-size: 14px;
+    font-size: calc(14px * var(--text-scale));
     margin: 3px;
     transition: 0.34s all cubic-bezier(0.19, 1, 0.22, 1);
     text-decoration: none !important;
@@ -285,7 +285,7 @@ table.pvtTable tbody tr td {
     border-radius: 5px;
     color: var(--ios-label2);
     padding: 0 3px;
-    font-size: 14px;
+    font-size: calc(14px * var(--text-scale));
     background: var(--btbg, var(--ios-fill));
 }
 
@@ -337,7 +337,7 @@ table.pvtTable tbody tr td {
 
 .pvtCheckContainer {
     text-align: left;
-    font-size: 14px;
+    font-size: calc(14px * var(--text-scale));
     white-space: nowrap;
     overflow-y: scroll;
     width: 100%;
@@ -360,7 +360,7 @@ table.pvtTable tbody tr td {
     display: none;
     width: 35px;
     float: left;
-    font-size: 12px;
+    font-size: calc(12px * var(--text-scale));
     padding-left: 5px;
     cursor: pointer;
 }

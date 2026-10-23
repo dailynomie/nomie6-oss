@@ -164,7 +164,7 @@
   }
   .n-counter-manual span {
     line-height: 40px;
-    font-size: 40px;
+    font-size: calc(40px * var(--text-scale));
   }
   .n-counter-manual .unit {
     @apply rounded-lg;
@@ -185,7 +185,7 @@
     background: var(--ios-card);
     color: var(--ios-label);
     border: 0.5px solid var(--ios-separator);
-    font-size: 36px;
+    font-size: calc(36px * var(--text-scale));
     font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
@@ -198,7 +198,7 @@
   }
   .n-counter-manual.size-sm .unit :global(.ios-select-compact) {
     height: 28px;
-    font-size: 16px;
+    font-size: calc(16px * var(--text-scale));
     border: none;
   }
   .n-counter-manual .unit select {

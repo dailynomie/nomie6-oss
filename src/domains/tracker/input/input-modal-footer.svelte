@@ -150,7 +150,7 @@
   .tracker-input-footer .action-button {
     border-radius: 999px;
     padding: 8px 22px;
-    font-size: 17px;
+    font-size: calc(17px * var(--text-scale));
     font-weight: 600;
     line-height: 22px;
     min-width: 96px;

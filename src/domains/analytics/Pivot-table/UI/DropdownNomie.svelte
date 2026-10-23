@@ -83,7 +83,7 @@
     border-radius: 10px;
     background: var(--ios-fill);
     color: var(--ios-label);
-    font-size: 15px;
+    font-size: calc(15px * var(--text-scale));
     font-weight: 500;
     text-align: left;
   }
