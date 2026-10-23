@@ -116,7 +116,7 @@ The 7.0 release has four parts, in this order: close the open stabilisation item
 | C2 | Remove the Netlify configuration. **Done:** Netlify is not used, `netlify.toml` is removed. `nginx.conf` already has `try_files` for deep links and gzip. | S | **Done for the code.** The Docker check (build, a refresh on `/goals`, gzip in the response) is done by Ronald. |
 | C3 | Ronald approves the privacy text (D10). | S | **Done 22 October.** The approved text is in `public/content/privacy.md`. |
 | C4 | **Decided: no pinch zoom (D6).** `maximum-scale=1` stays; the rule is UI-09 and the check enforces it. | S | **Done.** Close. |
-| C5 | `npm audit`: the non-breaking fixes are applied (`fc4f99a7`). 73 findings remain. Shipped: `plotly.js` and `maplibre-gl` (critical), and the `uuid` chain under PouchDB 6. The rest are development tools. | S–M | **Done 23 October, except the items below.** npm audit went from 67 findings (4 critical) to 13 (none critical). Removed: the jest, babel and md-to-pdf tooling, the unused plotly.js (its maplibre-gl dependency was critical; the charts use plotly.js-dist-min), commitizen, and the import-sort plugin. vitest is 4.1.12. Left, with reasons: tailwindcss 2 (the app's styling; version 4 is a rewrite, and it is build-time only), vite 5 (a major step for the build and dev server), svelte 5.22.0 (pinned, Q5), pouchdb and uuid (the sync work, W16). |
+| C5 | `npm audit`: the non-breaking fixes are applied (`fc4f99a7`). 73 findings remain. Shipped: `plotly.js` and `maplibre-gl` (critical), and the `uuid` chain under PouchDB 6. The rest are development tools. | S–M | **Done 23 October, except the items below.** npm audit went from 67 findings (4 critical) to 13 (none critical). Removed: the jest, babel and md-to-pdf tooling, the unused plotly.js (its maplibre-gl dependency was critical; the charts use plotly.js-dist-min), commitizen, and the import-sort plugin. vitest is 4.1.12. Left, with reasons: tailwindcss 2 (the app's styling; version 4 is a rewrite, and it is build-time only), vite 5 (a major step for the build and dev server), svelte 5.22.0 (pinned, Q5), pouchdb and uuid, moved to 7.1 as N8. |
 | C6 | Branch protection on `dev` and `master`: the "test" check must pass. | S | Set on GitHub, and tested with a failing branch. |
 | C7 | Remove the blockstack origin from `public/_headers` if it is still in use anywhere. | S | **Done.** No blockstack reference is left in the code. |
 
@@ -225,6 +225,7 @@ These are carried over from the old roadmap, with the new items marked.
 - **T5 Share target and shortcuts:** `share_target` and `/capture?note=…` in `manifest.js`. The manifest has no `share_target` yet.
 - **T6 Starter setups:** three onboarding starts (mood and sleep, habits, health).
 - **N1 (new) Move AI calls behind a key the user controls.** See the note below.
+- **N8 (new) PouchDB and uuid upgrade.** Moved from 7.0 (C5). PouchDB 8 is pinned in `package.json`, but the audit flags `uuid` inside it (moderate), and the fix line runs through PouchDB 6, which is a downgrade. Do it with the sync work (N4, W16): check the sync storage engine and the CouchDB tests first, then upgrade.
 
 **7.2+ Platform**
 - **N2 Notation package:** extract `src/modules/tokenizer/` with its spec into an npm package.
