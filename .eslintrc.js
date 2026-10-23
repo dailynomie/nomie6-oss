@@ -4,13 +4,16 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  // Formatting is Prettier's job (see .prettierrc). ESLint keeps the correctness rules only.
-  extends: ['eslint:recommended', 'prettier'],
+  extends: ['eslint:recommended'],
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
   },
   rules: {
+    'indent': ['warn', 2],
+    'linebreak-style': ['warn', 'unix'],
+    'quotes': ['warn', 'double'],
+    'semi': ['warn', 'always'],
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
   },
@@ -18,6 +21,9 @@ module.exports = {
     {
       files: ['*.svelte'],
       processor: 'svelte3/svelte3',
+      rules: {
+        'indent': 'off',
+      },
     },
     {
       files: ['*.spec.js', '*.test.js'],

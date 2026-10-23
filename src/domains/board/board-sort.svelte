@@ -46,9 +46,7 @@
     if (confirmed === true) {
       removeBoard(board)
 
-      showToast({
-        message: Lang.t('board.deleted', 'Deleted'),
-      })
+      showToast({ message: Lang.t('general.deleted', 'Deleted') })
     }
   }
 
@@ -59,8 +57,9 @@
 
 <BackdropModal>
   <NToolbarGrid slot="header">
+    <Button slot="left" on:click={close} icon primary><IonIcon icon={CloseOutline} size={28} /></Button>
     <div class="ntitle" slot="main">{Lang.t('board.organize-tabs', 'Organize Tabs')}</div>
-    <Button slot="right" on:click={close} clear primary>{Lang.t('board.done', 'Done')}</Button>
+    <div slot="right" />
   </NToolbarGrid>
 
   <List className="board-sort">
@@ -77,7 +76,7 @@
           <div slot="left" class="flex-shrink-off">
             <Button
               icon
-              className="text-ios-danger"
+              className="text-red-500"
               on:click={() => {
                 deleteBoard(item)
               }}

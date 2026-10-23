@@ -17,7 +17,7 @@
   let picks = $state([])
 
   function textListChanged(evt) {
-    picks = (evt.detail || '').split('\n').filter((item) => item.trim())
+    picks = (evt.detail || '').split('\n').filter(item => item.trim())
     list = picks
     dispatch('change', picks)
   }
@@ -36,12 +36,7 @@
 <div class="n-picker-list edit-mode {className}" {style}>
   {#if showHeaderContent}
     <NItem title={Lang.t('picker.title', 'List one item per line')} className={itemClass} bg="transparent">
-      <Text size="sm" faded
-        >{Lang.t(
-          'ui.include-trackers-people-context-pointers-add-a-t',
-          'Include #trackers @people +context ^pointers. Add a : to make a Title:'
-        )}</Text
-      >
+      <Text size="sm" faded>Include #trackers @people +context ^pointers. Add a : to make a Title:</Text>
     </NItem>
   {/if}
   {#if ready}
@@ -51,7 +46,7 @@
       placeholder={'Friends:\n@toby\n@patrick\n@maddy\nFeeling:\n#mood\n+joyful\n+anxious'}
       type="textarea"
       value={picks.join('\n')}
-      className="font-medium"
+      className="font-mono font-medium"
       bind:this={textList}
       on:input={textListChanged}
       inputStyle="height:45vh; line-height:28px"
@@ -68,5 +63,7 @@
     flex-grow: 1;
     box-shadow: var(--box-shadow-float);
   }
-  /* iOS look: the pick list is plain text in the system font, like the other text fields */
+  .n-picker-list textarea {
+    @apply font-mono;
+  }
 </style>

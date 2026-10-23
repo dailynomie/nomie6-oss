@@ -90,8 +90,8 @@ export default class AwardChain {
   get genesis(): Award {
     return new Award({
       id: 'nomie-6',
-      name: 'Started Daily Nomie',
-      reason: `You started using Daily Nomie`,
+      name: 'Started Nomie 6',
+      reason: `You started using Nomie 6`,
       image: 'streak-0.svg',
       value: 1,
       phash: `0`,

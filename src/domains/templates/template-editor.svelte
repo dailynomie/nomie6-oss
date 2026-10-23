@@ -4,14 +4,14 @@
   import { strToTokens } from './../../modules/tokenizer/lite'
   import { get } from 'svelte/store'
   import { CombinedBoards } from './../board/UniboardStore'
-
+  
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
 
   import Button from '../../components/button/button.svelte'
 
   import Empty from '../../components/empty/empty.svelte'
   import { openPopMenu, type PopMenuButton } from '../../components/pop-menu/usePopmenu'
-
+  
   import type { DashboardClass } from '../dashboard2/dashboard-class'
   import { WidgetClass } from '../dashboard2/widget/widget-class'
   import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
@@ -42,14 +42,10 @@
   import LockClosedSolid from '../../n-icons/LockClosedSolid.svelte'
   import TrashOutline from '../../n-icons/TrashOutline.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
-  import { Lang } from '../../store/lang'
   // import download from '../../modules/download/download'
   // import { strToTagSafe } from '../trackable/trackable-utils'
 
-  const { template: originalTemplate = $bindable(), onNameChange } = $props<{
-    template: Template
-    onNameChange?: (name: string) => void
-  }>()
+  const { template: originalTemplate = $bindable(), onNameChange } = $props<{ template: Template, onNameChange?: (name: string) => void }>()
 
   let template = $state(originalTemplate)
 
@@ -149,12 +145,10 @@
     if (!trackableTag) return null
 
     // Check if used by any goal (strip # prefix from goal tag for comparison)
-    if (
-      template.goals.some((goal) => {
-        const goalTag = goal?.tag?.replace(/^#/, '') || ''
-        return goalTag === trackableTag
-      })
-    ) {
+    if (template.goals.some((goal) => {
+      const goalTag = goal?.tag?.replace(/^#/, '') || ''
+      return goalTag === trackableTag
+    })) {
       reasons.push('a goal')
     }
 
@@ -179,18 +173,16 @@
     }
 
     // Check if used by any pivot (rows, cols, or vals)
-    if (
-      template.pivots.some((pivot) => {
-        if (!pivot?.options) return false
-        const { rows = [], cols = [], vals = [] } = pivot.options
-        const allTags = [...rows, ...cols, ...vals]
-        // Strip emoji from pivot tags for comparison
-        return allTags.some((tag) => {
-          const cleanTag = tag.replace(/^[^\p{L}\p{N}]+/u, '').trim()
-          return cleanTag === trackableTag
-        })
+    if (template.pivots.some((pivot) => {
+      if (!pivot?.options) return false
+      const { rows = [], cols = [], vals = [] } = pivot.options
+      const allTags = [...rows, ...cols, ...vals]
+      // Strip emoji from pivot tags for comparison
+      return allTags.some((tag) => {
+        const cleanTag = tag.replace(/^[^\p{L}\p{N}]+/u, '').trim()
+        return cleanTag === trackableTag
       })
-    ) {
+    })) {
       reasons.push('a pivot')
     }
 
@@ -261,7 +253,7 @@
     const buttons = [
       {
         id: 'edit',
-        title: Lang.t('templates.edit-trackable', 'Edit Trackable'),
+        title: 'Edit Trackable',
         click() {
           openTrackableEditor(trackable, (trackable) => {
             template.trackables = template.trackables.map((t) => {
@@ -299,7 +291,7 @@
       }
     })
     openPopMenu({
-      title: Lang.t('templates.which-tab-would-you-like-to-import', 'Which Tab would you like to import?'),
+      title: 'Which Tab would you like to import?',
       id: 'existing-boards',
       buttons: boardButtons,
     })
@@ -328,10 +320,10 @@
   const trackerAddButtons: Array<PopMenuButton> = [
     {
       id: 'existing',
-      title: Lang.t('templates.pick-from-my-trackables', 'Pick from my Trackables'),
+      title: 'Pick from my Trackables',
       async click() {
         const selected = await selectTrackables()
-
+       
         if (selected) {
           selected.forEach((trackable) => {
             addTrackableToTemplate(trackable)
@@ -342,7 +334,7 @@
     },
     {
       id: 'new',
-      title: Lang.t('templates.create-a-tracker', 'Create a Tracker'),
+      title: 'Create a Tracker',
       async click() {
         openTrackableEditor(new Trackable({ type: 'tracker' }), (trackable) => {
           template.trackables = [...template.trackables, trackable]
@@ -351,7 +343,7 @@
     },
     {
       id: 'new',
-      title: Lang.t('templates.create-a-person', 'Create a Person'),
+      title: 'Create a Person',
       async click() {
         openTrackableEditor(new Trackable({ type: 'person' }), (trackable) => {
           template.trackables = [...template.trackables, trackable]
@@ -360,7 +352,7 @@
     },
     {
       id: 'new',
-      title: Lang.t('templates.create-a-context', 'Create a Context'),
+      title: 'Create a Context',
       async click() {
         openTrackableEditor(new Trackable({ type: 'context' }), (trackable) => {
           template.trackables = [...template.trackables, trackable]
@@ -369,7 +361,7 @@
     },
     {
       id: 'new',
-      title: Lang.t('templates.create-a-pointer', 'Create a Pointer'),
+      title: 'Create a Pointer',
       async click() {
         openTrackableEditor(new Trackable({ type: 'pointer' }), (trackable) => {
           template.trackables = [...template.trackables, trackable]
@@ -417,6 +409,7 @@
   }
 
   const openDashboardImporter = (dashboards: Array<DashboardClass>) => {
+
     const boardButtons = dashboards.map((dashboard: DashboardClass) => {
       return {
         id: dashboard.id,
@@ -436,7 +429,7 @@
       }
     })
     openPopMenu({
-      title: Lang.t('templates.which-dashboard-would-you-like-to-import', 'Which dashboard would you like to import?'),
+      title: 'Which dashboard would you like to import?',
       id: 'existing-dsahboards',
       buttons: boardButtons,
     })
@@ -448,7 +441,7 @@
     //   id: 'new-dashboard',
     //   title: 'Create new Dashboard',
     //   async click() {
-    //     const label = await Interact.prompt(Lang.t('templates.dashboard-tab-title', 'Dashboard Tab Title'))
+    //     const label = await Interact.prompt('Dashboard Tab Title')
     //     if (label) {
     //       let dashboard = new DashboardClass({ widgets: [], label, id: nid() })
     //       template.dashboards.push(dashboard)
@@ -472,10 +465,10 @@
 
   const groupGoalsByDuration = (goals: Array<GoalClass>) => {
     return {
-      day: goals.filter((g) => g.duration === 'day'),
-      week: goals.filter((g) => g.duration === 'week'),
-      month: goals.filter((g) => g.duration === 'month'),
-      year: goals.filter((g) => g.duration === 'year'),
+      day: goals.filter(g => g.duration === 'day'),
+      week: goals.filter(g => g.duration === 'week'),
+      month: goals.filter(g => g.duration === 'month'),
+      year: goals.filter(g => g.duration === 'year'),
     }
   }
 
@@ -490,7 +483,7 @@
   }
 
   const openGoalsByDurationImporter = (goals: Array<GoalClass>, duration: string) => {
-    const goalsForDuration = goals.filter((g) => g.duration === duration)
+    const goalsForDuration = goals.filter(g => g.duration === duration)
 
     const buttons = goalsForDuration.map((goal: GoalClass) => {
       return {
@@ -513,16 +506,8 @@
     if (buttons.length === 0) {
       openPopMenu({
         id: 'import-goal-empty',
-        title: Lang.t('templates.no-duration-goals', { duration: getDurationLabel(duration) }),
-        buttons: [
-          {
-            title: Lang.t('templates.go-back', 'Go Back'),
-            id: 'back',
-            click() {
-              openGoalImporter($GoalStore)
-            },
-          },
-        ],
+        title: `No ${getDurationLabel(duration)} Goals`,
+        buttons: [{ title: 'Go Back', id: 'back', click() { openGoalImporter($GoalStore) } }],
       })
       return
     }
@@ -550,7 +535,7 @@
 
     // Add back button
     buttons.unshift({
-      title: Lang.t('templates.back-to-duration-selection', '← Back to Duration Selection'),
+      title: '← Back to Duration Selection',
       id: 'back',
       click() {
         openGoalImporter($GoalStore)
@@ -559,7 +544,7 @@
 
     openPopMenu({
       id: 'import-goal-by-duration',
-      title: Lang.t('templates.duration-goals', { duration: getDurationLabel(duration) }),
+      title: `${getDurationLabel(duration)} Goals`,
       buttons: buttons,
     })
   }
@@ -589,22 +574,18 @@
           openGoalsByDurationImporter(goals, 'month')
         },
       },
-      ...(grouped.year.length > 0
-        ? [
-            {
-              title: `Yearly Goals (${grouped.year.length})`,
-              id: 'year',
-              click() {
-                openGoalsByDurationImporter(goals, 'year')
-              },
-            },
-          ]
-        : []),
+      ...(grouped.year.length > 0 ? [{
+        title: `Yearly Goals (${grouped.year.length})`,
+        id: 'year',
+        click() {
+          openGoalsByDurationImporter(goals, 'year')
+        },
+      }] : []),
     ]
 
     openPopMenu({
       id: 'import-goal',
-      title: Lang.t('templates.select-goal-period', 'Select Goal Period'),
+      title: 'Select Goal Period',
       buttons: buttons,
     })
   }
@@ -653,28 +634,28 @@
             for (const tag of tagsToAdd) {
               // Strip emoji prefix from tag (pivot tags have emoji prefixes)
               const cleanTag = tag.replace(/^[^\p{L}\p{N}]+/u, '').trim()
-              console.info('Original tag:', tag, '-> Clean tag:', cleanTag)
+              console.log('Original tag:', tag, '-> Clean tag:', cleanTag)
 
               // Check if trackable already in template
-              const alreadyExists = template.trackables.some((t) => {
+              const alreadyExists = template.trackables.some(t => {
                 const tTag = getTrackableTag(t)
                 return tTag === cleanTag || tTag?.replace(/^[#@]/, '') === cleanTag
               })
 
-              console.info('Already exists in template?', alreadyExists)
+              console.log('Already exists in template?', alreadyExists)
 
               if (!alreadyExists) {
                 // Try to find trackable in store with different prefixes
-                console.info('Trying keys:', cleanTag, `#${cleanTag}`, `@${cleanTag}`)
+                console.log('Trying keys:', cleanTag, `#${cleanTag}`, `@${cleanTag}`)
                 let storeTrackable = trackableStoreValue.trackables?.[cleanTag]
-                console.info('Try 1 (no prefix):', !!storeTrackable)
+                console.log('Try 1 (no prefix):', !!storeTrackable)
                 if (!storeTrackable) storeTrackable = trackableStoreValue.trackables?.[`#${cleanTag}`]
-                console.info('Try 2 (# prefix):', !!storeTrackable)
+                console.log('Try 2 (# prefix):', !!storeTrackable)
                 if (!storeTrackable) storeTrackable = trackableStoreValue.trackables?.[`@${cleanTag}`]
-                console.info('Try 3 (@ prefix):', !!storeTrackable)
+                console.log('Try 3 (@ prefix):', !!storeTrackable)
 
                 if (storeTrackable) {
-                  console.info('Found! Adding:', storeTrackable)
+                  console.log('Found! Adding:', storeTrackable)
                   trackablesToAdd.push(storeTrackable)
                 }
               }
@@ -695,13 +676,14 @@
 
     openPopMenu({
       id: 'import-pivot',
-      title: Lang.t('templates.which-pivot-would-you-like-to-import', 'Which pivot would you like to import?'),
+      title: 'Which pivot would you like to import?',
       buttons: buttons,
     })
   }
 
   const addPivot = async () => {
     openPivotImporter($PivotStore)
+
   }
 
   const openLocationImporter = (locations: Array<ILocation>) => {
@@ -730,8 +712,8 @@
     if (buttons.length === 0) {
       openPopMenu({
         id: 'import-location-empty',
-        title: Lang.t('templates.no-saved-locations', 'No Saved Locations'),
-        buttons: [{ title: Lang.t('templates.go-back', 'Go Back'), id: 'back', click() {} }],
+        title: 'No Saved Locations',
+        buttons: [{ title: 'Go Back', id: 'back', click() { } }],
       })
       return
     }
@@ -756,7 +738,7 @@
 
     openPopMenu({
       id: 'import-location',
-      title: Lang.t('templates.saved-locations', 'Saved Locations'),
+      title: 'Saved Locations',
       buttons: buttons,
     })
   }
@@ -805,7 +787,7 @@
 
     openPopMenu({
       id: 'import-plugin',
-      title: Lang.t('templates.saved-plugins', 'Saved Plugins'),
+      title: 'Saved Plugins',
       buttons: buttons,
     })
   }
@@ -823,86 +805,70 @@
 </script>
 
 {#if template}
-  <p class="description text-ios-label2 text-center pb-2 px-3 text-sm leading-tight">
-    {Lang.t('templates.create-a-sharable-nomie-configuration', 'Create a sharable Nomie configuration')}
+  <p class="description text-gray-500 text-center pb-2 px-3 text-sm leading-tight">
+    Create a sharable Nomie configuration
   </p>
   <List solo>
-    <Input
-      listItem
-      type="text"
-      placeholder={Lang.t('templates.template-name', 'Template Name')}
-      bind:value={template.name}
-      on:input={() => onNameChange?.(template.name)}
-    />
-    <Input
-      listItem
-      type="textarea"
-      placeholder={Lang.t('templates.description', 'Description')}
-      bind:value={template.description}
-    />
+    <Input listItem type="text" placeholder="Template Name" bind:value={template.name} on:input={() => onNameChange?.(template.name)} />
+    <Input listItem type="textarea" placeholder="Description" bind:value={template.description} />
   </List>
-  <List solo outside title={Lang.t('templates.trackables', 'Trackables')}>
-    <Button size="sm" on:click={() => addTrackableOptions()} primary clear slot="header-right"
-      >{Lang.t('templates.add', '+ Add')}</Button
-    >
+  <List solo outside title="Trackables">
+    <Button size="sm" on:click={() => addTrackableOptions()} primary clear slot="header-right">+ Add</Button>
     {#if !template.trackables.length}
       <Empty small>
-        <span class="text-ios-label2">{Lang.t('templates.no-trackables', 'No Trackables')}</span>
+        <span class="text-gray-500">No Trackables</span>
       </Empty>
     {:else}
       {#key template.goals.length + template.dashboards.length + template.pivots.length + template.locations.length + template.plugins.length}
         <div class="pill-holder px-1 flex flex-wrap py-2">
           {#each template.trackables as trackable (trackable.id)}
             {@const removalReason = getTrackableRemovalReason(trackable)}
-            <div class="pill-wrapper relative" data-trackable-id={trackable.id}>
-              <button
-                on:click={() => {
-                  getTrackerOptions(trackable)
-                }}
-                class="pill"
-              >
-                <TrackableAvatar {trackable} size={20} />
-                {#if trackable.type == 'tracker'}
-                  <span class="label">{trackable.tracker.label}</span>
-                {:else if trackable.type == 'person'}
-                  <span class="label">{trackable.person.displayName}</span>
-                {:else if trackable.type == 'context'}
-                  <span class="label">{trackable.ctx.label}</span>
-                {:else if trackable.type == 'pointer'}
-                  <span class="label">{trackable.ptr.label}</span>
-                {/if}
-              </button>
-              {#if removalReason}
-                <div class="icon-badge lock-badge cursor-help group" title={removalReason}>
-                  <IonIcon icon={LockClosedSolid} size={10} className="text-ios-label2" />
-                  <div
-                    class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-ios-label text-ios-card text-xs px-2 py-1 rounded whitespace-nowrap z-10"
-                  >
-                    {removalReason}
-                  </div>
-                </div>
-              {:else}
-                <button
-                  on:click={() => removeTrackable(trackable)}
-                  class="icon-badge trash-badge hover:brightness-110"
-                  title={Lang.t('templates.remove-trackable', 'Remove trackable')}
-                >
-                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
-                </button>
+          <div class="pill-wrapper relative" data-trackable-id={trackable.id}>
+            <button
+              on:click={() => {
+                getTrackerOptions(trackable)
+              }}
+              class="pill"
+            >
+              <TrackableAvatar {trackable} size={20} />
+              {#if trackable.type == 'tracker'}
+              <span class="label">{trackable.tracker.label}</span>
+              {:else if trackable.type == 'person'}
+              <span class="label">{trackable.person.displayName}</span>
+              {:else if trackable.type == 'context'}
+              <span class="label">{trackable.ctx.label}</span>
+              {:else if trackable.type == 'pointer'}
+              <span class="label">{trackable.ptr.label}</span>
               {/if}
-            </div>
-          {/each}
-        </div>
+            </button>
+            {#if removalReason}
+              <div class="icon-badge lock-badge cursor-help group" title={removalReason}>
+                <IonIcon icon={LockClosedSolid} size={10} className="text-white" />
+                <div class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">
+                  {removalReason}
+                </div>
+              </div>
+            {:else}
+            {:else}
+              <button
+                on:click={() => removeTrackable(trackable)}
+                class="icon-badge trash-badge hover:brightness-110"
+                title="Remove trackable"
+              >
+                <IonIcon icon={TrashOutline} size={10} className="text-white" />
+              </button>
+            {/if}
+          </div>
+        {/each}
+      </div>
       {/key}
     {/if}
   </List>
-  <List solo outside title={Lang.t('templates.tabs', 'Tabs')}>
-    <Button size="sm" on:click={() => addBoardTab()} primary clear slot="header-right"
-      >{Lang.t('templates.add', '+ Add')}</Button
-    >
+  <List solo outside title="Tabs">
+    <Button size="sm" on:click={() => addBoardTab()} primary clear slot="header-right">+ Add</Button>
     {#if !template.boards.length}
       <Empty small>
-        <span class="text-ios-label2 text-sm">{Lang.t('templates.no-board-tabs', 'No Board Tabs')}</span>
+        <span class="text-gray-500 text-sm">No Board Tabs</span>
       </Empty>
     {:else}
       {#each template.boards as board, index}
@@ -914,9 +880,9 @@
             <button
               on:click={() => removeTab(board.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-this-tab', 'Remove this tab')}
+              title="Remove this tab"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
             <div class="py-1 flex flex-wrap">
               {#each array_utils.unique(board.elements) as element, eindex}
@@ -928,13 +894,11 @@
       {/each}
     {/if}
   </List>
-  <List solo outside title={Lang.t('templates.dashboards', 'Dashboards')}>
-    <Button size="sm" on:click={() => addDashboard()} primary clear slot="header-right"
-      >{Lang.t('templates.add', '+ Add')}</Button
-    >
+  <List solo outside title="Dashboards">
+    <Button size="sm" on:click={() => addDashboard()} primary clear slot="header-right">+ Add</Button>
     {#if !template.dashboards.length}
       <Empty small>
-        <span class="text-ios-label2">{Lang.t('templates.no-dashboards', 'No Dashboards')}</span>
+        <span class="text-gray-500">No Dashboards</span>
       </Empty>
     {:else}
       {#each template.dashboards as dashboard, index}
@@ -946,9 +910,9 @@
             <button
               on:click={() => removeDashboard(dashboard.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-this-dashboard', 'Remove this dashboard')}
+              title="Remove this dashboard"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
             <div class="widgets -ml-1 text-xs p-1 rounded-md flex flex-wrap">
               {#if dashboard.widgets.length}
@@ -956,7 +920,7 @@
                   <button class="pill sm space-x- flex">
                     <strong>{new WidgetClass(widget).getTitle()}</strong>
                     <span>{widget.type}</span>
-                    <span>{new WidgetClass(widget).getLabel().replace('days', '')}</span>
+                    <span>{new WidgetClass(widget).getLabel().replace('days','')}</span>
                   </button>
                 {/each}
               {/if}
@@ -966,25 +930,23 @@
       {/each}
     {/if}
   </List>
-  <List solo outside title={Lang.t('templates.goals', 'Goals')}>
-    <Button size="sm" on:click={() => addGoal()} primary clear slot="header-right"
-      >{Lang.t('templates.add', '+ Add')}</Button
-    >
+  <List solo outside title="Goals">
+    <Button size="sm" on:click={() => addGoal()} primary clear slot="header-right">+ Add</Button>
     {#if !template.goals.length}
       <Empty small>
-        <span class="text-ios-label2">{Lang.t('templates.no-goals', 'No Goals')}</span>
+        <span class="text-gray-500">No Goals</span>
       </Empty>
     {:else}
       {#if groupGoalsByDuration(template.goals).day.length > 0}
         <div class="goal-section pr-5">
           <div class="relative">
-            <h3 class="goal-period-label">{Lang.t('templates.daily-goals', 'Daily Goals')}</h3>
+            <h3 class="goal-period-label">Daily Goals</h3>
             <button
               on:click={() => removeGoalsByDuration('day')}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-all-daily-goals', 'Remove all daily goals')}
+              title="Remove all daily goals"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
           </div>
           {#each groupGoalsByDuration(template.goals).day as goal}
@@ -998,9 +960,9 @@
                 <button
                   on:click={() => removeGoal(goal.id)}
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-                  title={Lang.t('templates.remove-this-goal', 'Remove this goal')}
+                  title="Remove this goal"
                 >
-                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
                 </button>
               </div>
             </ListItem>
@@ -1010,13 +972,13 @@
       {#if groupGoalsByDuration(template.goals).week.length > 0}
         <div class="goal-section pr-5">
           <div class="relative">
-            <h3 class="goal-period-label">{Lang.t('templates.weekly-goals', 'Weekly Goals')}</h3>
+            <h3 class="goal-period-label">Weekly Goals</h3>
             <button
               on:click={() => removeGoalsByDuration('week')}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-all-weekly-goals', 'Remove all weekly goals')}
+              title="Remove all weekly goals"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
           </div>
           {#each groupGoalsByDuration(template.goals).week as goal}
@@ -1030,9 +992,9 @@
                 <button
                   on:click={() => removeGoal(goal.id)}
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-                  title={Lang.t('templates.remove-this-goal', 'Remove this goal')}
+                  title="Remove this goal"
                 >
-                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
                 </button>
               </div>
             </ListItem>
@@ -1042,13 +1004,13 @@
       {#if groupGoalsByDuration(template.goals).month.length > 0}
         <div class="goal-section pr-5">
           <div class="relative">
-            <h3 class="goal-period-label">{Lang.t('templates.monthly-goals', 'Monthly Goals')}</h3>
+            <h3 class="goal-period-label">Monthly Goals</h3>
             <button
               on:click={() => removeGoalsByDuration('month')}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-all-monthly-goals', 'Remove all monthly goals')}
+              title="Remove all monthly goals"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
           </div>
           {#each groupGoalsByDuration(template.goals).month as goal}
@@ -1062,9 +1024,9 @@
                 <button
                   on:click={() => removeGoal(goal.id)}
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-                  title={Lang.t('templates.remove-this-goal', 'Remove this goal')}
+                  title="Remove this goal"
                 >
-                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
                 </button>
               </div>
             </ListItem>
@@ -1074,13 +1036,13 @@
       {#if groupGoalsByDuration(template.goals).year.length > 0}
         <div class="goal-section pr-5">
           <div class="relative">
-            <h3 class="goal-period-label">{Lang.t('templates.yearly-goals', 'Yearly Goals')}</h3>
+            <h3 class="goal-period-label">Yearly Goals</h3>
             <button
               on:click={() => removeGoalsByDuration('year')}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-all-yearly-goals', 'Remove all yearly goals')}
+              title="Remove all yearly goals"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
           </div>
           {#each groupGoalsByDuration(template.goals).year as goal}
@@ -1094,9 +1056,9 @@
                 <button
                   on:click={() => removeGoal(goal.id)}
                   class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-                  title={Lang.t('templates.remove-this-goal', 'Remove this goal')}
+                  title="Remove this goal"
                 >
-                  <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+                  <IonIcon icon={TrashOutline} size={10} className="text-white" />
                 </button>
               </div>
             </ListItem>
@@ -1105,13 +1067,11 @@
       {/if}
     {/if}
   </List>
-  <List solo outside title={Lang.t('templates.pivots', 'Pivots')}>
-    <Button size="sm" on:click={() => addPivot()} primary clear slot="header-right"
-      >{Lang.t('templates.add', '+ Add')}</Button
-    >
+  <List solo outside title="Pivots">
+    <Button size="sm" on:click={() => addPivot()} primary clear slot="header-right">+ Add</Button>
     {#if !template.pivots.length}
       <Empty small>
-        <span class="text-ios-label2">{Lang.t('templates.no-pivots', 'No Pivots')}</span>
+        <span class="text-gray-500">No Pivots</span>
       </Empty>
     {:else}
       {#each template.pivots as pivot, index}
@@ -1123,23 +1083,21 @@
             <button
               on:click={() => removePivot(pivot.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-this-pivot', 'Remove this pivot')}
+              title="Remove this pivot"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
           </div>
         </ListItem>
       {/each}
     {/if}
   </List>
-  <List solo outside title={Lang.t('templates.locations', 'Locations')}>
-    <Button size="sm" on:click={() => addLocation()} primary clear slot="header-right"
-      >{Lang.t('templates.add', '+ Add')}</Button
-    >
+  <List solo outside title="Locations">
+    <Button size="sm" on:click={() => addLocation()} primary clear slot="header-right">+ Add</Button>
     {@const locationList = template.locations}
     {#if !locationList.length}
       <Empty small>
-        <span class="text-ios-label2">{Lang.t('templates.no-locations', 'No Locations')}</span>
+        <span class="text-gray-500">No Locations</span>
       </Empty>
     {:else}
       {#each locationList as location, index}
@@ -1151,27 +1109,25 @@
           <div class="relative pr-12 w-full">
             <div class="ntitle text-sm">
               <span>{location.name}</span>
-              <span class="text-ios-label2 text-xs">({latStr}, {lngStr})</span>
+              <span class="text-gray-500 text-xs">({latStr}, {lngStr})</span>
             </div>
             <button
               on:click={() => removeLocation(location.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-this-location', 'Remove this location')}
+              title="Remove this location"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
           </div>
         </ListItem>
       {/each}
     {/if}
   </List>
-  <List solo outside title={Lang.t('templates.plugins', 'Plugins')}>
-    <Button size="sm" on:click={() => addPlugin()} primary clear slot="header-right"
-      >{Lang.t('templates.add', '+ Add')}</Button
-    >
+  <List solo outside title="Plugins">
+    <Button size="sm" on:click={() => addPlugin()} primary clear slot="header-right">+ Add</Button>
     {#if !template.plugins.length}
       <Empty small>
-        <span class="text-ios-label2">{Lang.t('templates.no-plugins', 'No Plugins')}</span>
+        <span class="text-gray-500">No Plugins</span>
       </Empty>
     {:else}
       {#each template.plugins as plugin, index}
@@ -1179,14 +1135,14 @@
           <div class="relative pr-12 w-full">
             <div class="ntitle text-sm">
               <span>{plugin.emoji || '🔌'} {plugin.name}</span>
-              <span class="text-ios-label2 text-xs">{plugin.version}</span>
+              <span class="text-gray-500 text-xs">{plugin.version}</span>
             </div>
             <button
               on:click={() => removePlugin(plugin.id)}
               class="absolute top-0 right-0 icon-badge trash-badge hover:brightness-110"
-              title={Lang.t('templates.remove-this-plugin', 'Remove this plugin')}
+              title="Remove this plugin"
             >
-              <IonIcon icon={TrashOutline} size={10} className="text-ios-ondanger" />
+              <IonIcon icon={TrashOutline} size={10} className="text-white" />
             </button>
           </div>
         </ListItem>
@@ -1194,7 +1150,7 @@
     {/if}
   </List>
 {:else}
-  {Lang.t('templates.no-template-found', 'No template found')}
+  No template found
 {/if}
 <div class="h-12" />
 
@@ -1204,8 +1160,8 @@
     @apply space-x-2;
     @apply rounded-md;
     @apply m-1 text-xs px-2 py-1;
-    @apply bg-ios-card;
-    @apply text-ios-label;
+    @apply bg-white dark:bg-black;
+    @apply text-gray-900 dark:text-white;
     @apply shadow-md;
   }
 
@@ -1223,9 +1179,9 @@
   }
 
   .goal-period-label {
-    @apply text-xs font-semibold text-ios-label2;
+    @apply text-xs font-semibold text-gray-600 dark:text-gray-400;
     @apply px-4 py-2 uppercase tracking-wide;
-    @apply bg-ios-bg;
+    @apply bg-gray-50 dark:bg-gray-900;
   }
 
   .pill-wrapper {
@@ -1242,12 +1198,10 @@
   }
 
   .lock-badge {
-    /* iOS look: a lock is the fill token with a secondary glyph */
-    @apply bg-ios-fill;
+    @apply bg-gray-600 dark:bg-gray-500;
   }
 
   .trash-badge {
-    /* iOS look: a remove badge is the danger token (destructive) */
-    background: var(--ios-danger);
+    @apply bg-red-500;
   }
 </style>

@@ -11,7 +11,7 @@
   import Empty from '../empty/empty.svelte'
   import { Lang } from '../../store/lang'
   import type TrackerClass from '../../modules/tracker/TrackerClass'
-  import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
+import ToggleSwitch from '../toggle-switch/toggle-switch.svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -57,7 +57,7 @@
   let { tracker, active = $bindable() } = $props()
 </script>
 
-<div class="w-full p-2 bg-ios-card">
+<div class="w-full p-2 bg-gray-100 dark:bg-gray-800 ">
   {#if tracker.picks.length > 10}
     <SearchBar
       autocomplete
@@ -81,8 +81,7 @@
   {/if}
   {#each picks || [] as pick, index (index)}
     {#if isHeader(pick)}
-      <!-- iOS look: a group is a section header, small uppercase secondary text -->
-      <div class="text-ios-label2 text-sm font-semibold uppercase tracking-wide pt-5 pb-1 px-3 mt-1">
+      <div class="text-gray-800 dark:text-gray-200 text-lg font-bold pt-5 pb-1 px-3 mt-1">
         {pick.replace(':', '')}
       </div>
     {:else}
@@ -91,7 +90,9 @@
         style="min-height:40px;"
         compact
         clickable
-        className="pl-3 pr-2 compact duration-75 bg-ios-card"
+        className="pl-3 pr-2 compact duration-75  {active.indexOf(pick) > -1
+          ? 'bg-primary-500 bg-opacity-10 text-white'
+          : 'bg-gray-200 dark:bg-gray-800'}"
         on:click={() => {
           toggle(pick)
         }}
@@ -99,11 +100,11 @@
         <div slot="right" class="stiff flex items-center">
           <ToggleSwitch title={pick} value={active.indexOf(pick) > -1} />
           <!-- {#if active.indexOf(pick) > -1}
-            <IonIcon icon={CheckmarkCircle} className="text-ios-white" size={28} />
+            <IonIcon icon={CheckmarkCircle} className="text-white" size={28} />
           {:else}
             <IonIcon
               icon={CircleOutline}
-              className="rounded-full bg-ios-card text-ios-label "
+              className="text-gray-300 rounded-full bg-white dark:bg-black dark:text-gray-700 "
               size={28}
             />
           {/if} -->
@@ -123,6 +124,16 @@
   <div class="flex">
     <slot name="bottom" />
   </div>
+
+  <!-- <div class="value">{tempValue}</div>
+  <input
+    type="range"
+    bind:value={tempValue}
+    {min}
+    {max}
+    on:change={() => {
+      dispatch('change', parseInt(tempValue));
+    }} /> -->
 </div>
 
 <style lang="postcss" global>

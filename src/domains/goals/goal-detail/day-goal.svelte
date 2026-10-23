@@ -19,7 +19,6 @@
   import type { TrackableUsage } from '../../usage/trackable-usage.class'
   import type { GoalClass, GoalScoreType } from '../goal-class'
   import { getGoalComparisonSymbol } from '../goal-utils'
-  import { Lang } from '../../../store/lang'
 
   let { goal = $bindable() } = $props<{ goal: GoalClass }>()
 
@@ -45,6 +44,7 @@
   })
 
   const generateWeeksFromScores = () => {
+    
     let weekMap: any = {}
     scores
       .sort((a, b) => {
@@ -62,7 +62,7 @@
         weekMap[startOfWeek] = weekMap[startOfWeek] || []
         weekMap[startOfWeek].push(score)
       })
-
+    
     return Object.keys(weekMap)
       .map((id) => {
         return weekMap[id]
@@ -73,6 +73,7 @@
   }
 
   const getPast = async () => {
+    
     showLoading = true
     const start = dayjs(startDate).subtract(2, 'month')
     const end = dayjs(startDate).endOf('day')
@@ -122,18 +123,18 @@
 </script>
 
 {#if goal && totalDays}
-  <div class="bg-ios-card px-4 pb-4 flex flex-col space-y-2">
-    <h1 class="text-xl font-bold text-ios-label leading-tight mt-4 pb-">
+  <div class="bg-white  dark:bg-black px-4 pb-4  flex flex-col space-y-2">
+    <h1 class="text-xl font-bold text-black dark:text-white leading-tight mt-4 pb-">
       {trackable.label}
       {getGoalComparisonSymbol(goal.comparison)}
       {trackable.formatValue(goal.target)}
     </h1>
     {#if scores}
-      <p class="text-ios-label2 leading-snug pb-2">
-        {Lang.t('goals.goal-hit', 'Goal hit')}
-        <strong class="text-ios-label">{math.round(math.percentage(totalDays, totalSuccess))}%</strong>
-        <strong>{totalSuccess}</strong>
-        {Lang.t('goals.out-of-days', { total: totalDays })}
+      <p class="text-gray-600 dark:text-gray-400 leading-snug pb-2">
+        Goal hit <strong class="text-black dark:text-white"
+          >{math.round(math.percentage(totalDays, totalSuccess))}%</strong
+        >
+        <strong>{totalSuccess}</strong> out of {totalDays} days.
         <br />
       </p>
       <ProgressBar
@@ -145,9 +146,7 @@
     {/if}
   </div>
 {:else if !loading && !totalDays}
-  <div class="bg-ios-card flex items-center justify-center h-40 p-10">
-    {Lang.t('goals.not-enough-data-keep-tracking', 'Not enough data. Keep Tracking!')}
-  </div>
+  <div class="bg-white dark:bg-black flex items-center justify-center h-40 p-10">Not enough data. Keep Tracking!</div>
 {/if}
 {#if loading}
   <Empty>
@@ -174,8 +173,8 @@
             <button
               on:click={() => openDateOptions(day.date.toDate())}
               style="transform: scale({getPad(day.percent)})"
-              class="goal-ball transition-all {day.success == true ? 'bg-ios-good' : ''} {day.failure == true
-                ? 'ios-goal-missed'
+              class="goal-ball transition-all  {day.success == true ? 'bg-green-500' : ''} {day.failure == true
+                ? 'bg-red-500'
                 : ''}"
             >
               {day.date.format('ddd').substring(0, 1)}
@@ -194,7 +193,7 @@
     percent: number -->
     <!-- <ListItem clickable on:click={() => openDateOptions(item.date.toDate())}>
       <main class="flex flex-col space-y-1">
-        <div class="text-sm text-ios-label2 leading-none">{item.date.format(`dddd`)}</div>
+        <div class="text-sm text-gray-500 leading-none">{item.date.format(`dddd`)}</div>
         <div class="font-semibold text-base">{item.date.format(`${dateFormats.mmm_d_yyyy}`)}</div>
         <div />
         <ProgressBar
@@ -219,7 +218,7 @@
     @apply px-4;
   }
   .goal-scroller .week h2 {
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
     @apply text-xs lg:text-lg;
     @apply font-medium;
     @apply mt-4 mb-2 lg:mt-10;
@@ -229,6 +228,7 @@
     @apply leading-tight;
     @apply w-full;
     @apply max-w-md;
+
   }
   .goal-ball {
     @apply rounded-full;
@@ -237,28 +237,24 @@
     @apply flex items-center justify-center text-center;
     @apply h-9 w-9;
     @apply flex-grow-0 flex-shrink-0;
-    color: var(--ios-on-save);
+    @apply text-white;
     @apply transition-all duration-100 ease-in-out;
   }
   .day-score-button {
     @apply relative;
-    @apply bg-ios-card;
+    @apply bg-white dark:bg-gray-900;
     @apply flex flex-col items-center justify-center;
     @apply py-3 px-3 rounded-2xl;
     @apply shadow-xl;
   }
   .day-score-button .success-check {
     @apply absolute;
-    background-color: var(--ios-card);
+    @apply bg-white;
     @apply h-5 w-5 rounded-full;
     @apply leading-none;
   }
   .day-score-button .success-check .ion-icon {
     margin-left: -2px;
     margin-top: -2px;
-  }
-  /* iOS look: a day with no data is the fill token with secondary text (contrast 4.5:1) */
-  .goal-nodata {
-    color: var(--ios-label2) !important;
   }
 </style>

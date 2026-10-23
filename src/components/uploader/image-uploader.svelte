@@ -48,7 +48,7 @@
           console.error('Invalid data URL generated')
           return
         }
-        console.info('Image loaded, data URL length:', output.length)
+        console.log('Image loaded, data URL length:', output.length);
         dispatch('image', output)
       } catch (err) {
         console.error('Error processing image:', err)

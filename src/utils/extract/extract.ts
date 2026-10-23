@@ -53,7 +53,7 @@ function generateRaw(str = '', type = 'generic') {
     case 'context':
       return `+${str}`
     case 'pointer':
-      return `^${str}`
+      return `^${str}`  
     default:
       return str
   }

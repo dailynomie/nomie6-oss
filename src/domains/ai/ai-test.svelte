@@ -3,7 +3,12 @@
 <script lang="ts">
   import { query, streamQuery, aiState } from './engine.svelte'
   import { buildContext } from './context-builder'
-  import type { AdviceItem, ChartDataset, JournalPrompt, AlertItem } from './profiles/types'
+  import type {
+    AdviceItem,
+    ChartDataset,
+    JournalPrompt,
+    AlertItem
+  } from './profiles/types'
   import type { NarrativeAnalysis } from './profiles/narrative'
   import NLayout from '../layout/layout.svelte'
   import NBackButton from '../../components/back-button/back-button.svelte'
@@ -11,7 +16,6 @@
   import { get } from 'svelte/store'
   import dayjs from 'dayjs'
   import { tokenizeLite } from '../../modules/tokenizer/lite'
-  import { Lang } from '../../store/lang'
 
   let responseText = $state('')
   let useStreaming = $state(false)
@@ -31,13 +35,13 @@
       // Query logs from last 30 days
       const logs = await LedgerStore.query({
         start: thirtyDaysAgo,
-        end: dayjs(),
+        end: dayjs()
       })
 
-      console.info('📊 Logs from last 30 days:', logs?.length)
+      console.log('📊 Logs from last 30 days:', logs?.length)
 
       if (!logs || logs.length === 0) {
-        testDataInfo = { info: Lang.t('ai.no-tracking-data-available-yet', 'No tracking data available yet') }
+        testDataInfo = { info: 'No tracking data available yet' }
         return
       }
 
@@ -52,12 +56,7 @@
         const tokens = tokenizeLite(log.note)
         tokens.forEach((token: any) => {
           // Skip non-trackable tokens (like generic text, links, etc)
-          if (
-            token.type !== 'tracker' &&
-            token.type !== 'person' &&
-            token.type !== 'context' &&
-            token.type !== 'pointer'
-          ) {
+          if (token.type !== 'tracker' && token.type !== 'person' && token.type !== 'context' && token.type !== 'pointer') {
             return
           }
 
@@ -70,14 +69,14 @@
         })
       })
 
-      console.info('📊 Extracted tokens:', totalTokens, 'Unique metrics:', Object.keys(byTag).length)
+      console.log('📊 Extracted tokens:', totalTokens, 'Unique metrics:', Object.keys(byTag).length)
 
       // Get context
       const context = await buildContext({
         dateRange: {
           from: thirtyDaysAgo.format('YYYY-MM-DD'),
-          to: dayjs().format('YYYY-MM-DD'),
-        },
+          to: dayjs().format('YYYY-MM-DD')
+        }
       })
 
       testDataInfo = {
@@ -86,14 +85,14 @@
         metrics: Object.entries(byTag).map(([tag, entries]) => ({
           tag,
           count: entries.length,
-          recent: (entries as any[]).slice(-3).map((e: any) => e.value),
-        })),
+          recent: (entries as any[]).slice(-3).map((e: any) => e.value)
+        }))
       }
 
       contextSummary = context.summary
     } catch (error) {
       console.error('Error loading test data:', error)
-      testDataInfo = { error: Lang.t('ai.failed-with', { message: (error as Error).message }) }
+      testDataInfo = { error: `Failed: ${(error as Error).message}` }
     }
   }
 
@@ -105,7 +104,7 @@
         await streamQuery(
           {
             profile: 'insight',
-            prompt: Lang.t('ai.how-am-i-doing-overall-based-on-my-data', 'How am I doing overall based on my data?'),
+            prompt: 'How am I doing overall based on my data?'
           },
           (chunk) => {
             responseText += chunk
@@ -114,7 +113,7 @@
       } else {
         const res = await query<string>({
           profile: 'insight',
-          prompt: Lang.t('ai.how-am-i-doing-overall-based-on-my-data', 'How am I doing overall based on my data?'),
+          prompt: 'How am I doing overall based on my data?'
         })
         responseText = res.content
       }
@@ -128,10 +127,7 @@
     try {
       const res = await query<AdviceItem[]>({
         profile: 'advice',
-        prompt: Lang.t(
-          'ai.what-actionable-advice-do-you-have-for-me-this-w',
-          'What actionable advice do you have for me this week?'
-        ),
+        prompt: 'What actionable advice do you have for me this week?'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -144,10 +140,7 @@
     try {
       const res = await query<ChartDataset>({
         profile: 'data',
-        prompt: Lang.t(
-          'ai.create-a-chart-showing-my-top-tracked-metrics-ov',
-          'Create a chart showing my top tracked metrics over the last week'
-        ),
+        prompt: 'Create a chart showing my top tracked metrics over the last week'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -160,7 +153,7 @@
     try {
       const res = await query<JournalPrompt>({
         profile: 'journal',
-        prompt: Lang.t('ai.generate-reflection-prompts-for-today', 'Generate reflection prompts for today'),
+        prompt: 'Generate reflection prompts for today'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -173,7 +166,7 @@
     try {
       const res = await query<AlertItem[]>({
         profile: 'alert',
-        prompt: Lang.t('ai.detect-any-anomalies-in-my-tracking-data', 'Detect any anomalies in my tracking data'),
+        prompt: 'Detect any anomalies in my tracking data'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -186,10 +179,7 @@
     try {
       const res = await query<NarrativeAnalysis>({
         profile: 'narrative',
-        prompt: Lang.t(
-          'ai.analyze-my-journal-entries-and-notes-from-the-la',
-          'Analyze my journal entries and notes from the last 30 days'
-        ),
+        prompt: 'Analyze my journal entries and notes from the last 30 days'
       })
       responseText = JSON.stringify(res.content, null, 2)
     } catch (err) {
@@ -203,69 +193,63 @@
     <div class="left">
       <NBackButton />
     </div>
-    <div class="main title">{Lang.t('ai.ai-test', '🤖 AI Test')}</div>
+    <div class="main title">🤖 AI Test</div>
     <div class="right" />
   </div>
 
   <div slot="content" class="p-4">
-    <div class="mb-6 bg-ios-tintsoft border border-ios-tint rounded p-4">
-      <p class="text-sm text-ios-tint">
-        <strong>{Lang.t('ai.tip', 'Tip:')}</strong>
-        {Lang.t(
-          'ai.configure-your-api-key-in-settings-gt-ai-integra',
-          'Configure your API key in Settings &gt; AI Integration first!'
-        )}
+    <div class="mb-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded p-4">
+      <p class="text-sm text-blue-800 dark:text-blue-200">
+        <strong>Tip:</strong> Configure your API key in Settings &gt; AI Integration first!
       </p>
     </div>
 
     {#if testDataInfo}
-      <div class="mb-6 bg-ios-bg border border-ios-separator rounded p-4">
+      <div class="mb-6 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded p-4">
         <button
           onclick={() => (showTestData = !showTestData)}
           class="w-full text-left flex items-center justify-between hover:opacity-70 transition-opacity"
         >
-          <h3 class="font-semibold text-sm">{Lang.t('ai.test-data-last-30-days', '📊 Test Data (Last 30 Days)')}</h3>
+          <h3 class="font-semibold text-sm">📊 Test Data (Last 30 Days)</h3>
           <span class="text-xs">{showTestData ? '▼' : '▶'}</span>
         </button>
 
         {#if showTestData}
           <div class="mt-3 space-y-3 text-xs">
             {#if testDataInfo.error}
-              <p class="text-ios-danger">{testDataInfo.error}</p>
+              <p class="text-red-600 dark:text-red-400">{testDataInfo.error}</p>
             {/if}
             {#if testDataInfo.info}
-              <p class="text-ios-label2">{testDataInfo.info}</p>
+              <p class="text-gray-600 dark:text-gray-400">{testDataInfo.info}</p>
             {/if}
             {#if testDataInfo.totalEntries}
               <div class="grid grid-cols-2 gap-2">
-                <div class="bg-ios-card p-2 rounded">
-                  <p class="text-ios-label2">{Lang.t('ai.total-entries', 'Total Entries')}</p>
+                <div class="bg-white dark:bg-gray-700 p-2 rounded">
+                  <p class="text-gray-600 dark:text-gray-400">Total Entries</p>
                   <p class="font-bold text-lg">{testDataInfo.totalEntries}</p>
                 </div>
-                <div class="bg-ios-card p-2 rounded">
-                  <p class="text-ios-label2">{Lang.t('ai.unique-metrics', 'Unique Metrics')}</p>
+                <div class="bg-white dark:bg-gray-700 p-2 rounded">
+                  <p class="text-gray-600 dark:text-gray-400">Unique Metrics</p>
                   <p class="font-bold text-lg">{testDataInfo.uniqueMetrics}</p>
                 </div>
               </div>
 
-              <div class="bg-ios-card p-3 rounded">
-                <p class="font-semibold mb-2">{Lang.t('ai.tracked-metrics', 'Tracked Metrics:')}</p>
+              <div class="bg-white dark:bg-gray-700 p-3 rounded">
+                <p class="font-semibold mb-2">Tracked Metrics:</p>
                 <div class="space-y-2 max-h-40 overflow-y-auto">
                   {#each testDataInfo.metrics as metric (metric.tag)}
                     <div class="text-xs">
-                      <p class="font-medium text-ios-label2">
-                        {Lang.t('ai.metric-entries', { tag: metric.tag, num: metric.count })}
-                      </p>
-                      <p class="text-ios-label2">{Lang.t('ai.recent', { list: metric.recent.join(', ') })}</p>
+                      <p class="font-medium text-gray-700 dark:text-gray-300">{metric.tag} ({metric.count} entries)</p>
+                      <p class="text-gray-500 dark:text-gray-400">Recent: {metric.recent.join(', ')}</p>
                     </div>
                   {/each}
                 </div>
               </div>
 
               {#if contextSummary}
-                <div class="bg-ios-card p-3 rounded">
-                  <p class="font-semibold mb-2">{Lang.t('ai.ai-context-summary', 'AI Context Summary:')}</p>
-                  <p class="text-ios-label2 leading-relaxed">{contextSummary}</p>
+                <div class="bg-white dark:bg-gray-700 p-3 rounded">
+                  <p class="font-semibold mb-2">AI Context Summary:</p>
+                  <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{contextSummary}</p>
                 </div>
               {/if}
             {/if}
@@ -275,113 +259,90 @@
     {/if}
 
     {#if aiState.error}
-      <div
-        class="bg-ios-card border border-ios-danger text-ios-danger px-4 py-3 rounded mb-4"
-      >
-        <strong>{Lang.t('ai.error-3', 'Error:')}</strong>
-        {aiState.error}
+      <div class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4">
+        <strong>Error:</strong> {aiState.error}
       </div>
     {/if}
 
     <div class="mb-6">
       <label class="flex items-center gap-2 mb-4">
         <input type="checkbox" bind:checked={useStreaming} />
-        <span class="text-sm">{Lang.t('ai.use-streaming-insight-only', 'Use Streaming (Insight only)')}</span>
+        <span class="text-sm">Use Streaming (Insight only)</span>
       </label>
 
       <div class="grid grid-cols-2 gap-2">
         <button
           onclick={testInsight}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
+          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.insight-2', '💬 Insight')}
+          {aiState.loading ? 'Loading...' : '💬 Insight'}
         </button>
 
         <button
           onclick={testAdvice}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.advice-2', '💡 Advice')}
+          {aiState.loading ? 'Loading...' : '💡 Advice'}
         </button>
 
         <button
           onclick={testData}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
+          class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.data-2', '📊 Data')}
+          {aiState.loading ? 'Loading...' : '📊 Data'}
         </button>
 
         <button
           onclick={testJournal}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
+          class="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.journal-2', '📝 Journal')}
+          {aiState.loading ? 'Loading...' : '📝 Journal'}
         </button>
 
         <button
           onclick={testAlert}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
+          class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.alert-2', '⚠️ Alert')}
+          {aiState.loading ? 'Loading...' : '⚠️ Alert'}
         </button>
 
         <button
           onclick={testNarrative}
           disabled={aiState.loading}
-          class="px-4 py-2 bg-ios-tint text-ios-ontint rounded hover:opacity-90 disabled:opacity-50 text-sm"
+          class="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 disabled:bg-gray-400 text-sm"
         >
-          {aiState.loading ? Lang.t('ai.loading', 'Loading...') : Lang.t('ai.narrative-2', '📖 Narrative')}
+          {aiState.loading ? 'Loading...' : '📖 Narrative'}
         </button>
       </div>
     </div>
 
     <div class="mb-4">
-      <h2 class="text-lg font-semibold mb-2">{Lang.t('ai.response', 'Response:')}</h2>
-      <div class="bg-ios-bg rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-ios-label">
+      <h2 class="text-lg font-semibold mb-2">Response:</h2>
+      <div class="bg-gray-100 dark:bg-gray-800 rounded p-4 font-mono text-xs min-h-32 max-h-96 overflow-auto text-gray-900 dark:text-gray-100">
         {#if aiState.loading}
-          <span class="text-ios-label2">{Lang.t('ai.processing', 'Processing...')}</span>
+          <span class="text-gray-500">Processing...</span>
         {:else if responseText}
           <pre>{responseText}</pre>
         {:else}
-          <span class="text-ios-label2"
-            >{Lang.t('ai.click-a-button-to-test-a-profile', 'Click a button to test a profile')}</span
-          >
+          <span class="text-gray-500">Click a button to test a profile</span>
         {/if}
       </div>
     </div>
 
-    <div class="text-xs text-ios-label2">
-      <h3 class="font-semibold mb-2">{Lang.t('ai.profiles', 'Profiles:')}</h3>
+    <div class="text-xs text-gray-600 dark:text-gray-400">
+      <h3 class="font-semibold mb-2">Profiles:</h3>
       <ul class="space-y-1">
-        <li>
-          💬 <strong>{Lang.t('ai.insight', 'Insight:')}</strong>
-          {Lang.t('ai.natural-language-supports-streaming', 'Natural language (supports streaming)')}
-        </li>
-        <li>
-          💡 <strong>{Lang.t('ai.advice', 'Advice:')}</strong>
-          {Lang.t('ai.actionable-recommendations', 'Actionable recommendations')}
-        </li>
-        <li>📊 <strong>{Lang.t('ai.data', 'Data:')}</strong> {Lang.t('ai.chart-datasets', 'Chart datasets')}</li>
-        <li>
-          📝 <strong>{Lang.t('ai.journal', 'Journal:')}</strong>
-          {Lang.t('ai.reflection-prompts', 'Reflection prompts')}
-        </li>
-        <li>
-          ⚠️ <strong>{Lang.t('ai.alert', 'Alert:')}</strong>
-          {Lang.t('ai.anomaly-detection', 'Anomaly detection')}
-        </li>
-        <li>
-          📖 <strong>{Lang.t('ai.narrative', 'Narrative:')}</strong>
-          {Lang.t(
-            'ai.journal-content-analysis-themes-sentiment-patter',
-            'Journal content analysis (themes, sentiment, patterns)'
-          )}
-        </li>
+        <li>💬 <strong>Insight:</strong> Natural language (supports streaming)</li>
+        <li>💡 <strong>Advice:</strong> Actionable recommendations</li>
+        <li>📊 <strong>Data:</strong> Chart datasets</li>
+        <li>📝 <strong>Journal:</strong> Reflection prompts</li>
+        <li>⚠️ <strong>Alert:</strong> Anomaly detection</li>
+        <li>📖 <strong>Narrative:</strong> Journal content analysis (themes, sentiment, patterns)</li>
       </ul>
     </div>
   </div>

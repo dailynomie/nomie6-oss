@@ -9,7 +9,6 @@
   import { Prefs } from '../preferences/Preferences'
 
   import { StorageEngines, type StorageTypes } from '../storage/storage'
-  import { Lang } from '../../store/lang'
 
   const engines = StorageEngines
   let selected: StorageTypes = $state($Prefs.storageType)
@@ -19,14 +18,10 @@
     return engines
       .map((engine) => {
         return {
-          // every engine is free, so the price is not shown; a disabled option says why
           title: engine.name,
           id: engine.id,
           disabled: ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures,
-          description:
-            ['firebase', 's3', 'nomie-server'].indexOf(engine.id) > -1 && !$Prefs.betaFeatures
-              ? `${engine.description}. ${Lang.t('setup.not-available-yet', 'Not available in this version yet.')}`
-              : engine.description,
+          description: `${engine.description}  ${engine.price}`,
           checked: `${selected}` == `${engine.id}`,
           click() {
             //@ts-ignore
@@ -47,31 +42,19 @@
 
 <Container className="filler  flex items-center lg:justify-center flex-col pt-3 px-5 slide-storage ">
   <div class="max-w-screen-lg mx-auto pt-6">
-    <h1 class="leading-tight text-ios-label text-center font-bold px-4 text-xl">
-      {Lang.t('setup.data-storage', 'Data Storage')}
-    </h1>
-    <p class="text-description text-center text-sm pt-1 px-1">
-      {Lang.t('setup.where-would-you-like-your-data-stored', 'Where would you like your data stored?')}
-    </p>
-    {#if !$Prefs.storageType}
-      <p class="text-center text-xs text-ios-label2 pt-2">
-        {Lang.t('setup.choose-one-to-continue', 'Choose one to continue.')}
-      </p>
-    {/if}
+    <h1 class="leading-tight dark:text-white text-center font-bold px-4 text-xl">Data Storage</h1>
+    <p class="text-description text-center text-sm pt-1 px-1">Where would you like your data stored?</p>
     <div class="h-4" />
-    <Menu size="sm" className="border border-ios-separator" {buttons} />
+    <Menu size="sm" className="border border-gray-500 border-opacity-20" {buttons} />
 
     <div class="flex items-center justify-center pt-4">
       <button
         on:click={() => {
           showAdvanced = !showAdvanced
         }}
-        class="nbtn-badge bg-ios-fill text-ios-label text-xs"
+        class="nbtn-badge bg-gray-500 bg-opacity-10 text-gray-600 dark:text-gray-300 text-xs"
       >
-        {#if showAdvanced}{Lang.t('setup.hide-advanced', 'Hide Advanced')}{:else}{Lang.t(
-            'setup.show-advanced',
-            'Show Advanced'
-          )}{/if}
+        {#if showAdvanced}Hide Advanced{:else}Show Advanced{/if}
       </button>
     </div>
     <div class="h-20" />
@@ -80,6 +63,6 @@
 
 <style global>
   .storage-select .n-menu .active {
-    @apply ring-2 ring-ios-tint ring-inset;
+    @apply ring-2 ring-primary-500 ring-inset;
   }
 </style>

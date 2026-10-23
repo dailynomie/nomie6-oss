@@ -4,7 +4,7 @@
   import type { TrackableUsage } from '../../../usage/trackable-usage.class'
   // import type { Trackable } from '../../../trackable/Trackable.class'
 
-  import Map from '../../../map/map-lazy.svelte'
+  import Map from '../../../map/map.svelte'
   import type { WidgetClass } from '../widget-class'
 
   const { trackable = $bindable(undefined), widget = $bindable(), usage = $bindable() } = $props()

@@ -5,7 +5,7 @@
   import { navigate } from '../../vendor/svelte-navigator'
 
   // Modules
-  import { deleteStorageFile, listStorageFiles } from './storage-files'
+  import Storage from './storage'
 
   // Components
   import NItem from '../../components/list-item/list-item.svelte'
@@ -14,7 +14,6 @@
   import { Interact } from '../../store/interact'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import { ChevronForwardOutline } from '../../components/icon/nicons'
-  import { Lang } from '../../store/lang'
 
   const state = {
     showFiles: false,
@@ -24,7 +23,7 @@
   const methods = {
     initialize() {
       state.files = []
-      return listStorageFiles().then((files) => {
+      return Storage.list().then((files) => {
         state.files = files.sort((a, b) => {
           return a > b ? 1 : -1
         })
@@ -44,7 +43,7 @@
         'Yes, Delete'
       ).then((res) => {
         if (res === true) {
-          deleteStorageFile(file).then(() => {
+          Storage.delete(file).then(() => {
             setTimeout(() => {
               methods.initialize()
             })
@@ -62,14 +61,14 @@
 <div class="n-storage">
   <div class="list">
     <NItem
-      title={Lang.t('storage.browse-storage', 'Browse Storage...')}
+      title="Browse Storage..."
       on:click={() => {
         navigate('/files')
       }}
       className="clickable"
     >
       <span slot="right">
-        <IonIcon icon={ChevronForwardOutline} className="text-ios-label2" />
+        <IonIcon icon={ChevronForwardOutline} className="text-gray-500" />
       </span>
     </NItem>
   </div>

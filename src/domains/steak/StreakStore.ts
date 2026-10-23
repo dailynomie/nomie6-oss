@@ -1,6 +1,9 @@
-import { getTrackerInputAsString } from '../tracker/input/TrackerInputStore'
+import {
+  getTrackerInputAsString
+} from '../tracker/input/TrackerInputStore'
 
 import type { ITrackables } from '../trackable/trackable-utils'
+
 
 import NLog from '../nomie-log/nomie-log'
 import type { Trackable } from '../trackable/Trackable.class'
@@ -12,13 +15,12 @@ import { saveLog } from '../ledger/LedgerStore'
 import ScoreNote from '../../modules/scoring/score-note'
 import type { ITrackers } from '../../modules/import/import'
 import { openLogEditor } from '../nomie-log/LogEditorStore'
-import { Lang } from '../../store/lang'
 
 const dateFormats = getDateFormats()
 
 export const trackOnThisDay = async (trackable: Trackable, date: Date, known: ITrackables): Promise<boolean> => {
   try {
-    let updatedDate = dayjs(date).hour(dayjs().hour()).minute(dayjs().minute()).toDate()
+    let updatedDate = dayjs(date).hour(dayjs().hour()).minute(dayjs().minute()).toDate();
     let log: NLog = new NLog({ end: updatedDate })
 
     if (trackable.tracker) {
@@ -35,7 +37,7 @@ export const trackOnThisDay = async (trackable: Trackable, date: Date, known: IT
           retrospective: true,
           // onClose: closeModal,
         })
-        log.note = response.raw
+        log.note = response.raw;
 
         // Score the Note
         let knownTrackers: ITrackers = {}
@@ -47,13 +49,11 @@ export const trackOnThisDay = async (trackable: Trackable, date: Date, known: IT
         log.score = ScoreNote(log.note, log.end, knownTrackers)
       }
       await saveLog(log)
-    } else if (trackable.type == 'person') {
-      openLogEditor(
-        new NLog({
-          note: `${trackable.tag} `,
-          end: date,
-        })
-      )
+    } else if(trackable.type == 'person') {
+      openLogEditor(new NLog({
+        note: `${trackable.tag} `,
+        end: date
+      }))
     } else {
       log.note = trackable.tag
       await saveLog(log)
@@ -80,6 +80,7 @@ export const trackOnThisDay = async (trackable: Trackable, date: Date, known: IT
 //       if (trackerInput) {
 //         const log = new NLog({ end: newDate.toDate().getTime(), note: `${trackerInput.raw}` })
 //         await saveLog(log)
+//         showToast({ message: Lang.t('general.saved', 'Saved') })
 //       }
 //     } catch (e) {
 //       Interact.error(e)

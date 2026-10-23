@@ -6,6 +6,7 @@
   import Button from '../../components/button/button.svelte'
 
   import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { CloseOutline } from '../../components/icon/nicons'
 
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import Toolbar from '../../components/toolbar/toolbar.svelte'
@@ -30,10 +31,12 @@
 
 <BackdropModal>
   <ToolbarGrid slot="header">
+    <Button slot="left" type="icon" on:click={close}>
+      <IonIcon icon={CloseOutline} size={28} className="text-primary-500" />
+    </Button>
     <h1 class="ntitle">
       {awardCount == 1 ? Lang.t('awards.new-award', 'New Award!') : Lang.t('awards.new-awards', 'New Awards!')}
     </h1>
-    <Button slot="right" clear primary on:click={close}>{Lang.t('awards.done', 'Done')}</Button>
   </ToolbarGrid>
 
   {#if awardCount == 1}
@@ -44,13 +47,13 @@
           src="/images/awards/{$AwardStore.newAwards[0].id}.svg"
           alt={$AwardStore.newAwards[0].name}
         />
-        <div class="text-4xl my-4 font-bold w-11/12 mx-auto relative text-ios-label2 text-center leading-tight">
+        <div
+          class="text-4xl my-4 font-bold  w-11/12 mx-auto relative text-gray-400 dark:text-gray-200  text-center leading-tight "
+        >
           {$AwardStore.newAwards[0].name}
           {#if $AwardStore.newAwards[0].reason}
-            <p class="text-ios-label2 font-medium text-sm mt-2">
-              {Lang.t('awards.reason', { reason: $AwardStore.newAwards[0].reason })}
-            </p>
-            <p class="text-ios-label2 font-medium text-xs opacity-60 mt-2">
+            <p class="text-gray-500 font-medium text-sm mt-2">Reason: {$AwardStore.newAwards[0].reason}</p>
+            <p class="text-gray-500 font-medium text-xs opacity-60 mt-2">
               {$AwardStore.newAwards[0].getHash()}
             </p>
           {/if}
@@ -64,7 +67,7 @@
           <div class="award-badge">
             <img src="/images/awards/{award.id}.svg" alt={award.name} />
             <div
-              class="text-xs -top-2 w-11/12 mx-auto relative text-ios-label2 rounded-full py-1 text-center line-clamp-1 leading-tight"
+              class="text-xs -top-2 w-11/12 mx-auto relative text-gray-400 dark:text-gray-200 rounded-full py-1 text-center line-clamp-1 leading-tight "
             >
               {award.name}
             </div>
@@ -76,7 +79,7 @@
   <Toolbar slot="footer">
     <Button
       id="accept-award-button"
-      className="w-full bg-ios-tint text-ios-ontint font-bold"
+      className="w-full bg-primary-600 text-white font-bold"
       on:click={async () => {
         await saveNewAwards()
         close()

@@ -10,12 +10,11 @@ import { addNewPerson, getAddPersonButton } from '../board/boardActions'
 import { generateBackup } from '../backup/BackupStore'
 import { openTrackableEditor } from '../trackable/trackable-editor/TrackableEditorStore'
 import { closeUnisearch } from './UnisearchStore'
-import { Lang } from '../../store/lang'
 
 export const unisearchCommands: Array<PopMenuButton> = [
   {
-    title: Lang.t('search.create-custom-tracker', 'Create Custom tracker'),
-    description: Lang.t('search.create-and-add-a-new-tracker', 'Create and Add a new tracker!'),
+    title: 'Create Custom tracker',
+    description: 'Create and Add a new tracker! ',
     click() {
       openTrackableEditor(
         new Trackable({
@@ -26,61 +25,55 @@ export const unisearchCommands: Array<PopMenuButton> = [
   },
   getAddPersonButton(),
   {
-    title: Lang.t('search.write-journal-entry', 'Write Journal Entry'),
+    title: 'Write Journal Entry',
     icon: CreateOutline,
-    description: Lang.t(
-      'search.browse-the-nomie-library-of-trackers-add-create',
-      'Browse the nomie library of trackers, add create'
-    ),
+    description: 'Browse the nomie library of trackers, add create',
     click() {
       ActiveLogStore.journal(new NLog({}))
     },
   },
   {
-    title: Lang.t('search.open-library', 'Open Library'),
-    description: Lang.t(
-      'search.browse-the-nomie-library-of-trackers-add-create',
-      'Browse the nomie library of trackers, add create'
-    ),
+    title: 'Open Library',
+    description: 'Browse the nomie library of trackers, add create',
     click() {
       TrackerLibrary.toggle()
     },
   },
   {
-    title: Lang.t('search.dark-theme', 'Dark Theme'),
+    title: 'Dark Theme',
     click() {
       Prefs.update((s) => {
         s.theme = 'dark'
         setDocumentTheme(s.theme)
-        closeUnisearch()
+        closeUnisearch();
         return s
       })
     },
   },
   {
-    title: Lang.t('search.light-theme', 'Light Theme'),
+    title: 'Light Theme',
     click() {
       Prefs.update((s) => {
         s.theme = 'light'
         setDocumentTheme(s.theme)
-        closeUnisearch()
+        closeUnisearch();
         return s
       })
     },
   },
   {
-    title: Lang.t('search.system-theme', 'System Theme'),
+    title: 'System Theme',
     click() {
       Prefs.update((s) => {
         s.theme = 'auto'
         setDocumentTheme(s.theme)
-        closeUnisearch()
+        closeUnisearch();
         return s
       })
     },
   },
   {
-    title: Lang.t('search.generate-backup', 'Generate Backup'),
+    title: 'Generate Backup',
     click() {
       generateBackup()
     },

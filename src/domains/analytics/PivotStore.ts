@@ -1,13 +1,14 @@
+
 import { PivotClass } from './pivot-class'
+import PivotEditorModal from './pivot-editor-modal.svelte'
 import NPaths from '../../paths'
 import { createArrayStore } from '../../store/ArrayStore'
 import { openModal } from '../../components/backdrop/BackdropStore2'
 import { writable } from 'svelte/store'
 import Storage from '../storage/storage'
-import { Lang } from '../../store/lang'
 
 export const PivotStore = createArrayStore(NPaths.storage.pivots(), {
-  label: Lang.t('analytics.pivots', 'Pivots'),
+  label: 'Pivots',
   key: 'id',
   itemInitializer: (item) => {
     return new PivotClass(item)
@@ -31,12 +32,13 @@ export const PivotModalStore = writable({
 
 let masterPivots: Array<PivotClass> = []
 
+
+
 /**
  * Open Editor Modal
  * @param pivot
  */
-export const openPivotEditor = async (pivot?: PivotClass) => {
-  const { default: PivotEditorModal } = await import('./pivot-editor-modal.svelte')
+export const openPivotEditor = (pivot?: PivotClass) => {
   openModal({
     id: `pivot-${pivot.id}-editor`,
     position: 'fullscreen',
@@ -56,27 +58,28 @@ export const registerPivotListeners = async () => {
   try {
     const pivotsPath = NPaths.storage.pivots()
 
-    console.info('[PivotStore] Registering change listener for pivots')
+    console.log('[PivotStore] Registering change listener for pivots')
 
     // Register listener for pivot changes from CouchDB sync
     Storage.get(pivotsPath, async (changedPivots: any) => {
-      console.info('[PivotStore] Pivot update detected from CouchDB sync')
-      console.info('[PivotStore] Updated pivots count:', (changedPivots || []).length)
+      console.log('[PivotStore] Pivot update detected from CouchDB sync')
+      console.log('[PivotStore] Updated pivots count:', (changedPivots || []).length)
 
       // Reload pivots from storage to update the store
       try {
         const freshPivots = await Storage.get(pivotsPath)
         if (freshPivots && Array.isArray(freshPivots)) {
           PivotStore.set(freshPivots.map((p) => new PivotClass(p)))
-          console.info('[PivotStore] Pivots reloaded successfully from CouchDB sync')
+          console.log('[PivotStore] Pivots reloaded successfully from CouchDB sync')
         }
       } catch (e) {
         console.error('[PivotStore] Error reloading pivots:', e)
       }
     })
 
-    console.info('[PivotStore] Pivot listener initialized')
+    console.log('[PivotStore] Pivot listener initialized')
   } catch (e) {
     console.error('[PivotStore] Error registering pivot listener:', e)
   }
 }
+

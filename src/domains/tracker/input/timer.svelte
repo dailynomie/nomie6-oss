@@ -25,6 +25,7 @@
 
   // Props
 
+
   const { value, tracker, manual } = $props()
 </script>
 
@@ -47,11 +48,11 @@
       />
       {#if !manual && value}
         <button
-          aria-label={Lang.t('tracker.resume-timer', 'Resume Timer')}
+          aria-label="Resume Timer"
           on:click={() => {
             dispatch('forceStart')
           }}
-          class="bg-ios-fill rounded-md px-3 py-1 mt-2 font-medium text-ios-label"
+          class="bg-gray-300 rounded-md px-3 py-1 mt-2 font-medium dark:bg-gray-700 dark:text-white"
         >
           {Lang.t('general.resume', 'Resume')}
         </button>
@@ -67,10 +68,10 @@
           type="clear"
           className="shadow-none mt-4 {value
             ? 'visible'
-            : 'hidden'} text-ios-tint"
+            : 'hidden'} text-primary-500"
         >
           Resume Timer
-          <IonIcon icon={PlayCircleSolid} className="text-ios-tint ml-1" />
+          <IonIcon icon={PlayCircleSolid} className="text-primary-500 ml-1" />
         </Button>
       {/if} -->
       <div class="filler" />

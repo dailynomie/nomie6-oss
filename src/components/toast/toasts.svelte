@@ -28,8 +28,8 @@
   .toasts .toast-wrapper {
     @apply transition-all duration-200;
     @apply relative;
-    @apply bg-ios-black text-ios-white;
-    @apply ring-2 ring-ios-label2 ring-opacity-10;
+    @apply bg-black  text-white dark:bg-gray-700;
+    @apply ring-2 ring-gray-500 ring-opacity-10;
     @apply px-4 py-2 pr-2 pb-3;
     @apply rounded-lg;
     @apply shadow-2xl;

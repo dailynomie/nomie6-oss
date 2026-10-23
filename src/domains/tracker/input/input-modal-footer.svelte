@@ -13,28 +13,21 @@
 
   const dispatch = createEventDispatcher()
 
-  const {
-    tracker,
-    value = $bindable(),
-    allowSave = $bindable(),
-    saving = $bindable(),
-    saveLabel = $bindable(),
-    nextLabel = $bindable(),
-  } = $props()
+  const { tracker, value = $bindable(), allowSave = $bindable(), saving = $bindable(), saveLabel = $bindable(), nextLabel = $bindable() } = $props()
 </script>
 
-<footer class=" tracker-input-footer py-3 stiff glass-lite z-50 w-full rounded-b-2xl">
+<footer class=" tracker-input-footer py-3 stiff  glass-lite z-50 w-full rounded-b-2xl">
   <ToolbarGrid>
     <div slot="left" class="pr-2">
       <Button
         type="clear"
         size="lg"
-        className="px-2 -ml-2 text-lg md:text-xl text-ios-tint"
+        className="px-2 -ml-2 text-lg md:text-xl text-gray-900 dark:text-white"
         on:click={() => {
           dispatch('cancel')
         }}
       >
-        {Lang.t('general.cancel', 'Cancel')}
+        {Lang.t('general.close', 'Close')}
       </Button>
     </div>
     <!-- end left toolbar -->
@@ -47,46 +40,46 @@
             <!-- svelte-ignore a11y-autofocus -->
             <button
               type="button"
-              aria-label={Lang.t('tracker.save', 'Save')}
+              aria-label="Save"
               autofocus
               on:click={() => dispatch('stopTimer')}
-              class="action-button action-stop"
+              class="action-button bg-red-500 text-white"
             >
-              <IonIcon icon={StopSolid} size={32} className="text-ios-white" />
+              <IonIcon icon={StopSolid} size={32} className="text-white" />
             </button>
           {:else if !tracker.started && !value}
             <button
-              aria-label={Lang.t('tracker.start-timer', 'Start Timer')}
+              aria-label="Start Timer"
               type="button"
               on:click={() => {
                 dispatch('startTimer')
               }}
               autofocus
-              class="action-button action-save"
+              class="action-button bg-primary-500 text-white"
             >
               {Lang.t('general.start', 'Start')}
             </button>
           {:else if !tracker.started && value}
             <button
-              aria-label={Lang.t('tracker.save', 'Save')}
+              aria-label="Save"
               autofocus
               type="button"
               on:click={() => {
                 dispatch('save')
               }}
-              class="action-button action-save"
+              class="action-button bg-primary-500 text-white"
             >
               {saveLabel}
             </button>
           {/if}
         {:else if allowSave}
           <button
-            aria-label={Lang.t('tracker.save', 'Save')}
+            aria-label="Save"
             type="button"
             on:click={() => {
               dispatch('save')
             }}
-            class="action-button action-save"
+            class="action-button bg-primary-500 text-white"
           >
             {saveLabel}
           </button>
@@ -106,12 +99,9 @@
           autofocus
           primary={!allowSave}
           size="lg"
-          title={Lang.t(
-            'tracker.add-this-to-the-note-without-immediately-saving',
-            'Add this to the note without immediately saving.'
-          )}
+          title="Add this to the note without immediately saving."
           className="-mr-2 whitespace-nowrap text-lg md:text-xl 
-                {!allowSave ? '' : 'text-ios-label'}
+                {!allowSave ? '' : 'text-gray-900 dark:text-white'}
                 {tracker.started ? 'hidden' : ''}"
           on:click={() => {
             dispatch('add')
@@ -131,28 +121,8 @@
 </footer>
 
 <style lang="postcss" global>
-  /* iOS look: buttons are tint (save) or danger (stop) pills, with the on-colour text. No focus box for taps. */
   .tracker-input-footer button {
     @apply focus:outline-none;
-  }
-  .tracker-input-footer button:focus-visible {
-    outline: 2px solid var(--ios-tint);
-    outline-offset: 2px;
-  }
-  .tracker-input-footer .action-button.action-save {
-    background: var(--ios-tint);
-    color: var(--ios-on-tint);
-  }
-  .tracker-input-footer .action-button.action-stop {
-    background: var(--ios-danger);
-    color: var(--ios-white);
-  }
-  .tracker-input-footer .action-button {
-    border-radius: 999px;
-    padding: 8px 22px;
-    font-size: calc(17px * var(--text-scale));
-    font-weight: 600;
-    line-height: 22px;
-    min-width: 96px;
+    @apply focus:ring-4  ring-gray-500 ring-opacity-60 ring-inset;
   }
 </style>

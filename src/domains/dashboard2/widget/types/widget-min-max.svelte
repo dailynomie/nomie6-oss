@@ -8,7 +8,6 @@
   import { openOnThisDayModal } from '../../../on-this-day/useOnThisDayModal'
   import { getDateFormats } from '../../../preferences/Preferences'
   import { openDateOptionPopMenu } from '../../../../components/pop-menu/usePopmenu'
-  import { Lang } from '../../../../store/lang'
 
   const { trackable = $bindable(), widget = $bindable(), usage = $bindable() } = $props()
 
@@ -19,7 +18,7 @@
   <div class="min mm-block">
     <div class="value">{trackable.formatValue(usage.min.value)}</div>
     <div class="label-date">
-      <span class="label">{Lang.t('dashboard.min-2', 'Min')}</span>
+      <span class="label">Min</span>
       <button on:click={() => openDateOptionPopMenu(usage.min.date.toDate())} class="date"
         >{dayjs(usage.min.date).format(dateFormat.shortDate)}</button
       >
@@ -28,7 +27,7 @@
   <div class="min mm-block">
     <div class="value">{trackable.formatValue(usage.max.value)}</div>
     <div class="label-date">
-      <span class="label">{Lang.t('dashboard.max-2', 'Max')}</span>
+      <span class="label">Max</span>
       <button on:click={() => openDateOptionPopMenu(usage.max.date.toDate())} class="date"
         >{dayjs(usage.max.date).format(dateFormat.shortDate)}</button
       >
@@ -51,7 +50,7 @@
   .widget-size-sm .mm-block .label-date {
     @apply flex-row;
     @apply py-1 px-3 rounded-full;
-    @apply bg-ios-card2;
+    @apply bg-gray-200 dark:bg-gray-800;
     @apply items-center justify-center;
   }
   .widget-size-sm .mm-block .date {
@@ -63,7 +62,7 @@
   .mm-block .value {
     @apply text-xl lg:text-3xl;
     @apply font-bold;
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
   }
   .mm-block .label-date {
     @apply flex items-center justify-center;
@@ -71,13 +70,13 @@
     @apply flex flex-col items-center justify-center;
   }
   .mm-block .date {
-    @apply text-ios-label2;
+    @apply text-gray-500;
     @apply text-xs;
     @apply py-1 px-3 rounded-full;
-    @apply bg-ios-card2;
+    @apply bg-gray-200 dark:bg-gray-800;
   }
   .mm-block .label {
-    @apply text-ios-label2;
+    @apply text-gray-600 dark:text-gray-400;
     @apply text-sm font-bold;
     @apply mb-1;
   }

@@ -24,7 +24,7 @@
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
 
-  import RelatedView from './related-view.svelte'
+import RelatedView from './related-view.svelte'
 
   const { id } = $props()
 
@@ -42,9 +42,9 @@
 </script>
 
 <BackdropModal>
-  <header class="bg-ios-card" slot="header">
+  <header class="bg-white dark:bg-black" slot="header">
     <ToolbarGrid>
-      <Button on:click={close} slot="right" clear primary>{Lang.t('general.done', 'Done')}</Button>
+      <Button on:click={close} slot="left" clear primary>{Lang.t('general.close', 'Close')}</Button>
       <h1 class="ntitle">
         {#if trackable}
           <TrackableAvatar size={24} {trackable} /> {Lang.t('general.related', 'Related')}
@@ -53,21 +53,19 @@
     </ToolbarGrid>
   </header>
 
-  <div class="p-4 flex justify-start items-center bg-ios-card">
+  <div class="p-4 flex justify-start items-center bg-white dark:bg-black">
     {#if trackable}
       <TrackableAvatar size={44} {trackable} />
     {/if}
     <main class="ml-3">
-      <h1 class="font-bold text-2xl text-ios-label">
+      <h1 class="font-bold  text-2xl text-black dark:text-white">
         {trackable?.label || 'Loading...'}
       </h1>
-      <p class="text-opacity-60 text-ios-label2 text-sm">
-        {Lang.t('related.is-possibly-related-to', 'is possibly related to...')}
-      </p>
+      <p class="text-opacity-60 text-gray-500 text-sm">is possibly related to...</p>
     </main>
   </div>
 
-  <RelatedView className="" style="" {trackable} />
+  <RelatedView className="" style="" trackable={trackable} />
 </BackdropModal>
 
 <style global lang="postcss">

@@ -2,7 +2,6 @@ import type { GoalClass, GoalComparisonType } from './goal-class'
 
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import { Lang } from '../../store/lang'
 
 type GoalComparisonItemType = {
   id: GoalComparisonType
@@ -21,27 +20,27 @@ export const getGoalComparisonSymbol = (id: GoalComparisonType) => {
 export const GoalComparisonItems: Array<GoalComparisonItemType> = [
   {
     id: 'lt',
-    label: Lang.t('goals.less-than', 'Less than'),
+    label: 'Less than',
     symbol: '<',
   },
   {
     id: 'lte',
-    label: Lang.t('goals.less-or-equal', 'Less or Equal'),
+    label: 'Less or Equal',
     symbol: '<=',
   },
   {
     id: 'eq',
-    label: Lang.t('goals.equal', 'Equal'),
+    label: 'Equal',
     symbol: '=',
   },
   {
     id: 'gt',
-    label: Lang.t('goals.greater-than', 'Greater than'),
+    label: 'Greater than',
     symbol: '>',
   },
   {
     id: 'gte',
-    label: Lang.t('goals.greater-or-equal', 'Greater or Equal'),
+    label: 'Greater or Equal',
     symbol: '>=',
   },
 ]
@@ -80,26 +79,4 @@ export const getDurationFromGoals = (goals: Array<GoalClass>, base?: Dayjs): { s
     end = date.endOf('day')
   }
   return { start, end }
-}
-
-// iOS look (guide 5.8): the target line under a goal's label, for example "At least 5 km a day".
-// The target is already formatted by its tracker (for example "5 km").
-const TARGET_PREFIX: { [comparison: string]: string } = {
-  gte: 'At least',
-  gt: 'More than',
-  lte: 'At most',
-  lt: 'Less than',
-  eq: 'Exactly',
-}
-const TARGET_PERIOD: { [duration: string]: string } = {
-  day: 'a day',
-  week: 'a week',
-  month: 'a month',
-  year: 'a year',
-}
-export const goalTargetText = (goal: GoalClass, formattedTarget: string): string => {
-  const prefix = TARGET_PREFIX[goal.comparison]
-  const period = TARGET_PERIOD[goal.duration]
-  if (!prefix || !period) return ''
-  return `${prefix} ${formattedTarget} ${period}`
 }

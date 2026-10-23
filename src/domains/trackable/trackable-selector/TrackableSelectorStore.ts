@@ -1,5 +1,6 @@
 import type { Trackable, TrackableTypes } from '../Trackable.class'
 
+import TrackableSelectorModal from './trackable-selector-modal.svelte'
 import { openModal } from '../../../components/backdrop/BackdropStore2'
 import { wait } from '../../../utils/tick/tick'
 import { writable } from 'svelte/store'
@@ -19,8 +20,7 @@ export const TrackableSelectorStore = writable<TrackableSelectorProps | undefine
  * `payload` with the value of the `options` argument
  * @param {TrackableSelectorProps} options - TrackableSelectorProps = {}
  */
-export const openTrackableSelector = async (options: TrackableSelectorProps = {}) => {
-  const { default: TrackableSelectorModal } = await import('./trackable-selector-modal.svelte')
+export const openTrackableSelector = (options: TrackableSelectorProps = {}) => {
   openModal({
     id: `trackable-selector`,
     position: 'fullscreen',
@@ -47,7 +47,7 @@ export const closeTrackableSelector = () => {
  */
 export const selectTrackables = async (
   type?: TrackableTypes | undefined,
-  subtype?: ITrackerType | undefined,
+  subtype? : ITrackerType | undefined,
   multiple: boolean = true
 ): Promise<Array<Trackable>> => {
   return new Promise((resolve) => {

@@ -34,7 +34,9 @@
   import ListItem from '../../components/list-item/list-item.svelte'
   import type { Trackable } from '../trackable/Trackable.class'
   import TrackableAvatar from '../../components/avatar/trackable-avatar.svelte'
-  import { getAllLibraryTrackers } from './library-manager/LibraryManagerStore'
+  import {
+    getAllLibraryTrackers
+  } from './library-manager/LibraryManagerStore'
   import AvailableTemplatesList from '../templates/available-templates-list.svelte'
 
   const { id } = $props()
@@ -50,8 +52,8 @@
   $effect(() => {
     if ($TrackerLibrary && !libraryTrackers.length && ready) {
       getAllLibraryTrackers().then((lts: Array<LibraryTrackerType>) => {
-        libraryTrackers = lts.sort((a, b) => (a?.title.toLowerCase() > b?.title.toLowerCase() ? 1 : -1))
-      })
+         libraryTrackers = lts.sort((a, b) => (a?.title.toLowerCase() > b?.title.toLowerCase() ? 1 : -1))
+       })
       libraryTrackers = []
     }
   })
@@ -77,16 +79,16 @@
   async function installAll(trackers: Array<TrackerClass> = []) {
     const filtered = trackers.filter((t) => !$TrackableStore.trackables[`#${t.tag}`])
     if (filtered.length) {
-      Interact.blocker(Lang.t('library.installing-count', { count: filtered.length }))
+      Interact.blocker(`Installing ${filtered.length}`)
       await wait(300)
       for (let i = 0; i < filtered.length; i++) {
-        Interact.blocker(Lang.t('library.installing-name', { name: `${filtered[i].emoji} ${filtered[i].label}` }))
+        Interact.blocker(`Installing ${filtered[i].emoji} ${filtered[i].label}`)
         await install(filtered[i])
         await wait(300)
       }
       Interact.stopBlocker()
     } else {
-      showToast({ message: Lang.t('library.you-already-have-them-all', 'You already have them all!') })
+      showToast({ message: 'You already have them all!' })
     }
   }
 
@@ -107,7 +109,7 @@
 
     const trackable = tracker.toTrackable()
     if ($TrackableStore.trackables.hasOwnProperty(`#${tracker.tag}`)) {
-      showToast({ message: Lang.t('library.already-installed', 'Already installed') })
+      showToast({ message: 'Already installed' })
     } else {
       // Let's make sure we're on the right type .
       // const currentUOM = tracker.uom
@@ -122,7 +124,7 @@
       if (saved) {
         await addTrackablesToBoard([trackable], $ActiveBoard)
         UniboardStore.update((b) => b)
-        showToast({ message: Lang.t('library.name-added', { name: trackable.tag }) })
+        showToast({ message: `${trackable.tag} added` })
       }
     }
   }
@@ -153,15 +155,15 @@
 </script>
 
 <BackdropModal>
-  <header slot="header" class="bg-ios-card mb-2">
-    <ToolbarGrid className="bg-ios-card">
-      <Button clear primary slot="left" on:click={close}>{Lang.t('library.done', 'Done')}</Button>
+  <header slot="header" class="bg-white dark:bg-gray-900 mb-2">
+    <ToolbarGrid className="bg-white dark:bg-gray-900">
+      <Button clear primary slot="left" on:click={close}>Done</Button>
       <h1 class="ntitle">{Lang.t('library.tracker-library', 'Tracker Library')}</h1>
     </ToolbarGrid>
     <SearchBar bind:searchTerm />
     <div class="h-1">&nbsp;</div>
   </header>
-  {#if libraryTrackers.length == 0}
+   {#if libraryTrackers.length == 0}
     <div class="flex-grow flex-shrink justify-center items-center flex h-75vh">
       <Spinner size={32} />
     </div>
@@ -169,7 +171,7 @@
 
   {#if searchTerm}
     <List className="mb-6">
-      <header class="list-header">{Lang.t('library.search-results', 'Search Results')}</header>
+      <header class="list-header">Search Results</header>
       {#if searchResults && searchResults.length}
         {#each searchResults as item}
           <ListItem bottomLine={78}>
@@ -183,27 +185,25 @@
                   }}
                   size="sm"
                   shape="round"
-                  className="bg-ios-tint text-ios-ontint">{Lang.t('library.add-2', 'Add')}</Button
+                  className="bg-gray-600 text-white">Add</Button
                 >
               {:else}
-                <Button size="sm" shape="round" className="bg-ios-tint opacity-25 text-ios-ontint"
-                  >{Lang.t('library.added', 'Added')}</Button
-                >
+                <Button size="sm" shape="round" className="bg-gray-600 opacity-25 text-white">Added</Button>
               {/if}
             </div>
           </ListItem>
         {/each}
       {:else}
-        <Empty title={Lang.t('library.no-results', 'No results')} />
+        <Empty title="No results" />
       {/if}
     </List>
   {/if}
 
-  <List solo outside title={Lang.t('library.templates', 'Templates')}>
+  <List solo outside title="Templates">
     <AvailableTemplatesList />
   </List>
 
-  <List solo outside title={Lang.t('library.individual-trackers', 'Individual Trackers')}>
+  <List solo outside title="Individual Trackers">
     {#each libraryTrackers as libraryTracker, index}
       <LibraryTrackerItem
         {libraryTracker}
@@ -213,7 +213,7 @@
       />
 
       {#if activeId === index}
-        <div class="bg-ios-bg pb-2">
+        <div class="bg-gray-100 dark:bg-gray-900 pb-2">
           <LibraryTrackerItemDetails
             {libraryTracker}
             on:add={(evt) => {
@@ -231,7 +231,7 @@
 
 <style global lang="postcss">
   .intro-message {
-    @apply text-ios-label2;
+    @apply text-gray-500 dark:text-gray-300;
     @apply text-sm;
     @apply leading-tight;
   }

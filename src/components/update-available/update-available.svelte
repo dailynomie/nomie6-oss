@@ -2,7 +2,6 @@
 
 <script lang="ts">
   import { pwService } from '../../modules/pwa/PWAService'
-  import { Lang } from '../../store/lang'
 
   const offlineReady = pwService.offlineReady
   const needRefresh = pwService.needRefresh
@@ -42,18 +41,18 @@
 {#if toast}
   <div class="install-backdrop" style="z-index:8999">
     <div class="pwa-toast" role="alert">
-      <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-ios-label message">
+      <div class="px-2 pb-2 mb-2 text-lg font-medium leading-snug text-black message">
         {#if $offlineReady}
-          <span>{Lang.t('ui.app-ready-to-work-offline', 'App ready to work offline')}</span>
+          <span>App ready to work offline</span>
         {:else if $needRefresh}
-          <h1 class="mb-2 text-2xl font-bold text-ios-label">{Lang.t('ui.update-available', 'Update Available')}</h1>
-          <p>{Lang.t('ui.a-new-version-of-nomie-is-ready-to-use', 'A new version of Nomie is ready to use.')}</p>
+          <h1 class="mb-2 text-2xl font-bold text-black">🎉 Update Available</h1>
+          <p>A new version of Nomie is ready to use.</p>
         {/if}
       </div>
 
-      <div class="text-xs text-ios-label2 px-2 pb-2">
+      <div class="text-xs text-gray-600 px-2 pb-2">
         {#if lastCheckDisplay}
-          {Lang.t('ui.last-checked', { time: lastCheckDisplay })}
+          Last checked: {lastCheckDisplay}
         {/if}
       </div>
 
@@ -61,29 +60,32 @@
         {#if $offlineReady}
           <button
             disabled={$isCheckingForUpdates}
-            class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint disabled:opacity-50"
-            title={Lang.t('ui.check-for-updates-manually', 'Check for updates manually')}
+            class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600 disabled:opacity-50"
+            title="Check for updates manually"
             on:click={handleManualCheck}
           >
             {#if $isCheckingForUpdates}
-              {Lang.t('ui.checking', 'Checking...')}
+              Checking...
             {:else}
-              {Lang.t('ui.check-now', 'Check Now')}
+              Check Now
             {/if}
           </button>
         {/if}
 
-        <button class="px-4 py-2 filler font-bold bg-ios-card shadow-sm rounded-xl text-ios-tint" on:click={close}>
-          {Lang.t('ui.later', 'Later')}
+        <button
+          class="px-4 py-2 filler font-bold bg-white shadow-sm rounded-xl text-primary-600"
+          on:click={close}
+        >
+          Later
         </button>
 
         {#if $needRefresh}
           <button
-            aria-label={Lang.t('ui.update-the-app', 'Update the App')}
+            aria-label="Update the App"
             on:click={handleUpdate}
-            class="px-4 py-2 font-bold filler bg-ios-card shadow-sm rounded-xl text-ios-tint"
+            class="px-4 py-2 font-bold filler bg-white shadow-sm rounded-xl text-primary-600"
           >
-            {Lang.t('ui.update-now', 'Update Now')}
+            Update Now
           </button>
         {/if}
       </div>
@@ -102,7 +104,7 @@
     @apply flex-col;
     @apply justify-center;
     @apply items-center;
-    @apply bg-ios-fill;
+    @apply bg-gray-500;
     @apply bg-opacity-50;
     @apply flex-shrink-0;
     @apply flex-grow-0;
@@ -121,8 +123,8 @@
     z-index: 1;
     text-align: left;
     @apply shadow-xl;
-    @apply bg-ios-tint;
-    @apply text-ios-ontint;
+    @apply bg-primary-500;
+    @apply text-white;
     @apply rounded-xl;
   }
 </style>

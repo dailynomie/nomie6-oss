@@ -7,6 +7,7 @@
   import IonIcon from '../icon/ion-icon.svelte'
   import { CalendarOutline, ChevronBackOutline, ChevronForwardOutline } from '../icon/nicons'
 
+
   const dispatch = createEventDispatcher()
 
   const { isToday, hideCal, style, className } = $props()
@@ -15,19 +16,17 @@
 <div class="flex items-center flex-grow-0 flex-shrink-0 next-prev-cal {className}" {style}>
   <Button
     className="previous-action"
-    ariaLabel="Previous day"
     icon
     delay={0}
     on:click={() => {
       dispatch('previous')
     }}
   >
-    <IonIcon icon={ChevronBackOutline} size={24} className="text-ios-tint" />
+    <IonIcon icon={ChevronBackOutline} size={24} className="text-primary-500" />
   </Button>
   {#if !hideCal}
     <Button
-      className="calendar-action {isToday ? 'tap-icon' : 'text-ios-ontint bg-ios-tint'}"
-      ariaLabel="Choose a date"
+      className="calendar-action {isToday ? 'tap-icon' : 'text-white bg-primary-500'}"
       delay={0}
       icon
       color="transparent"
@@ -42,14 +41,13 @@
   <slot />
   <Button
     className="next-action"
-    ariaLabel="Next day"
     delay={0}
     icon
     on:click={() => {
       dispatch('next')
     }}
   >
-    <IonIcon icon={ChevronForwardOutline} size={24} className="text-ios-tint" />
+    <IonIcon icon={ChevronForwardOutline} size={24} className="text-primary-500" />
   </Button>
 </div>
 

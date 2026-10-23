@@ -2,35 +2,33 @@
 
 <script lang="ts">
   import dayjs from 'dayjs'
-  import { getDateFormats } from '../preferences/Preferences'
 
   import Divider from '../../components/divider/divider.svelte'
   import { UsageStore, UsageStreak } from './UsageStore'
-  import { Lang } from '../../store/lang'
 </script>
 
-<div class="usage-store-vis bg-ios-danger text-ios-ondanger p-4 rounded-lg">
+<div class="usage-store-vis bg-pink-500 text-white p-4 rounded-lg">
   {#each Object.keys($UsageStore).map((k) => {
     return { key: k, usage: $UsageStore[k] }
   }) as item}
     <div class="py-2 flex items-center space-x-4">
       <span>{item.key}</span>
       <div>
-        <div class="font-bold">{Lang.t('usage.last', 'Last')}</div>
+        <div class="font-bold">Last</div>
         <div>
           {#if item.usage.last}
-            {dayjs(item.usage.last.d).format(`${getDateFormats().shortDate} ${getDateFormats().time}`)}
+            {dayjs(item.usage.last.d).format('YYYY-MM-DD hh:mm a')}
           {:else}
-            {Lang.t('usage.no-last', 'No Last')}
+            No Last
           {/if}
         </div>
-        <div class="font-bold">{Lang.t('usage.streak', 'Streak')}</div>
+        <div class="font-bold">Streak</div>
         <div>
           {#if item.usage.streak}
             {item.usage.streak.v}
-            {dayjs(item.usage.streak.d).format(`${getDateFormats().shortDate} ${getDateFormats().time}`)}
+            {dayjs(item.usage.streak.d).format('YYYY-MM-DD hh:mm a')}
           {:else}
-            {Lang.t('usage.no-last', 'No Last')}
+            No Last
           {/if}
         </div>
       </div>

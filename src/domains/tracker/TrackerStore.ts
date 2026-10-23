@@ -4,13 +4,12 @@ import NPaths from '../../paths'
 import TrackerClass from '../../modules/tracker/TrackerClass'
 import { createKVStore } from '../../store/KVStore'
 import { derived } from 'svelte/store'
-import { Lang } from '../../store/lang'
 
 /**
  * Create the Tracker KV Store
  */
 export const TrackerStore = createKVStore(NPaths.storage.trackers(), {
-  label: Lang.t('tracker.trackers', 'Trackers'),
+  label: 'Trackers',
   key: 'tag',
   itemSerializer: (item: TrackerClass) => {
     return item.asObject
@@ -44,7 +43,7 @@ export const repairPrefixedTrackerKeys = async (trackers: KVStoreState): Promise
  * @returns Promise<TrackerClass>
  */
 const startStopTimer = async (tracker: TrackerClass, ss: 'start' | 'stop'): Promise<TrackerClass> => {
-  let newTracker
+  let newTracker;
   await TrackerStore.updateSync((trackerMap) => {
     newTracker = new TrackerClass(trackerMap[tracker.tag])
     newTracker.timeTracked = trackerMap[tracker.tag].timeTracked || newTracker.default
@@ -53,7 +52,7 @@ const startStopTimer = async (tracker: TrackerClass, ss: 'start' | 'stop'): Prom
         newTracker.started = new Date().getTime()
         break
       case 'stop':
-        newTracker.timeTracked += (new Date().getTime() - trackerMap[tracker.tag].started) / 1000
+        newTracker.timeTracked += (new Date().getTime() - trackerMap[tracker.tag].started)/1000
         newTracker.started = undefined
     }
     trackerMap[tracker.tag] = newTracker
@@ -88,7 +87,7 @@ export const stopTimer = async (tracker): Promise<TrackerClass> => {
  * @returns Promise<TrackerClass>
  */
 export const resetTimer = async (tracker, timeTracked = 0): Promise<TrackerClass> => {
-  let newTracker
+  let newTracker;
   await TrackerStore.updateSync((trackerMap) => {
     newTracker = new TrackerClass(trackerMap[tracker.tag])
 

@@ -7,7 +7,6 @@ import type { Trackable } from '../trackable/Trackable.class'
 import type { IDow } from '../stats2/day-of-week'
 import type StatsProcessor from './statsV5'
 import type { StreakViewTypes } from '../steak/streak-helper'
-import { Lang } from '../../store/lang'
 
 export type IStatsChartUnit = 'day' | 'week' | 'month' | 'quarter' | 'year'
 export type IStatsChartMode = 'd' | 'w' | 'm' | 'q' | 'y' | string
@@ -32,25 +31,17 @@ export const timeSpans: ITimeSpan = {
     id: 'd',
     format: 'YYYY-MM-DD-HH',
     label: 'D',
-    title: Lang.t('stats.day', 'Day'),
+    title: 'Day',
     displayUnit: 'hour',
     unit: 'day',
     streakUnit: 'day',
   },
-  w: {
-    id: 'w',
-    format: 'YYYY-MM-DD',
-    label: 'W',
-    title: Lang.t('stats.week', 'Week'),
-    displayUnit: 'day',
-    unit: 'week',
-    streakUnit: 'week',
-  },
+  w: { id: 'w', format: 'YYYY-MM-DD', label: 'W', title: 'Week', displayUnit: 'day', unit: 'week', streakUnit: 'week' },
   m: {
     id: 'm',
     format: 'YYYY-MM-DD',
     label: 'M',
-    title: Lang.t('stats.month', 'Month'),
+    title: 'Month',
     displayUnit: 'day',
     unit: 'month',
     streakUnit: 'month',
@@ -59,21 +50,13 @@ export const timeSpans: ITimeSpan = {
     id: 'q',
     format: 'YYYY-MM-DD',
     label: '3M',
-    title: Lang.t('stats.quarter', 'Quarter'),
+    title: 'Quarter',
     displayUnit: 'day',
     unit: 'month',
     count: 3,
     streakUnit: 'quarter',
   },
-  y: {
-    id: 'y',
-    format: 'YYYY-MM',
-    label: 'Y',
-    title: Lang.t('stats.year', 'Year'),
-    displayUnit: 'month',
-    unit: 'year',
-    streakUnit: 'year',
-  },
+  y: { id: 'y', format: 'YYYY-MM', label: 'Y', title: 'Year', displayUnit: 'month', unit: 'year', streakUnit: 'year' },
 }
 
 export type IStatDow = {

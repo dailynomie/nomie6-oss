@@ -26,12 +26,12 @@
 </script>
 
 <button
-  class="{$Device.width < 399 ? 'nbtn-icon circle' : 'clear'} flex items-center text-ios-tint"
+  class="{$Device.width < 399 ? 'nbtn-icon circle' : 'clear'} flex items-center text-primary-500"
   on:click={(evt) => onClick(evt)}
 >
-  <IonIcon icon={ArrowBack} className="text-ios-tint" />
+  <IonIcon icon={ArrowBack} className="text-primary-500" />
   {#if $Device.width > 400}
-    <span class="ml-2 text-ios-tint">
+    <span class="ml-2 text-primary-500">
       {label || Lang.t('general.back', 'Back')}
     </span>
   {/if}

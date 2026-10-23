@@ -2,7 +2,6 @@ import PinModal from './pin-lock.svelte'
 import { openModal } from '../../components/backdrop/BackdropStore2'
 
 import { Interact } from '../../store/interact'
-import { Lang } from '../../store/lang'
 
 type OpenPinLockProps = {
   canClose?: boolean
@@ -25,7 +24,7 @@ export const openPinLock = async (props: OpenPinLockProps) => {
           if (props.isMatch(pin)) {
             resolve(pin)
           } else {
-            Interact.error(Lang.t('pin.invalid-pin-try-again', 'Invalid Pin. Try again'))
+            Interact.error('Invalid Pin. Try again')
           }
         },
       },

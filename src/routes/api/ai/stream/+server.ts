@@ -15,9 +15,9 @@ export const POST: RequestHandler = async ({ request }) => {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
-        'anthropic-beta': 'messages-2023-12-15',
+        'anthropic-beta': 'messages-2023-12-15'
       },
-      body: JSON.stringify({ ...aiRequest, stream: true }),
+      body: JSON.stringify({ ...aiRequest, stream: true })
     })
 
     if (!upstream.ok) {
@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ request }) => {
     }
 
     return new Response(upstream.body, {
-      headers: { 'Content-Type': 'text/event-stream' },
+      headers: { 'Content-Type': 'text/event-stream' }
     })
   } catch (err) {
     console.error('Streaming endpoint error:', err)

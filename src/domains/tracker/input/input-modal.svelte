@@ -155,7 +155,7 @@
     }, 12)
   }
 
-  initialize()
+  initialize();
 </script>
 
 <BackdropModal className="tracker-input-modal">
@@ -178,8 +178,8 @@
         {tracker.label}
       </span>
       <div slot="right">
-        <Button icon ariaLabel={Lang.t('tracker.edit-tracker', 'Edit tracker')} on:click={editTracker}>
-          <IonIcon icon={MoreVertical} size={26} className="text-ios-tint" />
+        <Button icon on:click={editTracker}>
+          <IonIcon icon={MoreVertical} size={26} className="text-primary-500" />
         </Button>
       </div>
     </ToolbarGrid>
@@ -248,13 +248,14 @@
               />
             </div>
           {:else if tracker.type === 'habit'}
-            <HabitInput
-              {tracker}
-              value={data.value}
-              on:change={(value) => {
-                data.value = value.detail
-              }}
-            />
+          <HabitInput
+          {tracker}
+          value={data.value}
+          on:change={(value) => {
+            data.value = value.detail
+          }}
+          
+        />
           {:else}
             <div id="keypad-holder">
               <NCalculator
@@ -291,8 +292,7 @@
 
 <style global lang="postcss">
   .tracker-input-modal {
-    @apply h-full;
-    background: var(--ios-bg);
+    @apply bg-gray-200 h-full dark:bg-gray-800;
     @apply h-full;
   }
 
@@ -303,7 +303,7 @@
     align-items: stretch;
     flex-grow: 1;
     height: 100%;
-    @apply border-2 border-ios-danger; */
+    @apply border-2 border-pink-500; */
   }
   .tracker-input .btn.w-25 {
     width: 30% !important;
@@ -332,8 +332,8 @@
     @apply transition-all;
     @apply transform;
   }
-  /* iOS look: a press shrinks the pill a little; no coloured ring */
-  .action-button:active {
-    transform: scale(0.96);
+  .action-button:focus {
+    @apply scale-95;
+    @apply ring-2 ring-primary-600;
   }
 </style>

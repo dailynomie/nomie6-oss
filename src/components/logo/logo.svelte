@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { Lang } from '../../store/lang'
   const { size = 32, color = '#319ED7', className = '', style = '' } = $props()
 </script>
 
@@ -10,7 +9,7 @@
   {style}
   viewBox="0 0 376 108"
   fill="none"
-  aria-label={Lang.t('ui.nomie-logo', 'Nomie Logo')}
+  aria-label="Nomie Logo"
   class="{className} nomie-logo wordmark"
   xmlns="http://www.w3.org/2000/svg"
 >

@@ -16,10 +16,15 @@ import { LocalForageEngine } from './engines/localforage/engine.localforage'
 import { NomieServierStorage } from './engines/nomie-server/engine.nomie-server'
 import { PouchDBEngine } from './engines/pouchdb/engine.pouchdb'
 import { SideStore } from './side-storage'
-import { Lang } from '../../store/lang'
 // import { S3Engine } from "./engines/engine.s3";
 
+const STORAGE_TYPE_PATH = 'n6/storage-type'
+
 export type StorageTypes = 'local' | 'dumb' | 'pouchdb' | any
+
+export function setStorage(type: StorageTypes) {
+  localStorage.setItem(STORAGE_TYPE_PATH, type)
+}
 
 export type StorageEngineType = {
   id: string
@@ -37,7 +42,7 @@ export const StorageEngines: Array<StorageEngineType> = [
     id: 'local',
     name: 'Local Only',
     shortName: 'Local',
-    description: Lang.t('storage.data-is-stored-on-this-device-only', 'Data is stored on this device only.'),
+    description: 'Data is stored on this device only.',
     price: 'FREE',
     multipleDevices: false,
     engine: LocalForageEngine,
@@ -46,22 +51,22 @@ export const StorageEngines: Array<StorageEngineType> = [
     id: 'pouchdb',
     name: 'CouchDB',
     shortName: 'CouchDB',
-    description: Lang.t('storage.sync-to-your-own-couchdb-server', 'Sync to your own CouchDB server'),
+    description: 'Sync to your own CouchDB server',
     price: 'FREE',
     multipleDevices: false,
     engine: PouchDBEngine,
-    advanced: true,
+    advanced: true
   },
   {
     id: 'nomie-server',
     name: 'Nomie Server',
     shortName: 'Nomie Server',
-    description: Lang.t('storage.sync-to-your-own-nomie-server', 'Sync to your own Nomie Server'),
+    description: 'Sync to your own Nomie Server',
     price: 'FREE',
     multipleDevices: true,
     engine: NomieServierStorage,
-    advanced: true,
-  },
+    advanced: true
+  }
 ]
 
 export const getStorageEngineDetails = (id: string): StorageEngineType => {
@@ -103,9 +108,9 @@ export interface IStorage {
   }
 }
 
-const engines = {}
+const engines = {};
 StorageEngines.map((e) => {
-  engines[e.id] = e.engine
+  engines[e.id] = e.engine;
 })
 
 const Storage: IStorage = {
@@ -151,12 +156,9 @@ const Storage: IStorage = {
       let engineProfile = this.getEngine().init()
       return engineProfile
     } catch (e) {
-      const loadLocal = await Interact.confirm(
-        'Error loading this storage engine',
-        `${e}.\n Restart with Local Storage?`
-      )
+      const loadLocal = await Interact.confirm('Error loading this storage engine', `${e}.\n Restart with Local Storage?`);
       if (loadLocal) {
-        switchToLocal()
+        switchToLocal();
       }
     }
   },

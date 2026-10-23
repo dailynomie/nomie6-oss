@@ -21,15 +21,17 @@ describe('text tests', () => {
     expect(initials('p')).toBe('P')
     expect(initials('')).toBe('NA')
   })
+  
 })
 
-describe('Replace text at position', () => {
-  it('should replace the right part', () => {
-    const base = 'Today my #mood '
-    const pos = 9
+
+describe("Replace text at position", ()=>{
+  it('should replace the right part', ()=>{
+    const base = "Today my #mood ";
+    const pos = 9;
     const replaceThis = '#mood'
-    const withThis = '#mood(40)'
-    const final = replaceTextAt(base, replaceThis, withThis, pos)
-    expect(final).toEqual('Today my #mood(40) ')
+    const withThis = '#mood(40)';
+    const final = replaceTextAt(base, replaceThis, withThis, pos);
+    expect(final).toEqual('Today my #mood(40) ');
   })
-})
+});

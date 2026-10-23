@@ -3,6 +3,7 @@ import { writable } from 'svelte/store'
 import type { Writable } from 'svelte/store'
 
 import math from '../../../utils/math/math'
+import { getGroupedUoms } from '../../uom/uom-utils'
 
 type TrackerEditorType = {
   tracker?: TrackerClass
@@ -56,6 +57,8 @@ export const editTracker = (tracker?: TrackerClass, editorOptions: EditorOptionP
     })
   })
 }
+
+export const groupedUOM = getGroupedUoms()
 
 export const randomEmojis: Array<string> = [
   '😂',

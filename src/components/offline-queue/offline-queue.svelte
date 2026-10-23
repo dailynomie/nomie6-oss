@@ -32,25 +32,24 @@
       >
         {#if $OfflineQueue.status !== 'syncing'}
           <Text inline size="sm" faded>
-            {Lang.t($OfflineQueue.logs.length > 1 ? 'board.offline-queue-many' : 'board.offline-queue-one', {
-              num: $OfflineQueue.logs.length,
-            })}
+            {$OfflineQueue.logs.length}
+            {$OfflineQueue.logs.length > 1 ? 'logs' : 'log'} in the offline queue.
           </Text>
           {#if !$Device.offline}
             <Text inline underline color="primary-bright" className="ml-2" size="sm" on:click={OfflineQueue.sync}>
               {Lang.t('general.sync-now', 'Sync')}
             </Text>
-            <Text inline color="fill-solid-3" className="ml-2" size="sm">{Lang.t('ui.or', 'or')}</Text>
+            <Text inline color="fill-solid-3" className="ml-2" size="sm">or</Text>
             <Button size="sm" icon on:click={OfflineQueue.clear}>
               <IonIcon icon={TrashOutline} />
             </Button>
           {:else}
-            <Text inline className="ml-2" size="sm">{Lang.t('ui.offline', 'Offline')}</Text>
+            <Text inline className="ml-2" size="sm">Offline</Text>
           {/if}
         {:else}
           <Text size="sm">
             <Spinner size={16} />
-            {Lang.t('ui.syncing', 'Syncing...')}
+            Syncing...
           </Text>
         {/if}
       </Button>
@@ -68,7 +67,7 @@
                 OfflineQueue.removeLog(log)
               }}
             >
-              <IonIcon icon={TrashOutline} size={24} className="text-ios-danger" />
+              <IonIcon icon={TrashOutline} size={24} className="text-red-500" />
             </Button>
           </div>
         </ListItemLog>

@@ -1,11 +1,14 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+
   //Vendors
 
   import { onMount } from 'svelte'
 
   // Modules
+
+  // import Exporter from '../modules/export/export-helper'
 
   // Components
 
@@ -18,7 +21,6 @@
   import { Lang } from '../store/lang'
   import Spacer from '../components/spacer/spacer.svelte'
   import Empty from '../components/empty/empty.svelte'
-  import { ArchiveOutline } from '../components/icon/nicons'
 
   import ToolbarGrid from '../components/toolbar/toolbar-grid.svelte'
 
@@ -32,12 +34,10 @@
 </script>
 
 <NLayout pageTitle="Export your Data" className="Export">
-  <div slot="header">
-    <ToolbarGrid>
-      <NBackButton slot="left" />
-    </ToolbarGrid>
-    <h1 class="ios-large-title">{Lang.t('routes.generate-backup', 'Generate Backup')}</h1>
-  </div>
+  <ToolbarGrid slot="header">
+    <NBackButton slot="left" />
+    <h1 class="ntitle">Generate Backup</h1>
+  </ToolbarGrid>
 
   <div class=" backup">
     <Spacer gap={4} />
@@ -47,7 +47,7 @@
         'export.backup-description',
         'Export all your data as a single readable JSON file. This can be used to restore Nomie, or to inspect with your own programs.'
       )}
-      icon={ArchiveOutline}
+      emoji="📦"
       buttonLabel={Lang.t('export.backup-download', 'Download Backup')}
       buttonClick={methods.export}
     />

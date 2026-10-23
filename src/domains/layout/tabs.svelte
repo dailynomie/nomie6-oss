@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import Dot from '../../components/dot/dot.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import Container from '../../components/container/container.svelte'
 
@@ -16,78 +17,18 @@
     AppsSolid,
     CalendarOutline,
     CalendarSolid,
-    MapOutline,
-    FlaskOutline,
-    TagOutline,
     EaselOutline,
     EaselSolid,
     RibbonOutline,
     RibbonSolid,
-    CubeOutline,
   } from '../../components/icon/nicons'
   import { Prefs } from '../../domains/preferences/Preferences'
   import { Device } from '../../store/device-store'
   import { RunningTimers } from '../tracker/TrackerStore'
   import { GoalScoreStore } from '../../domains/goals/GoalStore'
   import MenuOutline from '../../n-icons/MenuOutline.svelte'
-  import RadialMenu from './radial-menu.svelte'
-  import { ExperimentStore } from '../experiments/ExperimentStore'
-  import Dot from '../../components/dot/dot.svelte'
-  import { openPointersModal } from '../pointers/pointer-store'
-  import { openLocationModal } from '../locations/LocationStore'
-  import { FeatureVisible } from '../preferences/features'
 
   const { className = '' } = $props<{ className?: string }>()
-
-  // How many experiments are running, shown as a badge
-  let runningExperiments = $derived($ExperimentStore.filter((e: any) => e.status === 'running').length)
-
-  // Options in the middle button. Analytics and Pointers are full-mode only.
-  let radialItems = $derived([
-    {
-      id: 'goals',
-      label: Lang.t('tabs.goals', 'Goals'),
-      icon: RibbonOutline,
-      link: '/goals',
-      notify: $GoalScoreStore.join('/') !== '0/0' ? $GoalScoreStore.join('/') : undefined,
-    },
-    {
-      id: 'experiments',
-      label: Lang.t('layout.experiments', 'Experiments'),
-      icon: FlaskOutline,
-      link: '/experiments',
-      notify: runningExperiments > 0 ? `${runningExperiments}` : undefined,
-    },
-    // Analytics is a full-mode option (starter hides it). guardrail-ok: UI-11 the crown is drawn by radial-menu.svelte from `feature`
-    ...($FeatureVisible('analytics')
-      ? [
-          {
-            id: 'analytics',
-            label: Lang.t('layout.analytics', 'Analytics'),
-            icon: CubeOutline,
-            link: '/analytics',
-            feature: 'analytics',
-          },
-        ]
-      : []),
-    ...($FeatureVisible('pointers')
-      ? [
-          {
-            id: 'pointers',
-            label: Lang.t('layout.pointers', 'Pointers'),
-            icon: TagOutline,
-            action: () => openPointersModal(),
-            feature: 'pointers',
-          },
-        ]
-      : []),
-    {
-      id: 'locations',
-      label: Lang.t('layout.locations', 'Locations'),
-      icon: MapOutline,
-      action: () => openLocationModal(),
-    },
-  ])
 
   let state = $state({
     mounted: false,
@@ -103,9 +44,16 @@
   $effect(() => {
     if (state.mounted) {
       path = document.location.pathname
-      // The Track board is the start page (the start-page choice is hidden, see settings)
-      if (path === '/') {
+      if (path === '/' && $Prefs.startPage === 'track') {
         page = 'track'
+      } else if (path === '/' && $Prefs.startPage === 'dashboard') {
+        page = 'dashboard'
+      } else if (path === '/' && $Prefs.startPage === 'goals') {
+        page = 'goals'
+      } else if (path === '/' && $Prefs.startPage === 'timeline') {
+        page = 'timeline'
+      } else if (path === '/' && $Prefs.startPage === 'history') {
+        page = 'history'
       }
       if (page) {
         try {
@@ -149,15 +97,6 @@
           <IonIcon className="active" icon={EaselSolid} />
         </AppTab>
 
-        <div class="radial-slot">
-          <RadialMenu items={radialItems} label={Lang.t('layout.actions', 'Actions')} />
-        </div>
-
-        <!-- <AppTab link={NPaths.routes.analytics()}  label={Lang.t('tabs.analytics', 'Stats')}>
-          <IonIcon className="inactive" icon={BarChartOutline} />
-          <IonIcon className="active" icon={BarChartSolid} />
-        </AppTab> -->
-
         <AppTab
           id="track"
           className={page == 'track' ? 'start-page' : ''}
@@ -167,9 +106,27 @@
           <IonIcon className="inactive" icon={AppsOutline} />
           <IonIcon className="active" icon={AppsSolid} />
           {#if $RunningTimers.length}
-            <Dot size={8} className="absolute animate-pulse top-1 bg-ios-tint ml-2" />
+            <Dot size={8} className="absolute animate-pulse top-1 bg-red-500 ml-2" />
           {/if}
         </AppTab>
+
+        <!-- <AppTab link={NPaths.routes.analytics()}  label={Lang.t('tabs.analytics', 'Stats')}>
+          <IonIcon className="inactive" icon={BarChartOutline} />
+          <IonIcon className="active" icon={BarChartSolid} />
+        </AppTab> -->
+
+        {#key $GoalScoreStore}
+          <AppTab
+            id="goals"
+            className={page == 'goals' ? 'start-page' : ''}
+            link={'/goals'}
+            label={Lang.t('tabs.goals', ' Goals')}
+            notify={$GoalScoreStore.join('/') !== '0/0' ? $GoalScoreStore.join('/') : undefined}
+          >
+            <IonIcon className="inactive" icon={RibbonOutline} />
+            <IonIcon className="active" icon={RibbonSolid} />
+          </AppTab>
+        {/key}
 
         <AppTab id="settings" link={NPaths.routes.settings()} label={Lang.t('general.more', 'More')}>
           <IonIcon className="inactive" icon={MenuOutline} />
@@ -182,48 +139,15 @@
 
 <style global lang="postcss">
   #app-tabs {
-    /* iOS look: 7 px of top padding, then the 49 pt tab bar, then the home-indicator inset.
-       With no inset (desktop, Android) the labels still keep 8 px from the bottom of the screen. */
-    --tab-height: 56px;
-    --tab-bar: 49px;
-    --tab-bottom: max(env(safe-area-inset-bottom), 8px);
-    position: relative;
-    height: calc(var(--tab-height) + var(--tab-bottom));
-    padding-bottom: var(--tab-bottom);
+    --tab-height: 65px;
+    height: calc(var(--tab-height) + env(safe-area-inset-bottom));
+    padding-bottom: calc(env(safe-area-inset-bottom));
     display: flex;
     justify-content: space-between;
     align-items: stretch;
     @apply z-50;
-    padding-top: 7px;
+    @apply pt-1;
     flex-shrink: 0;
-    background: var(--ios-bar);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    border-top: 0.5px solid var(--ios-bar-border);
-  }
-
-  #app-tabs .tab-wrap,
-  #app-tabs .radial-slot {
-    height: var(--tab-bar);
-  }
-
-  /* iOS look: a tab is an icon and a label on the bar, with no button shape or shadow behind it */
-  #app-tabs .tab-wrap {
-    box-shadow: none;
-    border-radius: 0;
-    background: none;
-  }
-
-  #app-tabs .radial-slot {
-    flex: 0 0 76px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
-    height: 100%;
-  }
-  #app-tabs .radial-slot .radial-hub {
-    margin-top: -20px;
   }
 
   .tab-wrap a {
@@ -256,5 +180,14 @@
     min-height: var(--tab-height);
     height: var(--tab-height);
     flex-shrink: 0;
+  }
+  #app-tabs .notification {
+    position: absolute;
+    top: 8px;
+    right: calc(50% - 15px);
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-red);
+    border-radius: 3px;
   }
 </style>

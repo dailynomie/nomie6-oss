@@ -1,12 +1,4 @@
-import type {
-  UserContext,
-  RichContext,
-  SummaryContext,
-  MetricsContext,
-  JournalContext,
-  PeopleContext,
-  LocationContext,
-} from './profiles/types'
+import type { UserContext, RichContext, SummaryContext, MetricsContext, JournalContext, PeopleContext, LocationContext } from './profiles/types'
 import { get } from 'svelte/store'
 import { LedgerStore } from '../ledger/LedgerStore'
 import { TrackableStore } from '../trackable/TrackableStore'
@@ -15,7 +7,6 @@ import { GoalStore } from '../goals/GoalStore'
 import { LocationStore, findNearestLocation } from '../locations/LocationStore'
 import dayjs from 'dayjs'
 import { tokenizeLite } from '../../modules/tokenizer/lite'
-import { Lang } from '../../store/lang'
 
 interface ContextHints {
   metrics?: string[]
@@ -87,14 +78,14 @@ export async function buildContext(hints?: ContextHints): Promise<UserContext> {
       people,
       contexts,
       pointers,
-      locations,
+      locations
     }
   } catch (err) {
     console.error('Error building AI context:', err)
     return {
       recentMetrics: {},
       goals: [],
-      summary: 'Unable to load user data at this time.',
+      summary: 'Unable to load user data at this time.'
     }
   }
 }
@@ -103,7 +94,7 @@ export async function buildChatContext(hints?: ContextHints): Promise<UserContex
   try {
     const dateRange = hints?.dateRange || {
       from: dayjs().subtract(14, 'days').format('YYYY-MM-DD'),
-      to: dayjs().format('YYYY-MM-DD'),
+      to: dayjs().format('YYYY-MM-DD')
     }
 
     const trackableStore = get(TrackableStore)
@@ -112,7 +103,7 @@ export async function buildChatContext(hints?: ContextHints): Promise<UserContex
     // Query logs with full date range
     const logs = await LedgerStore.query({
       start: dayjs(dateRange.from),
-      end: dayjs(dateRange.to),
+      end: dayjs(dateRange.to)
     })
 
     // Build daily metrics with dates for better temporal understanding
@@ -186,19 +177,22 @@ export async function buildChatContext(hints?: ContextHints): Promise<UserContex
       contexts,
       pointers,
       locations,
-      notes: notesContent,
+      notes: notesContent
     }
   } catch (err) {
     console.error('Error building chat context:', err)
     return {
       recentMetrics: {},
       goals: [],
-      summary: 'Unable to load user data at this time.',
+      summary: 'Unable to load user data at this time.'
     }
   }
 }
 
-async function fetchMetrics(keys?: string[], range?: { from: string; to: string }): Promise<Record<string, unknown>> {
+async function fetchMetrics(
+  keys?: string[],
+  range?: { from: string; to: string }
+): Promise<Record<string, unknown>> {
   try {
     const trackableStore = get(TrackableStore)
     const trackables = trackableStore.trackables || {}
@@ -206,7 +200,7 @@ async function fetchMetrics(keys?: string[], range?: { from: string; to: string 
     // Query logs from ledger
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
-      end: range?.to ? dayjs(range.to) : dayjs(),
+      end: range?.to ? dayjs(range.to) : dayjs()
     })
 
     const metrics: Record<string, unknown> = {}
@@ -221,12 +215,7 @@ async function fetchMetrics(keys?: string[], range?: { from: string; to: string 
 
       tokens.forEach((token: any) => {
         // Skip non-trackable tokens
-        if (
-          token.type !== 'tracker' &&
-          token.type !== 'person' &&
-          token.type !== 'context' &&
-          token.type !== 'pointer'
-        ) {
+        if (token.type !== 'tracker' && token.type !== 'person' && token.type !== 'context' && token.type !== 'pointer') {
           return
         }
 
@@ -239,6 +228,7 @@ async function fetchMetrics(keys?: string[], range?: { from: string; to: string 
       })
     })
 
+
     if (keys && keys.length > 0) {
       for (const key of keys) {
         const trackable = trackables[key]
@@ -250,7 +240,7 @@ async function fetchMetrics(keys?: string[], range?: { from: string; to: string 
             count: values.length,
             recent: values.slice(-5),
             aggregated: aggregated.value,
-            aggregationType: aggregated.type,
+            aggregationType: aggregated.type
           }
         }
       }
@@ -266,7 +256,7 @@ async function fetchMetrics(keys?: string[], range?: { from: string; to: string 
             count: values.length,
             recent: values.slice(-3),
             aggregated: aggregated.value,
-            aggregationType: aggregated.type,
+            aggregationType: aggregated.type
           }
         }
       }
@@ -349,11 +339,11 @@ function aggregateValues(values: any[], tracker: any): { value: number; type: st
 
 function getComparisonLabel(comparison?: string): string {
   const labels: Record<string, string> = {
-    gt: 'more than',
-    gte: 'at least',
-    lt: 'less than',
-    lte: 'at most',
-    eq: 'exactly',
+    'gt': 'more than',
+    'gte': 'at least',
+    'lt': 'less than',
+    'lte': 'at most',
+    'eq': 'exactly'
   }
   return labels[comparison || ''] || 'target'
 }
@@ -366,7 +356,7 @@ export async function buildNarrativeContext(hints?: ContextHints): Promise<Narra
     // Query logs from ledger
     const logs = await LedgerStore.query({
       start: from,
-      end: to,
+      end: to
     })
 
     // Group notes by date, excluding purely metric notes
@@ -403,9 +393,9 @@ export async function buildNarrativeContext(hints?: ContextHints): Promise<Narra
       total_entries,
       date_range: {
         from: from.format('YYYY-MM-DD'),
-        to: to.format('YYYY-MM-DD'),
+        to: to.format('YYYY-MM-DD')
       },
-      summary,
+      summary
     }
   } catch (err) {
     console.error('Error building narrative context:', err)
@@ -414,9 +404,9 @@ export async function buildNarrativeContext(hints?: ContextHints): Promise<Narra
       total_entries: 0,
       date_range: {
         from: dayjs().subtract(30, 'days').format('YYYY-MM-DD'),
-        to: dayjs().format('YYYY-MM-DD'),
+        to: dayjs().format('YYYY-MM-DD')
       },
-      summary: 'Unable to load journal entries',
+      summary: 'Unable to load journal entries'
     }
   }
 }
@@ -429,13 +419,13 @@ export async function buildSummaryContext(hints?: ContextHints): Promise<Summary
 
     return {
       summary,
-      goals: goals.slice(0, 5),
+      goals: goals.slice(0, 5)
     }
   } catch (err) {
     console.error('Error building summary context:', err)
     return {
       summary: 'Unable to load summary.',
-      goals: [],
+      goals: []
     }
   }
 }
@@ -449,14 +439,14 @@ export async function buildMetricsContext(hints?: ContextHints): Promise<Metrics
     return {
       recentMetrics: metrics,
       goals,
-      summary,
+      summary
     }
   } catch (err) {
     console.error('Error building metrics context:', err)
     return {
       recentMetrics: {},
       goals: [],
-      summary: 'Unable to load metrics.',
+      summary: 'Unable to load metrics.'
     }
   }
 }
@@ -465,12 +455,12 @@ export async function buildJournalContext(hints?: ContextHints): Promise<Journal
   try {
     const dateRange = hints?.dateRange || {
       from: dayjs().subtract(14, 'days').format('YYYY-MM-DD'),
-      to: dayjs().format('YYYY-MM-DD'),
+      to: dayjs().format('YYYY-MM-DD')
     }
 
     const logs = await LedgerStore.query({
       start: dayjs(dateRange.from),
-      end: dayjs(dateRange.to),
+      end: dayjs(dateRange.to)
     })
 
     const notesByDate: Record<string, string[]> = {}
@@ -491,13 +481,13 @@ export async function buildJournalContext(hints?: ContextHints): Promise<Journal
     return {
       notes: notesContent || 'No notes available',
       summary,
-      goals,
+      goals
     }
   } catch (err) {
     console.error('Error building journal context:', err)
     return {
       summary: 'Unable to load journal context.',
-      goals: [],
+      goals: []
     }
   }
 }
@@ -509,12 +499,12 @@ export async function buildPeopleContext(hints?: ContextHints): Promise<PeopleCo
 
     return {
       people,
-      summary,
+      summary
     }
   } catch (err) {
     console.error('Error building people context:', err)
     return {
-      summary: 'Unable to load people context.',
+      summary: 'Unable to load people context.'
     }
   }
 }
@@ -526,12 +516,12 @@ export async function buildLocationContext(hints?: ContextHints): Promise<Locati
 
     return {
       locations,
-      summary,
+      summary
     }
   } catch (err) {
     console.error('Error building location context:', err)
     return {
-      summary: 'Unable to load location context.',
+      summary: 'Unable to load location context.'
     }
   }
 }
@@ -554,17 +544,14 @@ export async function buildCorrelationContext(hints?: ContextHints): Promise<Cor
           // Simple trend correlation: both trending up/down or opposite
           const trend1 = m1[m1.length - 1]?.value > m1[0]?.value ? 1 : -1
           const trend2 = m2[m2.length - 1]?.value > m2[0]?.value ? 1 : -1
-          const corr = trend1 === trend2 ? 0.5 : -0.5
+          const corr = (trend1 === trend2) ? 0.5 : -0.5
 
           if (Math.abs(corr) > 0.3) {
             correlations.push({
               metric1: metricKeys[i],
               metric2: metricKeys[j],
               correlation: corr,
-              description:
-                trend1 === trend2
-                  ? Lang.t('ai.both-trending-together', 'Both trending together')
-                  : 'Trending in opposite directions',
+              description: trend1 === trend2 ? 'Both trending together' : 'Trending in opposite directions'
             })
           }
         }
@@ -573,7 +560,7 @@ export async function buildCorrelationContext(hints?: ContextHints): Promise<Cor
 
     return {
       ...richCtx,
-      correlations: correlations.slice(0, 5),
+      correlations: correlations.slice(0, 5)
     }
   } catch (err) {
     console.error('Error building correlation context:', err)
@@ -601,14 +588,14 @@ export async function buildTrendContext(hints?: ContextHints): Promise<TrendCont
           metric: key,
           direction,
           momentum,
-          lastValue,
+          lastValue
         })
       }
     })
 
     return {
       ...richCtx,
-      trends: trends.slice(0, 10),
+      trends: trends.slice(0, 10)
     }
   } catch (err) {
     console.error('Error building trend context:', err)
@@ -638,7 +625,7 @@ export async function buildGoalProgressContext(hints?: ContextHints): Promise<Go
             currentValue: Math.round(current * 100) / 100,
             targetValue: target,
             percentComplete: Math.round(percentComplete),
-            daysRemaining: goal.duration === 'daily' ? 1 : 7,
+            daysRemaining: goal.duration === 'daily' ? 1 : 7
           })
         }
       }
@@ -646,7 +633,7 @@ export async function buildGoalProgressContext(hints?: ContextHints): Promise<Go
 
     return {
       ...richCtx,
-      goalProgress,
+      goalProgress
     }
   } catch (err) {
     console.error('Error building goal progress context:', err)
@@ -659,23 +646,12 @@ export async function buildHealthContext(hints?: ContextHints): Promise<HealthCo
     const richCtx = await buildChatContext(hints)
 
     // Filter for health-related metrics
-    const healthKeywords = [
-      'sleep',
-      'heart',
-      'hrv',
-      'steps',
-      'exercise',
-      'workout',
-      'mood',
-      'energy',
-      'stress',
-      'anxiety',
-    ]
+    const healthKeywords = ['sleep', 'heart', 'hrv', 'steps', 'exercise', 'workout', 'mood', 'energy', 'stress', 'anxiety']
     const healthMetrics: Record<string, any> = {}
 
     Object.entries(richCtx.recentMetrics || {}).forEach(([key, value]) => {
       const keyLower = key.toLowerCase()
-      if (healthKeywords.some((h) => keyLower.includes(h))) {
+      if (healthKeywords.some(h => keyLower.includes(h))) {
         healthMetrics[key] = value
       }
     })
@@ -683,7 +659,7 @@ export async function buildHealthContext(hints?: ContextHints): Promise<HealthCo
     return {
       ...richCtx,
       recentMetrics: healthMetrics,
-      healthMetrics,
+      healthMetrics
     }
   } catch (err) {
     console.error('Error building health context:', err)
@@ -696,12 +672,12 @@ export async function buildPatternContext(hints?: ContextHints): Promise<Pattern
     const richCtx = await buildChatContext(hints)
     const dateRange = hints?.dateRange || {
       from: dayjs().subtract(30, 'days').format('YYYY-MM-DD'),
-      to: dayjs().format('YYYY-MM-DD'),
+      to: dayjs().format('YYYY-MM-DD')
     }
 
     const logs = await LedgerStore.query({
       start: dayjs(dateRange.from),
-      end: dayjs(dateRange.to),
+      end: dayjs(dateRange.to)
     })
 
     // Analyze temporal patterns
@@ -723,8 +699,8 @@ export async function buildPatternContext(hints?: ContextHints): Promise<Pattern
       temporalPatterns: {
         byDayOfWeek,
         byHourOfDay,
-        locations: richCtx.locations?.slice(0, 5),
-      },
+        locations: richCtx.locations?.slice(0, 5)
+      }
     }
   } catch (err) {
     console.error('Error building pattern context:', err)
@@ -736,7 +712,7 @@ async function fetchPeople(range?: { from: string; to: string }): Promise<Record
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
-      end: range?.to ? dayjs(range.to) : dayjs(),
+      end: range?.to ? dayjs(range.to) : dayjs()
     })
 
     const peopleData: Record<string, any> = {}
@@ -763,7 +739,7 @@ async function fetchPeople(range?: { from: string; to: string }): Promise<Record
     for (const [key, data] of Object.entries(peopleData)) {
       result[key] = {
         count: data.values.length,
-        recent: data.values.slice(-3),
+        recent: data.values.slice(-3)
       }
     }
 
@@ -778,7 +754,7 @@ async function fetchContexts(range?: { from: string; to: string }): Promise<Reco
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
-      end: range?.to ? dayjs(range.to) : dayjs(),
+      end: range?.to ? dayjs(range.to) : dayjs()
     })
 
     const contextsData: Record<string, any> = {}
@@ -804,7 +780,7 @@ async function fetchContexts(range?: { from: string; to: string }): Promise<Reco
     for (const [key, data] of Object.entries(contextsData)) {
       result[key] = {
         count: data.values.length,
-        recent: data.values.slice(-3),
+        recent: data.values.slice(-3)
       }
     }
 
@@ -819,7 +795,7 @@ async function fetchPointers(range?: { from: string; to: string }): Promise<Reco
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
-      end: range?.to ? dayjs(range.to) : dayjs(),
+      end: range?.to ? dayjs(range.to) : dayjs()
     })
 
     const pointersData: Record<string, any> = {}
@@ -845,7 +821,7 @@ async function fetchPointers(range?: { from: string; to: string }): Promise<Reco
     for (const [key, data] of Object.entries(pointersData)) {
       result[key] = {
         count: data.values.length,
-        recent: data.values.slice(-3),
+        recent: data.values.slice(-3)
       }
     }
 
@@ -860,7 +836,7 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
   try {
     const logs = await LedgerStore.query({
       start: range?.from ? dayjs(range.from) : dayjs().subtract(30, 'days'),
-      end: range?.to ? dayjs(range.to) : dayjs(),
+      end: range?.to ? dayjs(range.to) : dayjs()
     })
 
     const locationsMap: Record<string, any> = {}
@@ -898,7 +874,7 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
           lng: log.lng,
           count: 0,
           lastUsed: logDate,
-          dates: [], // Track all dates
+          dates: [] // Track all dates
         }
       }
 
@@ -910,6 +886,7 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
       }
     })
 
+
     // Sort by frequency and return top locations
     const locations = Object.values(locationsMap)
       .sort((a: any, b: any) => b.count - a.count)
@@ -920,7 +897,7 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
         lng: loc.lng,
         count: loc.count,
         lastUsed: loc.lastUsed,
-        recentDates: loc.dates.slice(-7).reverse(), // Last 7 dates, most recent first
+        recentDates: loc.dates.slice(-7).reverse() // Last 7 dates, most recent first
       }))
 
     return locations.length > 0 ? locations : undefined
@@ -930,36 +907,15 @@ async function fetchLocations(range?: { from: string; to: string }): Promise<Arr
   }
 }
 
-function buildSummary(
-  metrics: Record<string, unknown>,
-  goals: string[],
-  people?: Record<string, any>,
-  contexts?: Record<string, any>,
-  pointers?: Record<string, any>,
-  locations?: Array<any>
-): string {
+function buildSummary(metrics: Record<string, unknown>, goals: string[], people?: Record<string, any>, contexts?: Record<string, any>, pointers?: Record<string, any>, locations?: Array<any>): string {
   const metricNames = Object.keys(metrics)
-    .filter((k) => k.startsWith('#'))
-    .map((k) => k.substring(1))
+    .filter(k => k.startsWith('#'))
+    .map(k => k.substring(1))
     .join(', ')
-  const personNames = people
-    ? Object.keys(people)
-        .map((k) => k.substring(1))
-        .join(', ')
-    : ''
-  const contextNames = contexts
-    ? Object.keys(contexts)
-        .map((k) => k.substring(1))
-        .join(', ')
-    : ''
-  const pointerNames = pointers
-    ? Object.keys(pointers)
-        .map((k) => k.substring(1))
-        .join(', ')
-    : ''
-  const locationNames = locations
-    ? locations.map((l) => l.name || `${l.lat?.toFixed(2)},${l.lng?.toFixed(2)}`).join(', ')
-    : ''
+  const personNames = people ? Object.keys(people).map(k => k.substring(1)).join(', ') : ''
+  const contextNames = contexts ? Object.keys(contexts).map(k => k.substring(1)).join(', ') : ''
+  const pointerNames = pointers ? Object.keys(pointers).map(k => k.substring(1)).join(', ') : ''
+  const locationNames = locations ? locations.map(l => l.name || `${l.lat?.toFixed(2)},${l.lng?.toFixed(2)}`).join(', ') : ''
   const activeGoals = goals.slice(0, 3).join('; ')
 
   let summary = ''

@@ -12,7 +12,7 @@ export default class Timer {
   start() {
     if (this.display) {
       this.started = new Date().getTime()
-      console.info(`⏱ 🟢 ${this.name} - Started`)
+      console.log(`⏱ 🟢 ${this.name} - Started`)
     }
     this.checks.push({ name: `${this.name} Started`, time: 0 })
     return this
@@ -21,7 +21,7 @@ export default class Timer {
   check(name) {
     const diff = new Date().getTime() - this.started
     if (this.display) {
-      console.info(`⏱ ✅ ${this.name}: ${name} - ${diff}ms`)
+      console.log(`⏱ ✅ ${this.name}: ${name} - ${diff}ms`)
     }
     this.checks.push({ name: `${name}`, time: diff })
     return this
@@ -29,7 +29,7 @@ export default class Timer {
 
   done() {
     if (this.display) {
-      console.info(`⏱ 🟥 ${this.name}: - ${new Date().getTime() - this.started}ms`)
+      console.log(`⏱ 🟥 ${this.name}: - ${new Date().getTime() - this.started}ms`)
     }
     this.check('done')
     console.table(this.checks)

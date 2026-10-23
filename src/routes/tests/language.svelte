@@ -1,16 +1,24 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+
   import { onMount } from 'svelte'
 
+  import Button from '../../components/button/button.svelte'
+  import Card from '../../components/card/card.svelte'
+  import Input from '../../components/input/input.svelte'
+  import ListItem from '../../components/list-item/list-item.svelte'
+  import Spacer from '../../components/spacer/spacer.svelte'
+  import Text from '../../components/text/text.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
 
+  import Toolbar from '../../components/toolbar/toolbar.svelte'
   import Layout from '../../domains/layout/layout.svelte'
 
   import BaseLang from '../../lang/base'
 
   import download from '../../modules/download/download'
-  import { SideStore } from '../../domains/storage/side-storage'
+  import { SideStore } from '../../domains/storage/storage'
 
   import { Device } from '../../store/device-store'
   import { Interact } from '../../store/interact'
@@ -27,11 +35,11 @@
 
   async function save() {
     sideStore.put('active-lang', activeLang)
-    showToast({ message: Lang.t('routes.saved', 'Saved') })
+    showToast({ message: Lang.t('general.saved', 'Saved') })
   }
 
   async function reset() {
-    const confirmed = await Interact.confirm(Lang.t('language.clear-and-start-over', { name: activeLang.name }))
+    const confirmed = await Interact.confirm(`Clear ${activeLang.name} and start over?`)
     if (confirmed) {
       activeLang = { ...BaseLang }
       Device.scrollToTop()
@@ -48,7 +56,7 @@
   }
 
   async function send() {
-    showToast({ message: Lang.t('routes.downloading', 'Downloading...') })
+    showToast({ message: 'Downloading...' })
     await download.json(`${activeLang.name}.lang.json`, activeLang)
     let confirmed = await Interact.confirm(
       'Compose Email to Brandon',
@@ -62,142 +70,57 @@
   onMount(main)
 </script>
 
-<!-- iOS look: nav bar with back and Save, grouped cards with a section header each, 44 px fields -->
-<Layout showTabs={false} checkIn={false}>
+<Layout showTabs={false}>
   <div slot="header">
     <ToolbarGrid>
       <div slot="left">
         <BackButton to="/settings" />
       </div>
+      <div slot="main">
+        <Text bold>Nomie Language</Text>
+      </div>
       <div slot="right">
-        <button type="button" class="ios-text-action" on:click={save}>{Lang.t('routes.save', 'Save')}</button>
+        <Button type="clear" on:click={save}>Save</Button>
       </div>
     </ToolbarGrid>
   </div>
-  <main class="p-4 space-y-5 text-ios-label">
-    <h1 class="text-ios-large font-bold text-ios-label px-1 -mb-3">
-      {Lang.t('routes.nomie-language', 'Nomie Language')}
-    </h1>
-    <p class="px-1 text-ios-subhead text-ios-label2">
-      {Lang.t(
-        'routes.want-to-help-translate-nomie-fill-in-the-fields-',
-        'Want to help translate Nomie? Fill in the fields below. Save keeps your progress on this device. When you are finished, send the file.'
-      )}
-    </p>
-
+  <Toolbar>
+    <Spacer />
+    Finished?
+    <Button size="sm" className="ml-2" on:click={send} text>Send to Brandon</Button>
+    <Spacer />
+  </Toolbar>
+  <main>
+    <Card pad>
+      <Text size="sm" leading2>
+        Want to help translate Nomie? Translate the following items. Once finished hit Send to Brandon. You can hit
+        "save" to save your progress locally.
+      </Text>
+    </Card>
     {#if activeLang}
-      <section>
-        <h2 class="ios-section-title">{Lang.t('routes.language-details', 'Language details')}</h2>
-        <div class="ios-card">
-          <label class="ios-field-row">
-            <span class="ios-field-label">{Lang.t('routes.language-name', 'Language name')}</span>
-            <input
-              class="ios-field"
-              placeholder={Lang.t('routes.language-name', 'Language name')}
-              bind:value={activeLang.name}
-            />
-          </label>
-          <label class="ios-field-row">
-            <span class="ios-field-label">{Lang.t('routes.author-2', 'Author')}</span>
-            <input class="ios-field" placeholder={Lang.t('routes.author-2', 'Author')} bind:value={activeLang.author} />
-          </label>
-        </div>
-      </section>
-
+      <Card pad title="Language Details">
+        <Input compact placeholder="Language Name" bind:value={activeLang.name} />
+        <Input compact placeholder="Author" bind:value={activeLang.author} />
+      </Card>
       {#each Object.keys(baseLang.translation) as parentId}
-        <section>
-          <h2 class="ios-section-title">{parentId}</h2>
-          <div class="ios-card">
-            {#each Object.keys(baseLang.translation[parentId]) as key}
-              <label class="ios-field-row">
-                <span class="ios-field-label">{key}</span>
-                <span class="ios-field-hint">{baseLang.translation[parentId][key]}</span>
-                {#if (baseLang.translation[parentId][key] || '').length > 20}
-                  <textarea class="ios-field" rows="3" bind:value={activeLang.translation[parentId][key]}></textarea>
-                {:else}
-                  <input class="ios-field" bind:value={activeLang.translation[parentId][key]} />
-                {/if}
-              </label>
-            {/each}
-          </div>
-        </section>
+        <Card pad title={parentId} className="my-2">
+          {#each Object.keys(baseLang.translation[parentId]) as key}
+            <Input
+              compact
+              className="mb-2"
+              rows={4}
+              type={(baseLang.translation[parentId][key] || '').length > 20 ? 'textarea' : 'text'}
+              placeholder={`${key}: ${baseLang.translation[parentId][key]}`}
+              bind:value={activeLang.translation[parentId][key]}
+            />
+          {/each}
+        </Card>
       {/each}
     {/if}
-
-    <div class="ios-card overflow-hidden">
-      <button type="button" class="ios-action font-semibold text-ios-tint" on:click={send}
-        >{Lang.t('routes.send-to-brandon', 'Send to Brandon')}</button
-      >
-      <button type="button" class="ios-action text-ios-danger" on:click={reset}
-        >{Lang.t('routes.reset-language', 'Reset language')}</button
-      >
-    </div>
+    <ListItem className="my-4" on:click={reset}>
+      <Text className="text-red">Reset Language</Text>
+    </ListItem>
   </main>
 
   <div slot="footer" />
 </Layout>
-
-<style>
-  .ios-section-title {
-    font-size: calc(13px * var(--text-scale));
-    line-height: 18px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    color: var(--ios-label2);
-    padding: 0 16px 6px;
-  }
-  .ios-field-row {
-    display: block;
-    padding: 10px 16px;
-    border-top: 0.5px solid var(--ios-separator);
-  }
-  .ios-field-row:first-child {
-    border-top: 0;
-  }
-  .ios-field-label {
-    display: block;
-    font-size: calc(13px * var(--text-scale));
-    line-height: 18px;
-    color: var(--ios-label2);
-  }
-  .ios-field-hint {
-    display: block;
-    font-size: calc(13px * var(--text-scale));
-    line-height: 18px;
-    color: var(--ios-label2);
-    font-style: italic;
-  }
-  .ios-field {
-    display: block;
-    width: 100%;
-    margin-top: 4px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: var(--ios-label);
-    font-size: calc(17px * var(--text-scale));
-    line-height: 22px;
-    outline: none;
-    resize: vertical;
-  }
-  .ios-action {
-    display: block;
-    width: 100%;
-    min-height: 48px;
-    padding: 12px 16px;
-    text-align: center;
-    font-size: calc(17px * var(--text-scale));
-    line-height: 22px;
-    border-top: 0.5px solid var(--ios-separator);
-  }
-  .ios-action:first-child {
-    border-top: 0;
-  }
-  .ios-text-action {
-    color: var(--ios-tint);
-    font-size: calc(17px * var(--text-scale));
-    line-height: 22px;
-    padding: 8px 4px;
-  }
-</style>

@@ -1,7 +1,7 @@
-import type { Dayjs } from 'dayjs'
-import type { CalendarMapOptionsType } from '../../modules/time/time'
-import math from '../../utils/math/math'
-import type NLog from '../nomie-log/nomie-log'
+import type { Dayjs } from "dayjs"
+import type { CalendarMapOptionsType } from "../../modules/time/time"
+import math from "../../utils/math/math"
+import type NLog from "../nomie-log/nomie-log"
 
 export type NomieUsageType = {
   values: Array<number>
@@ -26,7 +26,7 @@ export class NomieUsage {
   logs: Array<NLog>
   unitScores?: Array<Number>
   noteScores?: Array<Number>
-  formatValue?: Function
+  formatValue?: Function 
 
   constructor(starter: NomieUsageType) {
     this.values = starter.values || []
@@ -39,7 +39,7 @@ export class NomieUsage {
     this.formatValue = starter.formatValue || this.plainFormatter
   }
 
-  private plainFormatter = (v: number | string): string => {
+  private plainFormatter = (v:number | string):string=>{
     return `${v}`
   }
 
@@ -73,4 +73,6 @@ export class NomieUsage {
   get min(): any {
     return this.getMinMax('min')
   }
+
 }
+

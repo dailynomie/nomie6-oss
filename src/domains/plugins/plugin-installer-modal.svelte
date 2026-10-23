@@ -3,30 +3,28 @@
 <script lang="ts">
   import BackdropModal from '../../components/backdrop/backdrop-modal.svelte'
   import { closeModal } from '../../components/backdrop/BackdropStore2'
-  import Button from '../../components/button/button.svelte'
+  import CloseButton from '../../components/button/close-button.svelte'
   import Title from '../../components/title/title.svelte'
   import ToolbarGrid from '../../components/toolbar/toolbar-grid.svelte'
   import { wait } from '../../utils/tick/tick'
   import PluginInstaller from './plugin-installer.svelte'
   import { closePluginInstaller } from './PluginStore'
-  import { Lang } from '../../store/lang'
+
 
   const { id, url } = $props()
 </script>
 
 <BackdropModal mainClass="px-4 py-4">
   <ToolbarGrid slot="header">
-    <Title>{Lang.t('plugins.install-a-plugin', 'Install a Plugin')}</Title>
-    <Button
-      slot="right"
-      clear
-      primary
+    <CloseButton
+      slot="left"
       on:click={() => {
         wait(10).then(() => {
           closeModal(id)
         })
-      }}>{Lang.t('general.done', 'Done')}</Button
-    >
+      }}
+    />
+    <Title>Install a Plugin</Title>
   </ToolbarGrid>
   <PluginInstaller
     {url}
@@ -39,19 +37,9 @@
   />
 
   <p class="text-description text-xs text-center mt-4">
-    {Lang.t(
-      'plugins.external-hosting-notice',
-      'Plugins are externally hosted websites that can communicate back and forth with Nomie. Plugins are responsible for their own privacy policy.'
-    )}
+    Plugins are externally hosted websites that can communicate back and forth with Nomie. Plugins are responsible for
+    their own privacy policy.
   </p>
-  {#if url}<p class="text-xs text-ios-label mt-2 text-center">
-      {Lang.t('plugins.source', { origin: new URL(url).origin })}
-    </p>{/if}
-  <!-- iOS look (D-caution): a caution is neutral secondary text with a warning glyph; red is only for destructive actions -->
-  <p class="text-sm font-semibold text-ios-label2 mt-3 text-center">
-    {Lang.t(
-      'plugins.only-install-plugins-from-sources-that-you-trust',
-      '⚠︎ Only install plugins from sources that you trust.'
-    )}
-  </p>
+  {#if url}<p class="text-xs text-black dark:text-white mt-2 text-center">Source: {new URL(url).origin}</p>{/if}
+  <p class="text-xs text-red-500 mt-2 text-center">Only install plugins from sources that you trust.</p>
 </BackdropModal>

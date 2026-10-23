@@ -19,10 +19,13 @@
   import TrackerClass from '../../modules/tracker/TrackerClass'
   import AppsOutline from '../../n-icons/AppsOutline.svelte'
 
+  import CloseOutline from '../../n-icons/CloseOutline.svelte'
   import CreateOutline from '../../n-icons/CreateOutline.svelte'
 
   import PulseOutline from '../../n-icons/PulseOutline.svelte'
   import SearchIcon from '../../n-icons/SearchIcon.svelte'
+
+  import { SearchStore } from './search-store'
 
   import { addNewPerson, showTrackablePopmenu } from '../board/boardActions'
 
@@ -39,8 +42,7 @@
   import { onTrackerTap } from '../tracker/input/TrackerInputStore'
 
   import { getUnisearchResults, type UnisearchResultsType, UnisearchStore } from './UnisearchStore'
-  import { openTimelineModal } from '../timeline/timeline-helpers'
-  import { Lang } from '../../store/lang'
+import { openTimelineModal } from '../timeline/timeline-helpers';
 
   let results = $state<UnisearchResultsType | undefined>(undefined)
   let exactMatchOptions = $state<Array<PopMenuButton>>([])
@@ -143,14 +145,14 @@
   const getExactMatchButtons = (): Array<PopMenuButton> => {
     return [
       {
-        title: Lang.t('search.name-stats', { name: results?.exactTrackable?.label }),
+        title: `${results?.exactTrackable?.label} Stats`,
         icon: PulseOutline,
         click() {
           openStats2(results?.exactTrackable, { date: new Date(), known: $TrackableStore.trackables })
         },
       },
       {
-        title: Lang.t('search.track-name', { name: results?.exactTrackable?.tag }),
+        title: `Track ${results?.exactTrackable?.tag}`,
         icon: AppsOutline,
         click() {
           if (results.exactTrackable?.type === 'tracker') {
@@ -165,7 +167,7 @@
         },
       },
       {
-        title: Lang.t('search.edit-name', { name: results?.exactTrackable?.label }),
+        title: `Edit ${results?.exactTrackable?.label}`,
         icon: CreateOutline,
         click() {
           if (results.exactTrackable.type == 'tracker') {
@@ -213,9 +215,13 @@
 
   <header
     slot="header"
-    class="input-wrapper w-full stuff flex items-stretch justify-items-stretch relative border-b border-ios-separator"
+    class="input-wrapper w-full stuff flex items-stretch justify-items-stretch relative border-b border-gray-500 border-opacity-20"
   >
-    <IonIcon size={28} icon={SearchIcon} className="text-ios-label2  text-opacity-50 absolute top-3 left-2" />
+    <IonIcon
+      size={28}
+      icon={SearchIcon}
+      className="text-gray-600 dark:text-gray-400  text-opacity-50 absolute top-3 left-2"
+    />
     <!-- svelte-ignore a11y-autofocus -->
     <input
       id="search-field"
@@ -226,15 +232,12 @@
         debounceSearch(evt.target.value)
       }}
       type="text"
-      placeholder={Lang.t('search.search-your-nomie', 'Search your Nomie')}
-      class="search-input rounded-t-2xl w-full pr-20"
+      placeholder="Search your Nomie"
+      class="search-input rounded-t-2xl w-full"
     />
-    <button
-      type="button"
-      on:click={close}
-      class="absolute top-3 right-3 h-7 flex items-center text-ios-tint text-base font-semibold"
-      >{Lang.t('search.cancel', 'Cancel')}</button
-    >
+    <button on:click={close} class="absolute top-3 rounded-full right-3 h-7 w-7 flex items-center justify-center">
+      <IonIcon size={28} icon={CloseOutline} className="text-gray-500" />
+    </button>
   </header>
   <main class="">
     <div id="unisearch-scroll-point" />
@@ -268,7 +271,7 @@
           }}
           class="list-header {!showCommands ? 'opacity-50' : ''}"
         >
-          {Lang.t('search.commands', 'Commands')}
+          Commands
         </header>
         <List className="rounded-none">
           {#if showCommands}
@@ -300,7 +303,7 @@
           }}
           class="list-header {!showTrackables ? 'opacity-50' : ''}"
         >
-          {Lang.t('search.trackables', 'Trackables')}
+          Trackables
         </header>
       {/if}
       <List>
@@ -314,7 +317,7 @@
             >
               <TrackableAvatar {trackable} size={22} />
               <main>{trackable.label}</main>
-              <span class="action">{Lang.t('search.open', 'Open')}</span>
+              <span class="action">Open</span>
             </button>
             {#if index < results.trackables.length - 1}
               <Divider left={48} />
@@ -328,9 +331,9 @@
               }}
             >
               <main>
-                {Lang.t('search.doesnt-exist', { term: searchTerm })}
+                {searchTerm} doesn't exist
               </main>
-              <div class="action">{Lang.t('search.create-2', 'Create...')}</div>
+              <div class="action">Create...</div>
             </button>
           {:else if searchTerm?.substring(0, 1) === '@' && results.trackables.length === 0}
             <button
@@ -340,9 +343,9 @@
               }}
             >
               <main>
-                {Lang.t('search.not-found', { term: searchTerm })}
+                {searchTerm} not found
               </main>
-              <div class="action">{Lang.t('search.create-2', 'Create...')}</div>
+              <div class="action">Create...</div>
             </button>
           {/if}
         {/if}
@@ -354,7 +357,7 @@
         }}
         class="list-header {!showLogs ? 'opacity-50' : ''}"
       >
-        {Lang.t('search.notes', 'Notes')}
+        Notes
       </header>
 
       <List>
@@ -367,10 +370,10 @@
               }}
             >
               <main>
-                <div class="time text-xs text-ios-label2">
-                  {log.endDayjs().format(`${dateFormats.mmm_d_yyyy} ${dateFormats.time}`)}
+                <div class="time text-xs text-gray-500">
+                  {log.endDayjs().format(`${dateFormats.date} ${dateFormats.time}`)}
                 </div>
-                <p class="text-sm line-clamp-2">{log.note}</p>
+                <p class="text-sm line-clamp-2 ">{log.note}</p>
               </main>
             </button>
             <Divider left={1} />
@@ -379,13 +382,14 @@
             class="selectable"
             on:click={() => {
               openTimelineModal({
-                search: searchTerm,
-                notes: true,
-              })
+                  search: searchTerm,
+                  notes: true
+                })
+              // SearchStore.view('history', escapeRegExp(searchTerm))
             }}
           >
-            <main class="text-sm leading-tight">{Lang.t('search.search-all-notes-for', { term: searchTerm })}</main>
-            <div class="action">{Lang.t('search.search-2', 'Search...')}</div>
+            <main class="text-sm leading-tight">Search all notes for: {searchTerm}</main>
+            <div class="action">Search...</div>
           </button>
         {/if}
       </List>
@@ -403,30 +407,25 @@
         }}
       >
         <main class="line-clamp-2">"{searchTerm}"</main>
-        <span class="stiff action">{Lang.t('search.save-as-note', 'Save as Note')}</span>
+        <span class="stiff action">Save as Note</span>
       </button>
     {/if}
   </main>
 
   {#if results}
     <div
-      class="hidden text-ios-label2 xl:flex px-4 w-full items-center border-t border-ios-separator py-2 stiff space-x-4"
+      class="hidden dark:text-gray-500 xl:flex px-4 w-full items-center border-t border-gray-500 border-opacity-20 py-2 stiff space-x-4"
     >
-      <div class="text-sm">↑↓ <span class="text-ios-label2 text-sm">{Lang.t('search.select', 'Select')}</span></div>
-      <div class="text-xs">⮐ <span class="text-ios-label2 text-sm">{Lang.t('search.open', 'Open')}</span></div>
+      <div class="text-sm">↑↓ <span class="text-gray-400 text-sm">Select</span></div>
+      <div class="text-xs">⮐ <span class="text-gray-400 text-sm">Open</span></div>
       <div class="filler" />
-      <div class="text-xs">
-        {Lang.t('search.esc', 'esc')} <span class="text-ios-label2 text-sm">{Lang.t('search.close', 'Close')}</span>
-      </div>
+      <div class="text-xs">esc <span class="text-gray-400 text-sm">Close</span></div>
     </div>
   {:else}
     <div
-      class="text-opacity-80 bg-ios-card text-ios-label2 flex px-4 w-full items-center border-t text-xs leading-tight border-ios-separator py-2 pb-3 stiff space-x-4"
+      class="text-opacity-80 dark:bg-gray-900 text-gray-500 flex px-4 w-full items-center border-t text-xs leading-tight border-gray-500 border-opacity-20 py-2 pb-3 stiff space-x-4"
     >
-      {Lang.t(
-        'search.search-notes-trackables-and-trigger-commands-lik',
-        'Search notes, trackables, and trigger commands (like Create...)'
-      )}
+      Search notes, trackables, and trigger commands (like Create...)
     </div>
   {/if}
   <!-- </section> -->
@@ -443,24 +442,25 @@
   }
 
   .unisearch .search-input {
-    @apply bg-ios-card text-ios-label;
-    @apply text-lg py-3 pr-8 pl-10 focus:outline-none;
+    @apply bg-white dark:bg-black dark:text-white;
+    @apply text-lg py-3 pr-8 pl-10 focus:outline-none focus:ring-2 ring-inset ring-primary-500;
   }
 
   .unisearch .selectable .action {
     @apply inline-flex;
     @apply text-sm;
     @apply py-1 px-3 rounded-full;
-    @apply bg-ios-tintsoft text-ios-tint;
+    @apply bg-primary-50 text-primary-600;
+    @apply dark:bg-primary-800 dark:text-primary-400;
   }
 
   .unisearch .selectable:focus .action,
   .unisearch .selectable.selected .action {
-    @apply bg-ios-tint text-ios-ontint;
+    @apply bg-primary-600 text-white;
   }
   .unisearch .selectable:focus,
   .unisearch .selectable.selected {
-    @apply bg-ios-tintsoft text-ios-label;
+    @apply bg-primary-500 bg-opacity-20 dark:bg-primary-500 text-black dark:text-black;
     @apply outline-none;
   }
   .unisearch button.selectable {
@@ -469,18 +469,18 @@
     @apply px-4 py-3;
     @apply space-x-2;
     @apply flex items-center justify-items-stretch;
-    @apply bg-ios-card;
-    @apply text-ios-label;
+    @apply bg-white dark:bg-gray-800;
+    @apply text-black dark:text-white;
   }
 
   .unisearch .list-header {
     @apply transition-all duration-100 ease-in-out;
-    @apply bg-ios-bg;
+    @apply bg-gray-50 dark:bg-gray-900;
     @apply z-20;
-    @apply text-sm px-4 py-1 text-ios-label2;
+    @apply text-sm px-4 py-1 text-gray-500;
   }
   .unisearch .n-list .list-header:hover {
-    @apply bg-ios-fill;
+    @apply bg-gray-200 dark:bg-gray-600;
   }
 
   .unisearch button.selectable main {

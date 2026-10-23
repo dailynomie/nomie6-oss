@@ -16,21 +16,15 @@
   import { createEventDispatcher } from 'svelte'
   import { replaceTextAt } from '../../utils/text/text'
   import { wait } from '../../utils/tick/tick'
-  import { Lang } from '../../store/lang'
 
   let textarea: any
-  let {
-    value = $bindable(),
-    id,
-    class: classAttr = '',
-    placeholder = '',
-  } = $props<{ value?: string; id: string; class?: string; placeholder?: string }>()
+  let { value = $bindable(), id, class: classAttr = '', placeholder = '' } = $props<{ value?: string; id: string; class?: string; placeholder?: string }>()
   const emit = createEventDispatcher()
 </script>
 
 <Textarea
   bind:this={textarea}
-  aria-label={Lang.t('capture.note-entry-field', 'Note entry field')}
+  aria-label="Note entry field"
   {id}
   on:inserted={async (evt) => {
     const tag = evt.detail.item.original.key
@@ -58,14 +52,12 @@
     menuShowMinLength: 1,
     autocompleteMode: false,
     menuItemLimit: 3,
-    // no "No Match Found!" bubble: a tag without a tracker is offered when the note is saved
-    noMatchTemplate: () => '',
+    noMatchTemplate: null,
     // menuContainer: captureWrapper,
     collection: [
       {
         trigger: '#',
-        // no "No Match Found!" bubble: a tag without a tracker is offered when the note is saved
-        noMatchTemplate: () => '',
+        noMatchTemplate: null,
         values: $AllTrackerTrackables.map((trackable) => {
           return {
             key: trackable.tag,
@@ -75,8 +67,7 @@
       },
       {
         trigger: '@',
-        // no "No Match Found!" bubble: a tag without a tracker is offered when the note is saved
-        noMatchTemplate: () => '',
+        noMatchTemplate: null,
         values: $AllPeopleTrackables.map((trackable) => {
           return {
             key: trackable.tag,
@@ -105,7 +96,7 @@
     ],
   }}
   class={classAttr}
-  {placeholder}
+  placeholder={placeholder}
   bind:value
   bind:this={textarea}
   on:input={(e) => emit('input', e.detail)}

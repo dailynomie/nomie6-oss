@@ -1,64 +1,27 @@
-# Daily Nomie 7
+# Nomie 6 Open Source
 
-An open source life tracker, mood tracker and data journal. Daily Nomie 7 is based on Nomie 6, and it keeps your data on your own device.
+Since Closing down nomie (https://nomie.app), I wanted to provide it as an open source project.
 
-## What's new in version 7
+## Open Source Life Tracker / Mood Tracker / Data Journal
 
-- **Experiments:** test whether one change affects something you track, with a live result and a plain-language summary.
-- **Starter mode:** new users see the core of the app. Switch to Full mode any time in Settings → Customize.
-- **A central menu:** the middle button on the phone bar opens Goals, Experiments, Pointers and Locations.
-- **Complete backups:** a backup contains everything, and restoring it twice never creates duplicates.
-- **AI explanations (optional):** an optional explanation of an experiment's result. The numbers always come from the code.
+![Nomie 6 Github](https://shareking.s3.amazonaws.com/Screen-Shot-2022-12-31-11-20-09.31-w0qBQwGRkANjPuv5Xtl1xFHYFIg0GgJSYluiKMI5v69Ak7Lgbk5g0mR9bx9QrdiRlUVQrmXGb4T1AwIA02oApD3YfL97thUL0Kl3.png)
 
-## Running it on your computer
+## Downloading and running on any HTTP server
 
-You need Node 20 (see `.nvmrc`) and npm.
+Nomie 6 can be run on any web server without special server side code.
+
+Latest build: [`bin/nomie6-oss.latest.zip`](https://github.com/dailynomie/nomie6-oss/raw/master/bin/nomie6-oss.latest.zip)
+
+## Building and Running
+
+You'll need Node >= 16 and NPM. I have not tested running this on Windows.
 
 ```bash
-git clone https://github.com/dailynomie/dailynomie7.git
-cd dailynomie7
-npm ci
+git clone git@github.com:dailynomie/nomie6-oss.git
+cd nomie6-oss
+npm install
 npm run dev
 ```
-
-Then open http://localhost:5001.
-
-To run the tests:
-
-```bash
-npx vitest run
-```
-
-To build the app for a web server, the output goes to `dist/`:
-
-```bash
-npm run vbuild
-```
-
-## Self-hosting with Docker
-
-```bash
-docker build -t daily-nomie .
-docker run -p 8080:80 daily-nomie
-```
-
-Then open http://localhost:8080.
-
-## Sync
-
-Sync is optional. You can connect Daily Nomie to a CouchDB server that you run yourself. Daily Nomie does not run a sync server for you.
-
-## AI
-
-AI is optional and off by default. When you turn it on, you add your own API key for Claude (Anthropic) or OpenRouter. The app sends the context needed for each request directly to that provider. Your key stays on your device. See the privacy policy in the app (More → About → Learn More) for details.
-
-## Privacy
-
-Your logs, trackers and settings are stored in your browser. Nothing is sent to us. Backups are files you download, and they never contain your PIN, your storage type or your AI keys.
-
-## Credits
-
-Daily Nomie is based on Nomie 6, which was open sourced by Happy Data, LLC after Nomie closed. Thank you to the Nomie team and to everyone who used and built on it.
 
 ## How Nomie Works
 
@@ -111,6 +74,7 @@ The Nomie Jingle was written and produced by soldilil - [see more work](https://
 - [SvelteJS](https://svelte.dev/)
 - [Leaflet](https://leafletjs.com)
 - [OpenStreetMap](https://openstreetmap.org)
+- [Cypress](https://cypress.io)
 - [PouchDB](https://pouchdb.com)
 - [LocalForage](https://localforage.github.io/localForage/)
 - [svelte-emoji-picker](https://github.com/joeattardi/svelte-emoji-selector)

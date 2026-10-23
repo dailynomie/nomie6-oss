@@ -2,7 +2,6 @@ import { openPopMenu, type PopMenuButton } from '../../../../components/pop-menu
 import { Interact } from '../../../../store/interact'
 import { switchToLocal } from '../../../settings/settings-functions'
 import type { IStorage } from '../../storage'
-import { Lang } from '../../../../store/lang'
 
 /**
  * Storage engine that syncs data with an external Nomie Server instance.
@@ -15,25 +14,25 @@ let apiToken: string
 
 const buttons: PopMenuButton[] = [
   {
-    title: Lang.t('storage.try-again', 'Try again'),
+    title: "Try again",
     click() {
-      window.location.reload()
-    },
+      window.location.reload();
+    }
   },
   {
-    title: Lang.t('storage.switch-to-local-storage', 'Switch to Local Storage'),
+    title: "Switch to Local Storage",
     click() {
-      switchToLocal()
-    },
+      switchToLocal();
+    }
   },
   {
-    title: Lang.t('storage.erase-nomie-server-config', 'Erase Nomie Server Config'),
+    title: "Erase Nomie Server Config",
     click() {
-      localStorage.removeItem('nomie-server-url')
-      localStorage.removeItem('nomie-server-token')
-      window.location.reload()
-    },
-  },
+      localStorage.removeItem('nomie-server-url');
+      localStorage.removeItem('nomie-server-token');
+      window.location.reload();
+    }
+  }
 ]
 
 /**
@@ -41,12 +40,9 @@ const buttons: PopMenuButton[] = [
  */
 const cannotConnect = async () => {
   openPopMenu({
-    id: 'cannot-connect',
-    title: Lang.t(
-      'storage.unable-to-connect-to-nomie-server-with-the-curre',
-      'Unable to Connect to Nomie Server with the current Configuration'
-    ),
-    buttons,
+    id: "cannot-connect",
+    title: "Unable to Connect to Nomie Server with the current Configuration",
+    buttons
   })
 }
 
@@ -59,9 +55,7 @@ const nsGet = async (path: string): Promise<Response> => {
     headers: {
       Authorization: `Bearer ${apiToken}`,
     },
-  }).catch((e) => {
-    throw e
-  })
+  }).catch(e=>{throw e});
   return call
 }
 /**
@@ -129,11 +123,8 @@ export const NomieServierStorage: IStorage = {
       apiToken = localStorage.getItem('nomie-server-token') || options?.server?.token
 
       if (!apiUrl || !apiToken) {
-        apiUrl = await Interact.prompt(
-          Lang.t('storage.nomie-server-url', 'Nomie Server URL'),
-          Lang.t('storage.http-localhost-3011', 'http://localhost:3011')
-        )
-        apiToken = await Interact.prompt(Lang.t('storage.nomie-server-api-key', 'Nomie Server API Key'))
+        apiUrl = await Interact.prompt('Nomie Server URL', 'http://localhost:3011')
+        apiToken = await Interact.prompt('Nomie Server API Key')
         localStorage.setItem('nomie-server-url', apiUrl)
         localStorage.setItem('nomie-server-token', apiToken)
       }
@@ -141,7 +132,8 @@ export const NomieServierStorage: IStorage = {
       if (!apiUrl || !apiToken) {
         throw new Error('Nomie Server requires a server object with url and token')
       }
-    } catch (e: any) {
+    } catch (e:any) {
+
       Interact.error(e.message)
 
       throw e
@@ -157,14 +149,9 @@ export const NomieServierStorage: IStorage = {
       if (e.message == 'Unauthorized') {
         const engine = this as any
         engine.fireReady()
-        Interact.error(
-          Lang.t(
-            'storage.nomie-server-api-key-is-invalid-please-double-ch',
-            'Nomie Server API key is invalid. Please double check your settings.'
-          )
-        )
+        Interact.error('Nomie Server API key is invalid. Please double check your settings.')
       } else {
-        cannotConnect()
+        cannotConnect();
       }
       throw e
     }

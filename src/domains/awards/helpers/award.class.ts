@@ -36,6 +36,10 @@ export default class Award {
   }
 
   getHash(): string {
-    return md5(`${this.id}${this.phash}${this.timestamp.getTime()}${this.name}${this.reason}`)
+    return md5(
+      `${this.id}${this.phash}${this.timestamp.getTime()}${this.name}${
+        this.reason
+      }`
+    )
   }
 }

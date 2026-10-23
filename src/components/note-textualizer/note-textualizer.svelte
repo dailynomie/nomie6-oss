@@ -1,39 +1,40 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import RadioButton from '../radio-button/radio-button.svelte'
   import { createEventDispatcher } from 'svelte'
   // Components
-
+  
   //Utils
   import extractor from '../../utils/extract/extract'
-
+  
   // Modules
   import Tracker from '../../modules/tracker/TrackerClass'
 
+  
   // Props
+
 
   const dispatch = createEventDispatcher()
   const { note, trackers, className, tokenClass } = $props()
 
   const state = $state({
     words: [],
-    note: ``,
+    note: ``
   })
 
   let actual = $state(0)
 
   const toggleCheckbox = (index) => {
-    const check = state.words[index]
-    if (check.raw == '[x]') {
-      state.words[index].raw = '[]'
-      state.words[index].id = '[]'
+     const check = state.words[index];
+     if(check.raw == '[x]') {
+      state.words[index].raw = '[]';
+      state.words[index].id = '[]';
     } else {
-      state.words[index].raw = '[x]'
-      state.words[index].id = '[x]'
-    }
-    state.words = state.words
-    dispatch('noteChange', state.words.map((s) => s.raw).join(' '))
+       state.words[index].raw = '[x]';
+       state.words[index].id = '[x]';
+     }
+     state.words = state.words;
+     dispatch('noteChange', state.words.map((s=>s.raw)).join(' '))
   }
 
   const methods = {
@@ -46,12 +47,12 @@
     textElementClick(element) {
       dispatch('textClick', element)
     },
-
+   
     linkClick(link) {
       window.open(link, '_system')
     },
     note_to_array(str) {
-      let parsed = extractor.parse(str, { includeGeneric: true }) || []
+      let parsed = extractor.parse(str, { includeGeneric: true }) || [];
       let matches = parsed.filter((trackableElement) => {
         return ['person', 'context', 'pointer', 'generic'].indexOf(trackableElement.type) > -1
       })
@@ -67,11 +68,12 @@
 
 {#if actual}
   <div
-    class="n-note-textualized {className || 'leading-snug text-ios-label'}
+    class="n-note-textualized  {className || 'leading-snug text-black dark:text-white'}
     {state.words.length > 20 ? 'text-size-sm' : ''}
     {state.words.length < 20 ? 'text-size-big' : ''}"
   >
     {#each state.words as word, index}
+      
       {#if word.type === 'tracker'}
         <button
           type="button"
@@ -102,7 +104,7 @@
         >
           {` ${word.raw} `}
         </button>
-      {:else if word.type == 'pointer'}
+        {:else if word.type == 'pointer'}
         <button
           type="button"
           class="context token {tokenClass || 'default-token-class'}"
@@ -125,9 +127,13 @@
       {:else if word.type == 'line-break'}
         <br />
       {:else if word.raw == '[]'}
-        <RadioButton onchange={() => toggleCheckbox(index)} checked={false} className="note-checkbox" />
+        <input type="checkbox" on:change={(evt)=>{
+          toggleCheckbox(index);
+        }} data-index={`${index}`} />
       {:else if word.raw == '[x]'}
-        <RadioButton onchange={() => toggleCheckbox(index)} checked={true} className="note-checkbox" />
+        <input type="checkbox" on:change={(evt)=>{
+          toggleCheckbox(index);
+        }} data-index={`${index}`} checked />
       {:else if word.raw}
         <span>{word.raw + ' '}</span>
       {/if}
@@ -139,15 +145,16 @@
   {state.note}
 {/if}
 
-<style lang="postcss" global>
-  .n-note-textualized input[type='checkbox'] {
+<style lang="postcss" global> 
+
+  .n-note-textualized input[type=checkbox] {
     @apply cursor-pointer;
     /* @apply appearance-none; */
     @apply h-4 w-4 rounded-sm;
-    @apply border border-ios-separator;
+    @apply border border-gray-500;
     @apply mx-px;
     @apply text-center;
-    font-size: calc(10px * var(--text-scale));
+    font-size:10px;
   }
 
   .n-note-textualized.inherit {
@@ -164,20 +171,20 @@
   }
 
   .default-token-class {
-    color: var(--ios-label);
-    background: var(--ios-fill);
+    @apply text-black dark:text-white;
+    @apply bg-primary-500 bg-opacity-20;
     @apply px-1;
     @apply my-px;
-    @apply focus:ring-2 ring-ios-tint;
+    @apply focus:ring-2 ring-primary-500;
   }
   .n-note-textualized .token {
     @apply rounded-lg mr-1 pl-1;
-    @apply hover:text-ios-tint;
+    @apply hover:text-primary-500;
     @apply transform transition-all duration-100;
     @apply cursor-pointer;
   }
   .n-note-textualized .token.link {
-    @apply bg-transparent text-ios-tint;
+    @apply bg-transparent text-primary-500;
   }
   .n-note-textualized .remainder {
     padding-right: 5px;

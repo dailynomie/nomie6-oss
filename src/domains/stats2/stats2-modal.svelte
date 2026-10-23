@@ -8,13 +8,14 @@
   import Button from '../../components/button/button.svelte'
   import DateRangeController from '../../components/date-range-controller/date-range-controller.svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
+  import { CloseOutline } from '../../components/icon/nicons'
 
   import Toolbar from '../../components/toolbar/toolbar.svelte'
   import CalendarOutline from '../../n-icons/CalendarOutline.svelte'
   import { wait } from '../../utils/tick/tick'
   import { openCalendarView } from '../calendar-view/CalendarViewStore'
 
-  import Map from '../map/map-lazy.svelte'
+  import Map from '../map/map.svelte'
   import RelatedView from '../related/related-view.svelte'
 
   import type { Trackable } from '../trackable/Trackable.class'
@@ -34,7 +35,6 @@
   } from './Stats2Store'
 
   import WhenView from './when-view.svelte'
-  import { Lang } from '../../store/lang'
 
   const { id } = $props()
 
@@ -68,9 +68,13 @@
 </script>
 
 <BackdropModal headerClass="shadow-lg z-40">
-  <header slot="header" class="bg-ios-card">
+  <header slot="header" class="bg-white dark:bg-gray-800">
     {#if $Stats2Store.trackable}
       <Toolbar className="space-x-2">
+        <Button icon on:click={close}>
+          <IonIcon icon={CloseOutline} size={28} className="text-primary-500" />
+        </Button>
+
         <ButtonGroup
           className=""
           compact
@@ -93,12 +97,11 @@
             openCalendarView({ trackable: $Stats2Store.trackable })
           }}
         >
-          <IonIcon icon={CalendarOutline} size={28} className="text-ios-tint" />
+          <IonIcon icon={CalendarOutline} size={28} className="text-primary-500" />
         </Button>
-        <Button clear primary on:click={close}>{Lang.t('general.done', 'Done')}</Button>
       </Toolbar>
     {:else}
-      <div class="ntitle">{Lang.t('stats.loading', 'Loading...')}</div>
+      <div class="ntitle">Loading...</div>
     {/if}
 
     <DateRangeController
@@ -106,30 +109,29 @@
       end={$Stats2DateRange.end}
       on:next={() => nextStatsPeriod()}
       on:previous={() => previousStatsPeriod()}
-    >
-      <h1
-        class="text-ios-label text-center flex items-center justify-center font-bold leading-none line-clamp-1 w-full"
-      >
-        <TrackableAvatar trackable={$Stats2Store.trackable} size={20} className="mr-2" />
-        <span>{$Stats2Store.trackable.label}</span>
-      </h1>
+     >
+     <h1 class="text-black text-center flex items-center justify-center dark:text-white font-bold leading-none line-clamp-1 w-full">
+      <TrackableAvatar trackable={$Stats2Store.trackable} size={20} className="mr-2" />
+      <span>{$Stats2Store.trackable.label}</span>
+    </h1>
     </DateRangeController>
+     
   </header>
 
-  <section class="pt-2 px-3 w-full grid grid-cols-1 pb-4 overflow-y-auto gap-4 relative bg-ios-bg">
+  <section class="pt-2 px-3 w-full grid grid-cols-1 pb-4  overflow-y-auto gap-4 relative bg-gray-200 dark:bg-gray-800">
     <!-- <div  class="flex items-center justify-center pt-1 px-4">
       {#if $Stats2Store.trackable}
         
       {/if}
       {#if $Stats2Store.trackable && $Stats2Store.usage}
         <div class="stiff pr-2">
-          <span class="text-lg font-semibold text-ios-label whitespace-nowrap"
+          <span class="text-lg font-semibold text-black dark:text-white whitespace-nowrap"
             >{$Stats2Store.trackable.formatValue($Stats2Store.usage.min.value, false)} - {$Stats2Store.trackable.formatValue(
               $Stats2Store.usage.max.value,
               false
             )}</span
           >
-          <span class="text-ios-label2 whitespace-nowrap"
+          <span class="text-gray-500 whitespace-nowrap"
             >{$Stats2Store.trackable.tracker?.uom ? uomSymbol($Stats2Store.trackable.tracker.uom) : ''}</span
           >
         </div>
@@ -144,16 +146,16 @@
     </div>
   </section>
   <section class="px-3 w-full">
-    <div class="related bg-ios-card rounded-xl shadow-lg border-ios-separator">
+    <div class="related bg-white dark:bg-black rounded-xl shadow-lg border-gray-500 border-opacity-20">
       {#if showRelated}
         <RelatedView trackable={$Stats2Store.trackable} />
       {:else}
         <button
           on:click={() => (showRelated = true)}
-          class="w-full text-ios-tint py-20"
-          title={Lang.t('stats.find-potentially-related-trackables', 'Find potentially related trackables')}
+          class="w-full text-primary-500 py-20"
+          title="Find potentially related trackables"
         >
-          <span class="text-ios-tint">{Lang.t('stats.find-related', 'Find Related...')}</span>
+          <span class="text-primary-500">Find Related...</span>
         </button>
       {/if}
     </div>

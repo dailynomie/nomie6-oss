@@ -7,7 +7,7 @@ import type { Token } from '../../modules/tokenizer/lite'
 // import type { PrefsWeekStartTypes } from '../preferences/Preferences'
 import type { ITrackables } from '../trackable/trackable-utils'
 import type { TrackableUsage } from '../usage/trackable-usage.class'
-import { summary } from 'date-streaks'
+import { summary }  from "date-streaks";
 export interface CalendarLog {
   start: Date
   end: Date
@@ -110,17 +110,11 @@ export const logsToStreaks = (logs: Array<NLog> = [], options: LogToStreakOption
   return response
 }
 
-export type StreakSummaryResults = {
-  currentStreak: number
-  longestStreak: number
-  streaks: number[]
-  todayInStreak: boolean
-  withinCurrentStreak: boolean
-}
+export type StreakSummaryResults = { currentStreak: number; longestStreak: number; streaks: number[]; todayInStreak: boolean; withinCurrentStreak: boolean; };
 
-export const streakSummary = (dates: Array<Date>): StreakSummaryResults => {
-  let res = summary({ dates })
-  return res
+export const streakSummary = (dates:Array<Date>): StreakSummaryResults => {
+  let res = summary({ dates });
+  return res;
 }
 
 export const extractStreaksFromDates = (dates: Array<Dayjs>): Array<StreakDataUnit> => {

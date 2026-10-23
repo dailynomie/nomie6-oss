@@ -1,5 +1,4 @@
 import type { UOMElement } from './uom-types'
-import { getCustomUoms, lookupUom, toUomElement, type CustomUomItem } from './uom-registry'
 import UOMS from './uom.config'
 
 type GroupUOMS = {
@@ -7,25 +6,25 @@ type GroupUOMS = {
 }
 
 export const uomPlural = (uomKey: string): string => {
-  const uom = lookupUom(uomKey)
+  const uom = UOMS[uomKey]
   if (!uom) return uomKey
   return uom.plural
 }
 
 export const uomSingular = (uomKey: string): string => {
-  const uom = lookupUom(uomKey)
+  const uom = UOMS[uomKey]
   if (!uom) return uomKey
   return uom.singular
 }
 
 export const uomSymbol = (uomKey: string): string => {
-  const uom = lookupUom(uomKey)
+  const uom = UOMS[uomKey]
   if (!uom || !uom.symbol) return ''
   return uom.symbol
 }
 
 export const getUOM = (uomKey: string): UOMElement | undefined => {
-  return lookupUom(uomKey)
+  return UOMS[uomKey]
 }
 
 const uomDefaultFormat = (value: number, uomKey: string, includeSymbold: boolean = true) => {
@@ -41,7 +40,7 @@ const uomDefaultFormat = (value: number, uomKey: string, includeSymbold: boolean
 }
 
 export const uomFormat = (value: number, uomKey: string, include?: boolean) => {
-  const uom = lookupUom(uomKey)
+  const uom = UOMS[uomKey]
   if (!uom || !uom.display) {
     return uomDefaultFormat(value, uomKey, include)
   } else {
@@ -49,18 +48,10 @@ export const uomFormat = (value: number, uomKey: string, include?: boolean) => {
   }
 }
 
-/**
- * Units grouped by type, each group sorted by plural name.
- * Pass the custom unit list (from CustomUomStore) so a component re-runs when it changes.
- */
-export const getGroupedUoms = (
-  hideTimer: boolean = true,
-  customUoms: Array<CustomUomItem> = getCustomUoms()
-): GroupUOMS => {
+export const getGroupedUoms = (hideTimer: boolean = true): GroupUOMS => {
   let items: GroupUOMS = {}
-  const units = { ...UOMS, ...Object.fromEntries(customUoms.map((item) => [item.key, toUomElement(item)])) }
-  Object.keys(units).forEach((key) => {
-    let obj: UOMElement = units[key]
+  Object.keys(UOMS).forEach((key) => {
+    let obj: UOMElement = UOMS[key]
     obj.key = key
     items[obj.type] = items[obj.type] || []
     items[obj.type].push(obj)

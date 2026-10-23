@@ -1,79 +1,82 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { Lang } from '../../../../store/lang'
-  // iOS look (guide 5.10, ring): the habit result is a 10 px ring with round caps, starting at the top.
-  // Achieved is the green token, the rest the fill token. The tracker emoji sits in the centre.
-  const {
-    widget = $bindable(),
-    usage = $bindable(),
-    trackable = $bindable(undefined),
-    logs = $bindable(undefined),
-  } = $props()
+  import type { TrackableUsage } from '../../../usage/trackable-usage.class'
+  import type { WidgetClass } from '../widget-class'
+  import math from '../../../../utils/math/math'
+  import { round } from 'lodash'
 
-  const RADIUS = 50
-  const CIRCUMFERENCE = 2 * Math.PI * RADIUS
+  const { widget = $bindable(), usage = $bindable(), trackable = $bindable(undefined), logs = $bindable(undefined) } = $props()
+  // export let trackable: Trackable
 
-  const countOccurrences = (arr: Array<number>, val: number) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
+  let datacheck = $state(false)
+  let habitlabel1 = $state("")
+  let habitlabel2 = $state("")
+  let param1 = $state("")
+  let param2 = $state("")
+  let percentage1 = $state("")
+  let percentage2 = $state("")
 
-  let total = $derived(usage ? usage.values.length : 0)
-  let kept = $derived(usage ? countOccurrences(usage.values, 1) : 0)
-  let missed = $derived(total - kept)
-  let keptPercent = $derived(total ? Math.round((kept / total) * 100) : 0)
-  let missedPercent = $derived(total ? Math.round((missed / total) * 100) : 0)
-  let achievedLabel = $derived(usage?.trackable?.tracker?.habitChoice?.[0] || 'Achieved')
-  let missedLabel = $derived(usage?.trackable?.tracker?.habitChoice?.[1] || 'Missed')
-  let arcLength = $derived((keptPercent / 100) * CIRCUMFERENCE)
+  if (usage) {
+    datacheck = true;
+  }
+
+  const countOccurrences = (arr, val) =>
+  arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
+
+  if (usage) {
+  let totalvalues = usage.values.length;
+  let truevalues = countOccurrences(usage.values,1)
+  habitlabel1 = usage.trackable.tracker?.habitChoice[0] || "Achieved"
+  habitlabel2 = usage.trackable.tracker?.habitChoice[1] || "Missed"
+  param1 = truevalues.toString() + " (" + round((round(truevalues/totalvalues,2)*100)).toString() +"%)"
+  param2 =(totalvalues-truevalues).toString() + " (" + round((round((totalvalues-truevalues)/totalvalues,2)*100)).toString() +"%)"
+  percentage1 = (round(truevalues/totalvalues,2)*100).toString()
+  percentage2 = (round((totalvalues-truevalues)/totalvalues,2)*100).toString()
+  if (truevalues == 0) {param1 = ""}
+  if (totalvalues-truevalues ==0) {param2 = ""}
+  }
+  
+
+
 </script>
 
-{#if usage && total}
-  <div class="ios-habit">
-    <div
-      class="ios-ring"
-      role="img"
-      aria-label={Lang.t('dashboard.habit-aria', { label: achievedLabel, kept, total, percent: keptPercent })}
-    >
-      <svg viewBox="0 0 120 120" width="112" height="112" aria-hidden="true">
-        <circle cx="60" cy="60" r={RADIUS} fill="none" stroke="var(--ios-fill)" stroke-width="10" />
-        {#if kept > 0}
-          <circle
-            cx="60"
-            cy="60"
-            r={RADIUS}
-            fill="none"
-            stroke="var(--ios-good)"
-            stroke-width="10"
-            stroke-linecap="round"
-            stroke-dasharray="{arcLength} {CIRCUMFERENCE}"
-            transform="rotate(-90 60 60)"
-          />
-        {/if}
-      </svg>
-      <span class="ios-ring-emoji" aria-hidden="true">{usage.trackable?.tracker?.emoji ?? ''}</span>
-    </div>
+<div class="value px-4 flex flex-col items-center h-full justify-center {widget.includeAvg ? 'value-sm' : ''}">
+  <div class="current dark:text-white h-full w-full flex items-center justify-center flex-col">
+   
+    {#if datacheck}
+      <!-- start pie chart -->    
+<div class="piechart" style=" --param-1: '{param1}'; --param-2: '{param2}'; --perc-1: {percentage1}%; --perc-2: {percentage2}%">
+	<span class="name">{usage.trackable.tracker?.emoji}</span>
+</div>
+<!-- end pie chart -->
 
-    <ul class="ios-legend">
-      <li>
-        <span class="ios-dot" style="background: var(--ios-good)"></span>
-        <span class="ios-legend-label">{achievedLabel}</span>
-        <span class="ios-legend-value">{kept} <span class="ios-legend-percent">({keptPercent}%)</span></span>
-      </li>
-      <li>
-        <span class="ios-dot" style="background: var(--ios-fill)"></span>
-        <span class="ios-legend-label">{missedLabel}</span>
-        <span class="ios-legend-value">{missed} <span class="ios-legend-percent">({missedPercent}%)</span></span>
-      </li>
-    </ul>
+<!-- start legend-->
+<div class="legend">
+	<span class="legend-item-two">
+		<small>{habitlabel1}</small>
+	</span>
+	<span class="legend-item-one">
+		<small>{habitlabel2}</small>
+	</span>
+	
+</div>
+<!-- end legend -->
+  {:else}
+  <div style="font-size:small">
+  <p>Not Enough Data</p>
   </div>
-{:else}
-  <p class="ios-empty">{Lang.t('dashboard.not-enough-data', 'Not enough data')}</p>
-{/if}
+  {/if}
+  </div>
+ 
+</div>
 
 <style global lang="postcss">
-  /* The ios-* classes are prefixed, so they are safe as global rules. The value rules are used by the value widgets too. */
+ 
   .dashboard-widget.type-value .widget-main {
     @apply items-center;
     @apply justify-center;
+    /* @apply bg-pink-500; */
     @apply flex;
     @apply flex-col;
   }
@@ -82,80 +85,98 @@
     @apply text-center;
     @apply font-bold;
   }
-
-  .ios-habit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    /* the widget's value styles set a large bold font on the parent; reset it here */
-    font-size: calc(13px * var(--text-scale));
-    font-weight: 400;
-    color: var(--ios-label);
-  }
-  .ios-ring {
+  .piechart {
     position: relative;
-    width: 112px;
-    height: 112px;
-  }
-  .ios-ring svg {
+    margin: 5px auto 0;
+    width: 115px;
+    height: 120px;
+    border-radius: 50%;
+    background-image: conic-gradient(red 0% var(--perc-2), green var(--perc-2) 100%);
+    
+}
+.piechart:before {
+	content: var(--param-1);
     position: absolute;
-    inset: 0;
-  }
-  .ios-ring-emoji {
+    top: 0px;
+    left: -30px;
+    width: 100px;
+    height: 200px;
+    
+    font-size: xx-small;
+}
+.piechart:after {
+	content:var(--param-2);
     position: absolute;
-    inset: 0;
+    top: 0%;
+    left: 35px;
+    width: 100px;
+    height: 200px;
+    
+    font-size: xx-small;
+}
+.piechart .name{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    outline: 10px solid rgb(255 255 255 / 30%);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: calc(26px * var(--text-scale));
-    line-height: 1;
-  }
-  .ios-legend {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
+    font-size: 1.7rem;
+    background-color: lightskyblue;
+}
+
+.legend{
+    position: relative;
+    margin: 10px auto 0;
+    width: 115px;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .ios-legend li {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: calc(13px * var(--text-scale));
-    line-height: 18px;
-  }
-  .ios-dot {
-    width: 8px;
-    height: 8px;
+}
+.legend > span{
+	position:relative;
+    flex-grow: 1;
+    padding-left: 5px;
+    font-size: x-small;
+}
+.legend > span.legend-item-one:before{
+    content: "";
+    position: absolute;
+    top: 20%;
+    transform: translateY(-20%);
+    left: 0;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .ios-legend-label {
-    flex: 1;
-    min-width: 0;
-    color: var(--ios-label2);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .ios-legend-value {
-    font-weight: 600;
-    color: var(--ios-label);
-    white-space: nowrap;
-  }
-  .ios-legend-percent {
-    font-weight: 400;
-    color: var(--ios-label2);
-  }
-  .ios-empty {
-    font-size: calc(15px * var(--text-scale));
-    line-height: 20px;
-    font-weight: 400;
-    color: var(--ios-label2);
-    text-align: center;
-  }
+    background:red;
+    outline: 2px solid rgb(255 186 28 / 30%);
+}
+.legend > span.legend-item-two:before{
+    content: "";
+    position: absolute;
+    top: 20%;
+    transform: translateY(-20%);
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: green;
+    outline: 2px solid rgb(255 186 28 / 30%);
+}
+.legend > span.legend-item-three:before{
+    content: "";
+    position: absolute;
+    top: 20%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #4bd985;
+    outline: 5px solid rgb(75 217 133 / 30%);
+}
 </style>

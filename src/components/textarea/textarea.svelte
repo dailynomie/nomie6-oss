@@ -16,36 +16,37 @@
     if (textarea) autosize.update(textarea)
   })
 
-  export const setSelectionRange = (a, b) => {
-    textarea.setSelectionRange(a, b)
-    textarea.focus()
+  export const setSelectionRange = (a,b)=>{
+    textarea.setSelectionRange(a,b);
+    textarea.focus();
   }
 
   export const setValue = (text: string) => {
-    textarea.value = text
-    value = text
+    textarea.value = text;
+    value = text;
   }
 
-  const tributeTriggered = (e) => {
-    let payload: any = e.detail
-    payload.cursor = {
-      start: textarea.selectionStart,
-      end: textarea.selectionEnd,
-    }
-    emit('inserted', e.detail)
-  }
+	const tributeTriggered = (e)=>{
+		let payload:any = e.detail;
+		payload.cursor = {
+			start: textarea.selectionStart,
+			end: textarea.selectionEnd,
+		}
+		emit('inserted', e.detail);
+	}
 
   onMount(async () => {
     if (tributeConfig) {
       tribute = new Tribute(tributeConfig)
       tribute.attach(textarea)
-
-      textarea.addEventListener('tribute-replaced', tributeTriggered)
+      
+			textarea.addEventListener('tribute-replaced', tributeTriggered);
     }
   })
-  onDestroy(() => {
-    textarea.removeEventListener('tribute-replaced', tributeTriggered)
-  })
+	onDestroy(()=>{
+		textarea.removeEventListener('tribute-replaced', tributeTriggered)
+	})
+
 </script>
 
 <textarea
@@ -59,7 +60,7 @@
   on:focus={(evt) => {
     emit('focus', evt)
   }}
-  on:keydown={(evt) => {
+	on:keydown={(evt) => {
     emit('keydown', evt)
   }}
   on:blur={(evt) => {

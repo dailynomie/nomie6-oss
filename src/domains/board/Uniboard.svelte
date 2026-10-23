@@ -41,11 +41,7 @@
   import NLog from '../nomie-log/nomie-log'
   import { UsageStore } from '../usage/UsageStore'
 
-  let {
-    searching = $bindable(undefined),
-    sort = $bindable(undefined),
-    filter = $bindable((ele: Trackable) => true),
-  } = $props<{
+  let { searching = $bindable(undefined), sort = $bindable(undefined), filter = $bindable((ele: Trackable) => true) } = $props<{
     searching?: string
     sort?: Function
     filter?: Function
@@ -227,7 +223,7 @@
   })
 </script>
 
-<section class="nomie-board-tab py-2" style="min-height:45vh">
+<section class="nomie-board-tab  py-2" style="min-height:45vh">
   {#if $CombinedBoards}
     <Swiper
       id="uniboard-swiper"
@@ -242,7 +238,7 @@
       }}
     >
       {#each $CombinedBoards.filter((t) => t) as board}
-        <section class="min-w-full w-full text-ios-white" id={`b-${board?.id}`} style="min-height:45vh">
+        <section class="min-w-full w-full  text-white" id={`b-${board?.id}`} style="min-height:45vh">
           {#if $ActiveBoard && $ActiveBoard.id === board?.id}
             {#if !$UniboardStore.editMode}
               <UniboardTrackableGrid
@@ -257,14 +253,14 @@
                 <div slot="no-results">
                   {#if searching}
                     <div class="text-center px-4 py-1 flex flex-col space-y-2 max-w-lg mx-auto">
-                      <span class="text-ios-label2">{Lang.t('board.no-trackables-for', { search: searching })}</span>
+                      <span class="text-gray-500">No trackables found for '{searching}'</span>
                       <Button
                         on:click={() => {
                           openUnisearch(searching)
                         }}
                         size="sm"
                         clear
-                        primary>{Lang.t('board.search-everything', 'Search Everything →')}</Button
+                        primary>Search Everything →</Button
                       >
                       <Button
                         size="sm"
@@ -276,7 +272,7 @@
                             tracker: new TrackerClass({ label: searching }),
                           })
                           openTrackableEditor(trackable)
-                        }}>{Lang.t('board.create-new-tracker', { search: searching })}</Button
+                        }}>Create new "{searching}" tracker →</Button
                       >
                     </div>
                   {/if}
@@ -295,28 +291,29 @@
               <div class="px-4 max-w-md mx-auto pb-10">
                 <div class="text-center py-4">
                   <!-- <div class="text-6xl text-center lg:mt-10">👋</div> -->
-                  <!-- <h1 class="font-bold mb-2 text-xl text-ios-label leading-tight">
+                  <!-- <h1 class="font-bold mb-2 text-xl text-black dark:text-white leading-tight">
                     {Lang.t('general.get-started', 'Get Started!')}
                   </h1> -->
-                  <div class="text-center text-ios-label2 leading-snug px-6 mb-6 lg:mb-10 flex-fill">
-                    <h1 class="text-ios-label font-bold mb-1">{Lang.t('board.no-trackers-yet', 'No trackers yet')}</h1>
+                  <div class="text-center  text-gray-500 dark:text-gray-400 leading-snug px-6 mb-6 lg:mb-10 flex-fill ">
+                    <h1 class="text-black dark:text-white font-bold mb-1">Empty.</h1>
                     <p class="text-xs">
-                      {Lang.t('board.intro-text', { board: board.label })}
+                      This is your {board.label} board; used to display your trackable buttons. Get started by adding a trackable
+                      below.
                     </p>
                   </div>
                 </div>
 
-                <!-- <p class="max-w-screen-md text-xl text-ios-label text-center">
+                <!-- <p class="max-w-screen-md text-xl text-black dark:text-white text-center">
                   Your {board.label} board is empty!
-                  <span class="text-ios-tint underline inline">browse the library</span> or
+                  <span class="text-primary-600 dark:text-primary-400 underline inline">browse the library</span> or
 
-                  <span class="text-ios-tint underline inline">create your own</span> from scratch.
+                  <span class="text-primary-600 dark:text-primary-400 underline inline">create your own</span> from scratch.
                 </p> -->
 
                 <Menu
                   size="sm"
                   buttons={getEmptyBoardMenu()}
-                  className="max-w-xs mx-auto rounded-2xl border border-ios-separator"
+                  className="max-w-xs mx-auto rounded-2xl border border-gray-500 border-opacity-30"
                 />
               </div>
             {/if}
@@ -326,7 +323,7 @@
                 <div
                   class="mock shortcut h-3 rounded-xl {$Prefs.compactTrackers
                     ? 'h-14'
-                    : 'h-28 lg:h-32'} bg-ios-fill opacity-30 animate-pulse"
+                    : 'h-28 lg:h-32'} bg-gray-300 opacity-30 animate-pulse dark:bg-gray-700"
                 />
               {/each}
             </div>

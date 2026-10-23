@@ -60,7 +60,7 @@
     <PickerSelect {tracker} active={selected} on:change={fireChange} />
   {/if}
   <!-- <ListItem
-    className="{mode == 'view' ? 'text-ios-tint' : 'text-ios-danger'} justify-center text-center"
+    className="{mode == 'view' ? 'text-primary-500' : 'text-red-500'} justify-center text-center"
     on:click={toggleMode}
   >
     <div class="text-center w-full font-bold text-sm">
@@ -88,7 +88,7 @@
     z-index: 2000;
   }
   .n-picker-list .n-input-container {
-    @apply bg-ios-card;
+    @apply bg-white dark:bg-black;
     @apply rounded-lg;
   }
 </style>

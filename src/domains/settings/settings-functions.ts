@@ -42,7 +42,7 @@ export const switchStorage = async (type, ignoreConfirm: boolean = false) => {
       saveStorageType(to)
       Interact.reload()
     } else {
-      Interact.alert(Lang.t('general.error', 'Error'), Lang.t('settings.invalid-storage-type', { type: to }))
+      alert(`Error: ${to} is not valid`)
     }
   }
 }
@@ -50,7 +50,7 @@ export const switchStorage = async (type, ignoreConfirm: boolean = false) => {
 /**
  * Select Storage Menu
  * Display a popmenu of storage options
- * @param props
+ * @param props 
  */
 export const useStorageSelectMenu = async (props: selectNewStorageProps) => {
   const prefs = getRawPrefs()
@@ -58,8 +58,10 @@ export const useStorageSelectMenu = async (props: selectNewStorageProps) => {
 
   // perfs.betaFeatures
 
+
   let buttons = StorageEngines.map((storageEngine) => {
-    let disabled: boolean = false
+    let disabled: boolean = false;
+
 
     return {
       title: storageEngine.name,
@@ -117,7 +119,7 @@ export const deleteEverything = async () => {
         await deleteAllFromCache()
         localStorage.clear()
         Interact.stopBlocker()
-        await Interact.alert(Lang.t('general.done', 'Done'), Lang.t('settings.data-destroyed', 'Your data has been destroyed.'))
+        await Interact.alert('Done', 'Your data has been destroyed.')
 
         window.location.href = '/'
       }

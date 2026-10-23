@@ -17,7 +17,6 @@
   import IonIcon from '../../components/icon/ion-icon.svelte'
   import ExpandOutline from '../../n-icons/ExpandOutline.svelte'
   import { Interact } from '../../store/interact'
-  import { Lang } from '../../store/lang'
   import {
     addDividerToFirst,
     getDatePopButtons,
@@ -25,12 +24,7 @@
     getTrackableDetailPopButton,
   } from '../../modules/pop-buttons/pop-buttons'
 
-  let {
-    date = $bindable(new Date()),
-    height = 320,
-    className = '',
-    size = 'sm',
-  } = $props<{
+  let { date = $bindable(new Date()), height = 320, className = '', size = 'sm' } = $props<{
     date?: Date
     height?: number
     className?: string
@@ -140,13 +134,13 @@
     bind:this={boundingBox}
   >
     {#if contextMap.length == 0}
-      <div class="w-full h-full flex items-center justify-center text-ios-label2 text-xs">
-        {Lang.t('context.no-context-for-this-time-period', 'No Context for this time period.')}
+      <div class="w-full h-full flex items-center justify-center text-gray-500 text-xs">
+        No Context for this time period.
       </div>
     {/if}
     {#each contextMap as contextItem}
       <div
-        class="text-ios-white cc-item-holder"
+        class="text-white cc-item-holder"
         on:click={() => {
           dispatch('click', contextItem.trackable)
         }}
@@ -190,8 +184,8 @@
     <button
       class="absolute transition-all rounded-lg h-7 w-7 flex items-center justify-center border-opacity-70 duration-200 bottom-1 left-1 z-40 {size ==
       'sm'
-        ? 'bg-ios-fill text-ios-label'
-        : 'bg-ios-fill text-ios-label'} "
+        ? 'bg-white bg-opacity-10 text-white'
+        : 'bg-white bg-opacity-30 text-white'} "
       on:click={() => {
         size = size == 'sm' ? 'lg' : 'sm'
       }}
@@ -204,8 +198,7 @@
 <style global lang="postcss">
   .context-chart-bound {
     @apply relative;
-    background: var(--ios-card);
-    border-radius: 16px;
+    @apply bg-black;
     @apply h-full;
     @apply w-full;
     @apply flex-grow;
@@ -238,11 +231,9 @@
     @apply overflow-hidden;
   }
 
-  /* Expanded: show every context row and let the Timeline scroll as a whole */
   .context-wrapper.size-lg .context-chart-bound {
     @apply h-auto;
-    @apply overflow-visible;
-    @apply flex-shrink-0;
+    @apply overflow-y-auto;
   }
   .size-auto .context-chart-bound {
     border-radius: 0 !important;
@@ -268,7 +259,7 @@
     @apply top-0;
     @apply bottom-0;
     left: 50%;
-    border-left: solid 2px var(--ios-separator);
+    border-left: solid 2px rgba(255, 255, 255, 0.2);
   }
   .context-wrapper.size-auto .cc-bar,
   .context-wrapper.size-auto .cc-item-holder {
@@ -317,7 +308,7 @@
     @apply items-center;
     @apply pl-1;
     content: '';
-    /* @apply bg-ios-good; */
+    /* @apply bg-green-500; */
     background-color: var(--trackable-color);
     background: linear-gradient(
       45deg,

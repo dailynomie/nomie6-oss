@@ -7,7 +7,12 @@
  * and how it manged stats with Widgets
  */
 
-import { DuplicateOutline, PencilOutline, SwapOutline, TrashOutline } from '../../components/icon/nicons'
+import {
+  DuplicateOutline,
+  PencilOutline,
+  SwapOutline,
+  TrashOutline,
+} from '../../components/icon/nicons'
 
 import { DashboardClass } from './dashboard-class'
 import type { DashboardPayload } from './dashboard-class'
@@ -23,7 +28,6 @@ import { openWidgetEditor } from './widget/widget-editor/useWidgetEditorModal'
 import { wait } from '../../utils/tick/tick'
 import { writable } from 'svelte/store'
 import { dedupArray } from '../../utils/array/array_utils'
-import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 
 type InitialState = {
   dashboards: Array<DashboardClass>
@@ -34,10 +38,10 @@ type InitialState = {
 }
 
 const getLastSelectedIndex = () => {
-  return parseInt(getDeviceSetting(DEVICE_KEYS.lastDashIndex) || '0')
+  return parseInt(localStorage.getItem('last-dash-index') || '0')
 }
 const setLastSelectedIndex = (index) => {
-  setDeviceSetting(DEVICE_KEYS.lastDashIndex, index)
+  localStorage.setItem('last-dash-index', index)
 }
 
 const dashboardInitialState: InitialState = {
@@ -78,10 +82,10 @@ export const initializeDashStore = async (): Promise<InitialState> => {
  * @returns
  */
 const getDashboardDataFromStorage = async (): Promise<InitialState> => {
-  const rawDashboards: Array<DashboardClass> = (await getDashboards()) || []
-  const dashboards = rawDashboards.map((dash) => {
-    dash.widgets = dedupArray(dash.widgets, 'id')
-    return dash
+  const rawDashboards: Array<DashboardClass> = ((await getDashboards()) || []);
+  const dashboards = rawDashboards.map(dash=>{
+    dash.widgets = dedupArray(dash.widgets, 'id');
+    return dash;
   })
   const active: DashboardClass = dashboards[0]
   return {
@@ -92,7 +96,9 @@ const getDashboardDataFromStorage = async (): Promise<InitialState> => {
   }
 }
 
-const removeDuplicateWidgets = (items: Array<any>, key: string) => {}
+const removeDuplicateWidgets = (items:Array<any>, key:string) => {
+  
+}
 
 export const toggleDashboardEditMode = () => {
   DashStore.update((s) => {
@@ -111,30 +117,27 @@ export const getDashboards = async (): Promise<Array<DashboardClass>> => {
   )
   // If no boards - lets add one
   if (dashboards.length === 0) {
-    const firstDasboard = new DashboardClass({
-      id: 'mystats-first-board',
-      label: Lang.t('dashboard.my-stats', 'My Stats'),
-      widgets: [],
-    })
+    const firstDasboard = new DashboardClass({ id: 'mystats-first-board', label: 'My Stats', widgets: [] })
     dashboards = [firstDasboard]
-    setLastSelectedIndex(0)
+    setLastSelectedIndex(0);
+    
   }
   return dashboards
 }
 
-export const deleteDashboard = async (dashboard: DashboardClass) => {
-  const exist = await getDashboards()
-  let final: Array<DashboardClass> = []
+export const deleteDashboard = async (dashboard:DashboardClass)=>{
+  const exist = await getDashboards();
+  let final:Array<DashboardClass> = [];
   DashStore.update((state: InitialState) => {
     // Loop over existing, replace with new boards if exist
     final = exist.filter((dash) => {
-      return dash.id !== dashboard.id
+      return dash.id !== dashboard.id;
     })
-    state.dashboards = final
-    return state
-  })
-
-  return await writeDashboardsToStorage(final)
+    state.dashboards = final;
+    return state;
+  });
+  
+  return await writeDashboardsToStorage(final);
 }
 
 /**
@@ -218,10 +221,7 @@ export const deleteWidget = async (widget: WidgetClass) => {
     board.widgets = board.widgets.filter((w) => w.id !== widget.id)
     return saveDashboard(board)
   } else {
-    Interact.alert(
-      Lang.t('dashboard.widget-not-found', 'Widget not found'),
-      Lang.t('dashboard.widget-no-longer-exists', 'That widget no longer exists.')
-    )
+    alert('ERROR: Unable to find that Widget')
   }
 }
 
@@ -258,8 +258,8 @@ const fuse = (addOn: any = {}) => {
  * Create a new Dashboard
  */
 export const createNewDashboard = async () => {
-  let name = await Interact.prompt(Lang.t('dashboard.create-new-dashboard', 'Create new Dashboard'), null, {
-    placeholder: Lang.t('dashboard.dashboard-label', 'Dashboard Label'),
+  let name = await Interact.prompt('Create new Dashboard', null, {
+    placeholder: 'Dashboard Label',
   })
   if (name) {
     let dashboard = new DashboardClass({ id: nid(), label: name, widgets: [] })
@@ -346,7 +346,7 @@ export const moveWidget = async (widget: WidgetClass) => {
         try {
           moveToDashboard(dashboard)
         } catch (e) {
-          Interact.alert(Lang.t('general.error', 'Error'), e.message)
+          Interact.alert('Error', e.message)
         }
       },
     }
@@ -366,7 +366,7 @@ export const moveWidget = async (widget: WidgetClass) => {
 export const showWidgetPopmenu = (widget: WidgetClass) => {
   const buttons: Array<PopMenuButton> = [
     {
-      title: Lang.t('dashboard.edit-widget', 'Edit Widget'),
+      title: 'Edit Widget',
       icon: PencilOutline,
       async click() {
         await wait(300)
@@ -378,7 +378,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
       },
     },
     {
-      title: Lang.t('dashboard.move-widget', 'Move Widget'),
+      title: 'Move Widget',
       icon: SwapOutline,
       divider: true,
       async click() {
@@ -387,7 +387,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
       },
     },
     {
-      title: Lang.t('dashboard.duplicate', 'Duplicate'),
+      title: 'Duplicate',
       icon: DuplicateOutline,
       async click() {
         await wait(200)
@@ -397,8 +397,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
   ]
 
   buttons.push({
-    title: Lang.t('dashboard.delete-widget', 'Delete Widget'),
-    danger: true,
+    title: 'Delete Widget',
     icon: TrashOutline,
     divider: true,
     async click() {
@@ -410,7 +409,7 @@ export const showWidgetPopmenu = (widget: WidgetClass) => {
 
   Interact.popmenu({
     id: `widget-options`,
-    title: Lang.t('dashboard.widget-options', 'Widget options'),
+    title: Lang.t('widgets.widget-options', 'Widget Options'),
     buttons,
   })
 }

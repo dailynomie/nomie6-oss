@@ -59,7 +59,7 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     @apply h-auto;
-    /* @apply bg-ios-good; */
+    /* @apply bg-green-500; */
     align-items: stretch !important;
   }
   .n-swiper .n-hscroller .wrapper > div,

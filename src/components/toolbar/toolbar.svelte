@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+
   const { pinTop, className, style } = $props()
 </script>
 

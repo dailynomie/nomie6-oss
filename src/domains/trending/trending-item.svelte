@@ -8,6 +8,7 @@
   import { showTrackablePopmenu } from '../board/boardActions'
   import type { UsageComparedType } from './TrendingModalStore'
 
+
   const { uct } = $props()
 </script>
 
@@ -22,8 +23,8 @@
     <div class="w-full">
       <h2 class="leading-tight mb-1 space-x-2 flex items-center">
         <div class="font-semibold filler">{uct.trackableUsage.trackable.label}</div>
-        <div class="text-sm opacity-80 stiff text-ios-label font-semibold mb-1">
-          <span class="text-ios-tint">
+        <div class="text-sm opacity-80 stiff text-black dark:text-white font-semibold mb-1">
+          <span class="text-primary-500">
             {#if uct.compared.value.direction === 'up'}
               ↑
             {:else}
@@ -35,7 +36,7 @@
         </div>
       </h2>
       <div class="w-full change {uct.compared.value.direction}  text-right pr-2">
-        <div class="text-lg text-left text-ios-label2 whitespace-nowrap">
+        <div class="text-lg  text-left text-gray-600 dark:text-gray-400 whitespace-nowrap">
           <span class="whitespace-nowrap">{uct.trackableUsage.formatValue(uct.compared.value.from)}</span>
           <span class="opacity-50">→</span>
           <span class="whitespace-nowrap">{uct.trackableUsage.formatValue(uct.compared.value.to)}</span>

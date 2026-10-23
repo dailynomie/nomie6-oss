@@ -11,7 +11,6 @@ import clipboard from '../utils/clipboard/clipboard'
 import { showToast } from '../components/toast/ToastStore'
 // Svelte
 import { writable } from 'svelte/store'
-import { DEVICE_KEYS, getDeviceSetting, setDeviceSetting } from './device-settings'
 
 // Vendors
 const console = new Logger('📲 Device Store')
@@ -54,20 +53,12 @@ const getDeviceSize = function (width: number) {
   }
 }
 
-// Text size setting. Each value multiplies the base text size in main.css.
-// The ratios come from the 6.x steps (0.94em to 1.4em, with md = 1.15em), so md is the default look.
-const fontSizes: Record<string, number> = {
-  xs: 0.82,
-  sm: 0.85,
-  md: 1,
-  lg: 1.09,
-  xl: 1.22,
-}
-
-// Sets the --font-setting variable on <html>. main.css turns it into --text-scale,
-// which every text size uses, so the setting reaches all screens and components.
-const applyFontSize = (size: string) => {
-  document.documentElement.style.setProperty('--font-setting', `${fontSizes[size] || 1}`)
+const fontSizes = {
+  xs: '0.94em',
+  sm: '0.98em',
+  md: '1.15em',
+  lg: '1.25em',
+  xl: '1.4em',
 }
 
 const DeviceStoreInit = () => {
@@ -84,20 +75,20 @@ const DeviceStoreInit = () => {
     pwa: window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches,
     info: DeviceInfo,
     size: getDeviceSize(window.innerWidth),
-    fontSize: getDeviceSetting(DEVICE_KEYS.fontSize) || 'md',
+    fontSize: localStorage.getItem('fontSize') || 'md',
   }
 
   const { update, subscribe, set } = writable(baseState)
 
-  applyFontSize(baseState.fontSize)
-  ;(function state(s: any) {
-    let _state
-    update((state) => {
-      _state = { ...state, ...s }
+  ;(document.documentElement.style.fontSize = fontSizes[baseState.fontSize] || '16px'),
+    function state(s: any) {
+      let _state
+      update((state) => {
+        _state = { ...state, ...s }
+        return _state
+      })
       return _state
-    })
-    return _state
-  })
+    }
 
   const state = (updatedState: any) => {
     update((s: any) => {
@@ -129,11 +120,15 @@ const DeviceStoreInit = () => {
       return document.body.scrollWidth >= 900
     },
     iOS() {
+
       if (/iPad|iPhone|iPod/.test(navigator.platform)) {
-        return true
+        return true;
       } else {
-        return navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)
+        return navigator.maxTouchPoints &&
+          navigator.maxTouchPoints > 2 &&
+          /MacIntel/.test(navigator.platform);
       }
+
     },
     scrollToTop() {
       document.body.scrollTop = document.documentElement.scrollTop = 0
@@ -197,8 +192,9 @@ const DeviceStoreInit = () => {
 export const Device = DeviceStoreInit()
 
 export const setFontSize = (size: 'sm' | 'md' | 'lg' | 'xl' | 'xs' | string) => {
-  setDeviceSetting(DEVICE_KEYS.fontSize, size)
-  applyFontSize(size)
+  const pixels = fontSizes[size] || '16px'
+  localStorage.setItem('fontSize', size)
+  document.documentElement.style.fontSize = pixels
   Device.update((s) => {
     s.fontSize = size
     return s

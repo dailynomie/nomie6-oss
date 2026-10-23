@@ -1,6 +1,5 @@
 import type { Writable, Readable } from 'svelte/store'
 import { writable, readonly } from 'svelte/store'
-import { DEVICE_KEYS, getDeviceSetting, removeDeviceSetting, setDeviceSetting } from '../../store/device-settings'
 
 export interface PWAStatus {
   isSupported: boolean
@@ -66,7 +65,7 @@ export class PWAService {
     // Check if we're in dev mode (vite-plugin-pwa doesn't provide virtual module in dev)
     const isDev = import.meta.env.DEV
     if (isDev) {
-      console.info('[PWA] Dev mode detected - PWA features limited (full support in production build)')
+      console.log('[PWA] Dev mode detected - PWA features limited (full support in production build)')
       return
     }
 
@@ -78,7 +77,7 @@ export class PWAService {
         onRegistered: (registration) => {
           this.registration = registration
           if (registration) {
-            console.info('[PWA] Service Worker registered', {
+            console.log('[PWA] Service Worker registered', {
               scope: registration.scope,
               active: !!registration.active,
               installing: !!registration.installing,
@@ -129,7 +128,7 @@ export class PWAService {
       // Check if there's a waiting or installing SW
       const hasUpdate = !!this.registration.waiting || !!this.registration.installing
       if (hasUpdate) {
-        console.info('[PWA] Update available')
+        console.log('[PWA] Update available')
         this.needRefresh.set(true)
         this.persistUpdateState()
       }
@@ -143,7 +142,7 @@ export class PWAService {
       this.lastCheckTimestamp = Date.now()
       this._lastCheckTimeMs.set(this.lastCheckTimestamp)
 
-      console.info('[PWA] Update check completed', {
+      console.log('[PWA] Update check completed', {
         updateAvailable: hasUpdate,
         checkDurationMs: Date.now() - startTime,
         nextCheckInMs: this.currentCheckInterval,
@@ -161,7 +160,7 @@ export class PWAService {
           this.maxBackoffInterval
         )
         this.currentCheckInterval = newInterval
-        console.info('[PWA] Update check failed, backing off', {
+        console.log('[PWA] Update check failed, backing off', {
           failureCount: this.failureCount,
           nextCheckInMinutes: Math.round(newInterval / 60000),
         })
@@ -195,7 +194,7 @@ export class PWAService {
   dismissUpdateNotification(): void {
     this.needRefresh.set(false)
     try {
-      removeDeviceSetting(DEVICE_KEYS.pwaUpdateState)
+      localStorage.removeItem('nomie_pwa_update_state')
     } catch (e) {
       console.warn('[PWA] Failed to clear persisted update state', e)
     }
@@ -213,7 +212,7 @@ export class PWAService {
    * Called when user clicks "Check for updates" button
    */
   async manualCheckForUpdates(): Promise<boolean> {
-    console.info('[PWA] Manual update check requested by user')
+    console.log('[PWA] Manual update check requested by user')
     // Reset backoff state for manual check
     this.failureCount = 0
     this.currentCheckInterval = this.baseCheckInterval
@@ -263,7 +262,7 @@ export class PWAService {
       try {
         await this.registration.unregister()
         this.registration = null
-        console.info('[PWA] Service Worker unregistered')
+        console.log('[PWA] Service Worker unregistered')
       } catch (error) {
         console.error('[PWA] Error unregistering Service Worker', error)
       }
@@ -275,7 +274,7 @@ export class PWAService {
   private _updateServiceWorker: ((reloadPage?: boolean) => Promise<void>) | null = null
 
   private startUpdateChecks(): void {
-    console.info('[PWA] Starting update checks with 15-minute base interval')
+    console.log('[PWA] Starting update checks with 15-minute base interval')
 
     // Initial check immediately
     this.checkForUpdates()
@@ -310,7 +309,7 @@ export class PWAService {
         updateAvailable: true,
         timestamp: Date.now(),
       }
-      setDeviceSetting(DEVICE_KEYS.pwaUpdateState, JSON.stringify(state))
+      localStorage.setItem('nomie_pwa_update_state', JSON.stringify(state))
     } catch (e) {
       console.warn('[PWA] Failed to persist update state', e)
     }
@@ -321,16 +320,16 @@ export class PWAService {
    */
   private loadPersistedState(): void {
     try {
-      const stored = getDeviceSetting(DEVICE_KEYS.pwaUpdateState)
+      const stored = localStorage.getItem('nomie_pwa_update_state')
       if (stored) {
         const state = JSON.parse(stored)
         if (state.updateAvailable) {
-          console.info('[PWA] Restoring persisted update notification')
+          console.log('[PWA] Restoring persisted update notification')
           this.needRefresh.set(true)
         }
         // Clean up old persisted state (older than 7 days)
         if (Date.now() - state.timestamp > 7 * 24 * 60 * 60 * 1000) {
-          removeDeviceSetting(DEVICE_KEYS.pwaUpdateState)
+          localStorage.removeItem('nomie_pwa_update_state')
         }
       }
     } catch (e) {

@@ -3,7 +3,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import CheckmarkCircle from '../../n-icons/CheckmarkCircle.svelte'
-  import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte'
+import CheckmarkCircleOutline from '../../n-icons/CheckmarkCircleOutline.svelte';
   import IonIcon from '../icon/ion-icon.svelte'
 
   const dispatch = createEventDispatcher()
@@ -28,7 +28,7 @@
       class={`${selected == color ? `selected ${color}` : `not-selected ${color}`}`}
     >
       {#if selected === color}
-        <IonIcon className="text-ios-white" icon={CheckmarkCircleOutline} size={20} />
+        <IonIcon className="text-white" icon={CheckmarkCircleOutline} size={20} />
       {/if}
     </button>
   {/each}
@@ -48,19 +48,19 @@
     @apply border border-2;
   }
   .tiny-color-picker button.green {
-    @apply border-ios-good;
-    @apply bg-ios-good;
+    @apply border-green-500;
+    @apply bg-green-500;
   }
   .tiny-color-picker button.blue {
-    @apply border-ios-tint;
-    @apply bg-ios-tint;
+    @apply border-primary-500;
+    @apply bg-primary-500;
   }
   .tiny-color-picker button.red {
-    @apply border-ios-danger;
-    @apply bg-ios-danger;
+    @apply border-red-500;
+    @apply bg-red-500;
   }
   .tiny-color-picker button.orange {
-    @apply border-ios-star;
-    @apply bg-ios-star;
+    @apply border-yellow-500;
+    @apply bg-yellow-500;
   }
 </style>

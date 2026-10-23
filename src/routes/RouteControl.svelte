@@ -6,6 +6,7 @@
   const location = useLocation()
 
   $effect(() => {
-    document.body.dataset.path = `${$location.pathname}`
+    document.body.dataset.path = `${$location.pathname}`;
   })
+
 </script>

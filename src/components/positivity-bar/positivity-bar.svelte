@@ -4,7 +4,6 @@
   import { Interact } from '../../store/interact'
 
   import math from '../../utils/math/math'
-  import { Lang } from '../../store/lang'
 
   let score = $state(0)
   let neuCount = $state({ type: 'neutral', count: 0, percent: 0 })
@@ -22,7 +21,7 @@
     let message = `Using your total negative (red), positive (green), and neutral (gray) events for the day, Nomie calculates your Positivity Score. 
       ${counts.map((c) => `${math.round(c.count)} ${c.type}`).join(', ')}
     `
-    Interact.alert(Lang.t('ui.what-is-this', 'What is this?'), message)
+    Interact.alert('What is this?', message)
   }
 
   function main() {
@@ -46,8 +45,8 @@
     class="positivity-bar cursor-pointer {className} {score < 0
       ? 'is-negative'
       : score > 0
-        ? 'is-positive'
-        : 'is-neutral'}"
+      ? 'is-positive'
+      : 'is-neutral'}"
     {style}
     on:click={() => whatsThis()}
   >
@@ -117,10 +116,9 @@
     display: none;
   }
 
-  /* iOS look (decision 3): positive is the good token; negative is neutral, a fill unit with an outlined ball, not red */
   .positivity-bar .unit.negative {
-    background: var(--ios-fill);
-    color: var(--ios-label);
+    @apply bg-red-600 bg-opacity-40;
+    @apply text-white;
     @apply justify-end;
   }
 
@@ -129,9 +127,7 @@
   }
 
   .positivity-bar .unit.negative .score-ball {
-    background: var(--ios-card);
-    color: var(--ios-label);
-    box-shadow: inset 0 0 0 2px var(--ios-label2);
+    @apply bg-red-600 text-white;
     @apply z-40;
   }
 
@@ -150,22 +146,22 @@
     @apply hidden;
   }
   .positivity-bar .score-ball.is-negative {
-    /* @apply ring-2 ring-ios-danger ring-opacity-50; */
+    /* @apply ring-2 ring-red-500 ring-opacity-50; */
   }
   .positivity-bar .unit.positive {
-    background: color-mix(in srgb, var(--ios-good) 40%, transparent);
-    color: var(--ios-label);
+    @apply bg-green-600 bg-opacity-40;
+    @apply text-white;
     @apply flex items-start justify-end;
   }
   .positivity-bar .unit.positive .score-ball {
-    background: var(--ios-good);
-    color: var(--ios-on-save);
+    @apply bg-green-600;
+    @apply text-white;
   }
   .positivity-bar .unit.neutral {
-    @apply bg-ios-card;
+    @apply bg-gray-200 dark:bg-gray-900;
     @apply z-50;
   }
   .positivity-bar .score-ball.is-neutral {
-    @apply bg-ios-card;
+    @apply bg-gray-100 dark:bg-gray-900;
   }
 </style>

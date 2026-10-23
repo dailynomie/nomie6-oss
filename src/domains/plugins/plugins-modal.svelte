@@ -20,6 +20,7 @@
   import TrashOutline from '../../n-icons/TrashOutline.svelte'
   import { Interact } from '../../store/interact'
   import { Lang } from '../../store/lang'
+  import { showNomieConnectPopup } from '../settings/settings-helpers'
   import type { PluginClass } from './plugin-helpers'
   import PluginInstaller from './plugin-installer.svelte'
   import { closePluginsModal, openPluginInstaller, PluginStore } from './PluginStore'
@@ -32,6 +33,7 @@
   })
 
   let editMode = $state(false)
+  let hasLocked = $state(false)
 
   const toggleEditMode = () => {
     editMode = !editMode
@@ -44,14 +46,14 @@
 
   const deletePlugin = async (plugin: PluginClass) => {
     if (plugin.buildin) {
-      Interact.error(Lang.t('plugins.this-plugin-cannot-be-removed', 'This plugin cannot be removed'))
+      Interact.error('This plugin cannot be removed')
       return
     }
-    const confirmed = await Interact.confirm(Lang.t('plugins.uninstall-question', { name: plugin.name }))
+    const confirmed = await Interact.confirm(`Uninstall ${plugin.name} from Nomie?`)
     if (confirmed) {
       try {
         await PluginStore.remove(plugin)
-        showToast({ message: Lang.t('plugins.removed', 'Removed') })
+        showToast({ message: 'Removed' })
       } catch (e) {
         Interact.error(e.message)
       }
@@ -79,26 +81,28 @@
 <BackdropModal>
   <header slot="header">
     <ToolbarGrid>
-      <div slot="left">
-        <Button on:click={() => installPlugin()} icon clear primary>
-          <IonIcon icon={PlusIcon} />
-        </Button>
-      </div>
+      <Button on:click={closePluginsModal} slot="left" clear primary>{Lang.t('general.close', 'Close')}</Button>
       <h1 class="ntitle text-sm md:text-base">{Lang.t('general.plugins', 'Plugins')}</h1>
-      <Button slot="right" on:click={closePluginsModal} clear primary>{Lang.t('general.done', 'Done')}</Button>
+      <div slot="right">
+        {#if !hasLocked}
+          <Button on:click={() => installPlugin()} icon clear primary>
+            <IonIcon icon={PlusIcon} />
+          </Button>
+        {/if}
+      </div>
     </ToolbarGrid>
     <!-- <Toolbar>
       <ButtonGroup
         buttons={[
           {
-            label: Lang.t('plugins.installed', 'Installed'),
+            label: 'Installed',
             active: tab == 'installed',
             click() {
               tab = 'installed'
             },
           },
           {
-            label: Lang.t('plugins.available', 'Available'),
+            label: 'Available',
             active: tab == 'avail',
             click() {
               tab = 'avail'
@@ -123,9 +127,9 @@
           {#if $PluginStore.length}
             <Button shape="round" size="sm" on:click={toggleEditMode}>
               {#if editMode}
-                <span class="text-ios-tint font-bold">{Lang.t('plugins.done', 'Done')}</span>
+                <span class="text-red-500 font-bold">Done</span>
               {:else}
-                <span class="text-ios-tint">{Lang.t('plugins.edit', 'Edit')}</span>
+                <span class="text-primary">Edit</span>
               {/if}
             </Button>
           {/if}
@@ -134,7 +138,7 @@
           <ListItem bottomLine={15} disabled={plugin.locked}>
             <div class="flex space-x-2 items-center">
               <Avatar size={20} emoji={plugin.emoji} />
-              <Title className="flex items-center space-x-1 text-ios-body font-semibold" style="text-align:left">
+              <Title className="flex items-center space-x-1">
                 <span>{plugin.name}</span>
                 <div class="faded-badge">
                   {plugin.version}
@@ -145,7 +149,7 @@
               <div class="line-clamp-3">
                 {plugin.description}
               </div>
-              <div class="text-ios-label2 text-xs line-clamp-1">{getDomain(plugin.url)}</div>
+              <div class="text-gray-500 text-xs line-clamp-1">{getDomain(plugin.url)}</div>
             </div>
             <div class="description opacity-40 line-clamp-1" />
 
@@ -153,35 +157,37 @@
               {#if !plugin.locked}
                 <ToggleSwitch
                   on:change={() => togglePlugin(plugin)}
-                  title={Lang.t('plugins.status-title', { name: plugin.name })}
+                  title="${plugin.name} status"
                   value={plugin.active}
                 />
               {/if}
               {#if editMode && !plugin.buildin}
                 <Button on:click={() => deletePlugin(plugin)} icon
-                  ><IonIcon className="text-ios-danger" icon={TrashOutline} /></Button
+                  ><IonIcon className="text-red-500" icon={TrashOutline} /></Button
                 >
               {/if}
             </div>
           </ListItem>
         {/each}
 
+        {#if hasLocked}
+          <ListItem
+            on:click={showNomieConnectPopup}
+            clickable
+            titleClass="text-primary"
+            title="Upgrade"
+            description="Plugin limit reached."
+          />
+        {/if}
       </List>
 
       {#if $PluginStore.length === 0}
         <div class="h-4 stiff w-full min-h-4" />
         <List solo>
-          <Empty emoji="🔌" title={Lang.t('plugins.no-plugins-installed', 'No Plugins Installed')}>
-            <p class="text-xs text-center text-ios-label2 leading-snug">
-              {Lang.t(
-                'plugins.plugins-allow-others-to-create-entirely-new-ways',
-                'Plugins allow others to create entirely new ways of tracking and monitoring your data within Nomie.'
-              )}
-              <strong
-                >{Lang.t(
-                  'plugins.warning-this-feature-is-under-heavy-development',
-                  'WARNING: This feature is under heavy development.'
-                )}</strong
+          <Empty emoji="🔌" title="No Plugins Installed">
+            <p class="text-xs text-center text-gray-500 leading-snug">
+              Plugins allow others to create entirely new ways of tracking and monitoring your data within Nomie. <strong
+                >WARNING: This feature is under heavy development.</strong
               >
             </p>
           </Empty>
@@ -190,15 +196,15 @@
             on:click={() => {
               openPluginInstaller()
             }}
-            titleClass="text-center text-ios-tint"
-            title={Lang.t('plugins.add-a-custom-plugin', 'Add a Custom Plugin')}
+            titleClass="text-center text-primary"
+            title="Add a Custom Plugin"
           />
         </List>
       {/if}
 
       <!-- Installable Plugins   -->
     {:else if tab == 'avail'}
-      <List solo outside title={Lang.t('plugins.official-plugins', 'Official Plugins')}>
+      <List solo outside title="Official Plugins">
         {#each officialPlugins as plugin}
           <ListItem
             disabled={$PluginStore.find((p) => p.url == plugin.url)}
@@ -211,23 +217,23 @@
             }}
           >
             <Avatar size={50} emoji={plugin.emoji} slot="left" />
-            <Title className="text-ios-body font-semibold" style="text-align:left">{plugin.name}</Title>
+            <Title>{plugin.name}</Title>
             <div class="description">
               {#if $PluginStore.find((p) => p.url == plugin.url)}
-                <Badge pad className="bg-ios-good text-ios-ontint">{Lang.t('plugins.installed', 'Installed')}</Badge>
+                <Badge pad className="bg-green-500 text-white">Installed</Badge>
               {/if}
               {plugin.description}
             </div>
-            <div class="lineclamp-1 text-xs text-ios-label2">{new URL(plugin.url).origin}</div>
+            <div class="lineclamp-1 text-xs text-green-500">{new URL(plugin.url).origin}</div>
           </ListItem>
         {/each}
       </List>
     {/if}
 
-    <div class="pt-10 px-4 text-center text-ios-label2 text-sm">
-      {Lang.t('plugins.want-to-create-a-plugin', 'Want to create a Plugin?')} <br />
-      <a class="text-ios-tint underline" href="https://github.com/open-nomie/plugins" target="_blank" rel="nofollow"
-        >{Lang.t('plugins.read-the-plugin-docs', 'Read the Plugin Docs →')}</a
+    <div class="pt-10 px-4 text-center text-gray-500 text-sm">
+      Want to create a Plugin? <br />
+      <a class="text-primary underline" href="https://github.com/open-nomie/plugins" target="_blank" rel="nofollow"
+        >Read the Plugin Docs →</a
       >
     </div>
   </section>

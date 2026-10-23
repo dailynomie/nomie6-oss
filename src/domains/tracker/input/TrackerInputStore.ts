@@ -84,15 +84,15 @@ export type TrackableValueResponseType = {
 }
 
 /**
- * Get a Trackable Input Value
- * This is used for getting values, but not for generating
- * raw strings in the notes.
- *
- * @param trackable
- * @param knownTrackables
- * @param nextLabel
- * @param props
- * @returns
+ * Get a Trackable Input Value 
+ * This is used for getting values, but not for generating 
+ * raw strings in the notes. 
+ * 
+ * @param trackable 
+ * @param knownTrackables 
+ * @param nextLabel 
+ * @param props 
+ * @returns 
  */
 export const getTrackableInputValue = async (
   trackable: Trackable,
@@ -106,6 +106,7 @@ export const getTrackableInputValue = async (
   props.tracker = trackable.tracker
 
   return new Promise((resolve, reject) => {
+
     /**
      * If its not a tracker - or it's a tracker and a tick
      * Then go ahead and return the value
@@ -274,8 +275,8 @@ export const getTrackerInputAsString = async (props: TrackerInputProps): Promise
       // if(tracker.type === 'tick' ) {
       //   // Add Default value to Tick if set
       //   note.push(`#${response.tracker.tag}${ is.truthy(response.value) ? `(${tracker.default})` : ''}`)
-      // } else
-
+      // } else 
+      
       if (tracker.type === 'note' || tracker.type === 'picker') {
         note.push(`#${response.tracker.tag}`)
       } else {

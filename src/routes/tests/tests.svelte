@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+
   import Scroller from '../../components/scroller/scroller.svelte'
 
   import dayjs from 'dayjs'
@@ -14,22 +15,21 @@
   import Input from '../../components/input/input.svelte'
   import Divider from '../../components/divider/divider.svelte'
   import Button from '../../components/button/button.svelte'
-  import { Lang } from '../../store/lang'
 </script>
 
 <Layout>
   <ToolbarGrid slot="header" className="shadow-md">
-    <h1 class="ntitle">{Lang.t('routes.ui-tests-n6', 'UI Tests N6')}</h1>
+    <h1 class="ntitle">UI Tests N6</h1>
   </ToolbarGrid>
   <main class="p-4">
-    <Button className="bg-ios-tint" size="lg">{Lang.t('routes.ripple-test', 'Ripple Test')}</Button>
+    <Button className="bg-primary-500" size="lg">Ripple Test</Button>
 
     <div class="h-12" />
 
     <List solo className="mb-5">
-      <Input listItem placeholder={Lang.t('routes.name-2', 'Name')} />
+      <Input listItem placeholder="Name" />
       <Divider left={16} />
-      <Input listItem placeholder={Lang.t('routes.address', 'Address')} />
+      <Input listItem placeholder="Address" />
     </List>
     <List solo className="mb-5">
       <Scroller
@@ -46,14 +46,14 @@
           .map((d, i) => i)}
         itemClass=""
       >
-        <div class="item p-2 P" style="width:10vw">
-          <div class="text-center {item === centerPosItem ? 'bg-ios-good' : 'bg-ios-tint'} rounded-lg h-10">
+        <div class="item  p-2 P " style="width:10vw">
+          <div class="text-center {item === centerPosItem ? 'bg-green-400' : 'bg-blue-500'} rounded-lg h-10">
             {item}
           </div>
         </div>
       </Scroller>
 
-      <div class="h-80 bg-ios-good max-h-80 flex flex-col">
+      <div class="h-80 bg-green-800 max-h-80 flex flex-col">
         <Scroller
           snapToItem="end"
           start="center"
@@ -65,7 +65,7 @@
           itemClass=""
         >
           <div class="item p-2">
-            <div class="text-center {item === centerPosItem ? 'bg-ios-good' : 'bg-ios-tint'} h-12 rounded-lg">
+            <div class="text-center {item === centerPosItem ? 'bg-green-400' : 'bg-blue-500'} h-12 rounded-lg">
               {item}}
             </div>
           </div>

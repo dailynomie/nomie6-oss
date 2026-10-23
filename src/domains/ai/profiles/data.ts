@@ -34,5 +34,5 @@ Ensure all numbers in the data array are valid. Choose appropriate colors that a
     }
 
     return parsed
-  },
+  }
 }

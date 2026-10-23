@@ -13,7 +13,7 @@
 
   // Utils
   import PromiseStep from '../../../utils/promise-step/promise-step'
-  import { readStorageFile, writeStorageFile } from '../../storage/storage-files'
+  import Storage from '../../../domains/storage/storage'
 
   import arrayUtils from '../../../utils/array/array_utils'
 
@@ -27,7 +27,7 @@
   import Button from '../../../components/button/button.svelte'
   import IonIcon from '../../../components/icon/ion-icon.svelte'
   import { CheckmarkCircle, ChevronBackOutline, ChevronForwardOutline } from '../../../components/icon/nicons'
-  import { Lang } from '../../../store/lang'
+
 
   let state = {
     replace: null,
@@ -75,7 +75,7 @@
       let promises = []
       for (var i = 0; i < bookPaths.length; i++) {
         let path = bookPaths[i]
-        let getBook = readStorageFile(path)
+        let getBook = Storage.get(path)
         promises.push(getBook)
         getBook.then((logs) => {
           methods.findInBook(path, logs)
@@ -123,10 +123,7 @@
       dispatch('close')
     },
     replace() {
-      Interact.confirm(
-        `Replace ${state.found.length} item(s)?`,
-        Lang.t('log.this-cannot-be-undone-2', 'This cannot be undone.')
-      ).then((res) => {
+      Interact.confirm(`Replace ${state.found.length} item(s)?`, 'This cannot be undone.').then((res) => {
         if (res) {
           // do the replace
           state.replacing = true
@@ -158,7 +155,7 @@
           // Prep for errors. Todo: if errors then show them
           let errors = []
           // Get the current book
-          readStorageFile(path).then((book) => {
+          Storage.get(path).then((book) => {
             // Map new notes with the content replaced
             book = book.map((row) => {
               if (row.note.search(searchReg) > -1) {
@@ -170,7 +167,7 @@
             // Update progress bar
             state.replacingProgress = Math.round((index / bookPaths.length) * 100)
             // Save the new Book
-            writeStorageFile(path, book)
+            Storage.put(path, book)
               .then(() => {
                 resolve(true)
               })
@@ -184,10 +181,7 @@
         // Finish the Steps
         state.finishedReplacing = true
         // Notify the User
-        Interact.confirm(
-          Lang.t('log.replace-complete', 'Replace Complete'),
-          Lang.t('log.notes-updated', { num: state.replacedCount })
-        ).then(() => {
+        Interact.confirm(`Replace Complete`, `${state.replacedCount} notes have been updated`).then(() => {
           dispatch('close')
         })
       })
@@ -216,7 +210,7 @@
 </script>
 
 {#if show}
-  <NModal className="mass-editor flex-shrink-off" title={Lang.t('log.find-and-replace', 'Find and Replace')}>
+  <NModal className="mass-editor flex-shrink-off" title="Find and Replace">
     <div class="p-1 pb-2">
       {#if state.error}
         <NItem>
@@ -226,53 +220,38 @@
 
       {#if !state.finding}
         <NItem
-          description={Lang.t(
-            'log.find-replace-help',
-            'Find and replace specific content from all of your notes. For example renaming a tag.'
-          )}
+          description="Find and replace specific content from all of your notes.
+          For example renaming a tag."
         />
         <NItem>
-          <NInput
-            compact
-            bind:value={state.replace}
-            placeholder={Lang.t('log.replace-this', 'Replace this:')}
-            help="e.g. #sleep_time"
-          />
+          <NInput compact bind:value={state.replace} placeholder="Replace this:" help="e.g. #sleep_time" />
         </NItem>
         <NItem>
-          <NInput
-            compact
-            bind:value={state.with}
-            placeholder={Lang.t('log.with-this', 'with this:')}
-            help="e.g. #sleep"
-          />
+          <NInput compact bind:value={state.with} placeholder="with this:" help="e.g. #sleep" />
         </NItem>
       {/if}
 
       {#if state.replacing}
-        <NItem className="pb-2" title={Lang.t('log.replacing', 'Replacing')}>
+        <NItem className="pb-2" title="Replacing">
           <NProgress percentage={state.replacingProgress} />
           <span slot="left">
             {#if state.finishedReplacing}
-              <IonIcon icon={CheckmarkCircle} className="text-ios-good" />
+              <IonIcon icon={CheckmarkCircle} className="text-green-500" />
             {:else}
               <Spinner size={30} />
             {/if}
           </span>
         </NItem>
       {:else if state.finding}
-        <NItem
-          className="pb-2"
-          title={`${state.finishedFinding ? Lang.t('ui.find-complete', 'Find Complete') : Lang.t('ui.finding', 'Finding...')}`}
-        >
+        <NItem className="pb-2" title={`${state.finishedFinding ? 'Find Complete' : 'Finding...'}`}>
           <span slot="left">
             {#if state.finishedFinding}
-              <IonIcon icon={CheckmarkCircle} className="text-ios-good" />
+              <IonIcon icon={CheckmarkCircle} className="text-green-500" />
             {:else}
               <Spinner size={30} />
             {/if}
           </span>
-          <span slot="right">{Lang.t('log.found-count', { num: state.foundCount })}</span>
+          <span slot="right">{state.foundCount} Found</span>
           <div class="pt-1">
             <NProgress percentage={state.findingProgress} />
           </div>
@@ -281,7 +260,7 @@
           <NItem style="min-height:120px; width:100%">
             <div>
               <Text size="sm" leading2 faded>
-                {Lang.t('log.sample-of', { example: state.example + 1, total: state.found.length })}
+                Sample {state.example + 1} of {state.found.length}
               </Text>
               <Text size="sm">
                 {methods.showReplace(state.found[state.example || 0].log.note)}
@@ -304,13 +283,13 @@
 
     <div slot="footer" class="flex">
       {#if state.finding && state.finishedFinding}
-        <Button color="clear" on:click={methods.back}>{Lang.t('log.back', 'Back')}</Button>
-        <Button color="primary" on:click={methods.replace}>{Lang.t('log.replace-all', 'Replace All...')}</Button>
+        <Button color="clear" on:click={methods.back}>Back</Button>
+        <Button color="primary" on:click={methods.replace}>Replace All...</Button>
       {:else if !state.finding && !state.found}
-        <Button color="clear" on:click={methods.close}>{Lang.t('log.cancel', 'Cancel')}</Button>
-        <Button color="primary" on:click={methods.find}>{Lang.t('log.find-all', 'Find All...')}</Button>
+        <Button color="clear" on:click={methods.close}>Cancel</Button>
+        <Button color="primary" on:click={methods.find}>Find All...</Button>
       {:else}
-        <Button color="clear" on:click={methods.back}>{Lang.t('log.back', 'Back')}</Button>
+        <Button color="clear" on:click={methods.back}>Back</Button>
       {/if}
     </div>
   </NModal>

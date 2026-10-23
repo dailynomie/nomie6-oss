@@ -1,16 +1,15 @@
 import { parseNumber } from '../../utils/parseNumber/parseNumber'
 import { addCommas } from './uom'
 import type { UOMElement } from './uom-types'
-import { lookupUom } from './uom-registry'
+import UOMS from './uom.config'
 
 export class UOMClass {
   id: string
   uom: UOMElement
   constructor(uomKey: string) {
     this.id = uomKey
-    const uom = lookupUom(uomKey)
-    if (uom) {
-      this.uom = uom
+    if (UOMS.hasOwnProperty(uomKey)) {
+      this.uom = UOMS[uomKey]
     } else {
       throw new Error(`${uomKey} is an unknow unit of measure`)
     }

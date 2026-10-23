@@ -10,7 +10,7 @@
   import { wait } from '../../utils/tick/tick'
   import PluginFrame from './plugin-frame.svelte'
   import type { PluginClass } from './plugin-helpers'
-  import { Lang } from '../../store/lang'
+
 
   const { plugin, id } = $props()
 </script>
@@ -20,12 +20,12 @@
     <Button
       clear
       primary
-      slot="right"
+      slot="left"
       on:click={() => {
         wait(10).then(() => {
           closeModal(id)
         })
-      }}>{Lang.t('plugins.done', 'Done')}</Button
+      }}>Exit</Button
     >
     <Title>{plugin.name}</Title>
   </ToolbarGrid>

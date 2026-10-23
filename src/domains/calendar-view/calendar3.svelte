@@ -1,7 +1,6 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import IosSelect from '../../components/ios-select/ios-select.svelte'
   import dayjs, { Dayjs } from 'dayjs'
   import { createEventDispatcher } from 'svelte'
   import IonIcon from '../../components/icon/ion-icon.svelte'
@@ -11,14 +10,7 @@
   import { parseNumber } from '../../utils/parseNumber/parseNumber'
   import type { TrackableUsage } from '../usage/trackable-usage.class'
 
-  let {
-    date = $bindable(),
-    weekStarts,
-    trackableUsage = $bindable(),
-    size,
-    loading = $bindable(),
-    hidePrevNext,
-  } = $props()
+  let { date = $bindable(), weekStarts, trackableUsage = $bindable(), size, loading = $bindable(), hidePrevNext } = $props()
 
   let now = dayjs().format('YYYY-MM-DD')
 
@@ -85,67 +77,65 @@
         <slot name="header-left" />
 
         <!-- Month Selector -->
-        <div class="divide-x-2 divide-opacity-30 divide-ios-separator flex items-center nselect-group">
-          <IosSelect
-            compact
-            title={Lang.t('calendar.month', 'Month')}
+        <div class="divide-x-2 divide-opacity-30 divide-gray-500 flex items-center nselect-group">
+          <select
+            class="nselect rounded-r-none"
+            class:sm={size == 'sm'}
             value={month}
-            options={Array.from({ length: 12 }, (_, index) => ({
-              value: index,
-              label: dayjs().month(index).startOf('month').format('MMM'),
-            }))}
-            onchange={(next) => {
-              let newDate = datejs.month(parseNumber(`${next}`))
+            on:input={(evt) => {
+              //@ts-ignore
+              let newDate = datejs.month(evt.target.value)
               date = newDate.toDate()
               dispatch('dateChange', newDate.toDate())
             }}
-          />
+          >
+            {#each Array(12)
+              .fill(0)
+              .map((c, index) => {
+                return dayjs().month(index).startOf('month').format('MMM')
+              }) as lmonth, index}
+              <option value={index}>{lmonth}</option>
+            {/each}
+          </select>
 
           <!-- Year Selector -->
-          <IosSelect
-            compact
-            title={Lang.t('calendar.year', 'Year')}
+          <select
+            class="nselect rounded-l-none"
+            class:sm={size == 'sm'}
             value={year}
-            options={Array.from({ length: 12 }, (_, index) => {
-              const y = parseNumber(dayjs().format('YYYY')) - index
-              return { value: y, label: `${y}` }
-            })}
-            onchange={(next) => {
-              let newDate = datejs.year(parseNumber(`${next}`))
+            on:input={(evt) => {
+              //@ts-ignore
+              let newDate = datejs.year(parseNumber(evt.target.value))
               date = newDate.toDate()
               dispatch('dateChange', newDate)
             }}
-          />
+          >
+            {#each Array(12)
+              .fill(0)
+              .map((c, index) => {
+                return parseNumber(dayjs().format('YYYY')) - index
+              }) as lyear, index}
+              <option value={lyear}>{lyear}</option>
+            {/each}
+          </select>
         </div>
         <div class="filler" />
         {#if !hidePrevNext}
-          <button
-            type="button"
-            aria-label={Lang.t('calendar.previous', 'Previous')}
-            class="nselect"
-            class:sm={size == 'sm'}
-            on:click={() => nextPrev('previous')}
-          >
-            <IonIcon icon={ChevronBackOutline} size={14} />
-          </button>
+        <button class="nselect" class:sm={size == 'sm'} on:click={() => nextPrev('previous')}>
+          <IonIcon icon={ChevronBackOutline} size={14} />
+        </button>
         {/if}
         <button
           class:sm={size == 'sm'}
-          class="nselect"
+          class="nselect "
           on:click={() => {
             date = new Date()
-          }}>{Lang.t('calendar.today', 'Today')}</button
+          }}>Today</button
         >
         {#if !hidePrevNext}
-          <button
-            type="button"
-            aria-label={Lang.t('calendar.next', 'Next')}
-            class="nselect"
-            class:sm={size == 'sm'}
-            on:click={() => nextPrev('next')}
-          >
-            <IonIcon icon={ChevronForwardOutline} size={14} />
-          </button>
+        <button class="nselect" class:sm={size == 'sm'} on:click={() => nextPrev('next')}>
+          <IonIcon icon={ChevronForwardOutline} size={14} />
+        </button>
         {/if}
       </div>
       <div class="header-days grid grid-cols-7 w-full">
@@ -214,8 +204,8 @@
   .calendar-3.xs {
   }
   .calendar-3 header {
-    @apply bg-ios-bg;
-    @apply text-ios-label2;
+    @apply bg-gray-200 dark:bg-gray-800;
+    @apply text-gray-600 dark:text-gray-400;
   }
   .calendar-3 .header-days .cell {
     @apply px-3 py-1;
@@ -231,21 +221,21 @@
     @apply text-sm;
     @apply p-1;
     @apply flex items-center justify-center;
-    /* @apply border-b border-l border-ios-separator; */
+    /* @apply border-b border-l border-gray-200 dark:border-gray-700; */
     @apply h-8;
     @apply focus:outline-none;
   }
   .calendar-3 .calendar-days .day span {
     @apply block;
     @apply relative;
-    @apply text-ios-label;
+    @apply text-black dark:text-white;
   }
   .calendar-3 .calendar-days .day:focus {
-    @apply ring-2 ring-ios-tint ring-inset;
+    @apply ring-2 ring-primary-300 ring-inset;
   }
   .calendar-3 .calendar-days .day.today span {
-    @apply text-ios-good font-bold;
-    @apply bg-ios-tint text-ios-ontint;
+    @apply text-green-500 font-bold;
+    @apply bg-primary-500 text-white;
     @apply rounded-full;
     @apply h-6 w-6;
     @apply flex items-center justify-center;
@@ -263,10 +253,9 @@
   }
 
   .calendar-3 .calendar-days .day.has-value.is-positive::after {
-    @apply bg-ios-good;
+    @apply bg-green-500;
   }
-  /* iOS look (decision 3): a negative day is the label colour, not red */
   .calendar-3 .calendar-days .day.has-value.is-negative::after {
-    background-color: var(--ios-label2);
+    @apply bg-red-500;
   }
 </style>
