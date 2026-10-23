@@ -53,11 +53,15 @@ const LangInit = () => {
       return i18next.t(str, payload)
     },
     getLangs() {
-      return Object.keys(langs).map((key) => {
-        let lang = langs[key]
-        lang.key = key
-        return lang
-      })
+      // the language in use is always listed, so a device set to an unfinished language can still see it
+      const current = getDeviceSetting(DEVICE_KEYS.language) || 'en'
+      return Object.keys(langs)
+        .filter((key) => langs[key].shipped || key === current)
+        .map((key) => {
+          let lang = langs[key]
+          lang.key = key
+          return lang
+        })
     },
     setLang(langKey) {
       update((d) => {
