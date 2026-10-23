@@ -251,7 +251,7 @@ Ask when a task reaches the decision. Record the answer in the commit message or
 | D1 to D5 | Central button, tracker grid columns, tracker icons, page background, capture Save colour (check against the approved mockups) | M2 |
 | D6 | Pinch zoom | **Answered: no pinch zoom** (UI-09). |
 | D7 | Collapsing large title | M2 |
-| D9 | Naming and the Nomie trademark | M3 |
+| D9 | Naming and the Nomie trademark | **Decided: use "Daily Nomie".** Used for the app and the announcement. | M3 |
 | D10 | Privacy policy text | **Approved 22 October** (C3). |
 | D11 | CSP strictness and allowed origins | C2 and the enforcing CSP |
 | D12 | Plotly: lazy or Chart.js | P4, and C5 (critical findings in plotly.js) |
