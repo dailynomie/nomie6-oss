@@ -305,6 +305,9 @@
   ],
   "fixes": [
     {
+      "version": "dn6.8.0v20261025",
+      "title": "Backups cover all versions"
+    },{
       "version": "dn6.8.0v20261017",
       "title": "Restoring a backup keeps your current version of items that exist on both sides, unless you choose the backup's"
     },{
