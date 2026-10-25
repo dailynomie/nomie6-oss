@@ -2,6 +2,12 @@ export default {
   name: "German",
   author: "Brandon",
   translation: {
+    "backup-notice": {
+      "title": "Bitte mache heute ein Backup",
+      "message": "Wir haben einen Fehler gefunden: Manche Backups enthielten nicht alles, und Backups aus August und September konnten teilweise gar nicht wiederhergestellt werden. Ein regelmäßiges Backup schützt deine Daten, bitte mache jetzt eines. Es dauert einen Moment und enthält alle deine Tracker, Logs, Boards, Templates und Einstellungen.",
+      "now": "Jetzt sichern",
+      "later": "Später",
+    },
     "settings": {
       "pin-required": "Pin benötigt",
       "pin-invalid": "ungültige Pin, versuche es noch einmal",
