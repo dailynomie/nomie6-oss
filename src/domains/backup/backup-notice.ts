@@ -61,11 +61,17 @@ const maybeShow = (onStart: boolean) => {
   if (shouldShow(onStart)) showNotice()
 }
 
+let started = false
+
 /**
  * Call once when the app has started. Shows the notice on start, and checks
  * hourly so that a session running for more than 24 hours sees it again.
+ * The backup message is mounted again on every page with a header, so the
+ * guard keeps this to one start-up check per app load.
  */
 export const startBackupNotice = () => {
+  if (started) return
+  started = true
   maybeShow(true)
   setInterval(() => maybeShow(false), CHECK_EVERY_MS)
 }
