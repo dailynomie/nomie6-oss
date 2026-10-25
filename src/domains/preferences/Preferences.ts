@@ -38,7 +38,8 @@ export type PreferencesStateType = {
   weekStarts?: PrefsWeekStartTypes
   compactTrackers?: boolean
   hideBackupMessage?: boolean
-  backupNoticeSeen?: boolean
+  backupNoticeDiscarded?: boolean
+  backupNoticeShownAt?: number
   backupDays: number
   pluginCleanupDays?: number
   lastPluginCleanup?: string
@@ -73,7 +74,7 @@ const InitialState: PreferencesStateType = sideStorage.get('state') || {
   pluginCleanupDays: -1,
   lastPluginCleanup: undefined,
   hideBackupMessage: false,
-  backupNoticeSeen: false,
+  backupNoticeDiscarded: false,
   hideMessages: false,
   allowFileEdit: false,
   alwaysLocate: true,

@@ -27,6 +27,14 @@ import Markdown from '../markdown/markdown.svelte'
         closeModal(id)
       }
     },
+    // Optional third button: the result is the string 'discard'
+    onDiscard() {
+      if (payload.onInteract) {
+        payload.value = 'discard'
+        payload.onInteract(payload)
+        closeModal(id)
+      }
+    },
   }
 
   const { payload, id } = $props()
@@ -80,6 +88,11 @@ import Markdown from '../markdown/markdown.svelte'
         on:click={methods.onCancel}
       >
         {payload.cancel}
+      </button>
+    {/if}
+    {#if payload.discard}
+      <button id="alert-discard" aria-label={payload.discard} class="cancel" on:click={methods.onDiscard}>
+        {payload.discard}
       </button>
     {/if}
   </div>

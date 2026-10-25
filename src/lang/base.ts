@@ -7,6 +7,7 @@ export default {
       'message': 'We found a bug that stopped some backups from including everything, and some backups from August and September could not be restored at all. A regular backup protects your data, so please make one now. It takes a moment, and it includes all your trackers, logs, boards, templates and settings.',
       'now': 'Back up now',
       'later': 'Later',
+      'discard': 'Discard',
     },
     settings: {
       'pin-required': 'Pin Required',

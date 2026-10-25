@@ -8,7 +8,7 @@
   // import { onMount } from 'svelte'
   import { backupConfirmed, BackupDaysAgo, generateBackup } from '../../domains/backup/BackupStore'
   import { onMount } from 'svelte'
-  import { showBackupNotice } from '../../domains/backup/backup-notice'
+  import { startBackupNotice } from '../../domains/backup/backup-notice'
 
   let visible = $state(false)
   let mounted = $state(false)
@@ -42,7 +42,7 @@
   onMount(() => {
     setTimeout(() => {
       mounted = true
-      showBackupNotice()
+      startBackupNotice()
     }, 4000)
   })
 </script>
