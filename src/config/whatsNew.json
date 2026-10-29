@@ -306,6 +306,9 @@
   "fixes": [
     {
       "version": "dn6.8.0v20261025",
+      "title": "Calendar: the days line up with their weekday for Monday weeks, and Today shows the current month"
+    },{
+      "version": "dn6.8.0v20261025",
       "title": "Backups cover all versions"
     },{
       "version": "dn6.8.0v20261017",
