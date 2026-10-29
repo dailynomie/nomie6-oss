@@ -1,6 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
+  import dayjs from 'dayjs'
   import Button from '../../components/button/button.svelte'
   import Container from '../../components/container/container.svelte'
 
@@ -33,6 +34,7 @@
   
   import PositivityGrid from '../../components/positivity-bar/positivity-grid.svelte'
   import Memories from '../ledger/Memories.svelte'
+  import OnThisDayTrackers from './on-this-day-trackers.svelte'
   import { createEventDispatcher } from 'svelte'
 
   let trackers = $state<Array<TrackerProcessedConfig>>([])
@@ -49,7 +51,10 @@
   let focusScores = $state<Array<IFocusResults>>()
   let hasFocusScores = $state(false)
 
-  const { view, logs } = $props()
+  const { view, logs, date = new Date() } = $props()
+
+  // The day being viewed, not the day of the last entry: an empty day has no entries to set it
+  const isToday = $derived(dayjs(date).isSame(dayjs(), 'day'))
 
   $effect(() => {
     if ($Device.width < 400) {
@@ -230,10 +235,12 @@
   </Container>
 {/if}
 
-{#if startDate.toDateString() === new Date().toDateString()}
+{#if isToday}
   <Memories
     on:date={(evt) => {
       dispatch('date', evt.detail)
     }}
   />
 {/if}
+
+<OnThisDayTrackers {date} />

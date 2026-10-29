@@ -1,6 +1,12 @@
 {
   "features": [
     {
+      "version": "dn6.8.0v20261029",
+      "title": "On This Day shows a table of the trackers logged on this day in the previous five years"
+    },{
+      "version": "dn6.8.0v20261029",
+      "title": "Range trackers accept decimal steps such as 0.5, with plus and minus buttons for min, max and default"
+    },{
       "version": "dn6.8.0v20261014",
       "title": "What's New is grouped per version, with features and fixes expandable"
     },{
@@ -305,7 +311,13 @@
   ],
   "fixes": [
     {
-      "version": "dn6.8.0v20261025",
+      "version": "dn6.8.0v20261029",
+      "title": "Entries of a tag or search keep loading older entries when you scroll back, instead of stopping after the most recent"
+    },{
+      "version": "dn6.8.0v20261029",
+      "title": "Calendar: the days line up with their weekday for Monday weeks, and Today shows the current month"
+    },{
+      "version": "dn6.8.0v20261029",
       "title": "Backups cover all versions"
     },{
       "version": "dn6.8.0v20261017",

@@ -8,12 +8,23 @@
 
   const { min, max, value, tracker, step } = $props()
 
-  let values = $state([Number(value) || parseFloat(tracker.min) || 0])
+  // Numbers typed on a decimal keypad may use a comma (0,5); read both 0,5 and 0.5 the same way
+  const toNumber = (v: any): number => parseFloat(`${v ?? ''}`.replace(',', '.'))
+
+  // Decimal places in the step, so 0.5 keeps its half and a whole-number step stays whole
+  const decimalsOfStep = (): number => {
+    const parts = `${toNumber(tracker.step) || 1}`.split('.')
+    return parts[1] ? parts[1].length : 0
+  }
+  const toStepValue = (v: any): number => Number(toNumber(v).toFixed(decimalsOfStep()))
+
+  let values = $state([Number(value) || toNumber(tracker.min) || 0])
 
   const dispatch = createEventDispatcher()
 
+
   $effect(() => {
-    const newValue = Number(value) || parseFloat(tracker.min) || 0
+    const newValue = Number(value) || toNumber(tracker.min) || 0
     if (values[0] !== newValue) {
       values = [newValue]
     }
@@ -22,7 +33,7 @@
   onMount(() => {
     // Trigger initial change event
     if (values[0]) {
-      dispatch('change', parseInt(values[0]))
+      dispatch('change', toStepValue(values[0]))
     }
   })
 </script>
@@ -47,7 +58,7 @@
         dispatch('input', values[0])
       }}
       on:change={() => {
-        dispatch('change', parseInt(values[0]))
+        dispatch('change', toStepValue(values[0]))
       }}
       style="--range-slider:{tracker.color};"
       springValues={{
@@ -60,9 +71,9 @@
       first={tracker.minLabel}
       last={tracker.maxLabel}
       vertical={true}
-      min={parseFloat(tracker.min)}
-      max={parseFloat(tracker.max)}
-      steps={parseFloat(tracker.step || 1)}
+      min={toNumber(tracker.min)}
+      max={toNumber(tracker.max)}
+      step={toNumber(tracker.step) || 1}
       pips
     />
     <div class="value dark:bg-gray-700 bg-gray-300 px-2 pt-3 pb-1 w-20 -ml-3 -mt-6 rounded-b-xl text-center">
