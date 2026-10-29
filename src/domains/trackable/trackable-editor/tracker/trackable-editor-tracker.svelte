@@ -295,8 +295,7 @@
       <div class="flex px-1">
         <NInput
           listItem
-          pattern="[0-9]*"
-          inputmode="numeric"
+          inputmode="decimal"
           className="mr-2 tracker-min bg-transparent"
           style="width:45%;"
           name="min"
@@ -320,8 +319,7 @@
         </NInput>
         <NInput
           listItem
-          pattern="[0-9]*"
-          inputmode="numeric"
+          inputmode="decimal"
           className="tracker-max"
           style="width:45%;"
           name="max"
@@ -471,8 +469,7 @@
         <NInput
           listItem
           className="tracker-step mb-3"
-          pattern="[0-9]*"
-          inputmode="numeric"
+          inputmode="decimal"
           label={Lang.t('tracker.step', 'Range Step')}
           placeholder={Lang.t('tracker.step', 'Range Step')}
           bind:value={tracker.step}
