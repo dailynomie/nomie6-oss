@@ -1,5 +1,7 @@
 import AccessibilityOutlineIcon from '../../n-icons/AccessibilityOutline.svelte'
 import AddCircleOutlineIcon from '../../n-icons/AddCircleOutline.svelte'
+import AddOutlineIcon from '../../n-icons/AddOutline.svelte'
+import RemoveOutlineIcon from '../../n-icons/RemoveOutline.svelte'
 import AddSquareOutlineIcon from '../../n-icons/AddSquareOutline.svelte'
 import AddIconSolid from '../../n-icons/AddIcon.svelte'
 import AlarmOutlineIcon from '../../n-icons/AlarmOutline.svelte'
@@ -169,6 +171,8 @@ export const AddIcon = AddIconSolid
 export const PlusIcon = AddIconSolid
 
 export const AddCircleOutline = AddCircleOutlineIcon
+export const AddOutline = AddOutlineIcon
+export const RemoveOutline = RemoveOutlineIcon
 
 export const RemoveCircleOutline = RemoveCircleOutlineIcon
 
