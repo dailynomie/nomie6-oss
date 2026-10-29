@@ -130,6 +130,8 @@
           class="nselect "
           on:click={() => {
             date = new Date()
+            // Same event as the arrows, so the parent updates its title and reloads the data
+            dispatch('dateChange', date)
           }}>Today</button
         >
         {#if !hidePrevNext}
