@@ -38,7 +38,6 @@
   import Button from '../../../../components/button/button.svelte'
   import trackerTypes from '../../../../modules/tracker-types/tracker-types'
 
-  import { TrackableStore } from '../../../trackable/TrackableStore'
   import List from '../../../../components/list/list.svelte'
   import Divider from '../../../../components/divider/divider.svelte'
 
@@ -47,10 +46,9 @@
   import { focusTypes } from '../../../focus/focus-utils'
 
   import IonIcon from '../../../../components/icon/ion-icon.svelte'
-  import { AddCircleOutline, ChevronDownOutline, ChevronUpOutline } from '../../../../components/icon/nicons'
+  import { AddOutline, ChevronDownOutline, ChevronUpOutline, RemoveOutline } from '../../../../components/icon/nicons'
 
   import type { Trackable } from '../../Trackable.class'
-  import { getTrackerInputAsString, useTrackerInputModal } from '../../../tracker/input/TrackerInputStore'
   import type TrackerClass from '../../../../modules/tracker/TrackerClass'
   import PositivityEditor from '../../positivity-editor/positivity-editor.svelte'
   import TrackableListBuilder from '../../TrackableListBuilder.svelte'
@@ -145,49 +143,23 @@
     }
   })
 
-  /**
-   * Get the Input for a tracker
-   * used in getting defaults
-   * but instead of using the defaults we will
-   * make ranges use value input instead of the slider.
-   */
-  const getTrackerInput = async (target) => {
-    let str = await getTrackerInputAsString({
-      trackables: $TrackableStore.trackables,
-      tracker: tracker,
-      allowSave: false,
-      nextLabel: Lang.t('general.set', 'Set'),
-    })
-    if (str) {
-      tracker[target] = str.value
-    }
-    // const [open, close] = useTrackerInputModal()
-    // open({
-    //   tracker: tracker,
-    //   trackables: $TrackableStore.trackables,
-    //   allowSave: false,
-    //   onComplete: async (value: any) => {
-    //     tracker[target] = value.value
-    //     await wait(200)
-    //     close({})
-    //   },
-    // })
+  const toNumber = (v) => parseFloat(`${v ?? ''}`.replace(',', '.'))
 
-    // const response: any = await Interact.trackerInput(
-    //   {
-    //     label: tracker.label || 'Value',
-    //     tracker: 'value',
-    //     type: tracker.type == 'range' ? 'numeric' : tracker.type,
-    //     emoj: tracker.emoji || '',
-    //   },
-    //   {
-    //     value: tracker.default,
-    //     allowSave: false,
-    //   }
-    // )
-    // if (response && response.value) {
-    //   tracker[target] = response.value
-    // }
+  /**
+   * Step the min, max or default value up or down by the range step.
+   * Min never goes above max and max never goes below min.
+   * The default stays within the range.
+   */
+  function nudge(field: 'min' | 'max' | 'default', direction: 1 | -1) {
+    const step = toNumber(tracker.step) || 1
+    const min = toNumber(tracker.min)
+    const max = toNumber(tracker.max)
+    const current = toNumber(tracker[field])
+    let next = isNaN(current) ? (isNaN(min) ? 0 : min) : current + direction * step
+    if (field !== 'max' && !isNaN(max)) next = Math.min(max, next)
+    if (field !== 'min' && !isNaN(min)) next = Math.max(min, next)
+    tracker[field] = Math.round(next * 1e6) / 1e6
+    updateTrigger++
   }
 
   async function setType(type: ITrackerType) {
@@ -295,8 +267,7 @@
       <div class="flex px-1">
         <NInput
           listItem
-          pattern="[0-9]*"
-          inputmode="numeric"
+          inputmode="decimal"
           className="mr-2 tracker-min bg-transparent"
           style="width:45%;"
           name="min"
@@ -307,21 +278,18 @@
           }}
           bind:value={tracker.min}
         >
-          <div slot="right" class="pr-1">
-            <Button
-              icon
-              on:click={() => {
-                getTrackerInput('min')
-              }}
-            >
-              <IonIcon icon={AddCircleOutline} className="text-gray-500" />
+          <div slot="right" class="flex items-center">
+            <Button icon on:click={() => nudge('min', -1)}>
+              <IonIcon icon={RemoveOutline} className="text-gray-500" />
+            </Button>
+            <Button className="pr-1" icon on:click={() => nudge('min', 1)}>
+              <IonIcon icon={AddOutline} className="text-gray-500" />
             </Button>
           </div>
         </NInput>
         <NInput
           listItem
-          pattern="[0-9]*"
-          inputmode="numeric"
+          inputmode="decimal"
           className="tracker-max"
           style="width:45%;"
           name="max"
@@ -330,14 +298,12 @@
           on:focus={(e) => e.detail.target.select()}
           bind:value={tracker.max}
         >
-          <div slot="right" class="pr-1">
-            <Button
-              icon
-              on:click={() => {
-                getTrackerInput('max')
-              }}
-            >
-              <IonIcon icon={AddCircleOutline} className="text-gray-500" />
+          <div slot="right" class="flex items-center">
+            <Button icon on:click={() => nudge('max', -1)}>
+              <IonIcon icon={RemoveOutline} className="text-gray-500" />
+            </Button>
+            <Button className="pr-1" icon on:click={() => nudge('max', 1)}>
+              <IonIcon icon={AddOutline} className="text-gray-500" />
             </Button>
           </div>
         </NInput>
@@ -471,23 +437,11 @@
         <NInput
           listItem
           className="tracker-step mb-3"
-          pattern="[0-9]*"
-          inputmode="numeric"
+          inputmode="decimal"
           label={Lang.t('tracker.step', 'Range Step')}
           placeholder={Lang.t('tracker.step', 'Range Step')}
           bind:value={tracker.step}
-        >
-          <div slot="right" class="pr-1">
-            <Button
-              icon
-              on:click={() => {
-                getTrackerInput('step')
-              }}
-            >
-              <IonIcon icon={AddCircleOutline} className="text-gray-500" />
-            </Button>
-          </div>
-        </NInput>
+        />
       </List>
     {/if}
 
@@ -511,24 +465,22 @@
         pattern="[0-9]*"
         inputmode="numeric"
         type="number"
+        inputClass="tracker-default-input"
         label={Lang.t('tracker.value', 'Default Value')}
         placeholder={Lang.t('tracker.default-value', 'Default Value')}
         bind:value={tracker.default}
       >
-        <div slot="right">
+        <div slot="right" class="flex items-center">
           {#if tracker.default}
-            <Text size="xs" className="text-right text-primary-500">
+            <Text size="xs" className="text-right text-primary-500 mr-1">
               {tracker.displayValue(tracker.default)}
             </Text>
           {/if}
-          <Button
-            className="pr-1"
-            icon
-            on:click={() => {
-              getTrackerInput('default')
-            }}
-          >
-            <IonIcon icon={AddCircleOutline} className="text-gray-500" />
+          <Button icon on:click={() => nudge('default', -1)}>
+            <IonIcon icon={RemoveOutline} className="text-gray-500" />
+          </Button>
+          <Button className="pr-1" icon on:click={() => nudge('default', 1)}>
+            <IonIcon icon={AddOutline} className="text-gray-500" />
           </Button>
         </div>
       </NInput>
@@ -648,3 +600,14 @@
   {/if} -->
   </main>
 {/key}
+
+<style>
+  :global(.tracker-default-input)::-webkit-inner-spin-button,
+  :global(.tracker-default-input)::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  :global(.tracker-default-input) {
+    -moz-appearance: textfield;
+  }
+</style>
