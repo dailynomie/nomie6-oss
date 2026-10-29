@@ -301,7 +301,7 @@
           />
         </Container>
       {/if}
-      <OnThisDayViews {view} {logs} on:date={(evt)=>{
+      <OnThisDayViews {view} {logs} date={state.date} on:date={(evt)=>{
         methods.getDate(dayjs(evt.detail));
       }} />
     </div>

@@ -94,9 +94,12 @@
       }
       const queryLogs = await LedgerStore.query(query)
 
-      // If Query is empty - increase emptyCall Count
+      // Count empty windows in a row. A window with results resets the count,
+      // otherwise sparse results (like a tag used now and then) hit the end too early.
       if (queryLogs.length === 0) {
         emptyCalls = emptyCalls + 1
+      } else {
+        emptyCalls = 0
       }
 
       // Merge Logs together and sort / filter
