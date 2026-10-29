@@ -1,6 +1,9 @@
 {
   "features": [
     {
+      "version": "dn6.8.0v20261029",
+      "title": "Range trackers accept decimal steps such as 0.5, with plus and minus buttons for min, max and default"
+    },{
       "version": "dn6.8.0v20261014",
       "title": "What's New is grouped per version, with features and fixes expandable"
     },{
