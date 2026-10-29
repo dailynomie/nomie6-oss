@@ -37,9 +37,6 @@
   let timeline: Array<TimelineItemType> = $state([])
   let dateFormats = $state(getDateFormats())
 
-  let listStartIndex: number | undefined = $state(undefined)
-  let listEndIndex: number | undefined = $state(undefined)
-
   $effect(() => {
     if ($TrackableStore?.trackables && logs && logs.length > 0) {
       const newTimeline = logsToTimeline(logs, $TrackableStore.trackables)
@@ -51,12 +48,6 @@
   })
 
   let topItem: TimelineItemType | undefined = $state(undefined)
-
-  $effect(() => {
-    if (listEndIndex === timeline.length && timeline.length > 0) {
-      dispatch('endOfItems')
-    }
-  })
 </script>
 
 <NvirtualList
@@ -68,11 +59,10 @@
   }}
   items={timeline}
   let:item
-  on:update={(evt) => {
-    untrack(() => {
-      listStartIndex = evt.detail.start
-      listEndIndex = evt.detail.end
-    })
+  on:end={() => {
+    // The list has shown its last item: ask the loader for older entries.
+    // (NvirtualList sends 'end', not 'update', so the view has to listen for it.)
+    dispatch('endOfItems')
   }}
 >
   <Container size="md">
