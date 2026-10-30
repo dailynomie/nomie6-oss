@@ -10,6 +10,7 @@ import type { PreferencesStateType } from './domains/preferences/Preferences'
 import { SearchStore } from './domains/search/search-store'
 import Storage from './domains/storage/storage'
 import { UsageStore } from './domains/usage/UsageStore'
+import { rebuildUsageOnNewVersion } from './domains/usage/usage-rebuild-on-upgrade'
 import { closeModal } from './components/backdrop/BackdropStore2'
 import { initAwardStore } from './domains/awards/AwardsStore'
 
@@ -90,8 +91,11 @@ export const bootNomie = async ($Prefs: PreferencesStateType) => {
         const trackables = await InitTrackableStore()
 
         bootCoreComponents(trackables)
-        // If not ready, we don't have an account firing 
+        // If not ready, we don't have an account firing
         // the ready state - we will manually do it here.
+
+        // Runs in the background, so boot does not wait for it
+        rebuildUsageOnNewVersion(trackables)
 
         resolve(true)
       })
