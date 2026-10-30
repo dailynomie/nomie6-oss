@@ -357,7 +357,7 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
         }}
         class="list-header {!showLogs ? 'opacity-50' : ''}"
       >
-        Notes
+        Notes from the last 30 days
       </header>
 
       <List>

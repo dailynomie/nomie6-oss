@@ -72,7 +72,13 @@
 
   let emptyCalls: number = $state(0)
 
-  let atEnd = $derived(emptyCalls >= maxEmptyCalls)
+  /**
+   * A plain timeline stops after too many empty windows in a row.
+   * A search keeps going back until it reaches the first entry, so older matches are found.
+   */
+  const searchReachedStart = (): boolean => Boolean(firstKnownDate) && lastDate.isBefore(firstKnownDate)
+
+  let atEnd = $derived(filters.search ? searchReachedStart() : emptyCalls >= maxEmptyCalls)
 
   /**
    * It's a recursive function that loads logs from the database.
@@ -107,7 +113,8 @@
         return a.end > b.end ? -1 : 1
       })
 
-      if (logs.length == 0 && emptyCalls <= maxEmptyCalls) {
+      const keepLooking = filters.search ? !searchReachedStart() : emptyCalls <= maxEmptyCalls
+      if (logs.length == 0 && keepLooking) {
         date = dayjs(lastDate)
         await sequentialLogLoad()
       }
@@ -133,7 +140,7 @@
     }
 
     // Do we have too many empty Calls?
-    if (emptyCalls <= maxEmptyCalls) {
+    if (filters.search ? !searchReachedStart() : emptyCalls <= maxEmptyCalls) {
       await sequentialLogLoad()
     }
     loading = false
@@ -145,7 +152,7 @@
    * @param caller
    */
   const loadMore = async (caller?: string): Promise<Array<NLog>> => {
-    if (emptyCalls < maxEmptyCalls) {
+    if (filters.search ? !searchReachedStart() : emptyCalls < maxEmptyCalls) {
       date = dayjs(lastDate)
       return loadLogs(false, caller || 'loadMore')
     }
