@@ -114,7 +114,8 @@
       })
 
       const keepLooking = filters.search ? !searchReachedStart() : emptyCalls <= maxEmptyCalls
-      if (logs.length == 0 && keepLooking) {
+      // Keep going past empty windows: the list does not grow for them, so it would not ask again
+      if (queryLogs.length === 0 && keepLooking) {
         date = dayjs(lastDate)
         await sequentialLogLoad()
       }
