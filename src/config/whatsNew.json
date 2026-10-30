@@ -311,6 +311,18 @@
   ],
   "fixes": [
     {
+      "version": "dn6.8.0v20261030",
+      "title": "Search: the quick list covers the last 30 days, and Search all notes finds older notes too"
+    },{
+      "version": "dn6.8.0v20261030",
+      "title": "Timeline keeps loading older entries past quiet periods, for tags and searches"
+    },{
+      "version": "dn6.8.0v20261030",
+      "title": "Tracker tiles show the right 'ago' time when a value was logged for an earlier day, such as by a plugin or the API"
+    },{
+      "version": "dn6.8.0v20261030",
+      "title": "Last used and streak data is rebuilt once after an update, so earlier wrong values are corrected"
+    },{
       "version": "dn6.8.0v20261029",
       "title": "Entries of a tag or search keep loading older entries when you scroll back, instead of stopping after the most recent"
     },{
