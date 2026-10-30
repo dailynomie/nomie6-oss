@@ -380,7 +380,9 @@ import { openTimelineModal } from '../timeline/timeline-helpers';
           {/each}
           <button
             class="selectable"
+            disabled={!searchTerm}
             on:click={() => {
+              if (!searchTerm) return
               openTimelineModal({
                   search: searchTerm,
                   notes: true
